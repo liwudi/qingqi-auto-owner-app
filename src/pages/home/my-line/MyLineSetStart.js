@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class AddCarForVinStep2 extends Component {
+export default class MyLineSetStart extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="添加二手车2"/>
+				<TopBanner {...this.props} title="设置起点"/>
 			</View>
 		);
 	}

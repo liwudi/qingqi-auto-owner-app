@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class DriveLine extends Component {
+export default class BoundDriver extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="线路"/>
+				<TopBanner {...this.props} title="绑定司机"/>
 			</View>
 		);
 	}

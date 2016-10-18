@@ -19,7 +19,7 @@ import Env from '../../utils/Env';
 
 
 import AccountHome from './account-config/AccountHome';
-import MyCar from './my-car/MyCar';
+import MyCar from '../home/my-car/MyCar';
 import AppointmentList from './my-appointment/AppointmentList';
 import AboutUs from './AboutUs';
 

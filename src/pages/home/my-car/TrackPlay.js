@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class AddCarForVinUploadInvoiceNo extends Component {
+export default class TrackPlay extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="上传发票"/>
+				<TopBanner {...this.props} title="轨迹回放"/>
 			</View>
 		);
 	}

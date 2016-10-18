@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class AddCar extends Component {
+export default class MyLineSetRule extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="添加车辆"/>
+				<TopBanner {...this.props} title="设置驾驶规定"/>
 			</View>
 		);
 	}

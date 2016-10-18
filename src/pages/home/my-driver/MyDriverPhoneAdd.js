@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class AddCarSelectCar extends Component {
+export default class MyDriverPhoneAdd extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="选择车辆"/>
+				<TopBanner {...this.props} title="手机联系人添加"/>
 			</View>
 		);
 	}

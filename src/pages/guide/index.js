@@ -6,7 +6,7 @@ import {View, Text, Navigator, ScrollView, StyleSheet} from 'react-native';
 
 import ConfirmButton from '../../components/ConfirmButton';
 import CancelButton from '../../components/CancelButton';
-
+import ImgButton from '../../components/ImgButton';
 
 import LabelInput from '../../components/LabelInput';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
@@ -28,13 +28,42 @@ import FindPassword from '../user/FindPassword';
 import FindPasswordCheckCode from '../user/FindPasswordCheckCode';
 import FindPasswordNewPassword from '../user/FindPasswordNewPassword';
 
-import AddCar from '../userCenter/add-car/AddCar';
-import AddCarSelectCar from '../userCenter/add-car/AddCarSelectCar';
-import AddCarForVin from '../userCenter/add-car/AddCarForVin';
-import AddCarForVinStep2 from '../userCenter/add-car/AddCarForVinStep2';
-import AddCarForInvoiceNo from '../userCenter/add-car/AddCarForInvoiceNo';
-import AddCarForVinUploadInvoiceNo from '../userCenter/add-car/AddCarForVinUploadInvoiceNo';
-import WhereisVin from '../userCenter/add-car/WhereisVin';
+import AddCar from '../add-car/AddCar';
+import AddCarSelectCar from '../add-car/AddCarSelectCar';
+import AddCarForVin from '../add-car/AddCarForVin';
+import AddCarForVinStep2 from '../add-car/AddCarForVinStep2';
+import AddCarForInvoiceNo from '../add-car/AddCarForInvoiceNo';
+import AddCarForVinUploadInvoiceNo from '../add-car/AddCarForVinUploadInvoiceNo';
+import WhereisVin from '../add-car/WhereisVin';
+
+import HomeRouter from '../HomeRouter';
+import SearchList from '../home/SearchList';
+import MyCar from '../home/my-car/MyCar';
+import CarDetail from '../home/my-car/CarDetail';
+import BoundDriver from '../home/my-car/BoundDriver';
+import BoundLine from '../home/my-car/BoundLine';
+import CarParameter from '../home/my-car/CarParameter';
+import MessageCars from '../home/my-car/MessageCars';
+import ModifyVehicleLicence from '../home/my-car/ModifyVehicleLicence';
+import TimeTracking from '../home/my-car/TimeTracking';
+import TrackPlay from '../home/my-car/TrackPlay';
+
+import MyDriver from '../home/my-driver/MyDriver'
+import MyDriverAdd from '../home/my-driver/MyDriverAdd'
+import MyDriverPhoneAdd from '../home/my-driver/MyDriverPhoneAdd'
+import MyDriverEdit from '../home/my-driver/MyDriverEdit'
+
+import MyLine from '../home/my-line/MyLine'
+import MyLineAdd from '../home/my-line/MyLineAdd'
+import MyLineEdit from '../home/my-line/MyLineEdit'
+import MyLineSetEnd from '../home/my-line/MyLineSetEnd'
+import MyLineSetPass from '../home/my-line/MyLineSetPass'
+import MyLineSetRule from '../home/my-line/MyLineSetRule'
+import MyLineSetStart from '../home/my-line/MyLineSetStart'
+import MyLineAddCarList from '../home/my-line/MyLineAddCarList'
+
+
+
 
 export default class Guide extends Component {
     constructor(props) {
@@ -63,6 +92,8 @@ export default class Guide extends Component {
                     <Text/>
                     <CancelButton size="middle">中号取消按钮</CancelButton>
                     <Text/>
+                    <ImgButton src={require('../../assets/images/icon-1.png')} title="按钮文字"/>
+                    <Text/>
                     <PhoneChkCodeInput
                         style={{marginTop:5}}
                         onChangeText={value => this.setFromData('code', value)}
@@ -78,6 +109,7 @@ export default class Guide extends Component {
                     <TopBanner title="topbanner" leftTitle/>
                 </View>
                 <Text style={{fontSize:18,color:'red'}}>注册登录相关</Text>
+                <View>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(user)}}>0、登录</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(Login)}}>1、手机密码登录</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(QuickLogin)}}>2、手机快捷登录</Text>
@@ -90,7 +122,9 @@ export default class Guide extends Component {
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(FindPasswordCheckCode)}}>8、找回密码-填写短信验证码</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(FindPasswordNewPassword)}}>9、找回密码-输入新密码</Text>
                 <Text> </Text>
-                <Text style={{fontSize:18,color:'red'}}>添加车辆</Text>
+                    </View>
+                <View>
+                <Text style={{fontSize:18,color:'red'}}>添加车辆=待定</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCar)}}>1、添加一手车</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarSelectCar)}}>2、添加一手车-选择车辆</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForInvoiceNo)}}>3、添加一手车-找回车辆</Text>
@@ -99,6 +133,42 @@ export default class Guide extends Component {
                 <Text {...this.props} onPress={() => {this.toPage(WhereisVin)}}>6、VIN码在哪里页面</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinStep2)}}>7、添加二手车-已有车主-找回</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinUploadInvoiceNo)}}>8、添加二手车-无车主-申请车主身份-上传发票</Text>
+                <Text> </Text>
+                    </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>首页相关</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(HomeRouter)}}  >1、管理页面</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(SearchList)}}  >2、搜索列表</Text>
+                    <View>
+                        <Text {...this.props} onPress={() => {this.toPage(MyCar)}}  >3、我的车辆</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(CarDetail)}}  >4、车辆详情</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(ModifyVehicleLicence)}}  >5、车辆详情-修改车牌号</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(TimeTracking)}}  >6、车辆详情-实时跟踪</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(BoundDriver)}}  >9、车辆详情-绑定司机</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(CarParameter)}}  >11、车辆详情-车辆参数</Text>
+                    </View>
+
+                    <View>
+                        <Text {...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyDriverAdd)}}  >12、我的司机-添加司机</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyDriverEdit)}}  >13、我的司机-手机联系人编辑</Text>
+                    </View>
+                    <View>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLine)}}  >我的线路</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLineAdd)}}  >我的线路-添加线路</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLineEdit)}}  >我的线路-编辑线路</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetStart)}}  >我的线路-设置起点</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetEnd)}}  >我的线路-设置终点</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetPass)}}  >我的线路-设置途经点</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetRule)}}  >我的线路-驾驶规定</Text>
+                        <Text {...this.props} onPress={() => {this.toPage(MyLineAddCarList)}}  >我的线路-添加车辆</Text>
+
+                    </View>
+                </View>
 
 
             </ScrollView>

@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class DriveLineMarkAnalysis extends Component {
+export default class MyLine extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="行驶线路-标杆车辆-驾驶分析"/>
+				<TopBanner {...this.props} title="我的线路"/>
 			</View>
 		);
 	}

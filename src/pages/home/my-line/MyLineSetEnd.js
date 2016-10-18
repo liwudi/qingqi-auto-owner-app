@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class WhereisVin extends Component {
+export default class MyLineSetEnd extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="vin在哪里"/>
+				<TopBanner {...this.props} title="设置终点"/>
 			</View>
 		);
 	}

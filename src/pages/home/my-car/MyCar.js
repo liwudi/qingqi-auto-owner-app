@@ -125,10 +125,7 @@ const styles = StyleSheet.create({
 		fontSize:Env.font.text,
 		color:Env.color.text
 	},
-	textRed:{
-		fontSize: Env.font.note,
-		color:Env.color.text
-	},
+
 	currentCar:{
 		borderRadius:400,
 		backgroundColor:Env.color.auxiliary,
