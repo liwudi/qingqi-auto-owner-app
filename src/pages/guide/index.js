@@ -21,11 +21,20 @@ import Login from '../user/Login';
 import QuickLogin from '../user/QuickLogin';
 import SaveTrueName from '../user/SaveTrueName';
 import Reg from '../user/Reg';
+import RegSuccess from '../user/RegSuccess';
 import RegCheckCode from '../user/RegCheckCode';
 import ServiceProvision from '../user/ServiceProvision';
 import FindPassword from '../user/FindPassword';
 import FindPasswordCheckCode from '../user/FindPasswordCheckCode';
 import FindPasswordNewPassword from '../user/FindPasswordNewPassword';
+
+import AddCar from '../userCenter/add-car/AddCar';
+import AddCarSelectCar from '../userCenter/add-car/AddCarSelectCar';
+import AddCarForVin from '../userCenter/add-car/AddCarForVin';
+import AddCarForVinStep2 from '../userCenter/add-car/AddCarForVinStep2';
+import AddCarForInvoiceNo from '../userCenter/add-car/AddCarForInvoiceNo';
+import AddCarForVinUploadInvoiceNo from '../userCenter/add-car/AddCarForVinUploadInvoiceNo';
+import WhereisVin from '../userCenter/add-car/WhereisVin';
 
 export default class Guide extends Component {
     constructor(props) {
@@ -74,12 +83,24 @@ export default class Guide extends Component {
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(QuickLogin)}}>2、手机快捷登录</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(SaveTrueName)}}>3、输入真实姓名（快捷登录未填写姓名）</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(Reg)}}>4、注册</Text>
+                <Text  {...this.props} onPress={() => {this.toPage(RegSuccess)}}>4.1、注册-成功</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(RegCheckCode)}}>5、注册（填写验证码）</Text>
                 <Text  {...this.props} onPress={() => {this.toPage(ServiceProvision)}}>6、服务条款</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(FindPassword)}}>7、找回密码</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(FindPasswordCheckCode)}}>8、找回密码-填写短信验证码</Text>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(FindPasswordNewPassword)}}>9、找回密码-输入新密码</Text>
                 <Text> </Text>
+                <Text style={{fontSize:18,color:'red'}}>添加车辆</Text>
+                <Text {...this.props} onPress={() => {this.toPage(AddCar)}}>1、添加一手车</Text>
+                <Text {...this.props} onPress={() => {this.toPage(AddCarSelectCar)}}>2、添加一手车-选择车辆</Text>
+                <Text {...this.props} onPress={() => {this.toPage(AddCarForInvoiceNo)}}>3、添加一手车-找回车辆</Text>
+                <Text {...this.props} onPress={() => {this.toPage(AddCarSelectCar)}}>4、添加一手车-添加未关联车辆</Text>
+                <Text {...this.props} onPress={() => {this.toPage(AddCarForVin)}}>5、添加二手车（VIN）</Text>
+                <Text {...this.props} onPress={() => {this.toPage(WhereisVin)}}>6、VIN码在哪里页面</Text>
+                <Text {...this.props} onPress={() => {this.toPage(AddCarForVinStep2)}}>7、添加二手车-已有车主-找回</Text>
+                <Text {...this.props} onPress={() => {this.toPage(AddCarForVinUploadInvoiceNo)}}>8、添加二手车-无车主-申请车主身份-上传发票</Text>
+
+
             </ScrollView>
         )
     }
