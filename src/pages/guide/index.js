@@ -82,6 +82,21 @@ import Message from '../message/Message'
 import MessageCarLocation from '../message/MessageCarLocation'
 import MessageListCar from '../message/MessageListCar'
 
+import UserCenterHome from '../userCenter/index';
+import AccountHome from '../userCenter/account-config/AccountHome';
+import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
+import ModifyPassword from '../userCenter/account-config/ModifyPassword';
+import ModifyMobileNewMobile from '../userCenter/account-config/ModifyMobileNewMobile';
+import ModifyAvatar from '../userCenter/account-config/ModifyAvatar';
+import ModifyMobile from '../userCenter/account-config/ModifyMobile';
+
+import ManagerList from '../userCenter/manager/ManagerList'
+import ManagerAdd from '../userCenter/manager/ManagerAdd'
+import ManagerEdit from '../userCenter/manager/ManagerEdit'
+
+import Recommend from '../recommend/Recommend';
+import AboutUs from '../AboutUs';
+
 export default class Guide extends Component {
     constructor(props) {
         super(props);
@@ -218,14 +233,33 @@ export default class Guide extends Component {
                     <Text {...this.props} onPress={() => {this.toPage(MessageCarLocation)}}  >车辆事件定位</Text>
                 </View>
                 <View>
-                    <Text style={{fontSize:18,color:'red'}}>设置</Text>
+                    <Text style={{fontSize:18,color:'red'}}>设置（用户中心）</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(UserCenterHome)}}>1、用户中心首页</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(AccountHome)}}>2、账号设置首页</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(ModifyAvatar)}}>3、头像修改</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(ModifyTrueName)}}>4、修改姓名</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(ModifyPassword)}}>5、修改密码</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(ModifyMobile)}}>6、更换绑定手机号-获取验证码</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(ModifyMobileNewMobile)}}>7、绑定新手机</Text>
+
+                    <Text {...this.props} onPress={() => {this.toPage(ManagerList)}}  >邀请伙伴成为管理员</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(ManagerAdd)}}  >增加管理员</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(ManagerEdit)}}  >编辑管理员</Text>
+
+                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >版本更新</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >清除缓存</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >我的资料</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >我的资料-身份证</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >我的资料-驾驶类别选择</Text>
                 </View>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>推荐</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(Recommend)}}  >推荐</Text>
                 </View>
-
-
-
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>关于我们</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(AboutUs)}}>21、关于我们</Text>
+                </View>
             </ScrollView>
         )
     }

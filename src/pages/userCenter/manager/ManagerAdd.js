@@ -10,11 +10,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 
-export default class AppointmentList extends Component {
+export default class ManagerAdd extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="预约列表"/>
+				<TopBanner {...this.props} title="新增管理员"/>
 			</View>
 		);
 	}

@@ -20,8 +20,7 @@ import Env from '../../utils/Env';
 
 import AccountHome from './account-config/AccountHome';
 import MyCar from '../home/my-car/MyCar';
-import AppointmentList from './my-appointment/AppointmentList';
-import AboutUs from './AboutUs';
+import AboutUs from '../AboutUs';
 
 export default class UserCenterHome extends Component {
 
@@ -70,13 +69,6 @@ export default class UserCenterHome extends Component {
                                 <Text style={[styles.text,styles.colorFFF]}>1801010202303</Text>
                             </View>
                         </View>
-                    </ViewForRightArrow>
-                    <Text></Text>
-                    <ViewForRightArrow style={styles.item} onPress = {() => this.goTo(MyCar)}>
-                        <Text style={styles.text}>我的车辆</Text>
-                    </ViewForRightArrow>
-                    <ViewForRightArrow style={styles.item} onPress = {() => this.goTo(AppointmentList)}>
-                        <Text style={styles.text}>我的预约</Text>
                     </ViewForRightArrow>
                     <Text></Text>
                     <ViewForRightArrow style={[styles.item,{flexDirection:'row'}]} onPress={this.checkUpdate}>

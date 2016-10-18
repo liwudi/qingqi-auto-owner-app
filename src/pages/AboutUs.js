@@ -8,13 +8,13 @@ import {
 	TouchableOpacity
 } from 'react-native';
 
-import TopBanner from '../../../components/TopBanner';
+import TopBanner from '../components/TopBanner';
 
-export default class AppointmentDetail extends Component {
+export default class AboutUs extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="预约详情"/>
+				<TopBanner {...this.props} title="关于我们"/>
 			</View>
 		);
 	}
