@@ -62,8 +62,25 @@ import MyLineSetRule from '../home/my-line/MyLineSetRule'
 import MyLineSetStart from '../home/my-line/MyLineSetStart'
 import MyLineAddCarList from '../home/my-line/MyLineAddCarList'
 
+import Monitor from '../home/monitor/Monitor'
+import MonitorCarDetail from '../home/monitor/MonitorCarDetail'
+import MonitorMap from '../home/monitor/MonitorMap'
+import MonitorMapOil from '../home/monitor/MonitorMapOil'
+import MonitorMapSpeed from '../home/monitor/MonitorMapSpeed'
+import MonitorShare from '../home/monitor/MonitorShare'
+import MonitorTimeTracking from '../home/monitor/MonitorTimeTracking'
 
+import OilManage from '../home/oil-maange/OilManage'
+import OilManageCarList from '../home/oil-maange/OilManageCarList'
+import OilManageSetMark from '../home/oil-maange/OilManageSetMark'
+import OilManageShareMark from '../home/oil-maange/OilManageShareMark'
+import OilManageShowMark from '../home/oil-maange/OilManageShowMark'
 
+import MileageStatisitcs from '../mileage-statistics/MileageStatisitcs'
+
+import Message from '../message/Message'
+import MessageCarLocation from '../message/MessageCarLocation'
+import MessageListCar from '../message/MessageListCar'
 
 export default class Guide extends Component {
     constructor(props) {
@@ -135,40 +152,78 @@ export default class Guide extends Component {
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinUploadInvoiceNo)}}>8、添加二手车-无车主-申请车主身份-上传发票</Text>
                 <Text> </Text>
                     </View>
+
+                <Text style={{fontSize:18,color:'red'}}>首页相关</Text>
+                <Text {...this.props} onPress={() => {this.toPage(HomeRouter)}}  >1、管理页面</Text>
+                <Text {...this.props} onPress={() => {this.toPage(SearchList)}}  >2、搜索列表</Text>
                 <View>
-                    <Text style={{fontSize:18,color:'red'}}>首页相关</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(HomeRouter)}}  >1、管理页面</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(SearchList)}}  >2、搜索列表</Text>
-                    <View>
-                        <Text {...this.props} onPress={() => {this.toPage(MyCar)}}  >3、我的车辆</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(CarDetail)}}  >4、车辆详情</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(ModifyVehicleLicence)}}  >5、车辆详情-修改车牌号</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(TimeTracking)}}  >6、车辆详情-实时跟踪</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(BoundDriver)}}  >9、车辆详情-绑定司机</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(CarParameter)}}  >11、车辆详情-车辆参数</Text>
-                    </View>
-
-                    <View>
-                        <Text {...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyDriverAdd)}}  >12、我的司机-添加司机</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyDriverEdit)}}  >13、我的司机-手机联系人编辑</Text>
-                    </View>
-                    <View>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLine)}}  >我的线路</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLineAdd)}}  >我的线路-添加线路</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLineEdit)}}  >我的线路-编辑线路</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetStart)}}  >我的线路-设置起点</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetEnd)}}  >我的线路-设置终点</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetPass)}}  >我的线路-设置途经点</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLineSetRule)}}  >我的线路-驾驶规定</Text>
-                        <Text {...this.props} onPress={() => {this.toPage(MyLineAddCarList)}}  >我的线路-添加车辆</Text>
-
-                    </View>
+                    <Text style={{fontSize:18,color:'red'}}>我的车辆</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyCar)}}  >3、我的车辆</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(CarDetail)}}  >4、车辆详情</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(ModifyVehicleLicence)}}  >5、车辆详情-修改车牌号</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(TimeTracking)}}  >6、车辆详情-实时跟踪</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(BoundDriver)}}  >9、车辆详情-绑定司机</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(CarParameter)}}  >11、车辆详情-车辆参数</Text>
                 </View>
+
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>我的司机</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyDriverAdd)}}  >12、我的司机-添加司机</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyDriverEdit)}}  >13、我的司机-手机联系人编辑</Text>
+                </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>我的线路</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLine)}}  >我的线路</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLineAdd)}}  >我的线路-添加线路</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLineEdit)}}  >我的线路-编辑线路</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLineSetStart)}}  >我的线路-设置起点</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLineSetEnd)}}  >我的线路-设置终点</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLineSetPass)}}  >我的线路-设置途经点</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLineSetRule)}}  >我的线路-驾驶规定</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MyLineAddCarList)}}  >我的线路-添加车辆</Text>
+
+                </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>实时监控-地图sdk</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(Monitor)}}  >实时监控列表</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MonitorMap)}}  >实时监控-地图模式</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MonitorCarDetail)}}  >实时监控-车辆监控详情</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MonitorTimeTracking)}}  >实时监控-实时跟踪</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MonitorMapSpeed)}}  >实时监控-轨迹回放速度</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MonitorMapOil)}}  >实时监控-轨迹回放油耗</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MonitorShare)}}  >实时监控-分享</Text>
+                </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>油耗管理</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(OilManage)}}  >油耗管理</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(OilManageCarList)}}  >油耗管理-车辆列表</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(OilManageSetMark)}}  >油耗管理-设定标杆</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(OilManageShowMark)}}  >油耗管理-查看标杆</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(OilManageShareMark)}}  >油耗管理-标杆-分享</Text>
+
+                </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>里程统计</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MileageStatisitcs)}}  >里程统计</Text>
+                </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>消息</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >消息中心</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MessageListCar)}}  >车辆消息详情</Text>
+                    <Text {...this.props} onPress={() => {this.toPage(MessageCarLocation)}}  >车辆事件定位</Text>
+                </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>设置</Text>
+                </View>
+                <View>
+                    <Text style={{fontSize:18,color:'red'}}>推荐</Text>
+                </View>
+
 
 
             </ScrollView>
