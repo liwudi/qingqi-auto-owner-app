@@ -97,6 +97,9 @@ import ManagerEdit from '../userCenter/manager/ManagerEdit'
 import Recommend from '../recommend/Recommend';
 import AboutUs from '../AboutUs';
 
+import * as Icons from '../../components/Icons';
+
+
 export default class Guide extends Component {
     constructor(props) {
         super(props);
@@ -113,6 +116,20 @@ export default class Guide extends Component {
     render() {
         return (
             <ScrollView style={{flex: 1, backgroundColor: '#eee'}}>
+                <View style={{flexDirection:'row'}}>
+                    <Icons.IconArrowDown />
+                    <Icons.IconArrowLeft/>
+                    <Icons.IconArrowRight/>
+                    <Icons.IconCall/>
+                    <Icons.IconSearch/>
+                    <Icons.IconMap/>
+                    <Icons.IconSearch/>
+                    <Icons.IconClose/>
+                    <Icons.IconLocation/>
+                    <Icons.IconList/>
+                    <Icons.IconUser/>
+                </View>
+                <Text/>
                 <View>
                     <Text style={{fontSize: 18, color: 'red'}}>组件</Text>
                     <Text></Text>
