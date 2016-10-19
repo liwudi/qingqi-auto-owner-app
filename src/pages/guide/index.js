@@ -128,6 +128,7 @@ export default class Guide extends Component {
                     <Icons.IconLocation/>
                     <Icons.IconList/>
                     <Icons.IconUser/>
+                    <Icons.IconPlus/>
                 </View>
                 <Text/>
                 <View>
@@ -259,9 +260,9 @@ export default class Guide extends Component {
                     <Text style={styles.over} {...this.props} onPress={() => {this.toPage(ModifyMobile)}}>6、更换绑定手机号-获取验证码</Text>
                     <Text style={styles.over} {...this.props} onPress={() => {this.toPage(ModifyMobileNewMobile)}}>7、绑定新手机</Text>
 
-                    <Text {...this.props} onPress={() => {this.toPage(ManagerList)}}  >邀请伙伴成为管理员</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(ManagerAdd)}}  >增加管理员</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(ManagerEdit)}}  >编辑管理员</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(ManagerList)}}  >邀请伙伴成为管理员</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(ManagerAdd)}}  >增加管理员</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(ManagerEdit)}}  >编辑管理员</Text>
 
                     <Text {...this.props} onPress={() => {this.toPage(Message)}}  >版本更新</Text>
                     <Text {...this.props} onPress={() => {this.toPage(Message)}}  >清除缓存</Text>

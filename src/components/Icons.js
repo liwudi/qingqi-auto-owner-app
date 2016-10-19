@@ -134,3 +134,13 @@ export  class IconUser extends React.Component {
 		)
 	}
 }
+/**
+ * user
+ * */
+export  class IconPlus extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="plus" size={size} color={Env.color.color} {...this.props} />
+		)
+	}
+}
