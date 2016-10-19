@@ -94,6 +94,10 @@ import ManagerList from '../userCenter/manager/ManagerList'
 import ManagerAdd from '../userCenter/manager/ManagerAdd'
 import ManagerEdit from '../userCenter/manager/ManagerEdit'
 
+import MyInfo from '../userCenter/my-info/MyInfo'
+import MyInfoId from '../userCenter/my-info/MyInfoId'
+import MyInfoDriveType from '../userCenter/my-info/MyInfoDriveType'
+
 import Recommend from '../recommend/Recommend';
 import AboutUs from '../AboutUs';
 
@@ -129,6 +133,8 @@ export default class Guide extends Component {
                     <Icons.IconList/>
                     <Icons.IconUser/>
                     <Icons.IconPlus/>
+                    <Icons.IconFire/>
+                    <Icons.IconBarcode/>
                 </View>
                 <Text/>
                 <View>
@@ -191,9 +197,9 @@ export default class Guide extends Component {
                 <Text {...this.props} onPress={() => {this.toPage(SearchList)}}  >2、搜索列表</Text>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>我的车辆</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyCar)}}  >3、我的车辆</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(CarDetail)}}  >4、车辆详情</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(ModifyVehicleLicence)}}  >5、车辆详情-修改车牌号</Text>
+                    <Text style={styles.over} onPress={() => {this.toPage(MyCar)}}  >3、我的车辆</Text>
+                    <Text style={styles.over} onPress={() => {this.toPage(CarDetail)}}  >4、车辆详情</Text>
+                    <Text style={styles.over} onPress={() => {this.toPage(ModifyVehicleLicence)}}  >5、车辆详情-修改车牌号</Text>
                     <Text {...this.props} onPress={() => {this.toPage(TimeTracking)}}  >6、车辆详情-实时跟踪</Text>
                     <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
@@ -266,9 +272,10 @@ export default class Guide extends Component {
 
                     <Text {...this.props} onPress={() => {this.toPage(Message)}}  >版本更新</Text>
                     <Text {...this.props} onPress={() => {this.toPage(Message)}}  >清除缓存</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >我的资料</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >我的资料-身份证</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >我的资料-驾驶类别选择</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(MyInfo)}}>我的资料</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(MyInfoId)}}>我的资料-身份证</Text>
+                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(MyInfoDriveType)}}>我的资料-驾驶类别选择</Text>
+
                 </View>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>推荐</Text>
