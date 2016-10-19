@@ -9,7 +9,8 @@ import {
 	TouchableOpacity,
 	ToastAndroid,
 	StyleSheet,
-	Image
+	Image,
+	Alert
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -18,11 +19,19 @@ import LabelInput from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
 const estyle = Env.style;
 export default class ManagerEdit extends Component {
+	logout(){
+		Alert.alert('提示',
+			'是否移除令狐冲的管理员权限？',
+			[
+				{text: '确定'},
+				{text: '取消'}
+			])
+	}
 	render() {
 		const topRightView= () => {
 			return (
 				<View style={estyle.fxRow}>
-					<Text>删除</Text>
+					<Text onPress={this.logout}>删除</Text>
 				</View>
 			)
 		};

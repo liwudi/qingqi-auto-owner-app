@@ -9,12 +9,28 @@ import {
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
-
+import * as Icons from '../../../components/Icons';
+import Env from '../../../utils/Env';
+const estyle = Env.style;
 export default class MyLine extends Component {
+	toPage = (component) => {
+		this.props.router.push(component);
+	}
 	render() {
+		const topRightView= () => {
+			return (
+				<View>
+					<Icons.IconPlus onPress={() => {this.toPage()}}/>
+				</View>
+			)
+		};
 		return (
-			<View>
-				<TopBanner {...this.props} title="我的线路"/>
+			<View style={estyle.fx1}>
+				<TopBanner {...this.props} title="我的线路" rightView={ topRightView()}/>
+				<View style={estyle.fxRow}>
+					<View></View>
+					<View></View>
+				</View>
 			</View>
 		);
 	}
