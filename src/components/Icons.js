@@ -130,17 +130,39 @@ export  class IconEyeOff extends React.Component {
 export  class IconUser extends React.Component {
 	render(){
 		return(
-			<IconFontAwesome name="user" size={size} color={Env.color.main} {...this.props} />
+			<IconFontAwesome name="user" size={size} color={color}  {...this.props} />
 		)
 	}
 }
 /**
- * user
+ * add
  * */
 export  class IconPlus extends React.Component {
 	render(){
 		return(
 			<IconFontAwesome name="plus" size={size} color={Env.color.color} {...this.props} />
+		)
+	}
+}
+
+/**
+ * fire
+ * */
+export  class IconFire extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="fire" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 扫码
+ * */
+export  class IconBarcode extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="md-barcode" size={size} color={color}  {...this.props} />
 		)
 	}
 }
