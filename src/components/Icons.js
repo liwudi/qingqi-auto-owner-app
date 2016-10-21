@@ -166,3 +166,13 @@ export  class IconBarcode extends React.Component {
 		)
 	}
 }
+/**
+ * 垃圾桶
+ * */
+export  class IconTrash extends React.Component {
+	render(){
+		return(
+			<IconEntypo name="trash" size={size} color={color}  {...this.props} />
+		)
+	}
+}

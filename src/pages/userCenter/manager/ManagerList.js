@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import {
 	Text,
 	View,
-	TouchableOpacity
+	TouchableOpacity,
+	Image
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -27,22 +28,37 @@ export default class ManagerList extends Component {
 			)
 		};
 		return (
-			<View style={estyle.fx1}>
-				<TopBanner {...this.props} title="邀请伙伴成为管理员" rightView={ topRightView()}/>
+			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
+				<TopBanner {...this.props} title="管理员列表" rightView={ topRightView()}/>
 				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{flex:1}]}>令狐冲</Text>
-					<Text style = {estyle.paddingRight}>133098701234</Text>
+					<Image
+						style={{borderRadius:100,width:25,height:25,borderWidth:4 * Env.font.base,
+							borderColor:'#85C7E7',}}
+						source={require('../../../assets/images/icon-1.png')}
+					/>
+					<Text style = {[estyle.text,estyle.paddingLeft]}>令狐冲</Text>
+					<Text style = {[estyle.paddingLeft,{flex:1}]}>133098701234</Text>
 					<Text style = {estyle.note}>已添加</Text>
 				</View>
 				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{flex:1}]}>任我行</Text>
-					<Text style = {estyle.paddingRight}>133098701234</Text>
+					<Image
+						style={{borderRadius:100,width:25,height:25,borderWidth:4 * Env.font.base,
+							borderColor:'#85C7E7',}}
+						source={require('../../../assets/images/icon-1.png')}
+					/>
+					<Text style = {[estyle.text,estyle.paddingLeft]}>任我行</Text>
+					<Text style = {[estyle.paddingLeft,{flex:1}]}>133098701234</Text>
 					<Text style = {estyle.note}>已添加</Text>
 				</View>
 				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{flex:1}]}>张无忌</Text>
-					<Text style = {estyle.paddingRight}>133098701234</Text>
-					<Text style = {estyle.note}>未使用</Text>
+					<Image
+						style={{borderRadius:100,width:25,height:25,borderWidth:4 * Env.font.base,
+							borderColor:'#85C7E7',}}
+						source={require('../../../assets/images/icon-1.png')}
+					/>
+					<Text style = {[estyle.text,estyle.paddingLeft]}>张无忌</Text>
+					<Text style = {[estyle.paddingLeft,{flex:1}]}>133098701234</Text>
+					<Text style = {[estyle.note,{color:Env.color.auxiliary}]}>未使用</Text>
 				</View>
 			</View>
 		);

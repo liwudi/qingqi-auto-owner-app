@@ -21,7 +21,7 @@ const fontSize = {
   articleTitle: baseFontSize * 32,  //文章标题或图标名称
   text: baseFontSize * 28, //文本字体
   note: baseFontSize * 24,  //注释最小字体
-  mini: baseFontSize * 18  //注释最小字体
+  mini: baseFontSize * 20  //注释最小字体
 
 };
 

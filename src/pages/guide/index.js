@@ -135,6 +135,7 @@ export default class Guide extends Component {
                     <Icons.IconPlus/>
                     <Icons.IconFire/>
                     <Icons.IconBarcode/>
+                    <Icons.IconTrash/>
                 </View>
                 <Text/>
                 <View>
@@ -218,8 +219,8 @@ export default class Guide extends Component {
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>我的线路</Text>
                     <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyLine)}}  >我的线路</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyLineAdd)}}  >我的线路-添加线路</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyLineEdit)}}  >我的线路-编辑线路</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyLineAdd)}}  >我的线路-添加线路</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyLineEdit)}}  >我的线路-编辑线路</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetStart)}}  >我的线路-设置起点</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetEnd)}}  >我的线路-设置终点</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetPass)}}  >我的线路-设置途经点</Text>
