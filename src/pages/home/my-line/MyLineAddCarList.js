@@ -20,68 +20,49 @@ export default class MyLineAddCarList extends Component {
 		return (
 			<View>
 				<TopBanner {...this.props} title="添加车辆"/>
-				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
+				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
 					<View style={estyle.fx1}>
 						<Text style={[estyle.articleTitle]}>陕A1456</Text>
 						<View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
 							<IconUser color={Env.color.main}/>
-							<Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
 							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
-							<Text style={[estyle.marginLeft]}>副：</Text>
+							<IconUser style={[estyle.marginLeft]}/>
 							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
 						</View>
+						<Text style={[estyle.note,estyle.paddingTop]}>线路:无</Text>
 					</View>
-					<View style={estyle.paddingRight}><Text style={estyle.note}>线路:无</Text></View>
 					<View style={[estyle.paddingRight, estyle.fxCenter]}>
 						<View style={[styles.add,estyle.paddingHorizontal]}><Text>添加</Text></View>
 					</View>
 				</View>
-				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
+				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
 					<View style={estyle.fx1}>
 						<Text style={[estyle.articleTitle]}>陕A1456</Text>
 						<View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
 							<IconUser color={Env.color.main}/>
-							<Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
 							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
-							<Text style={[estyle.marginLeft]}>副：</Text>
+							<IconUser style={[estyle.marginLeft]}/>
 							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
 						</View>
+						<Text style={[estyle.note,estyle.paddingTop]}>线路:无</Text>
 					</View>
-					<View style={estyle.paddingRight}><Text style={estyle.note}>线路:无</Text></View>
 					<View style={[estyle.paddingRight, estyle.fxCenter]}>
 						<View style={[styles.add,estyle.paddingHorizontal]}><Text>添加</Text></View>
 					</View>
 				</View>
-				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
+				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
 					<View style={estyle.fx1}>
 						<Text style={[estyle.articleTitle]}>陕A1456</Text>
 						<View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
 							<IconUser color={Env.color.main}/>
-							<Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
 							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
-							<Text style={[estyle.marginLeft]}>副：</Text>
-							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
-						</View>
-					</View>
-					<View style={estyle.paddingRight}><Text style={estyle.note}>线路:无</Text></View>
-					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-						<View style={[styles.add,estyle.paddingHorizontal]}><Text>添加</Text></View>
-					</View>
-				</View>
-				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<View style={estyle.fx1}>
-						<Text style={[estyle.articleTitle]}>陕A1456</Text>
-						<View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
-							<IconUser color={Env.color.main}/>
-							<Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
-							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
-							<Text style={[estyle.marginLeft]}>副：</Text>
+							<IconUser style={[estyle.marginLeft]}/>
 							<Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
 						</View>
+						<Text style={[estyle.note,estyle.paddingTop]}>线路:<Text style={[estyle.note, {color: Env.color.main}]}>兰州----青岛</Text></Text>
 					</View>
-					<View style={estyle.paddingRight}><Text style={estyle.note}>线路:北京-青岛</Text></View>
 					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-						<View style={[styles.add,estyle.paddingHorizontal]}><Text>添加</Text></View>
+						<View ><Text>已添加</Text></View>
 					</View>
 				</View>
 			</View>

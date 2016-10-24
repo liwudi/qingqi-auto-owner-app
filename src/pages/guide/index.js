@@ -205,7 +205,7 @@ export default class Guide extends Component {
                     <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
                     <Text {...this.props} onPress={() => {this.toPage(BoundDriver)}}  >9、车辆详情-绑定司机</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
                     <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(CarParameter)}}  >11、车辆详情-车辆参数</Text>
                 </View>
 
@@ -253,8 +253,8 @@ export default class Guide extends Component {
                 </View>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>消息</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >消息中心</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MessageListCar)}}  >车辆消息详情</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(Message)}}  >消息中心</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MessageListCar)}}  >车辆消息详情</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MessageCarLocation)}}  >车辆事件定位</Text>
                 </View>
                 <View>
