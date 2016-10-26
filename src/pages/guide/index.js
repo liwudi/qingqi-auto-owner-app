@@ -136,6 +136,9 @@ export default class Guide extends Component {
                     <Icons.IconFire/>
                     <Icons.IconBarcode/>
                     <Icons.IconTrash/>
+                    <Icons.IconCaretLeft/>
+                    <Icons.IconCaretRight/>
+                    <Icons.IconFlag/>
                 </View>
                 <Text/>
                 <View>
@@ -211,9 +214,9 @@ export default class Guide extends Component {
 
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>我的司机</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
                     <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriverAdd)}}  >12、我的司机-添加司机</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
                     <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyDriverEdit)}}  >13、我的司机-手机联系人编辑</Text>
                 </View>
                 <View>
@@ -225,7 +228,7 @@ export default class Guide extends Component {
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetEnd)}}  >我的线路-设置终点</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetPass)}}  >我的线路-设置途经点</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetRule)}}  >我的线路-驾驶规定</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyLineAddCarList)}}  >我的线路-添加车辆</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyLineAddCarList)}}  >我的线路-添加车辆</Text>
 
                 </View>
                 <View>
@@ -240,8 +243,8 @@ export default class Guide extends Component {
                 </View>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>油耗管理</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(OilManage)}}  >油耗管理</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(OilManageCarList)}}  >油耗管理-车辆列表</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(OilManage)}}  >油耗管理</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(OilManageCarList)}}  >油耗管理-车辆列表</Text>
                     <Text {...this.props} onPress={() => {this.toPage(OilManageSetMark)}}  >油耗管理-设定标杆</Text>
                     <Text {...this.props} onPress={() => {this.toPage(OilManageShowMark)}}  >油耗管理-查看标杆</Text>
                     <Text {...this.props} onPress={() => {this.toPage(OilManageShareMark)}}  >油耗管理-标杆-分享</Text>

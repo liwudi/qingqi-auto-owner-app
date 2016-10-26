@@ -7,7 +7,8 @@ import {
 	Text,
 	View,
 	TouchableOpacity,
-	StyleSheet
+	StyleSheet,
+    TextInput
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -20,6 +21,7 @@ export default class MyLineAddCarList extends Component {
 		return (
 			<View>
 				<TopBanner {...this.props} title="添加车辆"/>
+
 				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
 					<View style={estyle.fx1}>
 						<Text style={[estyle.articleTitle]}>陕A1456</Text>
