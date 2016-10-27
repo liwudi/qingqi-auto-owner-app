@@ -154,6 +154,9 @@ const style = {
   marginLeft: {
     marginLeft: spacing.margin.horizontal
   },
+  marginRight: {
+    marginRight: spacing.margin.horizontal
+  },
   marginBottom: {
     marginBottom: spacing.margin.vertical,
   },
@@ -199,6 +202,9 @@ const style = {
   }
 };
 const vector = {
+  call: { //电话尺寸
+    size: 50 * baseFontSize
+  },
   star: {
     color: {
       normal: '#dddddd',
@@ -218,6 +224,18 @@ const vector = {
     size: baseFontSize * 20
   }
 };
+const icon = {
+  size: {
+    large: {
+      width: baseFontSize * 60,
+      height: baseFontSize * 60
+    },
+    middle: {
+      width: baseFontSize * 100,
+      height: baseFontSize * 100
+    }
+  }
+}
 const pattern = {
   phone: /^(1[3-9])\d{9}$/,
   password: /^.{6,20}$/
@@ -237,8 +255,22 @@ const msg = {
     truename: {
       require: '请输入真实姓名',
       placeholder: '请输入真实姓名'
+    },
+    code: {
+      require: '请输入短信验证码',
+      placeholder: '请输入短信验证码',
+      pattern: '短信验证码格式不正确'
+    },
+    carCode: {
+      require: '请输入车牌号',
+      placeholder: '请输入车牌号',
+      pattern: '车牌号格式不正确'
     }
   }
+};
+const refreshCircle = {
+  bg: '#ffffff',
+  colors: [color.main]
 };
 export default {
   screen: {
@@ -253,5 +285,7 @@ export default {
   button: button,
   style: style,
   msg: msg,
-  pattern: pattern
+  pattern: pattern,
+  refreshCircle: refreshCircle,
+  icon:icon
 };

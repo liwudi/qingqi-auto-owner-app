@@ -29,12 +29,15 @@ import FindPasswordCheckCode from '../user/FindPasswordCheckCode';
 import FindPasswordNewPassword from '../user/FindPasswordNewPassword';
 
 import AddCar from '../add-car/AddCar';
-import AddCarSelectCar from '../add-car/AddCarSelectCar';
+import AddCarList from '../add-car/AddCarList';
+import AddCarFind from '../add-car/AddCarFind';
+import AddCarVinAdd from '../add-car/AddCarVinAdd';
+/*import AddCarSelectCar from '../add-car/AddCarSelectCar';
 import AddCarForVin from '../add-car/AddCarForVin';
 import AddCarForVinStep2 from '../add-car/AddCarForVinStep2';
 import AddCarForInvoiceNo from '../add-car/AddCarForInvoiceNo';
 import AddCarForVinUploadInvoiceNo from '../add-car/AddCarForVinUploadInvoiceNo';
-import WhereisVin from '../add-car/WhereisVin';
+import WhereisVin from '../add-car/WhereisVin';*/
 
 import HomeRouter from '../HomeRouter';
 import SearchList from '../home/SearchList';
@@ -185,7 +188,11 @@ export default class Guide extends Component {
                     </View>
                 <View>
                 <Text style={{fontSize:18,color:'red'}}>添加车辆=待定</Text>
-                <Text {...this.props} onPress={() => {this.toPage(AddCar)}}>1、添加一手车</Text>
+                <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(AddCar)}}>1、添加一手车</Text>
+                <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(AddCarList)}}>2、添加一手车-tds-true列表</Text>
+                <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(AddCarFind)}}>3、找回车辆</Text>
+                <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(AddCarVinAdd)}}>4、添加一手车-tds-true添加</Text>
+                    {/*
                 <Text {...this.props} onPress={() => {this.toPage(AddCarSelectCar)}}>2、添加一手车-选择车辆</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForInvoiceNo)}}>3、添加一手车-找回车辆</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarSelectCar)}}>4、添加一手车-添加未关联车辆</Text>
@@ -194,6 +201,7 @@ export default class Guide extends Component {
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinStep2)}}>7、添加二手车-已有车主-找回</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinUploadInvoiceNo)}}>8、添加二手车-无车主-申请车主身份-上传发票</Text>
                 <Text> </Text>
+                     */}
                     </View>
 
                 <Text style={{fontSize:18,color:'red'}}>首页相关</Text>
