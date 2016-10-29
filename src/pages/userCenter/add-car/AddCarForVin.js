@@ -8,13 +8,13 @@ import {
 	TouchableOpacity
 } from 'react-native';
 
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../../components/TopBanner';
 
-export default class AddCarForInvoiceNo extends Component {
+export default class AddCarForVin extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="添加车辆（发票）"/>
+				<TopBanner {...this.props} title="添加二手车"/>
 			</View>
 		);
 	}

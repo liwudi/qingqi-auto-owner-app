@@ -3,5 +3,7 @@
  */
 import * as TYPES from './types';
 import * as UserActions from './UserActions';
+import * as VehicleTestAction from './VehicleTestAction';
+import * as AddCarAction from './AddCarAction';
 
-export { TYPES, UserActions };
+export { TYPES, UserActions, VehicleTestAction, AddCarAction };

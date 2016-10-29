@@ -14,24 +14,49 @@ import {
 } from 'react-native';
 
 import { UserActions } from '../../../actions/index';
+import { changeBindSendCode, bindNewMobile, SEND_SMS_TYPE_BIND_NEW } from '../../../services/UserService';
 
+import PhoneInput from '../../../components/Inputs/Phone';
 import TopBanner from '../../../components/TopBanner';
-import LabelInput from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
+import CancelButton from '../../../components/CancelButton';
+import SendMobileCode from '../../../components/Inputs/SendMobileCode';
+
+import Toast from '../../../components/Toast';
 
 import Env from '../../../utils/Env';
+const estyle = Env.style,
+	emsg = Env.msg.form,
+	pattern = Env.pattern;
+
 
 class ModifyMobileNewMobile extends Component {
 	constructor(props){
 		super(props);
+		this.userInfo = props.userInfo || {};
+		this.state = {
+			phone: this.userInfo.mobile
+		}
 	}
 
-	onChange(input){
-		this.setState(input);
+	onNext(){
+		if(PhoneInput.Validate(this.refs)){
+			bindNewMobile(this.state.phone, this.state.smsCode, this.props.phone, this.props.smsCode)
+				.then(rs => {
+					this.props.router.pop();
+				})
+				.catch(e => {
+					Toast.show(e.message || '系统异常，请稍后再试', Toast.SHORT);
+				});
+		}
 	}
 
-	onLogin(){
-		this.props.dispatch(UserActions.doLogin(this.state));
+	sendSmsCode = () => {
+		if(this.refs.phone.validate()){
+			return changeBindSendCode(this.state.phone, SEND_SMS_TYPE_BIND_NEW)
+		}else{
+			return false;
+		}
 	}
 
 	render() {
@@ -39,21 +64,22 @@ class ModifyMobileNewMobile extends Component {
 			<View style={styles.body}>
 				<TopBanner {...this.props} title="绑定新手机"/>
 				<View  style={styles.loginView}>
-					<LabelInput
-						style = {styles.loginInput}
-						onChangeText={password => this.onChange({password})}
-						secureTextEntry={true}
+					<PhoneInput
+						ref="phone"
+						defaultValue={this.state.phone}
+						onChangeText={phone => this.setState({phone})}
 						placeholder='要绑定的新手机'
-						label="手机"
+						labelSize={3}
+						validates={[
+							{require:true, msg:emsg.phone.require},
+							{pattern:pattern.phone, msg: emsg.phone.pattern}
+						]}
 					/>
-					<LabelInput
-						style = {styles.loginInput}
-						onChangeText={password => this.onChange({password})}
-						secureTextEntry={true}
-						placeholder='短信验证码'
-						label="验证码"
+					<SendMobileCode
+						onChangeText={smsCode => this.setState({smsCode})}
+						sendCode={this.sendSmsCode}
 					/>
-					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onLogin()}><Text>确定</Text></ConfirmButton>
+					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onNext()}><Text>绑定</Text></ConfirmButton>
 				</View>
 			</View>
 		);

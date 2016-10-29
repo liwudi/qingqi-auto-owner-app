@@ -11,15 +11,22 @@ import {
 } from 'react-native';
 
 import Guide from './guide';
+import Guide2 from './guide2';
 import Login from './user';
+import Reg from './user/Reg';
 // import HomeRouter from './HomeRouter';
-import HomeRouter from './userCenter/account-config/ModifyMobile';
+import AccountHome from './userCenter/account-config/AccountHome';
 
+/*import TripAnalysisList from './home/trip-analysis/TripAnalysisList';
+*/
 import { addEventSystemBack } from '../utils/SystemEvents';
 
 import Router from '../services/RouterService';
 
 import Env from '../utils/Env'
+
+import AddCarPostCarCode from './userCenter/add-car/AddCarPostCarCode';
+import AddCar from './userCenter/add-car/AddCar';
 
 class Main extends Component {
 
@@ -45,22 +52,21 @@ class Main extends Component {
 	render() {
 		return (
 		    <View style={{flex:1}}>
-				<StatusBar backgroundColor={Env.color.main} />
+
                 <Navigator
-                    initialRoute = {Router.Page(Guide)}
+                    initialRoute = {Router.Page(Guide2)}
                     renderScene = {(page, navigator) => {
                         this.router = this.router || new Router(navigator);
                         this.navigator = navigator;
                         let Component = page.component;
                         return (
                             <Component
-                                {...this.props}
-                                {...page.props}
                                 navigator = {navigator}
                                 router = {this.router}
                                 doBack = {() => {
                                     navigator.pop()
                                 }}
+                                {...page.props}
                             />
                         );
                     }}

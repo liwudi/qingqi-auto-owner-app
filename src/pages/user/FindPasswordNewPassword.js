@@ -13,25 +13,30 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { UserActions } from '../../actions/index';
+import { UserActions, TYPES } from '../../actions/index';
 
 import TopBanner from '../../components/TopBanner';
-import LabelInput from '../../components/LabelInput';
+import PasswordInput from '../../components/Inputs/Password';
 import ConfirmButton from '../../components/ConfirmButton';
 
+import Login from './Login';
+
 import Env from '../../utils/Env';
+const estyle = Env.style,
+	emsg = Env.msg.form,
+	pattern = Env.pattern;
 
 class FindPasswordNewPassword extends Component {
 	constructor(props){
 		super(props);
+		this.phone = this.props.findPasswordStore.phoneInfo.phone;
+		this.smsCode = this.props.findPasswordStore.phoneInfo.smsCode;
 	}
 
-	onChange(input){
-		this.setState(input);
-	}
-
-	onLogin(){
-		this.props.dispatch(UserActions.doLogin(this.state));
+	onModifyPassword(){
+		this.props.dispatch(UserActions.findPasswordNewPassword(this.phone, this.state.password,this.smsCode, () => {
+			this.props.router.replace(Login);
+		}));
 	}
 
 	render() {
@@ -39,15 +44,23 @@ class FindPasswordNewPassword extends Component {
 			<View style={styles.body}>
 				<TopBanner {...this.props} title="忘记密码"/>
 				<View  style={styles.loginView}>
-					<LabelInput
-						style = {styles.loginInput}
-						onChangeText={password => this.onChange({password})}
-						secureTextEntry={true}
-						placeholder='6-20位字符'
-						label="新密码"
+					<PasswordInput
+						ref="password"
+						defaultValue={this.state.password}
+						style={[estyle.borderBottom]}
+						onChangeText={password => this.setState({password})}
+						validates={[
+							{require:true, msg: emsg.password.require},
+							{pattern:pattern.password, msg: emsg.password.pattern}
+						]}
 					/>
 
-					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onLogin()}><Text>确定</Text></ConfirmButton>
+					<ConfirmButton
+						style={{marginTop:10}}
+						size="large"
+						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP3_DOING}
+						onPress={() => this.onModifyPassword()}>
+						<Text>确定</Text></ConfirmButton>
 				</View>
 			</View>
 		);
@@ -68,7 +81,6 @@ const styles = StyleSheet.create({
 
 });
 
-
 export default connect(function(stores) {
-	return { userStore: stores.userStore }
+	return { findPasswordStore: stores.findPasswordStore}
 })(FindPasswordNewPassword);

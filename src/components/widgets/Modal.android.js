@@ -19,13 +19,9 @@ export default class ColorButton extends Component {
             visible={this.props.visible}
             onRequestClose={this.props.onClose}
         >
-            <View style={[estyle.fx1, estyle.fxCenter, {backgroundColor: Env.color.modalBg}]}>
-                <View style={[estyle.cardBackgroundColor, this.props.style]}>
-                    {this.props.children}
-                </View>
+            <View style={[estyle.fx1, {backgroundColor: Env.color.modalBg}, this.props.style]}>
+                {this.props.children}
             </View>
         </Modal>
     }
-
-
 }

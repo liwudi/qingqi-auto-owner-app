@@ -21,7 +21,7 @@ const fontSize = {
   articleTitle: baseFontSize * 32,  //文章标题或图标名称
   text: baseFontSize * 28, //文本字体
   note: baseFontSize * 24,  //注释最小字体
-  mini: baseFontSize * 18  //注释最小字体
+  mini: baseFontSize * 20  //注释最小字体
 
 };
 
@@ -34,7 +34,8 @@ const color = {
   text: '#666666',  //文本
   note: '#999999',  //注释
   important: '#333333',  //重要信息,
-  modalBg: 'rgba(0,0,0,0.8)'  //弹窗或者列表黑色半透明背景
+  modalBg: 'rgba(0,0,0,0.8)',  //弹窗或者列表黑色半透明背景
+  testColor: '#15c206'  //体检开始颜色
 };
 const button = {
   size: {
@@ -154,6 +155,9 @@ const style = {
   marginLeft: {
     marginLeft: spacing.margin.horizontal
   },
+  marginRight: {
+    marginRight: spacing.margin.horizontal
+  },
   marginBottom: {
     marginBottom: spacing.margin.vertical,
   },
@@ -198,7 +202,11 @@ const style = {
     paddingHorizontal:spacing.padding.horizontal
   }
 };
+
 const vector = {
+  call: { //电话尺寸
+      size: 50 * baseFontSize
+  },
   star: {
     color: {
       normal: '#dddddd',
@@ -206,7 +214,7 @@ const vector = {
     },
     size: {
       small: baseFontSize * 26,
-      middle: baseFontSize * 28,
+      middle: baseFontSize * 38,
       large: baseFontSize * 50
     }
   },
@@ -218,9 +226,23 @@ const vector = {
     size: baseFontSize * 20
   }
 };
+const icon = {
+  size: {
+    large: {
+      width: baseFontSize * 60,
+      height: baseFontSize * 60
+    },
+    middle: {
+      width: baseFontSize * 100,
+      height: baseFontSize * 100
+    }
+  }
+}
 const pattern = {
   phone: /^(1[3-9])\d{9}$/,
-  password: /^.{6,20}$/
+  password: /^.{6,20}$/,
+  code: /^\d{6}$/,
+  carCode: /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/
 };
 const msg = {
   form: {
@@ -237,8 +259,22 @@ const msg = {
     truename: {
       require: '请输入真实姓名',
       placeholder: '请输入真实姓名'
+    },
+    code: {
+      require: '请输入短信验证码',
+      placeholder: '请输入短信验证码',
+      pattern: '短信验证码格式不正确'
+    },
+    carCode: {
+      require: '请输入车牌号',
+      placeholder: '请输入车牌号',
+      pattern: '车牌号格式不正确'
     }
   }
+};
+const refreshCircle = {
+  bg: '#ffffff',
+  colors: [color.main]
 };
 export default {
   screen: {
@@ -253,5 +289,7 @@ export default {
   button: button,
   style: style,
   msg: msg,
-  pattern: pattern
+  pattern: pattern,
+  refreshCircle: refreshCircle,
+  icon:icon
 };
