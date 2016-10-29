@@ -234,6 +234,45 @@ export  class IconArrowUp extends React.Component {
 		)
 	}
 }
-
+/**
+ * 垃圾桶
+ * */
+export  class IconTrash extends React.Component {
+	render(){
+		return(
+			<IconEntypo name="trash" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+/**
+ * 向左实心箭头
+ * */
+export  class IconCaretLeft extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="caret-left" size={size} color={Env.color.color} {...this.props} />
+		)
+	}
+}
+/**
+ * 向右实心箭头
+ * */
+export  class IconCaretRight extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="caret-right" size={size} color={Env.color.color} {...this.props} />
+		)
+	}
+}
+/**
+ * 红旗
+ * */
+export  class IconFlag extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="flag" size={size} color={Env.color.color} {...this.props} />
+		)
+	}
+}
 
 //<Icon name="clock-o" size={30 * Env.font.base}/>

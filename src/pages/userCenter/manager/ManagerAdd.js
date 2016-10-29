@@ -24,7 +24,23 @@ export default class ManagerAdd extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="新增管理员"/>
-				<View  style={[estyle.fxRowCenter]}>
+				<View style ={[estyle.fxRow,estyle.padding,estyle.cardBackgroundColor]}>
+					<View>
+						<Image
+							style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
+								borderColor:'#85C7E7',}}
+							source={require('../../../assets/images/icon-1.png')}
+						/>
+					</View>
+					<View style = {estyle.fx1}>
+						<View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
+							<Text style={[styles.textBlue,styles.colorFFF]}>手机联系人</Text>
+							<Text style={[styles.note,styles.colorFFF]}>添加手机通讯录中的司机</Text>
+						</View>
+					</View>
+					<View style={[estyle.padding,estyle.fxRow]}><Icons.IconUser /><Text style={styles.noteBlue}>推荐</Text></View>
+				</View>
+				<View  style={[estyle.fxRowCenter,estyle.marginTop]}>
 					<LabelInput
 						style = {[estyle.borderBottom]}
 						placeholder='请输入真实姓名'
@@ -38,22 +54,7 @@ export default class ManagerAdd extends Component {
 						labelSize="3"
 					/>
 					<ConfirmButton style={[estyle.marginVertical]} size="large" onPress={() => this.onLogin()}><Text>添加</Text></ConfirmButton>
-					<View style ={[estyle.fxRow,estyle.padding]}>
-						<View>
-							<Image
-								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-									borderColor:'#85C7E7',}}
-								source={require('../../../assets/images/icon-1.png')}
-							/>
-						</View>
-						<View style = {{flex:1}}>
-							<View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
-								<Text style={[styles.textBlue,styles.colorFFF]}>手机联系人</Text>
-								<Text style={[styles.note,styles.colorFFF]}>添加手机通讯录中的司机</Text>
-							</View>
-						</View>
-						<View style={[estyle.padding,estyle.fxRow]}><Icons.IconUser /><Text style={styles.noteBlue}>推荐</Text></View>
-					</View>
+
 				</View>
 			</View>
 		);

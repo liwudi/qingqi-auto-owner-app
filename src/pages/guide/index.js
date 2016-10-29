@@ -172,10 +172,16 @@ export default class Guide extends Component {
                     <Icons.IconClose/>
                     <Icons.IconLocation/>
                     <Icons.IconList/>
+                    </View>
+                <View style={{flexDirection:'row'}}>
                     <Icons.IconUser/>
                     <Icons.IconFire/>
                     <Icons.IconBarcode/>
-                    <Icons.IconShare/>
+                    
+<Icons.IconTrash/>
+                    <Icons.IconCaretLeft/>
+                    <Icons.IconCaretRight/>
+                    <Icons.IconFlag/><Icons.IconShare/>
                     <Icons.IconCheckCircle/>
                     <Icons.IconClock/>
                     <Icons.IconRibbon/>
