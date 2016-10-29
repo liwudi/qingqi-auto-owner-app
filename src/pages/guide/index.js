@@ -208,14 +208,8 @@ export default class Guide extends Component {
                 <ListTitle title="卡片标题"/>
                 <ListItem left="左侧内容" right="右侧内容"/>
 
-                {/*
-                 <LabelInput style={{marginTop:5}} label="密码" type="password" placeholder="输入密码"/>
-                 */}
-                {/*	<LabelInput style={{marginTop:5,marginBottom:5}}
-                 label="手机"
-                 placeholder="输入手机号"
-                 rightView={<ConfirmButton size="small" onPress={(()=>{this.setState({alertActive:true})}).bind(this)}>获取验证码</ConfirmButton>}/>
-                 */}<ConfirmButton size="small" onPress={()=>{this.setState({alertActive:true})}}>普通alert</ConfirmButton>
+
+                <ConfirmButton size="small" onPress={()=>{this.setState({alertActive:true})}}>普通alert</ConfirmButton>
                 <Alert visible={this.state.alertActive} onConfirm={(()=>{this.setState({alertActive:false})})} onCancel={(()=>{this.setState({alertActive:false})})}>是否关闭?</Alert>
 
                 <ConfirmButton size="small" onPress={()=>{this.setState({alertCActive:true})}}>自定义信息alert</ConfirmButton>
