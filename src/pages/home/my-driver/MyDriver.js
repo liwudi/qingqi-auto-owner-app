@@ -30,28 +30,28 @@ export default class MyDriver extends Component {
 		this.state = {
 			isRefreshing : false,
 			isSearch : false,
-			driverId : '',
-			name: '',
-			phone: '',
+			// driverId : '',
+			// name: '',
+			// phone: '',
 			keyWord: ''
 		};
 	}
 
 	finaliy() {
 		this.setState({isRefreshing: false});
+		this.setState({isSearch: false});
 	}
 
 	fetchData() {
 		this.setState({isRefreshing: true});
-
 		queryDriver(null,null,this.state.keyWord)
 			.then((data)=>{
 				console.info('--------------------')
 				console.info(data)
 				this.setState({data});}
 			)
-			.catch(this.finaliy.bind(this))
-			.finally(this.finaliy.bind(this));
+			.catch(this.finaliy)
+			.finally(this.finaliy);
 	};
 
 	onRefresh() {

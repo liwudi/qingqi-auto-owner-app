@@ -42,7 +42,7 @@ export default class MyDriverAdd extends Component {
 				.then(()=>{
 					ToastAndroid.show('添加成功', ToastAndroid.SHORT);
 					this.timer=setTimeout(()=>{
-						this.props.router.push(MyDriver);
+						this.props.router.replace(MyDriver);
 					},500)
 				})
 				.catch((e)=>{
@@ -55,6 +55,12 @@ export default class MyDriverAdd extends Component {
 		this.props.router.push(MyDriverPhoneAdd);
 	}
 
+	/**
+	 * 组件销毁时调用
+	 */
+	componentWillUnmount() {
+		clearTimeout(this.timer);
+	}
 	render() {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
