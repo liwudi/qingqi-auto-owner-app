@@ -7,124 +7,87 @@ import {
     Text,
     View,
     StyleSheet,
-    ScrollView,
-    RefreshControl
+    ScrollView
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
-import {driverCarList, setCurrentCar} from '../../../services/AppService';
 const estyle = Env.style;
-import Button from '../../../components/widgets/Button'
-import Item from './components/MyCarItem'
-import NoCar from './components/NoCar'
-import CarDetail from './CarDetail';
+import ConfirmButton from '../../../components/ConfirmButton';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
-import {IconCheckCircle} from '../../../components/Icons';
+import {IconUser} from '../../../components/Icons'
 
 export default class MyCar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selecting : false,
-            carId : '1'
-        };
-    }
-    finaliy() {
-        this.setState({isRefreshing: false});
-        this.setState({selecting: false});
-        this.setState({carId: this.defaultCarId});
-    }
-
-    fetchData() {
-        this.setState({isRefreshing: true});
-        driverCarList()
-            .then((data)=>{
-   /*             console.info('--------------------')
-                console.info(data)*/
-                this.setState({'selecting': false});
-                this.setState({data});}
-                )
-            .catch(this.finaliy.bind(this))
-            .finally(this.finaliy.bind(this));
-    };
-    onRefresh() {
-        this.fetchData();
-    }
-
-    componentWillMount() {
-        this.fetchData();
-    }
-    setCar() {
-        if(this.state.selecting) {
-            if(this.defaultCarId != this.state.carId) {
-                this.setState({isRefreshing: true});
-                setCurrentCar(this.state.carId)
-                    .then(this.fetchData.bind(this))
-                    .catch(this.finaliy.bind(this));
-
-            } else {
-                this.setState({'selecting': false});
-            }
-        } else {
-            this.setState({'selecting': !this.state.selecting});
-        }
-    }
-    goToDetail(carId) {
-        this.props.router.push(CarDetail, {nav: {carId: carId}});
-    }
-    selectCar(carId) {
-        if(this.state.selecting) {
-            this.setState({'carId': carId});
-        } else {
-            this.goToDetail(carId);
-        }
+    state = {
+        list: true
     }
 
     renderList() {
-        let data = this.state.data;
-        return data.list.map((item, idx) => {
-            item.status && !this.defaultCarId && (this.defaultCarId = item.carId);
-   /*         console.info(this.defaultCarId)
-            console.info(item)*/
-            return <ViewForRightArrow key={idx}
-                rightIcon={this.state.selecting && IconCheckCircle}
-                onPress={this.selectCar.bind(this, item.carId)}
-                                      iconColor={(this.state.selecting && this.state.carId == item.carId) && Env.color.auxiliary}
-            ><Item
-                router={this.props.router}
-                data={item}/>
-            </ViewForRightArrow>;
-        })
+        return <View>
+            <TopBanner
+                {...this.props}
+                title="我的车辆"
+                rightView={<Text style={{color: '#FFF', fontSize: Env.font.note}}>设置</Text>}
+            />
+
+            <ScrollView>
+                <ViewForRightArrow style={[estyle.cardBackgroundColor, estyle.padding, estyle.borderBottom]}>
+                    <View style={[estyle.fxRow, estyle.fxRowCenter]}>
+                        <Text style={[estyle.articleTitle]}>京N23456</Text>
+                        <View style={[styles.currentCar, estyle.paddingHorizontal]}><Text
+                            style={[estyle.note, {color: '#fff'}]}>当前车辆</Text></View>
+                    </View>
+                    <View style={[estyle.fxRow, estyle.fxRowCenter]}>
+                        <IconUser color={Env.color.main}/>
+                        <Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
+                        <Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
+                        <Text style={[estyle.marginLeft]}>副：</Text>
+                        <Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
+                    </View>
+                </ViewForRightArrow>
+                <ViewForRightArrow style={[estyle.cardBackgroundColor, estyle.padding, estyle.borderBottom]}>
+                    <View style={[estyle.fxRow]}>
+                        <Text style={[estyle.articleTitle]}>京N23456</Text>
+                    </View>
+                    <View style={[estyle.fxRow]}>
+                        <IconUser color={Env.color.main}/>
+                        <Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
+                        <Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
+                        <Text style={[estyle.marginLeft]}>副：</Text>
+                        <Text style={[estyle.note, {color: Env.color.text}]}>梁大人</Text>
+                    </View>
+                </ViewForRightArrow>
+
+            </ScrollView>
+        </View>
     }
 
-    renderView() {
-        if(this.state.data) {
-            return this.state.data.list.length ? this.renderList() : <NoCar/>;
-        }
-        return <View/>;
+    renderEmpty() {
+        return <View>
+            <TopBanner {...this.props} title="我的车辆"/>
+            <View style={[estyle.fxRowCenter, {paddingTop: Env.font.base * 100}]}>
+                <Text style={[estyle.text]}>目前没车辆</Text>
+                <Text style={[estyle.marginBottom, estyle.text]}>车主添加您为司机后才会显示车辆</Text>
+                <Text style={[estyle.marginTop, estyle.text, {color: Env.color.important}]}>我只一辆车，我是车主也是司机</Text>
+                <Text style={[estyle.text, {color: Env.color.important}]}>您可以在此添加车辆</Text>
+                <ConfirmButton style={[estyle.marginVertical]} size="large"
+                               onPress={() => this.onLogin()}><Text>添加车辆</Text></ConfirmButton>
+                <Text style={[estyle.note]}>要体验更多的管理功能建议您下载“车主端”</Text>
+            </View>
+        </View>
     }
-    
+
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner
-                    {...this.props}
-                    title="我的车辆"
-                    rightView={<Button onPress={this.setCar.bind(this)}><Text style={{color: Env.color.navTitle, fontSize: Env.font.text}}>{this.state.selecting ? '完成' : '设置当前车辆'}</Text></Button>}
-                />
-                <ScrollView style={[estyle.fx1]}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.isRefreshing}
-                                    onRefresh={this.onRefresh.bind(this)}
-                                    colors={Env.refreshCircle.colors}
-                                    progressBackgroundColor={Env.refreshCircle.bg}
-                                />
-                            }>
-                    {this.renderView()}
-                </ScrollView>
+                {this.state.list ? this.renderList() : this.renderEmpty()}
             </View>
         )
     }
 }
+const styles = StyleSheet.create({
+    currentCar: {
+        borderRadius: 400,
+        backgroundColor: Env.color.auxiliary,
+    }
+});

@@ -14,14 +14,14 @@ import TopBanner from '../../../components/TopBanner';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import MyInfo from './MyInfo';
-import ConfirmButton from '../../../components/ConfirmButton.android';
+import ConfirmButton from '../../../components/ConfirmButton';
 export default class MyInfoId extends Component {
     goTo(page){
         this.props.router.push(page);
     }
     render() {
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
+            <View sytle={estyle.body}>
                 <TopBanner {...this.props} title="身份证"/>
                 <View style = {[estyle.fxRowCenter]}>
                     <LabelInput

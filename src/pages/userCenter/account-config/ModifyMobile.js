@@ -13,76 +13,52 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { changeBindSendCode, checkChangeBindSmsCode } from '../../../services/UserService';
+import { UserActions } from '../../../actions/index';
 
-import PhoneInput from '../../../components/Inputs/Phone';
 import TopBanner from '../../../components/TopBanner';
+import LabelInput from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
-import SendMobileCode from '../../../components/Inputs/SendMobileCode';
-
-import Toast from '../../../components/Toast';
+import CancelButton from '../../../components/CancelButton';
 
 import Env from '../../../utils/Env';
-const estyle = Env.style,
-	emsg = Env.msg.form,
-	pattern = Env.pattern;
-
-import ModifyMobileNewMobile from './ModifyMobileNewMobile';
 
 class ModifyMobile extends Component {
 	constructor(props){
 		super(props);
-		this.userInfo = props.userInfo || {};
-		this.state = {
-			phone: this.userInfo.mobile
-		}
 	}
 
-	onNext(){
-		if(PhoneInput.Validate(this.refs)){
-			checkChangeBindSmsCode(this.state.phone, this.state.smsCode)
-				.then(rs => {
-					this.props.router.replace(ModifyMobileNewMobile, {
-						phone: this.state.phone,
-						smsCode: this.state.smsCode
-					})
-				})
-				.catch(e => {
-					Toast.show(e.message || '系统异常，请稍后再试', Toast.SHORT);
-				});
-		}
+	onChange(input){
+		this.setState(input);
 	}
 
-	sendSmsCode = () => {
-		// return Promise.resolve({});
-		if(this.refs.phone.validate()){
-			return changeBindSendCode(this.state.phone)
-		}else{
-			return false;
-		}
+	sendCode(){
+		this.props.dispatch(UserActions.sendModifyMobileCode());
 	}
 
 	render() {
+		let rightView = () => {
+			let disable = this.props.sendCodeStore.status === 'doing' || this.props.sendCodeStore.status === 'timeout';
+			let text = this.props.sendCodeStore.status === 'doing' ? '正在发送' : this.props.sendCodeStore.status === 'timeout' ? `重新获取${this.props.sendCodeStore.second}` : '获取验证码';
+			return (<CancelButton size="small" disabled={disable} onPress={this.sendCode.bind(this)}>{text}</CancelButton>);
+		};
 		return (
 			<View style={styles.body}>
 				<TopBanner {...this.props} title="修改绑定手机"/>
 				<View  style={styles.loginView}>
-					<PhoneInput
-						ref="phone"
-						defaultValue={this.state.phone}
-						onChangeText={phone => this.setState({phone})}
+					<LabelInput
+						style = {styles.loginInput}
+						onChangeText={password => this.onChange({password})}
 						placeholder='当前绑定的手机'
-						labelSize={3}
-						validates={[
-							{require:true, msg:emsg.phone.require},
-							{pattern:pattern.phone, msg: emsg.phone.pattern}
-						]}
+						label="手机"
 					/>
-					<SendMobileCode
-						onChangeText={smsCode => this.setState({smsCode})}
-						sendCode={this.sendSmsCode}
+					<LabelInput
+						style = {styles.loginInput}
+						onChangeText={password => this.onChange({password})}
+						placeholder='短信验证码'
+						label="验证码"
+						rightView = { rightView() }
 					/>
-					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onNext()}><Text>下一步</Text></ConfirmButton>
+					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onLogin()}><Text>下一步</Text></ConfirmButton>
 				</View>
 			</View>
 		);
@@ -105,5 +81,5 @@ const styles = StyleSheet.create({
 
 
 export default connect(function(stores) {
-	return { userStore: stores.userStore }
+	return { sendCodeStore: stores.modifyMobileSendCodeStore }
 })(ModifyMobile);

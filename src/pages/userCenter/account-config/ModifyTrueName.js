@@ -17,7 +17,7 @@ import { UserActions } from '../../../actions/index';
 
 import TopBanner from '../../../components/TopBanner';
 import LabelInput from '../../../components/LabelInput';
-import ConfirmButton from '../../../components/ConfirmButton.android';
+import ConfirmButton from '../../../components/ConfirmButton';
 
 import Env from '../../../utils/Env';
 

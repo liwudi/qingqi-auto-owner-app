@@ -13,37 +13,25 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { UserActions, TYPES } from '../../actions/index';
+import { UserActions } from '../../actions/index';
 
 import TopBanner from '../../components/TopBanner';
-import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
-import ConfirmButton from '../../components/ConfirmButton.android';
-
-import FindPasswordNewPassword from './FindPasswordNewPassword';
+import LabelInput from '../../components/LabelInput';
+import ConfirmButton from '../../components/ConfirmButton';
 
 import Env from '../../utils/Env';
-
-
-const estyle = Env.style,
-	emsg = Env.msg.form,
-	pattern = Env.pattern;
 
 class FindPasswordCheckCode extends Component {
 	constructor(props){
 		super(props);
-		this.phone = this.props.findPasswordStore.phoneInfo.phone;
 	}
 
-	sendCode(){
-		this.props.dispatch(UserActions.findPasswordReSendCode(this.phone));
+	onChange(input){
+		this.setState(input);
 	}
 
-	next(){
-		if(this.refs.code.validate()){
-			this.props.dispatch(UserActions.findPasswordCheckSmsCode(this.phone, this.state.code, () => {
-				this.props.router.replace(FindPasswordNewPassword)
-			}))
-		}
+	onLogin(){
+		this.props.dispatch(UserActions.doLogin(this.state));
 	}
 
 	render() {
@@ -53,25 +41,16 @@ class FindPasswordCheckCode extends Component {
 				<View  style={styles.loginView}>
 					<View style={{alignItems:'center',marginTop:10,marginBottom:10,}}>
 						<Text style={{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.note}}>已发送短信验证码到</Text>
-						<Text style={{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.navTitle}}>+86 {this.phone}</Text>
+						<Text style={{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.navTitle}}>+86 18601201516</Text>
 					</View>
-					<PhoneChkCodeInput
-						ref="code"
-						style={[estyle.borderBottom]}
-						onChangeText={code => this.setState({code})}
-						sendCode = {this.sendCode.bind(this)}
-						sendCodeStatus = {this.props.sendCodeStatus}
-						labelSize={3}
-						validates={[
-							{require:true, msg: emsg.code.require},
-							{pattern:pattern.code, msg: emsg.code.pattern}
-						]}
+					<LabelInput
+						style = {styles.loginInput}
+						onChangeText={password => this.onChange({password})}
+						secureTextEntry={true}
+						placeholder='短信验证码'
+						label="验证码"
 					/>
-					<ConfirmButton
-						style={{marginTop:10}}
-						size="large"
-						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP2_DOING}
-						onPress={() => this.next()}><Text>下一步</Text></ConfirmButton>
+					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onLogin()}><Text>下一步</Text></ConfirmButton>
 				</View>
 			</View>
 		);
@@ -94,5 +73,5 @@ const styles = StyleSheet.create({
 
 
 export default connect(function(stores) {
-	return { findPasswordStore: stores.findPasswordStore , sendCodeStatus : stores.sendCodeStore }
+	return { userStore: stores.userStore }
 })(FindPasswordCheckCode);
