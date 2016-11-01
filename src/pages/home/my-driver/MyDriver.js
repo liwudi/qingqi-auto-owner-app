@@ -59,7 +59,11 @@ export default class MyDriver extends Component {
 	}
 
 	onSearch() {
-		this.setState({isSearch:true});
+		if (this.state.isSearch) {
+			this.setState({isSearch:false});
+		} else {
+			this.setState({isSearch:true});
+		}
 	}
 
 	doSearch() {
@@ -93,6 +97,20 @@ export default class MyDriver extends Component {
 		return <View/>;
 	}
 
+	renderSearchView() {
+		if(this.state.isSearch) {
+			return <ViewForRightArrow rightIcon={Icons.IconSearch} onPress={this.doSearch.bind(this)}>
+				<LabelInput
+					style = {[estyle.borderBottom]}
+					placeholder='请输入司机姓名或手机号'
+					label="搜索"
+					labelSize="3"
+					ref="keyWord"
+					onChangeText={keyWord => this.setState({keyWord})}/>
+			</ViewForRightArrow>;
+		}
+	}
+
 	render() {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
@@ -101,15 +119,7 @@ export default class MyDriver extends Component {
 					title="我的司机" 
 					rightView={(<Icons.IconSearch color='#FFF' onPress={this.onSearch.bind(this)}/>)}
 				/>
-				<ViewForRightArrow rightIcon={Icons.IconSearch} onPress={this.doSearch.bind(this)}>
-					<LabelInput
-					style = {[estyle.borderBottom]}
-					placeholder='请输入司机姓名或手机号'
-					label="条件"
-					labelSize="3"
-					ref="keyWord"
-					onChangeText={keyWord => this.setState({keyWord})}/>
-				</ViewForRightArrow>
+				{this.renderSearchView()}
 				<View style={[estyle.fx1]}>
 					<ScrollView style={[estyle.fx1]}
 								refreshControl={
