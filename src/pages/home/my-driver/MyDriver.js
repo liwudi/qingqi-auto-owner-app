@@ -80,21 +80,17 @@ export default class MyDriver extends Component {
 		this.props.router.push(MyDriverAdd);
 	}
 
+	//加载Item，司机列表
 	itemList(dtoList){
 		return dtoList.map((item, idx) => {
-			// item.status && !this.defaultCarId && (this.defaultCarId = item.carId);
-			console.info("============================")
-			console.info(item)
 			return <Item router={this.props.router} data={item}/>;
 		})
 	}
 
+	//加载字母View
 	renderList() {
 		let data = this.state.data;
 		return data.list.map((item, idx) => {
-			// item.status && !this.defaultCarId && (this.defaultCarId = item.carId);
-			console.info("============================")
-			console.info(item)
 			return <View>
 				<View style={[estyle.padding]}>
 					<Text style={estyle.text}>{item.key}</Text>
