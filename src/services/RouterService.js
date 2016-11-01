@@ -37,16 +37,20 @@ export default class RouterService {
         this.navigator = navigator;
     }
 
-    push(page, ...args){
-        this.navigator.push(Page(page, args));
+    push(page, props){
+        this.navigator.push(Page(page, props));
     }
 
-    replace(page, ...args){
-        this.navigator.replace(Page(page, args));
+    replace(page, props){
+        this.navigator.replace(Page(page, props));
     }
 
-    resetTo(page, ...args){
-        this.navigator.resetTo(Page(page, args));
+    resetTo(page, props){
+        this.navigator.resetTo(Page(page, props));
+    }
+
+    pop(){
+        this.navigator.pop();
     }
 
     /**

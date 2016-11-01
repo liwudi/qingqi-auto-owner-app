@@ -7,6 +7,7 @@ import IconIonicons from 'react-native-vector-icons/Ionicons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconMater from 'react-native-vector-icons/MaterialIcons';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import Octicons from 'react-native-vector-icons/Octicons';
 import Env from '../utils/Env';
 
 const size = Env.font.navTitle;
@@ -134,16 +135,6 @@ export  class IconUser extends React.Component {
 		)
 	}
 }
-/**
- * add
- * */
-export  class IconPlus extends React.Component {
-	render(){
-		return(
-			<IconFontAwesome name="plus" size={size} color={Env.color.color} {...this.props} />
-		)
-	}
-}
 
 /**
  * fire
@@ -151,7 +142,7 @@ export  class IconPlus extends React.Component {
 export  class IconFire extends React.Component {
 	render(){
 		return(
-			<IconFontAwesome name="fire" size={size} color={color}  {...this.props} />
+			<Octicons name="flame" size={size} color={color}  {...this.props} />
 		)
 	}
 }
@@ -163,6 +154,83 @@ export  class IconBarcode extends React.Component {
 	render(){
 		return(
 			<IconIonicons name="md-barcode" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 分享
+ * */
+export  class IconShare extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="md-share" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 分享
+ * */
+export  class IconCheckCircle extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="check-circle-o" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * clock
+ * */
+export  class IconClock extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="clock-o" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * ribbon
+ * //奖牌
+ * */
+export  class IconRibbon extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-ribbon" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 对勾
+ */
+export  class IconCheckMark extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-checkmark-outline" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+/**
+ * 链接中断
+ */
+export  class IconChainBroken extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="chain-broken" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 向上箭头
+ */
+export  class IconArrowUp extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="arrow-up" size={size} color={color}  {...this.props} />
 		)
 	}
 }
@@ -206,3 +274,5 @@ export  class IconFlag extends React.Component {
 		)
 	}
 }
+
+//<Icon name="clock-o" size={30 * Env.font.base}/>

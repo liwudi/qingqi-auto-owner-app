@@ -10,71 +10,132 @@ import {
 	View,
 	TouchableOpacity,
 	ToastAndroid,
-	StyleSheet
+	StyleSheet,
+	Image
 } from 'react-native';
 
-import { UserActions } from '../../actions/index';
+import {UserActions, TYPES} from '../../actions/index';
+
+import { getCaptcha, CAPTCHA_TYPE_FIND_PASSWORD } from '../../services/UserService';
 
 import TopBanner from '../../components/TopBanner';
 import LabelInput from '../../components/LabelInput';
-import ConfirmButton from '../../components/ConfirmButton';
+import ConfirmButton from '../../components/ConfirmButton.android';
+import PhoneInput from '../../components/Inputs/Phone';
+
+import FindPasswordCheckCode from './FindPasswordCheckCode';
 
 import Env from '../../utils/Env';
+const estyle = Env.style,
+	emsg = Env.msg.form,
+	pattern = Env.pattern;
 
 class FindPassword extends Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			phone:'13123222333',
+			captcha:'',
+			captchaImg: false
+		};
 	}
 
-	onChange(input){
-		this.setState(input);
+	next = () => {
+		this.props.router.replace(FindPasswordCheckCode);
 	}
 
-	onLogin(){
-		this.props.dispatch(UserActions.doLogin(this.state));
+	onCheckCaptcha(){
+		PhoneInput.Validate(this.refs) &&
+		this.props.dispatch(UserActions.doFindPasswordCheckCaptcha(
+			this.state.phone,
+			this.state.captcha,
+			this.next
+		));
 	}
+
+	onPhoneChange(phone){
+		phone && this.setState({phone});
+		setTimeout(() => {
+			if(this.refs.phone && this.refs.phone.validate(false)){
+				this.setState({captchaImg:true});
+			}else{
+				this.setState({captchaImg:false});
+			}
+		},100);
+	}
+
+	componentDidMount(){
+		this.onPhoneChange()
+	}
+
+	imgCapthCache = null;
+	oldPhone = null;
 
 	render() {
+
+		let captcha = () => {
+			if(this.state.captchaImg){
+				if(this.oldPhone !== this.state.phone){
+					this.oldPhone = this.state.phone;
+					this.imgCapthCache = <Image
+						style={{width:120,height:30}}
+						resizeMode={Image.resizeMode.cover}
+						source={{uri: getCaptcha(this.state.phone, CAPTCHA_TYPE_FIND_PASSWORD)}}
+					/>;
+				}
+
+				return this.imgCapthCache;
+			}else{
+				return <View/>
+			}
+		}
+
 		return (
-			<View style={styles.body}>
+			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="找回密码"/>
-				<View  style={styles.loginView}>
-					<LabelInput
-						style = {styles.loginInput}
-						onChangeText={password => this.onChange({password})}
-						secureTextEntry={true}
-						placeholder='手机'
-						label="手机"
+				<View  style={[estyle.fxRowCenter]}>
+					<PhoneInput
+						ref="phone"
+						defaultValue={this.state.phone}
+						style={[estyle.marginTop, estyle.borderBottom]}
+						onChangeText={phone => this.onPhoneChange(phone)}
+						validates={[
+							{require:true, msg:emsg.phone.require},
+							{pattern:pattern.phone, msg: emsg.phone.pattern}
+						]}
+						labelSize="3"
 					/>
 					<LabelInput
-						style = {styles.loginInput}
-						onChangeText={password => this.onChange({password})}
+						ref="captcha"
+						style = {[estyle.borderBottom]}
+						onChangeText={captcha => this.setState({captcha})}
 						secureTextEntry={true}
 						placeholder='图形验证码'
 						label="验证码"
+						labelSize="3"
+						rightView={captcha()}
+						validates={[
+							{require:true, msg: '请填写图形验证码'}
+						]}
 					/>
-					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onLogin()}><Text>下一步</Text></ConfirmButton>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
+					<ConfirmButton
+						size="large"
+						onPress={() => this.onCheckCaptcha()}
+						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP1_DOING}
+					>
+						<Text>下一步</Text>
+					</ConfirmButton>
+
 				</View>
 			</View>
 		);
 	}
 }
 
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	loginView:{
-		alignItems:'center'
-	},
-	loginInput:{
-		marginTop:10
-	}
-
-});
-
 
 export default connect(function(stores) {
-	return { userStore: stores.userStore }
+	return { findPasswordStore: stores.findPasswordStore }
 })(FindPassword);

@@ -4,7 +4,7 @@ import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import Env from '../utils/Env';
 const color = Env.button.color.cancel,
     estyle = Env.style;
-export default class ColorButton extends Component {
+export default class CancelButton extends Component {
     _onPress() {
         (!this.props.disabled) && this.props.onPress && this.props.onPress();
     }
@@ -18,6 +18,7 @@ export default class ColorButton extends Component {
                 onPress={this._onPress.bind(this)}
                 style={[estyle.fxCenter, estyle.border, size,
                     {backgroundColor: this.props.disabled ? color.disabled : color.normal}
+                    ,this.props.style
                 ]}>
                 <Text style={[estyle.text,
                     {color: this.props.disabled ? color.disabledFont : Env.color.text}]}>{this.props.children}</Text>

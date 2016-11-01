@@ -3,11 +3,12 @@
  */
 import {combineReducers} from 'redux';
 
-import { loginUserStore, modifyMobileSendCodeStore } from './UserReducers';
+import * as userReducers from './UserReducers';
+import * as vehicleReduers from './VehicleReduers';
 
 const rootReducer = combineReducers({
-	userStore: loginUserStore,
-	modifyMobileSendCodeStore
+	...userReducers,
+	...vehicleReduers
 });
 
 export default rootReducer;

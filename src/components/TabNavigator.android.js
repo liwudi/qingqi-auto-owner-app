@@ -11,6 +11,7 @@ export default class TabNavigator extends Component {
         super(props);
         props.tabs = props.tabs.map((item, index) => {
             item.index = index;
+            item.props = item.props || {};
             return item;
         })
     }
@@ -26,6 +27,7 @@ export default class TabNavigator extends Component {
                     let Component = route.component;
                     return <Component
                         {...this.props}
+                        {...route.props}
                         navigator = {navigator}
                     />
                 }}

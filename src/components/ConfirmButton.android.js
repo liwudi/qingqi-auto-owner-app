@@ -4,7 +4,7 @@ import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import Env from '../utils/Env';
 const color = Env.button.color.confirm,
     estyle = Env.style;
-export default class ColorButton extends Component {
+export default class ConfirmButton extends Component {
     _onPress() {
         (!this.props.disabled) && this.props.onPress && this.props.onPress();
     }

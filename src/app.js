@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 
 import configureStore from './configure-store';
 
-import Main from './pages/Main';
+import Main from './pages/Main.android';
 
 let store = configureStore();
 

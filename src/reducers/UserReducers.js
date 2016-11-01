@@ -7,42 +7,97 @@ const LOGIN_STATE = {
 	isLogged: false,
 	userInfo: {},
 	error:{},
-	status: 'done'
+	status: TYPES.LOGGED_NULL
 };
 
-export function loginUserStore(state = LOGIN_STATE, action){
+export function userStore(state = LOGIN_STATE, action){
 	switch (action.type){
 		case TYPES.LOGGED_DOING:
-			return Object.assign({},LOGIN_STATE,{status:'doing'});
+			return Object.assign({},LOGIN_STATE,{status:action.type});
 			break;
 		case TYPES.LOGGED_IN:
-			return Object.assign({},LOGIN_STATE,{isLogged: true, userInfo: action.user});
+			return Object.assign({},LOGIN_STATE,{status:action.type, isLogged: true, userInfo: action.user});
 			break;
 		case TYPES.LOGGED_ERROR:
-			return Object.assign({},LOGIN_STATE,{error: action.error});
+			return Object.assign({},LOGIN_STATE,{status:action.type, error: action.error});
+			break;
+		case TYPES.LOGGED_OUT:
+			return Object.assign({},LOGIN_STATE,{status:action.type,  isLogged: false, userInfo: null});
 			break;
 		default:
 			return state;
 	}
 }
-const MOD_MOBILE_CODE_STATE = {
+const SEND_CODE_STATE = {
 	second: null,
 	error:{},
-	status: 'done'
+	status: TYPES.SEND_CODE_DONE
 };
-export function modifyMobileSendCodeStore(state = MOD_MOBILE_CODE_STATE, action) {
+export function sendCodeStore(state = SEND_CODE_STATE, action) {
 	switch (action.type){
-		case TYPES.MODIFY_MOBILE_SEND_CODE_ING:
-			return Object.assign({},LOGIN_STATE,{status:'doing'});
+		case TYPES.SEND_CODE_ING:
+			return Object.assign({},LOGIN_STATE,{status:action.type});
 			break;
-		case TYPES.MODIFY_MOBILE_SEND_CODE_TIMEOUT:
-			return Object.assign({},LOGIN_STATE,{status:'timeout',second:action.second});
+		case TYPES.SEND_CODE_TIMEOUT:
+			return Object.assign({},LOGIN_STATE,{status:action.type, second:action.second});
 			break;
-		case TYPES.MODIFY_MOBILE_SEND_CODE_ERROR:
-			return Object.assign({},LOGIN_STATE,{error: action.error});
+		case TYPES.SEND_CODE_ERROR:
+			return Object.assign({},LOGIN_STATE,{status:action.type, error: action.error});
 			break;
-		case TYPES.MODIFY_MOBILE_SEND_CODE_DONE:
-			return Object.assign({},LOGIN_STATE,{status:'done'});
+		case TYPES.SEND_CODE_DONE:
+			return Object.assign({},LOGIN_STATE,{status:action.type});
+			break;
+		default:
+			return state;
+	}
+}
+
+const STATE = {
+	error:{},
+	status: null
+};
+
+export function regStore(state = STATE, action) {
+	switch (action.type){
+		case TYPES.REG_STEP1_DOING:
+			return Object.assign({},STATE,{status:action.type});
+			break;
+		case TYPES.REG_STEP2_START:
+			return Object.assign({},STATE,{status:action.type, regInfo: action.regInfo});
+			break;
+		default:
+			return state;
+	}
+}
+
+export function findPasswordStore(state = STATE, action) {
+	switch (action.type){
+		case TYPES.FINDPASS_STEP1_DOING:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP1_ERROR:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP2:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP2_DOING:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP2_ERROR:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP3:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP3_DOING:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP3_ERROR:
+			return Object.assign({},STATE,action);
+			break;
+		case TYPES.FINDPASS_STEP3_DONE:
+			return Object.assign({},STATE,action);
 			break;
 		default:
 			return state;
