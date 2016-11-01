@@ -80,13 +80,27 @@ export default class MyDriver extends Component {
 		this.props.router.push(MyDriverAdd);
 	}
 
+	itemList(dtoList){
+		return dtoList.map((item, idx) => {
+			// item.status && !this.defaultCarId && (this.defaultCarId = item.carId);
+			console.info("============================")
+			console.info(item)
+			return <Item router={this.props.router} data={item}/>;
+		})
+	}
+
 	renderList() {
 		let data = this.state.data;
 		return data.list.map((item, idx) => {
 			// item.status && !this.defaultCarId && (this.defaultCarId = item.carId);
 			console.info("============================")
 			console.info(item)
-			return <Item router={this.props.router} data={item}/>;
+			return <View>
+				<View style={[estyle.padding]}>
+					<Text style={estyle.text}>{item.key}</Text>
+				</View>
+				{this.itemList(item.dtoList)}
+			</View>
 		})
 	}
 

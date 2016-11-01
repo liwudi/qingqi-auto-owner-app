@@ -11,7 +11,7 @@ import {
 import Env from '../../../../utils/Env';
 const estyle = Env.style;
 export default class MyDriverItem extends Component {
-
+    
     render() {
         let data = this.props.data;
        // console.info(data)
