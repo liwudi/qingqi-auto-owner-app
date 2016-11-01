@@ -202,6 +202,7 @@ export default class Guide extends Component {
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinUploadInvoiceNo)}}>8、添加二手车-无车主-申请车主身份-上传发票</Text>
                 <Text> </Text>
                      */}
+
                     </View>
 
                 <Text style={{fontSize:18,color:'red'}}>首页相关</Text>
