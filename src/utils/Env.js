@@ -283,11 +283,11 @@ export default {
     height: height - StatusBar.currentHeight,
     fontScale: fontScale
   },
-  font: fontSize,
-  color: color,
+  font: fontSize,      //规定字号
+  color: color,  //规定颜色
   vector: vector,
   button: button,
-  style: style,
+  style: style,     //通用样式表
   msg: msg,
   pattern: pattern,
   refreshCircle: refreshCircle,
