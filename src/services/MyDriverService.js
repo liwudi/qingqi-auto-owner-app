@@ -30,3 +30,11 @@ export function addDriver(opts){
         opts
     );
 }
+
+export function bindDriver(opts){
+    opts.userId = userId;
+    return RequestService.post(
+        `${Server.QINGQI}tocapp/bindDriver`,
+        opts
+    );
+}
