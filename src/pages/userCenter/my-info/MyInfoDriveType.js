@@ -13,7 +13,7 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
-import * as Icons from '../../../components/Icons';
+import MyInfo from './MyInfo';
 import  Env from '../../../utils/Env';
 const estyle = Env.style;
 export default class MyInfoDriveType extends Component {
@@ -26,34 +26,45 @@ export default class MyInfoDriveType extends Component {
         this.state = {
             dataSource: ds.cloneWithRows([
                 'A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'C3'
-            ])
+            ]),
+            active: '' //range, type, distance
         };
     }
-
-    save(){
-
-    }
-
     renderListView(rowData, arg2, idx) {
-        return <ViewForRightArrow
-            rightIcon={rowData == 'B2' ? Icons.IconCheckMark :null}
-            iconSize={Env.font.navTitle}
-            iconColor={Env.color.main}
-            onPress={() => this.save(rowData)}
-        >
-            <View style={[estyle.fx1]}>
-                <Text style={[estyle.text,estyle.fx1]}>{rowData}</Text>
+        return <ViewForRightArrow style={styles.item}>
+            <View style={{flexDirection:'row'}}>
+                <Text style={[styles.text,{flex:1}]} onPress={() => this.goTo(MyInfo)}>{rowData}</Text>
             </View>
         </ViewForRightArrow>;
     }
     render() {
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="选择驾驶证类型"/>
+            <View>
+                <TopBanner {...this.props} title="选择驾驶类型"/>
                 <ListView
+                    style={[estyle.paddingHorizontal, estyle.cardBackgroundColor]}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderListView.bind(this)}/>
             </View>
         );
     }
 }
+const styles = StyleSheet.create({
+    body:{
+        flex:1,
+        backgroundColor:Env.color.bg
+    },
+    item:{
+        paddingTop:20 * Env.font.base,
+        paddingBottom:20 * Env.font.base,
+        paddingLeft:30 * Env.font.base,
+        // paddingBottom:30 * Env.font.base,
+        borderBottomWidth:1 * Env.font.base,
+        borderColor:'#e5e5e5',
+        backgroundColor:'#FFF'
+    },
+    text:{
+        fontSize:Env.font.text,
+        color:Env.color.text
+    }
+});
