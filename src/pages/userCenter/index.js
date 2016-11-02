@@ -20,8 +20,7 @@ import Env from '../../utils/Env';
 const estyle = Env.style;
 
 import AccountHome from './account-config/AccountHome';
-import MyCar from './my-car/MyCar';
-import AppointmentList from '../home/service-station/ServiceStationAppointmentList';
+import MyCar from '../home/my-car/MyCar';
 import AboutUs from './AboutUs';
 import MyInfo from './my-info/MyInfo';
 
@@ -91,9 +90,7 @@ class UserCenterHome extends Component {
                     <ViewForRightArrow onPress = {() => this.goTo(MyInfo)}>
                         <Text style={estyle.text}>我的资料</Text>
                     </ViewForRightArrow>
-                    <ViewForRightArrow onPress = {() => this.goTo(AppointmentList)}>
-                        <Text style={estyle.text}>我的预约</Text>
-                    </ViewForRightArrow>
+
                     <ViewForRightArrow style={[estyle.marginTop]}  onPress={this.checkUpdate}>
                         <View style={{flexDirection:'row'}}>
                             <Text style={estyle.text}>版本更新</Text><
