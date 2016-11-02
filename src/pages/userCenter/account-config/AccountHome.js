@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {
 	Text,
 	View,
@@ -13,16 +14,44 @@ import {
 
 } from 'react-native';
 
-import TopBanner from '../../../components/TopBanner';
+import TopBanner from '../../../components/TopBanner.android';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import ConfirmButton from '../../../components/ConfirmButton';
 import Env from '../../../utils/Env';
-
+const estyle = Env.style;
+import Login from '../../user/Login';
 import ModifyMobile from './ModifyMobile';
 import ModifyPassword from './ModifyPassword';
 import ModifyTrueName from './ModifyTrueName';
 
-export default class AccountHome extends Component {
+import { userPic } from '../../../services/UserService';
+
+import { UserActions, TYPES } from '../../../actions';
+
+import { uploadUserPic } from '../../../services/UserService';
+
+import Toast from '../../../components/Toast';
+
+import ImagePickBotton from './components/ImagePickButton';
+
+
+let options = {
+	title: 'Select Avatar',
+	storageOptions: {
+		skipBackup: true,
+		path: 'images'
+	}
+};
+
+class AccountHome extends Component {
+
+	constructor(props){
+		super(props);
+		this.userInfo = props.userStore.userInfo;
+		this.state = {
+			picSource:null
+		}
+	}
 
 	goTo(page){
 		this.props.router.push(page);
@@ -32,46 +61,81 @@ export default class AccountHome extends Component {
 		Alert.alert('提示',
 			'是否要退出登录？',
 			[
-				{text: '确定', onPress: () => console.log('Foo Pressed!')},
-				{text: '取消', onPress: () => console.log('Bar Pressed!')}
+				{
+					text: '确定', onPress: () => {
+						this.props.dispatch(UserActions.logout(
+							() => {
+								this.props.router.replace(Login)
+							}
+						))
+					}
+				},
+				{text: '取消'}
 			])
 	}
 
+	updatePic = () => {
+		this.refs.ImagePickBotton.show();
+	}
 
+	onImagePick = (imageSource) => {
+		uploadUserPic(imageSource)
+			.then(rs => {
+				
+			})
+			.catch(e => {
+				Toast.show(e.message, Toast.SHORT);
+			});
+	}
 
 	render() {
 		return (
-			<View style={styles.body}>
+			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="账号设置"/>
+				<ImagePickBotton ref="ImagePickBotton" onImagePick={this.onImagePick}/>
 				<View>
-					<ViewForRightArrow
-						style={[styles.item]}
-					>
-						<View style={[{flexDirection:'row',justifyContent:'center',alignItems:'center'}]}>
-							<Text style={[styles.text,{flex:1}]}>头像</Text>
+{/*
+					<ViewForRightArrow onPress={this.updatePic}>
+*/}
+					<ViewForRightArrow>
+						<View style={[estyle.fxRow, estyle.fxCenter]}>
+							<Text style={[estyle.fx1, estyle.text]}>头像</Text>
+							{/*<Image
+								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
+									borderColor:Env.color.main}}
+								source={{uri: userPic()}}
+							/>*/}
 							<Image
 								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
 									borderColor:'#85C7E7',}}
-								source={require('../../../assets/images/icon-1.png')}
+								source={require('../../../assets/images/driver.png')}
 							/>
 						</View>
 					</ViewForRightArrow>
-					<ViewForRightArrow style={styles.item} onPress = {() => this.goTo(ModifyTrueName)}>
-						<View style={{flexDirection:'row'}}>
-							<Text style={[styles.text,{flex:1}]}>姓名</Text><Text style={styles.text}>孟非</Text>
+					<ViewForRightArrow onPress = {() => this.goTo(ModifyTrueName)}>
+						<View style={[estyle.fxRow]}>
+							<Text style={[estyle.fx1, estyle.text]}>姓名</Text><Text style={styles.text}>{this.userInfo.nickname || '未设置姓名'}</Text>
 						</View>
 
 					</ViewForRightArrow>
 					<Text></Text>
-					<ViewForRightArrow style={styles.item} onPress = {() => this.goTo(ModifyPassword)}>
-						<Text style={styles.text}>修改密码</Text>
+					<ViewForRightArrow onPress = {() => this.goTo(ModifyPassword)}>
+						<Text style={[estyle.fx1, estyle.text]}>修改密码</Text>
 					</ViewForRightArrow>
-					<ViewForRightArrow style={styles.item} onPress = {() => this.goTo(ModifyMobile)}>
-						<Text style={styles.text}>已绑定手机 <Text>18911112222</Text></Text>
+					<ViewForRightArrow onPress = {() => this.goTo(ModifyMobile)}>
+						<View style={[estyle.fxRow]}>
+							<Text style={[estyle.fx1, estyle.text]}>已绑定手机</Text><Text style={styles.text}>{this.userInfo.mobile}</Text>
+						</View>
 					</ViewForRightArrow>
-					<Text></Text><Text></Text>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
 					<View style={{alignItems:'center'}}>
-						<ConfirmButton size="large" onPress={this.logout.bind(this)}>退出账户</ConfirmButton>
+						<ConfirmButton
+							size="large"
+							disabled={this.props.userStore.status === TYPES.LOGGED_DOING}
+							onPress={this.logout.bind(this)}
+						>退出账户</ConfirmButton>
 					</View>
 
 				</View>
@@ -79,6 +143,12 @@ export default class AccountHome extends Component {
 		);
 	}
 }
+
+export default connect(function (stores) {
+	return {userStore: stores.userStore}
+})(AccountHome);
+
+
 const styles = StyleSheet.create({
 	body:{
 		flex:1,
@@ -88,13 +158,7 @@ const styles = StyleSheet.create({
 		color:'#FFF'
 	},
 	item:{
-		paddingTop:20 * Env.font.base,
-		paddingBottom:20 * Env.font.base,
-		paddingLeft:30 * Env.font.base,
-		// paddingBottom:30 * Env.font.base,
-		borderBottomWidth:1 * Env.font.base,
-		borderColor:'#e5e5e5',
-		backgroundColor:'#FFF'
+
 	},
 	text:{
 		fontSize:Env.font.text,

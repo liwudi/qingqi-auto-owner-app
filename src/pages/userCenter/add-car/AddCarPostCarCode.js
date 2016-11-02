@@ -13,7 +13,7 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import AddCarList from './AddCarList';
-import { addCar } from '../../../services/UserService';
+import { addCar } from '../../../services/AppService';
 const estyle = Env.style;
 
 export default class AddCarPostCarCode extends Component {

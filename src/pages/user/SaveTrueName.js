@@ -17,7 +17,7 @@ import { UserActions } from '../../actions/index';
 import HomeRouter from '../HomeRouter';
 import TopBanner from '../../components/TopBanner';
 import LabelInput from '../../components/LabelInput';
-import ConfirmButton from '../../components/ConfirmButton';
+import ConfirmButton from '../../components/ConfirmButton.android';
 
 import Env from '../../utils/Env';
 const estyle = Env.style;
@@ -29,9 +29,9 @@ class SaveTrueName extends Component {
 	next = () => {
 		this.props.router.replace(HomeRouter);
 	}
-	onChange(input){
+/*	onChange(input){
 		this.setState(input);
-	}
+	}*/
 
 	onLogin() {
 		if(this.vertify()) {

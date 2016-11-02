@@ -18,9 +18,11 @@ const estyle = Env.style;
 export default class ListItem extends React.Component{
 	render (){
 		return (
-			<View style={[estyle.fxRow, estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
-				<Text style={[estyle.text, {textAlign: 'left'}, estyle.marginVertical]}>{this.props.left}</Text>
-				<Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: this.props.color || Env.color.note}]}>{this.props.right}</Text>
+			<View style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
+				<View style={[estyle.marginVertical, estyle.fxRow]}>
+					<Text style={[estyle.text, {textAlign: 'left'}]}>{this.props.left}</Text>
+					<Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: this.props.color || Env.color.note}]}>{this.props.right}</Text>
+				</View>
 			</View>
 		);
 	}
