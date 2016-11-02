@@ -102,7 +102,7 @@ import MyInfoId from '../userCenter/my-info/MyInfoId'
 import MyInfoDriveType from '../userCenter/my-info/MyInfoDriveType'
 
 import Recommend from '../recommend/Recommend';
-import AboutUs from '../AboutUs';
+import AboutUs from '../userCenter/AboutUs';
 
 import * as Icons from '../../components/Icons';
 import BorderButton from '../../components/BorderButton';

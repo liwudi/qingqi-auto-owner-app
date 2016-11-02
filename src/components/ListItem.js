@@ -19,7 +19,7 @@ export default class ListItem extends React.Component{
 	render (){
 		return (
 			<View style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
-				<View style={[estyle.marginVertical, estyle.fxRow]}>
+				<View style={[estyle.margin, estyle.fxRow]}>
 					<Text style={[estyle.text, {textAlign: 'left'}]}>{this.props.left}</Text>
 					<Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: this.props.color || Env.color.note}]}>{this.props.right}</Text>
 				</View>
