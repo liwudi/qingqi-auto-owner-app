@@ -6,10 +6,6 @@ import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
 const serviceUrl = `${Server.QINGQI}tocapp/`;
 
-/************************测试数据id**************************/
-const userId = '1';
-/************************************************************/
-const defaultPage = Server.defaultPage;
 function makeUrl(path) {
     return serviceUrl + path;
 }
@@ -26,19 +22,18 @@ export function carInfo(carId){
     return RequestService.get(
         makeUrl('carInfo'),
         {
-            carId:1,
-            userId:userId
+            carId:carId
         }
     );
 }
 
-//车辆详情参数查询接口
-export function carParameter(carId){
-    return RequestService.get(
-        makeUrl('carParm'),
+//车辆设置路线接口
+export function setCarRoute(carId,routeId){
+    return RequestService.post(
+        makeUrl('setCarRoute'),
         {
-            carId:1,
-            userId:20
+            carId:carId,
+            routeId:routeId
         }
     );
 }
@@ -173,18 +168,14 @@ export function standardMark(obj){
 //获取车辆信息（保养）接口
 export function queryMaintainReminder(){
     return RequestService.get(
-        makeUrl('queryMaintainReminder'),{
-            userId: 2
-        }
+        makeUrl('queryMaintainReminder')
     );
 }
 
 //更新车辆保养信息（点击已保养）
 export function carMaintained(){
     return RequestService.get(
-        makeUrl('carMaintained'),{
-            userId: 2
-        }
+        makeUrl('carMaintained')
     );
 }
 
@@ -199,14 +190,14 @@ export function faultSolutionInfo(faultCode){
 }
 
 //立即体检接口
-export function phyExam(){
+export function phyExam(obj){
     return RequestService.get(
         makeUrl('phyExam')
     );
 }
 
 //获取上一次体检结果
-export function queryLastPhyExamResult( ){
+export function queryLastPhyExamResult(obj){
     return RequestService.get(
         makeUrl('queryLastPhyExamResult')
     );
@@ -289,31 +280,24 @@ export function statisMileageByDay(page_number, page_size, page_total, statisDat
 }
 
 //紧急电话配置-查询(按照Sort降序排列)【app用，查询carType】
-export function queryUrgentCall(page_number=defaultPage.page_number, page_size=defaultPage.page_size, type ){
+export function queryUrgentCall(page_number, page_size, page_total, name, type){
     return RequestService.get(
         makeUrl('queryUrgentCall'),
         {
-            page_number:page_number,
-            page_size:page_size,
-            type:type,
-            name:1
+            page_number:page_number || 1,
+            page_size:page_size || 20,
+            name:name,
+            type:type
         }
     );
 }
 //司机端-我的车辆列表
-export function driverCarList(page_number = defaultPage.page_number) {
+export function driverCarList(page_number, page_size, page_total){
     return RequestService.get(
         makeUrl('driverCarList'),
-        {page_number: page_number, userId: 3}
-    );
-}
-//司机端-我的车辆列表
-export function setCurrentCar(carId) {
-    return RequestService.get(
-        makeUrl('setCurrentCar'),{
-            carId: carId,
-            userId: userId
+        {
+            page_number:page_number || 1,
+            page_size:page_size || 20
         }
     );
 }
-

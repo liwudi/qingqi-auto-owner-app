@@ -1,7 +1,6 @@
 /**
  * Created by ligj on 2016/10/9.
  */
-
 import React, { Component } from 'react';
 import {
 	Text,
@@ -11,11 +10,11 @@ import {
 
 import TopBanner from '../../components/TopBanner';
 
-export default class ServiceProvision extends Component {
+export default class AddCarForVin extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="服务条款"/>
+				<TopBanner {...this.props} title="添加二手车"/>
 			</View>
 		);
 	}

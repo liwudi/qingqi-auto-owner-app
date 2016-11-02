@@ -13,84 +13,73 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { UserActions,TYPES } from '../../actions/index';
+import { UserActions } from '../../actions/index';
 
-import PhoneInput from '../../components/Inputs/Phone';
 import TopBanner from '../../components/TopBanner';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
-import LabelInput from '../../components/LabelInput.android';
-import ConfirmButton from '../../components/ConfirmButton.android';
-
-import SaveTrueName from './SaveTrueName';
-import HomeRouter from '../HomeRouter';
+import LabelInput from '../../components/LabelInput';
+import ConfirmButton from '../../components/ConfirmButton';
+import SaveTrueName from './SaveTrueName'
 import Env from '../../utils/Env';
 const estyle = Env.style,
 	emsg = Env.msg.form,
 	pattern = Env.pattern;
-
-
 class QuickLogin extends Component {
 	constructor(props){
 		super(props);
-		this.state = {
-			phone: '',
-			code: ''
-		}
+		this.formData = {phone: {}, code: {}};
 	}
 
 	next = () => {
-		this.props.router.push(HomeRouter);
+		this.props.router.push(SaveTrueName);
 	}
-
-	vertify() {
-		return LabelInput.Validate(this.refs);
-	}
-
-	sendCode(){
-		if(this.refs.phone.validate()) {
-			this.props.dispatch(UserActions.sendQuickLoginCode(this.state.phone));
-		}
-	}
-
 	onLogin() {
 		if(this.vertify()) {
-			this.props.dispatch(UserActions.doQuickLogin(this.state.phone, this.state.code, this.next));
+			this.props.dispatch(UserActions.doQuickLogin(this.formData, this.next));
 		}
+	}
+	vertify() {
+		let data = this.formData;
+		for(let k in data) {
+			let v = data[k];
+			if (!v.vertify) {
+				v.msg && ToastAndroid.show(v.msg, ToastAndroid.SHORT);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	setFromData(name, value) {
+		this.formData[name] = value;
 	}
 
 	render() {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="手机快捷登录"/>
-				<View
-					style={[estyle.fxRowCenter]}
-				>
-					<PhoneInput
-						ref="phone"
+				<View  style={[estyle.fxRowCenter]}>
+					<LabelInput
 						style={[estyle.marginTop, estyle.borderBottom]}
-						onChangeText={phone => this.setState({phone})}
+						keyboardType="numeric"
+						label="手机"
+						placeholder={emsg.phone.placeholder}
 						labelSize={3}
-						validates={[
-							{require:true, msg: emsg.phone.require},
-							{pattern:pattern.phone, msg: emsg.phone.pattern}
-						]}
 					/>
-					<PhoneChkCodeInput
-						ref="code"
-						style={[estyle.borderBottom]}
-						onChangeText={code => this.setState({code})}
-						sendCode = {this.sendCode.bind(this)}
-						sendCodeStatus = {this.props.sendCodeStatus}
+				{/*	<PhoneInput
+						style={[estyle.marginTop, estyle.borderBottom]}
+						onChangeText={value => this.setFromData('phone', value)}
 						labelSize={3}
-						validates={[
-							{require:true, msg: emsg.code.require},
-							{pattern:pattern.code, msg: emsg.code.pattern}
-						]}
+					/>*/}
+					<PhoneChkCodeInput
+						style={[estyle.borderBottom]}
+						onChangeText={value => this.setFromData('code', value)}
+						labelSize={3}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton disabled={this.props.userStore.status === TYPES.LOGGED_DOING}
+					<ConfirmButton disabled={this.props.userStore.status === 'doing'}
 								   size="large" onPress={() => this.onLogin()}><Text>登录</Text></ConfirmButton>
 					<View style={[estyle.fxRow, {alignItems:'flex-start'}, estyle.paddingTop]}>
 						<Text style={[{fontSize: Env.font.mini}]}>注册视为同意</Text>
@@ -103,8 +92,5 @@ class QuickLogin extends Component {
 }
 
 export default connect(function(stores) {
-	return {
-		userStore: stores.userStore,
-		sendCodeStatus: stores.sendCodeStore
-	}
+	return { userStore: stores.userStore }
 })(QuickLogin);

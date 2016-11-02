@@ -9,7 +9,7 @@ import {
 	Image,
 	StyleSheet
 } from 'react-native';
-import {connect} from 'react-redux'
+
 import TopBanner from '../../components/TopBanner';
 import MyCar from './my-car/MyCar';
 
@@ -24,7 +24,8 @@ import Env from '../../utils/Env';
 const estyle = Env.style;
 
 
-class HomePage extends Component {
+
+export default class HomePage extends Component {
 
 	goTo(page){
 		this.props.router.push(page);
@@ -48,6 +49,3 @@ class HomePage extends Component {
 		);
 	}
 }
-export default connect(function (stores) {
-	return {userStore: stores.userStore}
-})(HomePage);
