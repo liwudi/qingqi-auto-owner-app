@@ -88,7 +88,7 @@ export default class LabelInput extends Component {
             if(this.props.label){
                 leftView=
                     <View style={[{width: this.getLabelSize()}]}>
-                        <Text style={[estyle.text, {color: Env.color.important}]}>{this.props.label}</Text>
+                        <Text style={[estyle.text,estyle.paddingVertical, {color: Env.color.important}]}>{this.props.label}</Text>
                     </View>
             }
             
@@ -104,7 +104,7 @@ export default class LabelInput extends Component {
                 <TextInput
                     {...this.props}
                     underlineColorAndroid="transparent"
-                    style={[estyle.fx1, estyle.text, estyle.paddingVertical]}
+                    style={[estyle.fx1, estyle.text]}
                     secureTextEntry={this.props.type === 'password' && this.state.eyeOff === true}
                     placeholderTextColor={Env.color.note}
                     onChangeText={this.onChangeText.bind(this)}
