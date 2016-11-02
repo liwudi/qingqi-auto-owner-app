@@ -29,9 +29,9 @@ class SaveTrueName extends Component {
 	next = () => {
 		this.props.router.replace(HomeRouter);
 	}
-	onChange(input){
+/*	onChange(input){
 		this.setState(input);
-	}
+	}*/
 
 	onLogin() {
 		if(this.vertify()) {

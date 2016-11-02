@@ -54,16 +54,13 @@ class RegCheckCode extends Component {
 
 	render() {
 		return (
-			<View style={styles.body}>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="注册"/>
-				<View  style={styles.loginView}>
-					<View style={{alignItems:'center',marginTop:10,marginBottom:10,}}>
-						<Text style={{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.note}}>发送短信验证码到</Text>
-						<Text style={{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.navTitle}}>+86 {this.props.regInfo.phone}</Text>
-					</View>
+				<View style={[estyle.fxRowCenter]}>
+					<Text style={[estyle.marginTop, estyle.note]}>发送短信验证码到</Text>
+					<Text style={[estyle.marginBottom, {color:Env.color.important,fontSize:Env.font.navTitle}]}>+86 {this.props.regInfo.phone}</Text>
 					<PhoneChkCodeInput
 						ref="smsCode"
-						style = {styles.loginInput}
 						onChangeText={password => this.setState({password})}
 						secureTextEntry={true}
 						placeholder='短信验证码'
@@ -75,32 +72,20 @@ class RegCheckCode extends Component {
 							{pattern:pattern.code, msg: emsg.code.pattern}
 						]}
 					/>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
 					<ConfirmButton
-						style={{marginTop:10}}
 						size="large"
 						disabled={this.props.regStore.status === TYPES.REG_STEP1_DOING}
 						onPress={() => this.onReg()}>
-						<Text>注册</Text>
+						注册
 					</ConfirmButton>
 				</View>
 			</View>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	loginView:{
-		alignItems:'center'
-	},
-	loginInput:{
-		marginTop:10
-	}
-
-});
 
 
 export default connect(function(stores) {

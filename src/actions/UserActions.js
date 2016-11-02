@@ -28,6 +28,7 @@ function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
 			},1000);
 			then(res, null);
 		}).catch((e)=>{
+			console.info(e)
 			ToastAndroid.show(e.message, ToastAndroid.SHORT);
 			dispatch({'type': TYPES.SEND_CODE_ERROR, error: e});
 			then(null, e);
@@ -117,10 +118,15 @@ export function doLogin(UserParams, next) {
  * @returns {function(*)}
  */
 export function doRegCheckCaptcha(phone, trueName, password, captcha, next) {
+	console.info('doRegCheckCaptcha');
+	console.info(arguments)
 	return (dispatch) => {
+		console.info('----------------------')
 		dispatch({'type': TYPES.REG_STEP1_DOING});
 		UserService.checkCaptcha(phone, captcha)
 			.then(()=>{
+				console.info(arguments)
+				console.info('*******************************')
 				next({
 					phone, trueName, password, captcha
 				});
@@ -128,7 +134,10 @@ export function doRegCheckCaptcha(phone, trueName, password, captcha, next) {
 					phone, trueName, password, captcha
 				}});
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				console.info(e)
+			console.info('...................................')
+
+			ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
 			});
 	}
@@ -142,6 +151,7 @@ export function doRegCheckCaptcha(phone, trueName, password, captcha, next) {
  * @returns {function(*)}
  */
 export function doFindPasswordCheckCaptcha(phone, captcha, next) {
+	console.info('doFindPasswordCheckCaptcha');
 	return (dispatch) => {
 		dispatch({'type': TYPES.FINDPASS_STEP1_DOING});
 		sendCodeDispatch(
@@ -165,6 +175,8 @@ export function doFindPasswordCheckCaptcha(phone, captcha, next) {
  * @returns {function(*=)}
  */
 export function findPasswordReSendCode(phone) {
+	console.info('findPasswordReSendCode');
+
 	return (dispatch) => {
 		sendCodeDispatch(
 			dispatch,
@@ -181,6 +193,8 @@ export function findPasswordReSendCode(phone) {
  * @returns {function(*)}
  */
 export function findPasswordCheckSmsCode(phone, smsCode, next) {
+	console.info('findPasswordCheckSmsCode');
+
 	return (dispatch) => {
 		dispatch({'type': TYPES.FINDPASS_STEP2_DOING});
 		UserService.findPasswordCheckSmsCode(phone, smsCode)
@@ -203,6 +217,7 @@ export function findPasswordCheckSmsCode(phone, smsCode, next) {
  * @returns {function(*)}
  */
 export function findPasswordNewPassword(phone, newPassword, smsCode, next) {
+	console.info('findPasswordNewPassword');
 	return (dispatch) => {
 		dispatch({'type': TYPES.FINDPASS_STEP3_DOING});
 		UserService.findPasswordResetPassword(phone, newPassword, smsCode)
@@ -226,6 +241,8 @@ export function findPasswordNewPassword(phone, newPassword, smsCode, next) {
  * @returns {function(*)}
  */
 export function doReg(phone, trueName, password, smsCode, next) {
+	console.info('doReg');
+
 	return (dispatch) => {
 		dispatch({'type': TYPES.REG_STEP1_DOING});
 		UserService.reg(phone, trueName, password, smsCode)
@@ -246,6 +263,8 @@ export function doReg(phone, trueName, password, smsCode, next) {
  * @returns {function(*)}
  */
 export function doQuickLogin(phone, code, next) {
+	console.info('doQuickLogin');
+
 	return (dispatch) => {
 		dispatch({'type': TYPES.LOGGED_DOING});
 		UserService.fastLogin(phone, code)
@@ -270,6 +289,8 @@ export function doQuickLogin(phone, code, next) {
  * @returns {function(*=)}
  */
 export function sendQuickLoginCode(phone) {
+	console.info('sendQuickLoginCode');
+
 	return (dispatch) => {
 		sendCodeDispatch(dispatch, UserService.fastLoginSendCode.bind(null, phone));
 	}
@@ -283,6 +304,8 @@ export function sendQuickLoginCode(phone) {
  * @returns {function(*=)}
  */
 export function sendRegCode(phone, captcha, isReSend) {
+	console.info('sendRegCode');
+
 	return (dispatch) => {
 		sendCodeDispatch(dispatch, UserService.regSendCode.bind(null, phone, captcha, isReSend));
 	}

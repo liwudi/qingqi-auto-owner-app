@@ -62,6 +62,9 @@ export function regStore(state = STATE, action) {
 		case TYPES.REG_STEP1_DOING:
 			return Object.assign({},STATE,{status:action.type});
 			break;
+		case TYPES.REG_STEP1_ERROR:
+			return Object.assign({},STATE,{status:action.type});
+			break;
 		case TYPES.REG_STEP2_START:
 			return Object.assign({},STATE,{status:action.type, regInfo: action.regInfo});
 			break;

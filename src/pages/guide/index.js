@@ -29,6 +29,9 @@ import FindPasswordCheckCode from '../user/FindPasswordCheckCode';
 import FindPasswordNewPassword from '../user/FindPasswordNewPassword';
 
 import AddCar from '../userCenter/add-car/AddCar';
+import AddCarList from '../userCenter/add-car/AddCarList';
+import AddCarFind from '../userCenter/add-car/AddCarFind';
+import AddCarVinAdd from '../userCenter/add-car/AddCarVinAdd';
 import AddCarSelectCar from '../userCenter/add-car/AddCarSelectCar';
 import AddCarForVin from '../userCenter/add-car/AddCarForVin';
 import AddCarForVinStep2 from '../userCenter/add-car/AddCarForVinStep2';
@@ -99,7 +102,7 @@ import MyInfoId from '../userCenter/my-info/MyInfoId'
 import MyInfoDriveType from '../userCenter/my-info/MyInfoDriveType'
 
 import Recommend from '../recommend/Recommend';
-import AboutUs from '../AboutUs';
+import AboutUs from '../userCenter/AboutUs';
 
 import * as Icons from '../../components/Icons';
 import BorderButton from '../../components/BorderButton';
@@ -162,7 +165,7 @@ export default class Guide extends Component {
                 <Text>属性-尺寸：size=100;</Text>
                 <Text>属性-颜色：color="#ff0000|rgb(255,0,0)"; </Text>
                 <View style={{flexDirection:'row'}}>
-                    <Icons.IconArrowDown/>
+                    <Icons.IconArrowDown />
                     <Icons.IconArrowLeft/>
                     <Icons.IconArrowRight/>
                     <Icons.IconCall/>
@@ -175,20 +178,22 @@ export default class Guide extends Component {
                     </View>
                 <View style={{flexDirection:'row'}}>
                     <Icons.IconUser/>
+                    <Icons.IconPlus/>
                     <Icons.IconFire/>
                     <Icons.IconBarcode/>
                     
 <Icons.IconTrash/>
                     <Icons.IconCaretLeft/>
                     <Icons.IconCaretRight/>
-                    <Icons.IconFlag/><Icons.IconShare/>
+                    <Icons.IconFlag/>
+		    <Icons.IconShare/>
                     <Icons.IconCheckCircle/>
                     <Icons.IconClock/>
                     <Icons.IconRibbon/>
                     <Icons.IconChainBroken/>
                     <Icons.IconArrowUp color="#00ff00" size={60}/>
                 </View>
-                <Text>列表单项一</Text>
+                 <Text>列表单项一</Text>
                 <ViewForRightArrow><Text>默认是箭头。文字与电话之间有间距。样式是：有内边距，白色背景，有下边框。单项之间有间距，应该是通用值30</Text></ViewForRightArrow>
                 <Text>列表单项二</Text>
                 <ViewForRightArrow rightIcon={Icons.IconCall}><Text>换了个标，侧是电话，</Text></ViewForRightArrow>
@@ -233,6 +238,13 @@ export default class Guide extends Component {
                            onCancel={(()=>{this.setState({alertIconActive:false})})}>
                     删除线路，会将线路关联车辆信息一起删除，是否删除？
                 </IconAlert>
+                <View>
+     
+ <LabelInput style={{marginTop:5,marginBottom:5}}
+                                label="手机"
+                                placeholder="输入手机号"/>
+                    <TopBanner title="topbanner" leftTitle/>
+                </View>
                 <Text style={{fontSize:18,color:'red'}}>注册登录相关</Text>
                 <View>
                 <Text  style={styles.over} {...this.props} onPress={() => {this.toPage(user)}}>0、登录</Text>
@@ -250,7 +262,11 @@ export default class Guide extends Component {
                     </View>
                 <View>
                 <Text style={{fontSize:18,color:'red'}}>添加车辆=待定</Text>
-                <Text {...this.props} onPress={() => {this.toPage(AddCar)}}>1、添加一手车</Text>
+                <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(AddCar)}}>1、添加一手车</Text>
+                <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(AddCarList)}}>2、添加一手车-tds-true列表</Text>
+                <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(AddCarFind)}}>3、找回车辆</Text>
+                <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(AddCarVinAdd)}}>4、添加一手车-tds-true添加</Text>
+                    {/*
                 <Text {...this.props} onPress={() => {this.toPage(AddCarSelectCar)}}>2、添加一手车-选择车辆</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForInvoiceNo)}}>3、添加一手车-找回车辆</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarSelectCar)}}>4、添加一手车-添加未关联车辆</Text>
@@ -259,6 +275,7 @@ export default class Guide extends Component {
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinStep2)}}>7、添加二手车-已有车主-找回</Text>
                 <Text {...this.props} onPress={() => {this.toPage(AddCarForVinUploadInvoiceNo)}}>8、添加二手车-无车主-申请车主身份-上传发票</Text>
                 <Text> </Text>
+                     */}
                     </View>
 
                 <Text style={{fontSize:18,color:'red'}}>首页相关</Text>
@@ -273,27 +290,27 @@ export default class Guide extends Component {
                     <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
                     <Text {...this.props} onPress={() => {this.toPage(BoundDriver)}}  >9、车辆详情-绑定司机</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
                     <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(CarParameter)}}  >11、车辆详情-车辆参数</Text>
                 </View>
 
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>我的司机</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
                     <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriverAdd)}}  >12、我的司机-添加司机</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
                     <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyDriverEdit)}}  >13、我的司机-手机联系人编辑</Text>
                 </View>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>我的线路</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyLine)}}  >我的线路</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyLineAdd)}}  >我的线路-添加线路</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyLineEdit)}}  >我的线路-编辑线路</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyLine)}}  >我的线路</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyLineAdd)}}  >我的线路-添加线路</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyLineEdit)}}  >我的线路-编辑线路</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetStart)}}  >我的线路-设置起点</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetEnd)}}  >我的线路-设置终点</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetPass)}}  >我的线路-设置途经点</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MyLineSetRule)}}  >我的线路-驾驶规定</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MyLineAddCarList)}}  >我的线路-添加车辆</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyLineAddCarList)}}  >我的线路-添加车辆</Text>
 
                 </View>
                 <View>
@@ -308,8 +325,8 @@ export default class Guide extends Component {
                 </View>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>油耗管理</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(OilManage)}}  >油耗管理</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(OilManageCarList)}}  >油耗管理-车辆列表</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(OilManage)}}  >油耗管理</Text>
+                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(OilManageCarList)}}  >油耗管理-车辆列表</Text>
                     <Text {...this.props} onPress={() => {this.toPage(OilManageSetMark)}}  >油耗管理-设定标杆</Text>
                     <Text {...this.props} onPress={() => {this.toPage(OilManageShowMark)}}  >油耗管理-查看标杆</Text>
                     <Text {...this.props} onPress={() => {this.toPage(OilManageShareMark)}}  >油耗管理-标杆-分享</Text>
@@ -321,8 +338,8 @@ export default class Guide extends Component {
                 </View>
                 <View>
                     <Text style={{fontSize:18,color:'red'}}>消息</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(Message)}}  >消息中心</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MessageListCar)}}  >车辆消息详情</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(Message)}}  >消息中心</Text>
+                    <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MessageListCar)}}  >车辆消息详情</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MessageCarLocation)}}  >车辆事件定位</Text>
                 </View>
                 <View>

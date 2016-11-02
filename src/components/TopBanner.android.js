@@ -26,6 +26,13 @@ export default class TopBanner extends React.Component{
 	constructor(props){
 		super(props);
 	}
+
+	// componentWillReceiveProps(nextProps){
+	// 	console.log(nextProps)
+	// 	this.setState({});
+	// }
+
+
 	render (){
 		const _renderLeft = () => {
 			if(this.props.leftView){

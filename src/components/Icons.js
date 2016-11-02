@@ -135,6 +135,16 @@ export  class IconUser extends React.Component {
 		)
 	}
 }
+/**
+ * add
+ * */
+export  class IconPlus extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="plus" size={size} color={Env.color.color} {...this.props} />
+		)
+	}
+}
 
 /**
  * fire
@@ -274,5 +284,3 @@ export  class IconFlag extends React.Component {
 		)
 	}
 }
-
-//<Icon name="clock-o" size={30 * Env.font.base}/>

@@ -94,15 +94,21 @@ class AccountHome extends Component {
 				<TopBanner {...this.props} title="账号设置"/>
 				<ImagePickBotton ref="ImagePickBotton" onImagePick={this.onImagePick}/>
 				<View>
-					<ViewForRightArrow
-						onPress={this.updatePic}
-					>
+{/*
+					<ViewForRightArrow onPress={this.updatePic}>
+*/}
+					<ViewForRightArrow>
 						<View style={[estyle.fxRow, estyle.fxCenter]}>
 							<Text style={[estyle.fx1, estyle.text]}>头像</Text>
-							<Image
+							{/*<Image
 								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
 									borderColor:Env.color.main}}
 								source={{uri: userPic()}}
+							/>*/}
+							<Image
+								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
+									borderColor:'#85C7E7',}}
+								source={require('../../../assets/images/driver.png')}
 							/>
 						</View>
 					</ViewForRightArrow>

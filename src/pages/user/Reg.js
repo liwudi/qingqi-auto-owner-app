@@ -159,16 +159,14 @@ class Reg extends Component {
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
 					<ConfirmButton
-                        style={[estyle.marginBottom]}
                         size="large"
                         onPress={() => this.onReg()}
                         disabled={this.props.regStore.status === TYPES.REG_STEP1_DOING}
-                    >
-                        <Text>下一步</Text>
+                    >下一步
                     </ConfirmButton>
-					<View style={[estyle.fxRow, {alignItems:'flex-start'}]}>
-						<Text style={[estyle.note]}>注册视为同意</Text>
-						<Text style={[estyle.note, {color:Env.color.main}]}>服务条款和隐私政策</Text>
+					<View style={[estyle.fxRow, {alignItems:'flex-start'}, estyle.paddingTop]}>
+						<Text style={[estyle.note, {fontSize: Env.font.mini}]}>注册视为同意</Text>
+						<Text style={[{color:Env.color.main, fontSize: Env.font.mini}]}>服务条款和隐私政策</Text>
 					</View>
 				</View>
 			</View>

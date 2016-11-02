@@ -14,7 +14,7 @@ import LabelInput from '../../../components/LabelInput';
 import PageList from '../../../components/PageList';
 import Button from '../../../components/BorderButton';
 import Env from '../../../utils/Env';
-import { getCarList } from '../../../services/UserService';
+import { getCarList } from '../../../services/AppService';
 import AddCarFind from  './AddCarFind';
 import AddCarPostCarCode from './AddCarPostCarCode';
 const estyle = Env.style;
@@ -24,8 +24,7 @@ export default class AddCar extends Component {
         super(props);
         let nowDate = new Date();
         this.state = {
-            carInfo: this.props.carInfo,
-            date : `${nowDate.getFullYear()}年${nowDate.getMonth()+1}月${nowDate.getDate()}日`
+            carInfo: this.props.carInfo
         };
     }
 
@@ -57,32 +56,38 @@ export default class AddCar extends Component {
                                             (()=>{
                                                 if(row.status == 0){
                                                     return <Button onPress={this.nextStep.bind(this,'add')}>添加</Button>;
-//                                                    return <Button onPress={this.nextStep.bind(this,'add')} style={[styles.size, styles.btn, {borderColor: 'rgb(255,156,0)'}]}><Text style={[estyle.note, {color:'rgb(255,156,0)'}]}>添加</Text></Button>
+                                                    {/*return <Button onPress={this.nextStep.bind(this,'add')} style={[styles.size, styles.btn, {borderColor: 'rgb(255,156,0)'}]}><Text style={[estyle.note, {color:'rgb(255,156,0)'}]}>添加</Text></Button>*/}
                                                 }else if(row.status == 1){
-                                                    return <Button onPress={this.nextStep.bind(this,'forback')} style={[{borderWidth:0}]}>已添加</Button>;
-{/*
-                                                    <View style={[estyle.fxCenter, styles.size, {borderColor:Env.color.main}]}><Text style={[estyle.note, {color:Env.color.main}]}>已添加</Text></View>
-*/}
+                                                    return <View style={[estyle.fxCenter,styles.size, {borderColor:Env.color.main}]}><Text style={[estyle.note, {color:Env.color.main}]}>已添加</Text></View>
                                                 }else {
-{/*
-                                                    return <Button onPress={this.nextStep.bind(this,'forback')} style={[styles.size, styles.btn, {borderColor:'rgb(255,30,30)'}]}><Text style={[estyle.note, {color:'rgb(255,30,30)'}]}>去找回</Text></Button>
-*/}
+                                                    {/*return <Button onPress={this.nextStep.bind(this,'forback')} style={[styles.size, styles.btn, {borderColor:'rgb(255,30,30)'}]}><Text style={[estyle.note, {color:'rgb(255,30,30)'}]}>去找回</Text></Button>*/}
                                                     return <Button color="#ff0000" onPress={this.nextStep.bind(this,'forback')}>去找回</Button>;
-
                                                 }
                                             })()
                                          }
                                     </View>
                                 </View>
+
                         return dom;       
 
 					}}
                     fetchData={(pageNumber, pageSize) => {
-						return getCarList(this.state.carInfo)
+						return getCarList(this.state.carInfo,pageNumber,pageSize)
 					}}
-                    reInitField={[this.state.date]}
                 />
             </View>
         );
     }
 }
+const basefont = Env.font.base;
+const styles = StyleSheet.create({
+    size: {
+        width: basefont * 120,
+        height: basefont * 44
+    },
+    btn: {
+        borderWidth: basefont * 2,
+        borderRadius: basefont * 5
+    }
+
+});

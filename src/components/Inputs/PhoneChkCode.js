@@ -27,11 +27,11 @@ export default class PhoneChkCode extends Component {
     }
 
     render() {
-        let rightView = () => {
+/*        let rightView = () => {
             let disable = this.props.sendCodeStatus.status === TYPES.SEND_CODE_ING || this.props.sendCodeStatus.status === TYPES.SEND_CODE_TIMEOUT;
             let text = this.props.sendCodeStatus.status === TYPES.SEND_CODE_ING ? '正在发送' : this.props.sendCodeStatus.status === TYPES.SEND_CODE_TIMEOUT ? `重新获取${this.props.sendCodeStatus.second}` : '获取验证码';
             return (<CancelButton size="small" disabled={disable} onPress={this.sendCode.bind(this)}>{text}</CancelButton>);
-        };
+        };*/
         return (
             <LabelInput {...this.props} ref="textInput"
                         style={[this.props.style]}
@@ -40,7 +40,6 @@ export default class PhoneChkCode extends Component {
                         label="验证码"
                         labelSize={this.props.labelSize || 3}
                         onChangeText={this.onChangeText.bind(this)}
-                        rightView = { rightView() }
             />
         );
     }

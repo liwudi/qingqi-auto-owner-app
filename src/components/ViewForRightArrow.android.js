@@ -20,16 +20,16 @@ export default class ViewForRightArrow extends React.Component{
 		const _renderRightIcon = () => {
 			if(this.props.rightIcon){
 				let Icon = this.props.rightIcon;
-				return <Icon size={this.props.iconSize||Env.font.navTitle} color={this.props.iconColor||Env.color.text}/>
+				return <Icon size={this.props.iconSize||Env.font.note} color={this.props.iconColor||Env.color.note}/>
 			} else if(this.props.rightIcon === null){
 				return null;
 			}else {
-				return <IconArrowRight size={this.props.iconSize||Env.font.navTitle} color={this.props.iconColor||Env.color.text}/>
+				return <IconArrowRight size={this.props.iconSize||Env.font.note} color={this.props.iconColor||Env.color.note}/>
 			}
 		}
 		return (
 			<TouchableOpacity activeOpacity={this.props.activeOpacity || 0.8} style={[estyle.fxRow, estyle.fxRowCenter, estyle.cardBackgroundColor, estyle.paddingHorizontal, estyle.borderBottom,this.props.style]} onPress={this.props.onPress}>
-				<View style={[estyle.fx1, estyle.paddingVertical]}>{this.props.children}</View>
+				<View style={[estyle.fx1, estyle.marginVertical]}>{this.props.children}</View>
 				<View style={[estyle.fxColumnCenter, estyle.paddingLeft]}>{_renderRightIcon()}</View>
 			</TouchableOpacity>
 		);
