@@ -1,46 +1,74 @@
-/**
- * Created by ligj on 2016/10/9.
- * Edit by zhaidongyou on 2016/10/19 车辆参数
- */
 import React, { Component } from 'react';
 import {
 	Text,
 	View,
-	TouchableOpacity
+	ScrollView,
+	RefreshControl
 } from 'react-native';
-
 import TopBanner from '../../../components/TopBanner';
+import ListItem from '../../../components/ListItem';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
+import {carParameter} from '../../../services/AppService';
+
 export default class CarParameter extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	fetchData () {
+		this.setState({isRefreshing: true});
+		carParameter(this.props.nav.carId)
+			.then((data)=>{this.setState({data});})
+			.catch()
+			.finally(()=>{this.setState({isRefreshing: false});});
+	};
+	onRefresh() {
+		this.fetchData();
+	}
+	componentWillMount() {
+		this.fetchData();
+	}
+	renderList() {
+		let data = this.state.data;
+		/*
+		* data.modelName	String	型号
+		 data.vin	String	vin码
+		 data.gearBoxModel	String	变速箱型号
+		 data.engineModel	String	发动机型号
+		 data.rearxleAratio	String	后桥速比
+		 data.tireModel	String	轮胎型号
+		 */
+		return <View>
+			<ListItem left="型号" right={data.modelName}/>
+			<ListItem left="VIN" right={data.vin}/>
+			<ListItem left="变速箱型号" right={data.gearBoxModel}/>
+			<ListItem left="发动机型号" right={data.engineModel}/>
+			<ListItem left="后桥速比" right={data.rearxleAratio}/>
+			<ListItem left="轮胎型号" right={data.tireModel}/>
+		</View>;
+	}
+	renderView() {
+		if(this.state.data) {
+			return this.renderList();
+		}
+		return <View/>
+	}
 	render() {
 		return (
-			<View style={estyle.fx1}>
-				<TopBanner {...this.props} title="京N23456"/>
-				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{width:80}]}>型号</Text>
-					<Text style = {[estyle.paddingLeft,estyle.note,{flex:1}]}>一汽解放J6P载货车</Text>
-				</View>
-				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{width:80}]}>VIN</Text>
-					<Text style = {[estyle.paddingLeft,estyle.note,{flex:1}]}>EING3556393N46</Text>
-				</View>
-				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{width:80}]}>变速箱型号</Text>
-					<Text style = {[estyle.paddingLeft,estyle.note,{flex:1}]}>变速箱CA12TAX160M超速档</Text>
-				</View>
-				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{width:80}]}>发动机型号</Text>
-					<Text style = {[estyle.paddingLeft,estyle.note,{flex:1}]}>锡柴CA6DL2-35E4</Text>
-				</View>
-				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{width:80}]}>后桥速比</Text>
-					<Text style = {[estyle.paddingLeft,estyle.note,{flex:1}]}>4.111</Text>
-				</View>
-				<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-					<Text style = {[estyle.text,{width:80}]}>轮胎型号</Text>
-					<Text style = {[estyle.paddingLeft,estyle.note,{flex:1}]}>11.00R20型16层级</Text>
-				</View>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
+				<TopBanner {...this.props} title={this.props.nav.carCode}/>
+				<ScrollView style={[estyle.fx1]}
+							refreshControl={
+								<RefreshControl
+									refreshing={this.state.isRefreshing}
+									onRefresh={this.onRefresh.bind(this)}
+									colors={Env.refreshCircle.colors}
+									progressBackgroundColor={Env.refreshCircle.bg}
+								/>
+							}>
+					{this.renderView()}
+				</ScrollView>
 			</View>
 		);
 	}
