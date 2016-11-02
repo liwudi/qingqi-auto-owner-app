@@ -50,8 +50,12 @@ export default class MyDriver extends Component {
 				console.info(data)
 				this.setState({data});}
 			)
-			.catch(this.finaliy)
-			.finally(this.finaliy);
+			.catch(()=>{
+				this.finaliy();
+			})
+			.finally(()=>{
+				this.finaliy();
+			});
 	};
 
 	onRefresh() {
