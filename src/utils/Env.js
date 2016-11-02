@@ -201,9 +201,10 @@ const style = {
     paddingHorizontal:spacing.padding.horizontal
   }
 };
+
 const vector = {
   call: { //电话尺寸
-    size: 50 * baseFontSize
+      size: 50 * baseFontSize
   },
   star: {
     color: {
@@ -212,7 +213,7 @@ const vector = {
     },
     size: {
       small: baseFontSize * 26,
-      middle: baseFontSize * 28,
+      middle: baseFontSize * 38,
       large: baseFontSize * 50
     }
   },
@@ -238,7 +239,9 @@ const icon = {
 }
 const pattern = {
   phone: /^(1[3-9])\d{9}$/,
-  password: /^.{6,20}$/
+  password: /^.{6,20}$/,
+  code: /^\d{6}$/,
+  carCode: /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/
 };
 const msg = {
   form: {
@@ -279,11 +282,11 @@ export default {
     height: height - StatusBar.currentHeight,
     fontScale: fontScale
   },
-  font: fontSize,
-  color: color,
+  font: fontSize,      //规定字号
+  color: color,  //规定颜色
   vector: vector,
   button: button,
-  style: style,
+  style: style,     //通用样式表
   msg: msg,
   pattern: pattern,
   refreshCircle: refreshCircle,

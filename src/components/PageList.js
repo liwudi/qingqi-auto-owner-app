@@ -48,10 +48,12 @@ export default class PageList extends Component {
 
                 this._data = this._data.concat(rs.list);
                 console.log(this._data)
-                this.setState({
-                    ds: this.state.ds.cloneWithRows(this._data),
-                    pageTotal : rs.page_total
-                });
+                if(this._data !== []){
+                    this.setState({
+                        ds: this.state.ds.cloneWithRows(this._data),
+                        pageTotal : rs.page_total
+                    });
+                }
             })
             .catch(e => {
                 Toast.show(e.message || '未获取到数据', Toast.SHORT);
@@ -119,8 +121,8 @@ export default class PageList extends Component {
                     dataSource={this.state.ds}
                     renderRow={this.props.renderRow}
                     renderFooter={() => {
-                        if(this.state.pageTotal <= this.pageNumber){
-                            return null;
+                        if((this.state.pageTotal || this._data.length) <= this.pageNumber){
+                            return <View style={[Env.style.fxCenter]}><Text>无数据</Text></View>
                         } else {
                             return <View style={[Env.style.fxCenter]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? '加载中...' : '加载更多'}</Text></View>
                         }

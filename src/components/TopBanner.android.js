@@ -10,7 +10,8 @@ import {
 	Image,
 	Dimensions,
 	TouchableOpacity,
-	PixelRatio
+	PixelRatio,
+	StatusBar
 } from 'react-native';
 
 import * as Icons from './Icons';
@@ -24,12 +25,14 @@ export default class TopBanner extends React.Component{
 	};
 	constructor(props){
 		super(props);
-
-		this.state = {
-			currentIndex:0
-		}
-
 	}
+
+	// componentWillReceiveProps(nextProps){
+	// 	console.log(nextProps)
+	// 	this.setState({});
+	// }
+
+
 	render (){
 		const _renderLeft = () => {
 			if(this.props.leftView){
@@ -47,7 +50,7 @@ export default class TopBanner extends React.Component{
 		const _renderTitle = () => {
 			if(this.props.titleView){
 				return <View style={styles.textView}>
-						{this.props.leftView}
+						{this.props.titleView}
 					</View>
 			}else if(this.props.titleShow){
 				return (
@@ -60,7 +63,8 @@ export default class TopBanner extends React.Component{
 			}
 		}
 		return (
-			<View style={styles.topBanner}>
+			<View style={[styles.topBanner,{backgroundColor: this.props.color || Env.color.main}]}>
+				<StatusBar backgroundColor={ this.props.color || Env.color.main} />
 				<View style = {styles.backButton}>
 					{_renderLeft()}
 				</View>
@@ -80,7 +84,7 @@ export default class TopBanner extends React.Component{
 const styles = StyleSheet.create({
 	topBanner: {
 		height: 84 * Env.font.base,
-		backgroundColor: '#169ada',
+
 		alignItems: 'center',
 		justifyContent: 'center',
 		flexDirection: 'row'
