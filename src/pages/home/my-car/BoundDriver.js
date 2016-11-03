@@ -20,6 +20,7 @@ import Item from '../my-driver/components/MyDriverItem';
 import NoDriver from '../my-driver/components/NoDriver';
 import CarDetail from './CarDetail';
 import {queryDriver, bindDriver} from '../../../services/MyDriverService';
+
 const estyle = Env.style;
 export default class BoundDriver extends Component {
     constructor(props) {
@@ -45,8 +46,12 @@ export default class BoundDriver extends Component {
                 console.info(data)
                 this.setState({data});
             })
-            .catch(this.finaliy)
-            .finally(this.finaliy);
+            .catch(()=>{
+                this.finaliy();
+            })
+            .finally(()=>{
+                this.finaliy();
+            });
     };
 
     onRefresh() {

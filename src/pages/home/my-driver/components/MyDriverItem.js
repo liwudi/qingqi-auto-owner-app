@@ -15,6 +15,15 @@ export default class MyDriverItem extends Component {
     render() {
         let data = this.props.data;
        // console.info(data)
+        const topRightView= () => {
+            if (data.registerStatus==0) {
+                return (
+                    <View style={[estyle.fxColumnCenter,estyle.marginLeft,estyle.fx1]}>
+                        <Text style={estyle.note}>等待接受</Text>
+                    </View>
+                )
+            }
+        };
         return (
             <View style={[estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor,estyle.padding]}>
                 <View style={estyle.fxCenter}>
@@ -29,6 +38,7 @@ export default class MyDriverItem extends Component {
                 <View style={[estyle.fxColumnCenter,estyle.marginLeft,estyle.fx1]}>
                     <Text style={estyle.note}>{data.phone||"无"}</Text>
                 </View>
+                {topRightView()}
             </View>
         )
     }

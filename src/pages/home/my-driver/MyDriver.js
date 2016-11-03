@@ -15,6 +15,7 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import ConfirmButton from '../../../components/ConfirmButton';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
+import PageList from '../../../components/PageList';
 import Env from '../../../utils/Env';
 import {queryDriver} from '../../../services/MyDriverService';
 import Item from './components/MyDriverItem';
@@ -50,8 +51,12 @@ export default class MyDriver extends Component {
 				console.info(data)
 				this.setState({data});}
 			)
-			.catch(this.finaliy)
-			.finally(this.finaliy);
+			.catch(()=>{
+				this.finaliy();
+			})
+			.finally(()=>{
+				this.finaliy();
+			});
 	};
 
 	onRefresh() {
@@ -131,17 +136,21 @@ export default class MyDriver extends Component {
 				/>
 				{this.renderSearchView()}
 				<View style={[estyle.fx1]}>
-					<ScrollView style={[estyle.fx1]}
-								refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.isRefreshing}
-                                    onRefresh={this.onRefresh.bind(this)}
-                                    colors={Env.refreshCircle.colors}
-                                    progressBackgroundColor={Env.refreshCircle.bg}
-                                />
-                            }>
-						{this.renderView()}
-					</ScrollView>
+					<PageList
+						style={estyle.fx1}
+						renderRow={(row) => {
+							return <View>
+										<View style={[estyle.padding]}>
+											<Text style={estyle.text}>{row.key}</Text>
+										</View>
+										{this.itemList(row.dtoList)}
+									</View>
+						}}
+						fetchData={(pageNumber, pageSize) => {
+							return queryDriver(pageNumber,pageSize,this.state.keyWord)
+						}}
+					/>
+					
 				</View>
 				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
 					<View style={estyle.padding}>

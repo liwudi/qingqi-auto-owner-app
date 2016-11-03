@@ -49,9 +49,21 @@ export default class RouterService {
         this.navigator.resetTo(Page(page, props));
     }
 
-    pop(){
-        this.navigator.pop();
+    pop(props){
+        /*
+         如果后退时传入props参数, 会自动更新上一页面的props
+         在父页面可以使用 componentWillReceiveProps 来监听 props 的变化，来做对应的操作
+         */
+        if(props){
+            let _routers = this.navigator.getCurrentRoutes();
+            let prePage = _routers[_routers.length - 2];
+            Object.assign(prePage.props, props);
+            this.navigator.replacePreviousAndPop(prePage);
+        }else{
+            this.navigator.pop();
+        }
     }
+
 
     /**
      * getCurrentRoutes() - 获取当前栈里的路由，也就是push进来，没有pop掉的那些。
