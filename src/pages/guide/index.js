@@ -201,10 +201,11 @@ export default class Guide extends Component {
                 <Text/>
 
                 <Text/>
+                {/*
                 <StarGroup score={5} size={20}/>
                 <StarGroup score={0} size={20}/>
                 <StarGroup score={2.5} size={20}/>
-
+                 */}
 
                 <Text/>
 
