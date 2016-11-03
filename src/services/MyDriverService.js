@@ -1,5 +1,6 @@
 /**
  * Created by yaocy on 2016/10/31.
+ * Created by wangyang on 2016/11/3
  */
 import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
@@ -36,5 +37,41 @@ export function bindDriver(opts){
     return RequestService.post(
         `${Server.QINGQI}tocapp/bindDriver`,
         opts
+    );
+}
+
+/**
+ * 删除司机接口
+ *
+ * url : http://10.30.50.152:8950/qingqi/tocapp/delDriver?userId=11&driverId=11
+ *
+ * @param entity 页面表单
+ */
+export function deleteDriver(entity){
+    return RequestService.get(
+        makeUrl('delDriver'),
+        {
+            userId : userId,
+            driverId : entity.driverId
+        }
+    );
+}
+
+
+/**
+ * 修改司机接口
+ *
+ * url : http://10.30.50.152:8950/qingqi/tocapp/modifyDriver?oldPhone=18640525668&newPhone=13112345678&name=lyadmin
+ *
+ * @param entity 页面表单
+ */
+export function modifyDriver(entity){
+    return RequestService.post(
+        makeUrl('modifyDriver'),
+        {
+            newPhone : entity.newPhone,
+            oldPhone : entity.phone,
+            name : entity.name
+        }
     );
 }
