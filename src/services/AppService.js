@@ -142,11 +142,14 @@ export function statisOilwearByDay(beginDate,endDate){
 }
 
 //路线油耗详情统计接口
-export function statisRouteOilwearByDay(statisDate){
+export function statisRouteOilwearByDay(page_number, page_size, statisDate){
     return RequestService.get(
         makeUrl('statisRouteOilwearByDay'),
         {
-            statisDate:statisDate
+            page_number:page_number || 1,
+            page_size:page_size || 20,
+            statisDate:statisDate,
+            userId:userId
         }
     );
 }
