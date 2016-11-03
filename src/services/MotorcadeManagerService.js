@@ -82,7 +82,6 @@ export function deleteManager(entity){
  * @param entity 页面表单
  */
 export function modifyManager(entity){
-    alertObj(entity);return;
     return RequestService.post(
         makeUrl('modifyAdmin'),
         {
