@@ -17,6 +17,9 @@ const estyle = Env.style;
 import Env from '../../../utils/Env';
 import {IconUser} from '../../../components/Icons'
 import {IconTrash} from '../../../components/Icons'
+
+import MyLineSetStart from './MyLineSetStart';
+
 export default class MyLineAdd extends Component {
     render() {
         return (
@@ -27,7 +30,9 @@ export default class MyLineAdd extends Component {
                     <View style={estyle.cardBackgroundColor}>
                         <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
                             <View style={estyle.fx1}><Text>起点</Text></View>
-                            <Text style={styles.noteBlue}>点击设置</Text>
+                            <Text onPress={() => {
+                                this.props.router.push(MyLineSetStart);
+                            }} style={styles.noteBlue}>{this.props.start || '点击设置'}</Text>
                         </View>
                         <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
                             <Text style={estyle.fx1}>终点</Text>
