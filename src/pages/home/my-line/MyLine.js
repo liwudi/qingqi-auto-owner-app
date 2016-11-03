@@ -15,6 +15,7 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import * as Icons from '../../../components/Icons';
 import ConfirmButton from '../../../components/ConfirmButton';
+import PageList from '../../../components/PageList';
 import Env from '../../../utils/Env';
 import Item from './components/MyLineItem';
 import NoLine from './components/NoLine';
@@ -90,17 +91,16 @@ export default class MyLine extends Component {
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
                 <TopBanner {...this.props} title="我的线路" rightView={ topRightView()}/>
                 <View style={estyle.fx1}>
-                    <ScrollView style={[estyle.fx1]}
-                                refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.isRefreshing}
-                                    onRefresh={this.onRefresh.bind(this)}
-                                    colors={Env.refreshCircle.colors}
-                                    progressBackgroundColor={Env.refreshCircle.bg}
-                                />
-                            }>
-                        {this.renderView()}
-                    </ScrollView>
+                    <PageList
+                        style={estyle.fx1}
+                        renderRow={(row) => {
+                        return <Item router={this.props.router} data={row}/>
+                        }}
+                        fetchData={(pageNumber, pageSize) => {
+                        return queryRouteList(pageNumber,pageSize)
+                        }}
+                    />
+
                 </View>
                 <View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
                     <View style={estyle.padding}>
