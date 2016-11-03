@@ -32,124 +32,35 @@ export default class MyDriverEdit extends Component {
 		this.props.router.replace(MyDriver);
 	}
 
-	fetchData () {
-		this.setState({},
-			()=> {
-				queryDriver(null,null,321654987)
-					.then(
-						(data) => {
-							this.setState({...data.list[0].dtoList[0],newPhone:data.list[0].dtoList[0].phone});
-						}
-					)
-					.catch(
-						(reason) => {
-							ToastAndroid.show(reason.message, ToastAndroid.SHORT);
-						}
-					)
-			}
-		);
-	};
+	// fetchData () {
+	// 	this.setState({},
+	// 		()=> {
+	// 			queryDriver(null,null,321654987)
+	// 				.then(
+	// 					(data) => {
+	// 						this.setState({...data.list[0].dtoList[0],newPhone:data.list[0].dtoList[0].phone});
+	// 					}
+	// 				)
+	// 				.catch(
+	// 					(reason) => {
+	// 						ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+	// 					}
+	// 				)
+	// 		}
+	// 	);
+	// };
+
 
 	/**
-	 * 根据是否已注册为app用户，渲染视图
-	 */
-	renderView () {
-		if (this.state.registerStatus === 1) {//如果:已注册为app用户
-			return this.renderView4Immutable();//不可修改视图
-		} else {
-			return this.renderView4Mutable();//可修改视图
-		}
-	}
-
-	/**
-	 * 如果:已注册为app用户,渲染不可修改视图
-	 * @returns {XML}
-	 */
-	renderView4Immutable () {
-		const topRightView= () => {
-			return (
-				<View style={estyle.fxRow}>
-					<Text onPress={() => this.delete()}>删除</Text>
-				</View>
-			)
-		};
-		return (
-			<View>
-				<TopBanner {...this.props} title="编辑手机联系人" rightView={ topRightView()}/>
-				<View  style={[estyle.fxRowCenter]}>
-					<LabelInput
-						style = {[estyle.borderBottom]}
-						label="姓名"
-						labelSize="3"
-						value={this.state.name}
-					/>
-					<LabelInput
-						style = {[estyle.borderBottom]}
-						label="电话"
-						labelSize="3"
-						value={this.state.phone}
-					/>
-					<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding]}>
-						<View style = {estyle.padding}>
-							<ConfirmButton size="middle" onPress={() => this.call()}><Text>呼叫</Text></ConfirmButton>
-						</View>
-					</View>
-				</View>
-			</View>
-		);
-	}
-
-	/**
-	 * 如果:已注册为app用户,渲染可修改视图
-	 * @returns {XML}
-	 */
-	renderView4Mutable () {
-		return (
-			<View style = {estyle.fx1}>
-				<TopBanner {...this.props} title="编辑手机联系人" />
-				<View  style={[estyle.fxRowCenter]}>
-					<LabelInput
-						style = {[estyle.borderBottom]}
-						label="姓名"
-						labelSize="3"
-						defaultValue={this.state.name}
-						ref="name"
-						onChangeText={(name) => this.setState({name})}
-						validates={[
-							{require:true, msg:Env.msg.form.truename.require},
-						]}
-					/>
-					<LabelInput
-						style = {[estyle.borderBottom]}
-						label="电话"
-						labelSize="3"
-						defaultValue={this.state.newPhone}
-						ref="phone"
-						onChangeText={(newPhone) => this.setState({newPhone:newPhone})}
-						validates={[
-							{require:true, msg:Env.msg.form.phone.require},
-							{pattern:Env.pattern.phone, msg: Env.msg.form.phone.pattern}
-						]}
-					/>
-					<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding]}>
-						<View style = {estyle.padding}>
-							<ConfirmButton size="middle" onPress={() => this.call()}><Text>呼叫</Text></ConfirmButton>
-						</View>
-						<View style = {estyle.padding}>
-							<ConfirmButton size="middle" onPress={() => this.modify()}><Text>保存</Text></ConfirmButton>
-						</View>
-					</View>
-				</View>
-			</View>
-		);
-	}
-
-	/**
-	 * 移除xxx的管理员权限
+	 * 移除xxx司机
 	 */
 	delete () {
+		if (this.state.registerStatus===0) {
+			Alert.alert("提示", `用户【${this.state.name}】没有注册为APP用户，不能删除`);
+			return;
+		}
 		Alert.alert('提示',
-			`是否从车队中删除${this.props.name}司机？`,
+			`是否从车队中删除【${this.props.name}】司机？`,
 			[
 				{text: '确定', onPress: () => {
 					deleteDriver(this.state)
@@ -174,13 +85,17 @@ export default class MyDriverEdit extends Component {
 	}
 
 	call () {
-		Alert.alert("提示", `todo呼叫${this.state.phone}`);
+		Alert.alert("提示", `【todo】呼叫${this.state.phone}`);
 	}
 
 	/**
-	 * 修改xxx的管理员权限
+	 * 修改xxx司机
 	 */
 	modify () {
+		if (this.state.registerStatus===1) {
+			Alert.alert("提示", `用户【${this.state.name}】已经注册为APP用户，不可以编辑`);
+			return;
+		}
 		if (!PhoneInput.Validate(this.refs)) {
 			return;
 		}
@@ -207,9 +122,51 @@ export default class MyDriverEdit extends Component {
 	}
 
 	render() {
+		const topRightView= () => {
+			return (
+				<View style={estyle.fxRow}>
+					<Text onPress={() => this.delete()}>删除</Text>
+				</View>
+			)
+		};
 		return (
 			<View>
-				{this.renderView()}
+				<TopBanner {...this.props} title="编辑手机联系人" rightView={ topRightView()}/>
+				<View  style={[estyle.fxRowCenter]}>
+					<LabelInput
+						style = {[estyle.borderBottom]}
+						label="姓名"
+						labelSize="3"
+						defaultValue={this.state.name}
+						ref="name"
+						onChangeText={(name) => this.setState({name})}
+						validates={[
+							{require:true, msg:Env.msg.form.truename.require},
+						]}
+						editable={this.state.registerStatus===0}//如果:未注册为app用户，可以编辑
+					/>
+					<LabelInput
+						style = {[estyle.borderBottom]}
+						label="电话"
+						labelSize="3"
+						defaultValue={this.state.newPhone}
+						ref="phone"
+						onChangeText={(newPhone) => this.setState({newPhone:newPhone})}
+						validates={[
+							{require:true, msg:Env.msg.form.phone.require},
+							{pattern:Env.pattern.phone, msg: Env.msg.form.phone.pattern}
+						]}
+						editable={this.state.registerStatus===0}//如果:未注册为app用户，可以编辑
+					/>
+					<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding]}>
+						<View style = {estyle.padding}>
+							<ConfirmButton size="middle" onPress={() => this.call()}><Text>呼叫</Text></ConfirmButton>
+						</View>
+						<View style = {estyle.padding}>
+							<ConfirmButton size="middle" onPress={() => this.modify()}><Text>保存</Text></ConfirmButton>
+						</View>
+					</View>
+				</View>
 			</View>
 		);
 	}
