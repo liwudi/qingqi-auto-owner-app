@@ -92,7 +92,7 @@ export default class ManagerEdit extends Component {
 					style = {[estyle.borderBottom]}
 					label="姓名"
 					labelSize="3"
-					value={this.state.name}
+					defaultValue={this.state.name}
 					ref="name"
 					onChangeText={(name) => this.setState({name})}
 					validates={[
@@ -103,7 +103,7 @@ export default class ManagerEdit extends Component {
 					style = {[estyle.borderBottom]}
 					label="电话"
 					labelSize="3"
-					value={this.state.newPhone}
+					defaultValue={this.state.newPhone}
 					ref="phone"
 					onChangeText={(newPhone) => this.setState({newPhone:newPhone})}
 					validates={[
