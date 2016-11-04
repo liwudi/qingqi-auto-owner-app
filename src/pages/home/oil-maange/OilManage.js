@@ -14,10 +14,20 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import * as Icons from '../../../components/Icons';
-import ConfirmButton from '../../../components/ConfirmButton';
+import {statisRouteOilwearByDay} from '../../../services/AppService';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
+import PageList from '../../../components/PageList';
 export default class OilManage extends Component {
+	constructor(props) {
+		super(props);
+		let nowDate = new Date();
+		let statisDate = `${nowDate.getFullYear()}${nowDate.getMonth()+1}${nowDate.getDate()}`;
+		this.state={
+			statisDate:statisDate
+		}
+	}
+
 	render() {
 		return (
 			<View style={estyle.containerBackgroundColor}>
@@ -40,34 +50,30 @@ export default class OilManage extends Component {
 					/>
 				</View>
 				<View style={estyle.padding}><Text>线路油耗详情</Text></View>
-				<View style={estyle.fx1}>
-					<View style={[estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-						<Text style={styles.articleBlue}>北京----青岛</Text>
-						<View style={[estyle.fxRow]}>
-							<View style={[estyle.fx1,estyle.text,estyle.paddingTop]}>
-								<Text>总油耗：120.3L</Text>
-								<Text>平均油耗：30.6L/100KM</Text>
+				<PageList
+					style={[estyle.cardBackgroundColor, estyle.fx1]}
+					renderRow={(list) => {
+						return (
+							<View style={[estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
+								<Text style={styles.articleBlue}>{list.startPointName}----{list.endPointName}</Text>
+								<View style={[estyle.fxRow]}>
+									<View style={[estyle.fx1,estyle.text,estyle.paddingTop]}>
+										<Text>总油耗：<Text style={styles.textBlue}>{list.totalOilwear}</Text>L</Text>
+										<Text>平均油耗：<Text style={styles.textBlue}>{list.avgOilwear}</Text>L/100KM</Text>
+									</View>
+									<View style={[estyle.paddingRight,estyle.text,estyle.paddingTop]}>
+										<Text style ={{textAlign:'right'}}>承运车辆数：<Text style={styles.textBlue}>{list.totalCarNum}</Text>辆</Text>
+										<Text style ={{textAlign:'right'}}>活跃车辆数：<Text style={styles.textBlue}>{list.activeCarNum}</Text>辆</Text>
+										<Text style ={{textAlign:'right'}}>线路标杆：<Text style={styles.textBlue}>{list.carCode}</Text></Text>
+									</View>
+								</View>
 							</View>
-							<View style={[estyle.paddingRight,estyle.text,estyle.paddingTop]}>
-								<Text style ={{textAlign:'right'}}>承运车辆数：4辆</Text>
-								<Text style ={{textAlign:'right'}}>活跃车辆数：2辆</Text>
-							</View>
-						</View>
-					</View>
-					<View style={[estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-						<Text style={styles.articleBlue}>北京----青岛</Text>
-						<View style={[estyle.fxRow]}>
-							<View style={[estyle.fx1,estyle.text,estyle.paddingTop]}>
-								<Text>总油耗：120.3L</Text>
-								<Text>平均油耗：30.6L/100KM</Text>
-							</View>
-							<View style={[estyle.paddingRight,estyle.text,estyle.paddingTop]}>
-								<Text style ={{textAlign:'right'}}>承运车辆数：4辆</Text>
-								<Text style ={{textAlign:'right'}}>活跃车辆数：2辆</Text>
-							</View>
-						</View>
-					</View>
-				</View>
+						)
+					}}
+					fetchData={(pageNumber, pageSize) => {
+						return statisRouteOilwearByDay(pageNumber, pageSize,this.state.statisDate)
+					}}
+				/>
 			</View>
 		);
 	}
