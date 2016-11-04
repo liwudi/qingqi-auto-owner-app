@@ -79,8 +79,8 @@ export default class MyLineAdd extends Component {
                     <View style={[estyle.padding,estyle.fxRow]}>
                         <View style={estyle.fx1}><Text style = {{color:Env.color.main}}>途径点</Text></View>
                         <View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {
-                            this.setState({isPass:true});
-                            this.props.router.push(MyLineSetPass);
+                            //todo 传递routeId
+                            this.props.router.push(MyLineSetPass,{routeId:'1'});
                         }}/></View>
                     </View>
                     {this.passVia()}

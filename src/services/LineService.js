@@ -73,3 +73,15 @@ export function setCarRoute(opts){
     );
 }
 
+/**
+ * 更新线路
+ * @param opts
+ * @returns {*}
+ */
+export function modifyRoute(opts){
+    return RequestService.post(
+        makeUrl('modifyRoute'),
+        opts
+    );
+}
+

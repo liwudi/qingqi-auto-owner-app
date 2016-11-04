@@ -6,7 +6,8 @@ import {
 	Text,
 	View
 } from 'react-native';
-
+import Env from '../../../utils/Env';
+const estyle = Env.style;
 import TopBanner from '../../../components/TopBanner';
 import LabelInput  from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
