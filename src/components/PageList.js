@@ -122,7 +122,7 @@ export default class PageList extends Component {
                     renderRow={this.props.renderRow}
                     renderFooter={() => {
                         if((this.state.pageTotal || this._data.length) <= this.pageNumber){
-                            return <View style={[Env.style.fxCenter]}><Text></Text></View>
+                            return <View style={[Env.style.fxCenter]}><Text>已经没有更多数据了</Text></View>
                         } else {
                             return <View style={[Env.style.fxCenter]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? '加载中...' : '加载更多'}</Text></View>
                         }

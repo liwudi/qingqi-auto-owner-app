@@ -30,36 +30,10 @@ export default class MyDriver extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// isRefreshing : false,
 			isSearch : false,
 			keyWord: ''
 		};
 	}
-
-	// finaliy() {
-	// 	this.setState({isRefreshing: false});
-	// 	this.setState({isSearch: false});
-	// }
-
-	// fetchData() {
-	// 	this.setState({isRefreshing: true});
-	// 	queryDriver(null,null,this.state.keyWord)
-	// 		.then((data)=>{
-	// 			console.info('--------------------')
-	// 			console.info(data)
-	// 			this.setState({data});}
-	// 		)
-	// 		.catch(()=>{
-	// 			this.finaliy();
-	// 		})
-	// 		.finally(()=>{
-	// 			this.finaliy();
-	// 		});
-	// };
-
-	// onRefresh() {
-	// 	this.fetchData();
-	// }
 
 	onSearch() {
 		if (this.state.isSearch) {
@@ -72,10 +46,6 @@ export default class MyDriver extends Component {
 	doSearch() {
 		this.setState({isSearch: false});
 	}
-
-	// componentWillMount() {
-	// 	this.fetchData();
-	// }
 
 	editDriver(data) {
 		this.props.router.push(MyDriverEdit,{nav:data});
