@@ -20,14 +20,12 @@ export default class PageList extends Component {
 
     pageNumber = 1;
     pageSize = 20;
-    keyWord = '';
 
     constructor(props){
         super(props);
 
         this.pageNumber = this.props.pageNumber || this.pageNumber;
         this.pageSize = this.props.pageSize || this.pageSize;
-        this.keyWord = this.props.keyWord || this.keyWord;
 
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this._data = [];
