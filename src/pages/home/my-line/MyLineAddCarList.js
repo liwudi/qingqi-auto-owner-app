@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
-import * as Icons from '../../../components/Icons';
+import ConfirmButton from '../../../components/ConfirmButton';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import {IconUser} from '../../../components/Icons';
@@ -24,30 +24,45 @@ export default class MyLineAddCarList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchKey: ''
+			searchKey: '',
+			renovate: false
 		};
+	}
+
+	save() {
+		this.props.router.pop({
+			carList: true
+		});
+	}
+
+	onRenovate(){
+		this.setState({renovate:!this.state.renovate});
 	}
 
 	lineAddCar(carId) {
 		setCarRoute({carId: carId, routeId: this.props.routeId})
 			.then(()=>{
 				Toast.show('添加成功', Toast.SHORT);
+				this.onRenovate();
 			})
 			.catch((e)=>{
 				Toast.show(e.message, Toast.SHORT);
 			})
 	}
-	render() {
-		const isAdd= (item) => {
-			if (item.routeId =='') {
-				return <Text onPress={this.lineAddCar(item.carId)}>添加</Text>;
-			} else {
-				return <Text>已添加</Text>;
-			}
+	isAdd(item) {
+		console.log(item + "=========="+ item.routeId);
+		if (typeof item.routeId == 'undefined' || item.routeId =='') {
+			return <TouchableOpacity onPress={() => this.lineAddCar(item.carId)}>
+				<Text>添加</Text>
+			</TouchableOpacity>;
+		} else {
+			return <Text>已添加</Text>;
 		}
+	}
+	render() {
 
 		const lineView= (item) => {
-			if (item.routeId =='') {
+			if (typeof item.routeId == 'undefined' || item.routeId =='') {
 				return '无';
 			} else {
 				return <Text style={[estyle.note, {color: Env.color.main}]}>{item.startPointName}----{item.endPointName}</Text>
@@ -69,7 +84,7 @@ export default class MyLineAddCarList extends Component {
 						<Text style={[estyle.note,estyle.paddingTop]}>线路:{lineView(item)}</Text>
 					</View>
 					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-						<View style={[styles.add,estyle.paddingHorizontal]}>{isAdd(item.routeId)}</View>
+						<View style={[styles.add,estyle.paddingHorizontal]}>{this.isAdd(item)}</View>
 					</View>
 				</View>
 			)
@@ -79,7 +94,7 @@ export default class MyLineAddCarList extends Component {
 				<TopBanner {...this.props} title="添加车辆"/>
 				<PageList
 					style={estyle.fx1}
-					reInitField={[this.state.searchKey]}
+					reInitField={[this.state.searchKey,this.state.renovate]}
 					renderRow={(row) => {
                         return itemView(row);
                         }}
@@ -87,6 +102,11 @@ export default class MyLineAddCarList extends Component {
                         return queryRouteAddCarList(pageNumber,pageSize,this.state.searchKey)
                         }}
 				/>
+				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
+					<View style={estyle.padding}>
+						<ConfirmButton size="small" onPress={this.save.bind(this)}>保存</ConfirmButton>
+					</View>
+				</View>
 			</View>
 		);
 	}

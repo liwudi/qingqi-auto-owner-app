@@ -46,8 +46,9 @@ export default class MyLineSetStart extends Component {
 		};
 		addRoute(opts)
 			.then((data)=>{
+				console.log(data)
 				Toast.show('添加成功', Toast.SHORT);
-				this.props.router.pop({line:data});
+				this.props.router.pop({routeId:data.routeId,endPointName: opts.endPointName});
 			})
 			.catch((e)=>{
 				Toast.show(e.message, Toast.SHORT);
@@ -58,7 +59,7 @@ export default class MyLineSetStart extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="设置起点"/>
+				<TopBanner {...this.props} title="设置终点"/>
 				<LabelInput
 					style = {[estyle.borderBottom]}
 					placeholder='输入城市名称'
