@@ -5,5 +5,8 @@
  */
 
 import { AppRegistry } from 'react-native';
+
+import * as storage from './src/utils/Storage';
+
 import App from './src/app';
 AppRegistry.registerComponent('QingqiOwnerApp', () => App);

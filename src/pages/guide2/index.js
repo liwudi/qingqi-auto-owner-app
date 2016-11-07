@@ -9,7 +9,7 @@ import { userDetail } from '../../services/UserService';
 import RequestService, { setToken } from '../../service-config/RequestService';
 import {UserActions, TYPES} from '../../actions/index';
 
-import Login from '../guide/index';
+import Login from '../user/Login';
 import HomeRouter from '../HomeRouter';
 // import HomeRouter from '../userCenter/account-config/AccountHome';
 
