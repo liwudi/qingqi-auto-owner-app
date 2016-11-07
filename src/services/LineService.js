@@ -29,6 +29,19 @@ export function queryRouteList(page_number,page_size){
         }
     );
 }
+/**
+ * 线路详情
+ * @param routeId
+ * @returns {*}
+ */
+export function routeInfo(routeId){
+    return RequestService.get(
+        makeUrl('routeInfo'),
+        {
+            routeId:routeId
+        }
+    );
+}
 
 /**
  * 添加线路
@@ -55,8 +68,18 @@ export function queryRouteAddCarList(page_number,page_size, searchKey){
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            userId: userId,
+            userId: '8',
             searchKey:searchKey
+        }
+    );
+}
+export function routeCarList(page_number,page_size, routeId){
+    return RequestService.get(
+        makeUrl('routeCarList'),
+        {
+            page_number:page_number || 1,
+            page_size:page_size || 20,
+            routeId:routeId
         }
     );
 }
@@ -67,7 +90,7 @@ export function queryRouteAddCarList(page_number,page_size, searchKey){
  * @returns {*}
  */
 export function setCarRoute(opts){
-    return RequestService.post(
+    return RequestService.get(
         makeUrl('setCarRoute'),
         opts
     );
@@ -79,9 +102,17 @@ export function setCarRoute(opts){
  * @returns {*}
  */
 export function modifyRoute(opts){
-    return RequestService.post(
+    return RequestService.get(
         makeUrl('modifyRoute'),
         opts
     );
 }
+
+export function delCarRoute(carId){
+    return RequestService.get(
+        makeUrl('delCarRoute'),
+        {carId: carId}
+    );
+}
+
 

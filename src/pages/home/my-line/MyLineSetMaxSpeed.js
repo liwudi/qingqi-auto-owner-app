@@ -15,11 +15,11 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import Toast from '../../../components/Toast';
 import {modifyRoute,routeInfo} from '../../../services/LineService';
 
-export default class MyLineSetPass extends Component {
+export default class MyLineSetMaxSpeed extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			passbyPoints: ''
+			maxSpeed: ''
 		};
 	}
 	save() {
@@ -28,11 +28,11 @@ export default class MyLineSetPass extends Component {
 			.then((data)=>{
 				opts = data;
 				opts.routeId = this.props.routeId;
-				opts.passbyPoints = [{"point_name": '\"'+this.state.passbyPoints + '\"',"city_code":"021","point_pos":"路过1_pos","point_des":"路过1_des","radius":"100"}]
+				opts.maxSpeed =this.state.maxSpeed;
 				modifyRoute(opts)
 					.then(()=>{
-						Toast.show('添加成功', Toast.SHORT);
-						this.props.router.pop({pass:this.state.passbyPoints});
+						Toast.show('设置成功', Toast.SHORT);
+						this.props.router.pop({maxSpeed:this.state.maxSpeed + 'km/h'});
 					})
 					.catch((e)=>{
 						Toast.show(e.message, Toast.SHORT);
@@ -45,12 +45,12 @@ export default class MyLineSetPass extends Component {
 	render() {
 		return (
 			<View>
-				<TopBanner {...this.props} title="设置途经点"/>
+				<TopBanner {...this.props} title="设置最高车速"/>
 				<LabelInput
 					style = {[estyle.borderBottom]}
-					placeholder='输入城市名称'
-					ref="passbyPoints"
-					onChangeText={passbyPoints => this.setState({passbyPoints:passbyPoints})}/>
+					placeholder='输入最高车速'
+					ref="maxSpeed"
+					onChangeText={maxSpeed => this.setState({maxSpeed:maxSpeed})}/>
 				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
 					<View style={estyle.padding}>
 						<ConfirmButton size="small" onPress={this.save.bind(this)}>保存</ConfirmButton>
