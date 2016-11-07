@@ -33,7 +33,7 @@ export default class ModifyVehicleLicence extends Component {
 			return;
 		}
 		if (LabelInput.Validate(this.refs)) {
-			modifyCar(this.props.nav.carId,this.carCode)
+			modifyCar(this.props.nav.carId,this.carCode, this.props.nav.carCode) //参数旧车牌号也要传递
 				.then(this.success.bind(this));
 		}
 
