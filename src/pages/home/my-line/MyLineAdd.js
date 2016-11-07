@@ -17,10 +17,38 @@ const estyle = Env.style;
 import Env from '../../../utils/Env';
 import {IconUser} from '../../../components/Icons'
 import {IconTrash} from '../../../components/Icons'
-
+import Toast from '../../../components/Toast'
 import MyLineSetStart from './MyLineSetStart';
+import MyLineSetPass from './MyLineSetPass';
+import MyLineSetEnd from './MyLineSetEnd';
+import MyLineAddCarList from './MyLineAddCarList';
 
 export default class MyLineAdd extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isPass:false,
+            pass:''
+        };
+    }
+
+    passVia() {
+        if (this.state.isPass) {
+            return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
+                <View style={estyle.fx1}><Text>{this.state.pass}</Text></View>
+                <View style={[estyle.paddingRight, estyle.fxCenter]}>
+                    <IconTrash onPress={()=>{
+                        this.setState({pass:''});
+                    }}/>
+                </View>
+            </View>
+        }
+    }
+
+    componentWillReceiveProps() {
+        this.setState({pass:this.props.pass});
+    }
+
     render() {
         return (
             <View style={estyle.fx1}>
@@ -32,24 +60,31 @@ export default class MyLineAdd extends Component {
                             <View style={estyle.fx1}><Text>起点</Text></View>
                             <Text onPress={() => {
                                 this.props.router.push(MyLineSetStart);
-                            }} style={styles.noteBlue}>{this.props.start || '点击设置'}</Text>
+                            }} style={styles.noteBlue}>{this.props.startPointName || '点击设置'}</Text>
                         </View>
                         <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
                             <Text style={estyle.fx1}>终点</Text>
-                            <Text style={styles.noteBlue}>点击设置</Text>
+                            <Text onPress={() => {
+                                this.props.router.push(MyLineSetEnd,
+                                {start:{
+                                    startPointName:this.props.startPointName,
+                                    startCityCode:this.props.startCityCode,
+                                    startPointPos:this.props.startPointPos,
+                                    startPointDes:this.props.startPointDes
+                                }});
+                            }} style={styles.noteBlue}>{this.props.endPointName || '点击设置'}</Text>
                         </View>
                     </View>
 
                     <View style={[estyle.padding,estyle.fxRow]}>
                         <View style={estyle.fx1}><Text style = {{color:Env.color.main}}>途径点</Text></View>
-                        <View style={estyle.paddingRight}><Icons.IconPlus/></View>
+                        <View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {
+                            //todo 传递routeId
+                            this.props.router.push(MyLineSetPass,{routeId:'1'});
+                        }}/></View>
                     </View>
-                    <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-                        <View style={estyle.fx1}><Text>济南</Text></View>
-                        <View style={[estyle.paddingRight, estyle.fxCenter]}>
-                            <IconTrash/>
-                        </View>
-                    </View>
+                    {this.passVia()}
+
                     <View style={estyle.padding}><Text style = {{color:Env.color.main}}>驾驶规定</Text></View>
                     <View style={estyle.cardBackgroundColor}>
                         <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
@@ -65,7 +100,9 @@ export default class MyLineAdd extends Component {
                     </View>
                     <View style={[estyle.padding,estyle.fxRow]}>
                         <View style={estyle.fx1}><Text style = {{color:Env.color.main}}>设置车辆</Text></View>
-                        <View style={estyle.paddingRight}><Icons.IconPlus/></View>
+                        <View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {
+                            this.props.router.push(MyLineAddCarList);
+                        }}/></View>
                     </View>
                     <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
                         <View style={estyle.fx1}>
