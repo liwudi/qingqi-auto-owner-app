@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from "react";
-import {Text, View, TouchableOpacity, ToastAndroid, Image} from "react-native";
+import {Text, View, TouchableHighlight, ToastAndroid, Image} from "react-native";
 import Env from "../../../utils/Env";
 import PageList from "../../../components/PageList";
 import TopBanner from "../../../components/TopBanner";
@@ -51,7 +51,7 @@ export default class ManagerList extends Component {
 					renderRow = {
 						(row) => {
 							return (
-								<TouchableOpacity onPress={() => this.toEditPage(row)}>
+								<TouchableHighlight onPress={() => this.toEditPage(row)}>
 									<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]} >
 										<Image
 											style={{borderRadius:100,width:25,height:25,borderWidth:4 * Env.font.base, borderColor:'#85C7E7',}}
@@ -61,7 +61,7 @@ export default class ManagerList extends Component {
 										<Text style = {[estyle.paddingLeft,{flex:1}]}>{row.phone}</Text>
 										<Text style = {[estyle.note,{color:Env.color.auxiliary}]}>{row.registerStatus===1 ? '已添加' : '未使用'}</Text>
 									</View>
-								</TouchableOpacity>
+								</TouchableHighlight>
 							)
 						}
 					}
