@@ -12,48 +12,53 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
+import PageList from '../../../components/PageList';
+import Toast from '../../../components/Toast'
+import {queryRouteList,setCarRoute} from '../../../services/LineService';
 const estyle = Env.style;
 export default class BoundLine extends Component {
+
+	carBoundLine(routeId) {
+		setCarRoute({carId: this.props.carId, routeId: routeId})
+			.then(()=>{
+				Toast.show('绑定成功', Toast.SHORT);
+				this.props.doBack();
+			})
+			.catch((e)=>{
+				Toast.show(e.message, Toast.SHORT);
+			})
+	}
 	render() {
+		const itemView= (item) => {
+			return (
+				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
+					<View style={[estyle.fx1]}>
+						<Text style={styles.textBlue}>{item.stName}-----------------{item.etName}</Text>
+						<View style={estyle.paddingTop}>
+							<Text>活跃车辆数：{item.acitveCount}辆</Text>
+							<Text>承运车辆数：{item.sumCount}辆</Text>
+						</View>
+					</View>
+					<View style={[estyle.paddingRight, estyle.fxCenter]}>
+						<View style={[styles.add,estyle.paddingHorizontal]}>
+							<TouchableOpacity onPress={() => this.carBoundLine(item.routeId)}><Text>选择</Text></TouchableOpacity>
+						</View>
+					</View>
+				</View>
+			)
+		};
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="绑定线路"/>
-				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-					<View style={[estyle.fx1]}>
-						<Text style={styles.textBlue}>北京-----------------青岛</Text>
-						<View style={estyle.paddingTop}>
-							<Text>活跃车辆数：2辆</Text>
-							<Text>承运车辆数：4辆</Text>
-						</View>
-					</View>
-					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-						<View style={[styles.add,estyle.paddingHorizontal]}><Text>选择</Text></View>
-					</View>
-				</View>
-				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-					<View style={[estyle.fx1]}>
-						<Text style={styles.textBlue}>西安-----------------成都</Text>
-						<View style={estyle.paddingTop}>
-							<Text>活跃车辆数：2辆</Text>
-							<Text>承运车辆数：4辆</Text>
-						</View>
-					</View>
-					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-						<View style={[styles.add,estyle.paddingHorizontal]}><Text>选择</Text></View>
-					</View>
-				</View>
-				<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-					<View style={[estyle.fx1]}>
-						<Text style={styles.textBlue}>乌鲁木齐-----------------齐齐哈尔</Text>
-						<View style={estyle.paddingTop}>
-							<Text>活跃车辆数：2辆</Text>
-							<Text>承运车辆数：4辆</Text>
-						</View>
-					</View>
-					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-						<View style={[styles.add,estyle.paddingHorizontal]}><Text>选择</Text></View>
-					</View>
-				</View>
+				<PageList
+					style={estyle.fx1}
+					renderRow={(row) => {
+                        return itemView(row);
+                        }}
+					fetchData={(pageNumber, pageSize) => {
+                        return queryRouteList(pageNumber,pageSize)
+                        }}
+				/>
 			</View>
 		);
 	}
