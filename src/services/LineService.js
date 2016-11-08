@@ -49,7 +49,7 @@ export function routeInfo(routeId){
  * @returns {*}
  */
 export function addRoute(opts){
-    return RequestService.post(
+    return RequestService.get(
         makeUrl('addRoute'),
         opts
     );
@@ -63,7 +63,6 @@ export function deleteRoute(routeId){
         }
     );
 }
-
 
 /**
  * 线路车辆列表
@@ -83,6 +82,14 @@ export function queryRouteAddCarList(page_number,page_size, searchKey){
         }
     );
 }
+
+/**
+ * 线路绑定的车辆
+ * @param page_number
+ * @param page_size
+ * @param routeId
+ * @returns {*}
+ */
 export function routeCarList(page_number,page_size, routeId){
     return RequestService.get(
         makeUrl('routeCarList'),
@@ -118,6 +125,11 @@ export function modifyRoute(opts){
     );
 }
 
+/**
+ * 车辆线路解绑
+ * @param carId
+ * @returns {*}
+ */
 export function delCarRoute(carId){
     return RequestService.get(
         makeUrl('delCarRoute'),
@@ -125,4 +137,10 @@ export function delCarRoute(carId){
     );
 }
 
+export function queryCity(searchKey){
+    return RequestService.get(
+        makeUrl('queryCity'),
+        {searchKey: searchKey}
+    );
+}
 

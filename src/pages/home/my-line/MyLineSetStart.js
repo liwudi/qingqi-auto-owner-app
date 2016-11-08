@@ -4,31 +4,43 @@
 import React, { Component } from 'react';
 import {
 	Text,
-	View
+	View,
+	ScrollView,
+	RefreshControl,
+	TouchableOpacity
 } from 'react-native';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import TopBanner from '../../../components/TopBanner';
 import LabelInput  from '../../../components/LabelInput';
+import ListItem from '../../../components/ListItem';
 import ConfirmButton from '../../../components/ConfirmButton';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import Toast from '../../../components/Toast';
-import {modifyRoute,routeInfo} from '../../../services/LineService';
+import {modifyRoute,routeInfo, queryCity} from '../../../services/LineService';
 
 export default class MyLineSetStart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			start: {
-				startPointName:'沈阳',
-				startCityCode:'1',
-				startPointPos:'1',
-				startPointDes:'沈阳'
-			}
+			isRefreshing: false,
+			data:[],
+			searchKey: ''
 		};
 	}
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		start: {
+	// 			startPointName:'沈阳',
+	// 			startCityCode:'1',
+	// 			startPointPos:'1',
+	// 			startPointDes:'沈阳'
+	// 		}
+	// 	};
+	// }
 
-	save() {
+	save(item) {
 		if (this.props.edit) {
 			let opts={};
 			let routeId = this.props.routeId;
@@ -37,10 +49,10 @@ export default class MyLineSetStart extends Component {
 					opts = data;
 					console.log(opts)
 					opts.routeId = routeId;
-					opts.startPointName = this.state.start.startPointName;
-					opts.startCityCode = this.state.start.startCityCode;
-					opts.startPointPos = this.state.start.startPointPos;
-					opts.startPointDes = this.state.start.startPointDes;
+					opts.startPointName = item.cname;
+					opts.startCityCode = item.cid;
+					opts.startPointPos = '1';
+					opts.startPointDes = item.cname;
 					modifyRoute(opts)
 						.then(()=>{
 							Toast.show('设置成功', Toast.SHORT);
@@ -54,13 +66,65 @@ export default class MyLineSetStart extends Component {
 					Toast.show(e.message, Toast.SHORT);
 				})
 		} else {
+			// this.props.router.pop({
+			// 	startPointName: this.state.start.startPointName,
+			// 	startCityCode: this.state.start.startCityCode,
+			// 	startPointPos: this.state.start.startPointPos,
+			// 	startPointDes: this.state.start.startPointDes
+			// });
 			this.props.router.pop({
-				startPointName: this.state.start.startPointName,
-				startCityCode: this.state.start.startCityCode,
-				startPointPos: this.state.start.startPointPos,
-				startPointDes: this.state.start.startPointDes
+				startPointName: item.cname,
+				startCityCode: item.cid,
+				startPointPos: '1',
+				startPointDes: item.cname
 			});
 		}
+	}
+
+	finaliy() {
+		this.setState({isRefreshing: false});
+	}
+
+	fetchData() {
+		this.setState({isRefreshing: true});
+		queryCity(this.state.searchKey)
+			.then((data)=>{
+				this.setState({data:data});
+				console.log(this.state.data)
+			})
+			.catch(this.finaliy.bind(this))
+			.finally(this.finaliy.bind(this));
+	};
+
+	componentWillMount() {
+		this.fetchData();
+	}
+
+	onRefresh() {
+		this.fetchData();
+	}
+
+	listItem(subList) {
+		return subList.map((item, idx) => {
+			return <TouchableOpacity onPress={() => {
+                            this.save(item);
+                        }}>
+				<ListItem left={item.cname}/>
+			</TouchableOpacity>
+		})
+	}
+
+	renderList() {
+		let data = this.state.data;
+		return data.map((item, idx) => {
+			return <View>
+				<View style={[estyle.padding]}>
+					<Text style={estyle.text}>{item.fletter}</Text>
+				</View>
+				{this.listItem(item.subList)}
+			</View>
+		})
+
 	}
 
 	render() {
@@ -70,16 +134,20 @@ export default class MyLineSetStart extends Component {
 				<LabelInput
 					style = {[estyle.borderBottom]}
 					placeholder='输入城市名称'
-					ref="start"
-					onChangeText={start => this.setState({start:{startPointName:start,startCityCode:'1',startPointPos:'1',startPointDes:'起点'}})}/>
-				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
-					<View style={estyle.padding}>
-						<ConfirmButton size="small" onPress={this.save.bind(this)}>保存</ConfirmButton>
-					</View>
-				</View>
-				<ViewForRightArrow onPress={() => {this.save()}}>
-					<Text>沈阳</Text>
-				</ViewForRightArrow>
+					ref="searchKey"
+					onChangeText={searchKey => {this.setState({searchKey:searchKey});this.onRefresh()}}/>
+
+				<ScrollView style={estyle.fx1}
+							refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.isRefreshing}
+                                    onRefresh={this.onRefresh.bind(this)}
+                                    colors={Env.refreshCircle.colors}
+                                    progressBackgroundColor={Env.refreshCircle.bg}
+                                />
+                            }>
+					{this.renderList()}
+				</ScrollView>
 			</View>
 		);
 	}
