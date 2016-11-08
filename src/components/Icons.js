@@ -30,6 +30,19 @@ export class IconMap extends React.Component {
 		)
 	}
 }
+
+/**
+ * 位置
+ */
+export class IconLocationMarker extends React.Component {
+	render(){
+		return (
+			<IconEntypo name="location" size={size} color={color} {...this.props}/>
+		)
+	}
+}
+
+
 /**
  * 右箭头 >
  */
