@@ -102,6 +102,9 @@ export default class MyLineAdd extends Component {
             this.setState({carList:true});
         }
         this.onRenovate();
+        if (!(typeof this.props.pass == 'undefined')) {
+            this.setState({isPass:true});
+        }
     }
 
     render() {
@@ -134,7 +137,6 @@ export default class MyLineAdd extends Component {
                     <View style={[estyle.padding,estyle.fxRow]}>
                         <View style={estyle.fx1}><Text style = {{color:Env.color.main}}>途径点</Text></View>
                         <View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {
-                            this.setState({isPass:true});
                             this.props.router.push(MyLineSetPass,{routeId:this.props.routeId});
                         }}/></View>
                     </View>

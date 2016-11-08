@@ -7,7 +7,7 @@ import RequestService from '../service-config/RequestService';
 
 const serviceUrl = `${Server.QINGQI}tocapp/`;
 const defaultPage = Server.defaultPage;
-const userId = '1';
+const userId = '8';
 
 function makeUrl(path) {
     return serviceUrl + path;
@@ -49,9 +49,18 @@ export function routeInfo(routeId){
  * @returns {*}
  */
 export function addRoute(opts){
-    return RequestService.post(
+    return RequestService.get(
         makeUrl('addRoute'),
         opts
+    );
+}
+
+export function deleteRoute(routeId){
+    return RequestService.get(
+        makeUrl('deleteRoute'),
+        {
+            routeId:routeId
+        }
     );
 }
 
@@ -68,11 +77,19 @@ export function queryRouteAddCarList(page_number,page_size, searchKey){
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            userId: '8',
+            userId: userId,
             searchKey:searchKey
         }
     );
 }
+
+/**
+ * 线路绑定的车辆
+ * @param page_number
+ * @param page_size
+ * @param routeId
+ * @returns {*}
+ */
 export function routeCarList(page_number,page_size, routeId){
     return RequestService.get(
         makeUrl('routeCarList'),
@@ -108,6 +125,11 @@ export function modifyRoute(opts){
     );
 }
 
+/**
+ * 车辆线路解绑
+ * @param carId
+ * @returns {*}
+ */
 export function delCarRoute(carId){
     return RequestService.get(
         makeUrl('delCarRoute'),
@@ -115,4 +137,10 @@ export function delCarRoute(carId){
     );
 }
 
+export function queryCity(searchKey){
+    return RequestService.get(
+        makeUrl('queryCity'),
+        {searchKey: searchKey}
+    );
+}
 

@@ -282,7 +282,7 @@ export default class Guide extends Component {
                     <Text style={{fontSize:18,color:'red'}}>我的车辆</Text>
                     <Text style={styles.over} onPress={() => {this.toPage(MyCar)}}  >3、我的车辆</Text>
                     <Text style={styles.over} onPress={() => {this.toPage(CarDetail)}}  >4、车辆详情</Text>
-                    <Text style={styles.over} onPress={() => {this.toPage(ModifyVehicleLicence)}}  >5、车辆详情-修改车牌号</Text>
+                    <Text style={styles.over} onPress={() => {this.props.router.push(ModifyVehicleLicence,{nav:{carId: 300,carCode: '辽A30001'}})}}  >5、车辆详情-修改车牌号</Text>
                     <Text {...this.props} onPress={() => {this.toPage(TimeTracking)}}  >6、车辆详情-实时跟踪</Text>
                     <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
