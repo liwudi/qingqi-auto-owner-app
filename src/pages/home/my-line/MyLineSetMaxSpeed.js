@@ -32,7 +32,7 @@ export default class MyLineSetMaxSpeed extends Component {
 				modifyRoute(opts)
 					.then(()=>{
 						Toast.show('设置成功', Toast.SHORT);
-						this.props.router.pop({maxSpeed:this.state.maxSpeed + 'km/h'});
+						this.props.router.pop({maxSpeed:this.state.maxSpeed + 'Km/h'});
 					})
 					.catch((e)=>{
 						Toast.show(e.message, Toast.SHORT);

@@ -7,7 +7,7 @@ import RequestService from '../service-config/RequestService';
 
 const serviceUrl = `${Server.QINGQI}tocapp/`;
 const defaultPage = Server.defaultPage;
-const userId = '1';
+const userId = '8';
 
 function makeUrl(path) {
     return serviceUrl + path;
@@ -55,6 +55,16 @@ export function addRoute(opts){
     );
 }
 
+export function deleteRoute(routeId){
+    return RequestService.get(
+        makeUrl('deleteRoute'),
+        {
+            routeId:routeId
+        }
+    );
+}
+
+
 /**
  * 线路车辆列表
  * @param page_number
@@ -68,7 +78,7 @@ export function queryRouteAddCarList(page_number,page_size, searchKey){
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            userId: '8',
+            userId: userId,
             searchKey:searchKey
         }
     );

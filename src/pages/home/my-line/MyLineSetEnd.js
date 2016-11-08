@@ -12,7 +12,7 @@ import TopBanner from '../../../components/TopBanner';
 import LabelInput  from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
 import Toast from '../../../components/Toast';
-import {addRoute} from '../../../services/LineService';
+import {addRoute,routeInfo,modifyRoute} from '../../../services/LineService';
 
 export default class MyLineSetStart extends Component {
 	constructor(props) {
@@ -34,26 +34,51 @@ export default class MyLineSetStart extends Component {
 	}
 
 	save() {
-		let opts = {
-			startPointName: this.props.start.startPointName,
-			startCityCode: this.props.start.startCityCode,
-			startPointPos: this.props.start.startPointPos,
-			startPointDes: this.props.start.startPointDes,
-			endPointName: this.state.end.endPointName,
-			endCityCode: this.state.end.endCityCode,
-			endPointPos: this.state.end.endPointPos,
-			endPointDes: this.state.end.endPointDes
-		};
-		addRoute(opts)
-			.then((data)=>{
-				console.log(data)
-				Toast.show('添加成功', Toast.SHORT);
-				this.props.router.pop({routeId:data.routeId,endPointName: opts.endPointName});
-			})
-			.catch((e)=>{
-				Toast.show(e.message, Toast.SHORT);
-			})
-		// this.props.router.pop({end:this.state.end});
+		if (this.props.edit) {
+			let opts={};
+			let routeId = this.props.routeId;
+			routeInfo(routeId)
+				.then((data)=>{
+					opts = data;
+					console.log(opts)
+					opts.routeId = routeId;
+					opts.endPointName = this.state.end.endPointName;
+					opts.endCityCode = this.state.end.endCityCode;
+					opts.endPointPos = this.state.end.endPointPos;
+					opts.endPointDes = this.state.end.endPointDes;
+					modifyRoute(opts)
+						.then(()=>{
+							Toast.show('设置成功', Toast.SHORT);
+							this.props.router.pop({endPointName: opts.endPointName});
+						})
+						.catch((e)=>{
+							Toast.show(e.message, Toast.SHORT);
+						})
+				})
+				.catch((e)=>{
+					Toast.show(e.message, Toast.SHORT);
+				})
+		}else {
+			let opts = {
+				startPointName: this.props.start.startPointName,
+				startCityCode: this.props.start.startCityCode,
+				startPointPos: this.props.start.startPointPos,
+				startPointDes: this.props.start.startPointDes,
+				endPointName: this.state.end.endPointName,
+				endCityCode: this.state.end.endCityCode,
+				endPointPos: this.state.end.endPointPos,
+				endPointDes: this.state.end.endPointDes
+			};
+			addRoute(opts)
+				.then((data)=>{
+					console.log(data)
+					Toast.show('添加成功', Toast.SHORT);
+					this.props.router.pop({routeId:data.routeId,endPointName: opts.endPointName});
+				})
+				.catch((e)=>{
+					Toast.show(e.message, Toast.SHORT);
+				})
+		}
 	}
 
 	render() {
