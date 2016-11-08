@@ -155,12 +155,15 @@ export function statisRouteOilwearByDay(page_number, page_size, statisDate){
 }
 
 //单线路车辆油耗列表统计接口01040603
-export function statisOilwearForOneRoute(routeId,statisDate){
+export function statisOilwearForOneRoute(page_number, page_size,routeId,statisDate){
     return RequestService.get(
         makeUrl('statisOilwearForOneRoute'),
         {
+            page_number:page_number || 1,
+            page_size:page_size || 20,
             routeId:routeId,
-            statisDate:statisDate
+            statisDate:statisDate,
+            userId:userId
         }
     );
 }
