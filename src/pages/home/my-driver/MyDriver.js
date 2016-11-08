@@ -19,6 +19,7 @@ import PageList from '../../../components/PageList';
 import Env from '../../../utils/Env';
 import {queryDriver} from '../../../services/MyDriverService';
 import Item from './components/MyDriverItem';
+import MyDriverEdit from './MyDriverEdit';
 import NoDriver from './components/NoDriver';
 import MyDriverAdd from './MyDriverAdd';
 import * as Icons from '../../../components/Icons';
@@ -29,38 +30,9 @@ export default class MyDriver extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isRefreshing : false,
 			isSearch : false,
-			// driverId : '',
-			// name: '',
-			// phone: '',
 			keyWord: ''
 		};
-	}
-
-	finaliy() {
-		this.setState({isRefreshing: false});
-		this.setState({isSearch: false});
-	}
-
-	fetchData() {
-		this.setState({isRefreshing: true});
-		queryDriver(null,null,this.state.keyWord)
-			.then((data)=>{
-				console.info('--------------------')
-				console.info(data)
-				this.setState({data});}
-			)
-			.catch(()=>{
-				this.finaliy();
-			})
-			.finally(()=>{
-				this.finaliy();
-			});
-	};
-
-	onRefresh() {
-		this.fetchData();
 	}
 
 	onSearch() {
@@ -73,12 +45,10 @@ export default class MyDriver extends Component {
 
 	doSearch() {
 		this.setState({isSearch: false});
-		this.fetchData();
-		this.setState({keyWord: ''});
 	}
 
-	componentWillMount() {
-		this.fetchData();
+	editDriver(data) {
+		this.props.router.push(MyDriverEdit,{nav:data});
 	}
 
 	addDriver() {
@@ -88,41 +58,21 @@ export default class MyDriver extends Component {
 	//加载Item，司机列表
 	itemList(dtoList){
 		return dtoList.map((item, idx) => {
-			return <Item router={this.props.router} data={item}/>;
+			return <TouchableOpacity onPress={() => this.editDriver(item)}>
+				<Item router={this.props.router} data={item}/>
+				</TouchableOpacity>;
 		})
-	}
-
-	//加载字母View
-	renderList() {
-		let data = this.state.data;
-		return data.list.map((item, idx) => {
-			return <View>
-				<View style={[estyle.padding]}>
-					<Text style={estyle.text}>{item.key}</Text>
-				</View>
-				{this.itemList(item.dtoList)}
-			</View>
-		})
-	}
-
-	renderView() {
-		if(this.state.data) {
-			return this.state.data.list.length ? this.renderList() : <NoDriver/>;
-		}
-		return <View/>;
 	}
 
 	renderSearchView() {
 		if(this.state.isSearch) {
-			return <ViewForRightArrow rightIcon={Icons.IconSearch} onPress={this.doSearch.bind(this)}>
-				<LabelInput
-					style = {[estyle.borderBottom]}
-					placeholder='请输入司机姓名或手机号'
-					label="搜索"
-					labelSize="3"
-					ref="keyWord"
-					onChangeText={keyWord => this.setState({keyWord})}/>
-			</ViewForRightArrow>;
+			return <LabelInput
+				style = {[estyle.borderBottom]}
+				placeholder='请输入司机姓名或手机号'
+				label="搜索"
+				labelSize="3"
+				ref="keyWord"
+				onChangeText={keyWord => this.setState({keyWord:keyWord})}/>;
 		}
 	}
 
@@ -138,6 +88,7 @@ export default class MyDriver extends Component {
 				<View style={[estyle.fx1]}>
 					<PageList
 						style={estyle.fx1}
+						reInitField={[this.state.keyWord]}
 						renderRow={(row) => {
 							return <View>
 										<View style={[estyle.padding]}>

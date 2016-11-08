@@ -1,25 +1,57 @@
 /**
  * Created by ligj on 2016/10/9.
  * Edit by zhaidongyou 2016/10/18
+ * Edit by wangyang 2016/10/31
+ *
+ * 车队管理员添加
  */
-import React, { Component } from 'react';
-import {
-	Text,
-	View,
-	TextInput,
-	TouchableOpacity,
-	ToastAndroid,
-	StyleSheet,
-	Image
-} from 'react-native';
+import React, {Component} from "react";
+import {Text, View, TextInput, ToastAndroid, Image, Alert} from "react-native";
+import Env from "../../../utils/Env";
+import TopBanner from "../../../components/TopBanner";
+import * as Icons from "../../../components/Icons";
+import LabelInput from "../../../components/LabelInput";
+import ConfirmButton from "../../../components/ConfirmButton";
+import PhoneInput from "../../../components/Inputs/Phone";
+import ManagerList from "./ManagerList";
+import {addManager} from "../../../services/MotorcadeManagerService";
 
-import TopBanner from '../../../components/TopBanner';
-import Env from '../../../utils/Env';
-import LabelInput from '../../../components/LabelInput';
-import ConfirmButton from '../../../components/ConfirmButton';
-import * as Icons from '../../../components/Icons';
 const estyle = Env.style;
+
 export default class ManagerAdd extends Component {
+
+	/**
+	 * 跳转到列表页面
+	 */
+	toListPage() {
+		this.props.router.replace(ManagerList);
+	}
+
+	submit() {
+		if (!PhoneInput.Validate(this.refs)) {
+			return;
+		}
+		Alert.alert('提示',
+			'是否添加这个管理员？',
+			[
+				{text: '确定',
+					onPress: () => {
+						addManager(this.state)
+							.then(() => {
+								ToastAndroid.show('添加成功', ToastAndroid.SHORT);
+								setTimeout(() => {
+									this.toListPage();
+								},1000);
+							})
+							.catch((reason) => {
+								ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+							})
+					}
+				},
+				{text: '取消'}
+			]);
+	}
+
 	render() {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
@@ -34,51 +66,39 @@ export default class ManagerAdd extends Component {
 					</View>
 					<View style = {estyle.fx1}>
 						<View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
-							<Text style={[styles.textBlue,styles.colorFFF]}>手机联系人</Text>
-							<Text style={[styles.note,styles.colorFFF]}>添加手机通讯录中的司机</Text>
+							<Text style={[{fontSize:Env.font.text, color:Env.color.main}]}>手机联系人</Text>
+							<Text style={[{fontSize:Env.font.note, color:Env.color.note}]}>添加手机通讯录中的司机</Text>
 						</View>
 					</View>
-					<View style={[estyle.padding,estyle.fxRow]}><Icons.IconUser /><Text style={styles.noteBlue}>推荐</Text></View>
+					<View style={[estyle.padding,estyle.fxRow]}><Icons.IconUser /><Text style={{fontSize:Env.font.note, color:Env.color.main}}>推荐</Text></View>
 				</View>
-				<View  style={[estyle.fxRowCenter,estyle.marginTop]}>
+				<View style={[estyle.fxRowCenter,estyle.marginTop]}>
 					<LabelInput
+						ref="name"
+						onChangeText={(name) => this.setState({name})}
 						style = {[estyle.borderBottom]}
-						placeholder='请输入真实姓名'
+						placeholder={Env.msg.form.truename.placeholder}
 						label="姓名"
 						labelSize="3"
+						validates={[
+							{require:true, msg:Env.msg.form.truename.require},
+						]}
 					/>
 					<LabelInput
+						ref="phone"
+						onChangeText={(phone) => this.setState({phone})}
 						style = {[estyle.borderBottom]}
-						placeholder='电话'
+						placeholder={Env.msg.form.phone.placeholder}
 						label="电话"
 						labelSize="3"
+						validates={[
+							{require:true, msg:Env.msg.form.phone.require},
+							{pattern:Env.pattern.phone, msg: Env.msg.form.phone.pattern}
+						]}
 					/>
-					<ConfirmButton style={[estyle.marginVertical]} size="large" onPress={() => this.onLogin()}><Text>添加</Text></ConfirmButton>
-
+					<ConfirmButton style={[estyle.marginVertical]} size="large" onPress={() => this.submit()}><Text>添加</Text></ConfirmButton>
 				</View>
 			</View>
 		);
 	}
 }
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	text:{
-		fontSize:Env.font.text,
-		color:Env.color.text
-	},
-	textBlue:{
-		fontSize:Env.font.text,
-		color:Env.color.main
-	},
-	note:{
-		fontSize:Env.font.note,
-		color:Env.color.note
-	},
-	noteBlue:{
-		fontSize:Env.font.note,
-		color:Env.color.main
-	}
-});
