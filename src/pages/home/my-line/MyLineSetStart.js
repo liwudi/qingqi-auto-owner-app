@@ -1,11 +1,12 @@
 /**
- * Created by ligj on 2016/10/9.
+ * Created by yaocy on 2016/11/2.
  */
 import React, { Component } from 'react';
 import {
 	Text,
 	View,
 	ScrollView,
+	ListView,
 	RefreshControl,
 	TouchableOpacity
 } from 'react-native';
@@ -14,31 +15,18 @@ const estyle = Env.style;
 import TopBanner from '../../../components/TopBanner';
 import LabelInput  from '../../../components/LabelInput';
 import ListItem from '../../../components/ListItem';
-import ConfirmButton from '../../../components/ConfirmButton';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import Toast from '../../../components/Toast';
 import {modifyRoute,routeInfo, queryCity} from '../../../services/LineService';
-
-export default class MyLineSetStart extends Component {
+export default class SettingStName extends Component {
 	constructor(props) {
 		super(props);
+		let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
 			isRefreshing: false,
-			data:[],
+			ds,
 			searchKey: ''
 		};
 	}
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		start: {
-	// 			startPointName:'沈阳',
-	// 			startCityCode:'1',
-	// 			startPointPos:'1',
-	// 			startPointDes:'沈阳'
-	// 		}
-	// 	};
-	// }
 
 	save(item) {
 		if (this.props.edit) {
@@ -66,12 +54,6 @@ export default class MyLineSetStart extends Component {
 					Toast.show(e.message, Toast.SHORT);
 				})
 		} else {
-			// this.props.router.pop({
-			// 	startPointName: this.state.start.startPointName,
-			// 	startCityCode: this.state.start.startCityCode,
-			// 	startPointPos: this.state.start.startPointPos,
-			// 	startPointDes: this.state.start.startPointDes
-			// });
 			this.props.router.pop({
 				startPointName: item.cname,
 				startCityCode: item.cid,
@@ -89,8 +71,9 @@ export default class MyLineSetStart extends Component {
 		this.setState({isRefreshing: true});
 		queryCity(this.state.searchKey)
 			.then((data)=>{
-				this.setState({data:data});
-				console.log(this.state.data)
+				this.setState({
+					ds: this.state.ds.cloneWithRows(data)
+				});
 			})
 			.catch(this.finaliy.bind(this))
 			.finally(this.finaliy.bind(this));
@@ -106,49 +89,43 @@ export default class MyLineSetStart extends Component {
 
 	listItem(subList) {
 		return subList.map((item, idx) => {
-			return <TouchableOpacity onPress={() => {
-                            this.save(item);
-                        }}>
+			return <TouchableOpacity>
 				<ListItem left={item.cname}/>
 			</TouchableOpacity>
 		})
 	}
 
-	renderList() {
-		let data = this.state.data;
-		return data.map((item, idx) => {
-			return <View>
-				<View style={[estyle.padding]}>
-					<Text style={estyle.text}>{item.fletter}</Text>
-				</View>
-				{this.listItem(item.subList)}
+	renderList(row) {
+		return <View>
+			<View style={[estyle.padding]}>
+				<Text style={estyle.text}>{row.fletter}</Text>
 			</View>
-		})
-
+			{this.listItem(row.subList)}
+		</View>
 	}
 
 	render() {
 		return (
-			<View>
-				<TopBanner {...this.props} title="设置起点"/>
+			<View style={estyle.fx1}>
+				<TopBanner {...this.props} title='设置起点'/>
 				<LabelInput
 					style = {[estyle.borderBottom]}
 					placeholder='输入城市名称'
 					ref="searchKey"
 					onChangeText={searchKey => {this.setState({searchKey:searchKey});this.onRefresh()}}/>
-
-				<ScrollView style={estyle.fx1}
-							refreshControl={
+				<ListView style={estyle.fx1}
+						  refreshControl={
                                 <RefreshControl
                                     refreshing={this.state.isRefreshing}
                                     onRefresh={this.onRefresh.bind(this)}
                                     colors={Env.refreshCircle.colors}
                                     progressBackgroundColor={Env.refreshCircle.bg}
                                 />
-                            }>
-					{this.renderList()}
-				</ScrollView>
+                            }
+						  dataSource={this.state.ds}
+						  renderRow={(row) => this.renderList(row)}
+				/>
 			</View>
-		);
+		)
 	}
 }
