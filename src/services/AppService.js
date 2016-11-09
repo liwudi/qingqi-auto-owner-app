@@ -23,6 +23,25 @@ export function carTeamInfo(){
 
 //车辆详情查询接口
 export function carInfo(carId){
+    //todo
+    return Promise.resolve({
+        "routeId": 666,
+        "routeInfo": "北京-德州-济南-青岛",
+        "subDriver": "张四维",
+        "subDriverId": 666,
+        "subDriverPhoneNum": 13913913913,
+        "mainDriver": "梁大大",
+        "mainDriverid": 666,
+        "mainDriverPhoneNum": 13913913913,
+        "speed": 89,
+        "carCode": "京N23456",
+        "adminList": [
+            {
+                "userNnme": "张三",
+                "phoneNum": 13913913913
+            }
+        ]
+    });
     return RequestService.get(
         makeUrl('carInfo'),
         {
@@ -34,6 +53,15 @@ export function carInfo(carId){
 
 //车辆详情参数查询接口
 export function carParameter(carId){
+    //todo
+    return Promise.resolve({
+        "modelName": "起重机",
+        "vin": "Vin23",
+        "gearBoxModel": "变速箱型号",
+        "engineModel": "发动机型号",
+        "rearxleAratio": "后桥速比",
+        "tireModel": "轮胎型号"
+    })
     return RequestService.get(
         makeUrl('carParm'),
         {
@@ -155,12 +183,15 @@ export function statisRouteOilwearByDay(page_number, page_size, statisDate){
 }
 
 //单线路车辆油耗列表统计接口01040603
-export function statisOilwearForOneRoute(routeId,statisDate){
+export function statisOilwearForOneRoute(page_number, page_size,routeId,statisDate){
     return RequestService.get(
         makeUrl('statisOilwearForOneRoute'),
         {
+            page_number:page_number || 1,
+            page_size:page_size || 20,
             routeId:routeId,
-            statisDate:statisDate
+            statisDate:statisDate,
+            userId:userId
         }
     );
 }

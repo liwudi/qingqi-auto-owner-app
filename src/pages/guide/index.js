@@ -97,10 +97,6 @@ import ManagerList from '../userCenter/manager/ManagerList'
 import ManagerAdd from '../userCenter/manager/ManagerAdd'
 import ManagerEdit from '../userCenter/manager/ManagerEdit'
 
-import MyInfo from '../userCenter/my-info/MyInfo'
-import MyInfoId from '../userCenter/my-info/MyInfoId'
-import MyInfoDriveType from '../userCenter/my-info/MyInfoDriveType'
-
 import Recommend from '../recommend/Recommend';
 import AboutUs from '../userCenter/AboutUs';
 
@@ -359,9 +355,6 @@ export default class Guide extends Component {
 
                     <Text {...this.props} onPress={() => {this.toPage(Message)}}  >版本更新</Text>
                     <Text {...this.props} onPress={() => {this.toPage(Message)}}  >清除缓存</Text>
-                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(MyInfo)}}>我的资料</Text>
-                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(MyInfoId)}}>我的资料-身份证</Text>
-                    <Text style={styles.over} {...this.props} onPress={() => {this.toPage(MyInfoDriveType)}}>我的资料-驾驶类别选择</Text>
 
                 </View>
                 <View>

@@ -18,7 +18,8 @@ import {carInfo} from '../../../services/AppService';
 
 import CarParameter from './CarParameter';
 import ModifyVehicleLicence from './ModifyVehicleLicence';
-import DriveLine from './DriveLine';
+import BoundDriver from './BoundDriver';
+import BoundLine from './BoundLine';
 import ListTitle from '../../../components/ListTitle';
 import ListItem from '../../../components/ListItem';
 import TopBanner from '../../../components/TopBanner';
@@ -26,6 +27,9 @@ import TopBanner from '../../../components/TopBanner';
 export default class CarDetail extends Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			isRefreshing: true
+		}
 	}
 	fetchData () {
 		this.setState({isRefreshing: true});
@@ -37,7 +41,7 @@ export default class CarDetail extends Component {
 	onRefresh() {
 		this.fetchData();
 	}
-	componentWillMount() {
+	componentDidMount() {
 		this.fetchData();
 	}
 
@@ -47,20 +51,42 @@ export default class CarDetail extends Component {
 			carCode: this.state.data.carCode
 		}});
 	}
-	goToRoute() {
-		this.props.router.push(DriveLine, {nav: {
+
+	selectLine() {
+		this.props.router.push(BoundLine, {nav: {
 			routeId: this.state.data.routeId
 		}});
 	}
-	//修改车牌号
-	modifyCarDode () {
-		this.props.router.push(ModifyVehicleLicence, {nav: {
-			carId: this.props.nav.carId,
-			carCode: this.state.data.carCode
-		}});
+		//修改车牌号
+	 modifyCarDode () {
+		 this.props.router.push(ModifyVehicleLicence, {
+			 nav: {
+				 carId: this.props.nav.carId,
+				 carCode: this.state.data.carCode
+			 }}
+		 );
+	 }
+
+	selectDriverSub(){
+		this.props.router.push(BoundDriver, {
+			nav: {
+				carId: this.props.nav.carId,
+				carCode: this.state.data.carCode
+			}}
+		);
+	}
+
+	selectDriverMain(){
+		this.props.router.push(BoundDriver, {
+			nav: {
+				carId: this.props.nav.carId,
+				carCode: this.state.data.carCode
+			}}
+		);
 	}
 
 	renderList() {
+		console.info(this.props)
 		let paddingRight = Env.font.base * 94;
 		/*
 		 * data.routeId	Integer	路线Id
@@ -74,84 +100,69 @@ export default class CarDetail extends Component {
 		 * data.adminList#userNnme	String	管理员名称
 		 * */
 		let data = this.state.data;
-		console.info(data)
 		return <View>
 			<ListTitle title="车辆详情"/>
-			<ListItem left="车牌号"
-					  right={data.carCode}
-					  color={Env.color.auxiliary}
-					  style={[{paddingRight: paddingRight}]}/>
 
-			{/*<ViewForRightArrow onPress={this.modifyCarDode.bind(this)}>
-				<View style={[estyle.fxRow]}>
-					<Text style={[estyle.text, {textAlign: 'left'}]}>车牌号</Text>
-					<Text style={[estyle.fx1,estyle.text, {color:Env.color.auxiliary, textAlign: 'right'}]}>{data.carCode}</Text>
-				</View>
-			</ViewForRightArrow>*/}
+			<ViewForRightArrow onPress={this.modifyCarDode.bind(this)}>
+				 <View style={[estyle.fxRow]}>
+					 <Text style={[estyle.text, {textAlign: 'left'}]}>车牌号</Text>
+					 <Text style={[estyle.fx1,estyle.text, {color:Env.color.auxiliary, textAlign: 'right'}]}>{data.carCode}</Text>
+				 </View>
+			 </ViewForRightArrow>
 			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
 				<View style={[estyle.fxRow]}>
-					<Text style={[estyle.text, {textAlign: 'left'}]}>车辆参数</Text>
+					<Text style={[estyle.text, {textAlign: 'left'}]}>车辆速度</Text>
+					<Text style={[estyle.fx1,estyle.text, {color:Env.color.main, textAlign: 'right'}]}>45km/h</Text>
 				</View>
 			</ViewForRightArrow>
-
-			<ListTitle title="车主信息"/>
-			<ViewForRightArrow rightIcon={IconCall}
-							   iconSize={Env.vector.call.size}
-							   iconColor={Env.color.main}>
-				<View style={[estyle.fxRow]}>
-					<Text style={[estyle.text, {textAlign: 'left'}]}>车主</Text>
-					<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.carOwnname}</Text>
-				</View>
+			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
+				<Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
 			</ViewForRightArrow>
-				{
-					data.adminList.length ? data.adminList.map((item={}, idx) => {
-						return <ViewForRightArrow  key={idx} rightIcon={IconCall}
-										   iconSize={Env.vector.call.size}
-										   iconColor={Env.color.main}>
-						<View style={[estyle.fxRow]}>
-							<Text style={[estyle.text, {textAlign: 'left'}]}>管理员</Text>
-							<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{item.userName}</Text>
-						</View>
-						</ViewForRightArrow>
+			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
+				<Text style={[estyle.text, {textAlign: 'left'}]}>报警通知</Text>
+			</ViewForRightArrow>
+			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
+				<Text style={[estyle.text, {textAlign: 'left'}]}>车辆参数</Text>
+			</ViewForRightArrow>
 
-					}) : <ListItem left="管理员"
-								   right="无"
-								   style={[{paddingRight: paddingRight}]}/>
-				}
 			<ListTitle title="驾驶司机"/>
 			{
-				data.mainDriver ? <ViewForRightArrow rightIcon={IconCall}
-													 iconSize={Env.vector.call.size}
-													 iconColor={Env.color.main}>
-					<View style={[estyle.fxRow]}>
-						<Text style={[estyle.text, {textAlign: 'left'}]}>主驾驶</Text>
-						<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.mainDriver}</Text>
-					</View>
-				</ViewForRightArrow> :
-					<ListItem left="主驾驶"
-							  right="无"
-							  style={[{paddingRight: paddingRight}]}/>
-			}
-			{
-				data.subDriver ? <ViewForRightArrow rightIcon={IconCall}
-													iconSize={Env.vector.call.size}
-													iconColor={Env.color.main}>
-					<View style={[estyle.fxRow]}>
-						<Text style={[estyle.text, {textAlign: 'left'}]}>副驾驶</Text>
-						<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.subDriver}</Text>
-					</View>
-				</ViewForRightArrow> :
-					<ListItem left="副驾驶"
-							  right="无"
-							  style={[{paddingRight: paddingRight}]}/>
+				data.mainDriver
+					?
+					<ViewForRightArrow
+						rightIcon={IconCall}
+						iconSize={Env.vector.call.size}
+						iconColor={Env.color.main}
+						onPress={this.selectDriverMain.bind(this)}>
+						<View style={[estyle.fxRow,estyle.paddingRight]}>
+							<Text style={[estyle.text, {textAlign: 'left'}]}>主驾驶</Text>
+							<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.mainDriver}</Text>
+						</View>
+					</ViewForRightArrow>
+					:
+					<ListItem left="主驾驶" right="无" style={[{paddingRight: paddingRight}]}/>
 			}
 
+			{
+				data.subDriver
+					?
+					<ViewForRightArrow
+						rightIcon={IconCall}
+						iconSize={Env.vector.call.size}
+						iconColor={Env.color.main}
+						onPress={this.selectDriverSub.bind(this)}>
+						<View style={[estyle.fxRow,estyle.paddingRight]}>
+							<Text style={[estyle.text, {textAlign: 'left'}]}>副驾驶</Text>
+							<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.subDriver}</Text>
+						</View>
+					</ViewForRightArrow>
+					:
+					<ListItem left="副驾驶" right="无" style={[{paddingRight: paddingRight}]}/>
+			}
 
 			<ListTitle title="行驶线路"/>
-			<ViewForRightArrow onPress={this.goToRoute.bind(this)}>
-				<View style={[estyle.fxRow]}>
-					<Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeInfo}</Text>
-				</View>
+			<ViewForRightArrow onPress={this.selectLine.bind(this)}>
+				<Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeInfo}</Text>
 			</ViewForRightArrow>
 		</View>
 	}
