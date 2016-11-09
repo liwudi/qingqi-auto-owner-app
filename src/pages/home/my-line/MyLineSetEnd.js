@@ -6,6 +6,7 @@ import {
 	Text,
 	View,
 	ScrollView,
+	ListView,
 	RefreshControl,
 	TouchableOpacity
 } from 'react-native';
@@ -20,9 +21,10 @@ import {addRoute,routeInfo,modifyRoute,queryCity} from '../../../services/LineSe
 export default class MyLineSetStart extends Component {
 	constructor(props) {
 		super(props);
+		let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
 			isRefreshing: false,
-			data:[],
+			ds,
 			searchKey: ''
 		};
 	}
@@ -83,8 +85,9 @@ export default class MyLineSetStart extends Component {
 		this.setState({isRefreshing: true});
 		queryCity(this.state.searchKey)
 			.then((data)=>{
-				this.setState({data:data});
-				console.log(this.state.data)
+				this.setState({
+					ds: this.state.ds.cloneWithRows(data)
+				});
 			})
 			.catch(this.finaliy.bind(this))
 			.finally(this.finaliy.bind(this));
@@ -106,17 +109,13 @@ export default class MyLineSetStart extends Component {
 		})
 	}
 
-	renderList() {
-		let data = this.state.data;
-		return data.map((item, idx) => {
-			return <View>
-				<View style={[estyle.padding]}>
-					<Text style={estyle.text}>{item.fletter}</Text>
-				</View>
-				{this.listItem(item.subList)}
+	renderList(row) {
+		return <View>
+			<View style={[estyle.padding]}>
+				<Text style={estyle.text}>{row.fletter}</Text>
 			</View>
-		})
-
+			{this.listItem(row.subList)}
+		</View>
 	}
 
 	render() {
@@ -128,17 +127,18 @@ export default class MyLineSetStart extends Component {
 					placeholder='输入城市名称'
 					ref="searchKey"
 					onChangeText={searchKey => {this.setState({searchKey:searchKey});this.onRefresh()}}/>
-				<ScrollView style={estyle.fx1}
-							refreshControl={
+				<ListView style={estyle.fx1}
+						  refreshControl={
                                 <RefreshControl
                                     refreshing={this.state.isRefreshing}
                                     onRefresh={this.onRefresh.bind(this)}
                                     colors={Env.refreshCircle.colors}
                                     progressBackgroundColor={Env.refreshCircle.bg}
                                 />
-                            }>
-					{this.renderList()}
-				</ScrollView>
+                            }
+						  dataSource={this.state.ds}
+						  renderRow={(row) => this.renderList(row)}
+				/>
 			</View>
 		)
 	}
