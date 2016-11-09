@@ -14,7 +14,6 @@ const estyle = Env.style;
 import TopBanner from '../../../components/TopBanner';
 import LabelInput  from '../../../components/LabelInput';
 import ListItem from '../../../components/ListItem';
-import ConfirmButton from '../../../components/ConfirmButton';
 import Toast from '../../../components/Toast';
 import {modifyRoute,routeInfo,queryCity} from '../../../services/LineService';
 
@@ -30,15 +29,20 @@ export default class MyLineSetPass extends Component {
 	
 	save(item) {
 		let opts={};
+		let arry= this.props.pass || [];
+		arry.push({point_name:item.cname,city_code:item.cid,point_pos:'1',point_des:item.cname,radius:'100'})
+		// opts.passbyPoints = "[{\"point_name\": '\"'"+ item.cname + "'\"',\"city_code\":'\"'" + item.cid + "'\"',\"point_pos\":\"1\",\"point_des\":\"" + item.cname + "\",\"radius\":\"100\"}]";
+		// opts.passbyPoints = arry;
+		// this.props.router.pop({pass:opts.passbyPoints,routeId:'1'});
 		routeInfo(this.props.routeId)
 			.then((data)=>{
 				opts = data;
 				opts.routeId = this.props.routeId;
-				opts.passbyPoints = [{"point_name": '\"'+ item.cname + '\"',"city_code":'\"'+ item.cid + '\"',"point_pos":"路过1_pos","point_des":"路过1_des","radius":"100"}]
+				opts.passbyPoints = JSON.stringify(arry);
 				modifyRoute(opts)
 					.then(()=>{
 						Toast.show('添加成功', Toast.SHORT);
-						this.props.router.pop({pass:item.cname});
+						this.props.router.pop({pass:arry});
 					})
 					.catch((e)=>{
 						Toast.show(e.message, Toast.SHORT);

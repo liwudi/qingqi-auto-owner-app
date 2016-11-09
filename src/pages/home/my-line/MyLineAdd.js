@@ -25,16 +25,15 @@ import MyLineSetEnd from './MyLineSetEnd';
 import MyLineAddCarList from './MyLineAddCarList';
 import MyLineSetMaxSpeed from './MyLineSetMaxSpeed';
 import MyLineSetOilwearLimit from './MyLineSetOilwearLimit';
-import {routeCarList, delCarRoute} from '../../../services/LineService';
+import {routeCarList, delCarRoute, routeInfo, modifyRoute} from '../../../services/LineService';
 
 export default class MyLineAdd extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isPass:false,
             carList: false,
             renovate: false,
-            pass:''
+            pass:[]
         };
     }
 
@@ -84,17 +83,49 @@ export default class MyLineAdd extends Component {
             })
     }
 
-    passVia() {
-        if (this.state.isPass) {
+    delPass(pass) {
+        let opts={};
+        routeInfo(this.props.routeId)
+        	.then((data)=>{
+        		opts = data;
+        		opts.routeId = this.props.routeId;
+        		opts.passbyPoints = JSON.stringify(pass);
+        		modifyRoute(opts)
+        			.then(()=>{
+        				Toast.show('删除途经点成功', Toast.SHORT);
+        			})
+        			.catch((e)=>{
+        				Toast.show(e.message, Toast.SHORT);
+        			})
+        	})
+        	.catch((e)=>{
+        		Toast.show(e.message, Toast.SHORT);
+        	})
+    }
+
+    passVia(pass) {
+        return pass.map((item, idx) => {
             return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-                <View style={estyle.fx1}><Text>{this.props.pass}</Text></View>
+                <View style={estyle.fx1}><Text>{item.point_name}</Text></View>
                 <View style={[estyle.paddingRight, estyle.fxCenter]}>
                     <IconTrash onPress={()=>{
-                        this.setState({pass:''});
+                        this.props.pass = pass.splice(idx,1);
+                        this.delPass(this.props.pass);
+                        this.forceUpdate();
                     }}/>
                 </View>
             </View>
-        }
+        })
+        // if (this.state.isPass) {
+        //     return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
+        //         <View style={estyle.fx1}><Text>{this.props.pass}</Text></View>
+        //         <View style={[estyle.paddingRight, estyle.fxCenter]}>
+        //             <IconTrash onPress={()=>{
+        //                 this.setState({pass:''});
+        //             }}/>
+        //         </View>
+        //     </View>
+        // }
     }
 
     componentWillReceiveProps() {
@@ -102,6 +133,7 @@ export default class MyLineAdd extends Component {
             this.setState({carList:true});
         }
         this.onRenovate();
+        console.log(this.props.pass)
         if (!(typeof this.props.pass == 'undefined')) {
             this.setState({isPass:true});
         }
@@ -137,10 +169,10 @@ export default class MyLineAdd extends Component {
                     <View style={[estyle.padding,estyle.fxRow]}>
                         <View style={estyle.fx1}><Text style = {{color:Env.color.main}}>途径点</Text></View>
                         <View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {
-                            this.props.router.push(MyLineSetPass,{routeId:this.props.routeId});
+                            this.props.router.push(MyLineSetPass,{routeId:this.props.routeId, pass:this.props.pass});
                         }}/></View>
                     </View>
-                    {this.passVia()}
+                    {this.passVia(this.props.pass || [])}
 
                     <View style={estyle.padding}><Text style = {{color:Env.color.main}}>驾驶规定</Text></View>
                     <View style={estyle.cardBackgroundColor}>
