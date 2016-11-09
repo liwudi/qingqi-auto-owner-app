@@ -26,11 +26,11 @@ export default class MyLineSetPass extends Component {
 			searchKey: ''
 		};
 	}
-	
+
 	save(item) {
 		let opts={};
 		let arry= this.props.pass || [];
-		arry.push({point_name:item.cname,city_code:item.cid,point_pos:'1',point_des:item.cname,radius:'100'})
+		arry.push({pointName:item.cname,cityCode:item.cid,pointPos:'1',pointDes:item.cname,radius:'100'})
 		// opts.passbyPoints = "[{\"point_name\": '\"'"+ item.cname + "'\"',\"city_code\":'\"'" + item.cid + "'\"',\"point_pos\":\"1\",\"point_des\":\"" + item.cname + "\",\"radius\":\"100\"}]";
 		// opts.passbyPoints = arry;
 		// this.props.router.pop({pass:opts.passbyPoints,routeId:'1'});

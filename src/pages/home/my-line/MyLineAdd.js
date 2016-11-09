@@ -106,7 +106,7 @@ export default class MyLineAdd extends Component {
     passVia(pass) {
         return pass.map((item, idx) => {
             return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-                <View style={estyle.fx1}><Text>{item.point_name}</Text></View>
+                <View style={estyle.fx1}><Text>{item.pointName}</Text></View>
                 <View style={[estyle.paddingRight, estyle.fxCenter]}>
                     <IconTrash onPress={()=>{
                         this.props.pass = pass.splice(idx,1);
@@ -116,16 +116,6 @@ export default class MyLineAdd extends Component {
                 </View>
             </View>
         })
-        // if (this.state.isPass) {
-        //     return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-        //         <View style={estyle.fx1}><Text>{this.props.pass}</Text></View>
-        //         <View style={[estyle.paddingRight, estyle.fxCenter]}>
-        //             <IconTrash onPress={()=>{
-        //                 this.setState({pass:''});
-        //             }}/>
-        //         </View>
-        //     </View>
-        // }
     }
 
     componentWillReceiveProps() {

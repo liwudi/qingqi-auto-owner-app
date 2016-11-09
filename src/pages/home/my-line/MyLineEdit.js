@@ -20,12 +20,13 @@ import {IconUser} from '../../../components/Icons'
 import {IconTrash} from '../../../components/Icons'
 import PageList from '../../../components/PageList';
 import Alert from '../../../components/Modals/Alert';
-import {routeInfo, routeCarList ,delCarRoute, deleteRoute} from '../../../services/LineService';
+import {routeInfo, routeCarList ,delCarRoute, deleteRoute, modifyRoute} from '../../../services/LineService';
 import MyLineSetStart from './MyLineSetStart';
 import MyLineSetEnd from './MyLineSetEnd';
 import MyLineSetMaxSpeed from './MyLineSetMaxSpeed';
 import MyLineSetOilwearLimit from './MyLineSetOilwearLimit';
 import MyLineAddCarList from './MyLineAddCarList';
+import MyLineSetPass from './MyLineSetPass';
 export default class MyLineEdit extends Component {
 	constructor(props) {
 		super(props);
@@ -34,7 +35,7 @@ export default class MyLineEdit extends Component {
 			carList: false,
 			renovate: false,
 			alertCActive: false,
-			pass:''
+			passbyPoints:[]
 		};
 	}
 
@@ -54,6 +55,41 @@ export default class MyLineEdit extends Component {
 	}
 	componentWillMount() {
 		this.fetchData();
+	}
+
+	delPass(pass) {
+		let opts={};
+		routeInfo(this.props.nav.routeId)
+			.then((data)=>{
+				opts = data;
+				opts.routeId = this.props.nav.routeId;
+				opts.passbyPoints = JSON.stringify(pass);
+				modifyRoute(opts)
+					.then(()=>{
+						Toast.show('删除途经点成功', Toast.SHORT);
+						this.setState({passbyPoints: pass});
+					})
+					.catch((e)=>{
+						Toast.show(e.message, Toast.SHORT);
+					})
+			})
+			.catch((e)=>{
+				Toast.show(e.message, Toast.SHORT);
+			})
+	}
+
+	passVia(pass) {
+		this.state.passbyPoints = pass;
+		return pass.map((item, idx) => {
+			return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
+				<View style={estyle.fx1}><Text>{item.pointName}</Text></View>
+				<IconTrash onPress={()=>{
+                        this.props.pass = pass.splice(idx,1);
+                        this.delPass(this.props.pass);
+                        this.forceUpdate();
+                    }}/>
+			</View>
+		})
 	}
 
 	carList(){
@@ -115,12 +151,12 @@ export default class MyLineEdit extends Component {
 						</View>
 						<View style={[estyle.paddingTop,estyle.fxRow]}>
 							<View style={estyle.fx1}><Text>途径点</Text></View>
-							<View style={estyle.paddingRight}><Icons.IconPlus/></View>
+							<View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {//this.state.passbyPoints
+                            this.props.router.push(MyLineSetPass,{routeId:this.state.routeid, pass:this.state.passbyPoints});
+                        }}/></View>
 						</View>
-						<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-							<View style={estyle.fx1}><Text>济南</Text></View>
-							<IconTrash/>
-						</View>
+						{this.passVia(this.props.pass || this.state.passbyPoints)}
+
 						<View style={estyle.paddingTop}><Text>驾驶规定</Text></View>
 						<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
 							<View style={estyle.fx1}><Text>最高时速</Text></View>
