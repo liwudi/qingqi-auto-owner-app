@@ -1,11 +1,12 @@
 /**
- * Created by ligj on 2016/10/9.
+ * Created by yaocy on 2016/11/2.
  */
 import React, { Component } from 'react';
 import {
 	Text,
 	View,
 	ScrollView,
+	ListView,
 	RefreshControl,
 	TouchableOpacity
 } from 'react-native';
@@ -18,8 +19,7 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import Toast from '../../../components/Toast';
 import {modifyRoute,routeInfo, queryCity} from '../../../services/LineService';
-
-export default class MyLineSetStart extends Component {
+export default class SettingStName extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -28,17 +28,6 @@ export default class MyLineSetStart extends Component {
 			searchKey: ''
 		};
 	}
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		start: {
-	// 			startPointName:'沈阳',
-	// 			startCityCode:'1',
-	// 			startPointPos:'1',
-	// 			startPointDes:'沈阳'
-	// 		}
-	// 	};
-	// }
 
 	save(item) {
 		if (this.props.edit) {
@@ -66,12 +55,6 @@ export default class MyLineSetStart extends Component {
 					Toast.show(e.message, Toast.SHORT);
 				})
 		} else {
-			// this.props.router.pop({
-			// 	startPointName: this.state.start.startPointName,
-			// 	startCityCode: this.state.start.startCityCode,
-			// 	startPointPos: this.state.start.startPointPos,
-			// 	startPointDes: this.state.start.startPointDes
-			// });
 			this.props.router.pop({
 				startPointName: item.cname,
 				startCityCode: item.cid,
@@ -106,9 +89,7 @@ export default class MyLineSetStart extends Component {
 
 	listItem(subList) {
 		return subList.map((item, idx) => {
-			return <TouchableOpacity onPress={() => {
-                            this.save(item);
-                        }}>
+			return <TouchableOpacity>
 				<ListItem left={item.cname}/>
 			</TouchableOpacity>
 		})
@@ -129,14 +110,13 @@ export default class MyLineSetStart extends Component {
 
 	render() {
 		return (
-			<View>
-				<TopBanner {...this.props} title="设置起点"/>
+			<View style={estyle.fx1}>
+				<TopBanner {...this.props} title='设置起点'/>
 				<LabelInput
 					style = {[estyle.borderBottom]}
 					placeholder='输入城市名称'
 					ref="searchKey"
 					onChangeText={searchKey => {this.setState({searchKey:searchKey});this.onRefresh()}}/>
-
 				<ScrollView style={estyle.fx1}
 							refreshControl={
                                 <RefreshControl
@@ -149,6 +129,6 @@ export default class MyLineSetStart extends Component {
 					{this.renderList()}
 				</ScrollView>
 			</View>
-		);
+		)
 	}
 }

@@ -101,9 +101,7 @@ export default class MyLineSetStart extends Component {
 
 	listItem(subList) {
 		return subList.map((item, idx) => {
-			return <TouchableOpacity onPress={() => {
-                            this.save(item);
-                        }}>
+			return <TouchableOpacity>
 				<ListItem left={item.cname}/>
 			</TouchableOpacity>
 		})
@@ -124,14 +122,13 @@ export default class MyLineSetStart extends Component {
 
 	render() {
 		return (
-			<View>
-				<TopBanner {...this.props} title="设置终点"/>
+			<View style={estyle.fx1}>
+				<TopBanner {...this.props} title='设置终点'/>
 				<LabelInput
 					style = {[estyle.borderBottom]}
 					placeholder='输入城市名称'
 					ref="searchKey"
 					onChangeText={searchKey => {this.setState({searchKey:searchKey});this.onRefresh()}}/>
-
 				<ScrollView style={estyle.fx1}
 							refreshControl={
                                 <RefreshControl
@@ -144,6 +141,6 @@ export default class MyLineSetStart extends Component {
 					{this.renderList()}
 				</ScrollView>
 			</View>
-		);
+		)
 	}
 }

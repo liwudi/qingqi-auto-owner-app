@@ -101,14 +101,13 @@ export default class MyLineSetPass extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={estyle.fx1}>
 				<TopBanner {...this.props} title="设置途经点"/>
 				<LabelInput
 					style = {[estyle.borderBottom]}
 					placeholder='输入城市名称'
 					ref="searchKey"
 					onChangeText={searchKey => {this.setState({searchKey:searchKey});this.onRefresh()}}/>
-
 				<ScrollView style={estyle.fx1}
 							refreshControl={
                                 <RefreshControl
