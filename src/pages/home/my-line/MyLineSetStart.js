@@ -6,7 +6,6 @@ import {
 	Text,
 	View,
 	ScrollView,
-	ListView,
 	RefreshControl,
 	TouchableOpacity
 } from 'react-native';
@@ -15,8 +14,6 @@ const estyle = Env.style;
 import TopBanner from '../../../components/TopBanner';
 import LabelInput  from '../../../components/LabelInput';
 import ListItem from '../../../components/ListItem';
-import ConfirmButton from '../../../components/ConfirmButton';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import Toast from '../../../components/Toast';
 import {modifyRoute,routeInfo, queryCity} from '../../../services/LineService';
 export default class SettingStName extends Component {

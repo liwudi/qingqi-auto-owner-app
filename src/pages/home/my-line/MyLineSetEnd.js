@@ -14,7 +14,6 @@ const estyle = Env.style;
 import TopBanner from '../../../components/TopBanner';
 import LabelInput  from '../../../components/LabelInput';
 import ListItem from '../../../components/ListItem';
-import ConfirmButton from '../../../components/ConfirmButton';
 import Toast from '../../../components/Toast';
 import {addRoute,routeInfo,modifyRoute,queryCity} from '../../../services/LineService';
 
