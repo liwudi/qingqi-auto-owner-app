@@ -26,7 +26,7 @@ import Router from '../services/RouterService';
 import Env from '../utils/Env'
 
 import AddCarPostCarCode from './userCenter/add-car/AddCarPostCarCode';
-import AddCar from './userCenter/add-car/AddCar';
+import OilManage from './home/oil-maange/OilManage';
 
 class Main extends Component {
 
