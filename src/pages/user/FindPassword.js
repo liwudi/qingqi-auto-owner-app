@@ -20,9 +20,9 @@ import { getCaptcha, CAPTCHA_TYPE_FIND_PASSWORD } from '../../services/UserServi
 
 import TopBanner from '../../components/TopBanner';
 import LabelInput from '../../components/LabelInput';
-import ConfirmButton from '../../components/ConfirmButton.android';
+import ConfirmButton from '../../components/ConfirmButton';
 import PhoneInput from '../../components/Inputs/Phone';
-
+import Button from '../../components/widgets/Button'
 import FindPasswordCheckCode from './FindPasswordCheckCode';
 
 import Env from '../../utils/Env';
@@ -34,13 +34,15 @@ class FindPassword extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			phone:'13123222333',
+			phone:'15010053708',
 			captcha:'',
-			captchaImg: false
+			captchaImg: false,
+			captchaUpdate: false
 		};
 	}
 
 	next = () => {
+		console.info('gogogog')
 		this.props.router.replace(FindPasswordCheckCode);
 	}
 
@@ -77,11 +79,11 @@ class FindPassword extends Component {
 			if(this.state.captchaImg){
 				if(this.oldPhone !== this.state.phone){
 					this.oldPhone = this.state.phone;
-					this.imgCapthCache = <Image
-						style={{width:120,height:30}}
+					this.imgCapthCache = <Button onPress={() => {this.oldPhone = ''; this.onPhoneChange(this.state.phone);}}><Image
+						style={[Env.vector.captcha.size]}
 						resizeMode={Image.resizeMode.cover}
 						source={{uri: getCaptcha(this.state.phone, CAPTCHA_TYPE_FIND_PASSWORD)}}
-					/>;
+					/></Button>;
 				}
 
 				return this.imgCapthCache;

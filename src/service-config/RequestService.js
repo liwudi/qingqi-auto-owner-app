@@ -8,6 +8,7 @@ import Toast from '../components/Toast';
 let serviceUrl = '';
 let userInfo;
 let token = null;
+let userId = null;
 
 function urlEncode(param, key, encode) {
     if (param == null) return '';
@@ -77,6 +78,9 @@ function request(opts, processor, isUpload) {
             opts.data = {};
         }
         opts.data['token'] = userInfo.token;
+        //todo 测试id
+        // opts.data['userId'] = opts.data['userId'] || userInfo.userId;
+        opts.data['userId'] = userInfo.userId;
     }
 
 
@@ -172,8 +176,13 @@ function setServiceUrl(url) {
     serviceUrl = url;
 }
 
-function setToken(_token) {
-    token = _token;
+function setToken(userToken) {
+    userInfo = userToken;
+/*    console.info(userToken);
+    token = userToken.token;
+    userId = userToken.userId;*/
+    //token = _token;
+
 }
 
 function getToken() {

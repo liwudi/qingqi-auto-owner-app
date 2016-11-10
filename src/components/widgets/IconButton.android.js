@@ -12,6 +12,7 @@ export default class IconButton extends Component {
         <View style={[styles.container]} >
 	        <Icon name={this.props.iconName} size={_size + 20} color={_color} />
 	        <Text style={{fontSize:_size , color:_color, marginTop:-6 * Env.font.base}} >{this.props.title}</Text>
+            {this.props.isSign && <View style={{width:Env.font.base * 16,height:Env.font.base * 16,borderRadius:Env.font.base * 20,backgroundColor:'red',position:'absolute',top:0,right:Env.font.base * -16}}/>}
         </View>
     );
   }

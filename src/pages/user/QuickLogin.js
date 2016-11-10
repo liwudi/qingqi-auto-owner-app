@@ -21,7 +21,7 @@ import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
 import LabelInput from '../../components/LabelInput.android';
 import ConfirmButton from '../../components/ConfirmButton.android';
 
-import SaveTrueName from './SaveTrueName';
+import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 import HomeRouter from '../HomeRouter';
 import Env from '../../utils/Env';
 const estyle = Env.style,
@@ -33,13 +33,13 @@ class QuickLogin extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			phone: '',
+			phone: (this.props.nav || {}).phone,
 			code: ''
 		}
 	}
 
-	next = () => {
-		this.props.router.push(HomeRouter);
+	next = (userInfo) => {
+		this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
 	}
 
 	vertify() {
@@ -54,7 +54,7 @@ class QuickLogin extends Component {
 
 	onLogin() {
 		if(this.vertify()) {
-			this.props.dispatch(UserActions.doQuickLogin(this.state.phone, this.state.code, this.next));
+			this.props.dispatch(UserActions.doQuickLogin(this.state.phone, this.state.code.value, this.next));
 		}
 	}
 
@@ -69,6 +69,7 @@ class QuickLogin extends Component {
 						ref="phone"
 						style={[estyle.marginTop, estyle.borderBottom]}
 						onChangeText={phone => this.setState({phone})}
+						defaultValue={this.state.phone}
 						labelSize={3}
 						validates={[
 							{require:true, msg: emsg.phone.require},

@@ -17,6 +17,7 @@ import {
 import * as Icons from './Icons';
 
 import Env from '../utils/Env';
+const estyle = Env.style;
 
 export default class TopBanner extends React.Component{
 	static defaultProps = {
@@ -39,23 +40,23 @@ export default class TopBanner extends React.Component{
 				return this.props.leftView;
 			}else if(this.props.leftShow){
 				return (
-					<TouchableOpacity onPress={() => this.props.doBack()}>
-						<Text style={styles.text}><Icons.IconArrowLeft color="#FFF" /></Text>
+					<TouchableOpacity style={[styles.height, estyle.fxColumnCenter]} onPress={() => {this.props.onPress ? this.props.onPress(): this.props.doBack()}}>
+						<Text style={estyle.navTitle}><Icons.IconArrowLeft color="#FFF" /></Text>
 					</TouchableOpacity>
 				)
 			} else {
-				return (<Text></Text>);
+				return <Text/>
 			}
 		}
 		const _renderTitle = () => {
 			if(this.props.titleView){
-				return <View style={styles.textView}>
+				return <View style={[styles.textView, estyle.fxColumnCenter, {backgroundColor:'green'}]}>
 						{this.props.titleView}
 					</View>
 			}else if(this.props.titleShow){
 				return (
-					<View style={styles.textView}>
-						<Text style={styles.titleText}>{this.props.title}</Text>
+					<View style={[styles.textView, {flexWrap: 'nowrap',position:'absolute', width:Env.screen.width * .6,left:Env.screen.width * .2, top: Env.font.base * 17.5}, estyle.fxColumnCenter]}>
+						<Text style={[estyle.navTitle, {textAlign: 'center'}]}>{this.props.title}</Text>
 					</View>
 				)
 			} else {
@@ -63,13 +64,13 @@ export default class TopBanner extends React.Component{
 			}
 		}
 		return (
-			<View style={[styles.topBanner,{backgroundColor: this.props.color || Env.color.main}]}>
+			<View style={[styles.topBanner,styles.height, {backgroundColor: this.props.color || Env.color.main}]}>
 				<StatusBar backgroundColor={ this.props.color || Env.color.main} />
-				<View style = {styles.backButton}>
+				<View style = {[styles.backButton, styles.height, estyle.fxColumnCenter]}>
 					{_renderLeft()}
 				</View>
 				{_renderTitle()}
-				<View style = {styles.nextButton} >
+				<View style = {[styles.nextButton, styles.height, estyle.fxRowCenter]} >
 					{this.props.rightView}
 				</View>
 			</View>
@@ -82,9 +83,10 @@ export default class TopBanner extends React.Component{
 // };
 
 const styles = StyleSheet.create({
+	height: {
+		height: 84 * Env.font.base
+	},
 	topBanner: {
-		height: 84 * Env.font.base,
-
 		alignItems: 'center',
 		justifyContent: 'center',
 		flexDirection: 'row'

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edg,chrome=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>行程详情</title>
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <link rel="stylesheet" href="style/index.css" />
+    <link rel="stylesheet" href="style/style.css"/>
+    <style>
+        @font-face {font-family: 'iconfont';
+            src: url('./style/fonts/iconfont.eot'); /* IE9*/
+            src: url('./style/fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('./style/fonts/iconfont.woff') format('woff'), /* chrome、firefox */
+            url('./style/fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            url('./style/fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+        .iconfont{
+            font-family:"iconfont" !important;
+            font-size:1.2rem;font-style:normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.2px;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .star{
+            color: rgb(255,156,0);
+        }
+        .dark{
+            color: #9c9c9c;
+        }
+        .height100{
+            height: 100%;
+        }
+        #mapDiv{width: 100%;height: 100%}
+    </style>
+</head>
+<body>
+<ul class="tit-list" id="tit-list">
+    <li id="btn-detail" class="on">行程数据</li>
+    <li id="btn-map">我的足迹</li>
+</ul>
+<div class="main detail-main" style="position:relative; width:100%">
+            <div id="mainBox" class="con-list wrapper">
+                <!--行程数据-->
+                <section id="tripData" class="route-data">
+                    <div class="total-data">
+                        <ul>
+                            <li>
+                            	<span class="tripScore">0</span>
+                                <svg viewBox="-2,-2,122,122" width="122" height="122" version="1.1" style="position: absolute;left:50%;top:0;margin-left: -60px;"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <!--<circle cx="59" cy="59" r="59"/>-->
+                                    <path id="tripScore" stroke="#3598db"/>
+                                </svg>
+                               <!-- <canvas width=120 height=120 class="trip-score"></canvas>-->
+                            </li>
+                            <!--<li class="tripDate">0000.00.00</li>-->
+                            <li>驾驶得分</li>
+                        </ul>
+                        <div class="address">
+                            <div  class="row go-detail">
+                                <p class="col-xs-12 col-sm-6"><span>起</span><em class="startLocal"></em><br /><strong class="startTime"></strong></p>
+                                <p class="col-xs-12 col-sm-6"><span>止</span><em class="endLocal"></em><br /><strong class="endTime"></strong></p>
+                            </div>
+                        </div>
+                        <div class="data-list row">
+                            <ol class="col-xs-12 col-sm-6">
+                                <li>
+                                    <span class="tripLen">0</span>
+                                    <br />
+                                                                                              里程
+                                    <br />
+                                                                                            （公里）
+                                </li>
+                                <li class="parting-line">|</li>
+                                <li>
+                                    <span class="tripOil">0</span>
+                                    <br />
+                                                                                              油耗
+                                    <br />
+                                                                                            （L）
+                                </li>
+                                <li class="parting-line">|</li>
+                                <li>
+                                    <span class="avgSpeed">0</span>
+                                    <br />
+                                                                                              平均时速
+                                    <br />
+                                                                                           （公里/小时）
+                                    <li class="parting-line">|</li>
+                                </li>
+                            </ol>
+                            <ol class="col-xs-12 col-sm-6">
+                                <li>
+                                    <span class="tripTime">0</span>
+                                    <br />
+                                                                                              时间
+                                    <br />
+                                                                                            （分钟）
+                                </li>
+                                <li class="parting-line">|</li>
+                                <li>
+                                    <span class="avgOil">0</span>
+                                    <br />
+                                                                                              平均油耗
+                                    <br />
+                                                                                            （L/100km）
+                                </li>
+                                <li class="parting-line">|</li>
+                                <!--<li>
+                                    <span class="driveCost">0</span>
+                                    <br />
+                                                                                              油费
+                                    <br />
+                                                                                            （元）
+                                </li>-->
+                            </ol>
+                        </div>
+                    </div>
+                    <!--油耗分析-->
+                    <div class="fuel-consumption">
+                        <div>
+                            <h2 style="float: left">油耗分析</h2>
+                            <div style="float: left" class="oilStar"></div>
+                        </div>
+                        <div class="progress1">
+                            <div class="progress1-bar">
+                                <p class="progress1-data">
+                                    <span>
+                                        <em class="avgOil2">0</em>
+                                        <br />
+                                        L/100KM
+                                    </span>
+                                    <strong>本车油耗</strong>
+                                </p>
+                                <p class="progress1-line"><span class="car-bar meoil"></span></p>
+                            </div>
+                            <div class="progress1-bar">
+                                <p class="progress1-data">
+                                    <span>
+                                        <em class="avgOilCarModel">0</em>
+                                        <br />
+                                        L/100KM
+                                    </span>
+                                    <strong>同类型油耗</strong>
+                                </p>
+                                <p class="progress1-line"><span class="same-car-bar type"></span></p>
+                            </div>
+                            <div class="progress1-bar">
+                                <p class="progress1-data">
+                                    <span>
+                                        <em class="avgOilHistory">0</em>
+                                        <br />
+                                        L/100KM
+                                    </span>
+                                    <strong>历史平均油耗</strong>
+                                </p>
+                                <p class="progress1-line"><span class="history-bar his"></span></p>
+                            </div>
+                            <p class="notice oilSuggest">&nbsp;</p>
+                        </div>
+                    </div>
+                    <!--驾驶分析-->
+                    <div class="drive">
+                        <div>
+                            <h2 style="float: left">驾驶分析</h2>
+                            <div style="float: left" class="driveStar"></div>
+                        </div>
+                        <!--<div><i class="iconfont">&#x3485;</i></div>-->
+                        <div class="ring-data">
+                            <div class="row">
+                                <ul class="speed-list1 col-xs-12 col-sm-6">
+                                    <li>
+                                        <div class="circle">
+                                            <em ><span class="zeroUpPer"></span>%</em><br /><span class="zeroUpTime">0km/h</span>
+                                            <svg viewBox="0,0,80,80" version="1.1"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="40" cy="40" r="38"/>
+                                                <path class="zeroUpPer" stroke="rgb(249,70,70)"/>
+                                            </svg>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <em ><span class="slowPer"></span>%</em><br /><span class="slowTime">0</span>
+                                            <svg viewBox="0,0,80,80" version="1.1"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="40" cy="40" r="38"/>
+                                                <path class="slowPer" stroke="rgb(255,186,37)"/>
+                                            </svg>
+                                        </div>
+                                    </li> <li>
+                                    <div class="circle">
+                                        <em ><span class="lowPer"></span>%</em><br /><span class="lowTime">0</span>
+                                        <svg viewBox="0,0,80,80" version="1.1"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="40" cy="40" r="38"/>
+                                            <path class="lowPer" stroke="rgb(255,132,0)"/>
+                                        </svg>
+                                    </div>
+                                </li>
+                                </ul>
+                                <ul class="speed-list2 col-xs-12 col-sm-6">
+                                    <li>
+                                        <div class="circle">
+                                            <em ><span class="midPer"></span>%</em><br /><span class="midTime">0</span>
+                                            <svg viewBox="0,0,80,80" version="1.1"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="40" cy="40" r="38"/>
+                                                <path class="midPer" stroke="rgb(62,182,173)"/>
+                                            </svg>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <em><span class="highPer"></span>%</em><br /><span class="highTime">0</span>
+                                            <svg viewBox="0,0,80,80" version="1.1"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="40" cy="40" r="38"/>
+                                                <path class="highPer" stroke="rgb(2,185,242)"/>
+                                            </svg>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="circle">
+                                            <em><span class="overPer"></span>%</em><br /><span class="overTime">0</span>
+                                            <svg viewBox="0,0,80,80" version="1.1"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="40" cy="40" r="38"/>
+                                                <path class="overPer" stroke="rgb(145,118,198)"/>
+                                            </svg>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <ol>
+                                <li>
+                                    <span class="fastupCount">0</span>
+                                    <br />
+                                                                                              急加速
+                                </li>
+                                <li>|</li>
+                                <li>
+                                    <span class="fastlowCount">0</span>
+                                    <br />
+                                                                                              急减速
+                                </li>
+                                <li>|</li>
+                                <li>
+                                    <span class="crookCount">0</span>
+                                    <br />
+                                    急转弯
+                                    <li>|</li>
+
+                                </li>
+                                <li>
+                                    <span class="speedingCount">0</span>
+                                    <br />
+                                    超速
+                                </li>
+                            </ol>
+                            <p class="notice driveSuggest">&nbsp;</p>
+                        </div>
+                    </div>
+
+                </section>
+                <!--我的足迹-->
+                <div id="tripMap" class="route-data" style="position: absolute;top: 0; left: 9999px;z-index: 100;height: 100%">
+                    <div  id="map-wrapper">
+                        <div id="mapDiv"></div>
+                        <div class="legend-container">
+                            <span>0-10L/100km</span>
+                            <span>10-20L/100km</span>
+                            <span>30-40L/100km</span>
+                            <span>&gt;40L/100km </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+    <script src="script/jquery.min.js"></script>
+    <script src="script/mobileapi2.0.js"></script>
+    <script type="text/javascript" src="script/detail.js"></script>
+    <script src="script/map.js"></script>
+    <script>
+        $('#btn-detail').click(function () {
+            $(this).attr('class','on');
+            $('#btn-map').attr('class',null);
+            $('#tripMap').css('left','9999px');
+            $('#mainBox').removeClass('height100');
+        });
+        $('#btn-map').click(function () {
+            $(this).attr('class','on');
+            $('#btn-detail').attr('class',null);
+            $('#tripMap').css('left','0px');
+            $('#mainBox').addClass('height100');
+        });
+        window.onload=function () {
+            if(getQueryString('share')==='false'){
+                $('#tit-list').css('display','none');
+            }
+            setViewHeight();
+            getTripFromId();
+            ColorLine.initMap();
+        };
+    </script>
+</html>

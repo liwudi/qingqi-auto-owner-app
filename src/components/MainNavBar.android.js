@@ -54,9 +54,10 @@ const styles = StyleSheet.create({
 		top: 0,
 		left: 0,
 		right: 0,
-		height:50,
+		// height:50,
 		flexDirection:'row',
-		backgroundColor:'#F0F0F0'
+		backgroundColor:'#F0F0F0',
+		paddingVertical:Env.font.base * 6
 	},
 	flexCenter:{
 		flex:1,

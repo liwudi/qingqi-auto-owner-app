@@ -11,7 +11,8 @@ import Login from './Login';
 import QuickLogin from './QuickLogin'
 import Env from '../../utils/Env';
 import Reg from './Reg';
-
+const estyle = Env.style;
+import SplashScreen from 'react-native-splash-screen';
 const tabs = [
 	{
 		title:'账号密码登录',
@@ -22,14 +23,24 @@ const tabs = [
 		component: QuickLogin
 	}
 ];
-
 export default class User extends Component {
 	constructor(props){
 		super(props);
+	//
+	}
+	componentDidMount() {
+	//	console.info(global.storage)
+		global.setToken();
+		global.storage.remove({
+			key: 'token'
+		}).then(() => {
+			console.info('clear')
+		});
 	}
 	render(){
+		//SplashScreen.hide();
 		return (
-			<View style={{flex:1}}>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner
 					leftShow={false}
 					title="登录"

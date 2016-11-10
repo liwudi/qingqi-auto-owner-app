@@ -9,10 +9,10 @@ import { userDetail } from '../../services/UserService';
 import RequestService, { setToken } from '../../service-config/RequestService';
 import {UserActions, TYPES} from '../../actions/index';
 
-import Login from '../user/Login';
+import Login from '../user/index';
 import HomeRouter from '../HomeRouter';
-// import HomeRouter from '../userCenter/account-config/AccountHome';
-
+import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
+import SplashScreen from 'react-native-splash-screen';
 import Env from '../../utils/Env';
 
 class Guide2 extends Component {
@@ -20,31 +20,41 @@ class Guide2 extends Component {
 		super(props);
 		this.state = {
 			alertActive: false
-	}
+		}
 
 	}
+	closeSplashScreen () {
+		SplashScreen.hide();
+	}
 	async componentDidMount(){
+		global.setToken = setToken;
 		global.storage.load({
 			key: 'token',
 			autoSync: false,
 		})
 		.then((rs) => {
+			rs = rs || {};
 			let token = rs.token;
 			if(token){
-				global.token = token;
-				setToken(token);
+				setToken({
+					token: rs.token,
+					userId: rs.userId
+				});
 				this.props.dispatch(UserActions.checkToken(
-					() => {
-						this.props.router.replace(HomeRouter)
+					(userInfo) => {
+						this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
+						this.closeSplashScreen();
 					},
 					() => {
-						this.props.router.replace(Login)
+						this.props.router.replace(Login);
+						this.closeSplashScreen();
 					})
 				);
 			}
 		})
 		.catch((e) => {
-			this.props.router.replace(Login)
+			this.props.router.replace(Login);
+			this.closeSplashScreen();
 		});
 
 
@@ -56,7 +66,7 @@ class Guide2 extends Component {
 	render(){
 		return (
 			<View>
-				<Image style={{width:Env.screen.width,height:Env.screen.height}} source={require('../../assets/images/startup.png')}/>
+				{/*<Image style={{width:Env.screen.width,height:Env.screen.height}} source={require('../../assets/images/startup.png')}/>*/}
 			</View>
 
 		)
@@ -66,7 +76,3 @@ class Guide2 extends Component {
 export default connect(function (stores) {
 	return {userStore: stores.userStore}
 })(Guide2);
-
-const styles = StyleSheet.create({
-
-});

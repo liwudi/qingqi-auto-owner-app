@@ -21,6 +21,7 @@ import PhoneInput from '../../components/Inputs/Phone';
 import PasswordInput from '../../components/Inputs/Password';
 import ConfirmButton from '../../components/ConfirmButton';
 import LabelInput from '../../components/LabelInput';
+import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 
 import { getCaptcha, CAPTCHA_TYPE_LOGIN } from '../../services/UserService';
 
@@ -33,7 +34,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone:'13466582379',
+            phone:'15010053708',
             password:'123456',
             captchaImg: false,
             haveCaptcha: false
@@ -41,9 +42,11 @@ class Login extends Component {
 
     }
 
-    next = () => {
-        this.props.router.replace(HomeRouter);
-    };
+    next = (userInfo) => {
+        //this.props.router.replace(HomeRouter);
+        this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
+    }
+
 
     onLogin() {
         if (PhoneInput.Validate(this.refs)) {
@@ -72,12 +75,18 @@ class Login extends Component {
 
 
     getCaptcha = () =>{
-        this.imgCapthCache = <Image
+        this.imgCapthCache = <Button onPress={() => {this.oldPhone = ''; this.onPhoneChange(this.state.phone);}}><Image
+                        style={[Env.vector.captcha.size]}
+                        resizeMode={Image.resizeMode.cover}
+                        source={{uri: getCaptcha(this.state.phone)}}
+                    /></Button>;
+                    
+    /*    this.imgCapthCache = <Image
             style={{width:120,height:30}}
             resizeMode={Image.resizeMode.cover}
             onPress={this.getCaptcha}
             source={{uri: getCaptcha(this.state.phone, CAPTCHA_TYPE_LOGIN)}}
-        />;
+        />;*/
     }
 
 
@@ -115,7 +124,7 @@ class Login extends Component {
 
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="账号密码登录"/>
+                <TopBanner {...this.props} title="账号密码登录" leftShow={false}/>
                 <View style={[estyle.fxRowCenter]}>
                     <PhoneInput
                         ref="phone"

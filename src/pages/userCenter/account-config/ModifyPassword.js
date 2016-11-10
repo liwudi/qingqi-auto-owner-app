@@ -19,8 +19,8 @@ import TopBanner from '../../../components/TopBanner';
 import PasswordInput from '../../../components/Inputs/Password';
 import ConfirmButton from '../../../components/ConfirmButton.android';
 import Toast from '../../../components/Toast';
-
-import Login from '../../user/Login';
+import FindPassword from '../../user/FindPassword';
+import Login from '../../user/index';
 
 import Env from '../../../utils/Env';
 
@@ -67,17 +67,17 @@ class ModifyPassword extends Component {
 
 	render() {
 		return (
-			<View style={styles.body}>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="修改密码"/>
 				<View  style={styles.loginView}>
-					<View style={[Env.style.padding]}>
+					<View style={[Env.style.paddingHorizontal, Env.style.paddingTop]}>
 						<Text style={{flex:1,textAlign:'left',color:Env.color.note,fontSize:Env.font.note}}>
-							如果忘记或未设置过登录密码，请点击 <Text>忘记密码</Text> 通过已绑定的手机验证并设置新密码。
+							如果忘记或未设置过登录密码，请点击 <Text onPress={() => this.props.router.push(FindPassword)} style={{color: Env.color.main}}>忘记密码</Text> 通过已绑定的手机验证并设置新密码。
 						</Text>
 					</View>
 					<PasswordInput
 						ref="oldPassword"
-						style = {[styles.loginInput,{marginTop:0}]}
+						style={[estyle.marginTop, estyle.borderBottom]}
 						onChangeText={oldPassword => this.setState({oldPassword})}
 						placeholder='当前密码'
 						labelSize={3}
@@ -88,7 +88,7 @@ class ModifyPassword extends Component {
 					/>
 					<PasswordInput
 						ref="newPassword"
-						style = {styles.loginInput}
+						style={[estyle.marginTop, estyle.borderBottom]}
 						onChangeText={newPassword => this.setState({newPassword})}
 						label="新密码"
 						labelSize={3}
@@ -97,11 +97,13 @@ class ModifyPassword extends Component {
 							{pattern:pattern.password, msg: '新密码格式错误'}
 						]}
 					/>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
 					<ConfirmButton
-						style={{marginTop:10}}
 						size="large"
 						disabled={this.state.doing}
-						onPress={() => this.modifyPassword()}><Text>确定</Text></ConfirmButton>
+						onPress={() => this.modifyPassword()}>确定</ConfirmButton>
 				</View>
 			</View>
 		);

@@ -18,7 +18,7 @@ export default class Phone extends Component {
                 style={[this.props.style]}
                 keyboardType="numeric"
                 label="手机"
-                placeholder={emsg.phone.placeholder}
+                placeholder={this.props.placeholder || emsg.phone.placeholder}
             />
         );
     }

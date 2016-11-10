@@ -1,0 +1,64 @@
+package com.mapbar.react;
+
+import android.app.ActivityManager;
+import android.content.Context;
+
+import com.mapbar.R;
+
+import java.lang.reflect.Field;
+import java.util.List;
+public class CommonUtils {
+
+    /* 获取图片名称获取图片的资源id的方法
+       * @param imageName
+       * @return
+              */
+    public static int getResource(Context context, String imageName) {
+        int resId = context.getApplicationContext().getResources().getIdentifier(imageName, "mipmap", context.getPackageName());
+        return resId;
+    }
+
+    /**
+     * 获取图片名称获取图片的资源id的方法
+     *
+     * @param imageName
+     * @return
+     */
+    public static int getResourceByReflect(String imageName) {
+        Class drawable = R.mipmap.class;
+        Field field = null;
+        int r_id;
+        try {
+            field = drawable.getField(imageName);
+            r_id = field.getInt(field.getName());
+        } catch (Exception e) {
+            r_id = R.mipmap.hotel;
+            LogUtils.logd("ERROR", "PICTURE NOT　FOUND！");
+        }
+        return r_id;
+    }
+
+    /**
+     * 判断应用是否已经启动
+     * @param context 一个context
+     * @param packageName 要判断应用的包名
+     * @return boolean
+     */
+    public static boolean isAppAlive(Context context, String packageName){
+        ActivityManager activityManager =
+                (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processInfos
+                = activityManager.getRunningAppProcesses();
+        for(int i = 0; i < processInfos.size(); i++){
+            if(processInfos.get(i).processName.equals(packageName)){
+                LogUtils.logd("isAppAlive",
+                        String.format("the %s is running, isAppAlive return true", packageName));
+                return true;
+            }
+        }
+        LogUtils.logd("NotificationLaunch",
+                String.format("the %s is not running, isAppAlive return false", packageName));
+        return false;
+    }
+
+}

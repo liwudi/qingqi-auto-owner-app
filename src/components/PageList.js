@@ -43,11 +43,10 @@ export default class PageList extends Component {
     getData(pageNumber){
 
         this.pageNumber = pageNumber || this.pageNumber;
-        console.log("================="+this.keyWord)
         this.props.fetchData(this.pageNumber, this.pageSize)
             .then(rs => {
-
-                this._data = this._data.concat(rs.list);
+                this._data = rs.list && rs.list.length > 0 ? this._data.concat(rs.list) : this._data;
+                console.log(rs);
                 if(this._data !== []){
                     this.setState({
                         ds: this.state.ds.cloneWithRows(this._data),
@@ -91,7 +90,7 @@ export default class PageList extends Component {
                 })
             ){
                 this._data = [];
-                this.getData(1);
+                this._onRefresh();
             }
             this.reInitField = nextProps.reInitField;
         }
@@ -118,6 +117,7 @@ export default class PageList extends Component {
                             progressBackgroundColor={Env.refreshCircle.bg}
                         />
                     }
+                    enableEmptySections={true}
                     dataSource={this.state.ds}
                     renderRow={this.props.renderRow}
                     renderFooter={() => {

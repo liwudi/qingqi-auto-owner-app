@@ -14,61 +14,91 @@ import {
 } from 'react-native';
 
 import { UserActions } from '../../../actions/index';
-
+import Toast from '../../../components/Toast';
 import TopBanner from '../../../components/TopBanner';
 import LabelInput from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton.android';
+import { modifyUserInfo } from '../../../services/UserService';
+import HomeRouter from '../../HomeRouter';
 
 import Env from '../../../utils/Env';
 
 class ModifyTrueName extends Component {
 	constructor(props){
 		super(props);
+		this.userInfo = props.userStore.userInfo;
+        this.state = {
+            doing: false
+        };
 	}
 
-	onChange(input){
-		this.setState(input);
+	componentWillReceiveProps(nextProps){
+		this.userInfo = nextProps.userStore.userInfo;
 	}
 
-	onLogin(){
-		this.props.dispatch(UserActions.doLogin(this.state));
-	}
+	static Validate = LabelInput.Validate;
+	validate = (isShowTip = true) => this.refs.textInput.validate(isShowTip);
 
+    componentWillMount() {
+        this.setState({name: this.userInfo.name});
+    }
+	onSave() {
+		if (LabelInput.Validate(this.refs)) {
+		    if(this.userInfo.name === this.state.name) {
+                this.props.router.pop();
+		        return;
+            }
+            this.setState({doing: true});
+			modifyUserInfo(this.state.name).then(()=>{
+				this.props.dispatch(UserActions.getUserDetail());
+                Toast.show('姓名保存成功', Toast.SHORT);
+                setTimeout(() => {
+                    this.toPage();
+                },500);
+            }).catch((e)=>{
+                Toast.show(e.message, Toast.SHORT);
+            }).finally(()=>{
+                this.setState({doing: false});
+            });
+		}
+	}
+	toPage() {
+		if(this.props.router.navigator.getCurrentRoutes().length === 1) {
+			this.props.router.resetTo(HomeRouter);
+		} else {
+			this.props.router.pop();
+		}
+	}
 	render() {
 		return (
-			<View style={styles.body}>
-				<TopBanner {...this.props} title="修改姓名"/>
-				<View  style={styles.loginView}>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
+				<TopBanner {...this.props} title="设置姓名" onPress={() => {this.toPage()}}/>
+                <View  style={[estyle.fxRowCenter]}>
 					<LabelInput
-						style = {styles.loginInput}
-						onChangeText={password => this.onChange({password})}
+						ref="name"
+						style={[estyle.marginTop, estyle.borderBottom]}
+						onChangeText={name => {
+							this.setState({name});
+						}}
+						defaultValue={this.userInfo.name}
 						secureTextEntry={true}
-						placeholder='姓名'
+						placeholder='请输入姓名'
 						label="姓名"
+						validates={[
+							{require:true, msg: '请输入姓名'}
+						]}
 					/>
-					<View style={{alignItems:'flex-start'}}>
-						<Text style={{flex:1,textAlign:'left',color:Env.color.note,fontSize:Env.font.note}}>最长7个汉字，或14个字节</Text>
+					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
+						<Text style={[estyle.note, estyle.fx1, {textAlign:'left'}]}>最长7个汉字，或14个字节</Text>
 					</View>
-					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onLogin()}><Text>保存</Text></ConfirmButton>
+					<ConfirmButton size="large"
+                                   disabled={this.state.doing}
+                                   onPress={() => this.onSave()}>保存</ConfirmButton>
 				</View>
 			</View>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	loginView:{
-		alignItems:'center'
-	},
-	loginInput:{
-		marginTop:10
-	}
-
-});
 
 
 export default connect(function(stores) {

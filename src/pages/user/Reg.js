@@ -17,7 +17,7 @@ import {
 import {UserActions, TYPES} from '../../actions/index';
 
 import { getCaptcha } from '../../services/UserService';
-
+import Alert from '../../components/Modals/Alert';
 import TopBanner from '../../components/TopBanner';
 import LabelInput from '../../components/LabelInput';
 import ConfirmButton from '../../components/ConfirmButton.android';
@@ -25,21 +25,25 @@ import PhoneInput from '../../components/Inputs/Phone';
 import PasswordInput from '../../components/Inputs/Password';
 
 import RegCheckCode from './RegCheckCode';
+import QuickLogin from './QuickLogin';
 
 import Env from '../../utils/Env';
 const estyle = Env.style,
 	emsg = Env.msg.form,
 	pattern = Env.pattern;
+import Button from '../../components/widgets/Button';
+import Agreement from './Agreement';
 
 class Reg extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			phone:'13123222333',
-            trueName:'哈哈哈哈',
+			phone:'15010053708',
+            trueName:'刘小花',
 			password:'123456',
             captcha:'',
-            captchaImg: false
+            captchaImg: false,
+			alertActive: false
 		};
 	}
 
@@ -48,9 +52,19 @@ class Reg extends Component {
 	}
 
 	next = (regInfo) => {
-        this.props.router.replace(RegCheckCode, {regInfo});
-        // console.log('jump to step2')
+		console.info(regInfo)
+		this.props.router.replace(RegCheckCode, {regInfo});
     }
+
+    phoneIsExist = () => {
+		this.setState({alertActive: true});
+	}
+
+	toQuick() {
+		console.info(this.props)
+		this.setState({alertActive:false});
+		this.props.router.replace(QuickLogin, {nav: {phone: this.state.phone}})
+	}
 
 	onReg(){
 	    PhoneInput.Validate(this.refs) &&
@@ -59,7 +73,8 @@ class Reg extends Component {
             this.state.trueName,
             this.state.password,
             this.state.captcha,
-            this.next
+            this.next,
+			this.phoneIsExist
         ));
 	}
 
@@ -83,12 +98,12 @@ class Reg extends Component {
 
 	render() {
 
-	    let captcha = () => {
+	    /*let captcha = () => {
 	        if(this.state.captchaImg){
 	            if(this.oldPhone !== this.state.phone){
                     this.oldPhone = this.state.phone;
                     this.imgCapthCache = <Image
-                        style={{width:120,height:30}}
+                        style={[Env.vector.captcha.size]}
                         resizeMode={Image.resizeMode.cover}
                         source={{uri: getCaptcha(this.state.phone)}}
                     />;
@@ -98,7 +113,29 @@ class Reg extends Component {
             }else{
                 return <View/>
             }
-        }
+        }*/
+		let captcha = () => {
+			if(this.state.captchaImg){
+				if(this.oldPhone !== this.state.phone){
+					this.oldPhone = this.state.phone;
+					/*this.imgCapthCache = <Image
+						style={[Env.vector.captcha.size]}
+						resizeMode={Image.resizeMode.cover}
+						source={{uri: getCaptcha(this.state.phone)}}
+					/>;*/
+					this.oldPhone = this.state.phone;
+					this.imgCapthCache = <Button onPress={() => {this.oldPhone = ''; this.onPhoneChange(this.state.phone);}}><Image
+						style={[Env.vector.captcha.size]}
+						resizeMode={Image.resizeMode.cover}
+						source={{uri: getCaptcha(this.state.phone)}}
+					/></Button>;
+				}
+
+				return this.imgCapthCache;
+			}else{
+				return <View/>
+			}
+		}
 
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
@@ -166,9 +203,19 @@ class Reg extends Component {
                     </ConfirmButton>
 					<View style={[estyle.fxRow, {alignItems:'flex-start'}, estyle.paddingTop]}>
 						<Text style={[estyle.note, {fontSize: Env.font.mini}]}>注册视为同意</Text>
-						<Text style={[{color:Env.color.main, fontSize: Env.font.mini}]}>服务条款和隐私政策</Text>
+						<Button onPress={()=>{this.props.router.push(Agreement)}}>
+							<Text style={[{color:Env.color.main, fontSize: Env.font.mini}]}>服务条款和隐私政策</Text>
+						</Button>
 					</View>
 				</View>
+				<Alert visible={this.state.alertActive}
+					   title="提示"
+					   confirmTitle="快捷登录"
+					   cancelTitle="取消"
+					   onConfirm={(()=>{this.toQuick()})}
+					   onCancel={(()=>{this.setState({alertActive:false})})}>
+					该手机已被注册，您可以手机快捷登录！
+				</Alert>
 			</View>
 		);
 	}

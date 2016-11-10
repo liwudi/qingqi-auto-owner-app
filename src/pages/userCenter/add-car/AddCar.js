@@ -6,7 +6,8 @@ import {connect} from 'react-redux'
 import {
     Text,
     View,
-    TextInput,TouchableOpacity
+    TextInput,TouchableOpacity,
+    ToastAndroid
 } from 'react-native';
 
 import { AddCarAction, TYPES} from '../../../actions/index';
@@ -15,6 +16,7 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import AddCarList from './AddCarList';
+import ListTitle from '../../../components/ListTitle';
 import AddCarVinAdd from './AddCarVinAdd';
 const estyle = Env.style;
 
@@ -37,25 +39,27 @@ class AddCar extends Component {
     //未查询到车辆信息去填写Vin码页
     toVin(info){
         //this.props.router.push(AddCarVinAdd,{carInfo: info});
-        ToastAndroid.show('未查询到车辆信息', ToastAndroid.SHORT);
+        ToastAndroid.show('你填写的信息没有查到关联车辆，请确认信息是否填写正确。', ToastAndroid.LONG);
     }
 
     nextStep () {
-        if (LabelInput.Validate(this.refs)) {
+        //正式版应该放开
+        //if (LabelInput.Validate(this.refs)) {
             this.props.dispatch(AddCarAction.getCarList(this.state, this.toList.bind(this),this.toVin.bind(this)));
-        }
+        //}
     }
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="添加车辆"/>
+                <ListTitle title="请提供购车发票中的如下信息："/>
                 <LabelInput
-                    style={[estyle.marginTop, estyle.borderBottom]}
+                    style={[estyle.borderBottom]}
                     ref="invoiceNo"
-                    label="购车发票号"
-                    labelSize={5}
+                    label="发票号"
+                    labelSize={3}
                     onChangeText={invoiceNo => this.setState({invoiceNo})}
-                    placeholder="请输入购车发票号"
+                    placeholder="发票号"
                     validates={[
                         {require:true, msg:"请输入购车发票号"}
                     ]}
@@ -64,15 +68,17 @@ class AddCar extends Component {
                 <LabelInput
                     style={[estyle.borderBottom]}
                     ref="identityCard"
-                    label="证件码"
-                    labelSize={5}
+                    label="证件号"
+                    labelSize={3}
                     onChangeText={identityCard => this.setState({identityCard})}
-                    placeholder="请输入购车发票上的身份证号或组织机构代码"
+                    placeholder="身份证号或组织机构代码"
                     validates={[
                         {require:true, msg:"请输入购车发票上的身份证号或组织机构代码"}
                     ]}
                 />
-                <View style={[estyle.padding]}></View>
+                <View style={[estyle.fxRow, estyle.padding]}>
+                    <Text style={[estyle.text]}>&nbsp;</Text>
+                </View>
                 <View style={[estyle.fxRowCenter]}>
                     <ConfirmButton size="large" onPress={this.nextStep.bind(this)}>下一步</ConfirmButton>
                 </View>
