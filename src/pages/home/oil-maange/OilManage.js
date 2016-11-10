@@ -18,6 +18,7 @@ import {statisRouteOilwearByDay} from '../../../services/AppService';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import PageList from '../../../components/PageList';
+import OilManageShowMark from './OilManageShowMark';
 export default class OilManage extends Component {
 	constructor(props) {
 		super(props);
@@ -27,7 +28,10 @@ export default class OilManage extends Component {
 			statisDate:statisDate
 		}
 	}
-
+	//点击车牌号，进入查看标杆页面
+	toOilManageShowMark(info){
+		this.props.router.push(OilManageShowMark,{carInfo: info});
+	}
 	render() {
 		return (
 			<View style={estyle.containerBackgroundColor}>
@@ -59,12 +63,12 @@ export default class OilManage extends Component {
 								<View style={[estyle.fxRow]}>
 									<View style={[estyle.fx1,estyle.text,estyle.paddingTop]}>
 										<Text>总油耗：<Text style={styles.textBlue}>{list.totalOilwear}</Text>L</Text>
-										<Text>平均油耗：<Text style={styles.textBlue}>{list.avgOilwear}</Text>L/100KM</Text>
+										<Text>平均油耗：<Text style={styles.textBlue} >{list.avgOilwear}</Text>L/100KM</Text>
 									</View>
 									<View style={[estyle.paddingRight,estyle.text,estyle.paddingTop]}>
 										<Text style ={{textAlign:'right'}}>承运车辆数：<Text style={styles.textBlue}>{list.totalCarNum}</Text>辆</Text>
 										<Text style ={{textAlign:'right'}}>活跃车辆数：<Text style={styles.textBlue}>{list.activeCarNum}</Text>辆</Text>
-										<Text style ={{textAlign:'right'}}>线路标杆：<Text style={styles.textBlue}>{list.carCode}</Text></Text>
+										<Text style ={{textAlign:'right'}}>线路标杆：<Text style={styles.textBlue} onPress={()=>{this.toOilManageShowMark(list.carCode)}}>{list.carCode}</Text></Text>
 									</View>
 								</View>
 							</View>
