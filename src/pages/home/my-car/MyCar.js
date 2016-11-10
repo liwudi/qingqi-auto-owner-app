@@ -8,26 +8,26 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    RefreshControl
+    RefreshControl,Image
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
-import {driverCarList, setCurrentCar} from '../../../services/AppService';
+import {driverCarList} from '../../../services/AppService';
 const estyle = Env.style;
-import Button from '../../../components/widgets/Button'
-import Item from './components/MyCarItem'
-import NoCar from './components/NoCar'
 import CarDetail from './CarDetail';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
-import {IconCheckCircle} from '../../../components/Icons';
+import PageList from '../../../components/PageList';
+
+import { IconUser, IconLocationMarker, IconTrash } from '../../../components/Icons';
 
 export default class MyCar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selecting : false,
-            carId : '1'
+            carId : '1',
+            data:{list:[1,2,4,5]}
         };
     }
     finaliy() {
@@ -37,93 +37,101 @@ export default class MyCar extends Component {
     }
 
     fetchData() {
-        this.setState({isRefreshing: true});
         driverCarList()
             .then((data)=>{
-   /*             console.info('--------------------')
-                console.info(data)*/
                 this.setState({'selecting': false});
                 this.setState({data});}
                 )
             .catch(this.finaliy.bind(this))
             .finally(this.finaliy.bind(this));
     };
-    onRefresh() {
-        this.fetchData();
-    }
 
     componentWillMount() {
-        this.fetchData();
+        // this.fetchData();
     }
-    setCar() {
-        if(this.state.selecting) {
-            if(this.defaultCarId != this.state.carId) {
-                this.setState({isRefreshing: true});
-                setCurrentCar(this.state.carId)
-                    .then(this.fetchData.bind(this))
-                    .catch(this.finaliy.bind(this));
 
-            } else {
-                this.setState({'selecting': false});
-            }
-        } else {
-            this.setState({'selecting': !this.state.selecting});
-        }
-    }
     goToDetail(carId) {
         this.props.router.push(CarDetail, {nav: {carId: carId}});
     }
-    selectCar(carId) {
-        if(this.state.selecting) {
-            this.setState({'carId': carId});
-        } else {
-            this.goToDetail(carId);
-        }
-    }
-
-    renderList() {
-        let data = this.state.data;
-        return data.list.map((item, idx) => {
-            item.status && !this.defaultCarId && (this.defaultCarId = item.carId);
-   /*         console.info(this.defaultCarId)
-            console.info(item)*/
-            return <ViewForRightArrow key={idx}
-                rightIcon={this.state.selecting && IconCheckCircle}
-                onPress={this.selectCar.bind(this, item.carId)}
-                                      iconColor={(this.state.selecting && this.state.carId == item.carId) && Env.color.auxiliary}
-            ><Item
-                router={this.props.router}
-                data={item}/>
-            </ViewForRightArrow>;
-        })
-    }
-
-    renderView() {
-        if(this.state.data) {
-            return this.state.data.list.length ? this.renderList() : <NoCar/>;
-        }
-        return <View/>;
-    }
     
     render() {
+        const SpeedView= (realtimeSpeed) => {
+            if (realtimeSpeed == 0) {
+                return "静止";
+            } else {
+                return realtimeSpeed + "km/h";
+            }
+        }
+        const itemView= (item) => {
+            item = {"realtimeSpeed": 60.1,
+                "todayLen": 34.1,
+                "position": "辽宁省沈阳市华航大厦",
+                "slaveDriver": "李四",
+                "mastDriver": "张三",
+                "carCode": "辽A88888",
+                "carId": "1234567"}
+            return (
+                <ViewForRightArrow  onPress={() => this.goToDetail(item.carId)} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
+                    <View style={[estyle.fxRow]}>
+                        <View style={[estyle.fx1]}>
+                            <Text style={[estyle.articleTitle,{color: Env.color.important}]}>{item.carCode}</Text>
+                        </View>
+                        <View style={[estyle.paddingRight]}>
+                            <Text style ={{textAlign:'right'}}>今日：<Text>{item.todayLen}</Text> (公里)</Text>
+                        </View>
+                    </View>
+                    <View style={[estyle.fxRow, estyle.fxRowCenter]}>
+                        <IconUser color='#FEBEBE'/><Text> </Text>
+                        <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver}</Text>
+
+                        <IconUser color='#C4DFFE'/><Text> </Text>
+                        <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver}</Text>
+                    </View>
+                    <View style={[estyle.fxRow, estyle.fxRowCenter,{marginTop:Env.font.base * 10}]}>
+                        <View style={[estyle.fx1,estyle.fxRow]}>
+                            <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
+                            <Text> </Text>
+                            <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position}</Text>
+                            <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{SpeedView(item.realtimeSpeed)}</Text>
+                        </View>
+                        {/*<View style={[estyle.paddingRight]}>*/}
+                            {/*<IconTrash/>*/}
+                        {/*</View>*/}
+                    </View>
+                </ViewForRightArrow>
+            )
+        };
+
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner
                     {...this.props}
                     title="我的车辆"
-                    rightView={<Button onPress={this.setCar.bind(this)}><Text style={{color: Env.color.navTitle, fontSize: Env.font.text}}>{this.state.selecting ? '完成' : '设置当前车辆'}</Text></Button>}
                 />
-                <ScrollView style={[estyle.fx1]}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.isRefreshing}
-                                    onRefresh={this.onRefresh.bind(this)}
-                                    colors={Env.refreshCircle.colors}
-                                    progressBackgroundColor={Env.refreshCircle.bg}
-                                />
-                            }>
-                    {this.renderView()}
-                </ScrollView>
+                <View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:Env.color.main,paddingVertical:Env.font.base*40}]}>
+                    <View style={[estyle.fx1,estyle.fxCenter,estyle.borderRight]}>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>12</Text>
+                        <Text style={[estyle.text,{color:'#FFF'}]}>在线车辆数(辆)</Text>
+                    </View>
+                    <View style={[estyle.fx1,estyle.fxCenter,estyle.borderRight]}>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>12</Text>
+                        <Text style={[estyle.text,{color:'#FFF'}]}>总车辆数(辆)</Text>
+                    </View>
+                    <View style={[estyle.fx1,estyle.fxCenter,]}>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>12</Text>
+                        <Text style={[estyle.text,{color:'#FFF'}]}>今日总里程(公里)</Text>
+                    </View>
+                </View>
+                <PageList
+                    style={estyle.fx1}
+                    reInitField={[this.state.key]}
+                    renderRow={(row) => {
+                        return itemView(row)
+                    }}
+                    fetchData={(pageNumber, pageSize) => {
+                        return Promise.resolve(this.state.data);
+                    }}
+                />
             </View>
         )
     }

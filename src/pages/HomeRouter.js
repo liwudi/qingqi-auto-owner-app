@@ -15,8 +15,8 @@ import { connect } from 'react-redux'
 
 import HomePage from './home/HomePage';
 import UserCenterHome from './userCenter';
-/*import MessageList from './message/MessageList';
-import News from './home/news/News';*/
+import Message from './message/Message';
+import News from './home/news/News';
 
 
 import MainNavBar from '../components/MainNavBar';
@@ -25,8 +25,8 @@ import MainNavBar from '../components/MainNavBar';
 
 const tabs = [
 	{component: HomePage,index:0,name:'HomePage'},
-/*	{component:News,index:1,name:'News'},
-	{component:MessageList,index:2,name:'MessageList2'},*/
+	{component:News,index:1,name:'News'},
+	{component:Message,index:2,name:'Message'},
 	{component:UserCenterHome,index:3,name:'UserCenterHome'}
 ];
 

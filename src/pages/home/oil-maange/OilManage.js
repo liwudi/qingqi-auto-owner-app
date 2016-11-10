@@ -18,7 +18,9 @@ import {statisRouteOilwearByDay} from '../../../services/AppService';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import PageList from '../../../components/PageList';
-import OilManageShowMark from './OilManageShowMark';
+
+import Chart from '../../../components/Chart/Chart';
+
 export default class OilManage extends Component {
 	constructor(props) {
 		super(props);
@@ -28,13 +30,24 @@ export default class OilManage extends Component {
 			statisDate:statisDate
 		}
 	}
-	//点击车牌号，进入查看标杆页面
-	toOilManageShowMark(info){
-		this.props.router.push(OilManageShowMark,{carInfo: info});
-	}
+
 	render() {
+
+		const data = [
+			[0, 10],
+			[1, 30],
+			[3, 70],
+			[4, 90],
+			[5,90],
+			[6, 56],
+			[7, 34]
+		];
+		data.onDataPointPress = (e,v,k) => {
+			console.log(e,v,k)
+		}
+
 		return (
-			<View style={estyle.containerBackgroundColor}>
+			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
 				<TopBanner {...this.props} title="油耗管理"/>
 				<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding]}>
 					<View style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
@@ -53,6 +66,17 @@ export default class OilManage extends Component {
 						source={require('../../../assets/images/icon-1.png')}
 					/>
 				</View>
+				<Chart
+					style={{height:Env.screen.height * 0.3,backgroundColor:"#FFF"}}
+					data={data}
+					type="bar"
+					color={Env.color.main}
+					highlightColor={'#88C057'}
+					currentIndex={3}
+					widthPercent={1}
+					axisLineWidth={0.5}
+					gridLineWidth={0.1}
+				/>
 				<View style={estyle.padding}><Text>线路油耗详情</Text></View>
 				<PageList
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
@@ -63,12 +87,12 @@ export default class OilManage extends Component {
 								<View style={[estyle.fxRow]}>
 									<View style={[estyle.fx1,estyle.text,estyle.paddingTop]}>
 										<Text>总油耗：<Text style={styles.textBlue}>{list.totalOilwear}</Text>L</Text>
-										<Text>平均油耗：<Text style={styles.textBlue} >{list.avgOilwear}</Text>L/100KM</Text>
+										<Text>平均油耗：<Text style={styles.textBlue}>{list.avgOilwear}</Text>L/100KM</Text>
 									</View>
 									<View style={[estyle.paddingRight,estyle.text,estyle.paddingTop]}>
 										<Text style ={{textAlign:'right'}}>承运车辆数：<Text style={styles.textBlue}>{list.totalCarNum}</Text>辆</Text>
 										<Text style ={{textAlign:'right'}}>活跃车辆数：<Text style={styles.textBlue}>{list.activeCarNum}</Text>辆</Text>
-										<Text style ={{textAlign:'right'}}>线路标杆：<Text style={styles.textBlue} onPress={()=>{this.toOilManageShowMark(list.carCode)}}>{list.carCode}</Text></Text>
+										<Text style ={{textAlign:'right'}}>线路标杆：<Text style={styles.textBlue}>{list.carCode}</Text></Text>
 									</View>
 								</View>
 							</View>

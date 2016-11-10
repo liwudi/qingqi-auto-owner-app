@@ -14,11 +14,11 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import * as Icons from '../../../components/Icons';
-import ConfirmButton from '../../../components/ConfirmButton';
 import PageList from '../../../components/PageList';
 import Env from '../../../utils/Env';
 import Item from './components/MyLineItem';
 import MyLineAdd from './MyLineAdd';
+import MyLineEdit from './MyLineEdit';
 import {queryRouteList} from '../../../services/LineService';
 
 const estyle = Env.style;
@@ -38,9 +38,9 @@ export default class MyLine extends Component {
     render() {
         const topRightView= () => {
             return (
-                <View>
-                    <Icons.IconSearch  onPress={() => {this.toPage()}}/>
-                </View>
+                <TouchableOpacity onPress={() => {this.toPage(MyLineAdd)}}>
+                    <Icons.IconPlus/>
+                </TouchableOpacity>
             )
         };
         return (
@@ -50,20 +50,15 @@ export default class MyLine extends Component {
                     <PageList
                         style={estyle.fx1}
                         renderRow={(row) => {
-                        return <Item router={this.props.router} data={row}/>
+                        return <TouchableOpacity onPress={() => {this.props.router.push(MyLineEdit,{nav:{routeId:row.routeId}});}}>
+                            <Item router={this.props.router} data={row}/>
+                        </TouchableOpacity>
                         }}
                         fetchData={(pageNumber, pageSize) => {
                         return queryRouteList(pageNumber,pageSize)
                         }}
                     />
-
                 </View>
-                <View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
-                    <View style={estyle.padding}>
-                        <ConfirmButton size="small" onPress={() => {this.toPage(MyLineAdd)}}>添加线路</ConfirmButton>
-                    </View>
-                </View>
-
             </View>
         );
     }
