@@ -7,10 +7,12 @@ import {
 	Text,
 	View,
 	ScrollView,
-	RefreshControl
+	RefreshControl,
+    TouchableOpacity
 } from 'react-native';
 
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
+import ViewForRightDom from '../../../components/ViewForRightDom';
 import { IconCall } from '../../../components/Icons';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
@@ -23,12 +25,15 @@ import BoundLine from './BoundLine';
 import ListTitle from '../../../components/ListTitle';
 import ListItem from '../../../components/ListItem';
 import TopBanner from '../../../components/TopBanner';
+import BorderButton from '../../../components/BorderButton';
+import Button from '../../../components/widgets/Button';
 
 export default class CarDetail extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			isRefreshing: true
+			isRefreshing: true,
+			data:{}
 		}
 	}
 	fetchData () {
@@ -41,7 +46,7 @@ export default class CarDetail extends Component {
 	onRefresh() {
 		this.fetchData();
 	}
-	componentDidMount() {
+	componentWillMount() {
 		this.fetchData();
 	}
 
@@ -52,11 +57,6 @@ export default class CarDetail extends Component {
 		}});
 	}
 
-	selectLine() {
-		this.props.router.push(BoundLine, {nav: {
-			routeId: this.state.data.routeId
-		}});
-	}
 		//修改车牌号
 	 modifyCarDode () {
 		 this.props.router.push(ModifyVehicleLicence, {
@@ -67,26 +67,7 @@ export default class CarDetail extends Component {
 		 );
 	 }
 
-	selectDriverSub(){
-		this.props.router.push(BoundDriver, {
-			nav: {
-				carId: this.props.nav.carId,
-				carCode: this.state.data.carCode
-			}}
-		);
-	}
-
-	selectDriverMain(){
-		this.props.router.push(BoundDriver, {
-			nav: {
-				carId: this.props.nav.carId,
-				carCode: this.state.data.carCode
-			}}
-		);
-	}
-
 	renderList() {
-		console.info(this.props)
 		let paddingRight = Env.font.base * 94;
 		/*
 		 * data.routeId	Integer	路线Id
@@ -109,16 +90,16 @@ export default class CarDetail extends Component {
 					 <Text style={[estyle.fx1,estyle.text, {color:Env.color.auxiliary, textAlign: 'right'}]}>{data.carCode}</Text>
 				 </View>
 			 </ViewForRightArrow>
-			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
+			<ViewForRightArrow >
 				<View style={[estyle.fxRow]}>
 					<Text style={[estyle.text, {textAlign: 'left'}]}>车辆速度</Text>
 					<Text style={[estyle.fx1,estyle.text, {color:Env.color.main, textAlign: 'right'}]}>45km/h</Text>
 				</View>
 			</ViewForRightArrow>
-			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
+			<ViewForRightArrow>
 				<Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
 			</ViewForRightArrow>
-			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
+			<ViewForRightArrow >
 				<Text style={[estyle.text, {textAlign: 'left'}]}>报警通知</Text>
 			</ViewForRightArrow>
 			<ViewForRightArrow onPress={this.goToParams.bind(this)}>
@@ -126,44 +107,86 @@ export default class CarDetail extends Component {
 			</ViewForRightArrow>
 
 			<ListTitle title="驾驶司机"/>
-			{
-				data.mainDriver
-					?
-					<ViewForRightArrow
-						rightIcon={IconCall}
-						iconSize={Env.vector.call.size}
-						iconColor={Env.color.main}
-						onPress={this.selectDriverMain.bind(this)}>
-						<View style={[estyle.fxRow,estyle.paddingRight]}>
-							<Text style={[estyle.text, {textAlign: 'left'}]}>主驾驶</Text>
-							<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.mainDriver}</Text>
-						</View>
-					</ViewForRightArrow>
-					:
-					<ListItem left="主驾驶" right="无" style={[{paddingRight: paddingRight}]}/>
-			}
-
-			{
-				data.subDriver
-					?
-					<ViewForRightArrow
-						rightIcon={IconCall}
-						iconSize={Env.vector.call.size}
-						iconColor={Env.color.main}
-						onPress={this.selectDriverSub.bind(this)}>
-						<View style={[estyle.fxRow,estyle.paddingRight]}>
-							<Text style={[estyle.text, {textAlign: 'left'}]}>副驾驶</Text>
-							<Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.subDriver}</Text>
-						</View>
-					</ViewForRightArrow>
-					:
-					<ListItem left="副驾驶" right="无" style={[{paddingRight: paddingRight}]}/>
-			}
-
+            <ViewForRightDom
+                rightDom={
+                    <BorderButton onPress={
+                        ()=>{
+                            this.props.router.push(BoundDriver, {
+                                nav: {
+                                    carId: this.props.nav.carId,
+                                    driverType: 1
+                                }}
+                            );
+                        }
+                    }>{data.mainDriver ? '更换司机': '绑定司机' }</BorderButton>
+                }
+            >
+                <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                    <View style={[estyle.fx1, estyle.fxRow,estyle.paddingRight]}>
+                        <Text style={[estyle.text, {textAlign: 'left'}]}>主驾驶</Text>
+                    </View>
+                    <View style={[estyle.fxCenter]}>
+                        <TouchableOpacity style={[estyle.fxRow,estyle.fxRowCenter]} onPress={
+                            ()=>{
+                                data.mainDriverPhoneNum && this.props.callTo(data.mainDriverPhoneNum);
+                            }
+                        }>
+                            <Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.mainDriver || '无'}</Text>
+                            {
+                                data.mainDriver ? <IconCall color={Env.color.main} size={Env.vector.call.size}/> : null
+                            }
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ViewForRightDom>
+            <ViewForRightDom
+                rightDom={
+                    <BorderButton onPress={
+                        ()=>{
+                            this.props.router.push(BoundDriver, {
+                                nav: {
+                                    carId: this.props.nav.carId,
+                                    driverType: 2
+                                }}
+                            );
+                        }
+                    }>{data.subDriver ? '更换司机': '绑定司机' }</BorderButton>
+                }
+            >
+                <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                    <View style={[estyle.fx1, estyle.fxRow,estyle.paddingRight]}>
+                        <Text style={[estyle.text, {textAlign: 'left'}]}>副驾驶</Text>
+                    </View>
+                    <View style={[estyle.fxCenter]}>
+                        <TouchableOpacity style={[estyle.fxRow,estyle.fxRowCenter]} onPress={
+                            ()=>{
+                                data.subDriverPhoneNum && this.props.callTo(data.subDriverPhoneNum);
+                            }
+                        }>
+                        <Text style={[estyle.fx1,estyle.text, {color:Env.color.note, textAlign: 'right'}]}>{data.subDriver || '无'}</Text>
+                        {
+                            data.subDriver ? <IconCall color={Env.color.main} size={Env.vector.call.size}/> : null
+                        }
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ViewForRightDom>
 			<ListTitle title="行驶线路"/>
-			<ViewForRightArrow onPress={this.selectLine.bind(this)}>
-				<Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeInfo}</Text>
-			</ViewForRightArrow>
+			<ViewForRightDom
+                rightDom={
+                    <BorderButton onPress={
+                        ()=>{
+                            this.props.router.push(BoundLine, {
+                                nav: {
+                                    carId: this.props.nav.carId
+                                }}
+                            );
+                        }
+                    }>{data.routeInfo ? '更换线路': '绑定线路' }</BorderButton>
+                }
+            >
+				<Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeId ? data.routeInfo : '未绑定线路'}</Text>
+			</ViewForRightDom>
 		</View>
 	}
 	renderView() {
@@ -185,7 +208,7 @@ export default class CarDetail extends Component {
 									progressBackgroundColor={Env.refreshCircle.bg}
 								/>
 							}>
-					{this.renderView()}
+					{this.renderView.bind(this)()}
 				</ScrollView>
 			</View>
 		);

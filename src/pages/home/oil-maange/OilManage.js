@@ -21,6 +21,9 @@ import PageList from '../../../components/PageList';
 
 import Chart from '../../../components/Chart/Chart';
 
+import MyLineItem from './components/MyLineItem';
+import OilManageCarList from './OilManageCarList';
+
 export default class OilManage extends Component {
 	constructor(props) {
 		super(props);
@@ -59,13 +62,6 @@ export default class OilManage extends Component {
 						<Icons.IconCaretRight style={estyle.note}/>
 					</View>
 				</View>
-				<View style={estyle.fxCenter}>
-					<Image
-						style={{width:200,height:100,borderWidth:4 * Env.font.base,
-							borderColor:'#85C7E7',}}
-						source={require('../../../assets/images/icon-1.png')}
-					/>
-				</View>
 				<Chart
 					style={{height:Env.screen.height * 0.3,backgroundColor:"#FFF"}}
 					data={data}
@@ -80,22 +76,9 @@ export default class OilManage extends Component {
 				<View style={estyle.padding}><Text>线路油耗详情</Text></View>
 				<PageList
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
-					renderRow={(list) => {
+					renderRow={(row) => {
 						return (
-							<View style={[estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-								<Text style={styles.articleBlue}>{list.startPointName}----{list.endPointName}</Text>
-								<View style={[estyle.fxRow]}>
-									<View style={[estyle.fx1,estyle.text,estyle.paddingTop]}>
-										<Text>总油耗：<Text style={styles.textBlue}>{list.totalOilwear}</Text>L</Text>
-										<Text>平均油耗：<Text style={styles.textBlue}>{list.avgOilwear}</Text>L/100KM</Text>
-									</View>
-									<View style={[estyle.paddingRight,estyle.text,estyle.paddingTop]}>
-										<Text style ={{textAlign:'right'}}>承运车辆数：<Text style={styles.textBlue}>{list.totalCarNum}</Text>辆</Text>
-										<Text style ={{textAlign:'right'}}>活跃车辆数：<Text style={styles.textBlue}>{list.activeCarNum}</Text>辆</Text>
-										<Text style ={{textAlign:'right'}}>线路标杆：<Text style={styles.textBlue}>{list.carCode}</Text></Text>
-									</View>
-								</View>
-							</View>
+							<MyLineItem data={row} onPress={() => {this.props.router.push(OilManageCarList, {lineInfo:row})}}/>
 						)
 					}}
 					fetchData={(pageNumber, pageSize) => {

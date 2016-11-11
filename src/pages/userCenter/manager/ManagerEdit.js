@@ -109,7 +109,7 @@ export default class ManagerEdit extends Component {
 			)
 		};
 		return (
-			<View style = {estyle.fx1}>
+			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="编辑管理员" rightView={ topRightView()} />
 				<View  style={[estyle.fxRowCenter]}>
 					<LabelInput

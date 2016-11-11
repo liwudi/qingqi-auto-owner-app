@@ -19,10 +19,8 @@ const estyle = Env.style;
 
 export default class MyDriverEdit extends Component {
 
-	componentWillMount() {
-		// this.setState({newPhone:'1231231231'});
-		// this.fetchData();
-		this.setState({...this.props, newPhone:this.props.phone});
+	componentDidMount() {
+		this.setState({...this.props.nav, newPhone: this.props.nav.phone});
 	}
 
 	/**
@@ -31,25 +29,6 @@ export default class MyDriverEdit extends Component {
 	toListPage () {
 		this.props.router.replace(MyDriver);
 	}
-
-	// fetchData () {
-	// 	this.setState({},
-	// 		()=> {
-	// 			queryDriver(null,null,321654987)
-	// 				.then(
-	// 					(data) => {
-	// 						this.setState({...data.list[0].dtoList[0],newPhone:data.list[0].dtoList[0].phone});
-	// 					}
-	// 				)
-	// 				.catch(
-	// 					(reason) => {
-	// 						ToastAndroid.show(reason.message, ToastAndroid.SHORT);
-	// 					}
-	// 				)
-	// 		}
-	// 	);
-	// };
-
 
 	/**
 	 * 移除xxx司机

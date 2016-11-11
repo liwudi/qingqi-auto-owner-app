@@ -16,7 +16,7 @@ const color = Env.color.text;
 export class IconSearch extends React.Component {
 	render(){
 		return (
-			<IconEntypo name="magnifying-glass" size={size} color={color} {...this.props}/>
+			<IconIonicons name="ios-search" size={size} color={color} {...this.props}/>
 		)
 	}
 }
