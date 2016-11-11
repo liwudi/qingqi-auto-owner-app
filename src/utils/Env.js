@@ -34,7 +34,8 @@ const color = {
   text: '#666666',  //文本
   note: '#999999',  //注释
   important: '#333333',  //重要信息,
-  modalBg: 'rgba(0,0,0,0.8)'  //弹窗或者列表黑色半透明背景
+  modalBg: 'rgba(0,0,0,0.8)',  //弹窗或者列表黑色半透明背景
+  testColor: '#15c206'  //体检开始颜色
 };
 const button = {
   size: {
@@ -304,11 +305,11 @@ export default {
     fontScale: fontScale,
     barHeight : StatusBar.currentHeight
   },
-  font: fontSize,      //规定字号
-  color: color,  //规定颜色
+  font: fontSize,
+  color: color,
   vector: vector,
   button: button,
-  style: style,     //通用样式表
+  style: style,
   msg: msg,
   pattern: pattern,
   refreshCircle: refreshCircle,

@@ -27,11 +27,12 @@ import { addEventSystemBack } from '../utils/SystemEvents';
 import Router from '../services/RouterService';
 
 import Button from '../components/widgets/Button';
-import ViewForRightArrow from '../components/ViewForRightArrow';
 import ErrorPage from './error/NetError';
 import SplashScreen from 'react-native-splash-screen';
 import Alert from '../components/Modals/Alert';
 const SystemSetting = NativeModules.SystemSettingModule;
+import ManagerAddForContacts from './userCenter/manager/ManagerAddForContacts';
+
 class Main extends Component {
 
 	navigator = null;

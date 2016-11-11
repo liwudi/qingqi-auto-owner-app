@@ -6,15 +6,17 @@
  * 车队管理员添加
  */
 import React, {Component} from "react";
-import {Text, View, TextInput, ToastAndroid, Image, Alert} from "react-native";
+import {Text, View, TextInput, ToastAndroid, Image, Alert, TouchableOpacity} from "react-native";
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
-import * as Icons from "../../../components/Icons";
 import LabelInput from "../../../components/LabelInput";
 import ConfirmButton from "../../../components/ConfirmButton";
 import PhoneInput from "../../../components/Inputs/Phone";
 import ManagerList from "./ManagerList";
 import {addManager} from "../../../services/MotorcadeManagerService";
+import ManagerAddForContacts from './ManagerAddForContacts';
+import { IconAddressBook, IconFire } from '../../../components/Icons';
+
 
 const estyle = Env.style;
 
@@ -25,6 +27,10 @@ export default class ManagerAdd extends Component {
 	 */
 	toListPage() {
 		this.props.router.replace(ManagerList);
+	}
+
+	toManagerAddForContacts(){
+		this.props.router.push(ManagerAddForContacts);
 	}
 
 	submit() {
@@ -56,22 +62,16 @@ export default class ManagerAdd extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="新增管理员"/>
-				<View style ={[estyle.fxRow,estyle.padding,estyle.cardBackgroundColor]}>
-					<View>
-						<Image
-							style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-								borderColor:'#85C7E7',}}
-							source={require('../../../assets/images/icon-1.png')}
-						/>
-					</View>
+				<TouchableOpacity onPress={this.toManagerAddForContacts.bind(this)} style ={[estyle.fxRow,estyle.fxRowCenter,estyle.padding,estyle.cardBackgroundColor]}>
+					<IconAddressBook color={'#FFB30F'} size={Env.font.base * 60}/>
 					<View style = {estyle.fx1}>
 						<View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
 							<Text style={[{fontSize:Env.font.text, color:Env.color.main}]}>手机联系人</Text>
 							<Text style={[{fontSize:Env.font.note, color:Env.color.note}]}>添加手机通讯录中的司机</Text>
 						</View>
 					</View>
-					<View style={[estyle.padding,estyle.fxRow]}><Icons.IconUser /><Text style={{fontSize:Env.font.note, color:Env.color.main}}>推荐</Text></View>
-				</View>
+					<View style={[estyle.padding,estyle.fxRow]}><IconFire size={Env.font.base * 30} color="red" /><Text style={{fontSize:Env.font.note, color:Env.color.main}}>推荐</Text></View>
+				</TouchableOpacity>
 				<View style={[estyle.fxRowCenter,estyle.marginTop]}>
 					<LabelInput
 						ref="name"
