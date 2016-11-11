@@ -297,3 +297,15 @@ export  class IconFlag extends React.Component {
 		)
 	}
 }
+
+/**
+ * 通讯录 地址簿
+ */
+export  class IconAddressBook extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="address-book" size={size} color={Env.color.color} {...this.props} />
+		)
+	}
+}
+

@@ -34,7 +34,8 @@ const color = {
   text: '#666666',  //文本
   note: '#999999',  //注释
   important: '#333333',  //重要信息,
-  modalBg: 'rgba(0,0,0,0.8)'  //弹窗或者列表黑色半透明背景
+  modalBg: 'rgba(0,0,0,0.8)',  //弹窗或者列表黑色半透明背景
+  testColor: '#15c206'  //体检开始颜色
 };
 const button = {
   size: {
@@ -106,6 +107,14 @@ const style = {
   border: {
     borderWidth: border.width,
     borderColor: border.color
+  },
+  borderTop: {
+    borderTopWidth: border.width,
+    borderTopColor: border.color
+  },
+  borderLeft: {
+    borderLeftWidth: border.width,
+    borderLeftColor: border.color
   },
   borderBottom: {
     borderBottomWidth: border.width,
@@ -223,6 +232,18 @@ const vector = {
       listItem: '#666666'
     },
     size: baseFontSize * 20
+  },
+  captcha: {
+    size: {
+      width:140 * baseFontSize,
+      height:40 * baseFontSize
+    }
+  },
+  checked: {
+    size: {
+      middle: baseFontSize * 38,
+      large: baseFontSize * 60
+    }
   }
 };
 const icon = {
@@ -241,7 +262,8 @@ const pattern = {
   phone: /^(1[3-9])\d{9}$/,
   password: /^.{6,20}$/,
   code: /^\d{6}$/,
-  carCode: /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/
+  carCode: /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/,
+  identityCard: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
 };
 const msg = {
   form: {
@@ -256,8 +278,8 @@ const msg = {
       pattern: '请输入6-20位半角字符，建议数字、字母、符号组合'
     },
     truename: {
-      require: '请输入真实姓名',
-      placeholder: '请输入真实姓名'
+      require: '请输入姓名',
+      placeholder: '请输入姓名'
     },
     code: {
       require: '请输入短信验证码',
@@ -280,13 +302,14 @@ export default {
     ratio: pixelRatio,
     width: width,
     height: height - StatusBar.currentHeight,
-    fontScale: fontScale
+    fontScale: fontScale,
+    barHeight : StatusBar.currentHeight
   },
-  font: fontSize,      //规定字号
-  color: color,  //规定颜色
+  font: fontSize,
+  color: color,
   vector: vector,
   button: button,
-  style: style,     //通用样式表
+  style: style,
   msg: msg,
   pattern: pattern,
   refreshCircle: refreshCircle,
