@@ -8,7 +8,8 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    RefreshControl,Image
+    RefreshControl,Image,
+    TouchableOpacity
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -16,7 +17,7 @@ import Env from '../../../utils/Env';
 import {driverCarList} from '../../../services/AppService';
 const estyle = Env.style;
 import CarDetail from './CarDetail';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
+import ViewForRightArrow from '../../../components/ViewForRightArrow.android';
 import PageList from '../../../components/PageList';
 
 import { IconUser, IconLocationMarker, IconTrash } from '../../../components/Icons';
@@ -53,55 +54,51 @@ export default class MyCar extends Component {
     goToDetail(carId) {
         this.props.router.push(CarDetail, {nav: {carId: carId}});
     }
-    
-    render() {
-        const SpeedView= (realtimeSpeed) => {
-            if (realtimeSpeed == 0) {
-                return "静止";
-            } else {
-                return realtimeSpeed + "km/h";
-            }
+    SpeedView(realtimeSpeed){
+        if (realtimeSpeed == 0) {
+            return "静止";
+        } else {
+            return realtimeSpeed + "km/h";
         }
-        const itemView= (item) => {
-            item = {"realtimeSpeed": 60.1,
-                "todayLen": 34.1,
-                "position": "辽宁省沈阳市华航大厦",
-                "slaveDriver": "李四",
-                "mastDriver": "张三",
-                "carCode": "辽A88888",
-                "carId": "1234567"}
-            return (
-                <ViewForRightArrow  onPress={() => this.goToDetail(item.carId)} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
-                    <View style={[estyle.fxRow]}>
-                        <View style={[estyle.fx1]}>
-                            <Text style={[estyle.articleTitle,{color: Env.color.important}]}>{item.carCode}</Text>
-                        </View>
-                        <View style={[estyle.paddingRight]}>
-                            <Text style ={{textAlign:'right'}}>今日：<Text>{item.todayLen}</Text> (公里)</Text>
-                        </View>
-                    </View>
-                    <View style={[estyle.fxRow, estyle.fxRowCenter]}>
-                        <IconUser color='#FEBEBE'/><Text> </Text>
-                        <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver}</Text>
+    }
 
-                        <IconUser color='#C4DFFE'/><Text> </Text>
-                        <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver}</Text>
-                    </View>
-                    <View style={[estyle.fxRow, estyle.fxRowCenter,{marginTop:Env.font.base * 10}]}>
-                        <View style={[estyle.fx1,estyle.fxRow]}>
-                            <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
-                            <Text> </Text>
-                            <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position}</Text>
-                            <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{SpeedView(item.realtimeSpeed)}</Text>
-                        </View>
-                        {/*<View style={[estyle.paddingRight]}>*/}
-                            {/*<IconTrash/>*/}
-                        {/*</View>*/}
-                    </View>
-                </ViewForRightArrow>
-            )
-        };
+    itemView(item){
+      item = {"realtimeSpeed": 60.1,
+          "todayLen": 34.1,
+          "position": "辽宁省沈阳市华航大厦",
+          "slaveDriver": "李四",
+          "mastDriver": "张三",
+          "carCode": "辽A88888",
+          "carId": "1234567"};
+       return (
+           <ViewForRightArrow  onPress={() => this.goToDetail(item.carId)} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
+               <View style={[estyle.fxRow]}>
+                   <View style={[estyle.fx1]}>
+                       <Text style={[estyle.articleTitle,{color: Env.color.important}]}>{item.carCode}</Text>
+                   </View>
+                   <View style={[estyle.paddingRight]}>
+                       <Text style ={{textAlign:'right'}}>今日：<Text>{item.todayLen}</Text> (公里)</Text>
+                   </View>
+               </View>
+               <View style={[estyle.fxRow, estyle.fxRowCenter]}>
+                   <IconUser color='#FEBEBE'/><Text> </Text>
+                   <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver}</Text>
 
+                   <IconUser color='#C4DFFE'/><Text> </Text>
+                   <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver}</Text>
+               </View>
+               <View style={[estyle.fxRow, estyle.fxRowCenter,{marginTop:Env.font.base * 10}]}>
+                   <View style={[estyle.fx1,estyle.fxRow]}>
+                       <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
+                       <Text> </Text>
+                       <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position}</Text>
+                       <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{this.SpeedView(item.realtimeSpeed)}</Text>
+                   </View>
+               </View>
+           </ViewForRightArrow>
+       )
+    }
+    render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner
@@ -126,7 +123,7 @@ export default class MyCar extends Component {
                     style={estyle.fx1}
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
-                        return itemView(row)
+                        return this.itemView.bind(this)(row)
                     }}
                     fetchData={(pageNumber, pageSize) => {
                         return Promise.resolve(this.state.data);

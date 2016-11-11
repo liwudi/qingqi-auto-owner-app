@@ -23,32 +23,32 @@ export function carTeamInfo(){
 
 //车辆详情查询接口
 export function carInfo(carId){
-    //todo
-    return Promise.resolve({
-        "routeId": 666,
-        "routeInfo": "北京-德州-济南-青岛",
-        "subDriver": "张四维",
-        "subDriverId": 666,
-        "subDriverPhoneNum": 13913913913,
-        "mainDriver": "梁大大",
-        "mainDriverid": 666,
-        "mainDriverPhoneNum": 13913913913,
-        "speed": 89,
-        "carCode": "京N23456",
-        "adminList": [
-            {
-                "userNnme": "张三",
-                "phoneNum": 13913913913
-            }
-        ]
+    return new Promise(function (resolve, reject) {
+             resolve({
+                "routeId": 666,
+                "routeInfo": "北京-德州-济南-青岛",
+                "subDriverId": 666,
+                "subDriverPhoneNum": 17710484471,
+                "mainDriver": "梁大大",
+                "mainDriverid": 666,
+                "mainDriverPhoneNum": 13913913913,
+                "speed": 89,
+                "carCode": "京N23456",
+                "adminList": [
+                    {
+                        "userNnme": "张三",
+                        "phoneNum": 13913913913
+                    }
+                ]
+            });
     });
-    return RequestService.get(
-        makeUrl('carInfo'),
-        {
-            carId:1,
-            userId:userId
-        }
-    );
+    // return RequestService.get(
+    //     makeUrl('carInfo'),
+    //     {
+    //         carId:1,
+    //         userId:userId
+    //     }
+    // );
 }
 
 //车辆详情参数查询接口
