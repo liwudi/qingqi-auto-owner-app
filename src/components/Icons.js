@@ -154,7 +154,7 @@ export  class IconUser extends React.Component {
 export  class IconPlus extends React.Component {
 	render(){
 		return(
-			<IconFontAwesome name="plus" size={size} color={Env.color.color} {...this.props} />
+			<IconIonicons name="md-add" size={size} color={Env.color.color} {...this.props} />
 		)
 	}
 }

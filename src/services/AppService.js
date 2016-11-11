@@ -23,50 +23,20 @@ export function carTeamInfo(){
 
 //车辆详情查询接口
 export function carInfo(carId){
-    //todo
-    return Promise.resolve({
-        "routeId": 666,
-        "routeInfo": "北京-德州-济南-青岛",
-        "subDriver": "张四维",
-        "subDriverId": 666,
-        "subDriverPhoneNum": 13913913913,
-        "mainDriver": "梁大大",
-        "mainDriverid": 666,
-        "mainDriverPhoneNum": 13913913913,
-        "speed": 89,
-        "carCode": "京N23456",
-        "adminList": [
-            {
-                "userNnme": "张三",
-                "phoneNum": 13913913913
-            }
-        ]
-    });
     return RequestService.get(
         makeUrl('carInfo'),
         {
-            carId:1,
-            userId:userId
+            carId: carId
         }
     );
 }
 
 //车辆详情参数查询接口
 export function carParameter(carId){
-    //todo
-    return Promise.resolve({
-        "modelName": "起重机",
-        "vin": "Vin23",
-        "gearBoxModel": "变速箱型号",
-        "engineModel": "发动机型号",
-        "rearxleAratio": "后桥速比",
-        "tireModel": "轮胎型号"
-    })
     return RequestService.get(
         makeUrl('carParm'),
         {
-            carId:1,
-            userId:20
+            carId:carId
         }
     );
 }
@@ -208,7 +178,6 @@ export function standardMark(obj){
 export function queryMaintainReminder(){
     return RequestService.get(
         makeUrl('queryMaintainReminder'),{
-            userId: 2
         }
     );
 }
@@ -217,7 +186,6 @@ export function queryMaintainReminder(){
 export function carMaintained(){
     return RequestService.get(
         makeUrl('carMaintained'),{
-            userId: 2
         }
     );
 }
@@ -325,12 +293,11 @@ export function statisMileageByDay(page_number, page_size, page_total, statisDat
 //紧急电话配置-查询(按照Sort降序排列)【app用，查询carType】
 export function queryUrgentCall(page_number=defaultPage.page_number, page_size=defaultPage.page_size, type ){
     return RequestService.get(
-        makeUrl('queryUrgentCall'),
+        `${Server.QINGQI}operate/emergency/queryUrgentCall`,
         {
             page_number:page_number,
             page_size:page_size,
-            type:type,
-            name:1
+            type:type
         }
     );
 }
@@ -338,16 +305,28 @@ export function queryUrgentCall(page_number=defaultPage.page_number, page_size=d
 export function driverCarList(page_number = defaultPage.page_number) {
     return RequestService.get(
         makeUrl('driverCarList'),
-        {page_number: page_number, userId: 3}
+        {page_number: page_number}
     );
 }
 //司机端-我的车辆列表
 export function setCurrentCar(carId) {
     return RequestService.get(
         makeUrl('setCurrentCar'),{
-            carId: carId,
-            userId: userId
+            carId: carId
         }
     );
 }
-
+//车辆查询（从TDS系统获取车辆数据）
+export function getCarList(opts,page_number=defaultPage.page_number,page_size=defaultPage.page_size) {
+    return RequestService.get(
+        `${Server.QINGQI}tocapp/getCarList`,
+        Object.assign({},opts,{page_number: page_number,page_size : page_size})
+    );
+}
+//添加/编辑车辆-评价ID
+export function addCar(opts){
+    return RequestService.get(
+        `${Server.QINGQI}tocapp/addCar`,
+        Object.assign({}, opts)
+    );
+}

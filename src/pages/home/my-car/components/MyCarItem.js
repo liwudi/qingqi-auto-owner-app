@@ -11,38 +11,59 @@ import {
 import Env from '../../../../utils/Env';
 const estyle = Env.style;
 import ViewForRightArrow from '../../../../components/ViewForRightArrow';
-import {IconUser, IconFontAwesome} from '../../../../components/Icons'
+import { IconUser, IconLocationMarker } from '../../../../components/Icons';
+
 export default class MyCarItem extends Component {
 
-
     render() {
-        let data = this.props.data;
-       // console.info(data)
+
+        let item = this.props.data;
+
+        // item = {"realtimeSpeed": 60.1,
+        //     "todayLen": 34.1,
+        //     "position": "辽宁省沈阳市华航大厦",
+        //     "slaveDriver": "李四",
+        //     "mastDriver": "张三",
+        //     "carCode": "辽A88888",
+        //     "carId": "1234567"}
+
+        const SpeedView= (realtimeSpeed) => {
+            if (realtimeSpeed == 0) {
+                return "静止";
+            } else {
+                return realtimeSpeed + "km/h";
+            }
+        }
+
         return (
-            <View>
+            <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
+                <View style={[estyle.fxRow]}>
+                    <View style={[estyle.fx1]}>
+                        <Text style={[estyle.articleTitle,{color: Env.color.important}]}>{item.carCode}</Text>
+                    </View>
+                    <View style={[estyle.paddingRight]}>
+                        <Text style ={{textAlign:'right'}}>今日：<Text>{item.todayLen || 0}</Text> (公里)</Text>
+                    </View>
+                </View>
                 <View style={[estyle.fxRow, estyle.fxRowCenter]}>
-                    <Text style={[estyle.articleTitle]}>{data.carCode}</Text>
-                    {data.status == 1  && <View style={[styles.currentCar, estyle.paddingHorizontal]}><Text
-                        style={[{color: '#fff', fontSize:Env.font.mini}]}>当前车辆</Text></View>}
+                    <IconUser color='#FEBEBE'/><Text> </Text>
+                    <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver}</Text>
 
+                    <IconUser color='#C4DFFE'/><Text> </Text>
+                    <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver}</Text>
                 </View>
-                <View style={[estyle.fxRow, {alignItems:'flex-end'}]}>
-                    <IconUser color={Env.color.main}/>
-                    <Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
-                    <Text style={[estyle.note, {color: Env.color.text}]}>{data.mainDriver||"无"}</Text>
-                    <Text style={[estyle.note, estyle.marginLeft]}>副：</Text>
-                    <Text style={[estyle.note, {color: Env.color.text}]}>{data.subDriver||"无"}</Text>
+                <View style={[estyle.fxRow, estyle.fxRowCenter,{marginTop:Env.font.base * 10}]}>
+                    <View style={[estyle.fx1,estyle.fxRow]}>
+                        <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
+                        <Text> </Text>
+                        <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
+                        <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{SpeedView(item.realtimeSpeed)}</Text>
+                    </View>
+                    {/*<View style={[estyle.paddingRight]}>*/}
+                    {/*<IconTrash/>*/}
+                    {/*</View>*/}
                 </View>
-            </View>
-      /*      <ViewForRightArrow onPress={this.props.onPress} rightIcon={this.props.icon && IconFontAwesome}>
-
-            </ViewForRightArrow>*/
+            </ViewForRightArrow>
         )
     }
 }
-const styles = StyleSheet.create({
-    currentCar: {
-        borderRadius: 400,
-        backgroundColor: Env.color.auxiliary,
-    }
-});

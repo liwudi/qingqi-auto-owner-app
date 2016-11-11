@@ -38,8 +38,8 @@ export default class MyLine extends Component {
     render() {
         const topRightView= () => {
             return (
-                <TouchableOpacity onPress={() => {this.toPage(MyLineAdd)}}>
-                    <Icons.IconPlus/>
+                <TouchableOpacity style={{marginRight:Env.font.base * 10}} onPress={() => {this.toPage(MyLineAdd)}}>
+                    <Icons.IconPlus color="#FFF" size={Env.font.base * 40}/>
                 </TouchableOpacity>
             )
         };
