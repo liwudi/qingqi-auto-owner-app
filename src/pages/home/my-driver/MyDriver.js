@@ -13,16 +13,13 @@ import {
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
-import ConfirmButton from '../../../components/ConfirmButton';
 import ListTitle from '../../../components/ListTitle';
-import BorderButton from '../../../components/BorderButton';
 import Env from '../../../utils/Env';
 import {queryDriver} from '../../../services/MyDriverService';
-import Item from './components/MyDriverItem';
 import MyDriverEdit from './MyDriverEdit';
 import PageSectionList from '../../../components/PageSectionList';
 import MyDriverAdd from './MyDriverAdd';
-import * as Icons from '../../../components/Icons';
+import { IconPlus } from '../../../components/Icons';
 import LabelInput from '../../../components/LabelInput';
 
 const estyle = Env.style;
@@ -55,15 +52,6 @@ export default class MyDriver extends Component {
 		this.props.router.push(MyDriverAdd);
 	}
 
-	//加载Item，司机列表
-	itemList(dtoList){
-		return dtoList.map((item, idx) => {
-			return <TouchableOpacity onPress={() => this.editDriver(item)}>
-				<Item router={this.props.router} data={item}/>
-				</TouchableOpacity>;
-		})
-	}
-
 	renderSearchView() {
 		if(this.state.isSearch) {
 			return <LabelInput
@@ -82,7 +70,16 @@ export default class MyDriver extends Component {
 				<TopBanner 
 					{...this.props} 
 					title="我的司机" 
-					rightView={(<Icons.IconSearch color='#FFF' onPress={this.onSearch.bind(this)}/>)}
+					rightView={
+						<TouchableOpacity
+							style={{marginRight:Env.font.base * 10}}
+							onPress={() => {
+								this.props.router.push(MyDriverAdd)
+							}}
+						>
+							<IconPlus color="#FFF" size={Env.font.base * 40}/>
+						</TouchableOpacity>
+					}
 				/>
 				{this.renderSearchView()}
 				<View style={[estyle.fx1]}>
@@ -103,13 +100,13 @@ export default class MyDriver extends Component {
 						}}
 						renderRow={(row) => {
 							return (
-								<View style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
+								<TouchableOpacity onPress={() => this.editDriver(row)} style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
 									<View style={[estyle.margin, estyle.fxRow]}>
 										<Text style={[estyle.text, {textAlign: 'left'}]}>{row.name}</Text>
 										<Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: Env.color.note}]}>{row.phone}</Text>
 										<Text style={[estyle.note,estyle.marginLeft]}>{row.registerStatus == 1 ? '已经注册' : '等待接受'}</Text>
 									</View>
-								</View>
+								</TouchableOpacity>
 							)
 						}}
 						fetchData={(pageNumber, pageSize) => {
@@ -117,11 +114,6 @@ export default class MyDriver extends Component {
 						}}
 					/>
 					
-				</View>
-				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
-					<View style={estyle.padding}>
-						<ConfirmButton size="small" onPress={this.addDriver.bind(this)}>添加司机</ConfirmButton>
-					</View>
 				</View>
 			</View>
 		);

@@ -33,6 +33,8 @@ import Alert from '../components/Modals/Alert';
 const SystemSetting = NativeModules.SystemSettingModule;
 import ManagerAddForContacts from './userCenter/manager/ManagerAddForContacts';
 
+import Env from '../utils/Env';
+
 class Main extends Component {
 
 	navigator = null;
@@ -142,13 +144,6 @@ class Main extends Component {
 					);
 				}}
 			/>
-			<View style={{justifyContent:'center',alignItems:'center',position:'absolute',borderRadius:100,bottom:100,left:10,width:50,height:50,backgroundColor:'#169ada'}}>
-				<Text onPress={() => this.router.resetTo(Guide)}>导航页</Text>
-			</View>
-			<Button onPress={()=>{this.setState({isConnected: !this.state.isConnected})}} style={{justifyContent:'center',alignItems:'center',position:'absolute',borderRadius:100,bottom:50,left:10,width:50,height:50,backgroundColor:'#169ada'}}>
-
-			<Text >网络测试</Text></Button>
-
 		</View>
 	}
 

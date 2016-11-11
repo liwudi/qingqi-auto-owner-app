@@ -37,6 +37,7 @@ export default class MyDriverAdd extends Component {
 	validate = (isShowTip = true) => this.refs.textInput.validate(isShowTip);
 
 	addDriver() {
+		this.props.update();
 		if (LabelInput.Validate(this.refs)) {
 			addDriver(this.state)
 				.then(()=>{
