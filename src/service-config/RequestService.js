@@ -79,8 +79,8 @@ function request(opts, processor, isUpload) {
         }
         opts.data['token'] = userInfo.token;
         //todo 测试id
-        // opts.data['userId'] = opts.data['userId'] || userInfo.userId;
-        opts.data['userId'] = userInfo.userId;
+        opts.data['userId'] = opts.data['userId'] || userInfo.userId;
+        // opts.data['userId'] = userInfo.userId;
     }
 
 
