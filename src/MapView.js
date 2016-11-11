@@ -5,7 +5,8 @@
  */
 import React, { PropTypes, Component } from 'react';
 import { requireNativeComponent, View } from 'react-native';
-
+import Env from './utils/Env';
+const estyle = Env.style;
 
 class MapView extends React.Component {
 
@@ -88,12 +89,13 @@ class MapView extends React.Component {
         }
         this.props.onLocationChanged(event.nativeEvent);
     }
-_onIconOverlayClick(event){
-    if(!this.props.onIconOverlayClick){return;}
-    this.props.onIconOverlayClick(event.nativeEvent);
-}
+    _onIconOverlayClick(event){
+        if(!this.props.onIconOverlayClick){return;}
+        this.props.onIconOverlayClick(event.nativeEvent);
+    }
     render() {
         return <RCTMapView {...this.props}
+                           style={[estyle.containerBackgroundColor, estyle.fx1]}
             onZoomIn={this._onZoomIn.bind(this)}
             onZoomOut={this._onZoomOut.bind(this)}
             onZoomMax={this._onZoomMax.bind(this)}

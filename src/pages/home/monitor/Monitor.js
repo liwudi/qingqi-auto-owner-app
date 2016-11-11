@@ -1,67 +1,88 @@
 /**
- * Created by ligj on 2016/10/9.
- * Edit by yaocy on 2016/11/3
+ * Created by ligj on 2016/9/30.
  */
 import React, { Component } from 'react';
-import {
-	Text,
-	View,
-	StyleSheet,
-	Image,
-	TouchableOpacity
-} from 'react-native';
+import { View, Text, Navigator } from 'react-native';
+
+import TabNavigator from '../../../components/TabNavigator';
+
 import Env from '../../../utils/Env';
 import TopBanner from '../../../components/TopBanner';
-import LabelInput from '../../../components/LabelInput';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
-import PageList from '../../../components/PageList';
-import {IconSearch} from '../../../components/Icons';
-import {queryRealTimeCarList} from '../../../services/MonitorService';
-import MyCarItem from '../my-car/components/MyCarItem';
-
 const estyle = Env.style;
-
+import SplashScreen from 'react-native-splash-screen';
+import List from './MonitorCarList';
+import Map from './MonitorMap'
+import {IconMap, IconList} from '../../../components/Icons';
+import Button from '../../../components/widgets/Button';
+const tabs = [
+    {
+        component: List,
+        rightIcon: IconMap
+    },
+    {
+        component: Map,
+        rightIcon: IconList
+    }
+];
 export default class Monitor extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			key: ''
-		};
-	}
+    constructor(props){
+        super(props);
+        this.state = {
+            currentIndex:0
+        }
+        this.index = 0;
+    }
+    changeTab = (index, params) => {
+        console.info(index)
+        this.setState({currentIndex:index});
+        this.refs.nav.jumpTo(tabs[index], params);
+    }
 
-	goToDetail(){
+    toMap = (params) => {
+        this.changeTab(1, params)
+    }
 
-	}
+    renderNavigationBar() {
+        let Icon = tabs[this.state.currentIndex].rightIcon;
+        return   <View style={{position:'absolute', zIndex:1, left:0, top:0, width: Env.screen.width}}><TopBanner {...this.props} title="实时监控"
+            rightView={
+                <Button onPress={this.changeTab.bind(this,+!this.state.currentIndex)}
+                style={[{height:90 * Env.font.base}, estyle.paddingLeft]}>
+                    <Icon color="#ffffff"/>
+                </Button>
+            }
+        /></View>;
+    }
 
-	render() {
-		return (
-			<View style={estyle.fx1}>
-				<TopBanner {...this.props} title="实时监控"/>
-				<ViewForRightArrow rightIcon={IconSearch}>
-					<LabelInput
-						style = {[estyle.borderBottom]}
-						placeholder='请输入司机姓名、VIN或车牌号'
-						labelSize="0"
-						ref="key"
-						onChangeText={key => this.setState({key:key})}/>
-				</ViewForRightArrow>
-				<PageList
-					style={estyle.fx1}
-					reInitField={[this.state.key]}
-					renderRow={(row) => {
-						return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)}/>
-					}}
-					fetchData={(pageNumber, pageSize) => {
-                        return queryRealTimeCarList(pageNumber,pageSize,this.state.key)
-					}}
-				/>
-			</View>
-		);
-	}
+    render(){
+        //SplashScreen.hide();
+        return (
+            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
+                <Navigator initialRoute={tabs[0]}
+                           ref="nav"
+                           navigationBar={this.renderNavigationBar()}
+                           initialRouteStack={tabs}
+                             configureScene={() => Navigator.SceneConfigs.FadeAndroid}
+                            renderScene={(route, navigator) => {
+                                let Component = route.component;
+                                return <Component
+                                    toMap={this.toMap}
+                                />
+                            }}
+                >
+
+                </Navigator>
+                {/*<Navigator
+                    initialRoute={tabs[0]}
+                    renderScene={(route, navigator) => {
+                        let Component = route.component;
+                        return <Component
+                            {...this.props}
+                            navigator = {navigator}
+                        />
+                    }}
+                />*/}
+            </View>
+        );
+    }
 }
-const styles = StyleSheet.create({
-	noteBlue:{
-		fontSize:Env.font.note,
-		color:Env.color.main
-	}
-});
