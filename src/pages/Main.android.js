@@ -27,10 +27,11 @@ import { addEventSystemBack } from '../utils/SystemEvents';
 import Router from '../services/RouterService';
 
 import Button from '../components/widgets/Button';
+import ViewForRightArrow from '../components/ViewForRightArrow';
 import ErrorPage from './error/NetError';
 import SplashScreen from 'react-native-splash-screen';
 import Alert from '../components/Modals/Alert';
-
+const SystemSetting = NativeModules.SystemSettingModule;
 class Main extends Component {
 
 	navigator = null;
@@ -79,9 +80,27 @@ class Main extends Component {
 		// console.log(props)
 	}
 	renderNetError() {
-		!this.state.isConnected && SplashScreen.hide();
+		if(!this.state.isConnected) {
+			SplashScreen.hide();
+			return <ViewForRightArrow style={[{position:'absolute', backgroundColor: Env.color.modalBg, left:0, top:0, width: Env.screen.width}]}
+									  onPress={() => {
+					console.info('opens ettting');
+					SystemSetting.openNetWork();
+				}}>
+				<View style={[estyle.fxRow, estyle.fxRowCenter]}>
+					<IconChainBroken size={Env.font.text * 2} color={'#ffffff'}/>
+					<View style={[estyle.fx1, estyle.marginLeft]}>
+						<Text style={[{fontSize: Env.font.text, color: '#ffffff'}]}>网络中断</Text>
+						<Text style={[{fontSize: Env.font.text, color: '#ffffff'}]}>请检查您的网络设置</Text>
+					</View>
+
+				</View>
+			</ViewForRightArrow>
+		}
+
+/*
 		// console.info('errornet')
-		return <ErrorPage visible={!this.state.isConnected}/>;
+		return <ErrorPage visible={!this.state.isConnected}/>;*/
 		/*return <View style={[{position:'absolute', width:Env.screen.width, height: Env.screen.height, zIndex:10, left:0,top:0}]}>
 			<ErrorPage type="net"/>
 		</View>;*/
@@ -89,10 +108,12 @@ class Main extends Component {
 
 	componentWillMount() {
 		NetInfo.isConnected.fetch().done(isConnected => {
+			console.info('net status', isConnected, 'from fetch');
 			this.setState({isConnected});
 			//this.setState({isConnected: false});
 		});
 		NetInfo.addEventListener('change', isConnected => {
+			console.info('net status', isConnected, 'from change');
 			this.setState({isConnected: isConnected !== 'NONE'});
 			//this.setState({isConnected: false});
 		});
