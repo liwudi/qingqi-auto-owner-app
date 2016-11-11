@@ -24,13 +24,14 @@ const tabs = [
         rightIcon: IconList
     }
 ];
+const currentIndex = 1;
+const initialRoute = tabs[currentIndex];
 export default class Monitor extends Component {
     constructor(props){
         super(props);
         this.state = {
-            currentIndex:0
+            currentIndex:currentIndex
         }
-        this.index = 0;
     }
     changeTab = (index, params) => {
         console.info(index)
@@ -58,30 +59,17 @@ export default class Monitor extends Component {
         //SplashScreen.hide();
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <Navigator initialRoute={tabs[0]}
-                           ref="nav"
-                           navigationBar={this.renderNavigationBar()}
-                           initialRouteStack={tabs}
-                             configureScene={() => Navigator.SceneConfigs.FadeAndroid}
-                            renderScene={(route, navigator) => {
-                                let Component = route.component;
-                                return <Component
-                                    toMap={this.toMap}
-                                />
-                            }}
+                <Navigator initialRoute={initialRoute}
+                    ref="nav"
+                    navigationBar={this.renderNavigationBar()}
+                    initialRouteStack={tabs}
+                    configureScene={() => Navigator.SceneConfigs.FadeAndroid}
+                    renderScene={(route, navigator) => {
+                    let Component = route.component;
+                    return <Component toMap={this.toMap}/>}}
                 >
 
                 </Navigator>
-                {/*<Navigator
-                    initialRoute={tabs[0]}
-                    renderScene={(route, navigator) => {
-                        let Component = route.component;
-                        return <Component
-                            {...this.props}
-                            navigator = {navigator}
-                        />
-                    }}
-                />*/}
             </View>
         );
     }

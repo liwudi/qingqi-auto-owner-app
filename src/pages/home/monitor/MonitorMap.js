@@ -26,7 +26,22 @@ import {IconList} from '../../../components/Icons';
 
 import Env from '../../../utils/Env';
 const estyle = Env.style;
-
+const legend = {
+    0:[
+        {
+            value:'行驶',
+            color:Env.color.main
+        },
+        {
+            value:'怠速',
+            color:Env.color.auxiliary
+        },
+        {
+            value:'离线',
+            color:Env.color.note
+        }
+    ]
+}
 export default class MonitorMap extends Component {
     constructor() {
         super();
@@ -40,6 +55,7 @@ export default class MonitorMap extends Component {
             isMove: true,
             isRotate: true,
             forbidGesture: true,
+            showLegend: true
         }
     }
 
@@ -56,18 +72,26 @@ export default class MonitorMap extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            console.info('map load')
-            this.setState({fill: true});
-        }, 2000);
-
+        console.info('map load')
+        this.setState({fill: true});
     }
 
+    renderLegend () {
+        return this.state.showLegend && <View style={[styles.legendView, estyle.padding, {paddingBottom:Env.font.base * 10}]}>
+                {legend[0].map((item, index) =>
+                    <View style={[styles.legendItem, {paddingBottom:Env.font.base * 10}]} key={index}>
+                        <View style={[{backgroundColor: item.color, width: Env.font.base * 20, height: Env.font.base * 20, borderRadius:100}, estyle.marginRight]}/>
+                        <Text style={[styles.legendText]}>{item.value}</Text>
+                    </View>
+                )}
+            </View>
+    }
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="地图模式"/>
                 {this.state.fill && this.fillMap()}
+                {this.renderLegend()}
             </View>
         );
     }
@@ -77,3 +101,22 @@ export default class MonitorMap extends Component {
         module.onDestroyMap(0);
     }
 }
+const styles = StyleSheet.create({
+    legendItem:{
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    legendText:{
+        color:'#FFF',
+        fontSize:Env.font.note
+    },
+
+    legendView : {
+        position:'absolute',
+        backgroundColor:Env.color.modalBg,
+        bottom: Env.font.base * 30,
+        right: Env.font.base * 150,
+        borderRadius:Env.font.base * 10,
+        padding:Env.font.base * 10
+    }
+});
