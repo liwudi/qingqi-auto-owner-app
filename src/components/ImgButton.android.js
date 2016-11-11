@@ -11,7 +11,7 @@ export default class ImgButton extends Component {
     render() {
         return (
             <TouchableOpacity
-                activeOpacity={1}
+                activeOpacity={0.6}
                 onPress={this._onPress.bind(this)}
                 style={[estyle.fxCenter, estyle.cardBackgroundColor, estyle.fx1, estyle.border]}>
                 <View style={{alignItems: 'center'}}>

@@ -30,7 +30,10 @@ class RegCheckCode extends Component {
 		super(props);
 	}
 
-	next(loginInfo){
+
+	next = (loginInfo) => {
+		console.info(loginInfo)
+		console.info(this.props)
 		this.props.router.replace(Login, {loginInfo})
 	}
 
@@ -39,7 +42,7 @@ class RegCheckCode extends Component {
 			this.props.regInfo.phone,
 			this.props.regInfo.trueName,
 			this.props.regInfo.password,
-			this.state.smsCode,
+			this.state.smsCode.value,
 			this.next
 		));
 	}
@@ -47,10 +50,10 @@ class RegCheckCode extends Component {
 	sendCode(isReSend = false){
 		this.props.dispatch(UserActions.sendRegCode(this.props.regInfo.phone, this.props.regInfo.captcha, isReSend));
 	}
-
+/*
 	componentDidMount(){
 		this.sendCode();
-	}
+	}*/
 
 	render() {
 		return (
@@ -61,7 +64,7 @@ class RegCheckCode extends Component {
 					<Text style={[estyle.marginBottom, {color:Env.color.important,fontSize:Env.font.navTitle}]}>+86 {this.props.regInfo.phone}</Text>
 					<PhoneChkCodeInput
 						ref="smsCode"
-						onChangeText={password => this.setState({password})}
+						onChangeText={smsCode => this.setState({smsCode})}
 						secureTextEntry={true}
 						placeholder='短信验证码'
 						label="验证码"

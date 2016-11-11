@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import { UserActions } from '../../../actions/index';
-import { changeBindSendCode, bindNewMobile, SEND_SMS_TYPE_BIND_NEW } from '../../../services/UserService';
+import { changeBindSendCode, bindMobile, SEND_SMS_TYPE_BIND_NEW } from '../../../services/UserService';
 
 import PhoneInput from '../../../components/Inputs/Phone';
 import TopBanner from '../../../components/TopBanner';
@@ -33,21 +33,26 @@ const estyle = Env.style,
 class ModifyMobileNewMobile extends Component {
 	constructor(props){
 		super(props);
-		this.userInfo = props.userInfo || {};
+		this.userInfo = props.userStore.userInfo;
 		this.state = {
-			phone: this.userInfo.mobile
+			phone: '',
+			doing: false
 		}
 	}
 
 	onNext(){
 		if(PhoneInput.Validate(this.refs)){
-			bindNewMobile(this.state.phone, this.state.smsCode, this.props.phone, this.props.smsCode)
+			this.setState({doing: true});
+			bindMobile(this.state.phone, this.state.smsCode, this.props.phone, this.props.smsCode)
 				.then(rs => {
+					this.userInfo.phone = this.state.phone;
+					this.setState({doing: false});
 					this.props.router.pop();
 				})
 				.catch(e => {
+					this.setState({doing: false});
 					Toast.show(e.message || '系统异常，请稍后再试', Toast.SHORT);
-				});
+				})
 		}
 	}
 
@@ -61,11 +66,12 @@ class ModifyMobileNewMobile extends Component {
 
 	render() {
 		return (
-			<View style={styles.body}>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="绑定新手机"/>
-				<View  style={styles.loginView}>
+				<View style={[estyle.fxRowCenter]}>
 					<PhoneInput
 						ref="phone"
+						style={[estyle.marginTop, estyle.borderBottom]}
 						defaultValue={this.state.phone}
 						onChangeText={phone => this.setState({phone})}
 						placeholder='要绑定的新手机'
@@ -76,10 +82,14 @@ class ModifyMobileNewMobile extends Component {
 						]}
 					/>
 					<SendMobileCode
+						style={[estyle.borderBottom]}
 						onChangeText={smsCode => this.setState({smsCode})}
 						sendCode={this.sendSmsCode}
 					/>
-					<ConfirmButton style={{marginTop:10}} size="large" onPress={() => this.onNext()}><Text>绑定</Text></ConfirmButton>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
+					<ConfirmButton disabled={this.state.doing} size="large" onPress={() => this.onNext()}><Text>绑定</Text></ConfirmButton>
 				</View>
 			</View>
 		);

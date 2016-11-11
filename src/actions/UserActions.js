@@ -10,8 +10,12 @@ import { setToken } from '../service-config/RequestService';
 
 function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
 	dispatch({'type': TYPES.SEND_CODE_ING});
+/*	then({}, null);
+	return;*/
 	sendFun()
 		.then((res)=>{
+			console.info('sendCodeDispatch')
+			console.info(res)
 			ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
 			let second = 10;
 			let intval = setInterval(() => {
@@ -24,16 +28,18 @@ function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
 
 				dispatch({'type': TYPES.SEND_CODE_TIMEOUT, second});
 				second--;
-
 			},1000);
-			then(res, null);
+			console.info('sendCodeDispatch')
+			console.info(res)
+			then(res || {}, null);
 		}).catch((e)=>{
-			console.info(e)
 			ToastAndroid.show(e.message, ToastAndroid.SHORT);
 			dispatch({'type': TYPES.SEND_CODE_ERROR, error: e});
 			then(null, e);
 		});
 }
+
+
 
 /**
  * token验证
@@ -46,11 +52,27 @@ export function checkToken(logged, noLogged) {
 		UserService.userDetail()
 			.then(res => {
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
-				logged();
+				logged && logged(res);
 			})
 			.catch((e)=>{
 				dispatch({'type': TYPES.LOGGED_NULL});
-				noLogged();
+				noLogged && noLogged();
+			})
+	}
+}
+
+/**
+ * 获取用户信息
+ * @returns {function(*)}
+ */
+export function getUserDetail() {
+	return (dispatch) => {
+		UserService.userDetail()
+			.then(res => {
+				dispatch({'type': TYPES.LOGGED_IN, user: res});
+			})
+			.catch((e)=>{
+				dispatch({'type': TYPES.LOGGED_NULL});
 			});
 	}
 }
@@ -67,12 +89,11 @@ export function logout(next) {
 			.then(res => {
 				ToastAndroid.show('退出登录成功', ToastAndroid.SHORT);
 				dispatch({'type': TYPES.LOGGED_OUT});
-				next();
 			})
 			.catch((e)=>{
 				ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
-			});
+			}).finally(next);
 	}
 }
 
@@ -88,10 +109,11 @@ export function doLogin(UserParams, next) {
 
 		UserService.login(UserParams.phone, UserParams.password, UserParams.captcha)
 			.then((res)=>{
-				setToken(res.token);
+				let userToken = {token:res.token, userId: res.userId};
+				setToken(userToken);
 				global.storage.save({
 					key: 'token',
-					rawData: {token:res.token},
+					rawData: userToken,
 					expires: null
 				});
 				return UserService.userDetail();
@@ -99,7 +121,7 @@ export function doLogin(UserParams, next) {
 			.then(res => {
 				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
-				next();
+				next(res);
 			})
 			.catch((e)=>{
 				ToastAndroid.show(e.message, ToastAndroid.SHORT);
@@ -117,27 +139,38 @@ export function doLogin(UserParams, next) {
  * @param next
  * @returns {function(*)}
  */
-export function doRegCheckCaptcha(phone, trueName, password, captcha, next) {
+export function doRegCheckCaptcha(phone, trueName, password, captcha, next, err) {
 	console.info('doRegCheckCaptcha');
 	console.info(arguments)
+
 	return (dispatch) => {
-		console.info('----------------------')
+/*		next({
+			phone, trueName, password, captcha
+		});
+		return;*/
 		dispatch({'type': TYPES.REG_STEP1_DOING});
 		UserService.checkCaptcha(phone, captcha)
-			.then(()=>{
-				console.info(arguments)
-				console.info('*******************************')
-				next({
-					phone, trueName, password, captcha
+			.then((rs)=>{
+				console.info(rs)
+				UserService.regSendCode(phone, captcha, false).then((d)=>{
+					console.info(333)
+					next({
+						phone, trueName, password, captcha
+					});
+				}).catch((e) => {
+					dispatch({'type': TYPES.REG_STEP2_START, regInfo: {
+						phone, trueName, password, captcha
+					}});
+					(e.code === 1006) && err && err();
 				});
+				/*next({
+					phone, trueName, password, captcha
+				});*/
 				dispatch({'type': TYPES.REG_STEP2_START, regInfo: {
 					phone, trueName, password, captcha
 				}});
 			}).catch((e)=>{
-				console.info(e)
-			console.info('...................................')
-
-			ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
 			});
 	}
@@ -151,7 +184,7 @@ export function doRegCheckCaptcha(phone, trueName, password, captcha, next) {
  * @returns {function(*)}
  */
 export function doFindPasswordCheckCaptcha(phone, captcha, next) {
-	console.info('doFindPasswordCheckCaptcha');
+	console.info(arguments)
 	return (dispatch) => {
 		dispatch({'type': TYPES.FINDPASS_STEP1_DOING});
 		sendCodeDispatch(
@@ -159,7 +192,11 @@ export function doFindPasswordCheckCaptcha(phone, captcha, next) {
 			UserService.findPasswordSendCode.bind(this, phone, captcha),
 			(rs, error) => {
 			if(rs){
+				console.info('rs')
+				console.info(rs)
 				dispatch({'type': TYPES.FINDPASS_STEP2, phoneInfo:{phone, captcha}});
+				console.info('next')
+				console.info(next)
 				next();
 			}else if(error){
 				dispatch({'type': TYPES.FINDPASS_STEP1_ERROR, error});
@@ -193,8 +230,7 @@ export function findPasswordReSendCode(phone) {
  * @returns {function(*)}
  */
 export function findPasswordCheckSmsCode(phone, smsCode, next) {
-	console.info('findPasswordCheckSmsCode');
-
+	console.info('findPasswordCheckSmsCode')
 	return (dispatch) => {
 		dispatch({'type': TYPES.FINDPASS_STEP2_DOING});
 		UserService.findPasswordCheckSmsCode(phone, smsCode)
@@ -247,8 +283,11 @@ export function doReg(phone, trueName, password, smsCode, next) {
 		dispatch({'type': TYPES.REG_STEP1_DOING});
 		UserService.reg(phone, trueName, password, smsCode)
 			.then((rs)=>{
+				console.info(rs)
+				ToastAndroid.show('注册成功，请登录！', ToastAndroid.SHORT);
 				next({phone, password});
 			}).catch((e)=>{
+				console.info(e)
 				ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
 			});
@@ -263,23 +302,50 @@ export function doReg(phone, trueName, password, smsCode, next) {
  * @returns {function(*)}
  */
 export function doQuickLogin(phone, code, next) {
-	console.info('doQuickLogin');
-
 	return (dispatch) => {
 		dispatch({'type': TYPES.LOGGED_DOING});
 		UserService.fastLogin(phone, code)
 			.then((res)=>{
+				let userToken = {token:res.token, userId: res.userId};
+				setToken(userToken);
+				global.storage.save({
+					key: 'token',
+					rawData: userToken,
+					expires: null
+				});
 				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
-				setToken(res.token);
 				UserService.userDetail().then(userInfo => {
+					console.info(userInfo)
 					dispatch({'type': TYPES.LOGGED_IN, user: userInfo});
+					next(userInfo);
 				});
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
-				next();
-			}).catch((e)=>{
+				//return UserService.userDetail();
+			})
+			/*.then(res => {
+				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				dispatch({'type': TYPES.LOGGED_IN, user: res});
+				next(res);
+			})*/
+			.catch((e)=>{
 				ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
 			});
+			/*.then((res)=>{
+				console.info(res)
+				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				setToken(res.token);
+				UserService.userDetail().then(userInfo => {
+					console.info(userInfo)
+					dispatch({'type': TYPES.LOGGED_IN, user: userInfo});
+					next(userInfo);
+				});
+				dispatch({'type': TYPES.LOGGED_IN, user: res});
+				//next();
+			}).catch((e)=>{
+				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
+			});*/
 	}
 }
 
@@ -307,7 +373,7 @@ export function sendRegCode(phone, captcha, isReSend) {
 	console.info('sendRegCode');
 
 	return (dispatch) => {
-		sendCodeDispatch(dispatch, UserService.regSendCode.bind(null, phone, captcha, isReSend));
+		return sendCodeDispatch(dispatch, UserService.regSendCode.bind(null, phone, captcha, isReSend));
 	}
 }
 
@@ -320,6 +386,7 @@ export function sendModifyMobileCode() {
 		dispatch({'type': TYPES.SEND_CODE_ING});
 		UserService.sendModifyMobileSendCode()
 			.then((res)=>{
+				console.info('sendModifyMobileCode')
 				ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
 				let second = 10;
 				let intval = setInterval(() => {

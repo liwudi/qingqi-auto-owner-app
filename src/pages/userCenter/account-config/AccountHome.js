@@ -9,8 +9,7 @@ import {
 	View,
 	TouchableOpacity,
 	StyleSheet,
-	Image,
-	Alert,
+	Image
 
 } from 'react-native';
 
@@ -19,7 +18,7 @@ import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import ConfirmButton from '../../../components/ConfirmButton';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
-import Login from '../../user/Login';
+import Login from '../../user/index';
 import ModifyMobile from './ModifyMobile';
 import ModifyPassword from './ModifyPassword';
 import ModifyTrueName from './ModifyTrueName';
@@ -33,7 +32,7 @@ import { uploadUserPic } from '../../../services/UserService';
 import Toast from '../../../components/Toast';
 
 import ImagePickBotton from './components/ImagePickButton';
-
+import Alert from '../../../components/Modals/Alert';
 
 let options = {
 	title: 'Select Avatar',
@@ -47,18 +46,29 @@ class AccountHome extends Component {
 
 	constructor(props){
 		super(props);
-		this.userInfo = props.userStore.userInfo;
 		this.state = {
-			picSource:null
+			picSource:null,
+			alertActive: false
 		}
+		// this.userInfo = props.userStore.userInfo;
 	}
+	// componentWillReceiveProps(nextProps){
+	// 	this.userInfo = nextProps.userStore.userInfo;
+	// }
 
 	goTo(page){
 		this.props.router.push(page);
 	}
 
 	logout(){
-		Alert.alert('提示',
+		this.props.dispatch(UserActions.logout(
+			() => {
+				this.setState({alertActive:false});
+				this.props.router.resetTo(Login)
+			}
+		))
+
+		/*Alert.alert('提示',
 			'是否要退出登录？',
 			[
 				{
@@ -71,7 +81,7 @@ class AccountHome extends Component {
 					}
 				},
 				{text: '取消'}
-			])
+			])*/
 	}
 
 	updatePic = () => {
@@ -89,6 +99,7 @@ class AccountHome extends Component {
 	}
 
 	render() {
+		let userInfo = this.props.userStore.userInfo;
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="账号设置"/>
@@ -114,17 +125,16 @@ class AccountHome extends Component {
 					</ViewForRightArrow>
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyTrueName)}>
 						<View style={[estyle.fxRow]}>
-							<Text style={[estyle.fx1, estyle.text]}>姓名</Text><Text style={styles.text}>{this.userInfo.nickname || '未设置姓名'}</Text>
+							<Text style={[estyle.fx1, estyle.text]}>姓名</Text><Text style={styles.text}>{userInfo.name || '未设置姓名'}</Text>
 						</View>
 
 					</ViewForRightArrow>
-					<Text></Text>
-					<ViewForRightArrow onPress = {() => this.goTo(ModifyPassword)}>
+					<ViewForRightArrow onPress = {() => this.goTo(ModifyPassword)} style={[estyle.marginTop]}>
 						<Text style={[estyle.fx1, estyle.text]}>修改密码</Text>
 					</ViewForRightArrow>
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyMobile)}>
 						<View style={[estyle.fxRow]}>
-							<Text style={[estyle.fx1, estyle.text]}>已绑定手机</Text><Text style={styles.text}>{this.userInfo.mobile}</Text>
+							<Text style={[estyle.fx1, estyle.text]}>已绑定手机</Text><Text style={styles.text}>{userInfo.phone}</Text>
 						</View>
 					</ViewForRightArrow>
 					<View style={[estyle.fxRow, estyle.padding]}>
@@ -134,11 +144,19 @@ class AccountHome extends Component {
 						<ConfirmButton
 							size="large"
 							disabled={this.props.userStore.status === TYPES.LOGGED_DOING}
-							onPress={this.logout.bind(this)}
+							onPress={(()=>{this.setState({alertActive:true})})}
 						>退出账户</ConfirmButton>
 					</View>
 
 				</View>
+				<Alert visible={this.state.alertActive}
+					   title="提示"
+					   confirmTitle="确定"
+					   cancelTitle="取消"
+					   onConfirm={(()=>{this.logout()})}
+					   onCancel={(()=>{this.setState({alertActive:false})})}>
+					是否要退出登录？
+				</Alert>
 			</View>
 		);
 	}

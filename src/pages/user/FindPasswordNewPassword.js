@@ -19,7 +19,7 @@ import TopBanner from '../../components/TopBanner';
 import PasswordInput from '../../components/Inputs/Password';
 import ConfirmButton from '../../components/ConfirmButton';
 
-import Login from './Login';
+import Login from './index';
 
 import Env from '../../utils/Env';
 const estyle = Env.style,
@@ -29,25 +29,29 @@ const estyle = Env.style,
 class FindPasswordNewPassword extends Component {
 	constructor(props){
 		super(props);
+		this.state = {
+			password: ''
+		}
+		//console.info(this.props.findPasswordStore.phoneInfo)
 		this.phone = this.props.findPasswordStore.phoneInfo.phone;
 		this.smsCode = this.props.findPasswordStore.phoneInfo.smsCode;
 	}
 
 	onModifyPassword(){
 		this.props.dispatch(UserActions.findPasswordNewPassword(this.phone, this.state.password,this.smsCode, () => {
-			this.props.router.replace(Login);
+			this.props.router.resetTo(Login);
 		}));
 	}
 
 	render() {
 		return (
-			<View style={styles.body}>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="忘记密码"/>
-				<View  style={styles.loginView}>
+				<View  style={[estyle.fxRowCenter]}>
 					<PasswordInput
 						ref="password"
 						defaultValue={this.state.password}
-						style={[estyle.borderBottom]}
+						style={[estyle.borderBottom, estyle.marginTop]}
 						onChangeText={password => this.setState({password})}
 						validates={[
 							{require:true, msg: emsg.password.require},
@@ -55,8 +59,10 @@ class FindPasswordNewPassword extends Component {
 						]}
 					/>
 
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
 					<ConfirmButton
-						style={{marginTop:10}}
 						size="large"
 						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP3_DOING}
 						onPress={() => this.onModifyPassword()}>
@@ -67,19 +73,6 @@ class FindPasswordNewPassword extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	loginView:{
-		alignItems:'center'
-	},
-	loginInput:{
-		marginTop:10
-	}
-
-});
 
 export default connect(function(stores) {
 	return { findPasswordStore: stores.findPasswordStore}

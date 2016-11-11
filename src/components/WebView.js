@@ -70,7 +70,7 @@ export default class News extends Component {
                 /> : null}
                 <WebView
                     onNavigationStateChange={(page) => {
-                        page.loading === false && this.onPageChange(page)
+                        this.onPageChange(page)
                     }}
                     style={{flex:1}}
                     source={{uri: this.state.uri}}

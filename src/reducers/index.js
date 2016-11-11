@@ -5,10 +5,12 @@ import {combineReducers} from 'redux';
 
 import * as userReducers from './UserReducers';
 import * as vehicleReduers from './VehicleReduers';
+import * as messageReduers from './MessageReducers';
 
 const rootReducer = combineReducers({
 	...userReducers,
-	...vehicleReduers
+	...vehicleReduers,
+	...messageReduers
 });
 
 export default rootReducer;

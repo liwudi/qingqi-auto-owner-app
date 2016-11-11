@@ -12,7 +12,6 @@ import TopBanner from '../../../components/TopBanner';
 import ConfirmButton from '../../../components/ConfirmButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
-import AddCarList from './AddCarList';
 import { addCar } from '../../../services/AppService';
 const estyle = Env.style;
 
@@ -21,10 +20,10 @@ export default class AddCarPostCarCode extends Component {
     constructor(props) {
         super(props);
         this.state={
-            carId: '123',
+            carId: this.props.carInfo.id,
             carNumber: '',
-            type: 1,
-            flag: 0
+            type: '1',
+            flag: '0'
         };
         this.info=this.props.carInfo;
     }
@@ -38,31 +37,31 @@ export default class AddCarPostCarCode extends Component {
             addCar(this.state)
                 .then(()=>{
                     ToastAndroid.show('添加成功', ToastAndroid.SHORT);
-                    this.timer=setTimeout(()=>{
-                        this.props.router.replace(AddCarList,{carInfo: this.info});
-                    },500)
+                    this.props.router.popN(3);
                 })
                 .catch((e)=>{
-                    ToastAndroid.show(e.message, ToastAndroid.SHORT);
                 })
         }
     }
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="添加车辆"/>
+                <TopBanner {...this.props} title="添加车辆" onPress={() => this.toList}/>
                 <LabelInput
                     style={[estyle.marginTop, estyle.borderBottom]}
                     ref="carNumber"
                     label="车牌号"
-                    labelSize={5}
+                    labelSize={3}
                     onChangeText={carNumber => this.setState({carNumber})}
                     placeholder="请输入添加车辆车牌号"
                     validates={[
                         {require:true, msg:"车牌号为你的车队管理的重要标识,为方便您的车队管理,请输入车牌号。"}
                     ]}
                 />
-                <View style={[estyle.fxRowCenter,estyle.marginTop]}>
+                <View style={[estyle.fxRow, estyle.padding]}>
+                    <Text style={[estyle.text]}>&nbsp;</Text>
+                </View>
+                <View style={[estyle.fxRowCenter]}>
                     <ConfirmButton onPress={this.nextStep.bind(this)} size="large" >确认</ConfirmButton>
                 </View>
             </View>

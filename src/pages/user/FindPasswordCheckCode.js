@@ -40,7 +40,7 @@ class FindPasswordCheckCode extends Component {
 
 	next(){
 		if(this.refs.code.validate()){
-			this.props.dispatch(UserActions.findPasswordCheckSmsCode(this.phone, this.state.code, () => {
+			this.props.dispatch(UserActions.findPasswordCheckSmsCode(this.phone, this.state.code.value, () => {
 				this.props.router.replace(FindPasswordNewPassword)
 			}))
 		}
@@ -48,16 +48,16 @@ class FindPasswordCheckCode extends Component {
 
 	render() {
 		return (
-			<View style={styles.body}>
+			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="忘记密码"/>
-				<View  style={styles.loginView}>
-					<View style={{alignItems:'center',marginTop:10,marginBottom:10,}}>
-						<Text style={{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.note}}>已发送短信验证码到</Text>
-						<Text style={{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.navTitle}}>+86 {this.phone}</Text>
-					</View>
+				<View  style={[estyle.fxRowCenter]}>
+
+					<Text style={[estyle.marginTop,{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.note}]}>已发送短信验证码到</Text>
+					<Text style={{flex:1,textAlign:'center',color:Env.color.important,fontSize:Env.font.navTitle}}>+86 {this.phone}</Text>
+
 					<PhoneChkCodeInput
 						ref="code"
-						style={[estyle.borderBottom]}
+						style={[estyle.borderBottom, estyle.marginTop]}
 						onChangeText={code => this.setState({code})}
 						sendCode = {this.sendCode.bind(this)}
 						sendCodeStatus = {this.props.sendCodeStatus}
@@ -67,8 +67,10 @@ class FindPasswordCheckCode extends Component {
 							{pattern:pattern.code, msg: emsg.code.pattern}
 						]}
 					/>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
 					<ConfirmButton
-						style={{marginTop:10}}
 						size="large"
 						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP2_DOING}
 						onPress={() => this.next()}><Text>下一步</Text></ConfirmButton>
@@ -77,20 +79,6 @@ class FindPasswordCheckCode extends Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	loginView:{
-		alignItems:'center'
-	},
-	loginInput:{
-		marginTop:10
-	}
-
-});
 
 
 export default connect(function(stores) {

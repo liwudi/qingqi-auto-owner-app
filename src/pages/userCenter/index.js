@@ -54,6 +54,7 @@ class UserCenterHome extends Component {
     }
 
 	render() {
+        let userInfo = this.props.userStore.userInfo;
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<View>
@@ -78,8 +79,8 @@ class UserCenterHome extends Component {
                                 source={{uri: userPic()}}
                             />*/}
                             <View style={{justifyContent:'center',marginLeft:20 * Env.font.base}}>
-                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{this.userInfo.nickname || '未设置姓名'}</Text>
-                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{this.userInfo.mobile}</Text>
+                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.name || '未设置姓名'}</Text>
+                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.phone}</Text>
                             </View>
                         </View>
                     </ViewForRightArrow>

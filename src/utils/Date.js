@@ -34,6 +34,7 @@ function mactchStrToTime(baseTime, matchStr, format){
     return format(_r, format);
 }
 function format(date, fmt) {
+    if(!date)return '';
     fmt = fmt || 'yyyy-MM-dd hh:mm:ss';
     var _date = getDate(date);
     var o = {

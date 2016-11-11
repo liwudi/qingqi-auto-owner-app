@@ -1,5 +1,4 @@
 <resources>
-
-
-    <string name="app_name">QingqiOwnerApp</string>
+    <string name="app_name">青汽车主版</string>
+    <string name="loader">加载中...</string>
 </resources>

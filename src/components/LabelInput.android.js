@@ -8,7 +8,7 @@ import {View, Text, StyleSheet, TextInput} from 'react-native';
 import Env from '../utils/Env';
 const estyle = Env.style;
 import {IconEye, IconEyeOff} from './Icons';
-import Toast from '../components/Toast'
+import Toast from '../components/Toast';
 
 export default class LabelInput extends Component {
 
@@ -36,7 +36,7 @@ export default class LabelInput extends Component {
             return this.props.validates.every((validate) => {
                 let isValidate = true;
                 if(validate.require){
-                    isValidate = !!this.state.value;
+                    isValidate = !!this.state.value.trim();
                 } else if(validate.pattern) {
                     isValidate = (new RegExp(validate.pattern).test(this.state.value));
                 }

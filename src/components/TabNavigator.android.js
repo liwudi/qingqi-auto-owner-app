@@ -7,6 +7,9 @@ import TabBar from './TabBar';
 
 export default class TabNavigator extends Component {
     tabBar = null;
+    static defaultProps = {
+        isSwipe: true
+    }
     constructor(props){
         super(props);
         props.tabs = props.tabs.map((item, index) => {
@@ -21,7 +24,7 @@ export default class TabNavigator extends Component {
                 initialRoute={this.props.tabs[0]}
                 initialRouteStack={this.props.tabs}
                 navigationBar={<TabBar ref={(tabBar) => {this.tabBar = tabBar;}} tabs={this.props.tabs} />}
-                configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
+                configureScene={() => this.props.isSwipe ? Navigator.SceneConfigs.HorizontalSwipeJump : Navigator.SceneConfigs.FadeAndroid}
                 onDidFocus={(router) => {this.tabBar.changeTab(router.index, false)}}
                 renderScene={(route, navigator) => {
                     let Component = route.component;
