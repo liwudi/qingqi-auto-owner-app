@@ -1,6 +1,10 @@
 /**
  * Created by cryst on 2016/10/16.
  */
+const DEBUG = true;
+if(!DEBUG) {
+    console.info = console.log = () => {}
+}
 const ServerConfig = {
     //QINGQI: 'http://61.161.238.158:8950/qingqi/',
     QINGQI: 'http://10.30.50.152:8950/qingqi/',
