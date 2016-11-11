@@ -14,13 +14,13 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import ConfirmButton from '../../../components/ConfirmButton';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
-import PageList from '../../../components/PageList';
+import ListTitle from '../../../components/ListTitle';
+import BorderButton from '../../../components/BorderButton';
 import Env from '../../../utils/Env';
 import {queryDriver} from '../../../services/MyDriverService';
 import Item from './components/MyDriverItem';
 import MyDriverEdit from './MyDriverEdit';
-import NoDriver from './components/NoDriver';
+import PageSectionList from '../../../components/PageSectionList';
 import MyDriverAdd from './MyDriverAdd';
 import * as Icons from '../../../components/Icons';
 import LabelInput from '../../../components/LabelInput';
@@ -86,16 +86,31 @@ export default class MyDriver extends Component {
 				/>
 				{this.renderSearchView()}
 				<View style={[estyle.fx1]}>
-					<PageList
+					<PageSectionList
 						style={estyle.fx1}
 						reInitField={[this.state.keyWord]}
+						getSectionData={(list) => {
+							let rs = {};
+							list.forEach(item => {
+								if(item.key){
+									rs[item.key] = item.dtoList || [];
+								}
+							})
+							return rs;
+						}}
+						renderSectionHeader={(sectionData, sectionId) => {
+							return <ListTitle title={sectionId}/>
+						}}
 						renderRow={(row) => {
-							return <View>
-										<View style={[estyle.padding]}>
-											<Text style={estyle.text}>{row.key}</Text>
-										</View>
-										{this.itemList(row.dtoList)}
+							return (
+								<View style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
+									<View style={[estyle.margin, estyle.fxRow]}>
+										<Text style={[estyle.text, {textAlign: 'left'}]}>{row.name}</Text>
+										<Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: Env.color.note}]}>{row.phone}</Text>
+										<Text style={[estyle.note,estyle.marginLeft]}>{row.registerStatus == 1 ? '已经注册' : '等待接受'}</Text>
 									</View>
+								</View>
+							)
 						}}
 						fetchData={(pageNumber, pageSize) => {
 							return queryDriver(pageNumber,pageSize,this.state.keyWord)
