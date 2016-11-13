@@ -14,11 +14,7 @@ import {
 
 const module = NativeModules.MapbarMapModule;
 let mapRef = null;
-export function initMap(ref) {
-    mapRef = findNodeHandle(ref);
-    console.info(mapRef)
-    console.info('---------------------------------')
-}
+
 /*
 * point=[lng, lat]
 * */
@@ -27,26 +23,8 @@ export function MPoint(point) {
     return pts;
 }
 
-export function finalize () {
-    module.onDestroyMap(mapRef);
-    mapRef = null;
-}
-
-/*export class Marker {
-    constructor (opts) {
-
-    }
-}
-
-export class MarkerAngle {
-
-}
-
-export class Line {
-
-}*/
-
-/**opts = [{
+export class Marker {
+    /**opts = [{
 *   latitude: line[line.length - 1].lat,
     longitude: line[line.length - 1].lon,
     title: '终点',
@@ -59,37 +37,50 @@ export class Line {
     offsetY: 0.8,
     click: true
     }]
- * */
-/*添加标注*/
-export function addMarkers(opts) {
-    module.addAnnotations(
-        mapRef, opts
-    );
-}
-/*
- opts=[1,2,3]
- id数组
-* */
-export function removeMarkers(opts) {
-    module.removeAnnotation(
-        mapRef, opts
-    );
-}
-export function clearMarkers() {
-    removeMarkers([-1]);
-}
-export function setMarkerIconText(opts) {
-    module.setIconText(mapRef, opts);
+     * */
+    /*添加标注*/
+    static add = (opts) => {
+        module.addAnnotations(
+            mapRef, opts
+        )
+    }
+    /*
+     opts=[1,2,3]
+     id数组
+     * */
+    static remove = (opts) => {
+        module.removeAnnotation(
+            mapRef, opts
+        );
+    }
+    static clear = () => {
+        remove([-1]);
+    }
 }
 
-/*添加可旋转（带角度）的标注*/
-export function addMarkersWithAngle(opts) {
-    console.info(mapRef)
-    console.info(opts)
-    module.setIconOverlayIcons(
-        mapRef, opts
-    );
+export class MarkerRotate {
+    static add = (opts) => {
+        module.setIconOverlayIcons(
+            mapRef, opts
+        );
+    }
 }
+
+export class Line {
+
+}
+
+
+
+/**************************地图方法**************************/
+export function initMap(ref) {
+    mapRef = findNodeHandle(ref);
+}
+export function finalize () {
+    module.onDestroyMap(mapRef);
+    mapRef = null;
+}
+
 export function setCenter(mpoint) {
     module.setWorldCenter(mapRef, {
         longitude: mpoint[0],

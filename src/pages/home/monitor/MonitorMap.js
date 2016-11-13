@@ -70,8 +70,8 @@ export default class MonitorMap extends Component {
             "carId ": 888888
         }
         this.setState({carData});
-        let center = this.map.MPoint([115.95380, 28.68291]);
-        this.map.addMarkersWithAngle([{
+        let center = this.MPoint([115.95380, 28.68291]);
+        this.MarkerRotate.add([{
             longitude: center[0],
             latitude: center[1],
             id: 1,
@@ -79,10 +79,10 @@ export default class MonitorMap extends Component {
             imageName: "res/icons/1003.png",
             direction: Math.floor(Math.random() * 100)
         }])
-        this.map.setMarkerIconText([{
+       /* this.map.setMarkerIconText([{
             id: 1,
             iconText: "辽A88888"
-        }]);
+        }]);*/
     }
 
 /*    componentDidMount() {
@@ -103,7 +103,9 @@ export default class MonitorMap extends Component {
             </View>
     }
     initMap(instance) {
-        this.map = instance;
+        this.MPoint = instance.MPoint;
+        this.Marker = instance.Marker;
+        this.MarkerRotate = instance.MarkerRotate;
     }
     render() {
         return (
