@@ -24,7 +24,7 @@ const tabs = [
         rightIcon: IconList
     }
 ];
-const currentIndex = 1;
+const currentIndex = 0;
 const initialRoute = tabs[currentIndex];
 export default class Monitor extends Component {
     constructor(props){
@@ -66,7 +66,10 @@ export default class Monitor extends Component {
                     configureScene={() => Navigator.SceneConfigs.FadeAndroid}
                     renderScene={(route, navigator) => {
                     let Component = route.component;
-                    return <Component toMap={this.toMap}/>}}
+                    return <Component
+                        toMap={this.toMap}
+                        {...this.props}
+                    />}}
                 >
 
                 </Navigator>

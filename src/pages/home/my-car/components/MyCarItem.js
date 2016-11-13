@@ -18,7 +18,7 @@ export default class MyCarItem extends Component {
     render() {
 
         let item = this.props.data;
-
+//console.info(item)
         // item = {"realtimeSpeed": 60.1,
         //     "todayLen": 34.1,
         //     "position": "辽宁省沈阳市华航大厦",

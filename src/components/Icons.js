@@ -309,3 +309,82 @@ export  class IconAddressBook extends React.Component {
 	}
 }
 
+/**
+ * 播放
+ */
+export  class IconPlay extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="play-circle" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 暂停
+ */
+export  class IconPause extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="pause-circle" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 加号
+ */
+export  class IconAdd extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="md-add" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 减号
+ */
+export  class IconRemove extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="md-remove" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+
+/**
+ * 层叠窗口
+ */
+export  class IconBrowsers extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-browsers-outline" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+
+/**
+ * 油桶
+ */
+export  class IconDrums extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-color-fill-outline" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+
+/**
+ * speed
+ */
+export  class IconSpeed extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-speedometer-outline" size={size} color={color}  {...this.props} />
+		)
+	}
+}

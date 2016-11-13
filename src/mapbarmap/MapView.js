@@ -5,7 +5,7 @@
  */
 import React, { PropTypes, Component } from 'react';
 import { requireNativeComponent, View } from 'react-native';
-import Env from './utils/Env';
+import Env from '../utils/Env';
 const estyle = Env.style;
 
 class MapView extends React.Component {

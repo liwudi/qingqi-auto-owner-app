@@ -22,7 +22,7 @@ import MonitorMap from './MonitorMap';
 import {IconMap} from '../../../components/Icons';
 import Button from '../../../components/widgets/Button';
 const estyle = Env.style;
-
+import MapLine from '../../../components/MapLine';
 export default class MonitorCarList extends Component {
 	constructor(props) {
 		super(props);
@@ -31,9 +31,14 @@ export default class MonitorCarList extends Component {
 		};
 	}
 
-	goToMap(){
-		this.props.toMap();
+	goToMap(carId){
+		this.props.toMap({carId: carId});
 		///this.props.router.push(MonitorMap)
+	}
+
+	toToMapline() {
+		console.info(this.props)
+		this.props.router.push(MapLine)
 	}
 
 	render() {
@@ -45,7 +50,7 @@ export default class MonitorCarList extends Component {
 					placeholder='请输入司机姓名、VIN或车牌号'
 					labelSize="0"
 					ref="key"
-					rightView={<IconSearch color={Env.color.note}/>}
+					rightView={<Button onPress={()=>{this.toToMapline();}}><IconSearch color={Env.color.note}/></Button>}
 					onChangeText={key => this.setState({key:key})}/>
 				<PageList
 					style={estyle.fx1}
