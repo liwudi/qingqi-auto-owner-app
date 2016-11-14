@@ -20,7 +20,9 @@ const estyle = Env.style;
 import PageList from '../../../components/PageList';
 
 import Chart from '../../../components/Chart/Chart';
-
+import OilManageCarList from './OilManageCarList';
+import OilManageShowMark from './OilManageShowMark';
+import ViewForRightDom from '../../../components/ViewForRightDom.android.js';
 export default class OilManage extends Component {
 	constructor(props) {
 		super(props);
@@ -30,7 +32,13 @@ export default class OilManage extends Component {
 			statisDate:statisDate
 		}
 	}
-
+	goToCarList(carCode) {
+		this.props.router.push(OilManageCarList, {carCode: carCode});
+	}
+	//点击车牌号，进入查看标杆页面
+	toOilManageShowMark(info){
+		this.props.router.push(OilManageShowMark,{carInfo: info});
+	}
 	render() {
 
 		const data = [
@@ -82,7 +90,8 @@ export default class OilManage extends Component {
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
 					renderRow={(list) => {
 						return (
-							<View style={[estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
+						<TouchableOpacity onPress={() => this.goToCarList(list.carCode)}>
+							<ViewForRightDom style={[estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
 								<Text style={styles.articleBlue}>{list.startPointName}----{list.endPointName}</Text>
 								<View style={[estyle.fxRow]}>
 									<View style={[estyle.fx1,estyle.text,estyle.paddingTop]}>
@@ -95,7 +104,8 @@ export default class OilManage extends Component {
 										<Text style ={{textAlign:'right'}}>线路标杆：<Text style={styles.textBlue}>{list.carCode}</Text></Text>
 									</View>
 								</View>
-							</View>
+							</ViewForRightDom>
+							</TouchableOpacity>
 						)
 					}}
 					fetchData={(pageNumber, pageSize) => {
