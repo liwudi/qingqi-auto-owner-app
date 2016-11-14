@@ -24,8 +24,8 @@ export default class MapbarMap extends Component {
         this.options = {
             zoom: 8,
             center: {
-                longitude: center[0],//2868291,11595380
-                latitude: center[1]
+                longitude: center.longitude,//2868291,11595380
+                latitude: center.latitude
             },
             isZoom: true,
             isMove: true,
