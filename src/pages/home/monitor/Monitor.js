@@ -33,14 +33,9 @@ export default class Monitor extends Component {
             currentIndex:currentIndex
         }
     }
-    changeTab = (index, params) => {
-        console.info(index)
+    changeTab = (index) => {
         this.setState({currentIndex:index});
-        this.refs.nav.jumpTo(tabs[index], params);
-    }
-
-    toMap = (params) => {
-        this.changeTab(1, params)
+        this.refs.nav.jumpTo(tabs[index]);
     }
 
     renderNavigationBar() {
@@ -67,7 +62,6 @@ export default class Monitor extends Component {
                     renderScene={(route, navigator) => {
                     let Component = route.component;
                     return <Component
-                        toMap={this.toMap}
                         {...this.props}
                     />}}
                 >

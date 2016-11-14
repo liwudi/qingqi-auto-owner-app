@@ -18,6 +18,8 @@ import PageList from '../../../components/PageList';
 import {IconSearch} from '../../../components/Icons';
 import {queryRealTimeCarList} from '../../../services/MonitorService';
 import MyCarItem from '../my-car/components/MyCarItem';
+import MonitorCarDetail from './MonitorCarDetail';
+
 import MonitorMap from './MonitorMap';
 import {IconMap} from '../../../components/Icons';
 import Button from '../../../components/widgets/Button';
@@ -32,13 +34,15 @@ export default class MonitorCarList extends Component {
 	}
 
 	goToMap(carId){
-		this.props.toMap({carId: carId});
+		//console.info(carId)
+		this.props.router.push(MonitorCarDetail, {nav: {carId: carId}});
 		///this.props.router.push(MonitorMap)
 	}
 
-	toToMapline() {
-		console.info(this.props)
-		this.props.router.push(MapLine)
+	toSearch() {
+		//console.info(this.props)
+		//this.props.router.push(MonitorCarDetail, {nav: {carId: 10}});
+		//this.props.router.push(MapLine)
 	}
 
 	render() {
@@ -50,13 +54,15 @@ export default class MonitorCarList extends Component {
 					placeholder='请输入司机姓名、VIN或车牌号'
 					labelSize="0"
 					ref="key"
-					rightView={<Button onPress={()=>{this.toToMapline();}}><IconSearch color={Env.color.note}/></Button>}
+					rightView={<Button onPress={()=>{this.toSearch()}}><IconSearch color={Env.color.note}/></Button>}
 					onChangeText={key => this.setState({key:key})}/>
 				<PageList
 					style={estyle.fx1}
 					reInitField={[this.state.key]}
 					renderRow={(row) => {
-						return <MyCarItem data={row} onPress={() => this.goToMap(row.carId)}/>
+						return <MyCarItem data={row} onPress={() => {
+							this.goToMap(row.carId);
+						}}/>
 					}}
 					fetchData={(pageNumber, pageSize) => {
 						return queryRealTimeCarList(pageNumber,pageSize,this.state.key)

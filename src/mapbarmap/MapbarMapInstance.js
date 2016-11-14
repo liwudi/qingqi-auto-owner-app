@@ -199,6 +199,8 @@ export function zoomOut() {
     module.setZoomOut(mapRef, 1);
 }
 export function getBounds() {
+    console.info('---------------------------------------------')
+    console.info(mapRef)
     return module.getWorldRect(mapRef);
 }
 

@@ -58,7 +58,7 @@ export default class MapbarMap extends Component {
         return <View style={[estyle.fx1]}>
             <MapView
                 style={[estyle.fx1]}
-                zoomLevel={this.options.zoom}
+                zoomLevel={this.props.zoom || this.options.zoom}
                 worldCenter={this.options.center}
                 forbidGesture={this.options.forbidGesture}
                 isZoom={this.options.isZoom}
@@ -77,16 +77,18 @@ export default class MapbarMap extends Component {
             </View>
         </View>;
     }
+
     componentDidMount() {
         instance.initMap(this.refs.mapView);
-        this.props.initMap(instance);
+        this.props.initMap && this.props.initMap(instance);
         console.info('map load')
     }
 
 
     componentWillUnmount() {
-        console.info('map delete')
-        instance.finalize();
+        console.info('map delete1')
+     /*   instance.clearOverlays();*/
+        //instance.finalize();
     }
 }
 
