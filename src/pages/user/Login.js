@@ -34,7 +34,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone:'15010053708',
+            phone:'13466582379',
             password:'123456',
             captchaImg: false,
             haveCaptcha: false

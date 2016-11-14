@@ -23,32 +23,12 @@ export function carTeamInfo(){
 
 //车辆详情查询接口
 export function carInfo(carId){
-    return new Promise(function (resolve, reject) {
-             resolve({
-                "routeId": 666,
-                "routeInfo": "北京-德州-济南-青岛",
-                "subDriverId": 666,
-                "subDriverPhoneNum": 17710484471,
-                "mainDriver": "梁大大",
-                "mainDriverid": 666,
-                "mainDriverPhoneNum": 13913913913,
-                "speed": 89,
-                "carCode": "京N23456",
-                "adminList": [
-                    {
-                        "userNnme": "张三",
-                        "phoneNum": 13913913913
-                    }
-                ]
-            });
-    });
-    // return RequestService.get(
-    //     makeUrl('carInfo'),
-    //     {
-    //         carId:1,
-    //         userId:userId
-    //     }
-    // );
+    return RequestService.get(
+        makeUrl('carInfo'),
+        {
+            carId:carId
+        }
+    );
 }
 
 //车辆详情参数查询接口
@@ -335,10 +315,10 @@ export function queryUrgentCall(page_number=defaultPage.page_number, page_size=d
     );
 }
 //司机端-我的车辆列表
-export function driverCarList(page_number = defaultPage.page_number) {
+export function driverCarList(page_number,key) {
     return RequestService.get(
         makeUrl('driverCarList'),
-        {page_number: page_number, userId: 3}
+        {page_number: page_number,key:key}
     );
 }
 //司机端-我的车辆列表
@@ -347,6 +327,16 @@ export function setCurrentCar(carId) {
         makeUrl('setCurrentCar'),{
             carId: carId,
             userId: userId
+        }
+    );
+}
+//修改车辆信息
+export function modifyCar(carId, carCode,oldCarNo){
+    return RequestService.get(
+        makeUrl('modifyCar'),{
+            carId: carId,
+            carNo: carCode,
+            oldCarNo:oldCarNo
         }
     );
 }

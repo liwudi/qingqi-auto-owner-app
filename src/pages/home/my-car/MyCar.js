@@ -14,7 +14,7 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
-import {driverCarList} from '../../../services/AppService';
+import {driverCarList , carTeamInfo} from '../../../services/AppService';
 const estyle = Env.style;
 import CarDetail from './CarDetail';
 import ViewForRightArrow from '../../../components/ViewForRightArrow.android';
@@ -27,32 +27,34 @@ export default class MyCar extends Component {
         super(props);
         this.state = {
             selecting : false,
-            carId : '1',
-            data:{list:[1,2,4,5]}
+            data:{}
         };
     }
-    finaliy() {
-        this.setState({isRefreshing: false});
-        this.setState({selecting: false});
-        this.setState({carId: this.defaultCarId});
-    }
-
     fetchData() {
-        driverCarList()
+        carTeamInfo()
             .then((data)=>{
-                this.setState({'selecting': false});
                 this.setState({data});}
                 )
-            .catch(this.finaliy.bind(this))
-            .finally(this.finaliy.bind(this));
+            .catch();
     };
 
     componentWillMount() {
-        // this.fetchData();
+        this.fetchData();
+    }
+    /**
+     * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
+    * */
+    backRender(){
+        this.setState({
+            isRender: new Date().getTime()
+        })
     }
 
     goToDetail(carId) {
-        this.props.router.push(CarDetail, {nav: {carId: carId}});
+        this.props.router.push(CarDetail, {nav: {
+            carId: carId ,
+            backRender: this.backRender.bind(this)
+        }});
     }
     SpeedView(realtimeSpeed){
         if (realtimeSpeed == 0) {
@@ -63,13 +65,6 @@ export default class MyCar extends Component {
     }
 
     itemView(item){
-      item = {"realtimeSpeed": 60.1,
-          "todayLen": 34.1,
-          "position": "辽宁省沈阳市华航大厦",
-          "slaveDriver": "李四",
-          "mastDriver": "张三",
-          "carCode": "辽A88888",
-          "carId": "1234567"};
        return (
            <ViewForRightArrow  onPress={() => this.goToDetail(item.carId)} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
                <View style={[estyle.fxRow]}>
@@ -107,26 +102,26 @@ export default class MyCar extends Component {
                 />
                 <View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:Env.color.main,paddingVertical:Env.font.base*40}]}>
                     <View style={[estyle.fx1,estyle.fxCenter,estyle.borderRight]}>
-                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>12</Text>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.data.carNumOnline || 0}</Text>
                         <Text style={[estyle.text,{color:'#FFF'}]}>在线车辆数(辆)</Text>
                     </View>
                     <View style={[estyle.fx1,estyle.fxCenter,estyle.borderRight]}>
-                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>12</Text>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.data.carNumTotal || 0}</Text>
                         <Text style={[estyle.text,{color:'#FFF'}]}>总车辆数(辆)</Text>
                     </View>
                     <View style={[estyle.fx1,estyle.fxCenter,]}>
-                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>12</Text>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.data.mileageTotal || 0}</Text>
                         <Text style={[estyle.text,{color:'#FFF'}]}>今日总里程(公里)</Text>
                     </View>
                 </View>
                 <PageList
                     style={estyle.fx1}
-                    reInitField={[this.state.key]}
+                    reInitField={[this.state.isRender]}
                     renderRow={(row) => {
                         return this.itemView.bind(this)(row)
                     }}
                     fetchData={(pageNumber, pageSize) => {
-                        return Promise.resolve(this.state.data);
+                        return driverCarList(pageNumber)
                     }}
                 />
             </View>
