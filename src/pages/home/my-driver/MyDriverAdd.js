@@ -62,11 +62,26 @@ export default class MyDriverAdd extends Component {
 	componentWillUnmount() {
 		clearTimeout(this.timer);
 	}
+
+    toAddForContacts(){
+        // this.props.router.push(ManagerAddForContacts);
+    }
+
 	render() {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="添加司机"/>
-				<View  style={[estyle.fxRowCenter]}>
+                <TouchableOpacity onPress={this.toAddForContacts.bind(this)} style ={[estyle.fxRow,estyle.fxRowCenter,estyle.padding,estyle.cardBackgroundColor]}>
+                    <Icons.IconAddressBook color={'#FFB30F'} size={Env.font.base * 60}/>
+                    <View style = {estyle.fx1}>
+                        <View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
+                            <Text style={[{fontSize:Env.font.text, color:Env.color.main}]}>手机联系人</Text>
+                            <Text style={[{fontSize:Env.font.note, color:Env.color.note}]}>添加手机通讯录中的司机</Text>
+                        </View>
+                    </View>
+                    <View style={[estyle.padding,estyle.fxRow]}><Icons.IconFire size={Env.font.base * 30} color="red" /><Text style={{fontSize:Env.font.note, color:Env.color.main}}>推荐</Text></View>
+                </TouchableOpacity>
+				<View  style={[estyle.fxRowCenter,estyle.marginTop]}>
 					<LabelInput
 						style = {[estyle.borderBottom]}
 						placeholder='请输入司机姓名'
@@ -86,22 +101,7 @@ export default class MyDriverAdd extends Component {
 						validates={[{require:true, msg:"请填写司机手机号。"}]}
 					/>
 					<ConfirmButton style={[estyle.marginVertical]} size="large" onPress={() => this.addDriver()}><Text>保存</Text></ConfirmButton>
-					<View style ={[estyle.fxRow,estyle.padding]}>
-						<View>
-							<Image
-								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-									borderColor:'#85C7E7',}}
-								source={require('../../../assets/images/icon-1.png')}
-							/>
-						</View>
-						<View style = {{flex:1}}>
-							<View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
-								<Text style={[styles.textBlue,styles.colorFFF]} onPress={() => {this.phoneAdd()}}>手机联系人</Text>
-								<Text style={[styles.note,styles.colorFFF]}>添加手机通讯录中的司机</Text>
-							</View>
-						</View>
-						<View style={[estyle.padding,estyle.fxRow]}><Icons.IconUser /><Text style={styles.noteBlue}>推荐</Text></View>
-					</View>
+
 				</View>
 			</View>
 		);
