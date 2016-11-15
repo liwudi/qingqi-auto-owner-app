@@ -48,7 +48,13 @@ export default class RouterService {
     resetTo(page, props){
         this.navigator.resetTo(Page(page, props));
     }
-
+    popN(num){
+        if(num && typeof num == 'number'){
+            this.navigator.popN(num);
+        }else {
+            this.navigator.pop();
+        }
+    }
     pop(props){
         /*
          如果后退时传入props参数, 会自动更新上一页面的props

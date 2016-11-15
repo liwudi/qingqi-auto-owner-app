@@ -33,20 +33,10 @@ export function carInfo(carId){
 
 //车辆详情参数查询接口
 export function carParameter(carId){
-    //todo
-    return Promise.resolve({
-        "modelName": "起重机",
-        "vin": "Vin23",
-        "gearBoxModel": "变速箱型号",
-        "engineModel": "发动机型号",
-        "rearxleAratio": "后桥速比",
-        "tireModel": "轮胎型号"
-    })
     return RequestService.get(
         makeUrl('carParm'),
         {
-            carId:1,
-            userId:20
+            carId:carId
         }
     );
 }
@@ -340,4 +330,21 @@ export function modifyCar(carId, carCode,oldCarNo){
         }
     );
 }
-
+//车辆查询（从TDS系统获取车辆数据）
+export function getCarList(opts,page_number=defaultPage.page_number,page_size=defaultPage.page_size) {
+    return RequestService.get(
+        `${Server.QINGQI}tocapp/getCarList`,
+        Object.assign({},opts,{page_number: page_number,page_size : page_size})
+    );
+}
+//添加/删除车辆
+export function addCar(carId, carNumber,flag){
+    return RequestService.get(
+        makeUrl('addCar'),{
+            carId: carId,
+            carNumber: carNumber,
+            type:0,
+            flag:flag
+        }
+    );
+}

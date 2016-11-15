@@ -19,8 +19,9 @@ const estyle = Env.style;
 import CarDetail from './CarDetail';
 import ViewForRightArrow from '../../../components/ViewForRightArrow.android';
 import PageList from '../../../components/PageList';
+import  AddCar from  '../../userCenter/add-car/AddCar'
+import { IconUser, IconLocationMarker, IconPlus } from '../../../components/Icons';
 
-import { IconUser, IconLocationMarker, IconTrash } from '../../../components/Icons';
 
 export default class MyCar extends Component {
     constructor(props) {
@@ -99,6 +100,11 @@ export default class MyCar extends Component {
                 <TopBanner
                     {...this.props}
                     title="我的车辆"
+                    rightView={
+                        <TouchableOpacity onPress={ ()=>{ this.props.router.push(AddCar) } }>
+                            <IconPlus color="#fff" />
+                        </TouchableOpacity>
+                    }
                 />
                 <View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:Env.color.main,paddingVertical:Env.font.base*40}]}>
                     <View style={[estyle.fx1,estyle.fxCenter,estyle.borderRight]}>
