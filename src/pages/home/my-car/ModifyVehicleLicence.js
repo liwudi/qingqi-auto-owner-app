@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {modifyCar} from '../../../services/UserManagerService';
+import {modifyCar} from '../../../services/AppService';
 
 import {
 	Text,
@@ -28,10 +28,10 @@ export default class ModifyVehicleLicence extends Component {
 
 
 	save() {
-		if(this.props.nav.carCode === this.carCode) {
-			this.goBack();
-			return;
-		}
+		// if(this.props.nav.carCode === this.carCode) {
+		// 	this.goBack();
+		// 	return;
+		// }
 		if (LabelInput.Validate(this.refs)) {
 			modifyCar(this.props.nav.carId,this.carCode, this.props.nav.carCode) //参数旧车牌号也要传递
 				.then(this.success.bind(this));
@@ -39,6 +39,9 @@ export default class ModifyVehicleLicence extends Component {
 
 	}
 	goBack() {
+		this.props.nav.backFuns.forEach((item)=>{
+            item();
+        });
 		this.props.doBack();
 	}
 	setFromData(value) {
