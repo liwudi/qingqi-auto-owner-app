@@ -45,12 +45,12 @@ export default class PageList extends Component {
         this.pageNumber = pageNumber || this.pageNumber;
         this.props.fetchData(this.pageNumber, this.pageSize)
             .then(rs => {
+                rs = rs || {};
                 this._data = rs.list && rs.list.length > 0 ? this._data.concat(rs.list) : this._data;
-                console.log(rs);
                 if(this._data !== []){
                     this.setState({
                         ds: this.state.ds.cloneWithRows(this._data),
-                        pageTotal : rs.page_total
+                        pageTotal : rs.page_total || 0
                     });
                 }
             })
@@ -78,8 +78,7 @@ export default class PageList extends Component {
     }
 
     reInitFetch(){
-        this._data = [];
-        this.getData(1);
+        this._onRefresh();
     }
 
     componentWillReceiveProps(nextProps){

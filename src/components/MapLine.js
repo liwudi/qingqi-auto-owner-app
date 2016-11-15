@@ -18,7 +18,7 @@ import {
 import Toast from './Toast';
 import Slider from 'react-native-slider';
 
-var MapView = require('../MapView');
+var MapView = require('../mapbarmap/MapView');
 var module = NativeModules.MapbarMapModule;
 
 import * as Icons from './Icons';
@@ -168,7 +168,9 @@ export default class MapbarApi extends Component {
     }
 
     addCar = () => {
-        module.setIconOverlayIcons(findNodeHandle(this.refs.mapView),
+        let mapRef = findNodeHandle(this.refs.mapView);
+
+        module.setIconOverlayIcons(mapRef,
             [
                 {
                     latitude: line[0].lat,
@@ -177,6 +179,13 @@ export default class MapbarApi extends Component {
                     click: true,
                     imageName: "res/icons/1003.png",
                     direction: Math.floor(Math.random() * 100)
+
+             /*       latitude: line[0].lat,
+                    longitude: line[0].lon,
+                    id: 1,
+                    click: true,
+                    imageName: "res/icons/1003.png",
+                    direction: Math.floor(Math.random() * 100)*/
                 }
             ]);
         // module.addAnnotations(findNodeHandle(this.refs.mapView),
@@ -337,8 +346,8 @@ export default class MapbarApi extends Component {
     }
 
     _onInit = () => {
-        this.addLine();
-        this.addMarker();
+        //this.addLine();
+        //this.addMarker();
         this.addCar();
     }
 

@@ -130,6 +130,35 @@ export function queryOperateStatisToday(){
 
 //区间油耗日统计接口
 export function statisOilwearByDay(beginDate,endDate){
+    return Promise.resolve({
+        "list": [
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            }
+        ]
+    })
     return RequestService.get(
         makeUrl('statisOilwearByDay'),
         {
@@ -178,7 +207,6 @@ export function standardMark(obj){
 export function queryMaintainReminder(){
     return RequestService.get(
         makeUrl('queryMaintainReminder'),{
-            userId: 2
         }
     );
 }
@@ -187,7 +215,6 @@ export function queryMaintainReminder(){
 export function carMaintained(){
     return RequestService.get(
         makeUrl('carMaintained'),{
-            userId: 2
         }
     );
 }
@@ -295,16 +322,15 @@ export function statisMileageByDay(page_number, page_size, page_total, statisDat
 //紧急电话配置-查询(按照Sort降序排列)【app用，查询carType】
 export function queryUrgentCall(page_number=defaultPage.page_number, page_size=defaultPage.page_size, type ){
     return RequestService.get(
-        makeUrl('queryUrgentCall'),
+        `${Server.QINGQI}operate/emergency/queryUrgentCall`,
         {
             page_number:page_number,
             page_size:page_size,
-            type:type,
-            name:1
+            type:type
         }
     );
 }
-//司机端-我的车辆列表
+//我的车辆列表
 export function driverCarList(page_number,key) {
     return RequestService.get(
         makeUrl('driverCarList'),
@@ -315,8 +341,7 @@ export function driverCarList(page_number,key) {
 export function setCurrentCar(carId) {
     return RequestService.get(
         makeUrl('setCurrentCar'),{
-            carId: carId,
-            userId: userId
+            carId: carId
         }
     );
 }

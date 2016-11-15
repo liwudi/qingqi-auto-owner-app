@@ -13,16 +13,13 @@ import {
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
-import ConfirmButton from '../../../components/ConfirmButton';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
-import PageList from '../../../components/PageList';
+import ListTitle from '../../../components/ListTitle';
 import Env from '../../../utils/Env';
 import {queryDriver} from '../../../services/MyDriverService';
-import Item from './components/MyDriverItem';
 import MyDriverEdit from './MyDriverEdit';
-import NoDriver from './components/NoDriver';
+import PageSectionList from '../../../components/PageSectionList';
 import MyDriverAdd from './MyDriverAdd';
-import * as Icons from '../../../components/Icons';
+import { IconPlus } from '../../../components/Icons';
 import LabelInput from '../../../components/LabelInput';
 
 const estyle = Env.style;
@@ -55,15 +52,6 @@ export default class MyDriver extends Component {
 		this.props.router.push(MyDriverAdd);
 	}
 
-	//加载Item，司机列表
-	itemList(dtoList){
-		return dtoList.map((item, idx) => {
-			return <TouchableOpacity onPress={() => this.editDriver(item)}>
-				<Item router={this.props.router} data={item}/>
-				</TouchableOpacity>;
-		})
-	}
-
 	renderSearchView() {
 		if(this.state.isSearch) {
 			return <LabelInput
@@ -79,34 +67,58 @@ export default class MyDriver extends Component {
 	render() {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-				<TopBanner 
-					{...this.props} 
-					title="我的司机" 
-					rightView={(<Icons.IconSearch color='#FFF' onPress={this.onSearch.bind(this)}/>)}
+				<TopBanner
+					{...this.props}
+					title="我的司机"
+					rightView={
+						<TouchableOpacity
+							style={{marginRight:Env.font.base * 10}}
+							onPress={() => {
+								this.props.router.push(MyDriverAdd, {
+									refresh: () => {
+										this.refs.list.reInitFetch();
+									}
+								})
+							}}
+						>
+							<IconPlus color="#FFF" size={Env.font.base * 40}/>
+						</TouchableOpacity>
+					}
 				/>
 				{this.renderSearchView()}
 				<View style={[estyle.fx1]}>
-					<PageList
+					<PageSectionList
+						ref="list"
 						style={estyle.fx1}
 						reInitField={[this.state.keyWord]}
+						getSectionData={(list) => {
+							let rs = {};
+							list.forEach(item => {
+								if(item.key){
+									rs[item.key] = item.dtoList || [];
+								}
+							})
+							return rs;
+						}}
+						renderSectionHeader={(sectionData, sectionId) => {
+							return <ListTitle title={sectionId}/>
+						}}
 						renderRow={(row) => {
-							return <View>
-										<View style={[estyle.padding]}>
-											<Text style={estyle.text}>{row.key}</Text>
-										</View>
-										{this.itemList(row.dtoList)}
+							return (
+								<TouchableOpacity onPress={() => this.editDriver(row)} style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
+									<View style={[estyle.margin, estyle.fxRow]}>
+										<Text style={[estyle.text, {textAlign: 'left'}]}>{row.name}</Text>
+										<Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: Env.color.note}]}>{row.phone}</Text>
+										<Text style={[estyle.note,estyle.marginLeft]}>{row.registerStatus == 1 ? '已经注册' : '等待接受'}</Text>
 									</View>
+								</TouchableOpacity>
+							)
 						}}
 						fetchData={(pageNumber, pageSize) => {
 							return queryDriver(pageNumber,pageSize,this.state.keyWord)
 						}}
 					/>
-					
-				</View>
-				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
-					<View style={estyle.padding}>
-						<ConfirmButton size="small" onPress={this.addDriver.bind(this)}>添加司机</ConfirmButton>
-					</View>
+
 				</View>
 			</View>
 		);

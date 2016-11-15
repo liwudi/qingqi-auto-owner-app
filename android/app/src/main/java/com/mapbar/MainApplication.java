@@ -12,12 +12,13 @@ import com.mapbar.pushservice.mapbarpush.PushConfigs;
 import com.mapbar.react.common.CommonPackage;
 import com.mapbar.react.map.MapbarMapPackage;
 import com.mapbar.react.push.MarbarPushPackage;
+import com.mapbar.react.setting.SystemSettingPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
-
+import com.mapbar.react.setting.SystemSettingPackage;
 public class MainApplication extends Application implements ReactApplication {
   private static final String TAG = "MainApplication";
   @Override
@@ -38,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+              new SystemSettingPackage(),
             new SplashScreenReactPackage(), new VectorIconsPackage(), new ImagePickerPackage(), new MarbarPushPackage(), new MapbarMapPackage(),new CommonPackage()
       );
     }

@@ -16,7 +16,7 @@ const color = Env.color.text;
 export class IconSearch extends React.Component {
 	render(){
 		return (
-			<IconEntypo name="magnifying-glass" size={size} color={color} {...this.props}/>
+			<IconIonicons name="ios-search" size={size} color={color} {...this.props}/>
 		)
 	}
 }
@@ -154,7 +154,7 @@ export  class IconUser extends React.Component {
 export  class IconPlus extends React.Component {
 	render(){
 		return(
-			<IconFontAwesome name="plus" size={size} color={Env.color.color} {...this.props} />
+			<IconIonicons name="md-add" size={size} color={Env.color.color} {...this.props} />
 		)
 	}
 }
@@ -263,7 +263,7 @@ export  class IconArrowUp extends React.Component {
 export  class IconTrash extends React.Component {
 	render(){
 		return(
-			<IconEntypo name="trash" size={size} color={color}  {...this.props} />
+			<IconIonicons name="ios-trash" size={size} color={color}  {...this.props} />
 		)
 	}
 }
@@ -309,3 +309,82 @@ export  class IconAddressBook extends React.Component {
 	}
 }
 
+/**
+ * 播放
+ */
+export  class IconPlay extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="play-circle" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 暂停
+ */
+export  class IconPause extends React.Component {
+	render(){
+		return(
+			<IconFontAwesome name="pause-circle" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 加号
+ */
+export  class IconAdd extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="md-add" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+/**
+ * 减号
+ */
+export  class IconRemove extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="md-remove" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+
+/**
+ * 层叠窗口
+ */
+export  class IconBrowsers extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-browsers-outline" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+
+/**
+ * 油桶
+ */
+export  class IconDrums extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-color-fill-outline" size={size} color={color}  {...this.props} />
+		)
+	}
+}
+
+
+/**
+ * speed
+ */
+export  class IconSpeed extends React.Component {
+	render(){
+		return(
+			<IconIonicons name="ios-speedometer-outline" size={size} color={color}  {...this.props} />
+		)
+	}
+}

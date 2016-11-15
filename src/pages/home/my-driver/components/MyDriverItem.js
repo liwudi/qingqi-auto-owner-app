@@ -40,6 +40,7 @@ export default class MyDriverItem extends Component {
                 </View>
                 {topRightView()}
             </View>
+
         )
     }
 }

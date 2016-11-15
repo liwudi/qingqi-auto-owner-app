@@ -2,13 +2,15 @@
  * Created by ligj on 2016/10/9.
  * Edit by zhaidongyou on 2016/10/19
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     Text,
     View,
     TouchableOpacity,
     StyleSheet,
-    ScrollView
+    ScrollView,
+    RefreshControl,
+    Alert
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -16,186 +18,356 @@ import * as Icons from '../../../components/Icons';
 import PageList from '../../../components/PageList';
 const estyle = Env.style;
 import Env from '../../../utils/Env';
-import {IconUser} from '../../../components/Icons'
-import {IconTrash} from '../../../components/Icons'
+import {IconUser, IconTrash} from '../../../components/Icons'
 import Toast from '../../../components/Toast'
-import MyLineSetStart from './MyLineSetStart';
-import MyLineSetPass from './MyLineSetPass';
-import MyLineSetEnd from './MyLineSetEnd';
+import MyLineSetStartEnd from './MyLineSetStartEnd';
 import MyLineAddCarList from './MyLineAddCarList';
 import MyLineSetMaxSpeed from './MyLineSetMaxSpeed';
 import MyLineSetOilwearLimit from './MyLineSetOilwearLimit';
-import {routeCarList, delCarRoute, routeInfo, modifyRoute} from '../../../services/LineService';
+import ViewForRightArrow from '../../../components/ViewForRightArrow';
+import BorderButton from '../../../components/BorderButton';
+
+import ListTitle from '../../../components/ListTitle';
+import ListItem from '../../../components/ListItem';
+
+import {routeCarList, delCarRoute, routeInfo, modifyRoute, addRoute, deleteRoute} from '../../../services/LineService';
 
 export default class MyLineAdd extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            refreshing: props.routeId ? true : false,
             carList: false,
             renovate: false,
-            pass:[]
+            routeInfo:{
+                routeId: props.routeId || null,
+            }
         };
     }
 
-    onRenovate(){
-        this.setState({renovate:!this.state.renovate});
+    onRenovate() {
+        this.setState({renovate: !this.state.renovate});
     }
 
-    carList(){
+    fetchData() {
+        this.setState({refreshing: true});
+        routeInfo(this.state.routeInfo.routeId)
+            .then((data) => {
+                this.setState({refreshing: false, routeInfo : {...this.state.routeInfo, ...data}});
+            })
+            .finally(() => this.setState({refreshing: false}));
+    };
+
+    componentDidMount() {
+        this.state.routeInfo.routeId && this.fetchData();
+    }
+
+    carList() {
         if (this.state.carList) {
             return <PageList
                 style={estyle.fx1}
                 reInitField={[this.state.renovate]}
-                renderRow={(row) => {
-                        return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-                    <View style={estyle.fx1}>
-                        <Text style={[estyle.articleTitle]}>{row.carCode}</Text>
-                        <View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
-                            <IconUser color={Env.color.main}/>
-                            <Text style={[estyle.note, estyle.marginLeft]}>主：</Text>
-                            <Text style={[estyle.note, {color: Env.color.text}]}>{row.mainDriverName}</Text>
-                            <Text style={[estyle.marginLeft]}>副：</Text>
-                            <Text style={[estyle.note, {color: Env.color.text}]}>{row.subDriverName}</Text>
+                renderRow={(item) => {
+                    return <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
+                        <View style={[estyle.fx1]}>
+                            <Text style={[estyle.articleTitle,{color: Env.color.important}]}>{item.carCode}</Text>
                         </View>
-                    </View>
-                    <View style={[estyle.paddingRight, estyle.fxCenter]}>
-                        <IconTrash onPress={()=>{
-                        this.delCarRoute(row.carId);
-                    }}/>
-                    </View>
-                </View>;
-                        }}
+                        <View style={[estyle.fxRow, estyle.fxRowCenter]}>
+                            <IconUser color='#FEBEBE'/><Text> </Text>
+                            <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver}</Text>
+                            <IconUser color='#C4DFFE'/><Text> </Text>
+                            <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver}</Text>
+                        </View>
+                    </ViewForRightArrow>;
+                }}
                 fetchData={(pageNumber, pageSize) => {
-                        return routeCarList(pageNumber,pageSize,this.props.routeId)
-                        }}
+                    return routeCarList(pageNumber, pageSize, this.props.routeId)
+                }}
             />
         }
     }
 
     delCarRoute(carId) {
         delCarRoute(carId)
-            .then(()=>{
+            .then(() => {
                 Toast.show('删除成功', Toast.SHORT);
                 this.onRenovate();
+            })
+            .catch((e) => {
+                Toast.show(e.message, Toast.SHORT);
+            })
+    }
+
+    delPass(pass) {
+        let opts = {
+            ...this.state.routeInfo,
+        };
+
+        modifyRoute(opts)
+            .then(()=>{
+                Toast.show('删除途经点成功', Toast.SHORT);
+                this.fetchData();
+            })
+            .catch((e)=>{
+                Toast.show(e.message, Toast.SHORT);
+            })
+
+    }
+
+    _addRoute() {
+        console.log(this.state)
+        if (this.state.routeInfo.startCityCode && this.state.routeInfo.endCityCode && !this.state.routeInfo.routeId) {
+            let opts = {
+                ...this.state.routeInfo
+            };
+            addRoute(opts)
+                .then((data) => {
+                    Toast.show('线路添加成功', Toast.SHORT);
+                    this.setState({
+                        routeInfo: {
+                            ...this.state.routeInfo,
+                            routeId: data.routeId
+                        }
+                    },this.fetchData.bind(this));
+                })
+                .catch((e) => {
+                    Toast.show(e.message, Toast.SHORT);
+                })
+        }
+    }
+
+    _addPass(item) {
+
+        let p = Object.assign([], this.state.routeInfo.passbyPoints || []);
+        p.push(item);
+
+        let opts = {
+            ...this.state.routeInfo,
+        };
+
+        modifyRoute(opts)
+            .then(()=>{
+                Toast.show('添加成功', Toast.SHORT);
+                this.fetchData();
             })
             .catch((e)=>{
                 Toast.show(e.message, Toast.SHORT);
             })
     }
 
-    delPass(pass) {
-        let opts={};
-        routeInfo(this.props.routeId)
-        	.then((data)=>{
-        		opts = data;
-        		opts.routeId = this.props.routeId;
-        		opts.passbyPoints = JSON.stringify(pass);
-        		modifyRoute(opts)
-        			.then(()=>{
-        				Toast.show('删除途经点成功', Toast.SHORT);
-        			})
-        			.catch((e)=>{
-        				Toast.show(e.message, Toast.SHORT);
-        			})
-        	})
-        	.catch((e)=>{
-        		Toast.show(e.message, Toast.SHORT);
-        	})
+    setStartOrEnd(startOrEnd) {
+        if (startOrEnd.start) {
+            this.setState({
+                routeInfo: {
+                    ...this.state.routeInfo,
+                    startPointName: startOrEnd.start.pointName,
+                    startCityCode: startOrEnd.start.cityCode,
+                    startPointPos: startOrEnd.start.pointPos,
+                    startPointDes: startOrEnd.start.pointDes,
+                }
+            }, this._addRoute.bind(this));
+        }
+        if (startOrEnd.end) {
+            this.setState({
+                routeInfo: {
+                    ...this.state.routeInfo,
+                    endPointName: startOrEnd.end.pointName,
+                    endCityCode: startOrEnd.end.cityCode,
+                    endPointPos: startOrEnd.end.pointPos,
+                    endPointDes: startOrEnd.end.pointDes,
+                }
+            }, this._addRoute.bind(this));
+        }
     }
 
-    passVia(pass) {
-        return pass.map((item, idx) => {
-            return <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
-                <View style={estyle.fx1}><Text>{item.pointName}</Text></View>
-                <View style={[estyle.paddingRight, estyle.fxCenter]}>
-                    <IconTrash onPress={()=>{
-                        this.props.pass = pass.splice(idx,1);
-                        this.delPass(this.props.pass);
-                        this.forceUpdate();
-                    }}/>
-                </View>
-            </View>
-        })
+    _modifyMaxSpeed( maxSpeed ) {
+        let opts = {
+            ...this.state.routeInfo,
+            maxSpeed
+        };
+        modifyRoute(opts)
+            .then(()=>{
+                Toast.show('设置成功', Toast.SHORT);
+                this.fetchData();
+            })
+            .catch((e)=>{
+                Toast.show(e.message, Toast.SHORT);
+            })
     }
 
-    componentWillReceiveProps() {
-        if (!(typeof this.props.carList == 'undefined')) {
-            this.setState({carList:true});
+    _modifyOilwearLimit(oilwearLimit){
+        let opts = {
+            ...this.state.routeInfo,
+            oilwearLimit
+        };
+        modifyRoute(opts)
+            .then(()=>{
+                Toast.show('设置成功', Toast.SHORT);
+                this.fetchData();
+            })
+            .catch((e)=>{
+                Toast.show(e.message, Toast.SHORT);
+            })
+    }
+
+    _deleteRoute(){
+        let _delete = () => {
+            deleteRoute(this.props.routeId)
+                .then((rs) => {
+                    Toast.show('删除成功', Toast.SHORT);
+                    this.props.router.pop();
+                })
+                .catch(e => {
+                    Toast.show(e.message, Toast.SHORT);
+                })
         }
-        this.onRenovate();
-        console.log(this.props.pass)
-        if (!(typeof this.props.pass == 'undefined')) {
-            this.setState({isPass:true});
-        }
+
+
+        Alert.alert('提示',
+            `删除线路，会将线路关联车辆一起删除是否删除？`,
+            [
+                {text: '确定', onPress: _delete},
+                {text: '取消'}
+            ]
+        );
+
     }
 
     render() {
         return (
-            <View style={estyle.fx1}>
-                <TopBanner {...this.props} title="添加线路"/>
-                <ScrollView style={[estyle.fx1,estyle.containerBackgroundColor]}>
-                    <View style={estyle.padding}><Text style = {{color:Env.color.main}}>起终点</Text></View>
-                    <View style={estyle.cardBackgroundColor}>
-                        <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-                            <View style={estyle.fx1}><Text>起点</Text></View>
-                            <Text onPress={() => {
-                                this.props.router.push(MyLineSetStart);
-                            }} style={styles.noteBlue}>{this.props.startPointName || '点击设置'}</Text>
-                        </View>
-                        <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-                            <Text style={estyle.fx1}>终点</Text>
-                            <Text onPress={() => {
-                                this.props.router.push(MyLineSetEnd,
-                                {start:{
-                                    startPointName:this.props.startPointName,
-                                    startCityCode:this.props.startCityCode,
-                                    startPointPos:this.props.startPointPos,
-                                    startPointDes:this.props.startPointDes
-                                }});
-                            }} style={styles.noteBlue}>{this.props.endPointName || '点击设置'}</Text>
-                        </View>
-                    </View>
+            <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
+                <TopBanner
+                    {...this.props}
+                    title={this.props.title || "添加线路"}
+                    rightView={this.props.routeId ? <IconTrash color="#FFF" onPress={this._deleteRoute.bind(this)} size={Env.font.base * 40}/> : null}
+                />
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.fetchData.bind(this)}
+                            colors={Env.refreshCircle.colors}
+                            progressBackgroundColor={Env.refreshCircle.bg}
+                        />
+                    }
+                    style={[estyle.fx1, estyle.containerBackgroundColor]}>
+                    <ListTitle title="起终点"/>
+                    <ListItem
+                        left="起点"
+                        right={this.state.routeInfo.startPointName || '点击设置'}
+                        rightPress={() => {
+                            this.props.router.push(
+                                MyLineSetStartEnd,
+                                { title: '设置起点', select: (start) => this.setStartOrEnd({start}) }
+                            );
+                        }}
+                        color={Env.color.main}
+                    />
+                    <ListItem
+                        left="终点"
+                        right={this.state.routeInfo.endPointName || '点击设置'}
+                        rightPress={() => {
+                            this.props.router.push(
+                                MyLineSetStartEnd,
+                                { title: '设置终点', select: (end) => this.setStartOrEnd({end}) }
+                            );
+                        }}
+                        color={Env.color.main}
+                    />
 
-                    <View style={[estyle.padding,estyle.fxRow]}>
-                        <View style={estyle.fx1}><Text style = {{color:Env.color.main}}>途径点</Text></View>
-                        <View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {
-                            this.props.router.push(MyLineSetPass,{routeId:this.props.routeId, pass:this.props.pass});
-                        }}/></View>
+                    <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                        <ListTitle title="途径点" style={estyle.fx1}/>
+                        <View style={estyle.paddingRight}>
+                            <Icons.IconPlus onPress={() => {
+                                this.props.router.push(
+                                    MyLineSetStartEnd,
+                                    { title: '设置途径点', select: (pass) => this._addPass(pass) }
+                                );
+                            }}/>
+                        </View>
                     </View>
-                    {this.passVia(this.props.pass || [])}
+                    <View>
+                        {
+                            this.state.routeInfo.passbyPoints && this.state.routeInfo.passbyPoints.length > 1
+                                ? this.state.routeInfo.passbyPoints.map((item, idx, self) => {
+                                    return <ListItem
+                                        key={idx}
+                                        left={item.pointName}
+                                        right={'删除'}
+                                        rightPress={() => {
+                                            let pass = Object.assign([], self);
+                                            pass.splice(idx, 1);
+                                            this.delPass(pass);
+                                        }}
+                                        color={Env.color.main}
+                                    />
+                                })
+                                : <ListItem left='无途径点' />
+                        }
+                    </View>
+                    <ListTitle title="驾驶规定"/>
+                    <ListItem
+                        left="最高时速"
+                        right={this.state.routeInfo.maxSpeed ? (this.state.routeInfo.maxSpeed + 'km/h') : '点击设置'}
+                        rightPress={() => {
+                            this.props.router.push(MyLineSetMaxSpeed, {
+                                submit: this._modifyMaxSpeed.bind(this)
+                            });
+                        }}
+                        color={Env.color.main}
+                    />
+                    <ListItem
+                        left="总油耗限制"
+                        right={this.state.routeInfo.oilwearLimit ? (this.state.routeInfo.oilwearLimit + 'L') : '点击设置'}
+                        rightPress={() => {
+                            this.props.router.push(MyLineSetOilwearLimit, {
+                                submit: this._modifyOilwearLimit.bind(this)
+                            });
+                        }}
+                        color={Env.color.main}
+                    />
+                    <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                        <ListTitle title="设置车辆" style={estyle.fx1}/>
+                        <View style={estyle.paddingRight}>
+                            <Icons.IconPlus onPress={() => {
+                                this.props.router.push(MyLineAddCarList, {
+                                    routeId: this.props.routeId,
+                                    update: () => {
+                                        this.refs.carList.reInitFetch();
+                                    }
+                                });
+                            }}/>
+                        </View>
+                    </View>
+                    <PageList
+                        ref="carList"
+                        style={estyle.fx1}
+                        renderRow={(item) => {
+                            return <View style={[estyle.fxRow,estyle.fxRowCenter, estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
+                                <View style={estyle.fx1}>
+                                    <Text style={[estyle.articleTitle]}>{item.carCode}</Text>
+                                    <View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
+                                        <IconUser color='#FEBEBE'/><Text> </Text>
+                                        <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver || '无'}</Text>
+                                        <IconUser color='#C4DFFE'/><Text> </Text>
+                                        <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver || '无'}</Text>
+                                    </View>
+                                </View>
+                                <BorderButton>删除</BorderButton>
+                            </View>
+                        }}
+                        fetchData={(pageNumber, pageSize) => {
+                            let routeId = this.props.routeId || this.state.routeInfo.routeId || null;
+                            if(routeId){
+                                return routeCarList(pageNumber, pageSize, routeId)
+                            }else{
+                                return Promise.resolve({list:[]});
+                            }
 
-                    <View style={estyle.padding}><Text style = {{color:Env.color.main}}>驾驶规定</Text></View>
-                    <View style={estyle.cardBackgroundColor}>
-                        <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-                            <View style={estyle.fx1}><Text>最高时速</Text></View>
-                            <Text style={[styles.noteBlue,estyle.paddingRight]}>{this.props.maxSpeed}</Text>
-                            <Text style={styles.noteBlue} onPress={() => {
-                                this.props.router.push(MyLineSetMaxSpeed,{routeId:this.props.routeId});
-                            }}>点击设置</Text>
-                        </View>
-                        <View style={[estyle.fxRow,estyle.borderBottom,estyle.padding]}>
-                            <View style={estyle.fx1}><Text>总油耗限制</Text></View>
-                            <Text style={[styles.noteBlue,estyle.paddingRight]}>{this.props.oilwearLimit}</Text>
-                            <Text style={styles.noteBlue} onPress={() => {
-                                this.props.router.push(MyLineSetOilwearLimit,{routeId:this.props.routeId});
-                            }}>点击设置</Text>
-                        </View>
-                    </View>
-                    <View style={[estyle.padding,estyle.fxRow]}>
-                        <View style={estyle.fx1}><Text style = {{color:Env.color.main}}>设置车辆</Text></View>
-                        <View style={estyle.paddingRight}><Icons.IconPlus onPress={() => {
-                            this.props.router.push(MyLineAddCarList,{routeId:this.props.routeId});
-                        }}/></View>
-                    </View>
-                    {this.carList()}
+                        }}
+                    />
                 </ScrollView>
             </View>
         );
     }
 }
-const styles = StyleSheet.create({
-    noteBlue:{
-        fontSize:Env.font.note,
-        color:Env.color.main
-    }
-});

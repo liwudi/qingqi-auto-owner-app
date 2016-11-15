@@ -19,19 +19,17 @@ import {
 
 import { MessageActions } from '../actions/index';
 
-import Guide from './guide';
 import Guide2 from './guide2';
 
 import { addEventSystemBack } from '../utils/SystemEvents';
 
 import Router from '../services/RouterService';
 
-import Button from '../components/widgets/Button';
-import ErrorPage from './error/NetError';
 import SplashScreen from 'react-native-splash-screen';
 import Alert from '../components/Modals/Alert';
+const SystemSetting = NativeModules.SystemSettingModule;
 
-import ManagerAddForContacts from './userCenter/manager/ManagerAddForContacts';
+import Env from '../utils/Env';
 
 class Main extends Component {
 
@@ -81,9 +79,27 @@ class Main extends Component {
 		// console.log(props)
 	}
 	renderNetError() {
-		!this.state.isConnected && SplashScreen.hide();
+		if(!this.state.isConnected) {
+			SplashScreen.hide();
+			return <ViewForRightArrow style={[{position:'absolute', backgroundColor: Env.color.modalBg, left:0, top:0, width: Env.screen.width}]}
+									  onPress={() => {
+					console.info('opens ettting');
+					SystemSetting.openNetWork();
+				}}>
+				<View style={[estyle.fxRow, estyle.fxRowCenter]}>
+					<IconChainBroken size={Env.font.text * 2} color={'#ffffff'}/>
+					<View style={[estyle.fx1, estyle.marginLeft]}>
+						<Text style={[{fontSize: Env.font.text, color: '#ffffff'}]}>网络中断</Text>
+						<Text style={[{fontSize: Env.font.text, color: '#ffffff'}]}>请检查您的网络设置</Text>
+					</View>
+
+				</View>
+			</ViewForRightArrow>
+		}
+
+/*
 		// console.info('errornet')
-		return <ErrorPage visible={!this.state.isConnected}/>;
+		return <ErrorPage visible={!this.state.isConnected}/>;*/
 		/*return <View style={[{position:'absolute', width:Env.screen.width, height: Env.screen.height, zIndex:10, left:0,top:0}]}>
 			<ErrorPage type="net"/>
 		</View>;*/
@@ -91,10 +107,12 @@ class Main extends Component {
 
 	componentWillMount() {
 		NetInfo.isConnected.fetch().done(isConnected => {
+			console.info('net status', isConnected, 'from fetch');
 			this.setState({isConnected});
 			//this.setState({isConnected: false});
 		});
 		NetInfo.addEventListener('change', isConnected => {
+			console.info('net status', isConnected, 'from change');
 			this.setState({isConnected: isConnected !== 'NONE'});
 			//this.setState({isConnected: false});
 		});
@@ -122,13 +140,6 @@ class Main extends Component {
 					);
 				}}
 			/>
-			<View style={{justifyContent:'center',alignItems:'center',position:'absolute',borderRadius:100,bottom:100,left:10,width:50,height:50,backgroundColor:'#169ada'}}>
-				<Text onPress={() => this.router.resetTo(Guide)}>导航页</Text>
-			</View>
-			<Button onPress={()=>{this.setState({isConnected: !this.state.isConnected})}} style={{justifyContent:'center',alignItems:'center',position:'absolute',borderRadius:100,bottom:50,left:10,width:50,height:50,backgroundColor:'#169ada'}}>
-
-			<Text >网络测试</Text></Button>
-
 		</View>
 	}
 

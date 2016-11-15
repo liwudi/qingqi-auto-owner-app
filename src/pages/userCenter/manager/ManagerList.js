@@ -7,11 +7,11 @@
  */
 
 import React, {Component} from "react";
-import {Text, View, TouchableHighlight, ToastAndroid, Image} from "react-native";
+import {Text, View, TouchableOpacity, ToastAndroid, Image} from "react-native";
 import Env from "../../../utils/Env";
 import PageList from "../../../components/PageList";
 import TopBanner from "../../../components/TopBanner";
-import * as Icons from "../../../components/Icons";
+import { IconPlus } from "../../../components/Icons";
 import ManagerEdit from "./ManagerEdit";
 import ManagerAdd from "./ManagerAdd";
 import {getManagerList} from "../../../services/MotorcadeManagerService";
@@ -37,31 +37,26 @@ export default class ManagerList extends Component {
 	render() {
 		const topRightView= () => {
 			return (
-				<View>
-					{/*<Icons.IconPlus/>*/}
-					<Icons.IconUser onPress={() => {this.toAddPage()}}>新增</Icons.IconUser>
-				</View>
+				<TouchableOpacity style={{marginRight:Env.font.base * 10}} onPress={() => {this.toAddPage()}}>
+					<IconPlus color="#FFF" size={Env.font.base * 40}/>
+				</TouchableOpacity>
 			)
 		};
 		return (
-			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-				<TopBanner {...this.props} title="管理员列表" rightView={ topRightView()}/>
+			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
+				<TopBanner {...this.props} title="车队管理员" rightView={ topRightView()}/>
 				<PageList
 					style = {estyle.fx1}
 					renderRow = {
 						(row) => {
 							return (
-								<TouchableHighlight onPress={() => this.toEditPage(row)}>
-									<View style = {[estyle.fxRow,estyle.borderBottom,estyle.padding]} >
-										<Image
-											style={{borderRadius:100,width:25,height:25,borderWidth:4 * Env.font.base, borderColor:'#85C7E7',}}
-											source={require('../../../assets/images/icon-1.png')}
-										/>
-										<Text style = {[estyle.text,estyle.paddingLeft]}>{row.name}</Text>
-										<Text style = {[estyle.paddingLeft,{flex:1}]}>{row.phone}</Text>
-										<Text style = {[estyle.note,{color:Env.color.auxiliary}]}>{row.registerStatus===1 ? '已添加' : '未使用'}</Text>
+								<TouchableOpacity onPress={() => this.toEditPage(row)} style={[estyle.borderBottom, estyle.cardBackgroundColor]}>
+									<View style={[estyle.margin, estyle.fxRow]}>
+										<Text style={[estyle.text, {textAlign: 'left'}]}>{row.name}</Text>
+										<Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: Env.color.note}]}>{row.phone}</Text>
+										<Text style={[estyle.note,estyle.marginLeft]}>{row.registerStatus == 1 ? '已添加' : '未使用'}</Text>
 									</View>
-								</TouchableHighlight>
+								</TouchableOpacity>
 							)
 						}
 					}

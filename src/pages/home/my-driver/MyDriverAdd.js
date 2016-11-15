@@ -20,8 +20,7 @@ import LabelInput from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
 import * as Icons from '../../../components/Icons';
 import {addDriver} from '../../../services/MyDriverService';
-import MyDriver from './MyDriver';
-import MyDriverPhoneAdd from './MyDriverPhoneAdd';
+import SelectForContacts from '../../contacts/SelectForContacts';
 
 const estyle = Env.style;
 export default class MyDriverAdd extends Component {
@@ -42,7 +41,8 @@ export default class MyDriverAdd extends Component {
 				.then(()=>{
 					ToastAndroid.show('添加成功', ToastAndroid.SHORT);
 					this.timer=setTimeout(()=>{
-						this.props.router.replace(MyDriver);
+						this.props.refresh();
+						this.props.router.pop();
 					},500)
 				})
 				.catch((e)=>{
@@ -51,26 +51,42 @@ export default class MyDriverAdd extends Component {
 		}
 	}
 
-	phoneAdd () {
-		this.props.router.push(MyDriverPhoneAdd);
-	}
-
 	/**
 	 * 组件销毁时调用
 	 */
 	componentWillUnmount() {
 		clearTimeout(this.timer);
 	}
+
+    toAddForContacts(){
+		this.props.router.push(SelectForContacts, {select: (name, phone) => {
+			this.setState({
+				name, phone
+			})
+		}});
+    }
+
 	render() {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="添加司机"/>
-				<View  style={[estyle.fxRowCenter]}>
+                <TouchableOpacity onPress={this.toAddForContacts.bind(this)} style ={[estyle.fxRow,estyle.fxRowCenter,estyle.padding,estyle.cardBackgroundColor]}>
+                    <Icons.IconAddressBook color={'#FFB30F'} size={Env.font.base * 60}/>
+                    <View style = {estyle.fx1}>
+                        <View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
+                            <Text style={[{fontSize:Env.font.text, color:Env.color.main}]}>手机联系人</Text>
+                            <Text style={[{fontSize:Env.font.note, color:Env.color.note}]}>添加手机通讯录中的司机</Text>
+                        </View>
+                    </View>
+                    <View style={[estyle.padding,estyle.fxRow]}><Icons.IconFire size={Env.font.base * 30} color="red" /><Text style={{fontSize:Env.font.note, color:Env.color.main}}>推荐</Text></View>
+                </TouchableOpacity>
+				<View  style={[estyle.fxRowCenter,estyle.marginTop]}>
 					<LabelInput
 						style = {[estyle.borderBottom]}
 						placeholder='请输入司机姓名'
 						label="姓名"
 						labelSize="3"
+						value={this.state.name}
 						ref="name"
 						onChangeText={name => this.setState({name})}
 						validates={[{require:true, msg:"请输入司机姓名。"}]}
@@ -80,51 +96,15 @@ export default class MyDriverAdd extends Component {
 						placeholder='请填写司机手机号'
 						label="电话"
 						labelSize="3"
+						value={this.state.phone}
 						ref="phone"
 						onChangeText={phone => this.setState({phone})}
 						validates={[{require:true, msg:"请填写司机手机号。"}]}
 					/>
 					<ConfirmButton style={[estyle.marginVertical]} size="large" onPress={() => this.addDriver()}><Text>保存</Text></ConfirmButton>
-					<View style ={[estyle.fxRow,estyle.padding]}>
-						<View>
-							<Image
-								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-									borderColor:'#85C7E7',}}
-								source={require('../../../assets/images/icon-1.png')}
-							/>
-						</View>
-						<View style = {{flex:1}}>
-							<View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
-								<Text style={[styles.textBlue,styles.colorFFF]} onPress={() => {this.phoneAdd()}}>手机联系人</Text>
-								<Text style={[styles.note,styles.colorFFF]}>添加手机通讯录中的司机</Text>
-							</View>
-						</View>
-						<View style={[estyle.padding,estyle.fxRow]}><Icons.IconUser /><Text style={styles.noteBlue}>推荐</Text></View>
-					</View>
+
 				</View>
 			</View>
 		);
 	}
 }
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	text:{
-		fontSize:Env.font.text,
-		color:Env.color.text
-	},
-	textBlue:{
-		fontSize:Env.font.text,
-		color:Env.color.main
-	},
-	note:{
-		fontSize:Env.font.note,
-		color:Env.color.note
-	},
-	noteBlue:{
-		fontSize:Env.font.note,
-		color:Env.color.main
-	}
-});

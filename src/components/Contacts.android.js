@@ -42,16 +42,21 @@ const CommonModule = NativeModules.CommonModule;
  * @returns {Promise.<T>}
  */
 export function getContacts() {
-    return CommonModule.getContacts().then((rs) => {
-        let contacts = {};
-        rs.forEach((item, index) => {
-            contacts[item.primaryKey] = contacts[item.primaryKey] || [];
-            item.phoneNumbers = item.phoneNumbers.map(phone => phone.replace(/ /g,''));
-            contacts[item.primaryKey].push(item);
-        });
-        return contacts;
+    if(global.contacts){
+        return Promise.resolve(global.contacts);
+    } else {
+        return CommonModule.getContacts().then((rs) => {
+            let contacts = {};
+            rs.forEach((item, index) => {
+                contacts[item.primaryKey] = contacts[item.primaryKey] || [];
+                item.phoneNumbers = item.phoneNumbers.map(phone => phone.replace(/ /g,''));
+                contacts[item.primaryKey].push(item);
+            });
+            global.contacts = contacts;
+            return contacts;
 
-    }).catch(e => {
-        return Promise.reject({message:'获取通讯录失败'});
-    })
+        }).catch(e => {
+            return Promise.reject({message:'获取通讯录失败'});
+        })
+    }
 }

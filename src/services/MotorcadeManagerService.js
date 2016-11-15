@@ -9,10 +9,6 @@ import RequestService, { getToken } from '../service-config/RequestService';
 
 const serviceUrl = `${Server.QINGQI}tocapp/`;
 
-/************************测试数据id**************************/
-const userId = 11;
-/************************************************************/
-
 function makeUrl(path) {
     return serviceUrl + path;
 }
@@ -30,7 +26,6 @@ export function getManagerList(keyWord, page_number, page_size){
     return RequestService.get(
         makeUrl('queryAdmin'),
         {
-            userId : userId,
             keyWord : keyWord,
             page_number : page_number,
             page_size : page_size
@@ -49,7 +44,6 @@ export function addManager(entity){
     return RequestService.post(
         makeUrl('addAdmin'),
         {
-            userId : userId,
             name : entity.name,
             phone : entity.phone
         }
@@ -67,7 +61,6 @@ export function deleteManager(entity){
     return RequestService.get(
         makeUrl('delAdmin'),
         {
-            userId : userId,
             adminId : entity.adminId
         }
     );

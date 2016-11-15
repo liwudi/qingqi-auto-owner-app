@@ -17,7 +17,6 @@ import Env from '../../../utils/Env';
 import {driverCarList , carTeamInfo} from '../../../services/AppService';
 const estyle = Env.style;
 import CarDetail from './CarDetail';
-import ViewForRightArrow from '../../../components/ViewForRightArrow.android';
 import PageList from '../../../components/PageList';
 import  AddCar from  '../../userCenter/add-car/AddCar'
 import { IconUser, IconLocationMarker, IconPlus } from '../../../components/Icons';
@@ -124,8 +123,9 @@ export default class MyCar extends Component {
                     style={estyle.fx1}
                     reInitField={[this.state.isRender]}
                     renderRow={(row) => {
-                        return this.itemView.bind(this)(row)
+                        return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)}/>
                     }}
+                    pageSize={5}
                     fetchData={(pageNumber, pageSize) => {
                         return driverCarList(pageNumber)
                     }}
