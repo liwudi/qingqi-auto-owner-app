@@ -14,14 +14,16 @@ import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
 import PageList from '../../../components/PageList';
 import Toast from '../../../components/Toast'
+import BorderButton from '../../../components/BorderButton';
 import {queryRouteList,setCarRoute} from '../../../services/LineService';
 const estyle = Env.style;
 export default class BoundLine extends Component {
 
 	carBoundLine(routeId) {
-		setCarRoute({carId: this.props.carId, routeId: routeId})
+		setCarRoute({carId: this.props.nav.carId, routeId: routeId})
 			.then(()=>{
 				Toast.show('绑定成功', Toast.SHORT);
+                this.props.nav.backFun();
 				this.props.doBack();
 			})
 			.catch((e)=>{
@@ -40,9 +42,7 @@ export default class BoundLine extends Component {
 						</View>
 					</View>
 					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-						<View style={[styles.add,estyle.paddingHorizontal]}>
-							<TouchableOpacity onPress={() => this.carBoundLine(item.routeId)}><Text>选择</Text></TouchableOpacity>
-						</View>
+                        <BorderButton onPress={() => this.carBoundLine(item.routeId)}>选择</BorderButton>
 					</View>
 				</View>
 			)

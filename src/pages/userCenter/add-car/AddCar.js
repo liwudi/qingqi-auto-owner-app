@@ -43,10 +43,9 @@ class AddCar extends Component {
     }
 
     nextStep () {
-        //正式版应该放开
-        //if (LabelInput.Validate(this.refs)) {
+        if (LabelInput.Validate(this.refs)) {
             this.props.dispatch(AddCarAction.getCarList(this.state, this.toList.bind(this),this.toVin.bind(this)));
-        //}
+        }
     }
     render() {
         return (

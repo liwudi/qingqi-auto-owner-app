@@ -126,6 +126,7 @@ export default class PageList extends Component {
                             return <View style={[Env.style.fxCenter, Env.style.padding]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? '加载中...' : '加载更多'}</Text></View>
                         }
                     }}
+                    reInitField={[this.state.isRender]}
                 />
             </View>
 
