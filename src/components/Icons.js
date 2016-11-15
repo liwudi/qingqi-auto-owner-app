@@ -263,7 +263,7 @@ export  class IconArrowUp extends React.Component {
 export  class IconTrash extends React.Component {
 	render(){
 		return(
-			<IconEntypo name="trash" size={size} color={color}  {...this.props} />
+			<IconIonicons name="ios-trash" size={size} color={color}  {...this.props} />
 		)
 	}
 }

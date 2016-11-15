@@ -130,6 +130,35 @@ export function queryOperateStatisToday(){
 
 //区间油耗日统计接口
 export function statisOilwearByDay(beginDate,endDate){
+    return Promise.resolve({
+        "list": [
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            }
+        ]
+    })
     return RequestService.get(
         makeUrl('statisOilwearByDay'),
         {

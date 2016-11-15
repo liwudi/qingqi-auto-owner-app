@@ -68,7 +68,8 @@ function request(opts, processor, isUpload) {
             method: opts.method || 'GET',
             cache: false,
             // mode: 'cors', //允许跨域
-            headers: new Headers()
+            headers: new Headers(),
+            timeout: 10000
         },
         queryString, formData;
     options.headers.append('Content-Type', 'application/json;charset=utf-8');
@@ -138,7 +139,7 @@ function request(opts, processor, isUpload) {
     console.log(options)
     console.log('###############################################');
 
-    return fetch(url, options)
+    let _fetch = fetch(url, options)
         .then(function (response) {
             return response.json()
         })
@@ -149,6 +150,12 @@ function request(opts, processor, isUpload) {
             Toast.show(JSON.stringify(err), Toast.SHORT);
             return Promise.reject(err);
         });
+
+    // setTimeout(() => {
+    //     _fetch.abort();
+    // },10000)
+
+    return _fetch;
 }
 
 

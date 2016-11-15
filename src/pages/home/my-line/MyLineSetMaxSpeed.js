@@ -23,24 +23,8 @@ export default class MyLineSetMaxSpeed extends Component {
 		};
 	}
 	save() {
-		let opts={};
-		routeInfo(this.props.routeId)
-			.then((data)=>{
-				opts = data;
-				opts.routeId = this.props.routeId;
-				opts.maxSpeed =this.state.maxSpeed;
-				modifyRoute(opts)
-					.then(()=>{
-						Toast.show('设置成功', Toast.SHORT);
-						this.props.router.pop({maxSpeed:this.state.maxSpeed + 'Km/h'});
-					})
-					.catch((e)=>{
-						Toast.show(e.message, Toast.SHORT);
-					})
-			})
-			.catch((e)=>{
-				Toast.show(e.message, Toast.SHORT);
-			})
+		this.props.submit(this.state.maxSpeed);
+		this.props.router.pop();
 	}
 	render() {
 		return (

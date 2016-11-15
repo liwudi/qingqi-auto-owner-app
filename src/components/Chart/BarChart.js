@@ -23,11 +23,13 @@ export default class BarChart extends Component {
 	}
 
 	_handlePress = (e , dataPoint , index ) => {
-		if (this.props.data.onDataPointPress) {
-			this.props.data.onDataPointPress(e, dataPoint, index);
+		if (this.props.onDataPointPress) {
 			this.setState({
 				currentIndex : index
-			})
+			});
+			setTimeout(() => {
+				this.props.onDataPointPress(e, dataPoint, index);
+			});
 		}
 	};
 
