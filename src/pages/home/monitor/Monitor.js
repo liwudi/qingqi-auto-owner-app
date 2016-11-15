@@ -1,73 +1,101 @@
 /**
- * Created by ligj on 2016/9/30.
+ * Created by ligj on 2016/10/9.
+ * Edit by yaocy on 2016/11/3
  */
-import React, { Component } from 'react';
-import { View, Text, Navigator } from 'react-native';
-
-import TabNavigator from '../../../components/TabNavigator';
-
+import React, { Component,PropTypes } from 'react';
+import {
+    Text,
+    View,
+    StyleSheet,
+    Image,
+    TouchableOpacity
+} from 'react-native';
 import Env from '../../../utils/Env';
 import TopBanner from '../../../components/TopBanner';
-const estyle = Env.style;
-import SplashScreen from 'react-native-splash-screen';
-import List from './MonitorCarList';
-import Map from './MonitorMap'
-import {IconMap, IconList} from '../../../components/Icons';
+import LabelInput from '../../../components/LabelInput';
+import ViewForRightArrow from '../../../components/ViewForRightArrow';
+import PageList from '../../../components/PageList';
+import {IconSearch} from '../../../components/Icons';
+import {queryRealTimeCarList} from '../../../services/MonitorService';
+import MyCarItem from '../my-car/components/MyCarItem';
+import MonitorCarDetail from './MonitorCarDetail';
+
+import MonitorMap from './MonitorMap';
+import {IconMap} from '../../../components/Icons';
 import Button from '../../../components/widgets/Button';
-const tabs = [
-    {
-        component: List,
-        rightIcon: IconMap
-    },
-    {
-        component: Map,
-        rightIcon: IconList
-    }
-];
-const currentIndex = 0;
-const initialRoute = tabs[currentIndex];
-export default class Monitor extends Component {
-    constructor(props){
+const estyle = Env.style;
+import MapLine from '../../../components/MapLine';
+const TIMEOUT = 5;
+export default class MonitorCarList extends Component {
+    constructor(props) {
         super(props);
         this.state = {
-            currentIndex:currentIndex
-        }
-    }
-    changeTab = (index) => {
-        this.setState({currentIndex:index});
-        this.refs.nav.jumpTo(tabs[index]);
+            key: ''
+        };
     }
 
-    renderNavigationBar() {
-        let Icon = tabs[this.state.currentIndex].rightIcon;
-        return   <View style={{position:'absolute', zIndex:1, left:0, top:0, width: Env.screen.width}}><TopBanner {...this.props} title="实时监控"
-            rightView={
-                <Button onPress={this.changeTab.bind(this,+!this.state.currentIndex)}
-                style={[{height:90 * Env.font.base}, estyle.paddingLeft]}>
-                    <Icon color="#ffffff"/>
-                </Button>
-            }
-        /></View>;
+    goToDetail(carId){
+        //console.info(carId)
+        this.props.router.push(MonitorCarDetail, {nav: {carId: carId}});
+        ///this.props.router.push(MonitorMap)
     }
 
-    render(){
-        //SplashScreen.hide();
+    goToMap() {
+        this.props.router.replace(MonitorMap);
+    }
+
+    toSearch() {
+        //console.info(this.props)
+        //this.props.router.push(MonitorCarDetail, {nav: {carId: 10}});
+        //this.props.router.push(MapLine)
+    }
+    clearTimer() {
+        this.timer = clearTimeout(this.timer);
+        this.timer = null;
+    }
+    componentWillUnmount() {
+        this.clearTimer();
+        console.info('map delete2')
+    }
+
+
+    fetchData = (pageNumber, pageSize) => {
+        return queryRealTimeCarList(pageNumber,pageSize,this.state.key);
+    }
+
+    render() {
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <Navigator initialRoute={initialRoute}
-                    ref="nav"
-                    navigationBar={this.renderNavigationBar()}
-                    initialRouteStack={tabs}
-                    configureScene={() => Navigator.SceneConfigs.FadeAndroid}
-                    renderScene={(route, navigator) => {
-                    let Component = route.component;
-                    return <Component
-                        {...this.props}
-                    />}}
-                >
-
-                </Navigator>
+            <View style={estyle.fx1}>
+                <TopBanner {...this.props} title="实时监控"
+                           rightView={
+                               <Button onPress={()=> {this.goToMap()}}
+                                       style={[{height:90 * Env.font.base}, estyle.paddingLeft]}>
+                                   <IconMap color="#ffffff"/>
+                               </Button>
+                           }
+                />
+                <LabelInput
+                    style = {[estyle.borderBottom, estyle.marginBottom]}
+                    placeholder='请输入司机姓名、VIN或车牌号'
+                    labelSize="0"
+                    ref="key"
+                    rightView={<Button onPress={()=>{this.toSearch()}}><IconSearch color={Env.color.note}/></Button>}
+                    onChangeText={key => this.setState({key:key})}/>
+                <PageList
+                    style={estyle.fx1}
+                    reInitField={[this.state.key]}
+                    renderRow={(row) => {
+                        return <MyCarItem data={row} onPress={() => {
+                            this.goToDetail(row.carId);
+                        }}/>
+                    }}
+                    fetchData={this.fetchData}
+                />
             </View>
         );
     }
 }
+
+MonitorCarList.PropTypes = {
+    toMap: PropTypes.func.isRequired
+};

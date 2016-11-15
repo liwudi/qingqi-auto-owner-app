@@ -80,7 +80,7 @@ class MapView extends React.Component {
         if (!this.props.onAnnotationClick) {
             return;
         }
-        this.props.onAnnotationClick(event.nativeEvent);
+        this.props.onAnnotationClick(event.nativeEvent.pointId);
     }
 
     _onLocationChanged(event) {
@@ -91,7 +91,7 @@ class MapView extends React.Component {
     }
     _onIconOverlayClick(event){
         if(!this.props.onIconOverlayClick){return;}
-        this.props.onIconOverlayClick(event.nativeEvent);
+        this.props.onIconOverlayClick(event.nativeEvent.pointIconOverlayId);
     }
     render() {
         return <RCTMapView {...this.props}

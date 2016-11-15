@@ -27,6 +27,9 @@ import {queryRealTimeCar} from '../../../services/MonitorService';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import {IconClock, IconLocation, IconList} from '../../../components/Icons';
+import Monitor from './Monitor';
+import CarStatus from  './CarStatus';
+import MonitorMap from './MonitorMap';
 const legend = [
 	{
 		value:'行驶',
@@ -42,7 +45,6 @@ const legend = [
 	}
 ];
 const TIMEOUT = 8; //单位 秒
-
 export default class MonitorCarDetail extends Component {
 	constructor() {
 		super();
@@ -51,26 +53,15 @@ export default class MonitorCarDetail extends Component {
 			data: null
 		}
 		this.zoom = 8;
+		this.markers = [];  //普通标注
+		this.markers_d = [];    //带角度的
 	}
 
 	fetchData() {
 		queryRealTimeCar(this.props.nav.carId).then((data) => {
 			this.setState({'data': data});
+			this.setMarker(data);
 		}).catch(() => {
-			/*this.addCar({
-				"travelStatus": 1,
-				"carStatus": "水温过高",
-				"realtimeOil": 8.5,
-				"realtimeSpeed": 88.8,
-				"todayLen": 88.8,
-				"position": "辽宁省沈阳市华航大厦",
-				"slaveDriver": "李四",
-				"mastDriver": "张三",
-				"lat": 28.68291,
-				"lon": 115.95380,
-				"carCode": "辽A88888",
-				"carId ": 888888
-			})*/
 			console.info('catch')
 		}).finally(() => {
 			this.clearTimer();
@@ -83,78 +74,72 @@ export default class MonitorCarDetail extends Component {
 		this.timer = clearTimeout(this.timer);
 		this.timer = null;
 	}
-	addMarker() {
-		console.info('add marker')
-		console.info(this.state)
-		let data = this.state.data,
-			pt = this.MPoint([data.lon, data.lat]);
-		this.Map.setCenter(pt);
-		let mkOpts = {longitude: pt.longitude,
-			latitude: pt.latitude,
-			title: '',
-			imageName: "",
-			iconText: data.carCode,
-			iconTextColor: Env.color.main,
-			iconTextSize: 14,
-			id: this.MarkerId,
-			offsetX: 5,
-			offsetY: 5,
-			click: true
+	setMarker(data) {
+		//this.setState({data: data});
+		if(this.markerId === -1) {
+			this.MarkerId = parseInt(Math.random() * 100);
+			this.addMarkerOpts(data, this.MarkerId);
+			this.Marker.add(this.markers);
+			this.MarkerRotate.add(this.markers_d);
+		} else {
+			this.markers.length = this.markers_d.length = 0;
+			this.updateMarkerOpts(data, this.MarkerId);
+			this.Marker.update(this.markers);
+			this.MarkerRotate.update(this.markers_d);
 		}
-		console.info(mkOpts);
-		this.Marker.add([mkOpts]);
-		mkOpts = {
-			longitude: pt.longitude,
-			latitude: pt.latitude,
-			id: this.MarkerId,
-			click: true,
-			imageName: "res/icons/c100" + data.travelStatus + ".png",
-			direction: Math.floor(Math.random() * 100)
-		}
-		console.info(mkOpts);
-		this.MarkerRotate.add([mkOpts]);
 	}
 
 
-	update() {
+	updateMarkerOpts(data, idx) {
 		console.info('update marker')
 		console.info(this.state)
-		let data = this.state.data,
-			pt = this.MPoint([data.lon, data.lat]);
+		letpt = this.MPoint([data.lon, data.lat]);
 		this.Marker.update([{
 			longitude: pt.longitude,
 			latitude: pt.latitude,
-			id: this.MarkerId/*,
-			title: '',
-			imageName: "",
-			iconText: data.carCode,
-			iconTextColor: Env.color.main,
-			iconTextSize: 14,
-
-			offsetX: 10,
-			offsetY: 5*/
+			id: idx
 		}]);
 		let d = Math.floor(Math.random() * 100);
 		data.travelStatus = parseInt(Math.random() * 3);
-		console.info('d----------------', d)
+		data.direction = Math.floor(Math.random() * 100);
 		this.MarkerRotate.update([{
 			longitude: pt.longitude,
 			latitude: pt.latitude,
-			id: this.MarkerId,
+			id: idx,
 			imageName: "res/icons/c100" + data.travelStatus + ".png",
-			direction: d
+			direction: data.direction
 		}]);
 	}
-	addCar() {
-		if(!this.state.data) return;
-		if(this.MarkerId == -1) {
-			this.MarkerId = parseInt(Math.random() * 100);
-			this.addMarker();
-		} else {
-			console.info('update')
-			this.update();
-		}
 
+
+	addMarkerOpts(data, idx) {
+		let pt = this.MPoint([data.lon, data.lat]);
+			mkOpts = {
+				longitude: pt.longitude,
+				latitude: pt.latitude,
+				title: data.carCode,
+				imageName: "ic_mask",
+				iconText: '',
+				iconTextColor: Env.color.main,
+				iconTextSize: 14,
+				id: idx,
+				offsetX: .5,
+				offsetY: 12,
+				click: true,
+				callOut: true
+			}
+		this.markers.push(mkOpts);
+		data.travelStatus = parseInt(Math.random() * 3);
+		data.direction = Math.floor(Math.random() * 100);
+		mkOpts = {
+			longitude: pt.longitude,
+			latitude: pt.latitude,
+			id: idx,
+			click: true,
+			imageName: "res/icons/c100" + data.travelStatus + ".png",
+			direction: data.direction
+		};
+		this.markers_d.push(mkOpts);
 	}
 
 	componentDidMount() {
@@ -176,7 +161,7 @@ export default class MonitorCarDetail extends Component {
 			)}
 		</View>
 	}
-	initMap(instance) {
+	onInit(instance) {
 		this.Map = instance;
 		this.MPoint = instance.MPoint;
 		this.Marker = instance.Marker;
@@ -186,18 +171,36 @@ export default class MonitorCarDetail extends Component {
 	goToMapline() {
 		this.props.router.push(MapLine, this.props.nav)
 	}
+	goToList() {
+		if(this.props.nav.p === 'map') {
+			this.props.router.replace(MonitorMap);
+		} else {
+			this.props.doBack();
+		}
+	}
+	gotoStatus() {
+		console.info(555)
 
+		this.props.router.push(CarStatus, {
+			nav: {
+				carCode: 'carCode',
+				carId: '10'
+			}
+		});
+	}
 	render() {
-		this.addCar();
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-				<TopBanner {...this.props} title="地图模式" rightView={
-							   <Button onPress={() => {this.props.doBack();}} style={[{height:90 * Env.font.base}, estyle.paddingLeft]}>
+				<TopBanner {...this.props} title="地图模式"
+						   onPress={()=>{this.goToList()}}
+						   rightView={
+							   <Button onPress={() => {this.goToList()}} style={[{height:90 * Env.font.base}, estyle.paddingLeft]}>
 								   <IconList color="#ffffff"/>
 							   </Button>
 						   }/>
-				<MapbarMap initMap={(instance)=> {this.initMap(instance);}} legend={this.renderLegend()}/>
-				 <CarItem data={this.state.data || {}}/>
+				<MapbarMap onInit={(instance)=> {this.onInit(instance);}}
+						   legend={this.renderLegend()}/>
+				 <CarItem data={this.state.data || {}} onPress={() => {this.gotoStatus()}}/>
 				<View style={[estyle.fxRow, estyle.borderTop, estyle.paddingVertical]}>
 					<Button style={[estyle.fx1, estyle.borderRight,estyle.fxRow, estyle.fxCenter]}>
 						<IconClock color={Env.color.main} size={Env.font.base * 38}/>

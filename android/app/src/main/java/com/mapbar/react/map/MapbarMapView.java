@@ -143,21 +143,25 @@ public class MapbarMapView extends MapView {
                     Log.d(TAG, "放大操作");
                     WritableMap event = Arguments.createMap();
                     event.putString("zoomIn", "放大操作");//key用于js中的nativeEvent
+                    event.putDouble("zoomIn", endLevel);
                     dispatchEvent(MapViewEvent.EVENT_ZOOMIN.toString(), event);
                 } else if (startLevel > endLevel) { // 缩小操作 min=0
                     Log.d(TAG, "缩小操作");
                     WritableMap event = Arguments.createMap();
                     event.putString("zoomOut", "缩小操作");//key用于js中的nativeEvent
+                    event.putDouble("zoomOut", endLevel);
                     dispatchEvent(MapViewEvent.EVENT_ZOOMOUT.toString(), event);
                 } else if (endLevel >= mZoomLevelRange.getY()) {
                     Log.d(TAG, "已经是最大级别");
                     WritableMap event = Arguments.createMap();
                     event.putString("zoomMax", "已经是最大级别");//key用于js中的nativeEvent
+                    event.putDouble("zoomMax", endLevel);
                     dispatchEvent(MapViewEvent.EVENT_ZOOMMAX.toString(), event);
                 } else if (endLevel <= mZoomLevelRange.getX()) {
                     Log.d(TAG, "已经是最小级别");
                     WritableMap event = Arguments.createMap();
                     event.putString("zoomMin", "已经是最小级别");//key用于js中的nativeEvent
+                    event.putDouble("zoomMin", endLevel);
                     dispatchEvent(MapViewEvent.EVENT_ZOOMMIN.toString(), event);
                 }
                 if (startElevation != endElevation || startHeading != endHeading) {

@@ -248,11 +248,11 @@ const vector = {
 };
 const icon = {
   size: {
-    large: {
+    middle: {
       width: baseFontSize * 60,
       height: baseFontSize * 60
     },
-    middle: {
+    large: {
       width: baseFontSize * 100,
       height: baseFontSize * 100
     }
