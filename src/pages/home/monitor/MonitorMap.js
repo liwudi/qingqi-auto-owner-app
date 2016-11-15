@@ -184,6 +184,9 @@ export default class MonitorMap extends Component {
     goToDetail(carId){
         this.props.router.push(MonitorCarDetail, {nav: {carId: carId || 10, p: 'map'}});
     }
+    componentWillUnmount() {
+        console.info('map delete22')
+    }
     clickMarker(idx) {
         let data = this.data[idx];
         this.goToDetail(data.carId);

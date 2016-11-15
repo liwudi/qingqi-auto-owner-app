@@ -35,7 +35,6 @@ export default class MapbarMap extends Component {
         this.state = {
             showLegend: false
         }
-        console.info(this.options)
     }
     renderController() {
         return <View>
@@ -55,6 +54,8 @@ export default class MapbarMap extends Component {
     }
 
     zoomIn() {
+        instance.finalize();
+        return;
         instance.zoomIn();
         this.onZoomIn();
     }
@@ -63,8 +64,6 @@ export default class MapbarMap extends Component {
         this.onZoomOut();
     }
     onZoomIn(zoom) {
-        console.info('zoom')
-        console.info(zoom)
         this.props.onZoomIn && this.props.onZoomIn(zoom);
     }
     onZoomOut(zoom) {
@@ -79,7 +78,6 @@ export default class MapbarMap extends Component {
     }
     getCenter() {
         let center = this.props.center || this.options.center;
-        console.info(center)
         return instance.MPoint([center.longitude, center.latitude]);
     }
     render() {
@@ -121,7 +119,7 @@ export default class MapbarMap extends Component {
     componentWillUnmount() {
         console.info('map delete1')
      /*   instance.clearOverlays();*/
-        //instance.finalize();
+        instance.finalize();
     }
 }
 

@@ -176,8 +176,13 @@ export function initMap(ref) {
     mapRef = findNodeHandle(ref);
 }
 export function finalize () {
-    module.onDestroyMap(mapRef);
-    mapRef = null;
+    console.info('-----------------------------------------------------abc')
+
+    console.info(mapRef)
+    //module.onDestroyMap(mapRef);
+    /*
+   //
+    mapRef = null;*/
 }
 
 /**
