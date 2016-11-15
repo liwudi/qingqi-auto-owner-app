@@ -166,7 +166,6 @@ export default class Guide extends Component {
                     <Icons.IconCall/>
                     <Icons.IconSearch/>
                     <Icons.IconMap/>
-                    <Icons.IconSearch/>
                     <Icons.IconClose/>
                     <Icons.IconLocation/>
                     <Icons.IconList/>

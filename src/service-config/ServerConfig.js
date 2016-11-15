@@ -17,7 +17,7 @@ const ServerConfig = {
         page_size: 20,
         page_total: 200
     },
-    APP_TYPE: '0', //0ÊÇ³µÖ÷¶Ë£¬1ÊÇË¾»ú¶Ë
+    APP_TYPE: '0', //0æ˜¯è½¦ä¸»ç«¯ï¼Œ1æ˜¯å¸æœºç«¯
     APP_PRODUCT: 'qingqi',
     DEVICE_ID: '0E97B03CFB5D5F76304134A3D9976198',
     DEVICE_TYPE: '1' //1-android, 2-ios

@@ -94,7 +94,7 @@ const spacing = {
 
 
 const border = {
-  width: 0.5,
+  width: 0.8,
   color: color.line
 };
 const style = {
