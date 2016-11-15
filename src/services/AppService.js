@@ -6,9 +6,6 @@ import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
 const serviceUrl = `${Server.QINGQI}tocapp/`;
 
-/************************测试数据id**************************/
-const userId = '1';
-/************************************************************/
 const defaultPage = Server.defaultPage;
 function makeUrl(path) {
     return serviceUrl + path;
@@ -130,35 +127,6 @@ export function queryOperateStatisToday(){
 
 //区间油耗日统计接口
 export function statisOilwearByDay(beginDate,endDate){
-    return Promise.resolve({
-        "list": [
-            {
-                "statisDate": 20161008,
-                "mileage": 6666.6,
-                "oilwear": 66.6
-            },
-            {
-                "statisDate": 20161008,
-                "mileage": 6666.6,
-                "oilwear": 66.6
-            },
-            {
-                "statisDate": 20161008,
-                "mileage": 6666.6,
-                "oilwear": 66.6
-            },
-            {
-                "statisDate": 20161008,
-                "mileage": 6666.6,
-                "oilwear": 66.6
-            },
-            {
-                "statisDate": 20161008,
-                "mileage": 6666.6,
-                "oilwear": 66.6
-            }
-        ]
-    })
     return RequestService.get(
         makeUrl('statisOilwearByDay'),
         {
@@ -176,7 +144,6 @@ export function statisRouteOilwearByDay(page_number, page_size, statisDate){
             page_number:page_number || 1,
             page_size:page_size || 20,
             statisDate:statisDate,
-            userId:userId
         }
     );
 }
@@ -190,7 +157,6 @@ export function statisOilwearForOneRoute(page_number, page_size,routeId,statisDa
             page_size:page_size || 20,
             routeId:routeId,
             statisDate:statisDate,
-            userId:userId
         }
     );
 }
