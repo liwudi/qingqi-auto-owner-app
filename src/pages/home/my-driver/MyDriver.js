@@ -67,14 +67,18 @@ export default class MyDriver extends Component {
 	render() {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-				<TopBanner 
-					{...this.props} 
-					title="我的司机" 
+				<TopBanner
+					{...this.props}
+					title="我的司机"
 					rightView={
 						<TouchableOpacity
 							style={{marginRight:Env.font.base * 10}}
 							onPress={() => {
-								this.props.router.push(MyDriverAdd)
+								this.props.router.push(MyDriverAdd, {
+									refresh: () => {
+										this.refs.list.reInitFetch();
+									}
+								})
 							}}
 						>
 							<IconPlus color="#FFF" size={Env.font.base * 40}/>
@@ -84,6 +88,7 @@ export default class MyDriver extends Component {
 				{this.renderSearchView()}
 				<View style={[estyle.fx1]}>
 					<PageSectionList
+						ref="list"
 						style={estyle.fx1}
 						reInitField={[this.state.keyWord]}
 						getSectionData={(list) => {
@@ -113,7 +118,7 @@ export default class MyDriver extends Component {
 							return queryDriver(pageNumber,pageSize,this.state.keyWord)
 						}}
 					/>
-					
+
 				</View>
 			</View>
 		);

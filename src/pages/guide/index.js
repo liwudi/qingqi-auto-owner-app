@@ -53,7 +53,6 @@ import TrackPlay from '../home/my-car/TrackPlay';
 
 import MyDriver from '../home/my-driver/MyDriver'
 import MyDriverAdd from '../home/my-driver/MyDriverAdd'
-import MyDriverPhoneAdd from '../home/my-driver/MyDriverPhoneAdd'
 import MyDriverEdit from '../home/my-driver/MyDriverEdit'
 
 import MyLine from '../home/my-line/MyLine'
@@ -62,7 +61,7 @@ import MyLineEdit from '../home/my-line/MyLineEdit'
 import MyLineSetEnd from '../home/my-line/MyLineSetEnd'
 import MyLineSetPass from '../home/my-line/MyLineSetPass'
 import MyLineSetRule from '../home/my-line/MyLineSetRule'
-import MyLineSetStart from '../home/my-line/MyLineSetStart'
+import MyLineSetStart from '../home/my-line/MyLineSetStartEnd'
 import MyLineAddCarList from '../home/my-line/MyLineAddCarList'
 
 import Monitor from '../home/monitor/Monitor'
@@ -294,7 +293,6 @@ export default class Guide extends Component {
                     <Text style={{fontSize:18,color:'red'}}>我的司机</Text>
                     <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriver)}}  >11、我的司机</Text>
                     <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriverAdd)}}  >12、我的司机-添加司机</Text>
-                    <Text style={styles.modify}{...this.props} onPress={() => {this.toPage(MyDriverPhoneAdd)}}  >13、我的司机-手机联系人添加</Text>
                     <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(MyDriverEdit)}}  >13、我的司机-手机联系人编辑</Text>
                 </View>
                 <View>

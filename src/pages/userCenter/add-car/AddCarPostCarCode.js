@@ -13,6 +13,7 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import { addCar } from '../../../services/AppService';
+import MyCar  from  '../../home/my-car/MyCar'
 const estyle = Env.style;
 
 export default class AddCarPostCarCode extends Component {
@@ -22,7 +23,7 @@ export default class AddCarPostCarCode extends Component {
         this.state={
             carId: this.props.carInfo.id,
             carNumber: '',
-            type: '1',
+            type: '0',
             flag: '0'
         };
         this.info=this.props.carInfo;
@@ -38,6 +39,7 @@ export default class AddCarPostCarCode extends Component {
                 .then(()=>{
                     ToastAndroid.show('添加成功', ToastAndroid.SHORT);
                     this.props.router.popN(3);
+                    this.props.router.replace(MyCar);
                 })
                 .catch((e)=>{
                 })

@@ -50,10 +50,22 @@ export default class MyCar extends Component {
         this.fetchData();
     }
 
-    goToDetail(carId) {
-        this.props.router.push(CarDetail, {nav: {carId: carId}});
+    /**
+     * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
+     * */
+    backRender(){
+        this.setState({
+            isRender: new Date().getTime()
+        })
     }
-    
+
+    goToDetail(carId) {
+        this.props.router.push(CarDetail, {nav: {
+            carId: carId ,
+            backRender: this.backRender.bind(this)
+        }});
+    }
+
     render() {
         const topRightView= () => {
             return (
@@ -85,7 +97,7 @@ export default class MyCar extends Component {
                 </View>
                 <PageList
                     style={estyle.fx1}
-                    reInitField={[this.state.key]}
+                    reInitField={[this.state.isRender]}
                     renderRow={(row) => {
                         return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)}/>
                     }}

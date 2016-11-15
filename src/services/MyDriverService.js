@@ -5,8 +5,7 @@
 import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
 const serviceUrl = `${Server.QINGQI}tocapp/`;
-const defaultPage = Server.defaultPage;
-const userId = '1';
+
 function makeUrl(path) {
     return serviceUrl + path;
 }
@@ -18,14 +17,12 @@ export function queryDriver(page_number,page_size,keyWord){
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            userId: userId,
             keyWord:keyWord
         }
     );
 }
 
 export function addDriver(opts){
-    opts.userId = userId;
     return RequestService.post(
         `${Server.QINGQI}tocapp/addDriver`,
         opts
@@ -33,8 +30,7 @@ export function addDriver(opts){
 }
 
 export function bindDriver(opts){
-    opts.userId = userId;
-    return RequestService.post(
+    return RequestService.get(
         `${Server.QINGQI}tocapp/bindDriver`,
         opts
     );
@@ -51,7 +47,6 @@ export function deleteDriver(entity){
     return RequestService.get(
         makeUrl('delDriver'),
         {
-            userId : userId,
             driverId : entity.driverId
         }
     );
@@ -65,12 +60,12 @@ export function deleteDriver(entity){
  *
  * @param entity 页面表单
  */
-export function modifyDriver(entity){
+export function modifyDriver(entity, oldPhone){
     return RequestService.post(
         makeUrl('modifyDriver'),
         {
-            newPhone : entity.newPhone,
-            oldPhone : entity.phone,
+            newPhone : entity.phone,
+            oldPhone : oldPhone,
             name : entity.name
         }
     );

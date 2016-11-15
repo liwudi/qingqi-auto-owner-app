@@ -18,7 +18,6 @@ import PageList from '../../../components/PageList';
 import Env from '../../../utils/Env';
 import Item from './components/MyLineItem';
 import MyLineAdd from './MyLineAdd';
-import MyLineEdit from './MyLineEdit';
 import {queryRouteList} from '../../../services/LineService';
 
 const estyle = Env.style;
@@ -50,12 +49,16 @@ export default class MyLine extends Component {
                     <PageList
                         style={estyle.fx1}
                         renderRow={(row) => {
-                        return <TouchableOpacity onPress={() => {this.props.router.push(MyLineEdit,{nav:{routeId:row.routeId}});}}>
-                            <Item router={this.props.router} data={row}/>
-                        </TouchableOpacity>
+                            return <Item
+                                router={this.props.router}
+                                data={row}
+                                onPress={() => {
+                                    this.props.router.push(MyLineAdd,{routeId: row.routeId, title: '编辑线路'});
+                                }}
+                            />
                         }}
                         fetchData={(pageNumber, pageSize) => {
-                        return queryRouteList(pageNumber,pageSize)
+                            return queryRouteList(pageNumber,pageSize)
                         }}
                     />
                 </View>

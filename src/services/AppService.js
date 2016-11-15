@@ -26,7 +26,7 @@ export function carInfo(carId){
     return RequestService.get(
         makeUrl('carInfo'),
         {
-            carId: carId
+            carId:carId
         }
     );
 }
@@ -130,6 +130,35 @@ export function queryOperateStatisToday(){
 
 //区间油耗日统计接口
 export function statisOilwearByDay(beginDate,endDate){
+    return Promise.resolve({
+        "list": [
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            },
+            {
+                "statisDate": 20161008,
+                "mileage": 6666.6,
+                "oilwear": 66.6
+            }
+        ]
+    })
     return RequestService.get(
         makeUrl('statisOilwearByDay'),
         {
@@ -302,10 +331,10 @@ export function queryUrgentCall(page_number=defaultPage.page_number, page_size=d
     );
 }
 //我的车辆列表
-export function driverCarList(page_number = defaultPage.page_number) {
+export function driverCarList(page_number,key) {
     return RequestService.get(
         makeUrl('driverCarList'),
-        {page_number: page_number}
+        {page_number: page_number,key:key}
     );
 }
 //司机端-我的车辆列表
@@ -316,6 +345,16 @@ export function setCurrentCar(carId) {
         }
     );
 }
+//修改车辆信息
+export function modifyCar(carId, carCode,oldCarNo){
+    return RequestService.get(
+        makeUrl('modifyCar'),{
+            carId: carId,
+            carNo: carCode,
+            oldCarNo:oldCarNo
+        }
+    );
+}
 //车辆查询（从TDS系统获取车辆数据）
 export function getCarList(opts,page_number=defaultPage.page_number,page_size=defaultPage.page_size) {
     return RequestService.get(
@@ -323,10 +362,14 @@ export function getCarList(opts,page_number=defaultPage.page_number,page_size=de
         Object.assign({},opts,{page_number: page_number,page_size : page_size})
     );
 }
-//添加/编辑车辆-评价ID
-export function addCar(opts){
+//添加/删除车辆
+export function addCar(carId, carNumber,flag){
     return RequestService.get(
-        `${Server.QINGQI}tocapp/addCar`,
-        Object.assign({}, opts)
+        makeUrl('addCar'),{
+            carId: carId,
+            carNumber: carNumber,
+            type:0,
+            flag:flag
+        }
     );
 }

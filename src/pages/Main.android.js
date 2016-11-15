@@ -19,19 +19,15 @@ import {
 
 import { MessageActions } from '../actions/index';
 
-import Guide from './guide';
 import Guide2 from './guide2';
 
 import { addEventSystemBack } from '../utils/SystemEvents';
 
 import Router from '../services/RouterService';
 
-import Button from '../components/widgets/Button';
-import ErrorPage from './error/NetError';
 import SplashScreen from 'react-native-splash-screen';
 import Alert from '../components/Modals/Alert';
 const SystemSetting = NativeModules.SystemSettingModule;
-import ManagerAddForContacts from './userCenter/manager/ManagerAddForContacts';
 
 import Env from '../utils/Env';
 

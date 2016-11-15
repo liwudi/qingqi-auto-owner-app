@@ -20,8 +20,7 @@ import LabelInput from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
 import * as Icons from '../../../components/Icons';
 import {addDriver} from '../../../services/MyDriverService';
-import MyDriver from './MyDriver';
-import MyDriverPhoneAdd from './MyDriverPhoneAdd';
+import SelectForContacts from '../../contacts/SelectForContacts';
 
 const estyle = Env.style;
 export default class MyDriverAdd extends Component {
@@ -37,23 +36,19 @@ export default class MyDriverAdd extends Component {
 	validate = (isShowTip = true) => this.refs.textInput.validate(isShowTip);
 
 	addDriver() {
-		this.props.update();
 		if (LabelInput.Validate(this.refs)) {
 			addDriver(this.state)
 				.then(()=>{
 					ToastAndroid.show('添加成功', ToastAndroid.SHORT);
 					this.timer=setTimeout(()=>{
-						this.props.router.replace(MyDriver);
+						this.props.refresh();
+						this.props.router.pop();
 					},500)
 				})
 				.catch((e)=>{
 					ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				})
 		}
-	}
-
-	phoneAdd () {
-		this.props.router.push(MyDriverPhoneAdd);
 	}
 
 	/**
@@ -64,7 +59,11 @@ export default class MyDriverAdd extends Component {
 	}
 
     toAddForContacts(){
-        // this.props.router.push(ManagerAddForContacts);
+		this.props.router.push(SelectForContacts, {select: (name, phone) => {
+			this.setState({
+				name, phone
+			})
+		}});
     }
 
 	render() {
@@ -87,6 +86,7 @@ export default class MyDriverAdd extends Component {
 						placeholder='请输入司机姓名'
 						label="姓名"
 						labelSize="3"
+						value={this.state.name}
 						ref="name"
 						onChangeText={name => this.setState({name})}
 						validates={[{require:true, msg:"请输入司机姓名。"}]}
@@ -96,6 +96,7 @@ export default class MyDriverAdd extends Component {
 						placeholder='请填写司机手机号'
 						label="电话"
 						labelSize="3"
+						value={this.state.phone}
 						ref="phone"
 						onChangeText={phone => this.setState({phone})}
 						validates={[{require:true, msg:"请填写司机手机号。"}]}
@@ -107,25 +108,3 @@ export default class MyDriverAdd extends Component {
 		);
 	}
 }
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-	text:{
-		fontSize:Env.font.text,
-		color:Env.color.text
-	},
-	textBlue:{
-		fontSize:Env.font.text,
-		color:Env.color.main
-	},
-	note:{
-		fontSize:Env.font.note,
-		color:Env.color.note
-	},
-	noteBlue:{
-		fontSize:Env.font.note,
-		color:Env.color.main
-	}
-});

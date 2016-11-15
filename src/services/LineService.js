@@ -6,8 +6,6 @@ import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
 
 const serviceUrl = `${Server.QINGQI}tocapp/`;
-const defaultPage = Server.defaultPage;
-const userId = '8';
 
 function makeUrl(path) {
     return serviceUrl + path;
@@ -25,7 +23,6 @@ export function queryRouteList(page_number,page_size){
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            userId: userId
         }
     );
 }
@@ -49,7 +46,7 @@ export function routeInfo(routeId){
  * @returns {*}
  */
 export function addRoute(opts){
-    return RequestService.get(
+    return RequestService.post(
         makeUrl('addRoute'),
         opts
     );
@@ -77,7 +74,6 @@ export function queryRouteAddCarList(page_number,page_size, searchKey){
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            userId: userId,
             searchKey:searchKey
         }
     );
@@ -119,6 +115,7 @@ export function setCarRoute(opts){
  * @returns {*}
  */
 export function modifyRoute(opts){
+    opts.passbyPoints = JSON.stringify(opts.passbyPoints);
     return RequestService.get(
         makeUrl('modifyRoute'),
         opts
@@ -141,6 +138,10 @@ export function queryCity(searchKey){
     return RequestService.get(
         makeUrl('queryCity'),
         {searchKey: searchKey}
-    );
+    ).then(rs => {
+        return {
+            list : rs
+        }
+    });
 }
 

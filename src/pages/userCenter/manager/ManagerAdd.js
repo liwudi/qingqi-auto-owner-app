@@ -14,7 +14,7 @@ import ConfirmButton from "../../../components/ConfirmButton";
 import PhoneInput from "../../../components/Inputs/Phone";
 import ManagerList from "./ManagerList";
 import {addManager} from "../../../services/MotorcadeManagerService";
-import ManagerAddForContacts from './ManagerAddForContacts';
+import SelectForContacts from '../../contacts/SelectForContacts';
 import { IconAddressBook, IconFire } from '../../../components/Icons';
 
 
@@ -22,15 +22,43 @@ const estyle = Env.style;
 
 export default class ManagerAdd extends Component {
 
+	// static propTypes = {
+	// 	refresh: React.PropTypes.func.isRequired
+	// }
+
+	constructor(props){
+		super(props);
+		this.state = {
+			name : '',
+			phone : ''
+		}
+	}
 	/**
 	 * 跳转到列表页面
 	 */
 	toListPage() {
-		this.props.router.replace(ManagerList);
+		this.props.router.pop();
 	}
 
 	toManagerAddForContacts(){
-		this.props.router.push(ManagerAddForContacts);
+		this.props.router.push(SelectForContacts, {select: (name, phone) => {
+			this.setState({
+				name, phone
+			})
+		}});
+	}
+
+	_add(){
+		addManager(this.state)
+			.then(() => {
+				ToastAndroid.show('添加成功', ToastAndroid.SHORT);
+				setTimeout(() => {
+					this.toListPage();
+				},1000);
+			})
+			.catch((reason) => {
+				ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+			})
 	}
 
 	submit() {
@@ -40,20 +68,7 @@ export default class ManagerAdd extends Component {
 		Alert.alert('提示',
 			'是否添加这个管理员？',
 			[
-				{text: '确定',
-					onPress: () => {
-						addManager(this.state)
-							.then(() => {
-								ToastAndroid.show('添加成功', ToastAndroid.SHORT);
-								setTimeout(() => {
-									this.toListPage();
-								},1000);
-							})
-							.catch((reason) => {
-								ToastAndroid.show(reason.message, ToastAndroid.SHORT);
-							})
-					}
-				},
+				{text: '确定', onPress: () => this._add.bind(this)},
 				{text: '取消'}
 			]);
 	}
@@ -76,6 +91,7 @@ export default class ManagerAdd extends Component {
 					<LabelInput
 						ref="name"
 						onChangeText={(name) => this.setState({name})}
+						value={this.state.name}
 						style = {[estyle.borderBottom]}
 						placeholder={Env.msg.form.truename.placeholder}
 						label="姓名"
@@ -86,6 +102,7 @@ export default class ManagerAdd extends Component {
 					/>
 					<LabelInput
 						ref="phone"
+						value={this.state.phone}
 						onChangeText={(phone) => this.setState({phone})}
 						style = {[estyle.borderBottom]}
 						placeholder={Env.msg.form.phone.placeholder}

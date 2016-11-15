@@ -12,9 +12,11 @@ import {
 	Image
 } from 'react-native';
 
+import moment from 'moment';
+
 import TopBanner from '../../../components/TopBanner';
 import * as Icons from '../../../components/Icons';
-import {statisRouteOilwearByDay} from '../../../services/AppService';
+import {statisRouteOilwearByDay, statisOilwearByDay} from '../../../services/AppService';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import PageList from '../../../components/PageList';
@@ -24,42 +26,58 @@ import Chart from '../../../components/Chart/Chart';
 import MyLineItem from './components/MyLineItem';
 import OilManageCarList from './OilManageCarList';
 
+let currentDate = moment();
+function getWeekDays(num) {
+	currentDate = currentDate.clone().add(num * 7, 'd');
+
+	let weeks = [];
+	for(let i = 0; i < 7; i++){
+		weeks.push(currentDate.clone().add(i - 6, 'd'));
+	}
+	return weeks;
+}
+
 export default class OilManage extends Component {
 	constructor(props) {
 		super(props);
-		let nowDate = new Date();
-		let statisDate = `${nowDate.getFullYear()}${nowDate.getMonth()+1}${nowDate.getDate()}`;
-		this.state={
-			statisDate:statisDate
+		this.state = {
+			currentIndex:0,
+			weeks: getWeekDays()
 		}
+	}
+
+	_getStatisOilwearByDay(){
+		statisOilwearByDay(
+			this.state.weeks[0].format('YYYYMMDD'),
+			this.state.weeks[this.state.weeks.length - 1].format('YYYYMMDD')
+		).then(rs => {
+			this.datas = rs.list;
+		}).catch(e => {
+
+		})
+	}
+
+	componentDidMount(){
+		this._getStatisOilwearByDay();
 	}
 
 	render() {
 
-		const data = [
-			[0, 10],
-			[1, 30],
-			[3, 70],
-			[4, 90],
-			[5,90],
-			[6, 56],
-			[7, 34]
-		];
-		data.onDataPointPress = (e,v,k) => {
-			console.log(e,v,k)
-		}
+		const data = this.state.weeks.map((date) => {
+			return [date.format('MM-DD'),111]
+		});
 
 		return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
 				<TopBanner {...this.props} title="油耗管理"/>
-				<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding]}>
+				<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:'#FFF'}]}>
 					<View style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
-						<Icons.IconCaretLeft style={styles.textBlue}/>
+						<Icons.IconArrowLeft style={styles.textBlue}/>
 						<Text style={[styles.textBlue]}>上一周</Text>
 					</View>
 					<View style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
 						<Text style={[estyle.note]}>下一周</Text>
-						<Icons.IconCaretRight style={estyle.note}/>
+						<Icons.IconArrowRight style={estyle.note}/>
 					</View>
 				</View>
 				<Chart
@@ -72,6 +90,11 @@ export default class OilManage extends Component {
 					widthPercent={1}
 					axisLineWidth={0.5}
 					gridLineWidth={0.1}
+					labelFontSize={Env.font.base * 24}
+					onDataPointPress={(e,v,k) => {
+						this.setState({currentIndex: k});
+					}}
+					hideVerticalGridLines={true}
 				/>
 				<View style={estyle.padding}><Text>线路油耗详情</Text></View>
 				<PageList
@@ -82,8 +105,9 @@ export default class OilManage extends Component {
 						)
 					}}
 					fetchData={(pageNumber, pageSize) => {
-						return statisRouteOilwearByDay(pageNumber, pageSize,this.state.statisDate)
+						return statisRouteOilwearByDay(pageNumber, pageSize,this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
 					}}
+					reInitField={[this.state.currentIndex]}
 				/>
 			</View>
 		);
