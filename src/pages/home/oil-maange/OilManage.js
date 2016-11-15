@@ -42,7 +42,8 @@ export default class OilManage extends Component {
 		super(props);
 		this.state = {
 			currentIndex:0,
-			weeks: getWeekDays()
+			weeks: getWeekDays(),
+            datas: []
 		}
 	}
 
@@ -51,7 +52,8 @@ export default class OilManage extends Component {
 			this.state.weeks[0].format('YYYYMMDD'),
 			this.state.weeks[this.state.weeks.length - 1].format('YYYYMMDD')
 		).then(rs => {
-			this.datas = rs.list;
+			console.log(rs)
+			this.setState({datas : rs});
 		}).catch(e => {
 
 		})
@@ -64,7 +66,8 @@ export default class OilManage extends Component {
 	render() {
 
 		const data = this.state.weeks.map((date) => {
-			return [date.format('MM-DD'),111]
+			let _d = this.state.datas.filter((item) => item.statisDate == date.format('YYYYMMDD'));
+			return [date.format('MM-DD'), (_d.length > 0 ? _d[0].oilwear : 0)]
 		});
 
 		return (
@@ -86,7 +89,7 @@ export default class OilManage extends Component {
 					type="bar"
 					color={Env.color.main}
 					highlightColor={'#88C057'}
-					currentIndex={3}
+					currentIndex={6}
 					widthPercent={1}
 					axisLineWidth={0.5}
 					gridLineWidth={0.1}
