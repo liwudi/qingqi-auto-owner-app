@@ -118,13 +118,13 @@ export default class MonitorCarDetail extends Component {
 				longitude: pt.longitude,
 				latitude: pt.latitude,
 				title: data.carCode,
-				imageName: "res/icons/mask.png",
+				imageName: "ic_mask",
 				iconText: '',
 				iconTextColor: Env.color.main,
 				iconTextSize: 14,
 				id: idx,
 				offsetX: .5,
-				offsetY: 1,
+				offsetY: 12,
 				click: true,
 				callOut: true
 			}

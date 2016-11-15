@@ -62,16 +62,20 @@ export default class MapbarMap extends Component {
         instance.zoomOut();
         this.onZoomOut();
     }
-    onZoomIn(info) {
-        this.props.onZoomIn && this.props.onZoomIn(info);
+    onZoomIn(zoom) {
+        console.info('zoom')
+        console.info(zoom)
+        this.props.onZoomIn && this.props.onZoomIn(zoom);
     }
-    onZoomOut(info) {
-        this.props.onZoomOut && this.props.onZoomOut(info);
+    onZoomOut(zoom) {
+        this.props.onZoomOut && this.props.onZoomOut(zoom);
     }
     onInit() {
         instance.initMap(this.refs.mapView);
-//        this.props.initMap && this.props.initMap(instance);
         this.props.onInit && this.props.onInit(instance);
+    }
+    clickMarker(pointId) {
+        this.props.clickMarker && this.props.clickMarker(pointId);
     }
     getCenter() {
         let center = this.props.center || this.options.center;
@@ -88,8 +92,10 @@ export default class MapbarMap extends Component {
                 isZoom={this.options.isZoom}
                 isMove={this.options.isMove}
                 isRotate={this.options.isRotate}
-                onZoomIn={(info) => {this.onZoomIn(info)}}
-                onZoomOut={(info) => {this.onZoomOut(info)}}
+                onZoomIn={(zoom) => {this.onZoomIn(zoom)}}
+                onZoomOut={(zoom) => {this.onZoomOut(zoom)}}
+                onAnnotationClick={(pointId) => {this.clickMarker(pointId)}}
+                onIconOverlayClick={(pointId) => {this.clickMarker(pointId)}}
                 onInit={() => {this.onInit()}}
                 ref="mapView"
             />

@@ -23,7 +23,7 @@ import Button from '../../../components/widgets/Button';
 
 import {IconList} from '../../../components/Icons';
 import MyCarItem from '../my-car/components/MyCarItem';
-
+import MonitorCarDetail from './MonitorCarDetail';
 
 import MapbarMap from '../../../mapbarmap/MapbarMap';
 
@@ -58,6 +58,7 @@ export default class MonitorMap extends Component {
         }
         this.markers = [];  //普通标注
         this.markers_d = [];    //带角度的
+        this.data = null;
     }
 
     fetchData() {
@@ -73,12 +74,13 @@ export default class MonitorMap extends Component {
                 rightLatitude: b.maxLatitude,
                 zoom: this.zoom
             }).then((data) => {
+                this.data = data;
                 this.setMarker(data);
             }).catch().finally(()=>{
-                this.clearTimer();
+                /*this.clearTimer();
                 this.timer = setTimeout(() => {
                     this.fetchData();
-                },TIMEOUT * 1000);
+                },TIMEOUT * 1000);*/
             });
         });
     }
@@ -108,13 +110,13 @@ export default class MonitorMap extends Component {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
                 title: data.count > 1 ? '' : data.carNo,
-                imageName: "res/icons/mask.png",
+                imageName: "ic_mask",
                 iconText: data.count > 1 ? data.count : '',
                 iconTextColor: Env.color.main,
                 iconTextSize: 14,
                 id: idx,
                 offsetX: .5,
-                offsetY: 1,
+                offsetY: 12,
                 click: true,
                 callOut: true
             }
@@ -131,26 +133,6 @@ export default class MonitorMap extends Component {
         }
         this.markers_d.push(mkOpts);
     }
-
-
-/*    updateMarkerOpts(data) {
-        let pt = this.MPoint([data.longitude, data.latitude]),
-            mkOpts = {
-                longitude: pt.longitude,
-                latitude: pt.latitude,
-                id: this.MarkerId
-            };
-            this.markers.push(mkOpts);
-        let d = Math.floor(Math.random() * 100);
-        mkOpts = {
-            longitude: pt.longitude,
-            latitude: pt.latitude,
-            id: this.MarkerId,
-            imageName: "res/icons/c100" + data.travelStatus + ".png",
-            direction: d
-        };
-        this.markers_d.push(mkOpts);
-    }*/
 
     componentDidMount() {
         //this.fetchData();
@@ -177,6 +159,7 @@ export default class MonitorMap extends Component {
         this.props.router.replace(Monitor);
     }
     onZoomIn(zoom) {
+        console.info(zoom, 'onzoomin')
         if(this.zoom < 14) {
             this.zoom = isNaN(zoom) ? this.zoom + 1 : Math.ceil(zoom);
             this.onZoomChange();
@@ -185,6 +168,8 @@ export default class MonitorMap extends Component {
     }
 
     onZoomOut(zoom) {
+        console.info(zoom, 'onzoomout')
+
         if(this.zoom > 0) {
             this.zoom = isNaN(zoom) ? this.zoom - 1 : Math.floor(zoom);
             this.onZoomChange();
@@ -196,7 +181,13 @@ export default class MonitorMap extends Component {
         this.clearTimer();
         this.fetchData();
     }
-
+    goToDetail(carId){
+        this.props.router.push(MonitorCarDetail, {nav: {carId: carId || 10, p: 'map'}});
+    }
+    clickMarker(idx) {
+        let data = this.data[idx];
+        this.goToDetail(data.carId);
+    }
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
@@ -210,9 +201,10 @@ export default class MonitorMap extends Component {
                 />
                 <MapbarMap zoom={this.zoom}
                            center={this.center}
-                           onZoomIn={(info)=>{this.onZoomIn(info)}}
-                           onZoomOut={(info)=>{this.onZoomOut(info)}}
+                           onZoomIn={(zoom)=>{this.onZoomIn(zoom)}}
+                           onZoomOut={(zoom)=>{this.onZoomOut(zoom)}}
                            onInit={(instance)=> {this.onInit(instance);}}
+                           clickMarker={(pointId)=>{this.clickMarker(pointId)}}
                            legend={this.renderLegend()}/>
             </View>
         )
