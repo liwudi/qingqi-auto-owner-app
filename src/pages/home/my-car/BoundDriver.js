@@ -19,6 +19,7 @@ import Env from '../../../utils/Env';
 import {queryDriver, bindDriver} from '../../../services/MyDriverService';
 import PageSectionList from '../../../components/PageSectionList';
 import LabelInput from '../../../components/LabelInput';
+import BorderButton from '../../../components/BorderButton';
 
 const estyle = Env.style;
 export default class MyDriver extends Component {

@@ -30,7 +30,7 @@ export function addDriver(opts){
 }
 
 export function bindDriver(opts){
-    return RequestService.post(
+    return RequestService.get(
         `${Server.QINGQI}tocapp/bindDriver`,
         opts
     );

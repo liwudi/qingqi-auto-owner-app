@@ -146,7 +146,8 @@ export default class CarDetail extends Component {
                                         nav: {
                                             carId: this.props.nav.carId,
                                             driverType: 1
-                                        }
+                                        },
+                                        update: this.fetchData.bind(this)
                                     }
                                 );
                             }
@@ -183,7 +184,8 @@ export default class CarDetail extends Component {
                                         nav: {
                                             carId: this.props.nav.carId,
                                             driverType: 2
-                                        }
+                                        },
+                                        update: this.fetchData.bind(this)
                                     }
                                 );
                             }
