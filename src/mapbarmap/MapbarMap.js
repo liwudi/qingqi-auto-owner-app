@@ -20,12 +20,11 @@ const eStyles = Env.style;
 export default class MapbarMap extends Component {
     constructor() {
         super();
-        let center = instance.MPoint([115.95380, 28.68291]);
         this.options = {
             zoom: 8,
             center: {
-                longitude: center.longitude,//2868291,11595380
-                latitude: center.latitude
+                longitude: 115.95380,//2868291,11595380
+                latitude: 28.68291
             },
             isZoom: true,
             isMove: true,
@@ -42,11 +41,11 @@ export default class MapbarMap extends Component {
         return <View>
             {
                 this.options.showZoomController && <View style={styles.controlView}>
-                    <Button onPress={instance.zoomIn}
+                    <Button onPress={() => {this.zoomIn()}}
                             style={styles.controlButton}>
                         <Icons.IconAdd size={Env.font.base * 60}/>
                     </Button>
-                    <Button onPress={instance.zoomOut}
+                    <Button onPress={() => {this.zoomOut()}}
                             style={[styles.controlButton,eStyles.borderTop]}>
                         <Icons.IconRemove size={Env.font.base * 60}/>
                     </Button>
@@ -54,16 +53,44 @@ export default class MapbarMap extends Component {
             }
         </View>
     }
+
+    zoomIn() {
+        instance.zoomIn();
+        this.onZoomIn();
+    }
+    zoomOut() {
+        instance.zoomOut();
+        this.onZoomOut();
+    }
+    onZoomIn(info) {
+        this.props.onZoomIn && this.props.onZoomIn(info);
+    }
+    onZoomOut(info) {
+        this.props.onZoomOut && this.props.onZoomOut(info);
+    }
+    onInit() {
+        instance.initMap(this.refs.mapView);
+//        this.props.initMap && this.props.initMap(instance);
+        this.props.onInit && this.props.onInit(instance);
+    }
+    getCenter() {
+        let center = this.props.center || this.options.center;
+        console.info(center)
+        return instance.MPoint([center.longitude, center.latitude]);
+    }
     render() {
         return <View style={[estyle.fx1]}>
             <MapView
                 style={[estyle.fx1]}
-                zoomLevel={this.props.zoom || this.options.zoom}
-                worldCenter={this.options.center}
+                zoomLevel={isNaN(this.props.zoom) ? this.options.zoom : this.props.zoom}
+                worldCenter={this.getCenter()}
                 forbidGesture={this.options.forbidGesture}
                 isZoom={this.options.isZoom}
                 isMove={this.options.isMove}
                 isRotate={this.options.isRotate}
+                onZoomIn={(info) => {this.onZoomIn(info)}}
+                onZoomOut={(info) => {this.onZoomOut(info)}}
+                onInit={() => {this.onInit()}}
                 ref="mapView"
             />
             {this.state.showLegend && this.props.legend}
@@ -78,12 +105,12 @@ export default class MapbarMap extends Component {
         </View>;
     }
 
-    componentDidMount() {
+    /*componentDidMount() {
         instance.initMap(this.refs.mapView);
         this.props.initMap && this.props.initMap(instance);
         console.info('map load')
     }
-
+*/
 
     componentWillUnmount() {
         console.info('map delete1')

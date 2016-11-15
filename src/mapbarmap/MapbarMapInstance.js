@@ -14,14 +14,14 @@ import {
 
 const module = NativeModules.MapbarMapModule;
 let mapRef = null;
-
+const e = 100000;
 /*
 * point=[lng, lat]
 * */
 export function MPoint(point) {
     let pt = {
-        longitude: point[0] * 100000,
-        latitude: point[1] * 100000
+        longitude: parseInt(point[0] * e),
+        latitude: parseInt(point[1] * e)
     };
     return pt;
 }
@@ -198,10 +198,32 @@ export function zoomIn() {
 export function zoomOut() {
     module.setZoomOut(mapRef, 1);
 }
-export function getBounds() {
-    console.info('---------------------------------------------')
-    console.info(mapRef)
-    return module.getWorldRect(mapRef);
+
+const MIN_LNG = 72.5,
+    MIN_LAT = 32.5,
+    MAX_LNG = 132.5,
+    MAX_LAT = 50.5;
+export function getBounds(callback) {
+    module.getWorldRect(mapRef, function (boundsstr) {
+        //left top right bottom
+        boundsstr = boundsstr.split(' ');
+        let minlng = +boundsstr[0] / e,
+            minlat = +boundsstr[1] / e,
+            maxlng = +boundsstr[2] / e,
+            maxlat = +boundsstr[3] / e;
+
+/*        leftLongitude: 72.669699, //左下， 右上
+            leftLatitude: 32.049134,
+            rightLongitude: 132.669699,
+            rightLatitude: 49.089134,*/
+
+        callback({
+            minLongitude: minlng < MIN_LNG ? MIN_LNG : minlng,
+            minLatitude: minlat < MIN_LAT ? MIN_LAT : minlat,
+            maxLongitude: maxlng > MAX_LNG ? MAX_LNG : maxlng,
+            maxLatitude: maxlat > MAX_LAT ? MAX_LAT : maxlat
+        });
+    });
 }
 
 /**

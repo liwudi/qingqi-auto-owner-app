@@ -18,7 +18,7 @@ import com.mapbar.react.map.config.Constants;
 import com.mapbar.react.map.operation.Location;
 import com.mapbar.map.MapRenderer;
 import com.mapbar.map.Vector2DF;
-
+import com.facebook.react.bridge.Callback;
 /**
  * Created by Administrator on 2016/10/20.
  */
@@ -271,10 +271,11 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getWorldRect(int tag) {
+    public void getWorldRect(int tag, Callback callback) {
         MapbarMapView mapView = getMapView(tag);
         Rect rect = mapView.getMapRenderer().getWorldRect();
         LogUtils.logd(TAG, "rect:" + rect);
+        callback.invoke(rect.flattenToString());
     }
 
     @ReactMethod

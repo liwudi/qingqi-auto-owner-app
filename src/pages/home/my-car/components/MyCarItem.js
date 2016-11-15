@@ -41,7 +41,7 @@ export default class MyCarItem extends Component {
                     <View style={[estyle.fx1]}>
                         <Text style={[estyle.articleTitle,{color: Env.color.important}]}>{item.carCode}</Text>
                     </View>
-                    <View style={[estyle.paddingRight]}>
+                    <View>
                         <Text style ={{textAlign:'right'}}>今日：<Text>{item.todayLen || 0}</Text> (公里)</Text>
                     </View>
                 </View>
