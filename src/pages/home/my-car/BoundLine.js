@@ -42,7 +42,9 @@ export default class BoundLine extends Component {
 						</View>
 					</View>
 					<View style={[estyle.paddingRight, estyle.fxCenter]}>
-                        <BorderButton onPress={() => this.carBoundLine(item.routeId)}>选择</BorderButton>
+						{
+							item.routeId == this.props.nav.routeId ? <Text>已选择</Text> : <BorderButton onPress={() => this.carBoundLine(item.routeId)}>选择</BorderButton>
+						}
 					</View>
 				</View>
 			)
