@@ -138,6 +138,25 @@ export function statisOilwearByDay(beginDate,endDate){
 
 //路线油耗详情统计接口
 export function statisRouteOilwearByDay(page_number, page_size, statisDate){
+
+    //todo
+    return Promise.resolve({
+        "list": [
+            {
+                "routeId": 123,
+                "startPointName": "北京",
+                "endPointName": "沈阳",
+                "totalCarNum": 8,
+                "activeCarNum": 6,
+                "totalOilwear": 666.6,
+                "avgOilwear": 66.6,
+                "totalMileage": 66666.6,
+                "carid": 11111,
+                "carCode": "辽A12345"
+            }
+        ]
+    });
+
     return RequestService.get(
         makeUrl('statisRouteOilwearByDay'),
         {
@@ -150,6 +169,9 @@ export function statisRouteOilwearByDay(page_number, page_size, statisDate){
 
 //单线路车辆油耗列表统计接口01040603
 export function statisOilwearForOneRoute(page_number, page_size,routeId,statisDate){
+
+
+
     return RequestService.get(
         makeUrl('statisOilwearForOneRoute'),
         {

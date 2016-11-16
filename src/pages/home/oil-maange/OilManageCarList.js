@@ -51,22 +51,20 @@ export default class OilManageCarList extends Component {
 							return (
 								<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
 									<View style={estyle.fx1}>
-										<View style={estyle.fxRow}>
-                                            {this.showStar(list)}
-                                            {/*
-											<Icons.IconFlag style={{color: 'red'}}/>
-                                             */}
+										<View style={[estyle.fxRow,estyle.fxRowCenter]}>
 											<Text style={[estyle.articleTitle]}>{list.carCode}</Text>
+											<Text> </Text>
+											<Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>
 										</View>
 										<View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
-											<IconUser color={Env.color.main}/>
-											<Text style={[estyle.note, {color: Env.color.text}]}>{list.mainDriver}</Text>
-											<IconUser style={[estyle.marginLeft]}/>
-											<Text style={[estyle.note, {color: Env.color.text}]}>{list.subDriver}</Text>
+											<IconUser color='#FEBEBE'/><Text> </Text>
+											<Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{list.mainDriver || '无'}</Text>
+											<IconUser color='#C4DFFE'/><Text> </Text>
+											<Text style={[estyle.note, {color: Env.color.text}]}>{list.subDriver || '无'}</Text>
 										</View>
 										<View style={[estyle.fxRow,estyle.paddingTop]}>
-											<Text style={[estyle.note]}>平均油耗：<Text style={{color: Env.color.main}}>{list.avgOilwear}</Text>L/100Km </Text>
-											<Text style={[estyle.note,estyle.paddingLeft]}>平均速度：<Text style={{color: Env.color.main}}>{list.avgSpeed}</Text>Km</Text>
+											<Text style={[estyle.note]}>平均油耗：<Text style={{color: Env.color.main}}>{list.avgOilwear || 0}</Text>L/100km </Text>
+											<Text style={[estyle.note,estyle.paddingLeft]}>平均速度：<Text style={{color: Env.color.main}}>{list.avgSpeed || 0}</Text>km/h</Text>
 										</View>
 
 									</View>
