@@ -54,13 +54,27 @@ function resultProcessor(result) {
 }
 
 function typeToString(obj) {
-    // if(obj instanceof Object || obj instanceof Array){
-    //   forEach(obj, function (value, k) {
-    //     obj[k] = (obj[k] !== null && typeof obj[k] === 'object') ? typeToString(obj[k]) : String(obj[k]);
-    //   });
-    // }
+    if(obj instanceof Array){
+        for(let i=0; i<obj.length; i++){
+            if( obj[i] !== null && typeof obj[i] === 'object'){ typeToString(obj[i]) }else { obj[i]=String(obj[i]) }
+        }
+    }else if(obj instanceof Object){
+        for(let key in obj ){
+            if(obj[key] !== null && typeof obj[key] === 'object'){ typeToString(obj[key]) }else { obj[key]=String(obj[key]) }
+        }
+    }
     return obj;
 }
+
+
+// function typeToString(obj) {
+//     // if(obj instanceof Object || obj instanceof Array){
+//     //   forEach(obj, function (value, k) {
+//     //     obj[k] = (obj[k] !== null && typeof obj[k] === 'object') ? typeToString(obj[k]) : String(obj[k]);
+//     //   });
+//     // }
+//     return obj;
+// }
 
 function request(opts, processor, isUpload) {
     let url = /^(http|https):\/\//.test(opts.url) ? opts.url : (serviceUrl + opts.url),
@@ -68,8 +82,7 @@ function request(opts, processor, isUpload) {
             method: opts.method || 'GET',
             cache: false,
             // mode: 'cors', //允许跨域
-            headers: new Headers(),
-            timeout: 10000
+            headers: new Headers()
         },
         queryString, formData;
     options.headers.append('Content-Type', 'application/json;charset=utf-8');

@@ -115,8 +115,7 @@ export function setCarRoute(opts){
  * @returns {*}
  */
 export function modifyRoute(opts){
-    opts.passbyPoints = JSON.stringify(opts.passbyPoints);
-    return RequestService.get(
+    return RequestService.post(
         makeUrl('modifyRoute'),
         opts
     );

@@ -352,7 +352,7 @@ export function getCarList(opts,page_number=defaultPage.page_number,page_size=de
 }
 //添加/删除车辆
 export function addCar(carId, carNumber,flag){
-    return RequestService.get(
+    return RequestService.post(
         makeUrl('addCar'),{
             carId: carId,
             carNumber: carNumber,
