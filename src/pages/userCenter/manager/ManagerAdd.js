@@ -95,7 +95,6 @@ export default class ManagerAdd extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder={Env.msg.form.truename.placeholder}
 						label="姓名"
-						labelSize="3"
 						validates={[
 							{require:true, msg:Env.msg.form.truename.require},
 						]}
@@ -107,13 +106,15 @@ export default class ManagerAdd extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder={Env.msg.form.phone.placeholder}
 						label="电话"
-						labelSize="3"
 						validates={[
 							{require:true, msg:Env.msg.form.phone.require},
 							{pattern:Env.pattern.phone, msg: Env.msg.form.phone.pattern}
 						]}
 					/>
-					<ConfirmButton style={[estyle.marginVertical]} size="large" onPress={() => this.submit()}><Text>添加</Text></ConfirmButton>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
+					<ConfirmButton size="large" onPress={() => this.submit()}>添加</ConfirmButton>
 				</View>
 			</View>
 		);

@@ -85,7 +85,6 @@ export default class MyDriverAdd extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder='请输入司机姓名'
 						label="姓名"
-						labelSize="3"
 						value={this.state.name}
 						ref="name"
 						onChangeText={name => this.setState({name})}
@@ -95,13 +94,15 @@ export default class MyDriverAdd extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder='请填写司机手机号'
 						label="电话"
-						labelSize="3"
 						value={this.state.phone}
 						ref="phone"
 						onChangeText={phone => this.setState({phone})}
 						validates={[{require:true, msg:"请填写司机手机号。"}]}
 					/>
-					<ConfirmButton style={[estyle.marginVertical]} size="large" onPress={() => this.addDriver()}><Text>保存</Text></ConfirmButton>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
+					<ConfirmButton size="large" onPress={() => this.addDriver()}>保存</ConfirmButton>
 
 				</View>
 			</View>
