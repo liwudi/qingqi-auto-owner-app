@@ -33,6 +33,12 @@ export default class BarChart extends Component {
 		}
 	};
 
+    // componentWillReceiveProps(nextProps){
+    //     if(JSON.stringify(nextProps.data) != JSON.stringify(this.props.data)){
+    //         this.props.onDataPointPress(null, nextProps.data[this.state.currentIndex][1], this.state.currentIndex);
+    //     }
+    // }
+
 	_drawBar = (_dataPoint , index ) => {
 		const [_x, dataPoint] = _dataPoint;
 		const backgroundColor = this.state.currentIndex === index ? this.props.highlightColor : (this.props.color || C.BLUE);

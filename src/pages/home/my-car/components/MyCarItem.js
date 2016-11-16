@@ -47,10 +47,10 @@ export default class MyCarItem extends Component {
                 </View>
                 <View style={[estyle.fxRow, estyle.fxRowCenter]}>
                     <IconUser color='#FEBEBE'/><Text> </Text>
-                    <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver}</Text>
+                    <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver || '无'}</Text>
 
                     <IconUser color='#C4DFFE'/><Text> </Text>
-                    <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver}</Text>
+                    <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver || '无'}</Text>
                 </View>
                 <View style={[estyle.fxRow, estyle.fxRowCenter,{marginTop:Env.font.base * 10}]}>
                     <View style={[estyle.fx1,estyle.fxRow]}>
