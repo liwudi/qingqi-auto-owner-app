@@ -28,11 +28,11 @@ import OilManageCarList from './OilManageCarList';
 
 let currentDate = moment();
 function getWeekDays(num) {
-	currentDate = currentDate.clone().add(num * 7, 'd');
+	let _d = currentDate.clone().add(num * 7, 'd');
 
 	let weeks = [];
 	for(let i = 0; i < 7; i++){
-		weeks.push(currentDate.clone().add(i - 6, 'd'));
+		weeks.push(_d.clone().add(i - 6, 'd'));
 	}
 	return weeks;
 }
@@ -41,11 +41,27 @@ export default class OilManage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentIndex:0,
+			currentIndex:6,
 			weeks: getWeekDays(),
             datas: []
 		}
+		this.weekIndex = 0;
 	}
+
+	_preWeek(){
+        this.weekIndex--;
+		this.setState({
+            weeks: getWeekDays(this.weekIndex)
+		})
+	}
+
+    _nextWeek(){
+		if(this.weekIndex >= 0) return;
+        this.weekIndex++;
+        this.setState({
+            weeks: getWeekDays(this.weekIndex)
+        })
+    }
 
 	_getStatisOilwearByDay(){
 		statisOilwearByDay(
@@ -74,14 +90,14 @@ export default class OilManage extends Component {
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
 				<TopBanner {...this.props} title="油耗管理"/>
 				<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:'#FFF'}]}>
-					<View style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
+					<TouchableOpacity onPress={this._preWeek.bind(this)}  style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
 						<Icons.IconArrowLeft style={styles.textBlue}/>
 						<Text style={[styles.textBlue]}>上一周</Text>
-					</View>
-					<View style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
-						<Text style={[estyle.note]}>下一周</Text>
-						<Icons.IconArrowRight style={estyle.note}/>
-					</View>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={this._nextWeek.bind(this)} style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
+						<Text  style={[this.weekIndex >= 0 ? estyle.note : styles.textBlue]}>下一周</Text>
+						<Icons.IconArrowRight style={this.weekIndex >= 0 ? estyle.note : styles.textBlue}/>
+					</TouchableOpacity>
 				</View>
 				<Chart
 					style={{height:Env.screen.height * 0.3,backgroundColor:"#FFF"}}
@@ -110,7 +126,7 @@ export default class OilManage extends Component {
 					fetchData={(pageNumber, pageSize) => {
 						return statisRouteOilwearByDay(pageNumber, pageSize,this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
 					}}
-					reInitField={[this.state.currentIndex]}
+					reInitField={[this.state.currentIndex, this.state.datas]}
 				/>
 			</View>
 		);
