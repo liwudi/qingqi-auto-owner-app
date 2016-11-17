@@ -22,9 +22,10 @@ import TopBanner from '../../../components/TopBanner';
 import Button from '../../../components/widgets/Button';
 
 import {IconList, IconClock, IconLocation} from '../../../components/Icons';
-import CarItem from './components/CarItem';
+import StatusItem from './components/StatusItem';
 import MonitorCarDetail from './MonitorCarDetail';
-
+import  MapLine from '../MapLine';
+import CarStatus from './CarStatus';
 import MapbarMap from '../../../mapbarmap/MapbarMap';
 import ListItem from '../../../components/ListItem';
 /*海量打点， 单车*/
@@ -138,28 +139,31 @@ export default class MonitorMap extends Component {
     fetchDataSingle() {
         console.info('fetch single')
         queryRealTimeCar(10).then((data) => {
-            console.info('--------------------------------------------------sing suc')
-            pcount ++;
-            data = {
-                longitude: linePts[pcount][0],
-                latitude: linePts[pcount][1],
-                count: 1,
-                carCode: '控123456',
-                carNo: '控123456',
-                direction: Math.floor(Math.random() * 360),
-                travelStatus: parseInt(Math.random() * 3),
-                realtimeSpeed: +(Math.random() + 60).toFixed(1),
-                todayLen: +(Math.random() + 30).toFixed(1),
-                position: "辽宁省沈阳市华航大厦",
-                slaveDriver: "李四",
-                mastDriver: "张三",
-                carId: "1234567"
-            };
-        //    console.info(data)
-            this.list = [data]
-            this.setMarker();
-            this.carToCenter(data);
-            this.setState({detail: data});
+            if(this.state.monitor) {
+                console.info('--------------------------------------------------sing suc')
+                pcount ++;
+                data = {
+                    longitude: linePts[pcount][0],
+                    latitude: linePts[pcount][1],
+                    count: 1,
+                    carCode: '控123456',
+                    carNo: '控123456',
+                    direction: Math.floor(Math.random() * 360),
+                    travelStatus: parseInt(Math.random() * 3),
+                    realtimeSpeed: +(Math.random() + 60).toFixed(1),
+                    todayLen: +(Math.random() + 30).toFixed(1),
+                    position: "辽宁省沈阳市华航大厦",
+                    slaveDriver: "李四",
+                    mastDriver: "张三",
+                    carId: "1234567"
+                };
+                this.setState({detail: data});
+                //    console.info(data)
+                this.list = [data]
+                this.setMarker();
+                this.carToCenter(data);
+            }
+
         }).catch(() => {
             console.info('single catch')
         }).finally(() => {this.fetchData(); })
@@ -176,10 +180,13 @@ export default class MonitorMap extends Component {
                 rightLatitude: b.maxLatitude,
                 zoom: this.zoom
             }).then((data) => {
-                data = testdata;
-                this.list = data.list;
-                this.setMarker();
-                fun && fun();
+                if(!this.state.monitor) {
+                    data = testdata;
+                    this.list = data.list;
+                    this.setMarker();
+                    fun && fun();
+                }
+
             }).catch(() => {
                 console.info('all catch')
             }).finally(() => {this.fetchData(); })
@@ -261,10 +268,19 @@ export default class MonitorMap extends Component {
         });
     }
     goToMapline() {
-        this.props.router.push(MapLine, this.props.nav)
+        this.props.router.push(MapLine, {nav: {carId: this.monitorCarId}})
     }
     goToList() {
         this.props.router.replace(Monitor);
+    }
+
+    gotoStatus() {
+        this.props.router.push(CarStatus, {
+            nav: {
+                carCode: 'carCode',
+                carId: '10'
+            }
+        });
     }
     onZoomIn(zoom) {
         console.info(zoom, 'onzoomin')
@@ -301,6 +317,7 @@ export default class MonitorMap extends Component {
     }
     readyMonitor(carId, zoom) {
         let data = this.list['carId_' + carId];
+        this.monitorCarId = carId;
         this.setState({data: data});
         if(zoom) {
             this.Map.setZoomLevel(8);
@@ -315,18 +332,19 @@ export default class MonitorMap extends Component {
     setMonitor() {
         pcount = 0;
         let monitor = !this.state.monitor;
-        this.setState({monitor: monitor});
+        this.setState({monitor: monitor, detail: null});
+        this.clearTimer();
         if(monitor) {
             let data = this.state.data;
             this.Map.setZoomLevel(8);
             setTimeout(() => {
                 this.carToCenter(data);
             }, 300);
+            this.fetchDataSingle()
         } else {
-            this.setState({detail: null});
-            pcount = 0;
+            this.fetchDataAll()
         }
-        this.toFetch();
+        Toast.show(monitor ? '正在开启实时监控' : '已关闭实时监控', Toast.SHORT);
     }
     clickMarker(idx) {
         console.info('-------------------------clickmarker-------------', idx);
@@ -339,10 +357,6 @@ export default class MonitorMap extends Component {
         } else {
             this.readyMonitor(data.carId);
         }
-
-        /*
-        this.monitorCarId = data.carId;
-        this.setState({data: data});*/
     }
     renderLegend () {
         return <View style={[styles.legendView, estyle.padding, {paddingBottom:Env.font.base * 10}]}>
@@ -360,7 +374,7 @@ export default class MonitorMap extends Component {
         return <View>
             {
                 this.state.detail
-                    ? <CarItem data={this.state.detail}/>
+                    ? <StatusItem data={this.state.detail} onPress={() => {this.gotoStatus()}}/>
                     : this.state.data &&  <ListItem left={this.state.data.carNo}/>
             }
                 <View style={[estyle.fxRow, estyle.borderTop, estyle.paddingVertical]}>

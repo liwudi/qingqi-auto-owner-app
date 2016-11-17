@@ -121,7 +121,7 @@ export default class MapbarMap extends Component {
     componentWillUnmount() {
         console.info('map delete1')
      /*   instance.clearOverlays();*/
-        instance.finalize();
+     //   instance.finalize();
     }
 }
 
