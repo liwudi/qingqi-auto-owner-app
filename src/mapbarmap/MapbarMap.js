@@ -54,8 +54,6 @@ export default class MapbarMap extends Component {
     }
 
     zoomIn() {
-        instance.finalize();
-        return;
         instance.zoomIn();
         this.onZoomIn();
     }
@@ -68,6 +66,9 @@ export default class MapbarMap extends Component {
     }
     onZoomOut(zoom) {
         this.props.onZoomOut && this.props.onZoomOut(zoom);
+    }
+    onSpan() {
+        this.props.onSpan && this.props.onSpan();
     }
     onInit() {
         instance.initMap(this.refs.mapView);
@@ -92,6 +93,7 @@ export default class MapbarMap extends Component {
                 isRotate={this.options.isRotate}
                 onZoomIn={(zoom) => {this.onZoomIn(zoom)}}
                 onZoomOut={(zoom) => {this.onZoomOut(zoom)}}
+                onSpan={() => {this.onSpan()}}
                 onAnnotationClick={(pointId) => {this.clickMarker(pointId)}}
                 onIconOverlayClick={(pointId) => {this.clickMarker(pointId)}}
                 onInit={() => {this.onInit()}}
