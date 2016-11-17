@@ -30,7 +30,7 @@ import {IconTrash} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
 import Button from '../../../components/widgets/Button';
 import MonitorCarDetail from '../monitor/MonitorCarDetail';
-
+import MapLine from '../MapLine';
 export default class CarDetail extends Component {
     constructor(props) {
         super(props);
@@ -90,6 +90,9 @@ export default class CarDetail extends Component {
             }
         );
     }
+    goToMapline() {
+        this.props.router.push(MapLine, {nav: {carId: 10}})
+    }
 
     renderView() {
         if (this.state.data) {
@@ -127,7 +130,7 @@ export default class CarDetail extends Component {
                         }]}>{data.speed}</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow>
+                <ViewForRightArrow onPress={() => {this.goToMapline()}}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow >
