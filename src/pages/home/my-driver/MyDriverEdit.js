@@ -35,12 +35,13 @@ export default class MyDriverEdit extends Component {
 	 * 跳转到列表页面
 	 */
 	toListPage () {
-		this.props.router.replace(MyDriver);
+		this.props.refresh();
+		this.props.router.pop();
 	}
 
 
 	_delete(){
-        deleteDriver(this.state)
+        deleteDriver(this.props.nav.phone)
             .then(
                 () => {
                     ToastAndroid.show('删除成功', ToastAndroid.SHORT);
@@ -59,10 +60,6 @@ export default class MyDriverEdit extends Component {
 	 * 移除xxx司机
 	 */
 	delete () {
-		if (this.state.registerStatus === 0) {
-			Alert.alert("提示", `用户【${this.state.name}】没有注册为APP用户，不能删除`);
-			return;
-		}
 		Alert.alert('提示',
 			`是否从车队中删除【${this.props.nav.name}】司机？`,
 			[
@@ -115,7 +112,8 @@ export default class MyDriverEdit extends Component {
 		return (
 			<View>
 				<TopBanner {...this.props} title="编辑司机"
-				   rightView={<IconTrash onPress={() => this.delete()} color="#FFF" size={Env.font.base * 46} />}
+				   rightView={<IconTrash onPress={() => this.delete()}
+										 color="#FFF" size={Env.font.base * 36} />}
 				/>
 				<View  style={[estyle.fxRowCenter]}>
                     <LabelInput

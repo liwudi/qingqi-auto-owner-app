@@ -388,3 +388,14 @@ export  class IconSpeed extends React.Component {
 		)
 	}
 }
+
+/**
+ * 问号
+ */
+export  class IconQuestion extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="question-circle" size={size} color={color}  {...this.props} />
+        )
+    }
+}

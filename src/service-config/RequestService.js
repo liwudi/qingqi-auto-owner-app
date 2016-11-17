@@ -66,14 +66,23 @@ function typeToString(obj) {
     return obj;
 }
 
+
+// function typeToString(obj) {
+//     // if(obj instanceof Object || obj instanceof Array){
+//     //   forEach(obj, function (value, k) {
+//     //     obj[k] = (obj[k] !== null && typeof obj[k] === 'object') ? typeToString(obj[k]) : String(obj[k]);
+//     //   });
+//     // }
+//     return obj;
+// }
+
 function request(opts, processor, isUpload) {
     let url = /^(http|https):\/\//.test(opts.url) ? opts.url : (serviceUrl + opts.url),
         options = {
             method: opts.method || 'GET',
             cache: false,
             // mode: 'cors', //允许跨域
-            headers: new Headers(),
-            timeout: 10000
+            headers: new Headers()
         },
         queryString, formData;
     options.headers.append('Content-Type', 'application/json;charset=utf-8');

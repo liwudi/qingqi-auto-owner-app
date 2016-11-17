@@ -24,14 +24,23 @@ export default class ManagerList extends Component {
 	 * 跳转到添加页面
 	 */
 	toAddPage () {
-		this.props.router.push(ManagerAdd);
+		this.props.router.push(ManagerAdd,{
+			refresh: () => {
+                this.refs.list.reInitFetch()
+            }
+        });
 	}
 
 	/**
 	 * 跳转到编辑页面
 	 */
 	toEditPage (props) {
-		this.props.router.push(ManagerEdit, props);
+		this.props.router.push(ManagerEdit, {
+            nav: props,
+			refresh: () => {
+				this.refs.list.reInitFetch()
+			}
+		});
 	}
 
 	render() {
@@ -46,6 +55,7 @@ export default class ManagerList extends Component {
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="车队管理员" rightView={ topRightView()}/>
 				<PageList
+					ref="list"
 					style = {estyle.fx1}
 					renderRow = {
 						(row) => {

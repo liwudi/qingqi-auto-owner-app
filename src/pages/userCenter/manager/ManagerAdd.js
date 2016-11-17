@@ -37,7 +37,8 @@ export default class ManagerAdd extends Component {
 	 * 跳转到列表页面
 	 */
 	toListPage() {
-		this.props.router.pop();
+        this.props.refresh();
+        this.props.router.pop();
 	}
 
 	toManagerAddForContacts(){
@@ -52,9 +53,7 @@ export default class ManagerAdd extends Component {
 		addManager(this.state)
 			.then(() => {
 				ToastAndroid.show('添加成功', ToastAndroid.SHORT);
-				setTimeout(() => {
-					this.toListPage();
-				},1000);
+				setTimeout(this.toListPage.bind(this), 1000);
 			})
 			.catch((reason) => {
 				ToastAndroid.show(reason.message, ToastAndroid.SHORT);
@@ -68,7 +67,7 @@ export default class ManagerAdd extends Component {
 		Alert.alert('提示',
 			'是否添加这个管理员？',
 			[
-				{text: '确定', onPress: () => this._add.bind(this)},
+				{text: '确定', onPress: this._add.bind(this)},
 				{text: '取消'}
 			]);
 	}

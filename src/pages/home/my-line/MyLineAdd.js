@@ -101,6 +101,7 @@ export default class MyLineAdd extends Component {
     delPass(pass) {
         let opts = {
             ...this.state.routeInfo,
+            passbyPoints: pass
         };
 
         modifyRoute(opts)
@@ -143,6 +144,7 @@ export default class MyLineAdd extends Component {
 
         let opts = {
             ...this.state.routeInfo,
+            passbyPoints: p
         };
 
         modifyRoute(opts)
@@ -288,12 +290,12 @@ export default class MyLineAdd extends Component {
                     </View>
                     <View>
                         {
-                            this.state.routeInfo.passbyPoints && this.state.routeInfo.passbyPoints.length > 1
+                            this.state.routeInfo.passbyPoints && this.state.routeInfo.passbyPoints.length > 0
                                 ? this.state.routeInfo.passbyPoints.map((item, idx, self) => {
                                     return <ListItem
                                         key={idx}
                                         left={item.pointName}
-                                        right={'删除'}
+                                        right={<BorderButton>删除</BorderButton>}
                                         rightPress={() => {
                                             let pass = Object.assign([], self);
                                             pass.splice(idx, 1);
