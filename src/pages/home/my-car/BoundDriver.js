@@ -16,7 +16,7 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import ListTitle from '../../../components/ListTitle';
 import Env from '../../../utils/Env';
-import {queryDriver, bindDriver} from '../../../services/MyDriverService';
+import {queryDriver, bindDriver,unbindDriver} from '../../../services/MyDriverService';
 import PageSectionList from '../../../components/PageSectionList';
 import LabelInput from '../../../components/LabelInput';
 import BorderButton from '../../../components/BorderButton';
@@ -48,8 +48,7 @@ export default class MyDriver extends Component {
     //解绑司机
     deleteDriver(){
         let driverId = this.props.nav.driverType == 1 ? this.props.nav.mainDriverId : this.props.nav.subDriverId;
-        //todo 接口还没提供
-        delDriver(driverId,this.props.nav.driverType,this.props.nav.carId)
+        unbindDriver(driverId,this.props.nav.carId,this.props.nav.driverType)
             .then(()=>{
                 this.props.update.forEach((item)=>{ item()});
                 this.props.router.pop();
