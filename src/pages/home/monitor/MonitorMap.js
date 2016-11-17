@@ -127,7 +127,6 @@ export default class MonitorMap extends Component {
         }
     }
     toFetch() {
-
         this.state.monitor ? this.fetchDataSingle() : this.fetchDataAll();
     }
     fetchData () {

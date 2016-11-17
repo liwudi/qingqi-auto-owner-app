@@ -13,19 +13,15 @@ import {
 import Env from '../../../utils/Env';
 import TopBanner from '../../../components/TopBanner';
 import LabelInput from '../../../components/LabelInput';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import PageList from '../../../components/PageList';
 import {IconSearch} from '../../../components/Icons';
 import {queryRealTimeCarList} from '../../../services/MonitorService';
-import MyCarItem from '../my-car/components/MyCarItem';
-import MonitorCarDetail from './MonitorCarDetail';
-
+import MyCarItem from './components/MyCarItem';
 import MonitorMap from './MonitorMap';
 import {IconMap} from '../../../components/Icons';
 import Button from '../../../components/widgets/Button';
 const estyle = Env.style;
-import MapLine from '../../../components/MapLine';
-const TIMEOUT = 5;
+const TIMEOUT = 500;
 export default class MonitorCarList extends Component {
     constructor(props) {
         super(props);
@@ -34,33 +30,23 @@ export default class MonitorCarList extends Component {
         };
     }
 
-    goToDetail(carId){
-        //console.info(carId)
-        this.props.router.push(MonitorCarDetail, {nav: {carId: carId}});
-        ///this.props.router.push(MonitorMap)
-    }
-
     goToMap(carId) {
         this.props.router.replace(MonitorMap, {nav: {carId: carId}});
     }
 
-    toSearch() {
-        //console.info(this.props)
-        //this.props.router.push(MonitorCarDetail, {nav: {carId: 10}});
-        //this.props.router.push(MapLine)
-    }
     clearTimer() {
         this.timer = clearTimeout(this.timer);
         this.timer = null;
     }
     componentWillUnmount() {
         this.clearTimer();
-        console.info('map delete2')
     }
 
-
-    fetchData = (pageNumber, pageSize) => {
-        return queryRealTimeCarList(pageNumber,pageSize,this.state.key);
+    setkey(key) {
+       this.clearTimer();
+        this.timer = setTimeout(() => {
+            this.setState({key:key})
+        }, TIMEOUT);
     }
 
     render() {
@@ -79,8 +65,8 @@ export default class MonitorCarList extends Component {
                     placeholder='请输入司机姓名、VIN或车牌号'
                     labelSize="0"
                     ref="key"
-                    rightView={<Button onPress={()=>{this.toSearch()}}><IconSearch color={Env.color.note}/></Button>}
-                    onChangeText={key => this.setState({key:key})}/>
+                    rightView={<IconSearch color={Env.color.note}/>}
+                    onChangeText={(key) => {this.setkey(key)}}/>
                 <PageList
                     style={estyle.fx1}
                     reInitField={[this.state.key]}
@@ -89,13 +75,11 @@ export default class MonitorCarList extends Component {
                             this.goToMap(row.carId);
                         }}/>
                     }}
-                    fetchData={this.fetchData}
+                    fetchData={(pageNumber, pageSize) => {
+                        return queryRealTimeCarList(pageNumber,pageSize,this.state.key);
+                    }}
                 />
             </View>
         );
     }
 }
-
-MonitorCarList.PropTypes = {
-    toMap: PropTypes.func.isRequired
-};
