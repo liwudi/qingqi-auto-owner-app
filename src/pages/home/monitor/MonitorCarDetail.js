@@ -18,7 +18,7 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import Button from '../../../components/widgets/Button';
 const MapView = require('../../../mapbarmap/MapView');
-import CarItem from './components/CarItem';
+import CarItem from './components/StatusItem';
 
 
 import MapbarMap from '../../../mapbarmap/MapbarMap';

@@ -69,7 +69,10 @@ export default class ModifyVehicleLicence extends Component {
 							{pattern:pattern.carCode, msg: emsg.carCode.pattern}
 						]}
 					/>
-					<ConfirmButton style={[estyle.marginTop]} size="large" onPress={this.save.bind(this)}>确定</ConfirmButton>
+					<View style={[estyle.fxRow, estyle.padding]}>
+						<Text style={[estyle.text]}>&nbsp;</Text>
+					</View>
+					<ConfirmButton size="large" onPress={this.save.bind(this)}>确定</ConfirmButton>
 				</View>
 			</View>
 		);

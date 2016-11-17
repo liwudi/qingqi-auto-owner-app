@@ -24,13 +24,13 @@ import MainNavBar from '../components/MainNavBar';
 
 
 const tabs = [
-	{component: HomePage,index:0,name:'HomePage'},
-	{component:News,index:1,name:'News'},
-	{component:Message,index:2,name:'Message'},
+	{component:Message,index:0,name:'Message'},
+	{component: HomePage,index:1,name:'HomePage'},
+	{component:News,index:2,name:'News'},
 	{component:UserCenterHome,index:3,name:'UserCenterHome'}
 ];
 
-let initialRoute = tabs[0];
+let initialRoute = tabs[1];
 
 class HomeRouter extends Component {
 	constructor(props){

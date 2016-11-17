@@ -40,8 +40,8 @@ export default class MonitorCarList extends Component {
         ///this.props.router.push(MonitorMap)
     }
 
-    goToMap() {
-        this.props.router.replace(MonitorMap);
+    goToMap(carId) {
+        this.props.router.replace(MonitorMap, {nav: {carId: carId}});
     }
 
     toSearch() {
@@ -86,7 +86,7 @@ export default class MonitorCarList extends Component {
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
                         return <MyCarItem data={row} onPress={() => {
-                            this.goToDetail(row.carId);
+                            this.goToMap(row.carId);
                         }}/>
                     }}
                     fetchData={this.fetchData}

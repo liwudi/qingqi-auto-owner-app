@@ -31,7 +31,6 @@ import Alert from  '../../../components/Modals/Alert';
 import Button from '../../../components/widgets/Button';
 import MonitorCarDetail from '../monitor/MonitorCarDetail';
 import MapLine from '../MapLine';
-
 export default class CarDetail extends Component {
     constructor(props) {
         super(props);

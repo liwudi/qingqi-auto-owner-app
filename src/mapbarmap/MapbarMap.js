@@ -35,7 +35,6 @@ export default class MapbarMap extends Component {
         this.state = {
             showLegend: false
         }
-        console.info(this.options)
     }
     renderController() {
         return <View>
@@ -63,12 +62,13 @@ export default class MapbarMap extends Component {
         this.onZoomOut();
     }
     onZoomIn(zoom) {
-        console.info('zoom')
-        console.info(zoom)
         this.props.onZoomIn && this.props.onZoomIn(zoom);
     }
     onZoomOut(zoom) {
         this.props.onZoomOut && this.props.onZoomOut(zoom);
+    }
+    onSpan() {
+        this.props.onSpan && this.props.onSpan();
     }
     onInit() {
         instance.initMap(this.refs.mapView);
@@ -79,7 +79,6 @@ export default class MapbarMap extends Component {
     }
     getCenter() {
         let center = this.props.center || this.options.center;
-        console.info(center)
         return instance.MPoint([center.longitude, center.latitude]);
     }
     render() {
@@ -94,6 +93,7 @@ export default class MapbarMap extends Component {
                 isRotate={this.options.isRotate}
                 onZoomIn={(zoom) => {this.onZoomIn(zoom)}}
                 onZoomOut={(zoom) => {this.onZoomOut(zoom)}}
+                onSpan={() => {this.onSpan()}}
                 onAnnotationClick={(pointId) => {this.clickMarker(pointId)}}
                 onIconOverlayClick={(pointId) => {this.clickMarker(pointId)}}
                 onInit={() => {this.onInit()}}
@@ -121,7 +121,7 @@ export default class MapbarMap extends Component {
     componentWillUnmount() {
         console.info('map delete1')
      /*   instance.clearOverlays();*/
-        //instance.finalize();
+     //   instance.finalize();
     }
 }
 

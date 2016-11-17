@@ -14,7 +14,7 @@ const estyle = Env.style;
 import ViewForRightArrow from '../../../../components/ViewForRightArrow';
 import { IconUser, IconLocationMarker } from '../../../../components/Icons';
 
-export default class CarItem extends Component {
+export default class StatusItem extends Component {
 
     render() {
         let item = this.props.data;

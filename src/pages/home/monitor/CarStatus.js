@@ -11,7 +11,7 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import PageList from '../../../components/PageList';
-import CarItem from './components/CarItem';
+import StatusItem from './components/StatusItem';
 //import a from '../../../assets/images/driver.png'
 export default class CarStatus extends Component {
     state = {
@@ -25,7 +25,7 @@ export default class CarStatus extends Component {
                     style={estyle.fx1}
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
-                        return <CarItem data={row} />
+                        return <StatusItem data={row} />
                     }}
                     fetchData={(pageNumber, pageSize) => {
                         let list = new Array(5);
