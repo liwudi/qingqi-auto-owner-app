@@ -101,8 +101,8 @@ export default class CarDetail extends Component {
         this.props.router.push(BoundDriver, {
                 nav: {
                     carId: this.props.nav.carId,
-                    mainDriverId: this.state.data.mainDriverId || '',
-                    subDriverId: this.state.data.subDriverId || '' ,
+                    mainDriverId: this.state.data.mainDriverId || null,
+                    subDriverId: this.state.data.subDriverId || null ,
                     driverType: type
                 },
                 update:  [this.fetchData.bind(this), this.props.nav.backRender.bind(this)]

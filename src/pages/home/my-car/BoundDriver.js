@@ -81,15 +81,27 @@ export default class MyDriver extends Component {
         }
     }
 
+    rightView(){
+        if(this.props.nav.driverType === 1 && this.props.nav.mainDriverId != null){
+            return <TouchableOpacity onPress={()=> {
+                this.setState({alertCActive: true})
+            } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
+        }else if(this.props.nav.driverType === 2 && this.props.nav.subDriverId != null){
+            return <TouchableOpacity onPress={()=> {
+                this.setState({alertCActive: true})
+            } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
+        }else {
+            return <View/>
+        }
+    }
+
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
                 <TopBanner
                     {...this.props}
                     title="选择司机"
-                    rightView={ <TouchableOpacity onPress={()=> {
-                        this.setState({alertCActive: true})
-                    } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>  }
+                    rightView={ this.rightView.bind(this)() }
                 />
                 {this.renderSearchView()}
                 <View style={[estyle.fx1]}>
