@@ -37,11 +37,13 @@ export default class OilManageSetMark extends Component {
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
 				<TopBanner
 					{...this.props}
+					//title={this.props.carInfo.carCode}
 					titleView={
 						<TouchableOpacity onPress={this.selectCar.bind(this)} style={[estyle.fx1,estyle.fxRow,estyle.fxRowCenter,{backgroundColor:'transparent'}]}>
 							<Text style={[estyle.articleTitle, {color:'#FFF'}]}>{this.props.carInfo.carCode}</Text><IconArrowDown color="#FFF"/>
 						</TouchableOpacity>
-					}/>
+					}
+				/>
 				<MapLine
 					style={[estyle.fx1]}
 					topView={<View>

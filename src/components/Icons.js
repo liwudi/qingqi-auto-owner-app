@@ -261,11 +261,11 @@ export  class IconArrowUp extends React.Component {
  * 垃圾桶
  * */
 export  class IconTrash extends React.Component {
-	render(){
-		return(
-			<IconIonicons name="ios-trash" size={size} color={color}  {...this.props} />
-		)
-	}
+    render(){
+        return(
+			<IconFontAwesome name="trash" size={size} color={color}  {...this.props} />
+        )
+    }
 }
 /**
  * 向左实心箭头
