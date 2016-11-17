@@ -20,10 +20,10 @@ export default class ListItem extends React.Component{
 		return (
 			<View style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
 				<View style={[estyle.margin, estyle.fxRow]}>
-					<Text style={[estyle.text, {textAlign: 'left'}]}>{this.props.left}</Text>
+					<Text style={[estyle.fx1,estyle.text, {textAlign: 'left'}]}>{this.props.left}</Text>
 					{
                         this.props.right && typeof this.props.right === 'string'
-							? <Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: this.props.color || Env.color.note}]} onPress={this.props.rightPress}>{this.props.right}</Text>
+							? <Text style={[estyle.text,{textAlign: 'right', color: this.props.color || Env.color.note}]} onPress={this.props.rightPress}>{this.props.right}</Text>
 							: this.props.right
 					}
 

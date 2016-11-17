@@ -45,7 +45,12 @@ export default class MyDriver extends Component {
 	}
 
 	editDriver(data) {
-		this.props.router.push(MyDriverEdit,{nav:data});
+		this.props.router.push(MyDriverEdit,{
+			nav:data,
+            refresh: () => {
+                this.refs.list.reInitFetch();
+            }
+		});
 	}
 
 	addDriver() {

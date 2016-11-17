@@ -32,7 +32,7 @@ export default class Message extends Component {
 	render() {
 		return (
 			<View  style ={styles.body}>
-				<TopBanner {...this.props} title="消息中心"/>
+				<TopBanner {...this.props} title="消息中心" leftShow={false}/>
 				<TabNavigator {...this.props} tabs={tabs}/>
 			</View>
 		);

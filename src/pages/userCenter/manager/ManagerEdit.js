@@ -12,7 +12,7 @@ import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
 import ConfirmButton from "../../../components/ConfirmButton";
 import PhoneInput from "../../../components/Inputs/Phone";
-import ManagerList from "./ManagerList";
+import { IconTrash } from '../../../components/Icons';
 import {modifyManager, deleteManager} from "../../../services/MotorcadeManagerService";
 
 const estyle = Env.style;
@@ -20,29 +20,26 @@ const estyle = Env.style;
 export default class ManagerEdit extends Component {
 
 	componentWillMount() {
-		this.setState({...this.props, newPhone:this.props.phone});
+		this.setState({...this.props.nav, newPhone:this.props.nav.phone});
 	}
 
 	/**
 	 * 跳转到列表页面
 	 */
 	toListPage () {
-		this.props.router.replace(ManagerList);
+        this.props.refresh();
+        this.props.router.pop();
 	}
 
 	/**
 	 * 移除xxx的管理员权限
 	 */
 	delete () {
-		if (this.state.registerStatus===0) {
-			Alert.alert("提示", `用户【${this.state.name}】没有注册为APP用户，不能删除`);
-			return;
-		}
 		Alert.alert('提示',
-			`是否移除用户【${this.props.name}】的管理员权限？`,
+			`是否移除用户【${this.props.nav.name}】的管理员权限？`,
 			[
 				{text: '确定', onPress: () => {
-					deleteManager(this.state)
+					deleteManager(this.props.nav.phone)
 						.then(
 							() => {
 								ToastAndroid.show('删除成功', ToastAndroid.SHORT);
@@ -103,9 +100,8 @@ export default class ManagerEdit extends Component {
 	render() {
 		const topRightView= () => {
 			return (
-				<View style={estyle.fxRow}>
-					<Text onPress={() => this.delete()}>删除</Text>
-				</View>
+                <IconTrash onPress={() => this.delete()}
+									  color="#FFF" size={Env.font.base * 36} />
 			)
 		};
 		return (
