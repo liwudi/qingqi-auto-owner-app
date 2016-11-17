@@ -68,8 +68,7 @@ export default class OilManage extends Component {
 			this.state.weeks[0].format('YYYYMMDD'),
 			this.state.weeks[this.state.weeks.length - 1].format('YYYYMMDD')
 		).then(rs => {
-			console.log(rs)
-			this.setState({datas : rs});
+			this.setState({datas : rs.list || []});
 		}).catch(e => {
 
 		})
@@ -120,7 +119,17 @@ export default class OilManage extends Component {
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
 					renderRow={(row) => {
 						return (
-							<MyLineItem data={row} onPress={() => {this.props.router.push(OilManageCarList, {lineInfo:row})}}/>
+							<MyLineItem
+								data={row}
+								onPress={() => {
+									this.props.router.push(
+										OilManageCarList,
+										{
+											lineInfo: row,
+                                            routeId: row.routeId,
+                                            date: this.state.weeks[this.state.currentIndex]
+										})}
+								}/>
 						)
 					}}
 					fetchData={(pageNumber, pageSize) => {

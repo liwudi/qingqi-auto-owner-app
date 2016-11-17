@@ -20,30 +20,38 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import PageList from '../../../components/PageList';
 import {statisOilwearForOneRoute} from '../../../services/AppService';
 import OilManageSetMark from './OilManageSetMark';
+import OilManageShowMark from './OilManageShowMark';
+import BorderButton from '../../../components/BorderButton';
+
 export default class OilManageCarList extends Component {
 	constructor(props) {
 		super(props);
-		let nowDate = new Date();
-		let statisDate = `${nowDate.getFullYear()}${nowDate.getMonth()+1}${nowDate.getDate()}`;
 		this.state={
-			statisDate:statisDate,
-			routeId:2
+			statisDate: '20161011', //this.props.date.format('YYYYMMDD'),// todo
+			routeId: this.props.routeId
 		}
 	}
-	//是否为标杆车辆 1是；2不是
-    showStar(list){
-        if (list.isStandard ==1){
-           return <Icons.IconFlag style={{color: 'red'}}/>
-        }
+
+    toPage = (component, props = {}) => {
+        this.props.router.push(component, {
+			...props,
+            routeId: this.props.routeId,
+            date: this.props.date
+		});
     }
 
-    toPage = (component) => {
-        this.props.router.push(component);
-    }
 	render() {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-				<TopBanner {...this.props} title="车辆列表"/>
+				<TopBanner
+					{...this.props}
+					title="车辆列表"
+					rightView={
+						<View><BorderButton color="#FFF" onPress = {() => this.toPage(OilManageSetMark, {carInfo:this.carList[0]})}>设定标杆</BorderButton>
+							<BorderButton color="#FFF" onPress = {() => this.toPage(OilManageShowMark)}>查看标杆</BorderButton>
+						</View>
+						}
+				/>
 				<View style={estyle.fx1}>
 					<PageList
 						style={[estyle.cardBackgroundColor, estyle.fx1]}
@@ -54,7 +62,7 @@ export default class OilManageCarList extends Component {
 										<View style={[estyle.fxRow,estyle.fxRowCenter]}>
 											<Text style={[estyle.articleTitle]}>{list.carCode}</Text>
 											<Text> </Text>
-											<Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>
+											{list.isStandard == 1 && <Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>}
 										</View>
 										<View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
 											<IconUser color='#FEBEBE'/><Text> </Text>
@@ -73,16 +81,12 @@ export default class OilManageCarList extends Component {
 						}}
 						fetchData={(pageNumber, pageSize) => {
 							return statisOilwearForOneRoute(pageNumber, pageSize,this.state.routeId,this.state.statisDate)
+								.then(rs => {
+									this.carList = rs.list;
+									return rs;
+								})
 						}}
 					/>
-				</View>
-				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
-					<View style={estyle.padding}>
-						<ConfirmButton size="small" onPress={() => {this.toPage(OilManageSetMark)}}>设定标杆</ConfirmButton>
-					</View>
-					<View style={estyle.padding}>
-						<ConfirmButton size="small"  >查看标杆</ConfirmButton>
-					</View>
 				</View>
 			</View>
 		);

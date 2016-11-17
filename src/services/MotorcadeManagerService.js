@@ -57,11 +57,11 @@ export function addManager(entity){
  *
  * @param entity 页面表单
  */
-export function deleteManager(entity){
+export function deleteManager(phone){
     return RequestService.get(
         makeUrl('delAdmin'),
         {
-            adminId : entity.adminId
+            phone : phone
         }
     );
 }

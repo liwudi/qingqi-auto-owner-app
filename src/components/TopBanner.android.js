@@ -50,7 +50,7 @@ export default class TopBanner extends React.Component{
 		}
 		const _renderTitle = () => {
 			if(this.props.titleView){
-				return <View style={[styles.textView, estyle.fxColumnCenter, {backgroundColor:'green'}]}>
+				return <View style={[styles.textView, estyle.fxColumnCenter]}>
 						{this.props.titleView}
 					</View>
 			}else if(this.props.titleShow){

@@ -43,11 +43,11 @@ export function bindDriver(opts){
  *
  * @param entity 页面表单
  */
-export function deleteDriver(entity){
+export function deleteDriver(phone){
     return RequestService.get(
         makeUrl('delDriver'),
         {
-            driverId : entity.driverId
+            phone : phone
         }
     );
 }

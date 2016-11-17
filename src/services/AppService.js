@@ -139,30 +139,12 @@ export function statisOilwearByDay(beginDate,endDate){
 //路线油耗详情统计接口
 export function statisRouteOilwearByDay(page_number, page_size, statisDate){
 
-    //todo
-    return Promise.resolve({
-        "list": [
-            {
-                "routeId": 123,
-                "startPointName": "北京",
-                "endPointName": "沈阳",
-                "totalCarNum": 8,
-                "activeCarNum": 6,
-                "totalOilwear": 666.6,
-                "avgOilwear": 66.6,
-                "totalMileage": 66666.6,
-                "carid": 11111,
-                "carCode": "辽A12345"
-            }
-        ]
-    });
-
     return RequestService.get(
         makeUrl('statisRouteOilwearByDay'),
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            statisDate:statisDate,
+            statisDate: '20161011'//statisDate, //todo
         }
     );
 }
@@ -350,14 +332,10 @@ export function getCarList(opts,page_number=defaultPage.page_number,page_size=de
         Object.assign({},opts,{page_number: page_number,page_size : page_size})
     );
 }
-//添加/删除车辆
-export function addCar(carId, carNumber,flag){
+//添加/编辑车辆-评价ID
+export function addCar(opts){
     return RequestService.post(
-        makeUrl('addCar'),{
-            carId: carId,
-            carNumber: carNumber,
-            type:0,
-            flag:flag
-        }
+        `${Server.QINGQI}tocapp/addCar`,
+        Object.assign({}, opts)
     );
 }

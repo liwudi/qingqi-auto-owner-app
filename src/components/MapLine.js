@@ -401,6 +401,8 @@ export default class MapbarApi extends Component {
                     <Text style={[eStyles.text]}>{DateUtil.format(line[line.length - 1].time,'MM-dd hh:mm')}</Text>
                 </View>
 
+                <View>{this.props.topView}</View>
+
                 <MapView style={{flex: 1}}
                          zoomLevel={this.state.zoom}
                          worldCenter={this.state.center}

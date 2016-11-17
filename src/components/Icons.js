@@ -263,7 +263,7 @@ export  class IconArrowUp extends React.Component {
 export  class IconTrash extends React.Component {
 	render(){
 		return(
-			<IconFontAwesome name="trash" size={size} color={color}  {...this.props} />
+			<IconIonicons name="ios-trash" size={size} color={color}  {...this.props} />
 		)
 	}
 }
@@ -387,4 +387,15 @@ export  class IconSpeed extends React.Component {
 			<IconIonicons name="ios-speedometer-outline" size={size} color={color}  {...this.props} />
 		)
 	}
+}
+
+/**
+ * 问号
+ */
+export  class IconQuestion extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="question-circle" size={size} color={color}  {...this.props} />
+        )
+    }
 }
