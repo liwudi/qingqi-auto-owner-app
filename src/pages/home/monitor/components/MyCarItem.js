@@ -10,7 +10,7 @@ import {
 import {queryRealTimeCar} from '../../../../services/MonitorService';
 
 import Item from '../../my-car/components/MyCarItem';
-const TIMEOUT = 5;
+const TIMEOUT = 30;
 export default class MyCarItem extends Component {
     constructor() {
         super();
@@ -18,7 +18,7 @@ export default class MyCarItem extends Component {
     }
     fetchData() {
         this.props.data.carId &&
-        queryRealTimeCar(this.props.data.carId).then((data)=>{
+        queryRealTimeCar({carId: this.props.data.carId}).then((data)=>{
         /*    data = {
                 carNo: '控123456',
                 direction: Math.floor(Math.random() * 360),
@@ -35,8 +35,8 @@ export default class MyCarItem extends Component {
                 this.setData(data);
             } catch (e) {
                 this.clearTimer();
+                console.info(e)
             }
-
         }).catch().finally(()=> {
             this.setTimer();
         });
@@ -48,6 +48,7 @@ export default class MyCarItem extends Component {
         },TIMEOUT * 1000);
     }
     setData(data){
+        data = Object.assign({}, data, this.props.data);
         data.carNo && (data.carCode = data.carNo);
         this.setState({data});
     }
@@ -62,7 +63,8 @@ export default class MyCarItem extends Component {
 
     componentDidMount() {
         this.setData(this.props.data);
-        this.setTimer();
+        this.fetchData();
+        //this.setTimer();
     }
 
     render() {

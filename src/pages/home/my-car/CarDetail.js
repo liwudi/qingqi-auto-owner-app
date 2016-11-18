@@ -23,14 +23,11 @@ import ModifyVehicleLicence from './ModifyVehicleLicence';
 import BoundDriver from './BoundDriver';
 import BoundLine from './BoundLine';
 import ListTitle from '../../../components/ListTitle';
-import ListItem from '../../../components/ListItem';
 import TopBanner from '../../../components/TopBanner';
 import BorderButton from '../../../components/BorderButton';
 import {IconTrash} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
-import Button from '../../../components/widgets/Button';
-import MonitorCarDetail from '../monitor/MonitorCarDetail';
-import MapLine from '../MapLine';
+import MapLine from '../components/MapLine';
 export default class CarDetail extends Component {
     constructor(props) {
         super(props);
@@ -121,7 +118,7 @@ export default class CarDetail extends Component {
                         }]}>{data.carCode}</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={()=>{ this.props.router.push(MonitorCarDetail, {nav: {carId: this.props.nav.carId}});}} >
+                <ViewForRightArrow>
                     <View style={[estyle.fxRow]}>
                         <Text style={[estyle.text, {textAlign: 'left'}]}>车辆速度</Text>
                         <Text style={[estyle.fx1, estyle.text, {

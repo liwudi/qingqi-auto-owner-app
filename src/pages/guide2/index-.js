@@ -13,10 +13,9 @@ import Login from '../user/index';
 import HomeRouter from '../HomeRouter';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 import SplashScreen from 'react-native-splash-screen';
-import MonitorMapTrack from '../home/monitor/MonitorMapTrack';
-
 import Env from '../../utils/Env';
 
+import MonitorMapTrack from '../home/monitor/MonitorMapTrack';
 class Guide2 extends Component {
 	constructor(props){
 		super(props);
@@ -29,38 +28,38 @@ class Guide2 extends Component {
 		SplashScreen.hide();
 	}
 	async componentDidMount(){
-		this.closeSplashScreen();
-		this.props.router.replace(MonitorMapTrack);
-		return;
 		global.setToken = setToken;
 		global.storage.load({
 			key: 'token',
 			autoSync: false,
 		})
-		.then((rs) => {
-			rs = rs || {};
-			let token = rs.token;
-			if(token){
-				setToken({
-					token: rs.token,
-					userId: rs.userId
-				});
-				this.props.dispatch(UserActions.checkToken(
-					(userInfo) => {
-						this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
-						this.closeSplashScreen();
-					},
-					() => {
-						this.props.router.replace(Login);
-						this.closeSplashScreen();
-					})
-				);
-			}
-		})
-		.catch((e) => {
-			this.props.router.replace(Login);
-			this.closeSplashScreen();
-		});
+			.then((rs) => {
+				rs = rs || {};
+				let token = rs.token;
+				if(token){
+					setToken({
+						token: rs.token,
+						userId: rs.userId
+					});
+					this.props.dispatch(UserActions.checkToken(
+						(userInfo) => {
+							//this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
+							this.props.router.replace(MonitorMapTrack);
+							this.closeSplashScreen();
+						},
+						() => {
+							//this.props.router.replace(Login);
+							this.props.router.replace(MonitorMapTrack);
+							this.closeSplashScreen();
+						})
+					);
+				}
+			})
+			.catch((e) => {
+				//this.props.router.replace(Login);
+				this.props.router.replace(MonitorMapTrack);
+				this.closeSplashScreen();
+			});
 
 
 	}
