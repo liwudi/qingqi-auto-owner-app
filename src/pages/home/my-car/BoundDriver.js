@@ -16,10 +16,12 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import ListTitle from '../../../components/ListTitle';
 import Env from '../../../utils/Env';
-import {queryDriver, bindDriver} from '../../../services/MyDriverService';
+import {queryDriver, bindDriver,unbindDriver} from '../../../services/MyDriverService';
 import PageSectionList from '../../../components/PageSectionList';
 import LabelInput from '../../../components/LabelInput';
 import BorderButton from '../../../components/BorderButton';
+import {IconTrash} from '../../../components/Icons';
+import Alert from  '../../../components/Modals/Alert';
 
 const estyle = Env.style;
 export default class MyDriver extends Component {
@@ -27,7 +29,8 @@ export default class MyDriver extends Component {
         super(props);
         this.state = {
             isSearch : false,
-            keyWord: ''
+            keyWord: '',
+            alertCActive:false
         };
     }
 
@@ -42,6 +45,17 @@ export default class MyDriver extends Component {
                 onChangeText={keyWord => this.setState({keyWord:keyWord})}/>;
         }
     }
+    //解绑司机
+    deleteDriver(){
+        let driverId = this.props.nav.driverType == 1 ? this.props.nav.mainDriverId : this.props.nav.subDriverId;
+        unbindDriver(driverId,this.props.nav.carId,this.props.nav.driverType)
+            .then(()=>{
+                this.props.update.forEach((item)=>{ item()});
+                this.props.router.pop();
+            })
+            .catch()
+            .finally(()=>{this.setState({alertCActive: false})})
+    }
 
     bindLine(driverId){
         bindDriver({
@@ -51,12 +65,33 @@ export default class MyDriver extends Component {
         })
             .then(()=>{
                 ToastAndroid.show('绑定成功！', ToastAndroid.SHORT);
-                this.props.update();
+                this.props.update.forEach((item)=>{item()});
                 this.props.router.pop();
             })
             .catch((e)=>{
                 ToastAndroid.show(e.message, ToastAndroid.SHORT);
             })
+    }
+    driverState(row){
+        if( row.registerStatus == 1 ){
+                return <BorderButton  style={[estyle.marginLeft]} onPress={() => this.bindLine(row.driverId)}>绑定</BorderButton>
+        }else {
+            return <Text style={[estyle.note,estyle.marginLeft]}>未注册</Text>
+        }
+    }
+
+    rightView(){
+        if(this.props.nav.driverType === 1 && this.props.nav.mainDriverId != null){
+            return <TouchableOpacity onPress={()=> {
+                this.setState({alertCActive: true})
+            } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
+        }else if(this.props.nav.driverType === 2 && this.props.nav.subDriverId != null){
+            return <TouchableOpacity onPress={()=> {
+                this.setState({alertCActive: true})
+            } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
+        }else {
+            return <View/>
+        }
     }
 
     render() {
@@ -65,6 +100,7 @@ export default class MyDriver extends Component {
                 <TopBanner
                     {...this.props}
                     title="选择司机"
+                    rightView={ this.rightView.bind(this)() }
                 />
                 {this.renderSearchView()}
                 <View style={[estyle.fx1]}>
@@ -90,12 +126,7 @@ export default class MyDriver extends Component {
                                     <View style={[estyle.margin, estyle.fxRow]}>
                                         <Text style={[estyle.text, {textAlign: 'left'}]}>{row.name}</Text>
                                         <Text style={[estyle.fx1,estyle.text,{textAlign: 'right', color: Env.color.note}]}>{row.phone}</Text>
-                                        {
-                                            row.registerStatus == 1
-                                                ? <BorderButton  style={[estyle.marginLeft]} onPress={() => this.bindLine(row.driverId)}>绑定</BorderButton>
-                                                : <Text style={[estyle.note,estyle.marginLeft]}>未注册</Text>
-                                        }
-
+                                        { this.driverState.bind(this)(row)}
                                     </View>
                                 </View>
                             )
@@ -106,6 +137,18 @@ export default class MyDriver extends Component {
                     />
 
                 </View>
+                <Alert visible={this.state.alertCActive}
+                       title="解绑司机"
+                       confirmTitle="确认"
+                       cancelTitle="取消"
+                       onConfirm={(()=> {
+                           this.deleteDriver()
+                       })}
+                       onCancel={(()=> {
+                           this.setState({alertCActive: false})
+                       })}>
+                    您确定要解除绑定{ this.props.nav.driverType === 1 ? '主驾驶' : '副驾驶' }吗？
+                </Alert>
             </View>
         );
     }
