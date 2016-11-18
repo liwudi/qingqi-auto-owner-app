@@ -3,6 +3,7 @@
  * Edit by zhaidongyou 2016/10/24 车辆消息详情
  */
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {
 	Text,
 	View,
@@ -12,100 +13,62 @@ import {
 } from 'react-native';
 
 import TopBanner from '../../components/TopBanner';
+import PageList from '../../components/PageList';
 import Env from '../../utils/Env';
 import {IconUser} from '../../components/Icons';
 import ConfirmButton from '../../components/ConfirmButton';
+
+import { readAllCarMessageForId } from '../../services/PushService';
+
 const estyle = Env.style;
-export default class MessageListCar extends Component {
+
+class MessageListCar extends Component {
 	render() {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-				<TopBanner {...this.props} title="京N25994"/>
-				<View style={estyle.fx1}>
-					<ScrollView>
-						{/*list一行开始*/}
-						<View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
+				<TopBanner {...this.props} title={this.props.carNumber}/>
+				<PageList
+					ref="list"
+					style={estyle.fx1}
+					renderRow={(row) => {
+                        row.message =  row.message || {};
+                        let messageDetail = row.messageDetail || {};
+                        return <View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
 							<View style={estyle.fxCenter}>
 								<Image
 									style={{borderRadius:100,width:50,height:50,borderWidth:4 * Env.font.base,
-										borderColor:'#85C7E7',}}
+                                        borderColor:'#85C7E7',}}
 									source={require('../../assets/images/icon-1.png')}
 								/>
 							</View>
 							<View style={[estyle.marginLeft,estyle.fx1]}>
 								<View style={[estyle.fxRow]}>
 									<View style={estyle.fx1}>
-										<Text style={[estyle.articleTitle]}>引擎熄火</Text>
+										<Text style={[estyle.articleTitle]}>{messageDetail.carStatus}</Text>
 									</View>
-									<Text style={[estyle.text,estyle.marginLeft]}>19.06</Text>
+									<Text style={[estyle.text,estyle.marginLeft]}>{messageDetail.happenTime}</Text>
 								</View>
 								<View style={[estyle.fxRow, estyle.fxRowCenter]}>
 									<IconUser/>
-									<Text style={[estyle.note, {color: Env.color.text}]}>张</Text>
+									<Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.mainDriverName}</Text>
 									<IconUser color={Env.color.main} style ={estyle.marginLeft}/>
-									<Text style={[estyle.note, {color: Env.color.text}]}>李四</Text>
+									<Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.subDriverName}</Text>
 								</View>
 								<View>
-									<Text>在北京市东城区东直门南大街停车熄火</Text>
+									<Text>{messageDetail.position}</Text>
 								</View>
 							</View>
 						</View>
-						{/*list一行结束*/}
-						<View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
-							<View style={estyle.fxCenter}>
-								<Image
-									style={{borderRadius:100,width:50,height:50,borderWidth:4 * Env.font.base,
-										borderColor:'#85C7E7',}}
-									source={require('../../assets/images/icon-1.png')}
-								/>
-							</View>
-							<View style={[estyle.marginLeft,estyle.fx1]}>
-								<View style={[estyle.fxRow]}>
-									<View style={estyle.fx1}>
-										<Text style={[estyle.articleTitle]}>引擎熄火</Text>
-									</View>
-									<Text style={[estyle.text,estyle.marginLeft]}>19.06</Text>
-								</View>
-								<View style={[estyle.fxRow, estyle.fxRowCenter]}>
-									<IconUser/>
-									<Text style={[estyle.note, {color: Env.color.text}]}>张</Text>
-									<IconUser color={Env.color.main} style ={estyle.marginLeft}/>
-									<Text style={[estyle.note, {color: Env.color.text}]}>李四</Text>
-								</View>
-								<View>
-									<Text>在北京市东城区东直门南大街停车熄火</Text>
-								</View>
-							</View>
-						</View>
-						<View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
-							<View style={estyle.fxCenter}>
-								<Image
-									style={{borderRadius:100,width:50,height:50,borderWidth:4 * Env.font.base,
-										borderColor:'#85C7E7',}}
-									source={require('../../assets/images/icon-1.png')}
-								/>
-							</View>
-							<View style={[estyle.marginLeft,estyle.fx1]}>
-								<View style={[estyle.fxRow]}>
-									<View style={estyle.fx1}>
-										<Text style={[estyle.articleTitle]}>引擎点火</Text>
-									</View>
-									<Text style={[estyle.text]}>2016-09-04</Text>
-									<Text style={[estyle.text,estyle.marginLeft]}>19.06</Text>
-								</View>
-								<View style={[estyle.fxRow, estyle.fxRowCenter]}>
-									<IconUser/>
-									<Text style={[estyle.note, {color: Env.color.text}]}>张</Text>
-									<IconUser color={Env.color.main} style ={estyle.marginLeft}/>
-									<Text style={[estyle.note, {color: Env.color.text}]}>李四</Text>
-								</View>
-								<View>
-									<Text>在北京市东城区东直门南大街停车熄火</Text>
-								</View>
-							</View>
-						</View>
-					</ScrollView>
-				</View>
+                    }}
+					fetchData={() => {
+                        return readAllCarMessageForId(this.props.carId).then(rs => {
+                        	return {
+                                list : Object.assign([], rs).reverse(),
+							}
+						});
+                    }}
+				/>
+
 				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
 					<View style={estyle.padding}>
 						<ConfirmButton size="small">联系司机</ConfirmButton>
@@ -115,3 +78,7 @@ export default class MessageListCar extends Component {
 		);
 	}
 }
+
+export default connect(function (stores) {
+    return {messageStore: stores.messageStore}
+})(MessageListCar);

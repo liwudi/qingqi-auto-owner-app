@@ -49,6 +49,7 @@ class Main extends Component {
 
 	constructor(props){
 		super(props);
+        console.log(props)
 		this.state = {
 			exitAlert : false,
 			isConnected: true
@@ -70,13 +71,15 @@ class Main extends Component {
 			this.props.dispatch(MessageActions.addMessage(event));
 		});
 		DeviceEventEmitter.addListener("messageReceiver", (event) => {
-			console.log('接收到消息：', event);
+            event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
+            console.log('接收到消息：', event);
 			this.props.dispatch(MessageActions.addMessage(event));
 		});
+        this.props.dispatch(MessageActions.getMessages());
 	}
 
 	componentWillReceiveProps(props){
-		// console.log(props)
+		console.log(props)
 	}
 	renderNetError() {
 		if(!this.state.isConnected) {

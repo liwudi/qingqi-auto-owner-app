@@ -9,83 +9,71 @@ import {
     ScrollView,
     Image
 } from 'react-native';
+
+import moment from 'moment';
+
 import TopBanner from '../../components/TopBanner';
+import PageList from '../../components/PageList';
+import {connect} from 'react-redux'
+
 import Env from '../../utils/Env';
 const estyle = Env.style;
-export default class PersonalMessage extends Component{
+
+
+class PersonalMessage extends Component{
+    constructor(props){
+        super(props);
+        console.log('PersonalMessage@@@@@@@@@@@@@@@@@',props.messageStore)
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.messageStore.messageList.PersonalMessage.length != this.props.messageStore.messageList.PersonalMessage.length){
+            setTimeout(() => this.refs.list.reInitFetch(), 100);
+        }
+    }
+
     render() {
         return (
-            <View>
-                <TopBanner {...this.props} title="个人信息"/>
-                <ScrollView>
-                    {/*list的一条开始*/}
-                    <View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
-                        <View>
-                            <Image
-                                style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-                                    borderColor:'#85C7E7',}}
-                                source={require('../../assets/images/icon-1.png')}
-                            />
-                        </View>
-                        <View style={[estyle.marginLeft,estyle.fx1]}>
-                            <View style={[estyle.fxRow,estyle.fx1]}>
-                                <View style={estyle.fx1}>
-                                    <Text style={[estyle.articleTitle]}>资质审核通过</Text>
-                                </View>
-                                <Text style={[estyle.text,estyle.marginLeft]}>19.06</Text>
-                            </View>
+            <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
+                <TopBanner {...this.props} title="个人消息"/>
 
+                <PageList
+                    ref="list"
+                    style={estyle.fx1}
+                    renderRow={(row) => {
+                        row.message =  row.message || {};
+                        return <View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
                             <View>
-                                <Text>您的审核已通过，成为了京N3331的车主</Text>
+                                <Image
+                                    style={{borderRadius:100,width:60,height:60}}
+                                    source={require('../../assets/images/message-type-5.png')}
+                                />
                             </View>
-                        </View>
-                    </View>
-                    {/*list的一条结束*/}
-                    <View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
-                        <View>
-                            <Image
-                                style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-                                    borderColor:'#85C7E7',}}
-                                source={require('../../assets/images/icon-1.png')}
-                            />
-                        </View>
-                        <View style={[estyle.marginLeft,estyle.fx1]}>
-                            <View style={[estyle.fxRow,estyle.fx1]}>
-                                <View style={estyle.fx1}>
-                                    <Text style={[estyle.articleTitle]}>中秋节大酬宾</Text>
+                            <View style={[estyle.marginLeft,estyle.fx1]}>
+                                <View style={[estyle.fxRow,estyle.fx1]}>
+                                    <View style={estyle.fx1}>
+                                        <Text style={[estyle.articleTitle]}>{row.message.Title}</Text>
+                                    </View>
+                                    <Text style={[estyle.text,estyle.marginLeft]}>{moment(row.time).format('MM-DD hh:ss')}</Text>
                                 </View>
-                                <Text style={[estyle.text,estyle.marginLeft]}>19.06</Text>
-                            </View>
-
-                            <View>
-                                <Text>现邀请司机加入车队有机会获得货车专业行车记录仪</Text>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
-                        <View>
-                            <Image
-                                style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-                                    borderColor:'#85C7E7',}}
-                                source={require('../../assets/images/icon-1.png')}
-                            />
-                        </View>
-                        <View style={[estyle.marginLeft,estyle.fx1]}>
-                            <View style={[estyle.fxRow,estyle.fx1]}>
-                                <View style={estyle.fx1}>
-                                    <Text style={[estyle.articleTitle]}>新版本更新</Text>
+                                <View>
+                                    <Text style={[estyle.note]}>{row.message.Content}</Text>
                                 </View>
-                                <Text style={[estyle.text]}>2016-09-04</Text>
-                                <Text style={[estyle.text,estyle.marginLeft]}>19.06</Text>
-                            </View>
-
-                            <View>
-                                <Text>新版本添加油耗分析功能让您分分钟省出一辆车</Text>
                             </View>
                         </View>
-                    </View>
-                </ScrollView>
+                    }}
+                    fetchData={() => {
+                        return Promise.resolve({
+                            list : Object.assign([], this.props.messageStore.messageList.PersonalMessage).reverse(),
+                            pageTotal:1
+                        })
+                    }}
+                />
             </View>
         );
     }
 }
+
+export default connect(function (stores) {
+    return {messageStore: stores.messageStore}
+})(PersonalMessage);

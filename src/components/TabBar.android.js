@@ -43,10 +43,25 @@ export default class TabBar extends React.Component{
 								{width:Env.screen.width / this.props.tabs.length}
 							]}
 						>
-							<Text style={[
-								estyle.text,
-								this.state.currentIndex === index && styles.textSelect,
-							]}>{tab.title}</Text>
+							<View>
+								<Text style={[
+                                    estyle.text,
+                                    this.state.currentIndex === index && styles.textSelect,
+                                ]}>{tab.title}</Text>
+								{tab.sign && <View style={[
+                                    Env.style.fxCenter,
+                                    {
+                                        width:Env.font.base * 22,
+                                        height:Env.font.base * 22,
+                                        borderRadius:Env.font.base * 20,
+                                        backgroundColor:'red',
+                                        position:'absolute',
+                                        top:0,
+                                        right:Env.font.base * -25}]}>
+									<Text style={{color:'#FFF',fontSize:Env.font.base * 16}}>{tab.sign}</Text>
+								</View>}
+
+							</View>
 						</TouchableOpacity>
 					)
 				})}

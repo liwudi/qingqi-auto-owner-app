@@ -44,3 +44,7 @@ export const TEST_DATA_ERROR = 'TEST_DATA_ERROR'; //获取体检数据-出错
 export const TDS_DATA_DOING = 'TDS_DATA_DOING'; //获取体检数据
 export const TDS_DATA_SUCCESS = 'TDS_DATA_SUCCESS'; //获取体检数据-成功
 export const TDS_DATA_ERROR = 'TDS_DATA_ERROR'; //获取体检数据-出错
+
+//推送消息
+export const PUSH_MESSAGE_ADD = 'PUSH_MESSAGE_ADD'; //添加消息
+export const PUSH_MESSAGE_LIST = 'PUSH_MESSAGE_LIST'; //添加列表
