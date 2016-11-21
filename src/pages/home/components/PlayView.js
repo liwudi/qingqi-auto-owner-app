@@ -19,7 +19,8 @@ const estyle = Env.style;
 import Button from '../../../components/widgets/Button'
 let interVal = null;
 let totalTime = 1; //总回放时间  单位  分钟
-let onPointTime = 1; // 一个点的时间 毫秒*/
+let totalTimeSec = totalTime * 60;
+let onePonitTime = 0; // 一个点的时间 毫秒*/
 let index = 0;
 export default class PlayView extends Component {
     constructor() {
@@ -28,11 +29,23 @@ export default class PlayView extends Component {
             playing: false,
             progress: 0
         };
+        this.cache_playing = null;
     }
 
     componentDidMount() {
-        onePonitTime = 1000 * 1 /(this.props.dataLength / totalTime / 60);
-        console.info(onePonitTime, '=================================================')
+
+    }
+    getIntervalTime () {
+        if(!onePonitTime) {
+            console.info(this.props.dataLength)
+            console.info(totalTime)
+            onePonitTime = this.props.dataLength / totalTimeSec * 1000;
+            console.info(onePonitTime, '=================================================')
+        }
+    }
+    componentWillUnmount() {
+        this.pause();
+        //this.Map.finalize();
     }
 
     startPauseButton = () => {
@@ -54,17 +67,24 @@ export default class PlayView extends Component {
 
 
     play() {
+        this.getIntervalTime();
+        this.setState({playing: true});
         console.info('------------------------------play')
         if (interVal) return;
         interVal = setInterval(() => {
-            this.setState({progress: index});
-            this.props.play && this.props.play(index);
             index++;
+            this.run();
             if (index === this.props.dataLength) {
                 this.changePlay();
                 this.playComplete();
             }
         }, onePonitTime);
+        this.run();
+    }
+    run () {
+        index = index >= this.props.dataLength - 1 ? this.props.dataLength - 1 : index;
+        this.setState({progress: index});
+        this.props.play && this.props.play(index);
     }
 
     playComplete() {
@@ -75,30 +95,34 @@ export default class PlayView extends Component {
     }
 
     ready() {
+        this.setState({playing: false});
         index = 0;
-        this.setState({progress: index});
-        this.props.play && this.props.play(index);
+        this.run();
+    //    this.props.play && this.props.play(index);
     }
 
 
     pause() {
+        this.setState({playing: false});
         console.info('------------------------------pause')
         clearInterval(interVal);
         interVal = null;
         //this.props.pause && this.props.pause(index);
     }
 
-    fff = () => {
-        console.info('------------------------------------sss')
-    }
-    progressTo = (progress) => {
+    slidingComplete = (progress) => {
         index = Math.round(progress);
-        index = index >= this.props.dataLength - 1 ? this.props.dataLength - 1 : index;
-        console.info(index)
-        this.props.play && this.props.play(index);
-        if(index === this.props.dataLength - 1) {
-            this.playComplete();
+        if(this.cache_playing) this.play();
+        this.cache_playing = null;
+        console.info('------------------------------------sss')
+    };
+    progressTo = (progress) => {
+        this.pause();
+        if(this.cache_playing === null) {
+            this.cache_playing = this.state.playing;
         }
+        index = Math.round(progress);
+        this.run();
         console.info('hand move')
     };
 
@@ -114,7 +138,7 @@ export default class PlayView extends Component {
                 minimumValue={0}
                 maximumValue={this.props.dataLength}
                 onSlidingComplete={(progress) => {
-                    this.fff(progress);
+                    this.slidingComplete(progress);
                 }}
                 onValueChange={(progress) => {
                     this.progressTo(progress);

@@ -35,7 +35,7 @@ let getSpeedColor = (speedType) => {
         case SPEED_6:
             return '#080808';
     }
-}
+};
 const getMapPoint = (pt) =>  {
     let _pt = MPoint([pt._x, pt._y]);
     _pt.s = pt._v;  //速度
@@ -44,11 +44,40 @@ const getMapPoint = (pt) =>  {
     _pt.time = pt._auto_terminal;  //时间
 
     return Object.assign({}, pt, _pt)
+};
+let minLng = minLat = maxLng = maxLat = 0;
+const setBounds = (pt) => {
+    if(!minLng) minLng = maxLng = pt.longitude;
+    if(!minLat) minLat = maxLat = pt.latitude;
+    minLng = Math.min(minLng,pt.longitude);
+    minLat = Math.min(minLat, pt.latitude);
+    maxLng = Math.max(maxLng, pt.longitude);
+    maxLat = Math.max(maxLat, pt.latitude);
+};
+const bounds = () => {
+    return {
+        min: {longitude: minLng,
+        latitude: minLat},
+        max: {longitude: maxLng,
+        latitude: maxLat}
+    }
+}
+let startTime, endTime;
+const setTimes = (pt, idx) => {
+    idx ? endTime = pt.time : startTime = pt.time;
+}
+const times = () => {
+    return {
+        start : startTime,
+        end:endTime
+    }
 }
 const get = (line) => {
     let lines = [], _tmp1 = null;
     line.map((_line, index) => {
         _line = getMapPoint(_line);
+        if(!index || index === line.length - 1) setTimes(_line, index);
+        setBounds(_line);
         _tmp1 = _tmp1 || {
                 locations: [],
                 speedType: getSpeedType(_line.s)
@@ -82,5 +111,7 @@ const get = (line) => {
 }
 
 export default {
-    get: get
+    get: get,
+    bounds: bounds,
+    times: times
 }

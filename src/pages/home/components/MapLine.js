@@ -91,7 +91,7 @@ const legend = {
         }
     ]
 }
-
+let lines = null;
 
 
 // 根据两个坐标获取连线的角度
@@ -124,10 +124,13 @@ export default class MapLine extends Component {
         super();
         this.state = {
             showLegend: false,
-            playType: PLAY_TYPE_SPEED
+            playType: PLAY_TYPE_SPEED,
+            startTime: 0,
+            endTime: 0
         };
         this.carIdx = parseInt(Math.random() * 100);
         this.playType = PLAY_TYPE_SPEED;
+        this.lineBounds = null;
     }
 
     initLine() {
@@ -143,6 +146,27 @@ export default class MapLine extends Component {
         } else {
             this.addLineOil();
         }
+        this.setTimes();
+        this.setBounds();
+    }
+    setTimes() {
+        if(!this.state.startTime) {
+            let times = SpeedLine.times();
+            this.setState({
+                startTime: times.start,
+                endTime: times.end
+            });
+        }
+    }
+    setBounds() {
+        if(!this.lineBounds) {
+            this.lineBounds = SpeedLine.bounds();
+            console.info('0000000000000000000000000000000000000000000000000000000000000')
+            console.info(this.lineBounds)
+            setTimeout(() => {
+                this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
+            }, 300)
+        }
     }
     setLineData() {
         line = this.props.data;
@@ -156,12 +180,13 @@ export default class MapLine extends Component {
         _pt.time = pt._auto_terminal;  //时间
         return Object.assign({}, pt, _pt)
     }
+
     addLineSpeed() {
-        let lines = SpeedLine.get(line);
+        lines = SpeedLine.get(line);
         this.Line.add(lines);
     }
     addLineOil(){
-        let lines = OilLine.get(line);
+        lines = OilLine.get(line);
         this.Line.add(lines);
     }
 
@@ -303,6 +328,7 @@ export default class MapLine extends Component {
     }
 
     render() {
+        console.info(this.state)
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <PlayView
@@ -312,6 +338,11 @@ export default class MapLine extends Component {
                 }} pause={() => {
                     this.pauseMoveCar()
                 }}/>
+                <View style={[estyle.fxRow,estyle.fxCenter,estyle.paddingHorizontal,{paddingLeft:70,marginTop:-10,paddingBottom:5}]}>
+                    <Text style={[estyle.text]}>{DateUtil.format(this.state.startTime,'MM-dd hh:mm')}</Text>
+                    <Text style={[estyle.fx1,estyle.text,{textAlign:'center',color:Env.color.main}]}>{DateUtil.format(currentPonit.time,'MM-dd hh:mm')}</Text>
+                    <Text style={[estyle.text]}>{DateUtil.format(this.state.endTime,'MM-dd hh:mm')}</Text>
+                </View>
                 <MapbarMap legend={this.renderLegend()}
                            onInit={(instance)=> {
                                this.onInit(instance);
