@@ -148,7 +148,7 @@ export class Line {
      * }]
      * */
     static add = (opts) => {
-        v
+        module.addLine(mapRef, opts);
     }
     /**
      * opts=[1,2,3,4] id数组
@@ -157,7 +157,7 @@ export class Line {
         module.deleteLine(mapRef, opts)
     }
     static clear = () => {
-        remove([-1]);
+        Line.remove([-1]);
     }
     /**
      * opts=[{
@@ -175,6 +175,13 @@ export class Line {
 export function initMap(ref) {
     mapRef = findNodeHandle(ref);
 }
+export function getMapRef() {
+    return mapRef;
+}
+export function setMapRef(ref) {
+    mapRef = ref;
+}
+
 export function finalize () {
     console.info('-----------------------------------------------------abc')
 
@@ -239,8 +246,17 @@ export function getBounds(callback) {
  *      maxLatitude: 1
  * }
  * */
-export function setBounds(opts) {
-    module.fitWorldArea(mapRef, opts);
+export function setBounds(pt1, pt2) {
+    let p1lat = pt1.latitude,
+        p1lng = pt1.longitude,
+        p2lat = pt2.latitude,
+        p2lng = pt2.longitude;
+    module.fitWorldArea(mapRef, {
+        minLongitude: Math.min(p1lng, p2lng),
+        minLatitude: Math.min(p1lat, p2lat),
+        maxLongitude: Math.max(p1lng, p2lng),
+        maxLatitude: Math.max(p1lat, p2lat)
+    });
 }
 export function pause() {
     module.onPauseMap(mapRef);

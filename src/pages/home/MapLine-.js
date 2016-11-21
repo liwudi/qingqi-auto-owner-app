@@ -501,5 +501,4 @@ const styles = StyleSheet.create({
         color:'#FFF',
         fontSize:Env.font.note
     }
-
 });

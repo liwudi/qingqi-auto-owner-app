@@ -28,7 +28,9 @@ export default class MyCarItem extends Component {
         //     "carId": "1234567"}
 
         const SpeedView= (realtimeSpeed) => {
-            if (realtimeSpeed == 0) {
+            if(typeof realtimeSpeed === 'undefined') {
+                return '';
+            } else if (realtimeSpeed == 0) {
                 return "静止";
             } else {
                 return realtimeSpeed + "km/h";
