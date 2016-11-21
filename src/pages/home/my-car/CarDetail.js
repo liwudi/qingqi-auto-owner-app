@@ -70,7 +70,12 @@ export default class CarDetail extends Component {
     //删除车辆
     deleteCar(){
         if(this.state.data){
-            addCar(this.state.data.carId,this.state.data.carCode,1)
+            addCar({
+                carId:this.state.data.carId,
+                carNumber:this.state.data.carCode,
+                type:0,
+                flag:1
+            })
                 .then(()=>{ this.props.nav.backRender(); this.props.router.pop(); })
                 .catch()
                 .finally(()=>{this.setState({alertCActive: false})})
@@ -87,8 +92,18 @@ export default class CarDetail extends Component {
             }
         );
     }
-    goToMapline() {
-        this.props.router.push(MapLine, {nav: {carId: 10}})
+    //绑定-接班-更改司机 type: 1是主驾驶 2是副驾驶
+    changeDriver(type){
+        this.props.router.push(BoundDriver, {
+                nav: {
+                    carId: this.props.nav.carId,
+                    mainDriverId: this.state.data.mainDriverId || null,
+                    subDriverId: this.state.data.subDriverId || null ,
+                    driverType: type
+                },
+                update:  [this.fetchData.bind(this), this.props.nav.backRender.bind(this)]
+            }
+        );
     }
 
     renderView() {
@@ -127,7 +142,7 @@ export default class CarDetail extends Component {
                         }]}>{data.speed}</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={() => {this.goToMapline()}}>
+                <ViewForRightArrow onPress={()=>{ this.props.router.push(MapLine, {nav: {carId: this.props.nav.carId}});}}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow >
@@ -138,22 +153,7 @@ export default class CarDetail extends Component {
                 </ViewForRightArrow>
 
                 <ListTitle title="驾驶司机"/>
-                <ViewForRightDom
-                    rightDom={
-                        <BorderButton onPress={
-                            ()=> {
-                                this.props.router.push(BoundDriver, {
-                                        nav: {
-                                            carId: this.props.nav.carId,
-                                            driverType: 1
-                                        },
-                                        update: this.fetchData.bind(this)
-                                    }
-                                );
-                            }
-                        }>{data.mainDriver ? '更换司机' : '绑定司机' }</BorderButton>
-                    }
-                >
+                <ViewForRightArrow onPress={ ()=>{ this.changeDriver(1) } }>
                     <View style={[estyle.fxRow, estyle.fxRowCenter]}>
                         <View style={[estyle.fx1, estyle.fxRow, estyle.paddingRight]}>
                             <Text style={[estyle.text, {textAlign: 'left'}]}>主驾驶</Text>
@@ -175,23 +175,8 @@ export default class CarDetail extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </ViewForRightDom>
-                <ViewForRightDom
-                    rightDom={
-                        <BorderButton onPress={
-                            ()=> {
-                                this.props.router.push(BoundDriver, {
-                                        nav: {
-                                            carId: this.props.nav.carId,
-                                            driverType: 2
-                                        },
-                                        update: this.fetchData.bind(this)
-                                    }
-                                );
-                            }
-                        }>{data.subDriver ? '更换司机' : '绑定司机' }</BorderButton>
-                    }
-                >
+                </ViewForRightArrow>
+                <ViewForRightArrow onPress={ ()=>{ this.changeDriver(2) } }>
                     <View style={[estyle.fxRow, estyle.fxRowCenter]}>
                         <View style={[estyle.fx1, estyle.fxRow, estyle.paddingRight]}>
                             <Text style={[estyle.text, {textAlign: 'left'}]}>副驾驶</Text>
@@ -213,7 +198,7 @@ export default class CarDetail extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </ViewForRightDom>
+                </ViewForRightArrow>
                 <ListTitle title="行驶线路"/>
                 <ViewForRightDom
                     rightDom={
@@ -222,6 +207,7 @@ export default class CarDetail extends Component {
                                 this.props.router.push(BoundLine, {
                                         nav: {
                                             carId: this.props.nav.carId,
+                                            routeId: data.routeId || '',
                                             backFun:this.fetchData.bind(this)
                                         }
                                     }
@@ -230,7 +216,7 @@ export default class CarDetail extends Component {
                         }>{data.routeInfo ? '更换线路' : '绑定线路' }</BorderButton>
                     }
                 >
-                    <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeInfo || '未绑定线路'}</Text>
+                    <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeInfo && data.routeId || '未绑定线路'}</Text>
                 </ViewForRightDom>
             </View>
         }
