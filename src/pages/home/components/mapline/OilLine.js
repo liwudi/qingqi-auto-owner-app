@@ -1,4 +1,4 @@
-import {MPoint} from '../../../mapbarmap/MapbarMapInstance';
+import {MPoint} from '../../../../mapbarmap/MapbarMapInstance';
 
 const SPEED_1 = 'SPEED_1';
 const SPEED_2 = 'SPEED_2';

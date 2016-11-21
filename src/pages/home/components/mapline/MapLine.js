@@ -12,22 +12,17 @@ import {
     Image
 } from "react-native";
 
-import Toast from '../../../components/Toast';
-import MapbarMap from '../../../mapbarmap/MapbarMap';
-import * as Icons from '../../../components/Icons';
+import Toast from '../../../../components/Toast';
+import MapbarMap from '../../../../mapbarmap/MapbarMap';
+import * as Icons from '../../../../components/Icons';
 import PlayView from './PlayView';
-import * as DateUtil from '../../../utils/Date';
-import {queryTrack} from '../../../services/MonitorService';
-import Env from '../../../utils/Env';
+import * as DateUtil from '../../../../utils/Date';
+import Env from '../../../../utils/Env';
 const estyle = Env.style;
 
 let line = null;
-let totalTime = 1; //总回放时间  单位  分钟
-let onePonitTime = null;//一个点的时间 毫秒
-let currentPonit = {}; //当前点
-let progress = 0; //进度
+
 const STATE_STOPING = 1;//状态 播放停止
-const STATE_RUNING = 2;//状态 播放中
 let state = STATE_STOPING;
 
 
@@ -121,6 +116,11 @@ function getAngle(pt1, pt2) {
 export default class MapLine extends Component {
     constructor() {
         super();
+        this.zoom = 0;
+        this.center = {
+            longitude: 104.621367,
+            latitude: 35.317133
+        };
         this.state = {
             showLegend: false,
             playType: PLAY_TYPE_SPEED,
@@ -134,11 +134,15 @@ export default class MapLine extends Component {
         this.pointIndex = 0;
     }
 
-    initLine() {
-        this.setLineData();
-        this.addLine();
-        this.addMarker();
-        this.addCar();
+    initLine(data) {
+        if(data) {
+            line = data;
+            this.setState({dataLength: line.length});
+            this.Map.clearOverlays();
+            this.addLine();
+            this.addMarker();
+            this.addCar();
+        }
     }
     addLine() {
         this.Line.clear();
@@ -153,12 +157,14 @@ export default class MapLine extends Component {
     }
     setTimes() {
         if(!this.state.startTime) {
+            let stime = line[0].time,
+                etime = line[line.length - 1].time
             this.setState({
-                startTime: line[0].time,
-                endTime: line[line.length - 1].time
+                startTime: stime,
+                endTime: etime,
+                totalTime: etime - stime
             });
         }
-
     }
     setCurrentTimes(index) {
         this.setState({
@@ -172,10 +178,6 @@ export default class MapLine extends Component {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
             }, 300)
         }
-    }
-    setLineData() {
-        line = this.props.data;
-        this.setState({dataLength: line.length});
     }
 
     addLineSpeed() {
@@ -194,7 +196,7 @@ export default class MapLine extends Component {
             markers = [];
         list.forEach((item, idx) => {
             let imageName = idx ? "ic_end" : "ic_start",
-                pt = item;//this.getMapPoint(item),
+                pt = item;
                 mkOpts = {
                     longitude: pt.longitude,
                     latitude: pt.latitude,
@@ -249,7 +251,6 @@ export default class MapLine extends Component {
     moveCar(index) {
         this.pointIndex = index;
         let pt = line[index];
-        //let pt = this.getMapPoint(data);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
@@ -281,10 +282,14 @@ export default class MapLine extends Component {
         this.Marker = instance.Marker;
         this.MarkerRotate = instance.MarkerRotate;
         this.Line = instance.Line;
-        this.initLine();
-
+        console.info('----------------')
+    //    console.info(this.props.data)
+        this.initLine(this.props.data);
     }
-
+    componentWillReceiveProps(props) {
+        this.initLine(props.data);
+        //console.info(this.props.data)
+    }
     changePlayType() {
         if (this.state.playType === PLAY_TYPE_SPEED) {
             this.playType = PLAY_TYPE_OIL;
@@ -327,6 +332,7 @@ export default class MapLine extends Component {
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <PlayView
                     dataLength={this.state.dataLength}
+                    totalTime={this.state.totalTime}
                     play={(index) => {
                         this.moveCar(index);
                 }} pause={() => {
@@ -338,6 +344,8 @@ export default class MapLine extends Component {
                     <Text style={[estyle.text]}>{DateUtil.format(this.state.endTime,'MM-dd hh:mm')}</Text>
                 </View>
                 <MapbarMap legend={this.renderLegend()}
+                           center={this.center}
+                           zoom={this.zoom}
                            onInit={(instance)=> {
                                this.onInit(instance);
                            }}

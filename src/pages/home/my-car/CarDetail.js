@@ -27,7 +27,7 @@ import TopBanner from '../../../components/TopBanner';
 import BorderButton from '../../../components/BorderButton';
 import {IconTrash} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
-import MapLine from '../components/MapLine';
+import MapLine from '../components/mapline/MapLine';
 export default class CarDetail extends Component {
     constructor(props) {
         super(props);

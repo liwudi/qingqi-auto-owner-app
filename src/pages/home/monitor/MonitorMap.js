@@ -113,7 +113,7 @@ export default class MonitorMap extends Component {
         this.center = {
             longitude: 104.621367,
             latitude: 35.317133
-        }
+        };
         this.markers = [];  //普通标注
         this.markers_d = [];    //带角度的
         this.list = null;
@@ -332,6 +332,8 @@ export default class MonitorMap extends Component {
         this.Map.setCenter(pt);
     }
     readyMonitor(carId, zoom) {
+/*        console.info(arguments)
+        console.info('===============================================================================')*/
         let data = this.list['carId_' + carId];
         this.monitorCarId = carId;
         this.setState({data: data});

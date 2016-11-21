@@ -12,16 +12,16 @@ import {
     Image
 } from "react-native";
 import Slider from 'react-native-slider';
-import * as Icons from '../../../components/Icons';
-import Toast from '../../../components/Toast';
-import Env from '../../../utils/Env';
+import * as Icons from '../../../../components/Icons';
+import Toast from '../../../../components/Toast';
+import Env from '../../../../utils/Env';
 const estyle = Env.style;
-import Button from '../../../components/widgets/Button'
+import Button from '../../../../components/widgets/Button'
 let interVal = null;
 let totalTime = 1; //总回放时间  单位  分钟
-let totalTimeSec = totalTime * 60;
 let onePonitTime = 0; // 一个点的时间 毫秒*/
 let index = 0;
+let multiple = 4;
 export default class PlayView extends Component {
     constructor() {
         super();
@@ -36,11 +36,12 @@ export default class PlayView extends Component {
 
     }
     getIntervalTime () {
+        console.info(onePonitTime, '=================================================')
         if(!onePonitTime) {
             console.info(this.props.dataLength)
-            console.info(totalTime)
-            onePonitTime = this.props.dataLength / totalTimeSec * 1000;
-            console.info(onePonitTime, '=================================================')
+            console.info(this.props.totalTime)
+            //totalTime -- ms，总时长
+            onePonitTime =  this.props.totalTime / this.props.dataLength / multiple;
         }
     }
     componentWillUnmount() {
@@ -131,7 +132,7 @@ export default class PlayView extends Component {
             <Button onPress={() => {
                 this.changePlay()
             }}>{this.startPauseButton()}</Button>
-            <Image source={require('../../../assets/images/start.png')} style={{width: 25, height: 25, marginLeft: 10}}
+            <Image source={require('../../../../assets/images/start.png')} style={{width: 25, height: 25, marginLeft: 10}}
                    resizeMode={Image.resizeMode.cover}/>
             <Slider
                 style={{flex: 1}}
@@ -151,7 +152,7 @@ export default class PlayView extends Component {
                 trackStyle={{height: 5}}
                 thumbStyle={{height: 15, width: 15}}
             />
-            <Image source={require('../../../assets/images/end.png')} style={{width: 25, height: 25}}
+            <Image source={require('../../../../assets/images/end.png')} style={{width: 25, height: 25}}
                    resizeMode={Image.resizeMode.cover}/>
         </View>
     }

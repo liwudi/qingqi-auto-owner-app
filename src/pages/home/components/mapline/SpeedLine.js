@@ -1,4 +1,4 @@
-import {MPoint} from '../../../mapbarmap/MapbarMapInstance';
+import {MPoint} from '../../../../mapbarmap/MapbarMapInstance';
 
 const SPEED_1 = 'SPEED_1';
 const SPEED_2 = 'SPEED_2';
@@ -75,8 +75,8 @@ const times = () => {
     }
 }
 const get = (line) => {
-    console.info(line)
-    console.info('---------------------------------------------s')
+/*    console.info(line)
+    console.info('---------------------------------------------s')*/
     let lines = [], _tmp1 = null;
     line.forEach((_line, index) => {
         _line = getMapPoint(_line);

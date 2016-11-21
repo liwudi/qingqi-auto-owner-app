@@ -37,9 +37,13 @@ export default class OilManageCarList extends Component {
             .then((obj) => {
                 if (obj.action !== DatePickerAndroid.dismissedAction) {
                     if (type == 'start') {
-                        this.setState({beginDate: obj.year + '.' + (obj.month+1) + '.' + obj.day});
+                        this.setState({beginDate: obj.year + '.' + (obj.month+1) + '.' + obj.day,
+                            beginDate_: obj.year + '.' + obj.month + '.' + obj.day
+                        });
                     } else if (type == 'end') {
-                        this.setState({endDate: obj.year + '.' + (obj.month+1) + '.' + obj.day});
+                        this.setState({endDate: obj.year + '.' + (obj.month+1) + '.' + obj.day,
+                            endDate_: obj.year + '.' + obj.month + '.' + obj.day
+                        });
                     }
                 }
             }).catch()
@@ -52,7 +56,11 @@ export default class OilManageCarList extends Component {
         }else if(end - start >6){
             ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
         }else {
-            this.props.updata();
+            this.props.update({
+                beginDate: this.state.beginDate_,
+                endDate: this.state.endDate_
+
+            });
             this.props.router.pop();
         }
     }
@@ -85,7 +93,9 @@ export default class OilManageCarList extends Component {
                             </View>
                         </View>
                     </ViewForRightArrow>
-                    <View style={[estyle.marginTop]}></View>
+                    <View style={[estyle.fxRow, estyle.padding]}>
+                        <Text style={[estyle.text]}>&nbsp;</Text>
+                    </View>
                     <ConfirmButton disabled={ this.state.beginDate == '' || this.state.endDate == '' }
                                    size="large" onPress={() => {this.goBack()} }><Text>确认</Text></ConfirmButton>
                 </View>
