@@ -20,6 +20,9 @@ export default class MyLineItem extends Component {
             <TouchableOpacity {...this.props} style={[estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]} >
                 <View style={[estyle.fxRow, estyle.fxCenter]}>
                     <Text style={[estyle.fx1,styles.textBlue,{textAlign:'left'}]}>{`${data.startPointName}——${data.endPointName}`}</Text>
+                    <View style={[estyle.fx1,estyle.fxRow ,estyle.fxCenter]}>
+                        <Text>线路标杆：</Text><Text style={[estyle.fx1,styles.standard]}>{data.carId && data.carCode ? data.carCode : '去设定' }</Text>
+                    </View>
                 </View>
                 <View style={[estyle.fxRow]}>
                     <View style={[estyle.fx1,estyle.paddingRight,estyle.paddingTop]}>
@@ -39,6 +42,10 @@ export default class MyLineItem extends Component {
 const styles = StyleSheet.create({
     textBlue:{
         fontSize:Env.font.articleTitle,
+        color:Env.color.main
+    },
+    standard:{
+        fontSize:Env.font.note,
         color:Env.color.main
     }
 });

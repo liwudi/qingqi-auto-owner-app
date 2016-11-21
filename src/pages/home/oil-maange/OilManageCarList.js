@@ -18,7 +18,7 @@ import * as Icons from '../../../components/Icons';
 import {IconUser} from '../../../components/Icons'
 import ConfirmButton from '../../../components/ConfirmButton';
 import PageList from '../../../components/PageList';
-import {statisOilwearForOneRoute} from '../../../services/AppService';
+import {statisOilwearForOneRoute,viewStandard} from '../../../services/AppService';
 import OilManageSetMark from './OilManageSetMark';
 import OilManageShowMark from './OilManageShowMark';
 import BorderButton from '../../../components/BorderButton';
@@ -28,7 +28,8 @@ export default class OilManageCarList extends Component {
 		super(props);
 		this.state={
 			statisDate: '20161011', //this.props.date.format('YYYYMMDD'),// todo
-			routeId: this.props.routeId
+			routeId: this.props.routeId,
+            flag: 1 // 1是查看标杆 2是设置标杆
 		}
 	}
 
@@ -36,8 +37,39 @@ export default class OilManageCarList extends Component {
         this.props.router.push(component, {
 			...props,
             routeId: this.props.routeId,
-            date: this.props.date
+            routeName: this.props.routeName,
+            date: this.props.date,
+            backFuns:[this.setFlag.bind(this),this.backRender.bind(this),this.props.updata.bind(this)]
 		});
+    };
+
+    setFlag(num) {
+        this.setState({flag:num})
+    }
+
+    componentDidMount(){
+        !this.props.lineInfo.carId && this.setFlag(2);
+    }
+    /**
+     * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
+     * */
+    backRender(){
+        this.setState({
+            isRender: new Date().getTime()
+        })
+    }
+
+
+    setRightView(){
+        if(this.state.flag == 1){
+            return <View>
+                <BorderButton color="#FFF" onPress = {() => this.toPage(OilManageShowMark)}>查看标杆</BorderButton>
+            </View>
+        }else {
+            return <View>
+                <BorderButton color="#FFF" onPress = {() => this.toPage(OilManageSetMark)}>设定标杆</BorderButton>
+            </View>
+        }
     }
 
 	render() {
@@ -46,15 +78,12 @@ export default class OilManageCarList extends Component {
 				<TopBanner
 					{...this.props}
 					title="车辆列表"
-					rightView={
-						<View><BorderButton color="#FFF" onPress = {() => this.toPage(OilManageSetMark, {carInfo:this.carList[0]})}>设定标杆</BorderButton>
-							<BorderButton color="#FFF" onPress = {() => this.toPage(OilManageShowMark)}>查看标杆</BorderButton>
-						</View>
-						}
+					rightView={ this.setRightView.bind(this)()}
 				/>
 				<View style={estyle.fx1}>
 					<PageList
 						style={[estyle.cardBackgroundColor, estyle.fx1]}
+                        reInitField={[this.state.isRender]}
 						renderRow={(list) => {
 							return (
 								<View style={[estyle.fxRow,estyle.borderBottom,estyle.padding,estyle.cardBackgroundColor]}>
@@ -74,17 +103,12 @@ export default class OilManageCarList extends Component {
 											<Text style={[estyle.note]}>平均油耗：<Text style={{color: Env.color.main}}>{list.avgOilwear || 0}</Text>L/100km </Text>
 											<Text style={[estyle.note,estyle.paddingLeft]}>平均速度：<Text style={{color: Env.color.main}}>{list.avgSpeed || 0}</Text>km/h</Text>
 										</View>
-
 									</View>
 								</View>
 							)
 						}}
 						fetchData={(pageNumber, pageSize) => {
 							return statisOilwearForOneRoute(pageNumber, pageSize,this.state.routeId,this.state.statisDate)
-								.then(rs => {
-									this.carList = rs.list;
-									return rs;
-								})
 						}}
 					/>
 				</View>

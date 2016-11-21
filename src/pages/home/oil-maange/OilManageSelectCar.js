@@ -29,8 +29,8 @@ export default class OilManageCarList extends Component {
 	}
 
     select(carInfo){
-		// this.props.select(carInfo);
-		this.props.router.pop({carInfo});
+		this.props.setCar(carInfo);
+		this.props.router.pop();
 	}
 
 	render() {

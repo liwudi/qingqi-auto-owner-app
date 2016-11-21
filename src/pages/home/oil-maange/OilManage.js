@@ -48,6 +48,15 @@ export default class OilManage extends Component {
 		this.weekIndex = 0;
 	}
 
+    /**
+     * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
+     * */
+    backRender(){
+        this.setState({
+            isRender: new Date().getTime()
+        })
+    }
+
 	_preWeek(){
         this.weekIndex--;
 		this.setState({
@@ -127,7 +136,9 @@ export default class OilManage extends Component {
 										{
 											lineInfo: row,
                                             routeId: row.routeId,
-                                            date: this.state.weeks[this.state.currentIndex]
+											routeName: `${row.startPointName}——${row.endPointName}`,
+                                            date: this.state.weeks[this.state.currentIndex],
+                                            updata: this.backRender.bind(this)
 										})}
 								}/>
 						)
@@ -135,7 +146,7 @@ export default class OilManage extends Component {
 					fetchData={(pageNumber, pageSize) => {
 						return statisRouteOilwearByDay(pageNumber, pageSize,this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
 					}}
-					reInitField={[this.state.currentIndex, this.state.datas]}
+					reInitField={[this.state.currentIndex, this.state.datas, this.state.isRender]}
 				/>
 			</View>
 		);

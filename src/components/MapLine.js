@@ -454,6 +454,9 @@ export default class MapbarApi extends Component {
                         </View>
                     )}
                 </View>}
+                {
+                    this.props.rightButtomView
+                }
             </View>
         );
     }

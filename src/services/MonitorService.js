@@ -46,3 +46,10 @@ export function queryTrack(item){
         item
     );
 }
+//获取统计数据
+export function queryShareSummary(item){
+    return RequestService.get(
+        makeUrl('queryShareSummary'),
+        item
+    );
+}
