@@ -1,50 +1,40 @@
 /**
  * Created by cryst on 2016/11/15.
  */
-
-import React, { Component } from 'react';
+/**
+ * Created by ligj on 2016/10/9.
+ * Edit by yaocy on 2016/11/3
+ */
+import React, { Component,PropTypes } from 'react';
 import {
     Text,
     View,
+    StyleSheet,
+    Image,
     TouchableOpacity
 } from 'react-native';
-
+import Env from '../../../utils/Env';
 import TopBanner from '../../../components/TopBanner';
 import PageList from '../../../components/PageList';
+import {queryCarCondition} from '../../../services/MonitorService';
 import StatusItem from './components/StatusItem';
-//import a from '../../../assets/images/driver.png'
+const estyle = Env.style;
 export default class CarStatus extends Component {
-    state = {
-        key: ''
+    constructor(props) {
+        super(props);
     }
+
     render() {
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title={this.props.nav.carCode}/>
+            <View style={estyle.fx1}>
+                <TopBanner {...this.props} title="车牌号"/>
                 <PageList
                     style={estyle.fx1}
-                    reInitField={[this.state.key]}
                     renderRow={(row) => {
-                        return <StatusItem data={row} />
+                        return <StatusItem data={row} />;
                     }}
                     fetchData={(pageNumber, pageSize) => {
-                        let list = new Array(5);
-                        list.fill({
-                            "travelStatus": 1,
-                            "carStatus": "水温过高",
-                            "realtimeOil": 8.5,
-                            "realtimeSpeed": 88.8,
-                            "todayLen": 88.8,
-                            "position": "辽宁省沈阳市华航大厦",
-                            "slaveDriver": "李四",
-                            "mastDriver": "张三",
-                            "lat": 118.8,
-                            "lon": 88.8,
-                            "carCode": "辽A88888",
-                            "carId ": 888888,
-                            imgurl: '../../../../assets/images/driver.png'
-                        });
-                        return Promise.resolve({list: list});
+                        return queryCarCondition(pageNumber,pageSize);
                     }}
                 />
             </View>

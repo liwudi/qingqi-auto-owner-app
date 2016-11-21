@@ -10,7 +10,7 @@ import {
 import {queryRealTimeCar} from '../../../../services/MonitorService';
 
 import Item from '../../my-car/components/MyCarItem';
-const TIMEOUT = 30;
+const TIMEOUT = 30; //间隔30秒刷新
 export default class MyCarItem extends Component {
     constructor() {
         super();
@@ -43,7 +43,7 @@ export default class MyCarItem extends Component {
         },TIMEOUT * 1000);
     }
     setData(data){
-        data = Object.assign({}, data, this.props.data);
+        //data = Object.assign({}, data, this.props.data);
         data.carNo && (data.carCode = data.carNo);
         this.setState({data});
     }

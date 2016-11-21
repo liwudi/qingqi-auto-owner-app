@@ -134,14 +134,16 @@ export default class MapLine extends Component {
         this.pointIndex = 0;
     }
 
-    initLine(data) {
+    initLine(data = []) {
         if(data) {
             line = data;
             this.setState({dataLength: line.length});
             this.Map.clearOverlays();
-            this.addLine();
-            this.addMarker();
-            this.addCar();
+            if(data.length) {
+                this.addLine();
+                this.addMarker();
+                this.addCar();
+            }
         }
     }
     addLine() {
@@ -288,7 +290,6 @@ export default class MapLine extends Component {
     }
     componentWillReceiveProps(props) {
         this.initLine(props.data);
-        //console.info(this.props.data)
     }
     changePlayType() {
         if (this.state.playType === PLAY_TYPE_SPEED) {
@@ -329,15 +330,18 @@ export default class MapLine extends Component {
 
     render() {
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <PlayView
-                    dataLength={this.state.dataLength}
-                    totalTime={this.state.totalTime}
-                    play={(index) => {
-                        this.moveCar(index);
-                }} pause={() => {
-                    this.pauseMoveCar()
-                }}/>
+            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>4
+                {
+                    this.state.dataLength && <PlayView
+                        dataLength={this.state.dataLength}
+                        totalTime={this.state.totalTime}
+                        play={(index) => {
+                            this.moveCar(index);
+                        }} pause={() => {
+                        this.pauseMoveCar()
+                    }}/>
+                }
+
                 <View style={[estyle.fxRow,estyle.fxCenter,estyle.paddingHorizontal,{paddingLeft:70,marginTop:-10,paddingBottom:5}]}>
                     <Text style={[estyle.text]}>{DateUtil.format(this.state.startTime,'MM-dd hh:mm')}</Text>
                     <Text style={[estyle.fx1,estyle.text,{textAlign:'center',color:Env.color.main}]}>{DateUtil.format(this.state.currentTime,'MM-dd hh:mm')}</Text>

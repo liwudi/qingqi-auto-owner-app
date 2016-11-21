@@ -22,7 +22,7 @@ import {IconMap} from '../../../components/Icons';
 import Button from '../../../components/widgets/Button';
 const estyle = Env.style;
 const TIMEOUT = 500;
-export default class MonitorCarList extends Component {
+export default class Monitor extends Component {
     constructor(props) {
         super(props);
         this.state = {
