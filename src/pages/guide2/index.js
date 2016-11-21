@@ -29,7 +29,7 @@ class Guide2 extends Component {
 		SplashScreen.hide();
 	}
 	async componentDidMount(){
-/*		this.closeSplashScreen();
+	/*	this.closeSplashScreen();
 		this.props.router.replace(MonitorMapTrack);
 		return;*/
 		global.setToken = setToken;

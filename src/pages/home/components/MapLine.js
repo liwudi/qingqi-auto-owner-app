@@ -125,8 +125,9 @@ export default class MapLine extends Component {
         this.state = {
             showLegend: false,
             playType: PLAY_TYPE_SPEED,
-            startTime: 0,
-            endTime: 0
+            startTime: null,
+            endTime: null,
+            currentTime: null
         };
         this.carIdx = parseInt(Math.random() * 100);
         this.playType = PLAY_TYPE_SPEED;
@@ -151,18 +152,21 @@ export default class MapLine extends Component {
     }
     setTimes() {
         if(!this.state.startTime) {
-            let times = SpeedLine.times();
             this.setState({
-                startTime: times.start,
-                endTime: times.end
+                startTime: line[0].time,
+                endTime: line[line.length - 1].time
             });
         }
+
+    }
+    setCurrentTimes(index) {
+        this.setState({
+            currentTime: line[index].time
+        });
     }
     setBounds() {
         if(!this.lineBounds) {
             this.lineBounds = SpeedLine.bounds();
-            console.info('0000000000000000000000000000000000000000000000000000000000000')
-            console.info(this.lineBounds)
             setTimeout(() => {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
             }, 300)
@@ -172,36 +176,26 @@ export default class MapLine extends Component {
         line = this.props.data;
         this.setState({dataLength: line.length});
     }
-    getMapPoint(pt) {
-        let _pt = this.MPoint([pt._x, pt._y]);
-        _pt.s = pt._v;  //速度
-        _pt.o = pt._instant_oil;    //油
-        _pt.direction = pt._direction;  //方向
-        _pt.time = pt._auto_terminal;  //时间
-        return Object.assign({}, pt, _pt)
-    }
 
     addLineSpeed() {
-        lines = SpeedLine.get(line);
+        let lines = SpeedLine.get(line);
         this.Line.add(lines);
     }
     addLineOil(){
-        lines = OilLine.get(line);
+        let lines = OilLine.get(line);
         this.Line.add(lines);
     }
 
     addMarker() {
-        let list = [line[0],
-                line[line.length - 1]],
+        let list = [line[0], line[line.length - 1]],
             pts = [],
             markers = [];
         list.forEach((item, idx) => {
             let imageName = idx ? "ic_end" : "ic_start",
-                pt = this.getMapPoint(item),
+                pt = item;//this.getMapPoint(item),
                 mkOpts = {
                     longitude: pt.longitude,
                     latitude: pt.latitude,
-                    title: '',
                     imageName: imageName,
                     iconText: '',
                     iconTextColor: Env.color.main,
@@ -215,26 +209,19 @@ export default class MapLine extends Component {
             pts.push(pt);
         });
         this.Marker.add(markers);
-     /*   setTimeout(() => {
-            this.Map.setBounds(pts[0], pts[1]);
-        }, 500);*/
-
-
-
     }
 
     addCar() {
-        let data = line[0];
-        let pt = this.getMapPoint(data);
+        let pt = line[0];
         let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
-            title: title,
+            title: '111121321',
             imageName: 'ic_mask',
-            iconText: '4444444',
+            iconText: '',
             iconTextColor: Env.color.main,
             iconTextSize: 14,
             id: this.carIdx,
@@ -248,7 +235,8 @@ export default class MapLine extends Component {
             longitude: pt.longitude,
             latitude: pt.latitude,
             id: this.carIdx,
-            click: false,
+            title: '111121321',
+            click: true,
             imageName: "res/icons/c1002.png",
             direction: pt.direction
         };
@@ -256,8 +244,8 @@ export default class MapLine extends Component {
     }
 
     moveCar(index) {
-        let data = line[index];
-        let pt = this.getMapPoint(data);
+        let pt = line[index];
+        //let pt = this.getMapPoint(data);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
@@ -267,16 +255,18 @@ export default class MapLine extends Component {
             latitude: pt.latitude,
             title: title,
             id: this.carIdx,
+            direction: pt.direction
         };
         this.Marker.update([mkOpts]);
-
+/*
         mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
             id: this.carIdx,
             direction: pt.direction
-        };
+        };*/
         this.MarkerRotate.update([mkOpts]);
+        this.setCurrentTimes(index);
     }
 
     onInit(instance) {
@@ -340,7 +330,7 @@ export default class MapLine extends Component {
                 }}/>
                 <View style={[estyle.fxRow,estyle.fxCenter,estyle.paddingHorizontal,{paddingLeft:70,marginTop:-10,paddingBottom:5}]}>
                     <Text style={[estyle.text]}>{DateUtil.format(this.state.startTime,'MM-dd hh:mm')}</Text>
-                    <Text style={[estyle.fx1,estyle.text,{textAlign:'center',color:Env.color.main}]}>{DateUtil.format(currentPonit.time,'MM-dd hh:mm')}</Text>
+                    <Text style={[estyle.fx1,estyle.text,{textAlign:'center',color:Env.color.main}]}>{DateUtil.format(this.state.currentTime,'MM-dd hh:mm')}</Text>
                     <Text style={[estyle.text]}>{DateUtil.format(this.state.endTime,'MM-dd hh:mm')}</Text>
                 </View>
                 <MapbarMap legend={this.renderLegend()}

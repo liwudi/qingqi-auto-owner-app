@@ -38,12 +38,14 @@ let getSpeedColor = (speedType) => {
 };
 const getMapPoint = (pt) =>  {
     let _pt = MPoint([pt._x, pt._y]);
-    _pt.s = pt._v;  //速度
-    _pt.o = pt._instant_oil;    //油
-    _pt.direction = pt._direction;  //方向
-    _pt.time = pt._auto_terminal;  //时间
-
-    return Object.assign({}, pt, _pt)
+    pt.latitude = _pt.latitude;
+    pt.longitude = _pt.longitude;
+    pt.s = pt._v;  //速度
+    pt.o = pt._instant_oil;    //油
+    pt.direction = pt._direction;  //方向
+    pt.time = pt._auto_terminal;  //时间
+    return pt;
+    //return Object.assign({}, pt, _pt)
 };
 let minLng = minLat = maxLng = maxLat = 0;
 const setBounds = (pt) => {
@@ -74,7 +76,7 @@ const times = () => {
 }
 const get = (line) => {
     let lines = [], _tmp1 = null;
-    line.map((_line, index) => {
+    line.forEach((_line, index) => {
         _line = getMapPoint(_line);
         if(!index || index === line.length - 1) setTimes(_line, index);
         setBounds(_line);

@@ -42,13 +42,14 @@ const get = (line) => {
     console.info(line)
     let lines = [], _tmp1 = null;
     line.map((_line, index) => {
-        _line = getMapPoint(_line);
+
+    //    _line = getMapPoint(_line);
         _tmp1 = _tmp1 || {
                 locations: [],
                 speedType: getSpeedType(_line.s)
             };
         if (_tmp1.locations.length === 0 && index > 0) {
-            let _lastline = getMapPoint(line[index - 1]);
+            let _lastline = line[index - 1];
             _tmp1.locations.push({
                 longitude: _lastline.longitude,
                 latitude: _lastline.latitude
@@ -59,7 +60,7 @@ const get = (line) => {
             latitude: _line.latitude
         });
         let _nextline = line[index + 1];
-        _nextline && (_nextline = getMapPoint(_nextline));
+       // _nextline && (_nextline = getMapPoint(_nextline));
         if (index === line.length - 1 || getSpeedType(_nextline.s) !== _tmp1.speedType) {
             lines.push(Object.assign({}, _tmp1));
             _tmp1 = null;
