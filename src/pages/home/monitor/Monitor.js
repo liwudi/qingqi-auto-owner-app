@@ -43,7 +43,7 @@ export default class MonitorCarList extends Component {
     }
 
     setkey(key) {
-       this.clearTimer();
+        this.clearTimer();
         this.timer = setTimeout(() => {
             this.setState({key:key})
         }, TIMEOUT);

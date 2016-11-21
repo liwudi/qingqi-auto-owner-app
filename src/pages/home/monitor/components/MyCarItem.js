@@ -15,6 +15,7 @@ export default class MyCarItem extends Component {
     constructor() {
         super();
         this.state = {};
+        this.stopRequest = true;
     }
     fetchData() {
         this.props.data.carId &&
@@ -30,20 +31,14 @@ export default class MyCarItem extends Component {
                 mastDriver: "张三",
                 carId: "1234567"
             };*/
-
-            try{
-                this.setData(data);
-            } catch (e) {
-                this.clearTimer();
-                console.info(e)
-            }
-        }).catch().finally(()=> {
+        if(this.stopRequest) return;
+        this.setData(data);
             this.setTimer();
-        });
+        }).catch();//.finally(()=> {});
     }
     setTimer() {
-        this.clearTimer();
-        this.timer = setTimeout(() => {
+        if(this.stopRequest) return;
+        setTimeout(() => {
             this.fetchData();
         },TIMEOUT * 1000);
     }
@@ -56,21 +51,32 @@ export default class MyCarItem extends Component {
         this.timer && clearTimeout(this.timer);
         this.timer = null;
     }
-
-    componentWillUnmount() {
+    requestStop() {
+        this.stopRequest = true;
         this.clearTimer();
     }
-
-    componentDidMount() {
+    requestStart() {
+        this.stopRequest = false;
         this.setData(this.props.data);
         this.fetchData();
-        //this.setTimer();
+    }
+    componentWillUnmount() {
+        this.requestStop();
+    }
+    componentWillReceiveProps(props) {
+        this.requestStart();
+    }
+    componentDidMount() {
+       this.requestStart();
     }
 
     render() {
         return (
             <View>
-                {this.state.data && <Item data={this.state.data} onPress={this.props.onPress}/>}
+                {this.state.data && <Item data={this.state.data} onPress={() => {
+                    this.requestStop();
+                    this.props.onPress();
+                }}/>}
             </View>
         )
     }

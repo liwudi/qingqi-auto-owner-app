@@ -147,7 +147,7 @@ export default class MapLine extends Component {
         } else {
             this.addLineOil();
         }
-        this.moveCar(0);
+        this.moveCar(this.pointIndex);
         this.setTimes();
         this.setBounds();
     }
@@ -174,15 +174,13 @@ export default class MapLine extends Component {
         }
     }
     setLineData() {
-/*        console.info(this.props.data)
-        console.info('888888888888888888888888888888888888888888888888888888')*/
         line = this.props.data;
         this.setState({dataLength: line.length});
     }
 
     addLineSpeed() {
         let lines = SpeedLine.get(line);
-        console.info(line)
+        console.info('line.length', line.length)
         this.Line.add(lines);
     }
     addLineOil(){

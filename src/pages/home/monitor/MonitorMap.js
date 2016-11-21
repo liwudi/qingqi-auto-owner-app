@@ -120,6 +120,7 @@ export default class MonitorMap extends Component {
         this.monitor = false;
         this.mapRef = null;
         this.monitorCarId = -1;
+        this.stopRequest = false;
         this.state = {
             data : null,
             monitor: null,
@@ -127,22 +128,24 @@ export default class MonitorMap extends Component {
         }
     }
     toFetch(fun) {
-
+        if(this.stopRequest) return;
         this.monitor ? this.fetchDataSingle() : this.fetchDataAll(fun);
     }
     fetchData () {
-        this.clearTimer();
-        if(this.exit) return;
-        this.timer = setTimeout(() => {
+/*        this.clearTimer();
+        if(this.exit) return;*/
+//        if(this.stopRequest) return;
+        setTimeout(() => {
             this.toFetch();
         },TIMEOUT * 1000);
     }
     fetchDataSingle() {
+        console.info(this.stopRequest)
         console.info('fetch single')
         queryRealTimeCar(10).then((data) => {
-            try{
+                if(this.stopRequest) return;
                 if(this.monitor) {
-                    pcount ++;
+                    pcount++;
                     data = {
                         longitude: linePts[pcount][0],
                         latitude: linePts[pcount][1],
@@ -163,17 +166,14 @@ export default class MonitorMap extends Component {
                     this.setMarker();
                     this.carToCenter(data);
                 }
-            }catch (e){
-                console.info(e);
-            }
-
-
         }).catch(() => {
             console.info('single catch')
         }).finally(() => {this.fetchData(); })
     }
 
     fetchDataAll(fun) {
+        console.info(this.stopRequest)
+        console.info('fetch all')
         this.Map.getBounds((mapbounds) => {
             let b = mapbounds;
             queryCarPolymerize({
@@ -183,17 +183,13 @@ export default class MonitorMap extends Component {
                 rightLatitude: b.maxLatitude,
                 zoom: this.zoom
             }).then((data) => {
-                try{
+                    if(this.stopRequest) return;
                     if(!this.monitor) {
                         data = testdata;
                         this.list = data.list;
                         this.setMarker();
                         fun && fun();
                     }
-                }catch (e){
-                    console.info(e)
-                }
-
             }).catch(() => {
                 console.info('all catch')
             }).finally(() => {this.fetchData(); })
@@ -203,26 +199,28 @@ export default class MonitorMap extends Component {
         this.timer && clearTimeout(this.timer);
         this.timer = null;
     }
-    pauseView() {
+    requestStop() {
+        console.info('requestStop',this.stopRequest)
+        this.stopRequest = true;
         this.clearTimer();
-    //    this.Map.pause();
     }
-    resumeView() {
-        if(this.mapRef) {
-            this.Map.setMapRef(this.mapRef);
-        //    this.Map.resume();
-            this.toFetch();
-        }
+    requestStart() {
+        console.info('requestStart',this.stopRequest)
+
+        this.stopRequest = false;
+        this.toFetch();
     }
 
+
     componentWillUnmount() {
-        console.info('map delete22')
-        this.pauseView();
-        //this.Map.finalize();
+        this.requestStop();
+    }
+    componentWillReceiveProps(props) {
+        this.requestStart();
     }
     setMarker() {
         let list = this.list || [];
-        console.info(list)
+    //    console.info(list)
         if(list.length) {
             this.markers.length = this.markers_d.length = 0;
             list.forEach((item, idx) => {
@@ -272,12 +270,7 @@ export default class MonitorMap extends Component {
         }
         this.markers_d.push(mkOpts);
     }
-    componentWillReceiveProps(props) {
-        this.resumeView();
-    }
-    componentDidMount() {
-        //this.fetchDataAll();
-    }
+
 
     onInit(instance) {
         this.mapRef = instance.getMapRef();
@@ -291,14 +284,16 @@ export default class MonitorMap extends Component {
         });
     }
     goToTrack() {
-        this.pauseView();
+        this.requestStop();
         this.props.router.push(MonitorMapTrack, {nav: {carId: this.monitorCarId}})
     }
     goToList() {
+        this.requestStop();
         this.props.router.replace(Monitor);
     }
 
     gotoStatus() {
+        this.requestStop();
         this.props.router.push(CarStatus, {
             nav: {
                 carCode: 'carCode',
