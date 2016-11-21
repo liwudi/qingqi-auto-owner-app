@@ -54,10 +54,12 @@ export default class MapbarMap extends Component {
     }
 
     zoomIn() {
+//        instance.pause();
         instance.zoomIn();
         this.onZoomIn();
     }
     zoomOut() {
+    //    instance.resume();
         instance.zoomOut();
         this.onZoomOut();
     }

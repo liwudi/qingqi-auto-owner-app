@@ -24,7 +24,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    PushConfigs.DEFAULT_APIKEY = "fd4b24282d45412fb0571a7473479fee";
+    PushConfigs.DEFAULT_APIKEY = "0c3e9882fd20490b9fde42c015c46c8a";
     //		PushConfigs.ESB_ADDRESS = "wdservice.mapbar.com:6001";
     //		PushConfigs.HOST_ADDRESS = "wdservice.mapbar.com";
     MapbarPushInterface.init(this);

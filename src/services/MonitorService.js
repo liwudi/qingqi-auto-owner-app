@@ -30,21 +30,19 @@ export function queryCarPolymerize(item){
 }
 
 //单车辆实时监控接口
-export function queryRealTimeCar(carId){
+export function queryRealTimeCar(item){
     return RequestService.get(
         makeUrl('queryRealTimeCar'),
-        {
-            carId:carId
-        }
+        item
     );
 }
 
 //轨迹回放查询抽析
-export function queryTrack(item){
+export function queryTrack(item, fun){
     return RequestService.get(
         makeUrl('queryTrack'),
         item
-    );
+    ).then((data) => {fun(data)});
 }
 //获取统计数据
 export function queryShareSummary(item){

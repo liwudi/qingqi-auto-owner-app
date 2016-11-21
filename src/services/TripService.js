@@ -11,6 +11,36 @@ function makeUrl(path) {
     return serviceUrl + path;
 }
 
+/**
+ * 读取消息详情
+ * @param type
+ * @param stype
+ * @param msgId
+ * @returns {*}
+ */
+export function queryMessageInfo(type, stype, msgId){
+    return Promise.resolve({
+        "carId":'12321321322',
+        "carNumber": "闽Z23456",
+        "mainDriverName": "李冠军",
+        "subDriverName": null,
+        "position": "河源市东源县顺天镇象咀",
+        "carStatus": "油量液位",
+        "happenTime": "2017-01-07 08:14:40",
+        "todayMileage": 1.67,
+        "instantOil": 0,
+        "instantSpeed": 30,
+        "direction": 11
+    });
+    return RequestService.get(
+        makeUrl('queryMessageInfo'),
+        {
+            // type, stype, msgId
+            type:6,stype:1,msgId:44,userId:20
+        }
+    );
+}
+
 //月行程数据查询接口
 export function queryTripByMonth(month){
     return RequestService.get(

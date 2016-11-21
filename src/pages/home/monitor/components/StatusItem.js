@@ -18,9 +18,6 @@ export default class StatusItem extends Component {
 
     render() {
         let item = this.props.data;
-        console.info('-------------------------------------------------------------item')
-        console.info(item)
-
         const SpeedView= (realtimeSpeed) => {
             if (realtimeSpeed == 0) {
                 return "静止";

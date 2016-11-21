@@ -2,7 +2,6 @@
  * Created by ligj on 2016/9/26.
  */
 import React from 'react';
-
 import {
 	View,
 	StyleSheet,
@@ -33,7 +32,7 @@ export default class MainNavBar extends React.Component{
 		return (
 			<View style={styles.container}>
 				<TouchableOpacity style={styles.flexCenter} onPress={() => this.changeTab(0)}>
-					<IconButton color={this.state.currentIndex === 0 ? Env.color.main : Env.color.text}  iconName="ios-chatboxes-outline" title="消息"/>
+					<IconButton sign={global.messageUnReadCount.count || 0} color={this.state.currentIndex === 0 ? Env.color.main : Env.color.text}  iconName="ios-chatboxes-outline" title="消息"/>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.flexCenter} onPress={() => this.changeTab(1)}>
 					<IconButton color={this.state.currentIndex === 1 ? Env.color.main : Env.color.text} iconName="ios-home-outline" title="首页"/>

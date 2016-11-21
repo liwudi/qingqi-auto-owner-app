@@ -65,7 +65,6 @@ import MyLineSetStart from '../home/my-line/MyLineSetStartEnd'
 import MyLineAddCarList from '../home/my-line/MyLineAddCarList'
 
 import Monitor from '../home/monitor/Monitor'
-import MonitorCarDetail from '../home/monitor/MonitorCarDetail'
 import MonitorMap from '../home/monitor/MonitorMap'
 import MonitorMapOil from '../home/monitor/MonitorMapOil'
 import MonitorMapSpeed from '../home/monitor/MonitorMapSpeed'
