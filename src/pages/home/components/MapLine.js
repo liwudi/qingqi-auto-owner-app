@@ -29,8 +29,7 @@ let progress = 0; //进度
 const STATE_STOPING = 1;//状态 播放停止
 const STATE_RUNING = 2;//状态 播放中
 let state = STATE_STOPING;
-let interVal = null;
-let index = 0;
+
 
 import SpeedLine from './SpeedLine';
 import OilLine from './OilLine';
@@ -91,7 +90,7 @@ const legend = {
         }
     ]
 }
-let lines = null;
+
 
 
 // 根据两个坐标获取连线的角度
@@ -132,6 +131,7 @@ export default class MapLine extends Component {
         this.carIdx = parseInt(Math.random() * 100);
         this.playType = PLAY_TYPE_SPEED;
         this.lineBounds = null;
+        this.pointIndex = 0;
     }
 
     initLine() {
@@ -147,6 +147,7 @@ export default class MapLine extends Component {
         } else {
             this.addLineOil();
         }
+        this.moveCar(0);
         this.setTimes();
         this.setBounds();
     }
@@ -173,12 +174,15 @@ export default class MapLine extends Component {
         }
     }
     setLineData() {
+/*        console.info(this.props.data)
+        console.info('888888888888888888888888888888888888888888888888888888')*/
         line = this.props.data;
         this.setState({dataLength: line.length});
     }
 
     addLineSpeed() {
         let lines = SpeedLine.get(line);
+        console.info(line)
         this.Line.add(lines);
     }
     addLineOil(){
@@ -219,14 +223,14 @@ export default class MapLine extends Component {
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
-            title: '111121321',
+            title: '',
             imageName: 'ic_mask',
-            iconText: '',
+            iconText: title,
             iconTextColor: Env.color.main,
             iconTextSize: 14,
             id: this.carIdx,
-            offsetX: 0,
-            offsetY: 0,
+            offsetX: .5,
+            offsetY: 17,
             click: true
         };
         this.Marker.add([mkOpts]);
@@ -235,15 +239,17 @@ export default class MapLine extends Component {
             longitude: pt.longitude,
             latitude: pt.latitude,
             id: this.carIdx,
-            title: '111121321',
+            title: '',
             click: true,
             imageName: "res/icons/c1002.png",
             direction: pt.direction
         };
         this.MarkerRotate.add([mkOpts]);
+        this.setCurrentTimes(0);
     }
 
     moveCar(index) {
+        this.pointIndex = index;
         let pt = line[index];
         //let pt = this.getMapPoint(data);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
@@ -253,18 +259,19 @@ export default class MapLine extends Component {
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
-            title: title,
-            id: this.carIdx,
-            direction: pt.direction
+            imageName: 'ic_mask',
+            iconText: title,
+            iconTextColor: Env.color.main,
+            iconTextSize: 14,
+            id: this.carIdx
         };
         this.Marker.update([mkOpts]);
-/*
         mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
             id: this.carIdx,
             direction: pt.direction
-        };*/
+        };
         this.MarkerRotate.update([mkOpts]);
         this.setCurrentTimes(index);
     }
@@ -318,7 +325,6 @@ export default class MapLine extends Component {
     }
 
     render() {
-        console.info(this.state)
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <PlayView

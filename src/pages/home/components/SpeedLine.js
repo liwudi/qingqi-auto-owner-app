@@ -43,7 +43,7 @@ const getMapPoint = (pt) =>  {
     pt.s = pt._v;  //速度
     pt.o = pt._instant_oil;    //油
     pt.direction = pt._direction;  //方向
-    pt.time = pt._auto_terminal;  //时间
+    pt.time = +pt._auto_terminal;  //时间
     return pt;
     //return Object.assign({}, pt, _pt)
 };
@@ -75,6 +75,8 @@ const times = () => {
     }
 }
 const get = (line) => {
+    console.info(line)
+    console.info('---------------------------------------------s')
     let lines = [], _tmp1 = null;
     line.forEach((_line, index) => {
         _line = getMapPoint(_line);
