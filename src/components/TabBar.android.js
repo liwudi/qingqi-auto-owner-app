@@ -48,7 +48,7 @@ export default class TabBar extends React.Component{
                                     estyle.text,
                                     this.state.currentIndex === index && styles.textSelect,
                                 ]}>{tab.title}</Text>
-								{tab.sign && <View style={[
+								{tab.sign && tab.sign > 0 ? <View style={[
                                     Env.style.fxCenter,
                                     {
                                         width:Env.font.base * 22,
@@ -58,8 +58,8 @@ export default class TabBar extends React.Component{
                                         position:'absolute',
                                         top:0,
                                         right:Env.font.base * -25}]}>
-									<Text style={{color:'#FFF',fontSize:Env.font.base * 16}}>{tab.sign}</Text>
-								</View>}
+									<Text style={{color:'#FFF',fontSize:Env.font.base * 16}}>{tab.sign||0}</Text>
+								</View> : null}
 
 							</View>
 						</TouchableOpacity>
