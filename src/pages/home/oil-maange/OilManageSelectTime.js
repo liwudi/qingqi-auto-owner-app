@@ -21,29 +21,27 @@ export default class OilManageCarList extends Component {
     constructor(props) {
         super(props);
         this.state={
-            beginDate: this.props.beginDate || '',
-            endDate: this.props.endDate || ''
+            beginDate: this.props.beginDate ? this.props.beginDate.substring(0,4)+'.'+ this.props.beginDate.substring(4,6)+'.'+this.props.beginDate.substring(6) : '',
+            endDate: this.props.endDate ? this.props.endDate.substring(0,4)+'.'+ this.props.endDate.substring(4,6)+'.'+this.props.endDate.substring(6) : '',
         }
     }
     datePicker(type) {
         DatePickerAndroid.open(
             {
                 date: type == 'start' ?
-                this.state.beginDate ? new Date(this.state.beginDate.split('.')[0],this.state.beginDate.split('.')[1] -1,this.state.beginDate.split('.')[2]): new Date()
+                this.state.beginDate ? new Date(this.state.beginDate.split('.')[0],this.state.beginDate.split('.')[1]-1,this.state.beginDate.split('.')[2]): new Date()
                     :
-                this.state.endDate ? new Date(this.state.endDate.split('.')[0],this.state.endDate.split('.')[1] -1,this.state.endDate.split('.')[2]) : new Date()
+                this.state.endDate ? new Date(this.state.endDate.split('.')[0],this.state.endDate.split('.')[1]-1,this.state.endDate.split('.')[2]) : new Date()
             }
         )
             .then((obj) => {
+                let month= obj.month < 9 ? '0'+(obj.month+1) : obj.month+1,
+                    day= obj.day < 10 ? '0'+obj.day : obj.day;
                 if (obj.action !== DatePickerAndroid.dismissedAction) {
                     if (type == 'start') {
-                        this.setState({beginDate: obj.year + '.' + (obj.month+1) + '.' + obj.day,
-                            beginDate_: obj.year + '.' + obj.month + '.' + obj.day
-                        });
+                        this.setState({beginDate: obj.year + '.' + month + '.' + day});
                     } else if (type == 'end') {
-                        this.setState({endDate: obj.year + '.' + (obj.month+1) + '.' + obj.day,
-                            endDate_: obj.year + '.' + obj.month + '.' + obj.day
-                        });
+                        this.setState({endDate: obj.year + '.' + month + '.' + day});
                     }
                 }
             }).catch()
@@ -57,8 +55,8 @@ export default class OilManageCarList extends Component {
             ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
         }else {
             this.props.update({
-                beginDate: this.state.beginDate_,
-                endDate: this.state.endDate_
+                beginDate: start,
+                endDate: end
             });
             this.props.router.pop();
         }

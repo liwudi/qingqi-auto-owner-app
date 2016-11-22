@@ -10,7 +10,9 @@ import {
     ToastAndroid
 } from 'react-native';
 
-import MapLine from '../../../components/MapLine';
+//import MapLine from '../../../components/MapLine';
+import MapLine from '../../home/components/mapline/MapLine';
+
 
 import TopBanner from '../../../components/TopBanner';
 import BorderButton from '../../../components/BorderButton';

@@ -501,7 +501,8 @@ export default class MonitorMap extends Component {
                                </Button>
                            }
                 />
-                <MapbarMap zoom={this.zoom}
+                <MapbarMap style={[estyle.fx1]}
+                           zoom={this.zoom}
                            center={this.center}
                            onZoomIn={(zoom)=> {
                                this.onZoomIn(zoom)

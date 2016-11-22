@@ -340,14 +340,14 @@ export default class MapLine extends Component {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 {
-                    this.state.dataLength && <PlayView
+                    this.state.dataLength ? <PlayView
                         dataLength={this.state.dataLength}
                         totalTime={this.state.totalTime}
                         play={(index) => {
                             this.moveCar(index);
                         }} pause={() => {
                         this.pauseMoveCar()
-                    }}/>
+                    }}/> : null
                 }
                 {this.renderTimes()}
 
@@ -360,6 +360,7 @@ export default class MapLine extends Component {
                 />
                 {this.renderTypeBtn()}
                 {this.props.totalView || null}
+                {this.props.rightButtomView || null}
             </View>
         )
     }
