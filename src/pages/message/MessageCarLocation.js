@@ -49,7 +49,7 @@ const legend = [
 export default class MessageCarLocation extends Component {
 	constructor() {
 		super();
-		this.zoom = 1;
+		this.zoom = 0;
 		this.center = {
 			longitude: 104.621367,
 			latitude: 35.317133

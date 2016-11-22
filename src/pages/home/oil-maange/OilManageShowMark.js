@@ -109,7 +109,7 @@ export default class OilManageShowMark extends Component {
                                  <Text style={styles.rightText}>平均油耗：{ standardInfo.oilwearAvg }</Text>
                              </View>
                          }
-				></MapLine>
+				/>
                 <View >
                     <View style={[
                         estyle.padding,
