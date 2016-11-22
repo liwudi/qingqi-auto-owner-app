@@ -23,7 +23,7 @@ import MapbarMap from '../../../mapbarmap/MapbarMap';
 import Button from '../../../components/widgets/Button';
 
 import {IconList, IconClock, IconLocation} from '../../../components/Icons';
-import StatusItem from './components/StatusItem';
+import StatusDetail from './components/StatusDetail';
 import  MonitorMapTrack from './MonitorMapTrack';
 import CarStatus from './CarStatus';
 
@@ -141,24 +141,6 @@ export default class MonitorMap extends Component {
         }
     }
 
-    /*toFetch(tag, fun) {
-     if (this.stopRequest || this.requesting) return;
-     this.requesting = true;
-     if (tag === 'status' && this.monitor) {
-     this.fetchStatus();
-     } else {
-     this.monitor ? this.fetchDataSingle() : this.fetchDataAll(fun);
-     }
-     }*/
-
-    /*fetchData(tag) {
-     if (this.stopRequest) return;
-     this.requesting = false;
-     setTimeout(() => {
-     this.toFetch();
-     }, (tag === 'status' ? STATUS_TIMEOUT : TIMEOUT) * 1000);
-     }*/
-
     //单车车况信息
     fetchStatus() {
         if (this.stopRequest) return;
@@ -166,7 +148,7 @@ export default class MonitorMap extends Component {
         console.info(this.stopRequest)
         console.info('fetch status')
         //queryCarCondition({carId: this.monitorCarId}).then((data) => {
-        queryCarCondition({carId: 10}).then((data) => {
+        queryCarCondition(undefined, undefined, this.monitorCarId).then((data) => {
             if (this.stopRequest) return;
             if (this.monitor) {
                 this.carStatus = data.list || [];
@@ -187,8 +169,8 @@ export default class MonitorMap extends Component {
         if (!this.monitor) return;
         console.info(this.stopRequest)
         console.info('fetch single')
-        //queryRealTimeCar({carId: this.monitorCarId}).then((data) => {
-        queryRealTimeCar({carId: 10}).then((data) => {
+        queryRealTimeCar({carId: this.monitorCarId}).then((data) => {
+        //queryRealTimeCar({carId: 10}).then((data) => {
             if (this.stopRequest) return;
             if (this.monitor) {
                 Object.assign(data, this.state.data);
@@ -240,7 +222,15 @@ export default class MonitorMap extends Component {
             }).then((data) => {
                 if (this.stopRequest) return;
                 if (!this.monitor) {
-                    this.list = data.list;
+                    this.list = data.list || [];
+                    this.list.push({
+                        "carId": 6,
+                        "direction": 11,
+                        "latitude": 24.143518,
+                        "longitude": 114.786877,
+                        "carNo": "闽Z23456",
+                        "travelStatus": 2
+                    });
                     this.setMarker();
                     fun && fun();
                 }
@@ -270,9 +260,6 @@ export default class MonitorMap extends Component {
         this.requestStop();
     }
 
-    /*    componentWillReceiveProps(props) {
-     this.requestStart();
-     }*/
 
     setMarker() {
         let list = this.list || [];
@@ -476,7 +463,7 @@ export default class MonitorMap extends Component {
         return <View>
             {
                 this.state.detail
-                    ? <StatusItem data={this.state.detail} onPress={() => {
+                    ? <StatusDetail data={this.state.detail} onPress={() => {
                     this.goToStatus()
                 }}/>
                     : this.state.data && <ListItem left={this.state.data.carNo}/>
