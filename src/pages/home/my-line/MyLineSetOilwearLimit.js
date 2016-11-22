@@ -28,17 +28,18 @@ export default class MyLineSetOilwearLimit extends Component {
 	}
 	render() {
 		return (
-			<View>
+			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="设置总油耗"/>
-				<LabelInput
-					style = {[estyle.borderBottom]}
-					placeholder='输入总油耗限制'
-					ref="oilwearLimit"
-					onChangeText={oilwearLimit => this.setState({oilwearLimit:oilwearLimit})}/>
-				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
-					<View style={estyle.padding}>
-						<ConfirmButton size="small" onPress={this.save.bind(this)}>保存</ConfirmButton>
+				<View  style={[estyle.fxRowCenter]}>
+					<LabelInput
+						style = {[estyle.borderBottom]}
+						placeholder='输入总油耗限制'
+						ref="oilwearLimit"
+						onChangeText={oilwearLimit => this.setState({oilwearLimit:oilwearLimit})}/>
+					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
+						<Text style={[estyle.note, estyle.fx1]}>&nbsp;</Text>
 					</View>
+					<ConfirmButton size="large" onPress={this.save.bind(this)}>保存</ConfirmButton>
 				</View>
 			</View>
 		);
