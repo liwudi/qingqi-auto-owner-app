@@ -35,13 +35,13 @@ export default class MainNavBar extends React.Component{
 					<IconButton sign={global.messageUnReadCount.count || 0} color={this.state.currentIndex === 0 ? Env.color.main : Env.color.text}  iconName="ios-chatboxes-outline" title="消息"/>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.flexCenter} onPress={() => this.changeTab(1)}>
-					<IconButton color={this.state.currentIndex === 1 ? Env.color.main : Env.color.text} iconName="ios-home-outline" title="首页"/>
+					<IconButton color={this.state.currentIndex === 1 ? Env.color.main : Env.color.text} iconName="ios-home-outline" title="管理"/>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.flexCenter} onPress={() => this.changeTab(2)}>
 					<IconButton color={this.state.currentIndex === 2 ? Env.color.main : Env.color.text}  iconName="ios-list-box-outline" title="推荐"/>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.flexCenter} onPress={() => this.changeTab(3)}>
-					<IconButton color={this.state.currentIndex === 3 ? Env.color.main : Env.color.text}  iconName="ios-contact-outline" title="我的"/>
+					<IconButton color={this.state.currentIndex === 3 ? Env.color.main : Env.color.text}  iconName="ios-contact-outline" title="设置"/>
 				</TouchableOpacity>
 			</View>
 		);

@@ -28,17 +28,18 @@ export default class MyLineSetMaxSpeed extends Component {
 	}
 	render() {
 		return (
-			<View>
+			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="设置最高车速"/>
-				<LabelInput
-					style = {[estyle.borderBottom]}
-					placeholder='输入最高车速'
-					ref="maxSpeed"
-					onChangeText={maxSpeed => this.setState({maxSpeed:maxSpeed})}/>
-				<View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxCenter]}>
-					<View style={estyle.padding}>
-						<ConfirmButton size="small" onPress={this.save.bind(this)}>保存</ConfirmButton>
+				<View  style={[estyle.fxRowCenter]}>
+					<LabelInput
+						style = {[estyle.borderBottom]}
+						placeholder='输入最高车速'
+						ref="maxSpeed"
+						onChangeText={maxSpeed => this.setState({maxSpeed:maxSpeed})}/>
+					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
+						<Text style={[estyle.note, estyle.fx1]}>&nbsp;</Text>
 					</View>
+					<ConfirmButton size="large" onPress={this.save.bind(this)}>保存</ConfirmButton>
 				</View>
 			</View>
 		);
