@@ -220,8 +220,6 @@ export default class MonitorMap extends Component {
                 rightLatitude: b.maxLatitude,
                 zoom: this.zoom
             }).then((data) => {
-                if (this.stopRequest) return;
-                if (!this.monitor) {
                     this.list = data.list || [];
                     this.list.push({
                         "carId": 6,
@@ -231,6 +229,8 @@ export default class MonitorMap extends Component {
                         "carNo": "闽Z23456",
                         "travelStatus": 2
                     });
+                    if (this.stopRequest) return;
+                    if (!this.monitor) {
                     this.setMarker();
                     fun && fun();
                 }
@@ -459,15 +459,20 @@ export default class MonitorMap extends Component {
         </View>
     }
 
-    renderBottom() {
+    renderDetail() {
         return <View>
             {
                 this.state.detail
                     ? <StatusDetail data={this.state.detail} onPress={() => {
                     this.goToStatus()
                 }}/>
-                    : this.state.data && <ListItem left={this.state.data.carNo}/>
+                    : this.state.data ? <ListItem left={this.state.data.carNo}/> : null
             }
+        </View>
+    }
+
+    renderButton() {
+        return this.state.data ?
             <View style={[estyle.fxRow, estyle.borderTop, estyle.paddingVertical]}>
                 <Button style={[estyle.fx1, estyle.borderRight, estyle.fxRow, estyle.fxCenter]}
                         onPress={()=> {
@@ -482,24 +487,21 @@ export default class MonitorMap extends Component {
                 }}>
                     <IconLocation color={Env.color.main} size={Env.font.base * 38}/>
                     <Text style={[estyle.text, {marginLeft: Env.font.base * 10}]}>轨迹回放</Text></Button>
-            </View>
-        </View>
-
+            </View> : <ListItem left="选择监控车辆"/>
 
     }
-
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="地图模式"
-                           rightView={
-                               <Button onPress={()=> {
-                                   this.goToList()
-                               }}
-                                       style={[{height: 90 * Env.font.base}, estyle.paddingLeft]}>
-                                   <IconList color="#ffffff"/>
-                               </Button>
-                           }
+                    rightView={
+                        <Button onPress={()=> {
+                           this.goToList()
+                        }}
+                               style={[{height: 90 * Env.font.base}, estyle.paddingLeft]}>
+                           <IconList color="#ffffff"/>
+                        </Button>
+                    }
                 />
                 <MapbarMap style={[estyle.fx1]}
                            zoom={this.zoom}
@@ -520,7 +522,8 @@ export default class MonitorMap extends Component {
                                this.clickMarker(pointId)
                            }}
                            legend={this.renderLegend()}/>
-                {this.state.data && this.renderBottom()}
+                {this.renderDetail()}
+                {this.renderButton()}
             </View>
         )
     }
