@@ -51,3 +51,14 @@ export function queryShareSummary(item){
         item
     );
 }
+//查询车况列表接口
+export function queryCarCondition(page_number, page_size, carId) {
+    return RequestService.get(
+        makeUrl('queryCarCondition'),
+        {
+            page_number:page_number || 1,
+            page_size:page_size || 20,
+            carId: carId
+        }
+    );
+}
