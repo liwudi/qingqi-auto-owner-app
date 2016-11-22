@@ -62,3 +62,12 @@ export function queryCarCondition(page_number, page_size, carId) {
         }
     );
 }
+
+//消息推送，车况详情
+export function queryCarConditionDetail(item) {
+    return RequestService.get(
+        makeUrl('queryCarConditionDetail'),
+        item
+    );
+}
+

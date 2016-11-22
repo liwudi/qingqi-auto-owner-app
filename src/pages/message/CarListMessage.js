@@ -16,8 +16,6 @@ import Env from '../../utils/Env';
 import {IconUser} from '../../components/Icons';
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import MessageListCar from './MessageListCar';
-
-
 const estyle = Env.style;
 
 //所有车辆消息列表
@@ -29,6 +27,7 @@ class CarListMessage extends Component{
                 <PageList
                     ref="list"
                     style={estyle.fx1}
+
                     renderRow={(row) => {
                         row.message =  row.message || {};
                         let messageDetail = row.messageDetail || {};

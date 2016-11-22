@@ -47,7 +47,7 @@ class Message extends Component {
 
 	render() {
 		return (
-			<View  style ={styles.body}>
+			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="消息中心" leftShow={false}/>
 				<TabNavigator {...this.props} tabs={this.state.tabs}/>
 			</View>
@@ -57,10 +57,3 @@ class Message extends Component {
 export default connect(function (stores) {
     return {messageStore: stores.messageStore}
 })(Message);
-
-const styles = StyleSheet.create({
-	body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	}
-});
