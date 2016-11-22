@@ -11,7 +11,10 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import moment from 'moment';
-import MapLine from '../../../components/MapLine';
+
+//import MapLine from '../../../components/MapLine';
+import MapLine from '../../home/components/mapline/MapLine';
+
 import { IconArrowDown, IconQuestion } from '../../../components/Icons';
 import BorderButton from '../../../components/BorderButton';
 import { queryTrack } from '../../../services/MonitorService';
@@ -73,7 +76,14 @@ export default class OilManageSetMark extends Component {
     //自定义时间
     customTime(){
             this.setState({timeType: 4});
-            this.props.router.push(OilManageSelectTime,{ beginDate:this.state.beginDate || '', endDate: this.state.endDate || '',updata:this.fetchData.bind(this) })
+            this.props.router.push(OilManageSelectTime,{ beginDate:this.state.beginDate || '', endDate: this.state.endDate || '',update:this.customTimeUpdata.bind(this) })
+    }
+    //自定义时间后获取数据
+    customTimeUpdata(obj){
+        this.setState({
+            beginDate: obj.beginDate,
+            endDate: obj.endDate
+        }, ()=>{ this.fetchData() })
     }
     //设置标杆
     setStandard(){

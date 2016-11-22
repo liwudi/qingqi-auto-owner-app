@@ -42,8 +42,8 @@ export default class DateButtonGroup extends Component {
             }) => {
                 !date.beginDate && (date.beginDate = this.state.beginDate);
                 !date.endDate && (date.endDate = this.state.endDate);
-                date.beginDate.indexOf('.') > -1 && (date.beginDate = moment(date.beginDate.split('.')).format('YYYYMMDD'));
-                date.endDate.indexOf('.') > -1 && (date.endDate = moment(date.endDate.split('.')).format('YYYYMMDD'));
+                // date.beginDate.indexOf('.') > -1 && (date.beginDate = moment(date.beginDate.split('.')).format('YYYYMMDD'));
+                // date.endDate.indexOf('.') > -1 && (date.endDate = moment(date.endDate.split('.')).format('YYYYMMDD'));
                 this.setState(date);
                 this.props.selectTime(date);
             }})
