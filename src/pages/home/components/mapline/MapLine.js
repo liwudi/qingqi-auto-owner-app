@@ -328,9 +328,17 @@ export default class MapLine extends Component {
         </View>;
     }
 
+    renderTimes() {
+        return <View style={[estyle.fxRow,estyle.fxCenter,estyle.paddingHorizontal,{paddingLeft:70,marginTop:-10,paddingBottom:5}]}>
+            <Text style={[estyle.text]}>{DateUtil.format(this.state.startTime,'MM-dd hh:mm')}</Text>
+            <Text style={[estyle.fx1,estyle.text,{textAlign:'center',color:Env.color.main}]}>{DateUtil.format(this.state.currentTime,'MM-dd hh:mm')}</Text>
+            <Text style={[estyle.text]}>{DateUtil.format(this.state.endTime,'MM-dd hh:mm')}</Text>
+        </View>
+    }
+
     render() {
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>4
+            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 {
                     this.state.dataLength && <PlayView
                         dataLength={this.state.dataLength}
@@ -341,12 +349,8 @@ export default class MapLine extends Component {
                         this.pauseMoveCar()
                     }}/>
                 }
+                {this.renderTimes()}
 
-                <View style={[estyle.fxRow,estyle.fxCenter,estyle.paddingHorizontal,{paddingLeft:70,marginTop:-10,paddingBottom:5}]}>
-                    <Text style={[estyle.text]}>{DateUtil.format(this.state.startTime,'MM-dd hh:mm')}</Text>
-                    <Text style={[estyle.fx1,estyle.text,{textAlign:'center',color:Env.color.main}]}>{DateUtil.format(this.state.currentTime,'MM-dd hh:mm')}</Text>
-                    <Text style={[estyle.text]}>{DateUtil.format(this.state.endTime,'MM-dd hh:mm')}</Text>
-                </View>
                 <MapbarMap legend={this.renderLegend()}
                            center={this.center}
                            zoom={this.zoom}

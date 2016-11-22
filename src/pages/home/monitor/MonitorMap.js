@@ -132,38 +132,59 @@ export default class MonitorMap extends Component {
         this.carStatus = [];
     }
 
-    toFetch(tag, fun) {
-        if (this.stopRequest || this.requesting) return;
-        this.requesting = true;
-        if (tag === 'status' && this.monitor) {
+    toFetch() {
+        if (this.monitor) {
+            this.fetchDataSingle();
             this.fetchStatus();
         } else {
-            this.monitor ? this.fetchDataSingle() : this.fetchDataAll(fun);
+            this.fetchDataAll();
         }
     }
 
-    fetchData(tag) {
-        if (this.stopRequest) return;
-        this.requesting = false;
-        setTimeout(() => {
-            this.toFetch();
-        }, (tag === 'status' ? STATUS_TIMEOUT : TIMEOUT) * 1000);
-    }
+    /*toFetch(tag, fun) {
+     if (this.stopRequest || this.requesting) return;
+     this.requesting = true;
+     if (tag === 'status' && this.monitor) {
+     this.fetchStatus();
+     } else {
+     this.monitor ? this.fetchDataSingle() : this.fetchDataAll(fun);
+     }
+     }*/
+
+    /*fetchData(tag) {
+     if (this.stopRequest) return;
+     this.requesting = false;
+     setTimeout(() => {
+     this.toFetch();
+     }, (tag === 'status' ? STATUS_TIMEOUT : TIMEOUT) * 1000);
+     }*/
 
     //单车车况信息
     fetchStatus() {
-        queryCarCondition().then((data) => {
-            this.carStatus = data.list;
-            this.setState({detail: Object.assign({}, this.state.detail || {}, data.list[0])});
+        if (this.stopRequest) return;
+        if (!this.monitor) return;
+        console.info(this.stopRequest)
+        console.info('fetch status')
+        //queryCarCondition({carId: this.monitorCarId}).then((data) => {
+        queryCarCondition({carId: 10}).then((data) => {
+            if (this.stopRequest) return;
+            if (this.monitor) {
+                this.carStatus = data.list || [];
+                this.setState({detail: Object.assign({}, this.state.detail || {}, data.list[0] || {})});
+            }
         }).catch(() => {
             console.info('status catch')
         }).finally(() => {
-            this.fetchData('status');
+            setTimeout(() => {
+                this.fetchStatus();
+            }, STATUS_TIMEOUT * 1000);
         })
     }
 
     //单车车辆信息
     fetchDataSingle() {
+        if (this.stopRequest) return;
+        if (!this.monitor) return;
         console.info(this.stopRequest)
         console.info('fetch single')
         //queryRealTimeCar({carId: this.monitorCarId}).then((data) => {
@@ -197,11 +218,15 @@ export default class MonitorMap extends Component {
         }).catch(() => {
             console.info('single catch')
         }).finally(() => {
-            this.fetchData();
+            setTimeout(() => {
+                this.fetchDataSingle();
+            }, TIMEOUT * 1000);
         })
     }
 
     fetchDataAll(fun) {
+        if (this.stopRequest) return;
+        if (this.monitor) return;
         console.info(this.stopRequest)
         console.info('fetch all')
         this.Map.getBounds((mapbounds) => {
@@ -215,8 +240,6 @@ export default class MonitorMap extends Component {
             }).then((data) => {
                 if (this.stopRequest) return;
                 if (!this.monitor) {
-                    //data = testdata;
-//                        console.info(data)
                     this.list = data.list;
                     this.setMarker();
                     fun && fun();
@@ -224,26 +247,22 @@ export default class MonitorMap extends Component {
             }).catch(() => {
                 console.info('all catch')
             }).finally(() => {
-                this.fetchData();
+                setTimeout(() => {
+                    this.fetchDataAll();
+                }, TIMEOUT * 1000);
             })
         });
     }
 
-    clearTimer() {
-        this.timer && clearTimeout(this.timer);
-        this.timer = null;
-    }
-
     requestStop() {
-        console.info('requestStop', this.stopRequest)
         this.stopRequest = true;
-        this.clearTimer();
+        console.info('requestStop', this.stopRequest)
     }
 
     requestStart() {
-        console.info('requestStart', this.stopRequest)
         this.stopRequest = false;
         this.toFetch();
+        console.info('requestStart', this.stopRequest)
     }
 
 
@@ -251,9 +270,9 @@ export default class MonitorMap extends Component {
         this.requestStop();
     }
 
-    componentWillReceiveProps(props) {
-        this.requestStart();
-    }
+    /*    componentWillReceiveProps(props) {
+     this.requestStart();
+     }*/
 
     setMarker() {
         let list = this.list || [];
@@ -316,30 +335,45 @@ export default class MonitorMap extends Component {
         this.MPoint = instance.MPoint;
         this.Marker = instance.Marker;
         this.MarkerRotate = instance.MarkerRotate;
-        this.toFetch(() => {
+        this.fetchDataAll(() => {
             this.props.nav && this.props.nav.carId && this.readyMonitor(this.props.nav.carId, true);
             //this.props.nav && this.props.nav.carId && this.readyMonitor(, true);
         });
     }
 
+    //去轨迹页面
     goToTrack() {
         this.requestStop();
-        this.props.router.push(MonitorMapTrack, {nav: {carId: this.monitorCarId}})
+        this.props.router.push(MonitorMapTrack, {
+            nav: {
+                carId: this.monitorCarId,
+                doBack: () => {
+                    console.info('track')
+                    this.requestStart();
+                }
+            }
+        })
     }
 
+    //去列表页面
     goToList() {
         this.requestStop();
         this.props.router.replace(Monitor);
     }
 
-    gotoStatus() {
+    //去车况列表页页
+    goToStatus() {
         this.requestStop();
-        /*this.props.router.push(CarStatus, {
-         nav: {
-         carCode: 'carCode',
-         carId: '10'
-         }
-         });*/
+        this.props.router.push(CarStatus, {
+            nav: {
+                carId: this.monitorCarId,
+                carCode: this.state.detail.carCode,
+                doBack: () => {
+                    console.info('status')
+                    this.requestStart();
+                }
+            }
+        });
     }
 
     onZoomIn(zoom) {
@@ -367,7 +401,7 @@ export default class MonitorMap extends Component {
 
     onMapChange() {
         if (!this.monitor) {
-            this.clearTimer();
+            //    this.clearTimer();
             this.toFetch();
         }
     }
@@ -443,7 +477,7 @@ export default class MonitorMap extends Component {
             {
                 this.state.detail
                     ? <StatusItem data={this.state.detail} onPress={() => {
-                    this.gotoStatus()
+                    this.goToStatus()
                 }}/>
                     : this.state.data && <ListItem left={this.state.data.carNo}/>
             }

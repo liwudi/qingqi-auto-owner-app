@@ -7,15 +7,12 @@ import {
 	View,
 	TouchableOpacity
 } from 'react-native';
-import moment from 'moment';
 import TopBanner from '../../../components/TopBanner';
 import MapLine from '../components/mapline/MapLine';
 import Env from '../../../utils/Env';
 import Toast from '../../../components/Toast';
 const estyle = Env.style;
-import BorderButton from '../../../components/BorderButton';
 import {queryTrack} from '../../../services/MonitorService';
-import OilManageSelectTime from '../oil-maange/OilManageSelectTime';
 import DateButtonGroup from '../components/DateButtonGroup';
 export default class MonitorMapTrack extends Component {
 	constructor() {
@@ -27,6 +24,11 @@ export default class MonitorMapTrack extends Component {
 
 	selectTime(date) {
 		this.fetchData(date);
+	}
+
+	doBack() {
+		this.props.nav.doBack();
+		this.props.router.pop();
 	}
 	fetchData(date) {
 /*		let data = {
@@ -57,7 +59,7 @@ export default class MonitorMapTrack extends Component {
 	render() {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-				<TopBanner {...this.props} title="轨迹回放"/>
+				<TopBanner {...this.props} title="轨迹回放" onPress={()=>{this.doBack()}}/>
 				<View style={[estyle.fx1]}>
 					<MapLine data={this.state.data}/>
 				</View>

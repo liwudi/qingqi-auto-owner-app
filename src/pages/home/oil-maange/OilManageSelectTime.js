@@ -59,7 +59,6 @@ export default class OilManageCarList extends Component {
             this.props.update({
                 beginDate: this.state.beginDate_,
                 endDate: this.state.endDate_
-
             });
             this.props.router.pop();
         }
@@ -68,10 +67,8 @@ export default class OilManageCarList extends Component {
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-                <TopBanner
-                    {...this.props}
-                    title="自定义时间"
-                />
+                <TopBanner {...this.props}
+                    title="自定义时间"/>
                 <View style={[estyle.fx1,estyle.fxRowCenter]}>
                     <ViewForRightArrow style={[estyle.marginTop,estyle.fxCenter]} onPress={()=>{ this.datePicker('start') }}>
                         <View style={[estyle.fxRow, estyle.fxRowCenter]}>
