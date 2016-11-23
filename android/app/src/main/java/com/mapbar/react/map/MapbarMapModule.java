@@ -321,13 +321,17 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
      * @param
      */
     @ReactMethod
-    public void onDestroyMap(int tag) {
-        MapbarMapView mapView = getMapView(tag);
-        if (mapView != null) {
-            // js销毁时，销毁地图控件
-            mapView.onDestroy();
-        }
-        mapView = null;
+    public void onDestroyMap(final int tag) {
+        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MapbarMapView mapView = getMapView(tag);
+                if (mapView != null) {
+                    // js销毁时，销毁地图控件
+                    mapView.onDestroy();
+                }
+            }
+        });
     }
 
     //定位开始
