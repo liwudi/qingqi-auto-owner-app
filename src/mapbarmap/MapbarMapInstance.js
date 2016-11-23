@@ -179,14 +179,16 @@ export function getMapRef() {
     return mapRef;
 }
 export function setMapRef(ref) {
+    console.info('serMapRef--------------------', mapRef)
     mapRef = ref;
 }
 
 export function finalize () {
     console.info('-----------------------------------------------------abc')
 
-    console.info(mapRef)
-    //module.onDestroyMap(mapRef);
+    //console.info(ref)
+    module.onDestroyMap(mapRef);
+    mapRef = null;
     /*
    //
     mapRef = null;*/
@@ -216,6 +218,8 @@ const MIN_LNG = 72.5,
     MAX_LNG = 132.5,
     MAX_LAT = 50.5;
 export function getBounds(callback) {
+
+    console.info('------------------getBounds', mapRef)
     module.getWorldRect(mapRef, function (boundsstr) {
         //left top right bottom
         boundsstr = boundsstr.split(' ');

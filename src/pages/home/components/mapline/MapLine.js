@@ -287,10 +287,20 @@ export default class MapLine extends Component {
         console.info('----------------')
     //    console.info(this.props.data)
         this.initLine(this.props.data);
+        //this.props.onInit && this.props.onInit(this.mapRef);
     }
+
+    componentWillUnmount() {
+        this.Map.finalize();
+        console.info('---------------------------finalize')
+        console.info('map finalize')
+
+    }
+
     componentWillReceiveProps(props) {
         this.initLine(props.data);
     }
+
     changePlayType() {
         if (this.state.playType === PLAY_TYPE_SPEED) {
             this.playType = PLAY_TYPE_OIL;
