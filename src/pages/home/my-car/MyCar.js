@@ -54,9 +54,7 @@ export default class MyCar extends Component {
      * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
      * */
     backRender(){
-        this.setState({
-            isRender: new Date().getTime()
-        })
+       this.refs.list.reInitFetch()
     }
 
     goToDetail(carId) {
@@ -96,12 +94,11 @@ export default class MyCar extends Component {
                     </View>
                 </View>
                 <PageList
+                    ref="list"
                     style={estyle.fx1}
-                    reInitField={[this.state.isRender]}
                     renderRow={(row) => {
                         return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)}/>
                     }}
-                    pageSize={5}
                     fetchData={(pageNumber, pageSize) => {
                         return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
                     }}
