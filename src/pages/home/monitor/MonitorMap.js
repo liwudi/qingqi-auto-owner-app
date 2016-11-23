@@ -466,7 +466,11 @@ export default class MonitorMap extends Component {
                     ? <StatusDetail data={this.state.detail} onPress={() => {
                     this.goToStatus()
                 }}/>
-                    : this.state.data ? <ListItem left={this.state.data.carNo}/> : null
+                    : this.state.data ?
+                    <View style={[estyle.padding]}>
+                        <Text style={[estyle.text, {color: Env.color.note}]}>当前车辆：<Text style={[estyle.text, {color: Env.color.important}]}>{this.state.data.carNo}</Text></Text>
+                    </View>
+                    : null
             }
         </View>
     }

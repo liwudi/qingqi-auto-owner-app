@@ -74,7 +74,9 @@ export default class PageList extends Component {
     }
 
     componentDidMount(){
-        this.getData();
+        setTimeout(() => {
+            this.getData();
+        }, 500);
     }
 
     reInitFetch(){

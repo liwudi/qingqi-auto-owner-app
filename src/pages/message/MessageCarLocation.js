@@ -64,8 +64,8 @@ export default class MessageCarLocation extends Component {
 	//单车车辆信息
 	fetchData() {
 		console.info(this.props.nav)
-		queryCarConditionDetail(this.props.nav).then((data) => {
-		//queryCarConditionDetail({type:6, stype:1, msgId: 44, userId:20}).then((data) => {
+		//queryCarConditionDetail(this.props.nav).then((data) => {
+		queryCarConditionDetail({type:6, stype:1, msgId: 44, userId:20}).then((data) => {
 			this.setData(data);
 		}).catch(() => {
 			Toast.show('没有详情', Toast.SHORT);
@@ -82,7 +82,7 @@ export default class MessageCarLocation extends Component {
 		let pt = this.MPoint([data.longitude, data.latitude]),
 			ox = 0.5,
 			oy = 17,
-			imageName = "res/icons/c100" + (data.travelStatus || 2) + ".png",
+			imageName = "res/icons/c100" + data.travelStatus + ".png",
 			direction = data.direction,
 			iconText = data.carNumber,
 			id = Math.floor(Math.random() * 100);
@@ -109,63 +109,12 @@ export default class MessageCarLocation extends Component {
 			direction: direction
 		}
 		this.MarkerRotate.add([mkOpts]);
-		this.Map.setCenter(pt);
+		this.Map.setZoomLevel(8);
 
 		setTimeout(() => {
-			this.Map.setZoomLevel(8);
+			this.Map.setCenter(pt);
 		}, 300);
-/*
-		let list = this.list || [];
-		//    console.info(list)
-		if (list.length) {
-			this.markers.length = this.markers_d.length = 0;
-			list.forEach((item, idx) => {
-				this.addMarkerOpts(item, idx);
-			});
-			this.Map.clearOverlays();
-			this.Marker.add(this.markers);
-			this.MarkerRotate.add(this.markers_d);
-		}*/
 	}
-
-/*	addMarkerOpts(data, idx) {
-		let iconText = data.carNo,
-			ox = 0.5,
-			oy = 17,
-			imageName = "res/icons/c100" + data.travelStatus + ".png",
-			direction = data.direction;
-		if (data.count > 1) {
-			iconText = data.count.toString();
-			ox = 0.2;
-			oy = 0;
-			direction = 0;
-			imageName = "res/icons/c1002-e.png";
-		}
-		let pt = this.MPoint([data.longitude, data.latitude]),
-			mkOpts = {
-				longitude: pt.longitude,
-				latitude: pt.latitude,
-				title: '',
-				imageName: 'ic_mask',
-				iconText: iconText,
-				iconTextColor: Env.color.main,
-				iconTextSize: 14,
-				id: idx,
-				offsetX: ox,
-				offsetY: oy,
-				click: true
-			}
-		this.markers.push(mkOpts);
-		mkOpts = {
-			longitude: pt.longitude,
-			latitude: pt.latitude,
-			id: idx,
-			click: true,
-			imageName: imageName,
-			direction: direction
-		}
-		this.markers_d.push(mkOpts);
-	}*/
 
 
 	onInit(instance) {
@@ -196,8 +145,7 @@ export default class MessageCarLocation extends Component {
 	}
 
 	renderBottom() {
-		return <StatusDetail data={this.state.data}/>
-
+		return <StatusDetail data={this.state.data || {}}/>
 	}
 
 	render() {
@@ -210,7 +158,7 @@ export default class MessageCarLocation extends Component {
 							   this.onInit(instance);
 						   }}
 						   legend={this.renderLegend()}/>
-				{this.state.data && this.renderBottom()}
+				{this.renderBottom()}
 			</View>
 		)
 	}
