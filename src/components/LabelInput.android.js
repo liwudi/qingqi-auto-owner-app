@@ -109,8 +109,9 @@ export default class LabelInput extends Component {
                     placeholderTextColor={Env.color.note}
                     onChangeText={this.onChangeText.bind(this)}
                     defaultValue={this.state.value}
+                    value={this.state.value}
                 />
-                {_renderRightView().map((view) => view)}
+                {_renderRightView()}
             </View>
         );
     }

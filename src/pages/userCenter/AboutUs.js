@@ -6,12 +6,14 @@ import {
 	Text,
 	View,
 	TouchableOpacity,
-Image
+	Image
 } from 'react-native';
 
 import TopBanner from '../../components/TopBanner';
 import ListItem from '../../components/ListItem';
 import Env from '../../utils/Env';
+import Agreement from '../user/Agreement';
+import Button from '../../components/widgets/Button.android';
 const estyle = Env.style;
 export default class AboutUs extends Component {
 	render() {
@@ -29,7 +31,9 @@ export default class AboutUs extends Component {
 						<ListItem left="版本信息" right="V1.0.0"/>
 					</View>
 					<View style={[estyle.fx1, estyle.fxRowCenter, {justifyContent: 'flex-end'}]}>
-						<Text style={[{fontSize: Env.font.mini, color: Env.color.main}, estyle.paddingBottom]}>服务条款和隐私政策</Text>
+						<Button onPress={()=>{this.props.router.push(Agreement)}}>
+							<Text style={[{color:Env.color.main, fontSize: Env.font.mini}]}>服务条款和隐私政策</Text>
+						</Button>
 						<Text style={[{fontSize: Env.font.mini, color: Env.color.note}, estyle.paddingTop]}>中国一汽集团青岛汽车厂</Text>
 						<Text style={[{fontSize: Env.font.mini, color: Env.color.note}]}>Copyright © 2016 FAW Group Corporation</Text>
 						<Text style={[{fontSize: Env.font.mini, color: Env.color.note}, estyle.marginBottom]}>All Rights Reserved.</Text>

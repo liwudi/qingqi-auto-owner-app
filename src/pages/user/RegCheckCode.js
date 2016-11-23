@@ -16,7 +16,7 @@ import {
 import { UserActions, TYPES } from '../../actions/index';
 
 import TopBanner from '../../components/TopBanner';
-import ConfirmButton from '../../components/ConfirmButton';
+import SubmitButton from '../../components/SubmitButton';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
 import Login from './Login';
 
@@ -50,10 +50,6 @@ class RegCheckCode extends Component {
 	sendCode(isReSend = false){
 		this.props.dispatch(UserActions.sendRegCode(this.props.regInfo.phone, this.props.regInfo.captcha, isReSend));
 	}
-/*
-	componentDidMount(){
-		this.sendCode();
-	}*/
 
 	render() {
 		return (
@@ -68,6 +64,7 @@ class RegCheckCode extends Component {
 						secureTextEntry={true}
 						placeholder='短信验证码'
 						label="验证码"
+						maxLength={6}
 						sendCode = {this.sendCode.bind(this, true)}
 						sendCodeStatus = {this.props.sendCodeStatus}
 						validates={[
@@ -78,12 +75,11 @@ class RegCheckCode extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton
-						size="large"
-						disabled={this.props.regStore.status === TYPES.REG_STEP1_DOING}
+					<SubmitButton
+						doing={this.props.regStore.status === TYPES.REG_STEP1_DOING}
 						onPress={() => this.onReg()}>
 						注册
-					</ConfirmButton>
+					</SubmitButton>
 				</View>
 			</View>
 		);

@@ -8,7 +8,9 @@ import {
     Text,
     View,
     ToastAndroid,
-    Image
+    ActivityIndicator,
+    Image,
+    TextInput
 } from 'react-native';
 
 import {UserActions, TYPES} from '../../actions/index';
@@ -19,11 +21,9 @@ import FindPassword from './FindPassword';
 import TopBanner from '../../components/TopBanner.android';
 import PhoneInput from '../../components/Inputs/Phone';
 import PasswordInput from '../../components/Inputs/Password';
-import ConfirmButton from '../../components/ConfirmButton';
+import SubmitButton from '../../components/SubmitButton';
 import LabelInput from '../../components/LabelInput';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
-
-import { getCaptcha, CAPTCHA_TYPE_LOGIN } from '../../services/UserService';
 
 import Env from '../../utils/Env';
 const estyle = Env.style,
@@ -34,11 +34,19 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone:'13466582379',
-            password:'123456',
+            // phone:'15010053708',
+            // password:'123456',
+            phone:'',
+            password:'',
             captchaImg: false,
             haveCaptcha: false
         };
+
+        global.storage.load({
+            key: 'preLoginUserName'
+        })
+            .then(rs => this.setState({phone:rs.name}))
+            .catch(e => console.log(e));
 
     }
 
@@ -115,6 +123,8 @@ class Login extends Component {
                     label="验证码"
                     labelSize="3"
                     rightView={captcha()}
+                    maxLength={6}
+                    controlled={true}
                     validates={[
                         {require:true, msg: '请填写图形验证码'}
                     ]}
@@ -131,10 +141,8 @@ class Login extends Component {
                         defaultValue={this.state.phone}
                         style={[estyle.marginTop, estyle.borderBottom]}
                         onChangeText={phone => this.onPhoneChange(phone)}
-                        validates={[
-                            {require:true, msg:emsg.phone.require},
-                            {pattern:pattern.phone, msg: emsg.phone.pattern}
-                        ]}
+                        editable={this.props.userStore.status !== TYPES.LOGGED_DOING}
+                        require={true}
                     />
 
                     <PasswordInput
@@ -142,10 +150,8 @@ class Login extends Component {
                         defaultValue={this.state.password}
                         style={[estyle.borderBottom]}
                         onChangeText={password => this.setState({password})}
-                        validates={[
-                            {require:true, msg: emsg.password.require},
-                            {pattern:pattern.password, msg: emsg.password.pattern}
-                        ]}
+                        editable={this.props.userStore.status !== TYPES.LOGGED_DOING}
+                        require={true}
                     />
 
                     {_renderCaptcha()}
@@ -154,9 +160,10 @@ class Login extends Component {
                         <Text style={[estyle.fx1, estyle.text, {textAlign: 'right', color: Env.color.note}]}
                               onPress={() => this.props.router.push(FindPassword)}>忘记密码</Text>
                     </View>
-                    <ConfirmButton disabled={this.props.userStore.status === TYPES.LOGGED_DOING} size="large"
-                                   onPress={() => this.onLogin()}>登录</ConfirmButton>
-
+                    <SubmitButton
+                        onPress={() => this.onLogin()}
+                        doing={this.props.userStore.status === TYPES.LOGGED_DOING}
+                    >登录</SubmitButton>
                 </View>
             </View>
         );

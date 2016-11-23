@@ -17,7 +17,7 @@ import { UserActions, TYPES } from '../../actions/index';
 
 import TopBanner from '../../components/TopBanner';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
-import ConfirmButton from '../../components/ConfirmButton.android';
+import SubmitButton from '../../components/SubmitButton';
 
 import FindPasswordNewPassword from './FindPasswordNewPassword';
 
@@ -62,6 +62,7 @@ class FindPasswordCheckCode extends Component {
 						sendCode = {this.sendCode.bind(this)}
 						sendCodeStatus = {this.props.sendCodeStatus}
 						labelSize={3}
+						maxLength={6}
 						validates={[
 							{require:true, msg: emsg.code.require},
 							{pattern:pattern.code, msg: emsg.code.pattern}
@@ -70,10 +71,9 @@ class FindPasswordCheckCode extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton
-						size="large"
-						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP2_DOING}
-						onPress={() => this.next()}><Text>下一步</Text></ConfirmButton>
+					<SubmitButton
+						doing={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP2_DOING}
+						onPress={() => this.next()}>下一步</SubmitButton>
 				</View>
 			</View>
 		);

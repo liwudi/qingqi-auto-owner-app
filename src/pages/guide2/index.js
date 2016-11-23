@@ -5,17 +5,13 @@ import React, { Component } from 'react';
 import { View, Text,StyleSheet,Image} from 'react-native';
 import {connect} from 'react-redux';
 
-import { userDetail } from '../../services/UserService';
-import RequestService, { setToken } from '../../service-config/RequestService';
-import {UserActions, TYPES} from '../../actions/index';
+import { setToken } from '../../service-config/RequestService';
+import { UserActions } from '../../actions/index';
 
 import Login from '../user/index';
 import HomeRouter from '../HomeRouter';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 import SplashScreen from 'react-native-splash-screen';
-import MonitorMapTrack from '../home/monitor/MonitorMapTrack';
-
-import Env from '../../utils/Env';
 
 class Guide2 extends Component {
 	constructor(props){
@@ -29,9 +25,6 @@ class Guide2 extends Component {
 		SplashScreen.hide();
 	}
 	async componentDidMount(){
-/*		this.closeSplashScreen();
-		this.props.router.replace(MonitorMapTrack);
-		return;*/
 		global.setToken = setToken;
 		global.storage.load({
 			key: 'token',

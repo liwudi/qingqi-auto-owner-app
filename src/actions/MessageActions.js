@@ -8,7 +8,7 @@ import * as PushService from '../services/PushService';
 
 export function addMessage(message) {
 	return (dispatch) => {
-		PushService.addMessage(message, new Date().getTime()) //todo new Date().getTime()
+		PushService.addMessage(message, message.noticeId) //todo new Date().getTime()
 		.then(() => {
 			return PushService.readAllMessageAndUnreadCount()
 		}).then((rs) => {

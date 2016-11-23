@@ -40,12 +40,14 @@ function isString(value) {
 function resultProcessor(result) {
     if (result.status === 200 || result.code === 200 || result.resultCode === 200) {
         console.info('success-result');
-        result.data = result.data || {};
-        //console.info(result.data);
+        console.info(result);
+        if(!result.data){
+            result.data={};
+        }
         return Promise.resolve(result.data);
     } else {
         console.info('error-result');
-        //console.info(result);
+        console.info(result);
         result.message = result.message || '服务器错误';
         return Promise.reject(result);
     }
@@ -63,16 +65,6 @@ function typeToString(obj) {
       }
     return obj;
 }
-
-
-// function typeToString(obj) {
-//     // if(obj instanceof Object || obj instanceof Array){
-//     //   forEach(obj, function (value, k) {
-//     //     obj[k] = (obj[k] !== null && typeof obj[k] === 'object') ? typeToString(obj[k]) : String(obj[k]);
-//     //   });
-//     // }
-//     return obj;
-// }
 
 function request(opts, processor, isUpload) {
     let url = /^(http|https):\/\//.test(opts.url) ? opts.url : (serviceUrl + opts.url),
@@ -98,8 +90,8 @@ function request(opts, processor, isUpload) {
         }
         opts.data['token'] = userInfo.token;
         //todo 测试id
-        opts.data['userId'] = opts.data['userId'] || userInfo.userId;
-        // opts.data['userId'] = userInfo.userId;
+        // opts.data['userId'] = opts.data['userId'] || userInfo.userId;
+        opts.data['userId'] = userInfo.userId;
     }
 
 
@@ -139,8 +131,8 @@ function request(opts, processor, isUpload) {
         url = url + (url.indexOf('?') > -1 ? '&' : '?') + queryString;
     }
 
-    if(url.startsWith(ServerConfig.WD_SERVICE) && token){
-        options.headers.set('X-Auth-Token', token);
+    if(url.startsWith(ServerConfig.WD_SERVICE) && userInfo && userInfo.token){
+        options.headers.set('X-Auth-Token', userInfo.token);
     }
 
     processor = processor || resultProcessor;
@@ -150,23 +142,58 @@ function request(opts, processor, isUpload) {
     console.log(options)
     console.log('###############################################');
 
-    let _fetch = fetch(url, options)
-        .then(function (response) {
-            return response.json()
-        })
-        .then(function (res) {
-            return processor(res);
-        })
-        .catch(function (err) {
-            Toast.show(JSON.stringify(err), Toast.SHORT);
-            return Promise.reject(err);
+    // return fetch(url, options)
+    //     .then(function (response) {
+    //         return response.json()
+    //     })
+    //     .then(function (res) {
+    //         return processor(res);
+    //     })
+    //     .catch(function (err) {
+    //          // Toast.show(JSON.stringify(err), Toast.SHORT);
+    //         return Promise.reject(err);
+    //     });
+
+
+
+    function _fetch(fetch_promise, timeout) {
+        let abort_fn = null;
+
+        //这是一个可以被reject的promise
+        let abort_promise = new Promise(function(resolve, reject) {
+            abort_fn = function() {
+                reject({ data: null, resultCode: 500, message: '请求超时，请重试！' });
+            };
         });
 
-    // setTimeout(() => {
-    //     _fetch.abort();
-    // },10000)
+        //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
+        let abortable_promise = Promise.race([
+            fetch_promise,
+            abort_promise
+        ]);
 
-    return _fetch;
+        setTimeout(function() {
+            abort_fn();
+        }, timeout);
+
+        return abortable_promise;
+    }
+
+    if(!global.NetIsConnected){
+        return Promise.reject({ data: null, resultCode: 500, message: '网络未连接，请检查网络！' });
+    } else {
+        return _fetch(fetch(url, options)
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (res) {
+                return processor(res);
+            })
+            .catch(function (err) {
+                // Toast.show(JSON.stringify(err), Toast.SHORT);
+                return Promise.reject(err);
+            }), 10000);
+    }
 }
 
 
@@ -211,7 +238,7 @@ function setToken(userToken) {
 }
 
 function getToken() {
-    return token;
+    return userInfo;
 }
 
 

@@ -61,7 +61,7 @@ class Circle extends Component {
                               borderRadius:1000}]}>
                         {this.props.children}
                     </View>
-                    <View style={[styles.ball ,styles.circleBox, {width: font - 10,height:font - 10,top: 4,left:4,overflow:'visible',borderRadius:1000}]} />
+                    <View style={[styles.ball ,styles.circleBox, {width: font - 10,height:font - 10,top: 5,left:5,overflow:'visible',borderRadius:1000}]} />
                     <Animated.View
                         style={[styles.ball , {width: font,height:font,top: 0,left:0,overflow:'visible',transform:[{ rotate: this.state.deg.interpolate({
                       inputRange: [0, 1],
@@ -74,9 +74,7 @@ class Circle extends Component {
                 </View>
             </TouchableOpacity>
         );
-
     }
-
 }
 
 const basefont = Env.font.base;

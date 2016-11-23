@@ -20,7 +20,7 @@ import { getCaptcha } from '../../services/UserService';
 import Alert from '../../components/Modals/Alert';
 import TopBanner from '../../components/TopBanner';
 import LabelInput from '../../components/LabelInput';
-import ConfirmButton from '../../components/ConfirmButton.android';
+import SubmitButton from '../../components/SubmitButton';
 import PhoneInput from '../../components/Inputs/Phone';
 import PasswordInput from '../../components/Inputs/Password';
 
@@ -38,9 +38,12 @@ class Reg extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			phone:'15010053708',
-            trueName:'刘小花',
-			password:'123456',
+			// phone:'15010053708',
+            // trueName:'刘小花',
+			// password:'123456',
+            phone:'',
+            trueName:'',
+            password:'',
             captcha:'',
             captchaImg: false,
 			alertActive: false
@@ -146,10 +149,7 @@ class Reg extends Component {
                         defaultValue={this.state.phone}
 						style={[estyle.marginVertical, estyle.borderBottom]}
 						onChangeText={phone => this.onPhoneChange(phone)}
-						validates={[
-							{require:true, msg:emsg.phone.require},
-							{pattern:pattern.phone, msg: emsg.phone.pattern}
-						]}
+						require={true}
 						labelSize="3"
 					/>
 
@@ -160,6 +160,7 @@ class Reg extends Component {
 						onChangeText={trueName => this.setState({trueName})}
 						placeholder='请输入真实姓名'
 						label="姓名"
+						maxLength={14}
 						labelSize="3"
 						validates={[
 							{require:true, msg:'请输入真实姓名'},
@@ -172,10 +173,7 @@ class Reg extends Component {
 						defaultValue={this.state.password}
 						style={[estyle.marginVertical, estyle.borderBottom]}
 						onChangeText={password => this.setState({password})}
-						validates={[
-							{require:true, msg: emsg.password.require},
-							{pattern:pattern.password, msg: emsg.password.pattern}
-						]}
+						require={true}
 						labelSize="3"
 					/>
 
@@ -187,6 +185,7 @@ class Reg extends Component {
 						placeholder='图形验证码'
 						label="验证码"
 						labelSize="3"
+						maxLength={6}
 						rightView={captcha()}
                         validates={[
                             {require:true, msg: '请填写图形验证码'}
@@ -195,12 +194,12 @@ class Reg extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton
-                        size="large"
-                        onPress={() => this.onReg()}
-                        disabled={this.props.regStore.status === TYPES.REG_STEP1_DOING}
-                    >下一步
-                    </ConfirmButton>
+
+					<SubmitButton
+						onPress={() => this.onReg()}
+						doing={this.props.regStore.status === TYPES.REG_STEP1_DOING}
+					>下一步</SubmitButton>
+
 					<View style={[estyle.fxRow, {alignItems:'flex-start'}, estyle.paddingTop]}>
 						<Text style={[estyle.note, {fontSize: Env.font.mini}]}>注册视为同意</Text>
 						<Button onPress={()=>{this.props.router.push(Agreement)}}>

@@ -15,7 +15,7 @@ import {
 
 import TopBanner from '../../../components/TopBanner.android';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
-import ConfirmButton from '../../../components/ConfirmButton';
+import SubmitButton from '../../../components/SubmitButton';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import Login from '../../user/index';
@@ -108,21 +108,21 @@ class AccountHome extends Component {
 {/*
 					<ViewForRightArrow onPress={this.updatePic}>
 */}
-					<ViewForRightArrow>
-						<View style={[estyle.fxRow, estyle.fxCenter]}>
-							<Text style={[estyle.fx1, estyle.text]}>头像</Text>
-							{/*<Image
-								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-									borderColor:Env.color.main}}
-								source={{uri: userPic()}}
-							/>*/}
-							<Image
-								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-									borderColor:'#85C7E7',}}
-								source={require('../../../assets/images/driver.png')}
-							/>
-						</View>
-					</ViewForRightArrow>
+					{/*<ViewForRightArrow>*/}
+						{/*<View style={[estyle.fxRow, estyle.fxCenter]}>*/}
+							{/*<Text style={[estyle.fx1, estyle.text]}>头像</Text>*/}
+							{/*/!*<Image*/}
+								{/*style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,*/}
+									{/*borderColor:Env.color.main}}*/}
+								{/*source={{uri: userPic()}}*/}
+							{/*/>*!/*/}
+							{/*<Image*/}
+								{/*style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,*/}
+									{/*borderColor:'#85C7E7',}}*/}
+								{/*source={require('../../../assets/images/driver.png')}*/}
+							{/*/>*/}
+						{/*</View>*/}
+					{/*</ViewForRightArrow>*/}
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyTrueName)}>
 						<View style={[estyle.fxRow]}>
 							<Text style={[estyle.fx1, estyle.text]}>姓名</Text><Text style={styles.text}>{userInfo.name || '未设置姓名'}</Text>
@@ -141,11 +141,11 @@ class AccountHome extends Component {
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
 					<View style={{alignItems:'center'}}>
-						<ConfirmButton
+						<SubmitButton
 							size="large"
-							disabled={this.props.userStore.status === TYPES.LOGGED_DOING}
+							doing={this.props.userStore.status === TYPES.LOGGED_DOING}
 							onPress={(()=>{this.setState({alertActive:true})})}
-						>退出账户</ConfirmButton>
+						>退出账户</SubmitButton>
 					</View>
 
 				</View>

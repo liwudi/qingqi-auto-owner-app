@@ -332,7 +332,7 @@ public class MapbarMapView extends MapView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "ondestroy");
+        Log.d(TAG, "onDestroy");
         if (mhandler != null) {
             mhandler.removeCallbacksAndMessages(null);
             mhandler = null;

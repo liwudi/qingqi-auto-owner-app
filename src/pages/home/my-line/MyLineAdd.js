@@ -295,12 +295,11 @@ export default class MyLineAdd extends Component {
                                     return <ListItem
                                         key={idx}
                                         left={item.pointName}
-                                        right={<BorderButton>删除</BorderButton>}
-                                        rightPress={() => {
+                                        right={<BorderButton onPress={() => {
                                             let pass = Object.assign([], self);
                                             pass.splice(idx, 1);
                                             this.delPass(pass);
-                                        }}
+                                        }}>删除</BorderButton>}
                                         color={Env.color.main}
                                     />
                                 })
@@ -314,6 +313,7 @@ export default class MyLineAdd extends Component {
                         rightPress={() => {
                             this.props.router.push(MyLineSetMaxSpeed, {
                                 submit: this._modifyMaxSpeed.bind(this)
+                                , maxSpeed : this.state.routeInfo.maxSpeed
                             });
                         }}
                         color={Env.color.main}

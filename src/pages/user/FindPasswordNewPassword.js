@@ -17,7 +17,7 @@ import { UserActions, TYPES } from '../../actions/index';
 
 import TopBanner from '../../components/TopBanner';
 import PasswordInput from '../../components/Inputs/Password';
-import ConfirmButton from '../../components/ConfirmButton';
+import SubmitButton from '../../components/SubmitButton';
 
 import Login from './index';
 
@@ -53,20 +53,17 @@ class FindPasswordNewPassword extends Component {
 						defaultValue={this.state.password}
 						style={[estyle.borderBottom, estyle.marginTop]}
 						onChangeText={password => this.setState({password})}
-						validates={[
-							{require:true, msg: emsg.password.require},
-							{pattern:pattern.password, msg: emsg.password.pattern}
-						]}
+						require={true}
 					/>
 
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton
-						size="large"
-						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP3_DOING}
+					<SubmitButton
+						doing={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP3_DOING}
 						onPress={() => this.onModifyPassword()}>
-						<Text>确定</Text></ConfirmButton>
+						确定
+					</SubmitButton>
 				</View>
 			</View>
 		);
