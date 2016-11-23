@@ -17,7 +17,7 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
 import LabelInput from '../../../components/LabelInput';
-import ConfirmButton from '../../../components/ConfirmButton';
+import SubmitButton from '../../../components/SubmitButton';
 import * as Icons from '../../../components/Icons';
 import {addDriver} from '../../../services/MyDriverService';
 import SelectForContacts from '../../contacts/SelectForContacts';
@@ -102,8 +102,10 @@ export default class MyDriverAdd extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton size="large" onPress={() => this.addDriver()}>保存</ConfirmButton>
 
+					<View style={[estyle.paddingVertical]} >
+						<SubmitButton onPress={() => this.addDriver()}>保存</SubmitButton>
+					</View>
 				</View>
 			</View>
 		);

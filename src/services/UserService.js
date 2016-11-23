@@ -246,25 +246,28 @@ export function findPasswordResetPassword(phone, newPassword, smsCode) {
  * 用户相信信息
  * @returns {*}
  */
-
-export function userDetail() {
-    return RequestService.post(`${Server.WD_SERVICE}user/userDetail`,
-		{"product":Server.APP_PRODUCT}).then(getUserInfo);
-        /*{"product":Server.APP_PRODUCT}).then((userInfo) => {
-        	console.info(userInfo)
-        return getUserInfo().then((userData) => {
-        	return userData;
-            //return Object.assign(userInfo, userData);
-        });
-    });*/
-}
+//
+// export function userDetail() {
+//     return RequestService.post(`${Server.WD_SERVICE}user/userDetail`,
+// 		{"product":Server.APP_PRODUCT}).then(getUserInfo);
+//         /*{"product":Server.APP_PRODUCT}).then((userInfo) => {
+//         	console.info(userInfo)
+//         return getUserInfo().then((userData) => {
+//         	return userData;
+//             //return Object.assign(userInfo, userData);
+//         });
+//     });*/
+// }
 //用户信息查询
 export function getUserInfo() {
 	return RequestService.get(
 		`${Server.QINGQI}tocapp/getUserInfo`,{
 			product:Server.APP_PRODUCT
 		}
-	);
+	).then(rs => {
+		console.log(Object.assign({}, getToken(), rs))
+		return Object.assign({}, getToken(), rs);
+	});
 }
 
 /**

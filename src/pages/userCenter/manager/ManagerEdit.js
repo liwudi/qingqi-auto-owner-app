@@ -10,7 +10,7 @@ import {Text, View, TextInput, ToastAndroid, Alert} from "react-native";
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
-import ConfirmButton from "../../../components/ConfirmButton";
+import SubmitButton from "../../../components/SubmitButton";
 import PhoneInput from "../../../components/Inputs/Phone";
 import { IconTrash } from '../../../components/Icons';
 import {modifyManager, deleteManager} from "../../../services/MotorcadeManagerService";
@@ -133,13 +133,8 @@ export default class ManagerEdit extends Component {
 						]}
 						editable={this.state.registerStatus===0}//如果:未注册为app用户，可以编辑
 					/>
-					<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding]}>
-						<View style = {estyle.padding}>
-							<ConfirmButton size="middle" onPress={() => this.call()}><Text>呼叫</Text></ConfirmButton>
-						</View>
-						<View style = {estyle.padding}>
-							<ConfirmButton size="middle" onPress={() => this.modify()}><Text>保存</Text></ConfirmButton>
-						</View>
+					<View style={[estyle.paddingVertical]} >
+						<SubmitButton onPress={() => this.modify()}>保存</SubmitButton>
 					</View>
 				</View>
 			</View>

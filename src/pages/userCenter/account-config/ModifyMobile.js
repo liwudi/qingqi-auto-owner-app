@@ -17,7 +17,7 @@ import { changeBindSendCode, checkChangeBindSmsCode } from '../../../services/Us
 
 import PhoneInput from '../../../components/Inputs/Phone';
 import TopBanner from '../../../components/TopBanner';
-import ConfirmButton from '../../../components/ConfirmButton';
+import SubmitButton from '../../../components/SubmitButton';
 import SendMobileCode from '../../../components/Inputs/SendMobileCode';
 
 import Toast from '../../../components/Toast';
@@ -80,10 +80,7 @@ class ModifyMobile extends Component {
 						onChangeText={phone => this.setState({phone})}
 						placeholder='当前绑定的手机'
 						labelSize={3}
-						validates={[
-							{require:true, msg:emsg.phone.require},
-							{pattern:pattern.phone, msg: emsg.phone.pattern}
-						]}
+						require={true}
 					/>
 					<SendMobileCode
 						onChangeText={smsCode => this.setState({smsCode})}
@@ -93,7 +90,7 @@ class ModifyMobile extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton disabled={this.state.doing} size="large" onPress={() => this.onNext()}><Text>下一步</Text></ConfirmButton>
+					<SubmitButton doing={this.state.doing} size="large" onPress={() => this.onNext()}>下一步</SubmitButton>
 				</View>
 			</View>
 		);

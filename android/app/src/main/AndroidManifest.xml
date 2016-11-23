@@ -63,7 +63,7 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:launchMode="singleTask"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
+        android:screenOrientation="portrait">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -77,25 +77,30 @@
 
         <service
             android:name="com.mapbar.pushservice.mapbarpush.service.MapbarPushService"
-            android:exported="true">
-            <intent-filter android:priority="1000">
+            android:exported="true"
+            android:process=":mapbarpush_v1" >
+            <intent-filter android:priority="1000" >
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+        <service android:name="com.mapbar.pushservice.mapbarpush.service.MapbarPushService$InnerService" />
         <service
             android:name="com.mapbar.pushservice.mapbarpush.service.MapbarPushDaemonService"
-            android:exported="true">
-            <intent-filter android:priority="1000">
+            android:exported="true" >
+            <intent-filter android:priority="1000" >
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 
-        <receiver android:name="com.mapbar.pushservice.mapbarpush.receiver.MapbarPushServiceReceiver">
+        <receiver android:name="com.mapbar.pushservice.mapbarpush.receiver.MapbarPushServiceReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="com.mapbar.android.pushservice.action.notification.DELETE" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
@@ -112,7 +117,7 @@
         </receiver>
 
         <meta-data
-            android:name="xapiKey"
+            android:name="apiKey"
             android:value="0c3e9882fd20490b9fde42c015c46c8a" />
         <!-- 图吧推送结束-->
 

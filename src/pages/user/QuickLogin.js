@@ -10,7 +10,8 @@ import {
 	View,
 	TouchableOpacity,
 	ToastAndroid,
-	StyleSheet
+	StyleSheet,
+    ActivityIndicator
 } from 'react-native';
 
 import { UserActions,TYPES } from '../../actions/index';
@@ -18,12 +19,14 @@ import { UserActions,TYPES } from '../../actions/index';
 import PhoneInput from '../../components/Inputs/Phone';
 import TopBanner from '../../components/TopBanner';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
-import LabelInput from '../../components/LabelInput.android';
-import ConfirmButton from '../../components/ConfirmButton.android';
-
+import LabelInput from '../../components/LabelInput';
+import SubmitButton from '../../components/SubmitButton';
+import Button  from '../../components/widgets/Button.android';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 import HomeRouter from '../HomeRouter';
 import Env from '../../utils/Env';
+import Agreement from './Agreement';
+
 const estyle = Env.style,
 	emsg = Env.msg.form,
 	pattern = Env.pattern;
@@ -71,10 +74,7 @@ class QuickLogin extends Component {
 						onChangeText={phone => this.setState({phone})}
 						defaultValue={this.state.phone}
 						labelSize={3}
-						validates={[
-							{require:true, msg: emsg.phone.require},
-							{pattern:pattern.phone, msg: emsg.phone.pattern}
-						]}
+						require={true}
 					/>
 					<PhoneChkCodeInput
 						ref="code"
@@ -83,6 +83,7 @@ class QuickLogin extends Component {
 						sendCode = {this.sendCode.bind(this)}
 						sendCodeStatus = {this.props.sendCodeStatus}
 						labelSize={3}
+						maxLength={6}
 						validates={[
 							{require:true, msg: emsg.code.require},
 							{pattern:pattern.code, msg: emsg.code.pattern}
@@ -91,11 +92,15 @@ class QuickLogin extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton disabled={this.props.userStore.status === TYPES.LOGGED_DOING}
-								   size="large" onPress={() => this.onLogin()}><Text>登录</Text></ConfirmButton>
+					<SubmitButton
+						onPress={() => this.onLogin()}
+						doing={this.props.userStore.status === TYPES.LOGGED_DOING}
+					>登录</SubmitButton>
 					<View style={[estyle.fxRow, {alignItems:'flex-start'}, estyle.paddingTop]}>
 						<Text style={[{fontSize: Env.font.mini}]}>注册视为同意</Text>
-						<Text style={[{fontSize: Env.font.mini, color:Env.color.main}]}>服务条款和隐私政策</Text>
+						<Button onPress={()=>{this.props.router.push(Agreement)}}>
+							<Text style={[{color:Env.color.main, fontSize: Env.font.mini}]}>服务条款和隐私政策</Text>
+						</Button>
 					</View>
 				</View>
 			</View>

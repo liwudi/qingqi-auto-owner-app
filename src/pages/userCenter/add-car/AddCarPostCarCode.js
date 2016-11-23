@@ -13,7 +13,7 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import { addCar } from '../../../services/AppService';
-import MyCar  from  '../../home/my-car/MyCar'
+import MyCar from '../../home/my-car/MyCar';
 const estyle = Env.style;
 
 export default class AddCarPostCarCode extends Component {
@@ -42,6 +42,7 @@ export default class AddCarPostCarCode extends Component {
                     this.props.router.replace(MyCar);
                 })
                 .catch((e)=>{
+                    ToastAndroid.show(e.message, ToastAndroid.SHORT);
                 })
         }
     }
@@ -54,6 +55,7 @@ export default class AddCarPostCarCode extends Component {
                     ref="carNumber"
                     label="车牌号"
                     labelSize={3}
+                    maxLength={10}
                     onChangeText={carNumber => this.setState({carNumber})}
                     placeholder="请输入添加车辆车牌号"
                     validates={[

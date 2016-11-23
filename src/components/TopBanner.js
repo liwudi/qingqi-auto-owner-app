@@ -64,7 +64,7 @@ export default class TopBanner extends React.Component{
 			}
 		}
 		return (
-			<View style={[styles.topBanner,styles.height, {backgroundColor: this.props.color || Env.color.main}]}>
+			<View style={[estyle.fxRow, estyle.fxCenter, styles.height, {backgroundColor: this.props.color || Env.color.main}]}>
 				<StatusBar backgroundColor={ this.props.color || Env.color.main} />
 				<View style = {[styles.backButton, styles.height, estyle.fxColumnCenter]}>
 					{_renderLeft()}
@@ -78,18 +78,10 @@ export default class TopBanner extends React.Component{
 	}
 }
 
-// TopBanner.defaultProps = {
-// 	leftShow: true
-// };
 
 const styles = StyleSheet.create({
 	height: {
 		height: 84 * Env.font.base
-	},
-	topBanner: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		flexDirection: 'row'
 	},
 	textView:{
 		flex:1,

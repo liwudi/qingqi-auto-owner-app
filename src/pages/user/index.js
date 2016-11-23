@@ -12,7 +12,7 @@ import QuickLogin from './QuickLogin'
 import Env from '../../utils/Env';
 import Reg from './Reg';
 const estyle = Env.style;
-import SplashScreen from 'react-native-splash-screen';
+
 const tabs = [
 	{
 		title:'账号密码登录',

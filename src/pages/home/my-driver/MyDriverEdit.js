@@ -10,9 +10,8 @@ import {Text, View, TextInput, ToastAndroid, Alert, TouchableOpacity} from "reac
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
-import ConfirmButton from "../../../components/ConfirmButton";
+import SubmitButton from "../../../components/SubmitButton";
 import PhoneInput from "../../../components/Inputs/Phone";
-import MyDriver from "./MyDriver";
 import { IconTrash } from '../../../components/Icons';
 
 import {modifyDriver, deleteDriver} from "../../../services/MyDriverService";
@@ -136,13 +135,8 @@ export default class MyDriverEdit extends Component {
                         onChangeText={phone => this.setState({phone})}
                         validates={[{require:true, msg:"请填写司机手机号。"}]}
                     />
-					<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding]}>
-						<View style = {estyle.padding}>
-							<ConfirmButton size="middle" onPress={() => this.call()}><Text>呼叫</Text></ConfirmButton>
-						</View>
-						<View style = {estyle.padding}>
-							<ConfirmButton size="middle" onPress={() => this.modify()}><Text>保存</Text></ConfirmButton>
-						</View>
+					<View style={[estyle.paddingVertical]} >
+						<SubmitButton onPress={() => this.modify()}><Text>保存</Text></SubmitButton>
 					</View>
 				</View>
 			</View>

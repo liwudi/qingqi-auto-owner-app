@@ -17,7 +17,7 @@ import { modifyPassword } from '../../../services/UserService';
 
 import TopBanner from '../../../components/TopBanner';
 import PasswordInput from '../../../components/Inputs/Password';
-import ConfirmButton from '../../../components/ConfirmButton.android';
+import SubmitButton from '../../../components/SubmitButton';
 import Toast from '../../../components/Toast';
 import FindPassword from '../../user/FindPassword';
 import Login from '../../user/index';
@@ -100,10 +100,9 @@ class ModifyPassword extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton
-						size="large"
-						disabled={this.state.doing}
-						onPress={() => this.modifyPassword()}>确定</ConfirmButton>
+					<SubmitButton
+						doing={this.state.doing}
+						onPress={() => this.modifyPassword()}>确定</SubmitButton>
 				</View>
 			</View>
 		);

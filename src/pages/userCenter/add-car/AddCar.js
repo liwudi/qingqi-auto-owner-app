@@ -18,7 +18,8 @@ import Env from '../../../utils/Env';
 import AddCarList from './AddCarList';
 import ListTitle from '../../../components/ListTitle';
 import AddCarVinAdd from './AddCarVinAdd';
-const estyle = Env.style;
+const estyle = Env.style, pattern = Env.pattern;
+
 
 class AddCar extends Component {
     constructor(props) {
@@ -58,9 +59,12 @@ class AddCar extends Component {
                     label="发票号"
                     labelSize={3}
                     onChangeText={invoiceNo => this.setState({invoiceNo})}
-                    placeholder="发票号"
+                    placeholder="8位购车发票号码"
+                    keyboardType="phone-pad"
+                    maxLength={8}
                     validates={[
-                        {require:true, msg:"请输入购车发票号"}
+                        {require: true, msg:"请输入8位购车发票号码"},
+                        {pattern: /^\d{8}$/, msg: '发票号码格式错误'}
                     ]}
                 />
 
@@ -69,10 +73,12 @@ class AddCar extends Component {
                     ref="identityCard"
                     label="证件号"
                     labelSize={3}
+                    keyboardType="phone-pad"
                     onChangeText={identityCard => this.setState({identityCard})}
                     placeholder="身份证号或组织机构代码"
                     validates={[
-                        {require:true, msg:"请输入购车发票上的身份证号或组织机构代码"}
+                        {require: true, msg:"请输入购车发票上的身份证号或组织机构代码"},
+                        {pattern: pattern.identityCard, msg: '身份证号或组织机构代码格式错误'}
                     ]}
                 />
                 <View style={[estyle.fxRow, estyle.padding]}>

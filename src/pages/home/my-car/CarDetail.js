@@ -216,7 +216,7 @@ export default class CarDetail extends Component {
                         }>{data.routeInfo ? '更换线路' : '绑定线路' }</BorderButton>
                     }
                 >
-                    <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeInfo && data.routeId || '未绑定线路'}</Text>
+                    <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeId  && data.routeInfo || '未绑定线路'}</Text>
                 </ViewForRightDom>
             </View>
         }
