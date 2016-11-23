@@ -337,13 +337,5 @@ public class MapbarMapView extends MapView {
             mhandler.removeCallbacksAndMessages(null);
             mhandler = null;
         }
-        if (mapRenderer != null) {
-            mapRenderer.clearAll();
-            mapRenderer = null;
-        }
-        if (mRenderer != null) {
-            mRenderer.clearAll();
-            mRenderer = null;
-        }
     }
 }
