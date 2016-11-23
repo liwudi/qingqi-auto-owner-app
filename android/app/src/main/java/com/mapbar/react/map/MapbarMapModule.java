@@ -295,11 +295,17 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
      * @param
      */
     @ReactMethod
-    public void onResumeMap(int tag) {
-        MapbarMapView mapView = getMapView(tag);
-        if (mapView != null) {
-            mapView.onResume();
-        }
+    public void onResumeMap(final int tag) {
+        LogUtils.logd(TAG,"onResumeMap..."+"tag:"+tag);
+        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MapbarMapView mapView = getMapView(tag);
+                if (mapView != null) {
+                    mapView.onResume();
+                }
+            }
+        });
     }
 
     /**
@@ -308,11 +314,17 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
      * @param
      */
     @ReactMethod
-    public void onPauseMap(int tag) {
-        MapbarMapView mapView = getMapView(tag);
-        if (mapView != null) {
-            mapView.onPause();
-        }
+    public void onPauseMap(final int tag) {
+        LogUtils.logd(TAG,"onPauseMap... "+"tag:"+tag);
+        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MapbarMapView mapView = getMapView(tag);
+                if (mapView != null) {
+                    mapView.onPause();
+                }
+            }
+        });
     }
 
     /**
@@ -322,6 +334,7 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void onDestroyMap(final int tag) {
+        LogUtils.logd(TAG,"onDestroyMap..."+"tag:"+tag);
         ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
