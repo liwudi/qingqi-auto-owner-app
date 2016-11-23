@@ -10,9 +10,8 @@ import {Text, View, TextInput, ToastAndroid, Image, Alert, TouchableOpacity} fro
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
-import ConfirmButton from "../../../components/ConfirmButton";
+import SubmitButton from "../../../components/SubmitButton";
 import PhoneInput from "../../../components/Inputs/Phone";
-import ManagerList from "./ManagerList";
 import {addManager} from "../../../services/MotorcadeManagerService";
 import SelectForContacts from '../../contacts/SelectForContacts';
 import { IconAddressBook, IconFire } from '../../../components/Icons';
@@ -110,10 +109,9 @@ export default class ManagerAdd extends Component {
 							{pattern:Env.pattern.phone, msg: Env.msg.form.phone.pattern}
 						]}
 					/>
-					<View style={[estyle.fxRow, estyle.padding]}>
-						<Text style={[estyle.text]}>&nbsp;</Text>
+					<View style={[estyle.paddingVertical]} >
+						<SubmitButton size="large" onPress={() => this.submit()}>添加</SubmitButton>
 					</View>
-					<ConfirmButton size="large" onPress={() => this.submit()}>添加</ConfirmButton>
 				</View>
 			</View>
 		);

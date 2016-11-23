@@ -20,7 +20,7 @@ import { getCaptcha, CAPTCHA_TYPE_FIND_PASSWORD } from '../../services/UserServi
 
 import TopBanner from '../../components/TopBanner';
 import LabelInput from '../../components/LabelInput';
-import ConfirmButton from '../../components/ConfirmButton';
+import SubmitButton from '../../components/SubmitButton';
 import PhoneInput from '../../components/Inputs/Phone';
 import Button from '../../components/widgets/Button'
 import FindPasswordCheckCode from './FindPasswordCheckCode';
@@ -34,7 +34,7 @@ class FindPassword extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			phone:'15010053708',
+			phone:'',
 			captcha:'',
 			captchaImg: false,
 			captchaUpdate: false
@@ -42,7 +42,6 @@ class FindPassword extends Component {
 	}
 
 	next = () => {
-		console.info('gogogog')
 		this.props.router.replace(FindPasswordCheckCode);
 	}
 
@@ -101,10 +100,7 @@ class FindPassword extends Component {
 						defaultValue={this.state.phone}
 						style={[estyle.marginTop, estyle.borderBottom]}
 						onChangeText={phone => this.onPhoneChange(phone)}
-						validates={[
-							{require:true, msg:emsg.phone.require},
-							{pattern:pattern.phone, msg: emsg.phone.pattern}
-						]}
+						require={true}
 						labelSize="3"
 					/>
 					<LabelInput
@@ -115,6 +111,7 @@ class FindPassword extends Component {
 						placeholder='图形验证码'
 						label="验证码"
 						labelSize="3"
+						maxLength={6}
 						rightView={captcha()}
 						validates={[
 							{require:true, msg: '请填写图形验证码'}
@@ -123,13 +120,13 @@ class FindPassword extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton
+					<SubmitButton
 						size="large"
 						onPress={() => this.onCheckCaptcha()}
-						disabled={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP1_DOING}
+						doing={this.props.findPasswordStore.type === TYPES.FINDPASS_STEP1_DOING}
 					>
-						<Text>下一步</Text>
-					</ConfirmButton>
+						下一步
+					</SubmitButton>
 
 				</View>
 			</View>

@@ -9,6 +9,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.mapbar.pushservice.mapbarpush.MapbarPushInterface;
 import com.mapbar.pushservice.mapbarpush.PushConfigs;
+import com.mapbar.pushservice.mapbarpush.provider.DeviceInfoHelper;
 import com.mapbar.react.common.CommonPackage;
 import com.mapbar.react.map.MapbarMapPackage;
 import com.mapbar.react.push.MarbarPushPackage;
@@ -24,7 +25,8 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    PushConfigs.DEFAULT_APIKEY = "0c3e9882fd20490b9fde42c015c46c8a";
+    String pushApikey = DeviceInfoHelper.getInstance(this.getApplicationContext()).getApiKey();
+    PushConfigs.DEFAULT_APIKEY = pushApikey;
     //		PushConfigs.ESB_ADDRESS = "wdservice.mapbar.com:6001";
     //		PushConfigs.HOST_ADDRESS = "wdservice.mapbar.com";
     MapbarPushInterface.init(this);

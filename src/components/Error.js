@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import Env from '../utils/Env';
-import TopBanner from './TopBanner.android';
+import TopBanner from './TopBanner';
 import CancelButton from './CancelButton.android';
 const estyle = Env.style;
 

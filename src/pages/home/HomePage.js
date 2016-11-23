@@ -11,18 +11,19 @@ import {
 
 } from 'react-native';
 
-import TopBanner from '../../components/TopBanner';
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import ImgButton from '../../components/ImgButton';
 
 import MyCar from './my-car/MyCar';
+import MyCarSearch from './my-car/MyCarSearch';
 import MyDriver from './my-driver/MyDriver';
 import MyLine from './my-line/MyLine';
 import Monitor from './monitor/Monitor';
 import OilManage from './oil-maange/OilManage';
+import TripManage from './oil-maange/TripManage';
 
 
-import { IconArrowRight } from '../../components/Icons';
+import { IconSearch } from '../../components/Icons';
 
 import Env from '../../utils/Env';
 const estyle = Env.style;
@@ -61,13 +62,17 @@ export default class HomePage extends Component {
 		};
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-				<TopBanner title="首页" leftShow={false}/>
+				<View style={[estyle.fxRow, estyle.fxCenter, { height: 84 * Env.font.base, backgroundColor: Env.color.main}]}>
+					<TouchableOpacity onPress={() => this.props.router.push(MyCarSearch)} activeOpacity={.8} style={[estyle.fxRow,estyle.fxCenter,{borderRadius:4, width:Env.screen.width * .94, height: 64 * Env.font.base, backgroundColor: '#FFF'}]}>
+						<IconSearch size={Env.font.base * 36} color={Env.color.text}/><Text style={estyle.text}> 请输入司机姓名、VIN或车牌号</Text>
+					</TouchableOpacity>
+				</View>
 				<View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>
 				<View style={[estyle.fxRow, estyle.padding,estyle.border, {backgroundColor:'#FFF'}]}>
 					<Text style={[estyle.fx1,estyle.articleTitle]}>车辆数：{this.state.operateStatisToday.activeCarNum||0}辆</Text>
 					{/*<Text style={[estyle.fx1,estyle.articleTitle]}>总车辆数：{this.state.operateStatisToday.activeCarNum||0}辆</Text>*/}
 				</View>
-				<ViewForRightArrow onPress={() => this.goTo(MyCar)} style={[estyle.fxRow, estyle.cardBackgroundColor]}>
+				<ViewForRightArrow onPress={() => this.goTo(TripManage)} style={[estyle.fxRow, estyle.cardBackgroundColor]}>
 					<View style={[estyle.fxRow]}>
 						{renderItem('行驶总里程(km)', this.state.operateStatisToday.mileAgeTotal||0)}
 						{renderItem('平均里程/车(km)', this.state.operateStatisToday.mileAgeAvg||0, false)}

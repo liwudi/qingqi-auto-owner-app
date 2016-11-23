@@ -17,7 +17,7 @@ import { UserActions } from '../../../actions/index';
 import Toast from '../../../components/Toast';
 import TopBanner from '../../../components/TopBanner';
 import LabelInput from '../../../components/LabelInput';
-import ConfirmButton from '../../../components/ConfirmButton.android';
+import SubmitButton from '../../../components/SubmitButton';
 import { modifyUserInfo } from '../../../services/UserService';
 import HomeRouter from '../../HomeRouter';
 
@@ -54,7 +54,7 @@ class ModifyTrueName extends Component {
                 Toast.show('姓名保存成功', Toast.SHORT);
                 setTimeout(() => {
                     this.toPage();
-                },500);
+                },1000);
             }).catch((e)=>{
                 Toast.show(e.message, Toast.SHORT);
             }).finally(()=>{
@@ -87,13 +87,14 @@ class ModifyTrueName extends Component {
 						validates={[
 							{require:true, msg: '请输入姓名'}
 						]}
+						maxLength={14}
 					/>
 					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
 						<Text style={[estyle.note, estyle.fx1, {textAlign:'left'}]}>最长7个汉字，或14个字节</Text>
 					</View>
-					<ConfirmButton size="large"
-                                   disabled={this.state.doing}
-                                   onPress={() => this.onSave()}>保存</ConfirmButton>
+					<SubmitButton size="large"
+								  doing={this.state.doing}
+                                   onPress={() => this.onSave()}>保存</SubmitButton>
 				</View>
 			</View>
 		);

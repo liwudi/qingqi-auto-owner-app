@@ -101,15 +101,15 @@ export default class MapbarMap extends Component {
                 onInit={() => {this.onInit()}}
                 ref="mapView"
             />
-            {this.state.showLegend && this.props.legend}
+            {this.state.showLegend ? this.props.legend : null}
             {this.renderController()}
-            <View style={[styles.controlView,{bottom:Env.font.base * 30}]}>
+            {this.props.hideLegend ? null : <View style={[styles.controlView,{bottom:Env.font.base * 30}]}>
                 <Button
                     onPress={() => this.setState({showLegend:!this.state.showLegend})}
                     style={styles.controlButton}>
                     <Icons.IconBrowsers size={Env.font.base * 60}/>
                 </Button>
-            </View>
+            </View>}
         </View>;
     }
 

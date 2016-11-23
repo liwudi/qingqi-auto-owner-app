@@ -28,6 +28,9 @@ import BorderButton from '../../../components/BorderButton';
 import {IconTrash} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
 import MapLine from '../components/mapline/MapLine';
+import Toast from '../../../components/Toast';
+
+
 export default class CarDetail extends Component {
     constructor(props) {
         super(props);
@@ -44,7 +47,7 @@ export default class CarDetail extends Component {
             .then((data)=> {
                 this.setState({data});
             })
-            .catch()
+            .catch(e => Toast.show(e.message, Toast.SHORT))
             .finally(()=> {
                 this.setState({isRefreshing: false});
             });
@@ -77,7 +80,7 @@ export default class CarDetail extends Component {
                 flag:1
             })
                 .then(()=>{ this.props.nav.backRender(); this.props.router.pop(); })
-                .catch()
+                .catch(e => Toast.show(e.message, Toast.SHORT))
                 .finally(()=>{this.setState({alertCActive: false})})
         }
     }
@@ -216,7 +219,7 @@ export default class CarDetail extends Component {
                         }>{data.routeInfo ? '更换线路' : '绑定线路' }</BorderButton>
                     }
                 >
-                    <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeInfo && data.routeId || '未绑定线路'}</Text>
+                    <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeId  && data.routeInfo || '未绑定线路'}</Text>
                 </ViewForRightDom>
             </View>
         }

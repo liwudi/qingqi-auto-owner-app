@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import com.mapbar.MainActivity;
+import com.mapbar.pushservice.mapbarpush.bean.MessageBean;
 import com.mapbar.pushservice.mapbarpush.receiver.MessagePushReceiver;
 import com.mapbar.react.CommonUtils;
 import com.mapbar.react.LogUtils;
@@ -17,24 +18,41 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
 
     public static final String MActionOnMessageReceived = "onMessageReceived";
     public static final String MActionOnNotificationClicked = "onNotificationClicked";
-
+    public static final String MActionOnNotificationReceived = "onNotificationReceived";
     @Override
-    public void onNotificationClicked(Context context, String title,
-                                      String content, String customStr) {
+    public void onNotificationClicked(Context context, String title, String content, String customStr, int noticeId) {
         startActivity(context);
         String message = "点击了通知栏:" + "title=" + title + ",content=" + content
-                + ",customStr=" + customStr;
+                + ",customStr=" + customStr+"noticeId="+noticeId;
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         LogUtils.logd(LOGTAG, message);
         Bundle payload = new Bundle();
         payload.putString("Content", content);
         payload.putString("Title", title);
         payload.putString("CustomContent", customStr);
+        payload.putInt("noticeId", noticeId);
         Intent intent = new Intent(MActionOnNotificationClicked);
         intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         intent.putExtra("data", payload);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
+    @Override
+    public void onNotificationReceived(Context context, String title, String content, String customStr, MessageBean messageBean) {
+        String message = "通知的id是" + messageBean.getNoticeId() + "读取了通知信息" + "title=" + title + ",content=" + content
+                + ",customStr=" + customStr;
+        LogUtils.logd(LOGTAG, message);
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Bundle payload = new Bundle();
+        payload.putString("Content", content);
+        payload.putString("Title", title);
+        payload.putString("CustomContent", customStr);
+        payload.putInt("noticeId", messageBean.getNoticeId());
+        Intent intent = new Intent(MActionOnNotificationReceived);
+        intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.putExtra("data", payload);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
     private void startActivity(Context context) {
         //判断app进程是否存活
         if(CommonUtils.isAppAlive(context.getApplicationContext(), context.getApplicationContext().getPackageName())){
@@ -74,6 +92,7 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
+
     @Override
     public void onSetTag(Context context, String tag, int responseCode, String result) {
         String message = "onSetTag():tag=" + tag + ",responseCode="
@@ -110,6 +129,8 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
         LogUtils.logd(LOGTAG, message);
 
     }
+
+
 
     @Override
     public void onSetPermission(Context context, String permissionType, int responseCode, String result) {

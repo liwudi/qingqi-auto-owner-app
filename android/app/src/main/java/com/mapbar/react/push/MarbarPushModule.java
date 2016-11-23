@@ -30,10 +30,12 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
 
     @Override
     public void onHostResume() {
+        LogUtils.logd(LogTag,"onHostResume");
     }
 
     @Override
     public void onHostPause() {
+        LogUtils.logd(LogTag,"onHostPause");
     }
 
     @Override
@@ -42,7 +44,8 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
     }
     private Context context;
     private ReactApplicationContext reactContext;
-    private static final String LogTag = "[TXG]RNModule";
+    private static final String LogTag = "MarbarPushModule";
+    private  final String notificationReceive = "notificationReceive";
     private  final String notificationClick = "notificationClick";
     private  final String messageReceiver = "messageReceiver";
     private BroadcastReceiver innerReceiver;
@@ -57,6 +60,7 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
         innerFilter = new IntentFilter();
         innerFilter.addAction(MyMessagePushReceiver.MActionOnMessageReceived);
         innerFilter.addAction(MyMessagePushReceiver.MActionOnNotificationClicked);
+        innerFilter.addAction(MyMessagePushReceiver.MActionOnNotificationReceived);
         LocalBroadcastManager.getInstance(this.context).registerReceiver(this.innerReceiver,
                 this.innerFilter);
         reactContext.addLifecycleEventListener(this);
@@ -87,7 +91,7 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
                 params.putString("Content", payload.getString("Content"));
                 params.putString("Title", payload.getString("Title"));
                 params.putString("CustomContent", payload.getString("CustomContent"));
-                LogUtils.logd(LogTag, "Got notification " + payload.toString());
+                LogUtils.logd(LogTag, "onMessageReceived " + payload.toString());
                 sendEvent(messageReceiver, params);
                 break;
             case MyMessagePushReceiver.MActionOnNotificationClicked:
@@ -95,8 +99,18 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
                 params.putString("Content", payload.getString("Content"));
                 params.putString("Title", payload.getString("Title"));
                 params.putString("CustomContent", payload.getString("CustomContent"));
-                LogUtils.logd(LogTag, "Got custom notification " + payload.toString());
+                params.putInt("noticeId", payload.getInt("noticeId"));
+                LogUtils.logd(LogTag, "onNotificationClicked " + payload.toString());
                 sendEvent(notificationClick, params);
+                break;
+            case MyMessagePushReceiver.MActionOnNotificationReceived:
+                params = Arguments.createMap();
+                params.putString("Content", payload.getString("Content"));
+                params.putString("Title", payload.getString("Title"));
+                params.putString("CustomContent", payload.getString("CustomContent"));
+                params.putInt("noticeId", payload.getInt("noticeId"));
+                LogUtils.logd(LogTag, "onNotificationReceived " + payload.toString());
+                sendEvent(notificationReceive, params);
                 break;
         }
     }

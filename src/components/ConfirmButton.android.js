@@ -20,8 +20,11 @@ export default class ConfirmButton extends Component {
                     {backgroundColor: this.props.disabled ? color.disabled : color.normal},
                     this.props.style
                 ]}>
-                <Text style={[estyle.text,
-                    {color: this.props.disabled ? color.disabledFont : Env.color.navTitle}]}>{this.props.children}</Text>
+                {typeof this.props.children === 'string' ? <Text style={[estyle.text,
+                    {color: this.props.disabled ? color.disabledFont : Env.color.navTitle}]}>{this.props.children}</Text>:
+                    this.props.children
+                }
+
 
             </TouchableOpacity>
         );

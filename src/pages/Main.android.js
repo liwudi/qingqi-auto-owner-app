@@ -108,18 +108,20 @@ class Main extends Component {
 		</View>;*/
 	}
 
-	componentWillMount() {
-		NetInfo.isConnected.fetch().done(isConnected => {
-			console.info('net status', isConnected, 'from fetch');
-			this.setState({isConnected});
-			//this.setState({isConnected: false});
-		});
-		NetInfo.addEventListener('change', isConnected => {
-			console.info('net status', isConnected, 'from change');
-			this.setState({isConnected: isConnected !== 'NONE'});
-			//this.setState({isConnected: false});
-		});
-	}
+    componentWillMount() {
+        NetInfo.isConnected.fetch().done(isConnected => {
+            console.info('net status', isConnected, 'from fetch');
+            global.NetIsConnected = isConnected;
+            this.setState({isConnected});
+            //this.setState({isConnected: false});
+        });
+        NetInfo.addEventListener('change', isConnected => {
+            console.info('net status', isConnected, 'from change');
+            global.NetIsConnected = (isConnected !== 'NONE');
+            this.setState({isConnected: isConnected !== 'NONE'});
+            //this.setState({isConnected: false});
+        });
+    }
 
 	renderMain() {
 		// console.info('renderMain')

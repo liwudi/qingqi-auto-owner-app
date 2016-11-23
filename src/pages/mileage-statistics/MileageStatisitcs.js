@@ -138,7 +138,7 @@ export default class MileageStatisitcs extends Component {
 					}
 				}
 				fetchData = {
-					(pageNumber, pageSize) => getMileageStatisitcsList4Day(this.state.statisDate, pageNumber, 1)//todo
+					(pageNumber, pageSize) => getMileageStatisitcsList4Day(this.state.statisDate, pageNumber, pageSize)
 				}
 			/>
 		)

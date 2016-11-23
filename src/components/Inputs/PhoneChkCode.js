@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
-import LabelInput from '../LabelInput.android'
+import LabelInput from '../LabelInput'
 import CancelButton from '../../components/CancelButton.android';
 import * as TYPES from '../../actions/types';
 

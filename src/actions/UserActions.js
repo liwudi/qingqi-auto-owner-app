@@ -17,7 +17,7 @@ function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
 			console.info('sendCodeDispatch')
 			console.info(res)
 			ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
-			let second = 10;
+			let second = 60;
 			let intval = setInterval(() => {
 
 				if(second === 0){
@@ -49,7 +49,7 @@ function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
  */
 export function checkToken(logged, noLogged) {
 	return (dispatch) => {
-		UserService.userDetail()
+		UserService.getUserInfo()
 			.then(res => {
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 				logged && logged(res);
@@ -67,7 +67,7 @@ export function checkToken(logged, noLogged) {
  */
 export function getUserDetail() {
 	return (dispatch) => {
-		UserService.userDetail()
+		UserService.getUserInfo()
 			.then(res => {
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 			})
@@ -116,7 +116,14 @@ export function doLogin(UserParams, next) {
 					rawData: userToken,
 					expires: null
 				});
-				return UserService.userDetail();
+                global.storage.save({
+                    key: 'preLoginUserName',
+                    rawData: {
+                    	name:UserParams.phone
+					},
+                    expires: null
+                });
+				return UserService.getUserInfo();
 			})
 			.then(res => {
 				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
@@ -313,14 +320,20 @@ export function doQuickLogin(phone, code, next) {
 					rawData: userToken,
 					expires: null
 				});
+                global.storage.save({
+                    key: 'preLoginUserName',
+                    rawData: {
+                        name:phone
+                    },
+                    expires: null
+                });
 				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
-				UserService.userDetail().then(userInfo => {
+				UserService.getUserInfo().then(userInfo => {
 					console.info(userInfo)
 					dispatch({'type': TYPES.LOGGED_IN, user: userInfo});
 					next(userInfo);
 				});
-				dispatch({'type': TYPES.LOGGED_IN, user: res});
-				//return UserService.userDetail();
+				// dispatch({'type': TYPES.LOGGED_IN, user: res});
 			})
 			/*.then(res => {
 				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
@@ -388,7 +401,7 @@ export function sendModifyMobileCode() {
 			.then((res)=>{
 				console.info('sendModifyMobileCode')
 				ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
-				let second = 10;
+				let second = 60;
 				let intval = setInterval(() => {
 
 					if(second === 0){

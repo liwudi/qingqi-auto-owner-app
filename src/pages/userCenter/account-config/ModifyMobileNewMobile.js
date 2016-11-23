@@ -13,13 +13,11 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { UserActions } from '../../../actions/index';
 import { changeBindSendCode, bindMobile, SEND_SMS_TYPE_BIND_NEW } from '../../../services/UserService';
 
 import PhoneInput from '../../../components/Inputs/Phone';
 import TopBanner from '../../../components/TopBanner';
-import ConfirmButton from '../../../components/ConfirmButton';
-import CancelButton from '../../../components/CancelButton';
+import SubmitButton from '../../../components/SubmitButton';
 import SendMobileCode from '../../../components/Inputs/SendMobileCode';
 
 import Toast from '../../../components/Toast';
@@ -76,10 +74,7 @@ class ModifyMobileNewMobile extends Component {
 						onChangeText={phone => this.setState({phone})}
 						placeholder='要绑定的新手机'
 						labelSize={3}
-						validates={[
-							{require:true, msg:emsg.phone.require},
-							{pattern:pattern.phone, msg: emsg.phone.pattern}
-						]}
+						require={true}
 					/>
 					<SendMobileCode
 						style={[estyle.borderBottom]}
@@ -89,7 +84,7 @@ class ModifyMobileNewMobile extends Component {
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
-					<ConfirmButton disabled={this.state.doing} size="large" onPress={() => this.onNext()}><Text>绑定</Text></ConfirmButton>
+					<SubmitButton doing={this.state.doing} size="large" onPress={() => this.onNext()}>绑定</SubmitButton>
 				</View>
 			</View>
 		);

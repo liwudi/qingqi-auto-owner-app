@@ -51,7 +51,7 @@ export default class Monitor extends Component {
 
     render() {
         return (
-            <View style={estyle.fx1}>
+            <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
                 <TopBanner {...this.props} title="实时监控"
                            rightView={
                                <Button onPress={()=> {this.goToMap()}}
