@@ -13,13 +13,20 @@ import {
 import TopBanner from '../../components/TopBanner';
 import PageList from '../../components/PageList';
 import Env from '../../utils/Env';
-import {IconUser} from '../../components/Icons';
+import {IconUser, IconLocationMarker} from '../../components/Icons';
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import MessageListCar from './MessageListCar';
 const estyle = Env.style;
 
 //所有车辆消息列表
 class CarListMessage extends Component{
+
+    componentWillReceiveProps(nextProps){
+        console.log('CarListMessage componentWillReceiveProps');
+        setTimeout(() => this.refs.list.reInitFetch(), 50);
+    }
+
+
     render() {
         return(
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
@@ -36,12 +43,12 @@ class CarListMessage extends Component{
                             carNumber: messageDetail.carNumber
                         })}>
                             <View style={[estyle.fxRow,estyle.cardBackgroundColor]}>
-                                <View>
+                                <View style={[estyle.fxCenter]}>
                                     <Image
                                         style={{borderRadius:100,width:60,height:60}}
                                         source={require('../../assets/images/message-type-1.png')}
                                     />
-                                    {row.count && <View style={[
+                                    {row.count ? <View style={[
                                         Env.style.fxCenter,
                                         {
                                             width:Env.font.base * 22,
@@ -52,23 +59,26 @@ class CarListMessage extends Component{
                                             top:0,
                                             right:Env.font.base * 0}]}>
                                         <Text style={{color:'#FFF',fontSize:Env.font.base * 16}}>{row.count}</Text>
-                                    </View>}
+                                    </View> : null}
                                 </View>
                                 <View style={[estyle.marginLeft,estyle.fx1]}>
                                     <View style={[estyle.fxRow]}>
                                         <View style={estyle.fx1}>
                                             <Text style={[estyle.articleTitle]}>{messageDetail.carNumber}</Text>
                                         </View>
-                                        <Text style={[estyle.text,estyle.marginLeft]}>{messageDetail.happenTime}</Text>
+                                        <Text style={[estyle.note,estyle.marginLeft]}>{messageDetail.happenTime}</Text>
                                     </View>
                                     <View style={[estyle.fxRow, estyle.fxRowCenter]}>
-                                        <IconUser color={Env.color.main}/>
-                                        <Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.mainDriverName}</Text>
-                                        <IconUser color={Env.color.main} style ={estyle.marginLeft}/>
-                                        <Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.subDriverName}</Text>
+                                        <IconUser color='#FEBEBE'/><Text> </Text>
+                                        <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{messageDetail.mastDriver || '无'}</Text>
+
+                                        <IconUser color='#C4DFFE'/><Text> </Text>
+                                        <Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.slaveDriver || '无'}</Text>
                                     </View>
-                                    <View>
-                                        <Text>{messageDetail.position}</Text>
+                                    <View style={[estyle.fx1,estyle.fxRow]}>
+                                        <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
+                                        <Text> </Text>
+                                        <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{messageDetail.position || '未获取到位置信息'}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -76,7 +86,7 @@ class CarListMessage extends Component{
                     }}
                     fetchData={() => {
                         return Promise.resolve({
-                            list : Object.assign([], this.props.messageStore.messageList.CarMessage).reverse(),
+                            list : Object.assign([], this.props.messageStore.CarMessage).reverse(),
                             pageTotal:1
                         })
                     }}

@@ -29,16 +29,16 @@ class Message extends Component {
                 {
                     title:'个人消息',
                     component: PersonalMessage,
-                    sign: this.props.messageStore.messageList.PersonalMessageUnread.count
+                    sign: this.props.messageStore.PersonalMessageUnread.count
                 }
             ]
 		}
 	}
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.messageStore.messageList.PersonalMessageUnread.count != this.props.messageStore.messageList.PersonalMessageUnread.count){
+        if(nextProps.messageStore.PersonalMessageUnread.count != this.props.messageStore.PersonalMessageUnread.count){
         	let tabsState = this.state.tabs;
-            tabsState[1].sign = nextProps.messageStore.messageList.PersonalMessageUnread.count;
+            tabsState[1].sign = nextProps.messageStore.PersonalMessageUnread.count;
         	this.setState({
                 tabs: tabsState
 			})

@@ -40,7 +40,11 @@ class HomeRouter extends Component {
 		return (
 			<Navigator
 				initialRoute={initialRoute}
-				navigationBar={<MainNavBar ref={(navBar) => {this.navBar = navBar;}}  changeTab={(index, navigator) => navigator.jumpTo(tabs[index])}/>}
+				navigationBar={<MainNavBar
+					ref={(navBar) => {this.navBar = navBar;}}
+					changeTab={(index, navigator) => navigator.jumpTo(tabs[index])}
+					sign={this.props.messageStore.AllUnReadCount}
+				/>}
 				initialRouteStack={tabs}
 				configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
 				onDidFocus={(router) => {this.navBar.changeTab(router.index, false)}}
@@ -56,6 +60,6 @@ class HomeRouter extends Component {
 	}
 }
 function select(stores) {
-	return { ...stores.userStore }
+	return { messageStore: stores.messageStore }
 }
 export default connect(select)(HomeRouter);
