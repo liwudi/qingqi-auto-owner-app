@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
-import LabelInput from '../LabelInput.android';
+import LabelInput from '../LabelInput';
 import Env from '../../utils/Env';
 
 const emsg = Env.msg.form,

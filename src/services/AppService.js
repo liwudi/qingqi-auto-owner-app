@@ -144,7 +144,7 @@ export function statisRouteOilwearByDay(page_number, page_size, statisDate){
         {
             page_number:page_number || 1,
             page_size:page_size || 20,
-            statisDate: '20161011'//statisDate, //todo
+            statisDate: statisDate,
         }
     );
 }
@@ -278,7 +278,7 @@ export function queryCarOwnerMessage(page_number,page_size,userId){
 
 
 //里程按天统计接口
-export function statisMileageByDay(page_number, page_size, page_total, statisDate){
+export function statisMileageByDay(page_number, page_size, statisDate){
     return RequestService.get(
         makeUrl('statisMileageByDay'),
         {

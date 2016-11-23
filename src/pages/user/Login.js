@@ -18,7 +18,7 @@ import {UserActions, TYPES} from '../../actions/index';
 import HomeRouter from '../HomeRouter';
 import FindPassword from './FindPassword';
 
-import TopBanner from '../../components/TopBanner.android';
+import TopBanner from '../../components/TopBanner';
 import PhoneInput from '../../components/Inputs/Phone';
 import PasswordInput from '../../components/Inputs/Password';
 import SubmitButton from '../../components/SubmitButton';

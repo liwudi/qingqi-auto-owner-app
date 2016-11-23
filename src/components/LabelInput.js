@@ -31,6 +31,13 @@ export default class LabelInput extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.value !== this.props.value && nextProps.value !== this.state.value){
+            this.setState({value:nextProps.value});
+        }
+    }
+
+
     validate(isShowTip = true){
         if(this.props.validates){
             return this.props.validates.every((validate) => {
@@ -109,7 +116,6 @@ export default class LabelInput extends Component {
                     placeholderTextColor={Env.color.note}
                     onChangeText={this.onChangeText.bind(this)}
                     defaultValue={this.state.value}
-                    value={this.state.value}
                 />
                 {_renderRightView()}
             </View>

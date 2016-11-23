@@ -27,7 +27,7 @@ export default class OilManageCarList extends Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			statisDate: '20161011', //this.props.date.format('YYYYMMDD'),// todo
+			statisDate: this.props.date.format('YYYYMMDD'),
 			routeId: this.props.routeId,
             flag: 1 // 1是查看标杆 2是设置标杆
 		}

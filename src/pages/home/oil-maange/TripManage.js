@@ -14,18 +14,17 @@ import {
 
 import moment from 'moment';
 
+import Toast from '../../../components/Toast';
 import TopBanner from '../../../components/TopBanner';
 import * as Icons from '../../../components/Icons';
-import {statisRouteOilwearByDay, statisOilwearByDay} from '../../../services/AppService';
+import {statisMileageByDay, statisOilwearByDay} from '../../../services/AppService';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
-import Toast from '../../../components/Toast';
 import PageList from '../../../components/PageList';
 
 import Chart from '../../../components/Chart/Chart';
 
-import MyLineItem from './components/MyLineItem';
-import OilManageCarList from './OilManageCarList';
+import MyCarItem from './components/MyCarItem';
 
 let currentDate = moment();
 function getWeekDays(num) {
@@ -38,7 +37,7 @@ function getWeekDays(num) {
 	return weeks;
 }
 
-export default class OilManage extends Component {
+export default class TripManage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -80,7 +79,7 @@ export default class OilManage extends Component {
 		).then(rs => {
 			this.setState({datas : rs.list || []});
 		}).catch(e => {
-            Toast.show(e.message,Toast.SHORT);
+			Toast.show(e.message,Toast.SHORT);
 		})
 	}
 
@@ -92,12 +91,12 @@ export default class OilManage extends Component {
 
 		const data = this.state.weeks.map((date) => {
 			let _d = this.state.datas.filter((item) => item.statisDate == date.format('YYYYMMDD'));
-			return [date.format('MM-DD'), (_d.length > 0 ? _d[0].oilwear : 0)]
+			return [date.format('MM-DD'), (_d.length > 0 ? _d[0].mileage : 0)]
 		});
 
 		return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
-				<TopBanner {...this.props} title="油耗管理"/>
+				<TopBanner {...this.props} title="运营里程统计"/>
 				<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:'#FFF'}]}>
 					<TouchableOpacity onPress={this._preWeek.bind(this)}  style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
 						<Icons.IconArrowLeft style={styles.textBlue}/>
@@ -124,30 +123,21 @@ export default class OilManage extends Component {
 					}}
 					hideVerticalGridLines={true}
 				/>
-				<View style={estyle.padding}><Text>线路油耗详情</Text></View>
+				<View style={estyle.padding}><Text>车辆行驶里程详情</Text></View>
 				<PageList
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
 					renderRow={(row) => {
 						return (
-							<MyLineItem
+							<MyCarItem
 								data={row}
-								onPress={() => {
-									this.props.router.push(
-										OilManageCarList,
-										{
-											lineInfo: row,
-                                            routeId: row.routeId,
-											routeName: `${row.startPointName}——${row.endPointName}`,
-                                            date: this.state.weeks[this.state.currentIndex],
-                                            updata: this.backRender.bind(this)
-										})}
-								}/>
+								/>
 						)
 					}}
 					fetchData={(pageNumber, pageSize) => {
-						return statisRouteOilwearByDay(pageNumber, pageSize,this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
+
+						return statisMileageByDay(pageNumber, pageSize,this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
 					}}
-					reInitField={[this.state.currentIndex, this.state.datas, this.state.isRender]}
+					reInitField={[this.state.currentIndex, this.state.datas]}
 				/>
 			</View>
 		);

@@ -9,7 +9,7 @@ import {
 	TouchableOpacity
 } from 'react-native';
 
-import TopBanner from '../../components/TopBanner.android';
+import TopBanner from '../../components/TopBanner';
 
 export default class ServiceProvision extends Component {
 	render() {

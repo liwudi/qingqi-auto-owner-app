@@ -13,7 +13,7 @@ import {
 
 } from 'react-native';
 
-import TopBanner from '../../../components/TopBanner.android';
+import TopBanner from '../../../components/TopBanner';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import SubmitButton from '../../../components/SubmitButton';
 import Env from '../../../utils/Env';

@@ -19,7 +19,7 @@ import { UserActions,TYPES } from '../../actions/index';
 import PhoneInput from '../../components/Inputs/Phone';
 import TopBanner from '../../components/TopBanner';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
-import LabelInput from '../../components/LabelInput.android';
+import LabelInput from '../../components/LabelInput';
 import SubmitButton from '../../components/SubmitButton';
 import Button  from '../../components/widgets/Button.android';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
