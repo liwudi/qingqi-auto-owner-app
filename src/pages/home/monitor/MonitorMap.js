@@ -209,6 +209,9 @@ export default class MonitorMap extends Component {
     fetchDataAll(fun) {
         if (this.stopRequest) return;
         if (this.monitor) return;
+        console.info('requesting', '------------------------------', this.requesting)
+        if (this.requesting) return;
+        this.requesting = true;
         console.info(this.stopRequest)
         console.info('fetch all')
         this.Map.getBounds((mapbounds) => {
@@ -237,6 +240,7 @@ export default class MonitorMap extends Component {
             }).catch(() => {
                 console.info('all catch')
             }).finally(() => {
+                this.requesting = false;
                 setTimeout(() => {
                     this.fetchDataAll();
                 }, TIMEOUT * 1000);
@@ -244,9 +248,21 @@ export default class MonitorMap extends Component {
         });
     }
 
+    pauseView () {
+        this.requestStop();
+        this.Map.pause();
+    }
+
+    resumeView () {
+        this.Map.setMapRef(this.mapRef);
+        this.Map.resume();
+        this.requestStart();
+    }
+
     requestStop() {
         this.stopRequest = true;
         console.info('requestStop', this.stopRequest)
+        //this.Map.pause();
     }
 
     requestStart() {
@@ -257,7 +273,10 @@ export default class MonitorMap extends Component {
 
 
     componentWillUnmount() {
-        this.requestStop();
+        this.pauseView();
+        this.Map.finalize();
+        console.info('---------------------------finalize')
+        console.info('monitor map finalize')
     }
 
 
@@ -318,6 +337,7 @@ export default class MonitorMap extends Component {
 
     onInit(instance) {
         this.mapRef = instance.getMapRef();
+        console.info(this.mapRef, 'mmmmmmmmmm')
         this.Map = instance;
         this.MPoint = instance.MPoint;
         this.Marker = instance.Marker;
@@ -330,13 +350,18 @@ export default class MonitorMap extends Component {
 
     //去轨迹页面
     goToTrack() {
-        this.requestStop();
+        this.pauseView();
         this.props.router.push(MonitorMapTrack, {
             nav: {
                 carId: this.monitorCarId,
                 doBack: () => {
+                    //this.Map.finalize();
                     console.info('track')
-                    this.requestStart();
+                    setTimeout(() => {
+                        this.resumeView();
+                        console.info('back')
+                    }, 500)
+                    //this.resumeView();
                 }
             }
         })
@@ -344,20 +369,25 @@ export default class MonitorMap extends Component {
 
     //去列表页面
     goToList() {
-        this.requestStop();
-        this.props.router.replace(Monitor);
+        this.pauseView();
+        this.props.router.replace(Monitor, {nav: {
+            doBack: () => {
+                console.info('List')
+                this.resumeView();
+            }
+        }});
     }
 
     //去车况列表页页
     goToStatus() {
-        this.requestStop();
+        this.pauseView();
         this.props.router.push(CarStatus, {
             nav: {
                 carId: this.monitorCarId,
                 carCode: this.state.detail.carCode,
                 doBack: () => {
-                    console.info('status')
-                    this.requestStart();
+                    console.info('track')
+                    this.resumeView();
                 }
             }
         });

@@ -21,14 +21,18 @@ export default class MonitorMapTrack extends Component {
 			data: null
 		}
 	}
-
+	/*onInit(mapRef) {
+		this.mapRef = mapRef;
+	}*/
 	selectTime(date) {
 		this.fetchData(date);
 	}
 
 	doBack() {
+		console.info('---------------------------doback')
+
 		this.props.nav.doBack();
-		this.props.router.pop();
+		//this.props.router.pop();
 	}
 	fetchData(date) {
 /*		let data = {
@@ -51,7 +55,10 @@ export default class MonitorMapTrack extends Component {
 		data = JSON.parse(data.points);
 		this.setState({data: data});
 	}
-
+	componentWillUnmount() {
+		console.info('out')
+		this.props.nav.doBack();
+	}
 /*	componentDidMount() {
 		this.fetchData();
 	}*/
@@ -59,7 +66,7 @@ export default class MonitorMapTrack extends Component {
 	render() {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-				<TopBanner {...this.props} title="轨迹回放" onPress={()=>{this.doBack()}}/>
+				<TopBanner {...this.props} title="轨迹回放"/>
 				<View style={[estyle.fx1]}>
 					<MapLine data={this.state.data}/>
 				</View>
