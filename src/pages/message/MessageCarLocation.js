@@ -65,7 +65,6 @@ export default class MessageCarLocation extends Component {
 	fetchData() {
 		console.info(this.props.nav)
 		queryCarConditionDetail(this.props.nav).then((data) => {
-		//queryCarConditionDetail({type:6, stype:1, msgId: 44, userId:20}).then((data) => {
 			this.setData(data);
 		}).catch(() => {
 			Toast.show('没有详情', Toast.SHORT);
@@ -77,8 +76,7 @@ export default class MessageCarLocation extends Component {
 		this.setMarker(data);
 	}
 	setMarker(data) {
-		console.info('--------------------------')
-		console.info(data)
+		console.info('--------------------------', data);
 		let pt = this.MPoint([data.longitude, data.latitude]),
 			ox = 0.5,
 			oy = 17,
@@ -110,7 +108,6 @@ export default class MessageCarLocation extends Component {
 		}
 		this.MarkerRotate.add([mkOpts]);
 		this.Map.setZoomLevel(8);
-
 		setTimeout(() => {
 			this.Map.setCenter(pt);
 		}, 300);

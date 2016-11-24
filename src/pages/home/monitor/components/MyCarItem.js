@@ -22,21 +22,13 @@ export default class MyCarItem extends Component {
         if (this.stopRequest) return;
         this.props.data.carId &&
         queryRealTimeCar({carId: this.props.data.carId}).then((data)=> {
-            /*    data = {
-             carNo: '控123456',
-             direction: Math.floor(Math.random() * 360),
-             travelStatus: parseInt(Math.random() * 3),
-             realtimeSpeed: +(Math.random() + 60).toFixed(1),
-             todayLen: +(Math.random() + 30).toFixed(1),
-             position: "辽宁省沈阳市华航大厦",
-             slaveDriver: "李四",
-             mastDriver: "张三",
-             carId: "1234567"
-             };*/
             if (this.stopRequest) return;
-            this.setData(data);
+            if(data) {
+                this.setData(data);
+            }
+        }).catch().finally(()=> {
             this.setTimer();
-        }).catch();//.finally(()=> {});
+        });
     }
 
     setTimer() {
@@ -46,24 +38,16 @@ export default class MyCarItem extends Component {
     }
 
     setData(data) {
-        //data = Object.assign({}, data, this.props.data);
         data.carNo && (data.carCode = data.carNo);
         this.setState({data});
     }
 
-    clearTimer() {
-        this.timer && clearTimeout(this.timer);
-        this.timer = null;
-    }
-
     requestStop() {
         this.stopRequest = true;
-        this.clearTimer();
     }
 
     requestStart() {
         this.stopRequest = false;
-        this.setData(this.props.data);
         this.fetchData();
     }
 
@@ -82,10 +66,10 @@ export default class MyCarItem extends Component {
     render() {
         return (
             <View>
-                {this.state.data && <Item data={this.state.data} onPress={() => {
+                 <Item data={this.state.data || {}} onPress={() => {
                     this.requestStop();
                     this.props.onPress();
-                }}/>}
+                }}/>
             </View>
         )
     }

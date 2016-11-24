@@ -36,6 +36,7 @@ export default class MapbarMap extends Component {
         this.state = {
             showLegend: false
         }
+        this.zoomTimer = null;
     }
     renderController() {
         return <View>
@@ -66,19 +67,27 @@ export default class MapbarMap extends Component {
             instance.getZoomLevel().then((zoom) => {this.onZoomOut(zoom);});
         }, 300)
     }
+    zoomTimeout(fun) {
+        this.zoomTimer && clearTimeout(this.zoomTimer);;
+        this.zoomTimer = setTimeout(fun, 500);
+    }
     onZoomIn(zoom) {
         console.info('onZoomIn', zoom)
         zoom = Math.ceil(zoom);
         if(zoom > 14) zoom = 14;
-        if(zoom == 14) Toast.show('已经是最大级别', Toast.SHORT);
-        this.props.onZoomIn && this.props.onZoomIn(zoom);
+        this.zoomTimeout(() => {
+            if(zoom == 14) Toast.show('已经是最大级别', Toast.SHORT);
+            this.props.onZoomIn && this.props.onZoomIn(zoom);
+        });
     }
     onZoomOut(zoom) {
         console.info('onZoomOut', zoom)
         zoom = Math.floor(zoom);
         if(zoom < 0) zoom = 0;
-        if(zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
-        this.props.onZoomOut && this.props.onZoomOut(zoom);
+        this.zoomTimeout(() => {
+            if(zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
+            this.props.onZoomOut && this.props.onZoomOut(zoom);
+        });
     }
     onSpan() {
         console.info('span')

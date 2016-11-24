@@ -38,6 +38,17 @@ export default class PageList extends Component {
             resultList : []
         };
         this.reInitField = this.props.reInitField || null;
+        this.active = false; //页面活动状态
+    }
+
+    getActive() {
+        return this.active;
+    }
+    startActive() {
+        this.active = true;
+    }
+    stopActive() {
+        this.active = false;
     }
 
     getData(pageNumber){
@@ -48,20 +59,25 @@ export default class PageList extends Component {
                 rs = rs || {};
                 this._data = rs.list && rs.list.length > 0 ? this._data.concat(rs.list) : this._data;
                 if(this._data !== []){
-                    this.setState({
-                        ds: this.state.ds.cloneWithRows(this._data),
-                        pageTotal : rs.page_total || 0
-                    });
+                    if(this.getActive()) {
+                        this.setState({
+                            ds: this.state.ds.cloneWithRows(this._data),
+                            pageTotal : rs.page_total || 0
+                        });
+                    }
                 }
             })
             .catch(e => {
                 Toast.show(e.message || '未获取到数据', Toast.SHORT);
             })
             .finally(() => {
-                this.setState({
-                    isLoading : false,
-                    refreshing: false
-                });
+                if(this.getActive()) {
+                    this.setState({
+                        isLoading : false,
+                        refreshing: false
+                    });
+                }
+
             });
     }
 
@@ -74,9 +90,14 @@ export default class PageList extends Component {
     }
 
     componentDidMount(){
+        this.startActive();
         setTimeout(() => {
             this.getData();
         }, 500);
+    }
+
+    componentWillUnmount() {
+        this.stopActive();
     }
 
     reInitFetch(){

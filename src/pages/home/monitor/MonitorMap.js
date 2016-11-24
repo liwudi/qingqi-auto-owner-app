@@ -87,14 +87,11 @@ export default class MonitorMap extends Component {
     fetchStatus() {
         if (this.stopRequest) return;
         if (!this.monitor) return;
-        console.info(this.stopRequest)
-        console.info('fetch status')
-        //queryCarCondition({carId: this.monitorCarId}).then((data) => {
-        queryCarCondition(undefined, undefined, this.monitorCarId).then((data) => {
+        console.info('fetch status, this.stopRequest', this.stopRequest)
+        queryCarCondition(undefined, undefined, this.monitorCarId).then((data = {}) => {
             if (this.stopRequest) return;
             if (this.monitor) {
-                this.carStatus = data.list || [];
-                this.setState({detail: Object.assign({}, this.state.detail || {}, data.list[0] || {})});
+                this.setState({detail: Object.assign(this.state.detail || {}, data.list[0] || {})});
             }
         }).catch(() => {
             console.info('status catch')
@@ -109,33 +106,13 @@ export default class MonitorMap extends Component {
     fetchDataSingle() {
         if (this.stopRequest) return;
         if (!this.monitor) return;
-        console.info(this.stopRequest)
-        console.info('fetch single')
-        queryRealTimeCar({carId: this.monitorCarId}).then((data) => {
-        //queryRealTimeCar({carId: 10}).then((data) => {
+        console.info('fetch single, this.stopRequest', this.stopRequest)
+        queryRealTimeCar({carId: this.monitorCarId}).then((data = {}) => {
             if (this.stopRequest) return;
             if (this.monitor) {
                 Object.assign(data, this.state.data);
-                console.info(data)
-                //    pcount++;
-                /*data = {
-                 longitude: linePts[pcount][0],
-                 latitude: linePts[pcount][1],
-                 count: 1,
-                 carCode: '控123456',
-                 carNo: '控123456',
-                 direction: Math.floor(Math.random() * 360),
-                 travelStatus: parseInt(Math.random() * 3),
-                 realtimeSpeed: +(Math.random() + 60).toFixed(1),
-                 todayLen: +(Math.random() + 30).toFixed(1),
-                 position: "辽宁省沈阳市华航大厦",
-                 slaveDriver: "李四",
-                 mastDriver: "张三",
-                 carId: "1234567"
-                 };*/
-                this.setState({detail: Object.assign({}, this.state.detail || {}, data)});
-                //this.setState({detail: data});
-                this.list = [data]
+                this.setState({detail: Object.assign(this.state.detail || {}, data)});
+                this.list = [data];
                 this.setMarker();
                 this.carToCenter(data);
             }
@@ -151,11 +128,9 @@ export default class MonitorMap extends Component {
     fetchDataAll(fun) {
         if (this.stopRequest) return;
         if (this.monitor) return;
-        console.info('requesting', '------------------------------', this.requesting)
         if (this.requesting) return;
         this.requesting = true;
-        console.info(this.stopRequest)
-        console.info('fetch all')
+        console.info('fetch all, this.stopRequest', this.stopRequest);
         this.Map.getBounds().then(mapbounds => {
             let b = mapbounds;
             queryCarPolymerize({
@@ -164,20 +139,17 @@ export default class MonitorMap extends Component {
                 rightLongitude: b.maxLongitude,
                 rightLatitude: b.maxLatitude,
                 zoom: this.zoom
-            }).then((data) => {
-                this.list = data.list || [];
-                this.list.push({
-                    "carId": 6,
-                    "direction": 11,
-                    "latitude": 24.143518,
-                    "longitude": 114.786877,
-                    "carNo": "闽Z23456",
-                    "travelStatus": 2
-                });
+            }).then((data = {}) => {
                 if (this.stopRequest) return;
                 if (!this.monitor) {
-                    this.setMarker();
-                    fun && fun();
+                    this.list = data.list || [];
+                    if(this.list.length) {
+                        this.setMarker();
+                        fun && fun();
+                    } else {
+                        this.requestStop();
+                        Toast.show('没有监控车辆', Toast.SHORT);
+                    }
                 }
             }).catch(() => {
                 console.info('all catch')
@@ -190,12 +162,12 @@ export default class MonitorMap extends Component {
         });
     }
 
-    pauseView () {
+    pauseView() {
         this.requestStop();
         this.Map.pause();
     }
 
-    resumeView () {
+    resumeView() {
         this.Map.setMapRef(this.mapRef);
         this.Map.resume();
         this.requestStart();
@@ -216,7 +188,6 @@ export default class MonitorMap extends Component {
     componentWillUnmount() {
         this.pauseView();
         this.Map.finalize();
-        console.info('---------------------------finalize')
         console.info('monitor map finalize')
     }
 
@@ -262,7 +233,7 @@ export default class MonitorMap extends Component {
                 offsetX: ox,
                 offsetY: oy,
                 click: true
-            }
+            };
         this.markers.push(mkOpts);
         mkOpts = {
             longitude: pt.longitude,
@@ -271,7 +242,7 @@ export default class MonitorMap extends Component {
             click: true,
             imageName: imageName,
             direction: direction
-        }
+        };
         this.markers_d.push(mkOpts);
     }
 
@@ -284,7 +255,7 @@ export default class MonitorMap extends Component {
         this.MarkerRotate = instance.MarkerRotate;
         this.fetchDataAll(() => {
             this.props.nav && this.props.nav.carId && this.readyMonitor(this.props.nav.carId, true);
-            //this.props.nav && this.props.nav.carId && this.readyMonitor(, true);
+
         });
     }
 
@@ -307,12 +278,14 @@ export default class MonitorMap extends Component {
     //去列表页面
     goToList() {
         this.pauseView();
-        this.props.router.replace(Monitor, {nav: {
-            doBack: () => {
-                console.info('List')
-                this.resumeView();
+        this.props.router.replace(Monitor, {
+            nav: {
+                doBack: () => {
+                    console.info('List')
+                    this.resumeView();
+                }
             }
-        }});
+        });
     }
 
     //去车况列表页页
@@ -329,34 +302,33 @@ export default class MonitorMap extends Component {
             }
         });
     }
+
     onSpan() {
         this.toFetch();
     }
 
     onZoomChange(zoom) {
-        if(this.zoom === zoom) return;
+        if (this.zoom === zoom) return;
         this.zoom = zoom;
         this.toFetch();
     }
 
     carToCenter(data) {
-        let pt = this.MPoint([data.longitude, data.latitude]);
-        this.Map.setCenter(pt);
+        setTimeout(() => {
+            let pt = this.MPoint([data.longitude, data.latitude]);
+            this.Map.setCenter(pt);
+        }, 300);
     }
 
     readyMonitor(carId, zoom) {
-        console.info(arguments)
-        console.info('===============================================================================')
         let data = this.list['carId_' + carId];
-        console.info(data)
+        console.info('readyMonitor', carId, data);
         if (!data) return;
         this.monitorCarId = carId;
         this.setState({data: data});
-        if (zoom) {
+        if(zoom) {
             this.Map.setZoomLevel(8);
-            setTimeout(() => {
-                this.carToCenter(data);
-            }, 300);
+            this.carToCenter(data);
         }
     }
 
@@ -366,12 +338,9 @@ export default class MonitorMap extends Component {
         this.setState({monitor: monitor, detail: null});
         if (monitor) {
             let data = this.state.data;
-            console.info('monitor, =======================================================')
-            console.info(data)
+            console.info('setMonitor', data);
             this.Map.setZoomLevel(8);
-            setTimeout(() => {
-                this.carToCenter(data);
-            }, 300);
+            this.carToCenter(data);
         }
         this.requestStart();
         Toast.show(monitor ? '正在开启实时监控' : '已关闭实时监控', Toast.SHORT);
@@ -380,10 +349,8 @@ export default class MonitorMap extends Component {
     clickMarker(idx) {
         let data = this.list[idx];
         if (data.count > 1) {
-            this.Map.setZoomLevel(++this.zoom);
-            setTimeout(() => {
-                this.carToCenter(data);
-            }, 300);
+            this.Map.zoomIn();
+            this.carToCenter(data);
         } else {
             this.readyMonitor(data.carId);
         }
@@ -414,7 +381,8 @@ export default class MonitorMap extends Component {
                 }}/>
                     : this.state.data ?
                     <View style={[estyle.padding]}>
-                        <Text style={[estyle.text, {color: Env.color.note}]}>当前车辆：<Text style={[estyle.text, {color: Env.color.important}]}>{this.state.data.carNo}</Text></Text>
+                        <Text style={[estyle.text, {color: Env.color.note}]}>当前车辆：<Text
+                            style={[estyle.text, {color: Env.color.important}]}>{this.state.data.carNo}</Text></Text>
                     </View>
                     : null
             }
@@ -440,21 +408,21 @@ export default class MonitorMap extends Component {
             </View> : null;//<ListItem left="选择监控车辆"/>
 
     }
+
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="地图模式"
-                    rightView={
-                        <Button onPress={()=> {
-                           this.goToList()
-                        }}
-                               style={[{height: 90 * Env.font.base}, estyle.paddingLeft]}>
-                           <IconList color="#ffffff"/>
-                        </Button>
-                    }
+                           rightView={
+                               <Button onPress={()=> {
+                                   this.goToList()
+                               }}
+                                       style={[{height: 90 * Env.font.base}, estyle.paddingLeft]}>
+                                   <IconList color="#ffffff"/>
+                               </Button>
+                           }
                 />
                 <MapbarMap style={[estyle.fx1]}
-                           zoom={this.zoom}
                            center={this.center}
                            onZoomIn={(zoom)=> {
                                this.onZoomChange(zoom)

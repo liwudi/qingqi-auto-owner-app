@@ -22,8 +22,6 @@ const estyle = Env.style;
 export default class CarStatus extends Component {
     constructor(props) {
         super(props);
-        console.info('999999999999999999999999990')
-        console.info(this.props.nav)
     }
 
     doBack() {
