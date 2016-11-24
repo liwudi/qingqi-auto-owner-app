@@ -15,11 +15,11 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.mapbar.map.MapRenderer;
+import com.mapbar.map.Vector2DF;
 import com.mapbar.react.LogUtils;
 import com.mapbar.react.map.config.Constants;
 import com.mapbar.react.map.operation.Location;
-import com.mapbar.map.MapRenderer;
-import com.mapbar.map.Vector2DF;
 /**
  * Created by Administrator on 2016/10/20.
  */
@@ -271,6 +271,21 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
         mapRenderer.commitAnimations(200, MapRenderer.Animation.linear);
     }
 
+    /*
+     *  获取地图级别
+     * */
+    @ReactMethod
+    public void getZoomLevel(int tag, Promise promise) {
+        MapRenderer mapRenderer = getMapView(tag).getMapRenderer();
+        double mZoomLevel = (double)mapRenderer.getZoomLevel();
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putDouble("zomLevel",mZoomLevel);
+        promise.resolve(writableMap);
+    }
+
+    /*
+     *  获取地图所见区域
+     * */
     @ReactMethod
     public void getWorldRect(int tag, Promise promise) {
         MapbarMapView mapView = getMapView(tag);
@@ -284,6 +299,9 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
         promise.resolve(rectMap);
     }
 
+    /*
+     *  设置地图所见区域
+     * */
     @ReactMethod
     public void fitWorldArea(int tag, ReadableMap map) {
         MapbarMapView mapView = getMapView(tag);
