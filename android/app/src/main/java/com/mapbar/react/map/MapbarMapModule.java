@@ -278,9 +278,9 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
     public void getZoomLevel(int tag, Promise promise) {
         MapRenderer mapRenderer = getMapView(tag).getMapRenderer();
         double mZoomLevel = (double)mapRenderer.getZoomLevel();
-        WritableMap writableMap = Arguments.createMap();
-        writableMap.putDouble("zomLevel",mZoomLevel);
-        promise.resolve(writableMap);
+     /*   WritableMap writableMap = Arguments.createMap();
+        writableMap.putDouble("zoomLevel",mZoomLevel);*/
+        promise.resolve(mZoomLevel);
     }
 
     /*
