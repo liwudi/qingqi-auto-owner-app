@@ -23,12 +23,11 @@ const estyle = Env.style;
 class PersonalMessage extends Component{
     constructor(props){
         super(props);
-        console.log('PersonalMessage@@@@@@@@@@@@@@@@@',props.messageStore)
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.messageStore.messageList.PersonalMessage.length != this.props.messageStore.messageList.PersonalMessage.length){
-            setTimeout(() => this.refs.list.reInitFetch(), 100);
+        if(nextProps.messageStore.PersonalMessage.length != this.props.messageStore.PersonalMessage.length){
+            setTimeout(() => this.refs.list.reInitFetch(), 50);
         }
     }
 
@@ -64,7 +63,7 @@ class PersonalMessage extends Component{
                     }}
                     fetchData={() => {
                         return Promise.resolve({
-                            list : Object.assign([], this.props.messageStore.messageList.PersonalMessage).reverse(),
+                            list : Object.assign([], this.props.messageStore.PersonalMessage).reverse(),
                             pageTotal:1
                         })
                     }}

@@ -66,15 +66,23 @@ class Main extends Component {
 				}
 			}
 		);
-		DeviceEventEmitter.addListener("notificationClick", (event) => {
-			console.log('点击了通知栏消息：', event);
-			this.props.dispatch(MessageActions.addMessage(event));
-		});
-		DeviceEventEmitter.addListener("messageReceiver", (event) => {
+
+        DeviceEventEmitter.addListener("notificationClick", (event) => {
+            console.log('点击了通知栏消息：', event);
+            console.log(this.navigator.getCurrentRoutes())
+            // this.props.dispatch(MessageActions.addMessage(event));
+        });
+        DeviceEventEmitter.addListener("notificationReceive", (event) => {
+            event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
+            console.log('收到了通知栏消息：', event);
+            this.props.dispatch(MessageActions.addMessage(event));
+        });
+        DeviceEventEmitter.addListener("messageReceiver", (event) => {
             event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
             console.log('接收到消息：', event);
-			this.props.dispatch(MessageActions.addMessage(event));
-		});
+            this.props.dispatch(MessageActions.addMessage(event));
+        });
+
         this.props.dispatch(MessageActions.getMessages());
 	}
 

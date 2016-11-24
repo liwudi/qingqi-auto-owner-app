@@ -21,6 +21,7 @@ const STORAGE_KEY_CAR = 'pushMessageCar';
  * @returns {*}
  */
 export function addMessage(message, messageId){
+    console.log(message, messageId)
     let type = message.CustomContent.type || 0;
     switch (type){
         case '4':
@@ -191,16 +192,15 @@ export function readAllMessageAndUnreadCount() {
         readAllCarMessage()
     ])
     .then((rs) => {
-        console.log('@@@@@@@@@@@@@@@@@@@@@',rs)
-        global.messageUnReadCount = rs[2].reduce((a, b) => {
+        let messageUnReadCount = rs[2].reduce((a, b) => {
             return a + b.count
         }, rs[1].count || 0);
 
-        console.log('global.messageUnReadCount',global.messageUnReadCount)
         return {
             PersonalMessage: rs[0],
             PersonalMessageUnread: rs[1],
-            CarMessage: rs[2]
+            CarMessage: rs[2],
+            AllUnReadCount: messageUnReadCount
         }
     });
 }

@@ -15,7 +15,7 @@ import {
 import TopBanner from '../../components/TopBanner';
 import PageList from '../../components/PageList';
 import Env from '../../utils/Env';
-import {IconUser} from '../../components/Icons';
+import {IconUser, IconLocationMarker} from '../../components/Icons';
 import ConfirmButton from '../../components/ConfirmButton';
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import { readAllCarMessageForId } from '../../services/PushService';
@@ -23,6 +23,12 @@ import MessageCarLocation from './MessageCarLocation';
 const estyle = Env.style;
 
 class MessageListCar extends Component {
+
+    componentWillReceiveProps(nextProps){
+        console.log('CarListMessage componentWillReceiveProps');
+		setTimeout(() => this.refs.list.reInitFetch(), 50);
+    }
+
 	render() {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
@@ -31,18 +37,16 @@ class MessageListCar extends Component {
 					ref="list"
 					style={estyle.fx1}
 					renderRow={(row) => {
-						console.info(row)
                         row.message =  row.message || {};
                         let messageDetail = row.messageDetail || {};
-                        return <ViewForRightArrow onPress={() => {
+                        return <ViewForRightArrow style={estyle.cardBackgroundColor} onPress={() => {
                         	this.props.router.push(MessageCarLocation, {nav: row.message.CustomContent});
 						}}>
-								<View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
+								<View style={[estyle.fxRow]}>
 									<View style={estyle.fxCenter}>
 										<Image
-											style={{borderRadius:100,width:50,height:50,borderWidth:4 * Env.font.base,
-												borderColor:'#85C7E7',}}
-											source={require('../../assets/images/icon-1.png')}
+											style={{borderRadius:100,width:60,height:60}}
+											source={require('../../assets/images/message-type-1.png')}
 										/>
 									</View>
 									<View style={[estyle.marginLeft,estyle.fx1]}>
@@ -50,16 +54,20 @@ class MessageListCar extends Component {
 											<View style={estyle.fx1}>
 												<Text style={[estyle.articleTitle]}>{messageDetail.carStatus}</Text>
 											</View>
-											<Text style={[estyle.text,estyle.marginLeft]}>{messageDetail.happenTime}</Text>
+											<Text style={[estyle.note,estyle.marginLeft]}>{messageDetail.happenTime}</Text>
 										</View>
 										<View style={[estyle.fxRow, estyle.fxRowCenter]}>
-											<IconUser/>
-											<Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.mainDriverName}</Text>
-											<IconUser color={Env.color.main} style ={estyle.marginLeft}/>
-											<Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.subDriverName}</Text>
+											<IconUser color='#FEBEBE'/><Text> </Text>
+											<Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{messageDetail.mastDriver || '无'}</Text>
+
+											<IconUser color='#C4DFFE'/><Text> </Text>
+											<Text style={[estyle.note, {color: Env.color.text}]}>{messageDetail.slaveDriver || '无'}</Text>
 										</View>
-										<View>
-											<Text>{messageDetail.position}</Text>
+										<View style={[estyle.fx1,estyle.fxRow]}>
+											<IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
+											<Text> </Text>
+											<Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{messageDetail.position || '未获取到位置信息'}</Text>
+
 										</View>
 									</View>
 								</View>
@@ -70,6 +78,7 @@ class MessageListCar extends Component {
                         return readAllCarMessageForId(this.props.carId).then(rs => {
                         	return {
                                 list : Object.assign([], rs).reverse(),
+                                pageTotal:1
 							}
 						});
                     }}

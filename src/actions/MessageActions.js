@@ -12,7 +12,7 @@ export function addMessage(message) {
 		.then(() => {
 			return PushService.readAllMessageAndUnreadCount()
 		}).then((rs) => {
-			dispatch({'type': TYPES.PUSH_MESSAGE_LIST, messageList: rs});
+			dispatch({'type': TYPES.PUSH_MESSAGE_LIST, ...rs});
 		}).catch(e => {
 			console.log(e)
 		});
@@ -23,7 +23,7 @@ export function getMessages() {
 	return (dispatch) => {
         PushService.readAllMessageAndUnreadCount()
 		.then((rs) => {
-			dispatch({'type': TYPES.PUSH_MESSAGE_LIST, messageList: rs});
+			dispatch({'type': TYPES.PUSH_MESSAGE_LIST, ...rs});
 		});
 	}
 }
