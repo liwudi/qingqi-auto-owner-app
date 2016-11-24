@@ -4,12 +4,8 @@
 
 import React, {Component} from "react";
 import {
-    TouchableOpacity,
     NativeModules,
-    DeviceEventEmitter,
-    findNodeHandle,
-    TouchableHighlight,
-    Image
+    findNodeHandle
 } from "react-native";
 
 const module = NativeModules.MapbarMapModule;
@@ -184,14 +180,8 @@ export function setMapRef(ref) {
 }
 
 export function finalize () {
-    console.info('-----------------------------------------------------abc')
-
-    //console.info(ref)
     module.onDestroyMap(mapRef);
     mapRef = null;
-    /*
-   //
-    mapRef = null;*/
 }
 
 /**
@@ -206,6 +196,9 @@ export function setCenter(opts) {
 export function setZoomLevel(zoom) {
     module.setZoomLevel(mapRef, zoom);
 }
+export function getZoomLevel() {
+    return module.getZoomLevel(mapRef);
+}
 export function zoomIn() {
     module.setZoomIn(mapRef, 1);
 }
@@ -217,28 +210,20 @@ const MIN_LNG = 72.5,
     MIN_LAT = 32.5,
     MAX_LNG = 132.5,
     MAX_LAT = 50.5;
-export function getBounds(callback) {
-
-    console.info('------------------getBounds', mapRef)
-    module.getWorldRect(mapRef, function (boundsstr) {
-        //left top right bottom
-        boundsstr = boundsstr.split(' ');
-        let minlng = +boundsstr[0] / e,
-            minlat = +boundsstr[1] / e,
-            maxlng = +boundsstr[2] / e,
-            maxlat = +boundsstr[3] / e;
-
-/*        leftLongitude: 72.669699, //左下， 右上
-            leftLatitude: 32.049134,
-            rightLongitude: 132.669699,
-            rightLatitude: 49.089134,*/
-
-        callback({
+export function getBounds() {
+    return module.getWorldRect(mapRef).then(bounds => {
+        let minlng = +bounds.minLongitude / e,
+            minlat = +bounds.minLatitude / e,
+            maxlng = +bounds.maxLongitude / e,
+            maxlat = +bounds.maxLatitude / e;
+        let _bounds = {
             minLongitude: minlng < MIN_LNG ? MIN_LNG : minlng,
             minLatitude: minlat < MIN_LAT ? MIN_LAT : minlat,
             maxLongitude: maxlng > MAX_LNG ? MAX_LNG : maxlng,
             maxLatitude: maxlat > MAX_LAT ? MAX_LAT : maxlat
-        });
+        }
+        console.info('getBounds', bounds);
+        return _bounds;
     });
 }
 

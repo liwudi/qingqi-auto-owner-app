@@ -11,6 +11,7 @@ import {
     TouchableHighlight,
     Image
 } from "react-native";
+import Toast from '../components/Toast';
 const MapView = require('./MapView');
 import * as instance from './MapbarMapInstance';
 import Env from '../utils/Env';
@@ -21,7 +22,7 @@ export default class MapbarMap extends Component {
     constructor() {
         super();
         this.options = {
-            zoom: 8,
+            zoom: 0,
             center: {
                 longitude: 115.95380,//2868291,11595380
                 latitude: 28.68291
@@ -54,22 +55,33 @@ export default class MapbarMap extends Component {
     }
 
     zoomIn() {
-//        instance.pause();
         instance.zoomIn();
-        this.onZoomIn();
+        setTimeout(() => {
+            instance.getZoomLevel().then((zoom) => {this.onZoomIn(zoom);});
+        }, 300)
     }
     zoomOut() {
-    //    instance.resume();
         instance.zoomOut();
-        this.onZoomOut();
+        setTimeout(() => {
+            instance.getZoomLevel().then((zoom) => {this.onZoomOut(zoom);});
+        }, 300)
     }
     onZoomIn(zoom) {
+        console.info('onZoomIn', zoom)
+        zoom = Math.ceil(zoom);
+        if(zoom > 14) zoom = 14;
+        if(zoom == 14) Toast.show('已经是最大级别', Toast.SHORT);
         this.props.onZoomIn && this.props.onZoomIn(zoom);
     }
     onZoomOut(zoom) {
+        console.info('onZoomOut', zoom)
+        zoom = Math.floor(zoom);
+        if(zoom < 0) zoom = 0;
+        if(zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
         this.props.onZoomOut && this.props.onZoomOut(zoom);
     }
     onSpan() {
+        console.info('span')
         this.props.onSpan && this.props.onSpan();
     }
     onInit() {
@@ -111,19 +123,6 @@ export default class MapbarMap extends Component {
                 </Button>
             </View>}
         </View>;
-    }
-
-    /*componentDidMount() {
-        instance.initMap(this.refs.mapView);
-        this.props.initMap && this.props.initMap(instance);
-        console.info('map load')
-    }
-*/
-
-    componentWillUnmount() {
-        console.info('map delete1')
-     /*   instance.clearOverlays();*/
-     //   instance.finalize();
     }
 }
 

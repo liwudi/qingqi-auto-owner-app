@@ -33,7 +33,7 @@ export default class StatusDetail extends Component {
                     <View style={[estyle.fx1]}>
                         <View style={[estyle.fxRow, estyle.fxRowCenter, estyle.marginFontBottom]}>
                             <View style={[estyle.fx1, estyle.fxRow]}>
-                                <Text style={[estyle.text,{color: Env.color.important}]}>{item.carNumber}</Text>
+                                <Text style={[estyle.text,{color: Env.color.important}]}>{item.carNumber || '未获取到车牌号'}</Text>
                             </View>
                             <View style={[estyle.fx1]}>
                                 <Text style ={{textAlign:'right'}}>今日：<Text>{item.todayMileage || 0}</Text> km</Text>
@@ -47,7 +47,10 @@ export default class StatusDetail extends Component {
                             <Text style={[estyle.note, {color: Env.color.text}]}>{item.subDriverName || '无'}</Text>
                         </View>
                         <Text style={[estyle.note,{color: Env.color.auxiliary}, estyle.marginFontBottom]}>车况：{item.carStatus || "无"}</Text>
-                        <Text style={[estyle.note, estyle.marginFontBottom]}>{item.happenTime}</Text>
+                        {
+                            item.happenTime ? <Text style={[estyle.note, estyle.marginFontBottom]}>{item.happenTime}</Text> : null
+                        }
+
 
                         <View style={[estyle.fxRow, estyle.fxRowCenter, estyle.marginFontBottom]}>
                             <Text style={[estyle.note]}>瞬时油耗：</Text>

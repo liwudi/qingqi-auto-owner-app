@@ -64,8 +64,8 @@ export default class MessageCarLocation extends Component {
 	//单车车辆信息
 	fetchData() {
 		console.info(this.props.nav)
-		//queryCarConditionDetail(this.props.nav).then((data) => {
-		queryCarConditionDetail({type:6, stype:1, msgId: 44, userId:20}).then((data) => {
+		queryCarConditionDetail(this.props.nav).then((data) => {
+		//queryCarConditionDetail({type:6, stype:1, msgId: 44, userId:20}).then((data) => {
 			this.setData(data);
 		}).catch(() => {
 			Toast.show('没有详情', Toast.SHORT);
@@ -126,7 +126,9 @@ export default class MessageCarLocation extends Component {
 		this.fetchData();
 	}
 
-
+	componentWillUnmount() {
+		this.Map.finalize();
+	}
 
 	renderLegend() {
 		return <View style={[styles.legendView, estyle.padding, {paddingBottom: Env.font.base * 10}]}>

@@ -12,29 +12,25 @@ import {
 import Env from '../../../../utils/Env';
 const estyle = Env.style;
 import ViewForRightArrow from '../../../../components/ViewForRightArrow';
-import { IconUser, IconLocationMarker } from '../../../../components/Icons';
+import { IconClock, IconLocationMarker } from '../../../../components/Icons';
 
 export default class StatusItem extends Component {
 
     render() {
         let item = this.props.data;
-        const SpeedView= (realtimeSpeed) => {
-            if (realtimeSpeed == 0) {
-                return "静止";
-            } else {
-                return realtimeSpeed + "km/h";
-            }
-        }
-
         return (
             <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}
                                 rightIcon={null}>
                 <View style={[estyle.fxRow]}>
                     <View style={[estyle.fx1]}>
-                        <Text style={[estyle.note,{color: Env.color.auxiliary}, estyle.marginFontBottom]}>{item.msgTitle}</Text>
-                        <Text style={[estyle.marginFontBottom,estyle.note, {color: Env.color.text}]}>{item.msgContent}</Text>
+                        <Text style={[{color: Env.color.auxiliary, fontSize: Env.font.articleTitle}, estyle.marginFontBottom]}>{item.msgTitle}</Text>
+                        <Text style={[estyle.marginFontBottom,estyle.text]}>{item.msgContent}</Text>
                         <Text style={[estyle.note, estyle.marginFontBottom]}>{item.happenTime}</Text>
-                        <Text style={[estyle.marginFont,estyle.note]}>{item.position}</Text>
+                        <View style={[estyle.fx1,estyle.fxRow]}>
+                            <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
+                            <Text> </Text>
+                            <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
+                        </View>
                     </View>
                 </View>
             </ViewForRightArrow>
