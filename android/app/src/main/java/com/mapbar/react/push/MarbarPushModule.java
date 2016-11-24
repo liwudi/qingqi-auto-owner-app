@@ -1,5 +1,6 @@
 package com.mapbar.react.push;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +51,7 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
     private  final String messageReceiver = "messageReceiver";
     private BroadcastReceiver innerReceiver;
     private IntentFilter innerFilter;
-
+    private String tag="MarbarPushModule";
     public MarbarPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.context = reactContext;
@@ -138,6 +139,21 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
         String  deviceid = sharedPrefs.getString(PushConstants.DEVICE_ID, "");
         WritableMap more = Arguments.createMap();
         more.putString("deviceId",deviceid);
+        promise.resolve(more);
+    }
+   //根据noticeid 清除通知
+    @ReactMethod
+    public void deleteNotifacation(int noticeId,Promise promise) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        WritableMap more = Arguments.createMap();
+        if (noticeId > 0) {
+            notificationManager.cancel(noticeId);
+            more.putInt("delete noticeId",noticeId);
+        }else{
+            notificationManager.cancelAll();
+            more.putInt("delete all",noticeId);
+        }
+        LogUtils.logd(tag,"deleteNotifacation:"+noticeId);
         promise.resolve(more);
     }
 }
