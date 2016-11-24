@@ -143,7 +143,7 @@ public class MarbarPushModule extends ReactContextBaseJavaModule implements Life
     }
    //根据noticeid 清除通知
     @ReactMethod
-    public void deleteNotifacation(int noticeId,Promise promise) {
+    public void cancelNotifacation(int noticeId,Promise promise) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         WritableMap more = Arguments.createMap();
         if (noticeId > 0) {

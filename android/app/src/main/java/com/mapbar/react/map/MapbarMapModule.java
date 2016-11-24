@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.os.Message;
 import android.util.Log;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -13,12 +14,12 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 import com.mapbar.react.LogUtils;
 import com.mapbar.react.map.config.Constants;
 import com.mapbar.react.map.operation.Location;
 import com.mapbar.map.MapRenderer;
 import com.mapbar.map.Vector2DF;
-import com.facebook.react.bridge.Callback;
 /**
  * Created by Administrator on 2016/10/20.
  */
@@ -271,11 +272,16 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getWorldRect(int tag, Callback callback) {
+    public void getWorldRect(int tag, Promise promise) {
         MapbarMapView mapView = getMapView(tag);
         Rect rect = mapView.getMapRenderer().getWorldRect();
         LogUtils.logd(TAG, "rect:" + rect);
-        callback.invoke(rect.flattenToString());
+        WritableMap rectMap = Arguments.createMap();
+        rectMap.putInt("minLongitude",rect.left);
+        rectMap.putInt("minLatitude",rect.top);
+        rectMap.putInt("maxLongitude",rect.right);
+        rectMap.putInt("maxLatitude",rect.bottom);
+        promise.resolve(rectMap);
     }
 
     @ReactMethod
