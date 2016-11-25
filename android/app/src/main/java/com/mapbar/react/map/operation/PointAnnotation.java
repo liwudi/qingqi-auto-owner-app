@@ -10,12 +10,12 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
-import com.mapbar.react.CommonUtils;
-import com.mapbar.react.LogUtils;
-import com.mapbar.react.map.MapbarMapView;
 import com.mapbar.map.CustomAnnotation;
 import com.mapbar.map.MapRenderer;
 import com.mapbar.map.Vector2DF;
+import com.mapbar.react.CommonUtils;
+import com.mapbar.react.LogUtils;
+import com.mapbar.react.map.MapbarMapView;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -192,8 +192,14 @@ public class PointAnnotation extends BaseOverlay {
                     }
                     if (pointMap.hasKey("iconText") && pointMap.hasKey("iconTextColor") && pointMap.hasKey("iconTextSize")) {
                         String title = pointMap.getString("iconText");
-                        Vector2DF pivot = new Vector2DF(0.5f, 0.5f);
                         String color = pointMap.getString("iconTextColor");
+                        float iconTextX = 0.5f;
+                        float iconTextY = 0.5f;
+                        if (pointMap.hasKey("iconTextX") && pointMap.hasKey("iconTextY")) {
+                            iconTextX = (float) pointMap.getDouble("iconTextX");
+                            iconTextY = (float) pointMap.getDouble("iconTextY");
+                        }
+                        Vector2DF pivot = new Vector2DF(iconTextX, iconTextY);
                         customAnnotation.setIconText(pointMap.getString("iconText"), Color.parseColor(color), pivot);
                         customAnnotation.setIconTextSize(pointMap.getInt("iconTextSize"));
                     }
