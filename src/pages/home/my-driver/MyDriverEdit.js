@@ -11,8 +11,8 @@ import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
 import SubmitButton from "../../../components/SubmitButton";
-import PhoneInput from "../../../components/Inputs/Phone";
 import { IconTrash } from '../../../components/Icons';
+import PhoneInput from '../../../components/Inputs/Phone';
 
 import {modifyDriver, deleteDriver} from "../../../services/MyDriverService";
 
@@ -73,16 +73,20 @@ export default class MyDriverEdit extends Component {
 	}
 
 	_modify(){
-        modifyDriver(this.state, this.props.nav.phone)
-            .then(() => {
-                ToastAndroid.show('保存成功', ToastAndroid.SHORT);
-                setTimeout(() => {
-                    this.toListPage();
-                },1000);
-            })
-            .catch((reason) => {
-                ToastAndroid.show(reason.message, ToastAndroid.SHORT);
-            });
+        if (LabelInput.Validate(this.refs)) {
+            this.setState({doing: true});
+            modifyDriver(this.state, this.props.nav.phone)
+                .then(() => {
+                    ToastAndroid.show('保存成功', ToastAndroid.SHORT);
+                    setTimeout(() => {
+                        this.toListPage();
+                    }, 1000);
+                })
+                .catch((reason) => {
+                    ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+                    this.setState({doing: false});
+                });
+        }
     }
 
 	/**
@@ -109,7 +113,7 @@ export default class MyDriverEdit extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="编辑司机"
 				   rightView={<IconTrash onPress={() => this.delete()}
 										 color="#FFF" size={Env.font.base * 36} />}
@@ -125,7 +129,7 @@ export default class MyDriverEdit extends Component {
                         onChangeText={name => this.setState({name})}
                         validates={[{require:true, msg:"请输入司机姓名。"}]}
                     />
-                    <LabelInput
+                    <PhoneInput
                         style = {[estyle.borderBottom]}
                         placeholder='请填写司机手机号'
                         label="电话"
@@ -133,10 +137,10 @@ export default class MyDriverEdit extends Component {
                         defaultValue={this.state.phone}
                         ref="phone"
                         onChangeText={phone => this.setState({phone})}
-                        validates={[{require:true, msg:"请填写司机手机号。"}]}
+						require={true}
                     />
 					<View style={[estyle.paddingVertical]} >
-						<SubmitButton onPress={() => this.modify()}><Text>保存</Text></SubmitButton>
+						<SubmitButton doing={this.state.doing} onPress={() => this.modify()}><Text>保存</Text></SubmitButton>
 					</View>
 				</View>
 			</View>

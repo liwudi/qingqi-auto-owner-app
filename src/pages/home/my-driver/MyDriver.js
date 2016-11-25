@@ -108,6 +108,7 @@ export default class MyDriver extends Component {
 						renderSectionHeader={(sectionData, sectionId) => {
 							return <ListTitle title={sectionId}/>
 						}}
+						pageSize={1000}
 						renderRow={(row) => {
 							return (
 								<TouchableOpacity onPress={() => this.editDriver(row)} style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>

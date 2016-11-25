@@ -21,6 +21,7 @@ import SubmitButton from '../../../components/SubmitButton';
 import * as Icons from '../../../components/Icons';
 import {addDriver} from '../../../services/MyDriverService';
 import SelectForContacts from '../../contacts/SelectForContacts';
+import PhoneInput from '../../../components/Inputs/Phone';
 
 const estyle = Env.style;
 export default class MyDriverAdd extends Component {
@@ -28,7 +29,8 @@ export default class MyDriverAdd extends Component {
 		super(props);
 		this.state = {
 			name:'',
-			phone:''
+			phone:'',
+			doing: false
 		};
 	}
 
@@ -37,6 +39,7 @@ export default class MyDriverAdd extends Component {
 
 	addDriver() {
 		if (LabelInput.Validate(this.refs)) {
+			this.setState({doing:true});
 			addDriver(this.state)
 				.then(()=>{
 					ToastAndroid.show('添加成功', ToastAndroid.SHORT);
@@ -47,6 +50,7 @@ export default class MyDriverAdd extends Component {
 				})
 				.catch((e)=>{
 					ToastAndroid.show(e.message, ToastAndroid.SHORT);
+                    this.setState({doing:false});
 				})
 		}
 	}
@@ -90,21 +94,21 @@ export default class MyDriverAdd extends Component {
 						onChangeText={name => this.setState({name})}
 						validates={[{require:true, msg:"请输入司机姓名。"}]}
 					/>
-					<LabelInput
+					<PhoneInput
 						style = {[estyle.borderBottom]}
 						placeholder='请填写司机手机号'
 						label="电话"
 						value={this.state.phone}
 						ref="phone"
 						onChangeText={phone => this.setState({phone})}
-						validates={[{require:true, msg:"请填写司机手机号。"}]}
+						require={true}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>
 
 					<View style={[estyle.paddingVertical]} >
-						<SubmitButton onPress={() => this.addDriver()}>保存</SubmitButton>
+						<SubmitButton doing={this.state.doing} onPress={() => this.addDriver()}>保存</SubmitButton>
 					</View>
 				</View>
 			</View>
