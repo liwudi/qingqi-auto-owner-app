@@ -71,7 +71,13 @@ public class PointAnnotation extends BaseOverlay {
                     mCustomAnnotation.setSelected(clickable);
                     mCustomAnnotation.setTag(pointId);
                     String color = readableMap.getString("iconTextColor");
-                    Vector2DF iconTextPivot = new Vector2DF(0.5f, 0.5f);
+                    float iconTextX = 0.5f;
+                    float iconTextY = 0.5f;
+                    if (readableMap.hasKey("iconTextX") && readableMap.hasKey("iconTextY")) {
+                        iconTextX = (float) readableMap.getDouble("iconTextX");
+                        iconTextY = (float) readableMap.getDouble("iconTextY");
+                    }
+                    Vector2DF iconTextPivot = new Vector2DF(iconTextX, iconTextY);
                     mCustomAnnotation.setIconText(readableMap.getString("iconText"), Color.parseColor(color), iconTextPivot);
                     mCustomAnnotation.setIconTextSize(readableMap.getInt("iconTextSize"));
                     if (readableMap.hasKey("title")) {
@@ -249,7 +255,13 @@ public class PointAnnotation extends BaseOverlay {
                     if (pointMap.hasKey("iconText")) {
                         String title = pointMap.getString("iconText");
                         CustomAnnotation customAnnotation = this.pointMap.get(poindId);
-                        Vector2DF pivot = new Vector2DF(0.5f, 0.5f);
+                        float iconTextX = 0.5f;
+                        float iconTextY = 0.5f;
+                        if (pointMap.hasKey("iconTextX") && pointMap.hasKey("iconTextY")) {
+                            iconTextX = (float) pointMap.getDouble("iconTextX");
+                            iconTextY = (float) pointMap.getDouble("iconTextY");
+                        }
+                        Vector2DF pivot = new Vector2DF(iconTextX, iconTextY);
                         String color = pointMap.getString("iconTextColor");
                         customAnnotation.setIconText(pointMap.getString("iconText"), Color.parseColor(color), pivot);
                         customAnnotation.setIconTextSize(pointMap.getInt("iconTextSize"));
