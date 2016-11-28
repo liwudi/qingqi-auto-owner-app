@@ -1,8 +1,10 @@
 package com.mapbar.react.map.operation;
+
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableArray;
@@ -14,18 +16,25 @@ import com.mapbar.map.Vector2DF;
 import com.mapbar.react.CommonUtils;
 import com.mapbar.react.LogUtils;
 import com.mapbar.react.map.MapbarMapView;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+
+
 /**
  * Created by Administrator on 2016/10/27.
  */
+
 public class PointAnnotation extends BaseOverlay {
+
     private String TAG = this.getClass().getSimpleName();
     private HashMap<Integer, CustomAnnotation> pointMap = new HashMap<Integer, CustomAnnotation>();
+
     public PointAnnotation(Context context) {
         super(context);
     }
+
     /**
      * 地图打点
      * js端参数为数组，每个索引对应一个集合
@@ -86,6 +95,7 @@ public class PointAnnotation extends BaseOverlay {
             LogUtils.logd(TAG, LogUtils.getThreadName() + "addLine point finish size is :" + this.pointMap.size());
         }
     }
+
     /**
      * 清除指定打点
      * 可以删除指定的点也可以删除全部点
@@ -139,9 +149,11 @@ public class PointAnnotation extends BaseOverlay {
             }
         }
     }
+
     public void clearAllAnnotation() {
         pointMap.clear();
     }
+
     /**
      * 获取所有点
      * * @param tag  view ref
@@ -158,6 +170,7 @@ public class PointAnnotation extends BaseOverlay {
         }
         promise.resolve(array);
     }
+
     /**
      * 更新气泡(更新经纬度)[{ latitude: 3990400, longitude: 11640000,  id: 1}]
      * 添加更新 imageName iconText title
@@ -205,6 +218,7 @@ public class PointAnnotation extends BaseOverlay {
         }
         LogUtils.logd(TAG, "updatePoint  makerList:" + pointMap);
     }
+
     /**
      * 更新点的ICON
      * * @param tag  view ref
@@ -227,6 +241,7 @@ public class PointAnnotation extends BaseOverlay {
         }
         LogUtils.logd(TAG, "updatePoint  makerList:" + pointMap);
     }
+
     /**
      * updateIconText
      * * @param tag  view ref
@@ -256,6 +271,7 @@ public class PointAnnotation extends BaseOverlay {
         }
         LogUtils.logd(TAG, "updatePoint  makerList:" + pointMap);
     }
+
     /**
      * updateIconText
      * * @param tag  view ref
