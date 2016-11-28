@@ -113,7 +113,7 @@ public class MainActivity extends ReactActivity {
                         break;
                 }
                 if (msg != null) {
-                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    LogUtils.logd(TAG,"NativeEnvironmentInit:"+msg);
                 }
             }
 
@@ -165,7 +165,7 @@ public class MainActivity extends ReactActivity {
                         break;
                 }
                 if (msg != null) {
-                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    LogUtils.logd(TAG,"onSdkAuthComplete:"+msg);
                 }
             }
         });

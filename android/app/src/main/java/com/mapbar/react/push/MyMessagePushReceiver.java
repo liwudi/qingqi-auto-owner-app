@@ -24,7 +24,6 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
         startActivity(context);
         String message = "点击了通知栏:" + "title=" + title + ",content=" + content
                 + ",customStr=" + customStr+"noticeId="+noticeId;
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         LogUtils.logd(LOGTAG, message);
         Bundle payload = new Bundle();
         payload.putString("Content", content);
@@ -41,7 +40,6 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
         String message = "通知的id是" + messageBean.getNoticeId() + "读取了通知信息" + "title=" + title + ",content=" + content
                 + ",customStr=" + customStr;
         LogUtils.logd(LOGTAG, message);
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         Bundle payload = new Bundle();
         payload.putString("Content", content);
         payload.putString("Title", title);
@@ -75,13 +73,7 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
                                   String content, String customContent) {
         String message = "透传消息:content=" + content + ",customContent="
                 + customContent;
-
-        Toast.makeText(context,
-                message,
-                Toast.LENGTH_SHORT).show();
-
         LogUtils.logd(LOGTAG, message);
-
         Bundle payload = new Bundle();
         payload.putString("Content", content);
         payload.putString("Title", title);
@@ -97,24 +89,13 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
     public void onSetTag(Context context, String tag, int responseCode, String result) {
         String message = "onSetTag():tag=" + tag + ",responseCode="
                 + responseCode + ",result=" + result;
-
-        Toast.makeText(context,
-                message,
-                Toast.LENGTH_SHORT).show();
-
         LogUtils.logd(LOGTAG, message);
-
     }
 
     @Override
     public void onDeleteTag(Context context, String tag, int responseCode, String result) {
         String message = "onDeleteTag():tag=" + tag + ",responseCode="
                 + responseCode + ",result=" + result;
-
-        Toast.makeText(context,
-                message,
-                Toast.LENGTH_SHORT).show();
-
         LogUtils.logd(LOGTAG, message);
     }
 
@@ -122,10 +103,6 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
     public void onGetTags(Context context, String tags, int responseCode, String result) {
         String message = "onGetTags():tag=" + tags + ",responseCode="
                 + responseCode + ",result=" + result;
-
-        Toast.makeText(context,
-                message,
-                Toast.LENGTH_SHORT).show();
         LogUtils.logd(LOGTAG, message);
 
     }
@@ -136,11 +113,6 @@ public class MyMessagePushReceiver extends MessagePushReceiver {
     public void onSetPermission(Context context, String permissionType, int responseCode, String result) {
         String message = "onSetPermission():permissionType=" + permissionType + ",responseCode="
                 + responseCode + ",result=" + result;
-
-        Toast.makeText(context,
-                message,
-                Toast.LENGTH_SHORT).show();
-
         LogUtils.logd(LOGTAG, message);
     }
 }
