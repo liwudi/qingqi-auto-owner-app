@@ -22,7 +22,8 @@ const estyle = Env.style;
 export default class TopBanner extends React.Component{
 	static defaultProps = {
 		leftShow: true,
-		titleShow:true
+		titleShow:true,
+        NetIsConnected:true
 	};
 	constructor(props){
 		super(props);
@@ -64,24 +65,43 @@ export default class TopBanner extends React.Component{
 			}
 		}
 		return (
-			<View style={[estyle.fxRow, estyle.fxCenter, styles.height, {backgroundColor: this.props.color || Env.color.main}]}>
-				<StatusBar backgroundColor={ this.props.color || Env.color.main} />
-				<View style = {[styles.backButton, styles.height, estyle.fxColumnCenter]}>
-					{_renderLeft()}
+			<View>
+				<View style={[styles.topBanner,styles.height, {backgroundColor: this.props.color || Env.color.main}]}>
+					<StatusBar backgroundColor={ this.props.color || Env.color.main} />
+					<View style = {[styles.backButton, styles.height, estyle.fxColumnCenter]}>
+                        {_renderLeft()}
+					</View>
+                    {_renderTitle()}
+					<View style = {[styles.nextButton, styles.height, estyle.fxRowCenter]} >
+                        {this.props.rightView}
+					</View>
 				</View>
-				{_renderTitle()}
-				<View style = {[styles.nextButton, styles.height, estyle.fxRowCenter]} >
-					{this.props.rightView}
-				</View>
+				{
+                    this.props.NetIsConnected
+						? null
+						: <View style={[estyle.padding,estyle.fxRow,estyle.fxRowCenter,{backgroundColor:'#FDEDEE'}]}>
+								<Icons.IconWaring size={Env.font.base * 40} color="#E55C5D"/>
+								<Text style={[estyle.note,{marginLeft:Env.font.base * 40}]}>网络连接不可用</Text>
+							</View>
+				}
+
 			</View>
 		);
 	}
 }
 
+// TopBanner.defaultProps = {
+// 	leftShow: true
+// };
 
 const styles = StyleSheet.create({
 	height: {
 		height: 84 * Env.font.base
+	},
+	topBanner: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		flexDirection: 'row'
 	},
 	textView:{
 		flex:1,

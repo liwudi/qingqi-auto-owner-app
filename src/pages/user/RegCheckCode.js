@@ -48,7 +48,9 @@ class RegCheckCode extends Component {
 	}
 
 	sendCode(isReSend = false){
-		this.props.dispatch(UserActions.sendRegCode(this.props.regInfo.phone, this.props.regInfo.captcha, isReSend));
+		this.props.dispatch(UserActions.sendRegCode(this.props.regInfo.phone, this.props.regInfo.captcha, isReSend, (rs)=>{
+            !!rs && this.refs.smsCode.focus();
+        }));
 	}
 
 	render() {
@@ -64,13 +66,8 @@ class RegCheckCode extends Component {
 						secureTextEntry={true}
 						placeholder='短信验证码'
 						label="验证码"
-						maxLength={6}
 						sendCode = {this.sendCode.bind(this, true)}
 						sendCodeStatus = {this.props.sendCodeStatus}
-						validates={[
-							{require:true, msg: emsg.code.require},
-							{pattern:pattern.code, msg: emsg.code.pattern}
-						]}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>

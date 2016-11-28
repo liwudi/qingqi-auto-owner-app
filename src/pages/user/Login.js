@@ -133,8 +133,7 @@ class Login extends Component {
         }
 
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="账号密码登录" leftShow={false}/>
+            <View style={[estyle.containerBackgroundColor, estyle.fx1,]}>
                 <View style={[estyle.fxRowCenter]}>
                     <PhoneInput
                         ref="phone"

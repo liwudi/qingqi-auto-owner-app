@@ -35,7 +35,9 @@ class FindPasswordCheckCode extends Component {
 	}
 
 	sendCode(){
-		this.props.dispatch(UserActions.findPasswordReSendCode(this.phone));
+		this.props.dispatch(UserActions.findPasswordReSendCode(this.phone, (rs)=>{
+            !!rs && this.refs.code.focus();
+        }));
 	}
 
 	next(){
@@ -61,12 +63,7 @@ class FindPasswordCheckCode extends Component {
 						onChangeText={code => this.setState({code})}
 						sendCode = {this.sendCode.bind(this)}
 						sendCodeStatus = {this.props.sendCodeStatus}
-						labelSize={3}
-						maxLength={6}
-						validates={[
-							{require:true, msg: emsg.code.require},
-							{pattern:pattern.code, msg: emsg.code.pattern}
-						]}
+						autoFocus={true}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>

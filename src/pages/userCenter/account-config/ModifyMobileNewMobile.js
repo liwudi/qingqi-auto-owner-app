@@ -77,6 +77,7 @@ class ModifyMobileNewMobile extends Component {
 						require={true}
 					/>
 					<SendMobileCode
+						ref="smsCode"
 						style={[estyle.borderBottom]}
 						onChangeText={smsCode => this.setState({smsCode})}
 						sendCode={this.sendSmsCode}

@@ -1,40 +1,31 @@
 package com.mapbar.react.map.operation;
-
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
-
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
-import com.mapbar.react.CommonUtils;
-import com.mapbar.react.LogUtils;
-import com.mapbar.react.map.MapbarMapView;
 import com.mapbar.map.CustomAnnotation;
 import com.mapbar.map.MapRenderer;
 import com.mapbar.map.Vector2DF;
-
+import com.mapbar.react.CommonUtils;
+import com.mapbar.react.LogUtils;
+import com.mapbar.react.map.MapbarMapView;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-
-
 /**
  * Created by Administrator on 2016/10/27.
  */
-
 public class PointAnnotation extends BaseOverlay {
-
     private String TAG = this.getClass().getSimpleName();
     private HashMap<Integer, CustomAnnotation> pointMap = new HashMap<Integer, CustomAnnotation>();
-
     public PointAnnotation(Context context) {
         super(context);
     }
-
     /**
      * 地图打点
      * js端参数为数组，每个索引对应一个集合
@@ -71,7 +62,13 @@ public class PointAnnotation extends BaseOverlay {
                     mCustomAnnotation.setSelected(clickable);
                     mCustomAnnotation.setTag(pointId);
                     String color = readableMap.getString("iconTextColor");
-                    Vector2DF iconTextPivot = new Vector2DF(0.5f, 0.5f);
+                    float iconTextX = 0.5f;
+                    float iconTextY = 0.5f;
+                    if (readableMap.hasKey("iconTextX") && readableMap.hasKey("iconTextY")) {
+                        iconTextX = (float) readableMap.getDouble("iconTextX");
+                        iconTextY = (float) readableMap.getDouble("iconTextY");
+                    }
+                    Vector2DF iconTextPivot = new Vector2DF(iconTextX, iconTextY);
                     mCustomAnnotation.setIconText(readableMap.getString("iconText"), Color.parseColor(color), iconTextPivot);
                     mCustomAnnotation.setIconTextSize(readableMap.getInt("iconTextSize"));
                     if (readableMap.hasKey("title")) {
@@ -89,7 +86,6 @@ public class PointAnnotation extends BaseOverlay {
             LogUtils.logd(TAG, LogUtils.getThreadName() + "addLine point finish size is :" + this.pointMap.size());
         }
     }
-
     /**
      * 清除指定打点
      * 可以删除指定的点也可以删除全部点
@@ -143,11 +139,9 @@ public class PointAnnotation extends BaseOverlay {
             }
         }
     }
-
     public void clearAllAnnotation() {
         pointMap.clear();
     }
-
     /**
      * 获取所有点
      * * @param tag  view ref
@@ -164,7 +158,6 @@ public class PointAnnotation extends BaseOverlay {
         }
         promise.resolve(array);
     }
-
     /**
      * 更新气泡(更新经纬度)[{ latitude: 3990400, longitude: 11640000,  id: 1}]
      * 添加更新 imageName iconText title
@@ -192,8 +185,14 @@ public class PointAnnotation extends BaseOverlay {
                     }
                     if (pointMap.hasKey("iconText") && pointMap.hasKey("iconTextColor") && pointMap.hasKey("iconTextSize")) {
                         String title = pointMap.getString("iconText");
-                        Vector2DF pivot = new Vector2DF(0.5f, 0.5f);
                         String color = pointMap.getString("iconTextColor");
+                        float iconTextX = 0.5f;
+                        float iconTextY = 0.5f;
+                        if (pointMap.hasKey("iconTextX") && pointMap.hasKey("iconTextY")) {
+                            iconTextX = (float) pointMap.getDouble("iconTextX");
+                            iconTextY = (float) pointMap.getDouble("iconTextY");
+                        }
+                        Vector2DF pivot = new Vector2DF(iconTextX, iconTextY);
                         customAnnotation.setIconText(pointMap.getString("iconText"), Color.parseColor(color), pivot);
                         customAnnotation.setIconTextSize(pointMap.getInt("iconTextSize"));
                     }
@@ -206,7 +205,6 @@ public class PointAnnotation extends BaseOverlay {
         }
         LogUtils.logd(TAG, "updatePoint  makerList:" + pointMap);
     }
-
     /**
      * 更新点的ICON
      * * @param tag  view ref
@@ -229,7 +227,6 @@ public class PointAnnotation extends BaseOverlay {
         }
         LogUtils.logd(TAG, "updatePoint  makerList:" + pointMap);
     }
-
     /**
      * updateIconText
      * * @param tag  view ref
@@ -243,7 +240,13 @@ public class PointAnnotation extends BaseOverlay {
                     if (pointMap.hasKey("iconText")) {
                         String title = pointMap.getString("iconText");
                         CustomAnnotation customAnnotation = this.pointMap.get(poindId);
-                        Vector2DF pivot = new Vector2DF(0.5f, 0.5f);
+                        float iconTextX = 0.5f;
+                        float iconTextY = 0.5f;
+                        if (pointMap.hasKey("iconTextX") && pointMap.hasKey("iconTextY")) {
+                            iconTextX = (float) pointMap.getDouble("iconTextX");
+                            iconTextY = (float) pointMap.getDouble("iconTextY");
+                        }
+                        Vector2DF pivot = new Vector2DF(iconTextX, iconTextY);
                         String color = pointMap.getString("iconTextColor");
                         customAnnotation.setIconText(pointMap.getString("iconText"), Color.parseColor(color), pivot);
                         customAnnotation.setIconTextSize(pointMap.getInt("iconTextSize"));
@@ -253,7 +256,6 @@ public class PointAnnotation extends BaseOverlay {
         }
         LogUtils.logd(TAG, "updatePoint  makerList:" + pointMap);
     }
-
     /**
      * updateIconText
      * * @param tag  view ref

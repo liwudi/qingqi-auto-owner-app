@@ -70,7 +70,6 @@ export default class RouterService {
         }
     }
 
-
     /**
      * getCurrentRoutes() - 获取当前栈里的路由，也就是push进来，没有pop掉的那些。
      jumpBack() - 跳回之前的路由，当然前提是保留现在的，还可以再跳回来，会给你保留原样。

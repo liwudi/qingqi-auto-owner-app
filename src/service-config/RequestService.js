@@ -41,9 +41,6 @@ function resultProcessor(result) {
     if (result.status === 200 || result.code === 200 || result.resultCode === 200) {
         console.info('success-result');
         console.info(result);
-/*        if(!result.data){
-            result.data={};
-        }*/
         return Promise.resolve(result.data);
     } else {
         console.info('error-result');

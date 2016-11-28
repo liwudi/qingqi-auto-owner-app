@@ -29,7 +29,9 @@ class UserCenterHome extends Component {
 
     constructor(props){
         super(props);
-        this.userInfo = props.userStore.userInfo;
+        this.state = {
+            userData: {}
+        };
     }
 
     goTo(page){
@@ -80,7 +82,7 @@ class UserCenterHome extends Component {
                             />*/}
                             <View style={{justifyContent:'center',marginLeft:20 * Env.font.base}}>
                                 <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.name || '未设置姓名'}</Text>
-                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.phone}</Text>
+                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.phone ? `${userInfo.phone.substr(0, 3)}******${userInfo.phone.substr(9)}` : ''}</Text>
                             </View>
                         </View>
                     </ViewForRightArrow>

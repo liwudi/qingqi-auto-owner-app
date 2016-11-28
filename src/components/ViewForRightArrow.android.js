@@ -28,7 +28,7 @@ export default class ViewForRightArrow extends React.Component{
 			}
 		}
 		return (
-			<TouchableOpacity activeOpacity={this.props.activeOpacity || 0.8} style={[estyle.fxRow, estyle.fxRowCenter, estyle.cardBackgroundColor, estyle.paddingHorizontal, estyle.borderBottom,this.props.style]} onPress={this.props.onPress}>
+			<TouchableOpacity onLayout={this.props.onLayout} activeOpacity={this.props.activeOpacity || 0.8} style={[estyle.fxRow, estyle.fxRowCenter, estyle.cardBackgroundColor, estyle.paddingHorizontal, estyle.borderBottom,this.props.style]} onPress={this.props.onPress}>
 				<View style={[estyle.fx1, estyle.marginVertical]}>{this.props.children}</View>
 				<View style={[estyle.fxColumnCenter, estyle.paddingLeft]}>{_renderRightIcon()}</View>
 			</TouchableOpacity>

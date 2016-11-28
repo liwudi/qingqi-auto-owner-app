@@ -11,7 +11,9 @@ import {
 } from 'react-native';
 
 import Env from '../../utils/Env';
-const estyle = Env.style;
+const estyle = Env.style,
+    emsg = Env.msg.form,
+    pattern = Env.pattern;
 
 import LabelInput from '../LabelInput';
 import CancelButton from '../CancelButton';
@@ -29,15 +31,17 @@ export default class TabBar extends React.Component{
         };
     }
 
+
     sendCode = () => {
         this.setState ({
             status:'doing',
-            second:10,
+            second:60,
         });
         let rs = this.props.sendCode();
         if(rs instanceof Promise){
             rs.then(() => {
                 Toast.show('验证码已发送', Toast.SHORT);
+                this.refs.textInput.focus();
                 this.setState ({
                     status:'interval',
                 });
@@ -86,6 +90,11 @@ export default class TabBar extends React.Component{
                 label="验证码"
                 rightView = { rightView() }
                 labelSize={this.props.labelSize || 3}
+                maxLength={6}
+                validates={[
+                    {require:true, msg: emsg.code.require},
+                    {pattern:pattern.code, msg: emsg.code.pattern}
+                ]}
             />
         );
     }

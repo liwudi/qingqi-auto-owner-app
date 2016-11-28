@@ -94,10 +94,18 @@ const spacing = {
 
 
 const border = {
-  width: 0.6,
+  width: 0.5,
   color: color.line
 };
 const style = {
+  h1:{
+      fontSize: fontSize.articleTitle,
+      color: color.main
+  },
+  h2:{
+      fontSize: fontSize.text,
+      color: color.main
+  },
   containerBackgroundColor: {
       backgroundColor: color.bg
   },
@@ -263,7 +271,7 @@ const pattern = {
   password: /^.{6,20}$/,
   code: /^\d{6}$/,
   carCode: /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/,
-  identityCard: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
+  identityCard: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|x)$/i
 };
 const msg = {
   form: {

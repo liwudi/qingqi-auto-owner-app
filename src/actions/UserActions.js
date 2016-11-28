@@ -87,7 +87,7 @@ export function logout(next) {
 		dispatch({'type': TYPES.LOGGED_DOING});
 		UserService.logout()
 			.then(res => {
-				ToastAndroid.show('退出登录成功', ToastAndroid.SHORT);
+				ToastAndroid.show('退出成功', ToastAndroid.SHORT);
 				dispatch({'type': TYPES.LOGGED_OUT});
 			})
 			.catch((e)=>{
@@ -218,13 +218,14 @@ export function doFindPasswordCheckCaptcha(phone, captcha, next) {
  * @param phone
  * @returns {function(*=)}
  */
-export function findPasswordReSendCode(phone) {
+export function findPasswordReSendCode(phone, next) {
 	console.info('findPasswordReSendCode');
 
 	return (dispatch) => {
 		sendCodeDispatch(
 			dispatch,
-			UserService.findPasswordReSendCode.bind(null, phone)
+			UserService.findPasswordReSendCode.bind(null, phone),
+            next
 		);
 	}
 }
@@ -367,11 +368,11 @@ export function doQuickLogin(phone, code, next) {
  * @param phone
  * @returns {function(*=)}
  */
-export function sendQuickLoginCode(phone) {
+export function sendQuickLoginCode(phone, next) {
 	console.info('sendQuickLoginCode');
 
 	return (dispatch) => {
-		sendCodeDispatch(dispatch, UserService.fastLoginSendCode.bind(null, phone));
+		sendCodeDispatch(dispatch, UserService.fastLoginSendCode.bind(null, phone), next);
 	}
 }
 
@@ -382,11 +383,11 @@ export function sendQuickLoginCode(phone) {
  * @param isReSend
  * @returns {function(*=)}
  */
-export function sendRegCode(phone, captcha, isReSend) {
+export function sendRegCode(phone, captcha, isReSend, next) {
 	console.info('sendRegCode');
 
 	return (dispatch) => {
-		return sendCodeDispatch(dispatch, UserService.regSendCode.bind(null, phone, captcha, isReSend));
+		return sendCodeDispatch(dispatch, UserService.regSendCode.bind(null, phone, captcha, isReSend), next);
 	}
 }
 

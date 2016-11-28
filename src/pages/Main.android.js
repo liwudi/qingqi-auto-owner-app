@@ -82,12 +82,26 @@ class Main extends Component {
             console.log('接收到消息：', event);
             this.props.dispatch(MessageActions.addMessage(event));
         });
-
-        this.props.dispatch(MessageActions.getMessages());
+	
+	this.props.dispatch(MessageActions.getMessages());
+	NetInfo.isConnected.fetch().done(isConnected => {
+            console.info('net status', isConnected, 'from fetch');
+            global.NetIsConnected = isConnected;
+            this.setState({NetIsConnected});
+            //this.setState({isConnected: false});
+        });
+        NetInfo.addEventListener('change', isConnected => {
+            console.info('net status', isConnected, 'from change');
+            global.NetIsConnected = (isConnected !== 'NONE');
+            this.setState({NetIsConnected: isConnected !== 'NONE'});
+            //this.setState({isConnected: false});
+        });
+        
+	
 	}
 
 	componentWillReceiveProps(props){
-		console.log(props)
+		// console.log(props)
 	}
 	renderNetError() {
 		if(!this.state.isConnected) {
@@ -116,20 +130,9 @@ class Main extends Component {
 		</View>;*/
 	}
 
-    componentWillMount() {
-        NetInfo.isConnected.fetch().done(isConnected => {
-            console.info('net status', isConnected, 'from fetch');
-            global.NetIsConnected = isConnected;
-            this.setState({isConnected});
-            //this.setState({isConnected: false});
-        });
-        NetInfo.addEventListener('change', isConnected => {
-            console.info('net status', isConnected, 'from change');
-            global.NetIsConnected = (isConnected !== 'NONE');
-            this.setState({isConnected: isConnected !== 'NONE'});
-            //this.setState({isConnected: false});
-        });
-    }
+	componentWillMount() {
+
+	}
 
 	renderMain() {
 		// console.info('renderMain')
@@ -148,6 +151,7 @@ class Main extends Component {
 							doBack = {() => {
 								navigator.pop()
 							}}
+							NetIsConnected = {this.state.NetIsConnected}
 							{...page.props}
 						/>
 					);
@@ -160,7 +164,7 @@ class Main extends Component {
 		return (
 			<View style={[estyle.fx1]}>
 				{this.renderMain()}
-				{this.renderNetError()}
+				{/*{this.renderNetError()}*/}
 				<Alert
 					visible={this.state.exitAlert}
 					onConfirm={(()=> {

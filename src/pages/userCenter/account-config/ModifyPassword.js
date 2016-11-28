@@ -14,6 +14,7 @@ import {
 
 import { UserActions, TYPES } from '../../../actions/index';
 import { modifyPassword } from '../../../services/UserService';
+import { getToken, setToken } from '../../../service-config/RequestService';
 
 import TopBanner from '../../../components/TopBanner';
 import PasswordInput from '../../../components/Inputs/Password';
@@ -52,9 +53,12 @@ class ModifyPassword extends Component {
 			this.setState({doing: true});
 			modifyPassword(this.state.oldPassword,this.state.newPassword)
 				.then((rs) => {
-					Toast.show('密码修改成功，请重新登录', Toast.SHORT);
+					let _t = getToken();
+					_t.token = rs.token;
+					setToken(_t);
+					Toast.show('密码修改成功', Toast.SHORT);
 					setTimeout(() => {
-						this.props.router.resetTo(Login);
+						this.props.router.pop();
 					},1000);
 				})
 				.catch((e) => {

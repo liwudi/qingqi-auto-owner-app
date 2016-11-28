@@ -86,7 +86,7 @@ export const SEND_SMS_TYPE_BIND_NEW = 'bind';
  * @param phone
  * @returns {*}
  */
-export function fastLoginSendCode(phone) {
+export function fastLoginSendCode(phone, next) {
 	return RequestService.post(`${Server.WD_SERVICE}user/sendSms`,{
 		mobile : phone,
 		product: Server.APP_PRODUCT,

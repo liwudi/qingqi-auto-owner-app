@@ -63,6 +63,7 @@ export default class News extends Component {
         return (
             <View  style={{flex:1}}>
                 { this.props.showBanner ? <TopBanner
+                    {...this.props}
                     leftShow={true}
                     leftView={_renderButton()}
                     doBack={this.doBack.bind(this)}

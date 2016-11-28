@@ -10,7 +10,7 @@ import WebView from '../../../components/WebView';
 
 import Env from '../../../utils/Env';
 
-const styles = Env.style;
+const estyle = Env.style;
 
 export default class News extends Component {
     constructor(props){
@@ -28,8 +28,8 @@ export default class News extends Component {
     render(){
 
         return (
-            <View  style={{flex:1}}>
-                <TopBanner
+            <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
+                <TopBanner {...this.props}
                     leftShow={this.state.page.canGoBack || false}
                     title={"推荐"}
                     doBack={this.doBack.bind(this)}

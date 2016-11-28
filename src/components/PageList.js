@@ -27,7 +27,9 @@ export default class PageList extends Component {
         this.pageNumber = this.props.pageNumber || this.pageNumber;
         this.pageSize = this.props.pageSize || this.pageSize;
 
-        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
+            return JSON.stringify(r1) !== JSON.stringify(r2);
+        }});
         this._data = [];
         this.state = {
             ds,

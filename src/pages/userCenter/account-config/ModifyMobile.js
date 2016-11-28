@@ -32,15 +32,18 @@ import ModifyMobileNewMobile from './ModifyMobileNewMobile';
 class ModifyMobile extends Component {
 	constructor(props){
 		super(props);
-		this.userInfo = props.userStore.userInfo || {};
 		this.state = {
-			phone: this.userInfo.phone,
+			phone: '',
 			doing: false
 		}
 	}
 
 	onNext(){
 		if(PhoneInput.Validate(this.refs)){
+			if(this.state.phone != this.props.userStore.userInfo.phone){
+                Toast.show('该手机与当前绑定手机不符', Toast.SHORT);
+                return;
+			}
 			this.setState({doing: true});
 			checkChangeBindSmsCode(this.state.phone, this.state.smsCode)
 				.then(rs => {
@@ -62,6 +65,10 @@ class ModifyMobile extends Component {
 	sendSmsCode = () => {
 		// return Promise.resolve({});
 		if(this.refs.phone.validate()){
+            if(this.state.phone != this.props.userStore.userInfo.phone){
+                Toast.show('该手机与当前绑定手机不符', Toast.SHORT);
+                return;
+            }
 			return changeBindSendCode(this.state.phone)
 		}else{
 			return false;
@@ -76,13 +83,13 @@ class ModifyMobile extends Component {
 					<PhoneInput
 						ref="phone"
 						style={[estyle.marginTop, estyle.borderBottom]}
-						defaultValue={this.userInfo.phone}
 						onChangeText={phone => this.setState({phone})}
 						placeholder='当前绑定的手机'
 						labelSize={3}
 						require={true}
 					/>
 					<SendMobileCode
+						ref="smsCode"
 						onChangeText={smsCode => this.setState({smsCode})}
 						style={[estyle.borderBottom]}
 						sendCode={this.sendSmsCode}

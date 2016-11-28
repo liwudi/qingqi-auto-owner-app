@@ -27,3 +27,20 @@ export function getMessages() {
 		});
 	}
 }
+
+export function messageCountHaveAdd(have = true) {
+    return (dispatch) => {
+    	if(have){
+            PushService.setMessageCountNoAdd()
+                .then(() => {
+                    return PushService.readAllMessageAndUnreadCount()
+                })
+                .then((rs) => {
+                    dispatch({'type': TYPES.PUSH_MESSAGE_LIST, ...rs});
+                });
+		} else {
+            PushService.setMessageCountCanAdd();
+		}
+
+    }
+}

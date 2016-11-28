@@ -21,8 +21,6 @@ import SubmitButton from '../../../components/SubmitButton';
 import { modifyUserInfo } from '../../../services/UserService';
 import HomeRouter from '../../HomeRouter';
 
-import Env from '../../../utils/Env';
-
 class ModifyTrueName extends Component {
 	constructor(props){
 		super(props);
@@ -72,7 +70,9 @@ class ModifyTrueName extends Component {
 	render() {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-				<TopBanner {...this.props} title="设置姓名" onPress={() => {this.toPage()}}/>
+				<TopBanner {...this.props} title="设置姓名" doBack={() => {
+					Toast.show('请输入姓名', Toast.SHORT);
+				}}/>
                 <View  style={[estyle.fxRowCenter]}>
 					<LabelInput
 						ref="name"

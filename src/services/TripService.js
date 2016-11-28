@@ -11,6 +11,7 @@ function makeUrl(path) {
     return serviceUrl + path;
 }
 
+
 /**
  * 读取消息详情
  * @param type

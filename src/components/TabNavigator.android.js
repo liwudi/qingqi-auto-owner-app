@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { View, Text, Navigator } from 'react-native';
 import TabBar from './TabBar';
+import Env from '../utils/Env';
 
 export default class TabNavigator extends Component {
     tabBar = null;
@@ -28,11 +29,13 @@ export default class TabNavigator extends Component {
                 onDidFocus={(router) => {this.tabBar.changeTab(router.index, false)}}
                 renderScene={(route, navigator) => {
                     let Component = route.component;
-                    return <Component
-                        {...this.props}
-                        {...route.props}
-                        navigator = {navigator}
-                    />
+                    return <View style={{flex:1,paddingTop: Env.font.base * 84}}>
+                            <Component
+                                {...this.props}
+                                {...route.props}
+                                navigator = {navigator}
+                            />
+                            </View>
                 }}
             />
         );

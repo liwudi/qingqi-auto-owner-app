@@ -51,7 +51,9 @@ class QuickLogin extends Component {
 
 	sendCode(){
 		if(this.refs.phone.validate()) {
-			this.props.dispatch(UserActions.sendQuickLoginCode(this.state.phone));
+			this.props.dispatch(UserActions.sendQuickLoginCode(this.state.phone, (rs)=>{
+                !!rs && this.refs.code.focus();
+			}));
 		}
 	}
 
@@ -64,7 +66,6 @@ class QuickLogin extends Component {
 	render() {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-				<TopBanner {...this.props} title="手机快捷登录"/>
 				<View
 					style={[estyle.fxRowCenter]}
 				>
@@ -82,12 +83,6 @@ class QuickLogin extends Component {
 						onChangeText={code => this.setState({code})}
 						sendCode = {this.sendCode.bind(this)}
 						sendCodeStatus = {this.props.sendCodeStatus}
-						labelSize={3}
-						maxLength={6}
-						validates={[
-							{require:true, msg: emsg.code.require},
-							{pattern:pattern.code, msg: emsg.code.pattern}
-						]}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>

@@ -42,6 +42,7 @@ export default class User extends Component {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner
+					{...this.props}
 					leftShow={false}
 					title="登录"
 					rightView={(<Text style={{fontSize:Env.font.text,color:'#FFF'}} onPress={() => this.props.router.push(Reg)}>注册</Text>)}

@@ -8,6 +8,12 @@ import LabelInput from '../LabelInput'
 import CancelButton from '../../components/CancelButton.android';
 import * as TYPES from '../../actions/types';
 
+import Env from '../../utils/Env';
+
+const estyle = Env.style,
+    emsg = Env.msg.form,
+    pattern = Env.pattern;
+
 const reg = /^\d{6}$/;
 export default class PhoneChkCode extends Component {
 
@@ -26,6 +32,11 @@ export default class PhoneChkCode extends Component {
         this.props.sendCode();
     }
 
+    focus(){
+        this.refs.textInput.focus();
+    }
+
+
     render() {
         let rightView = () => {
             let disable = this.props.sendCodeStatus.status === TYPES.SEND_CODE_ING || this.props.sendCodeStatus.status === TYPES.SEND_CODE_TIMEOUT;
@@ -41,6 +52,11 @@ export default class PhoneChkCode extends Component {
                         labelSize={this.props.labelSize || 3}
                         onChangeText={this.onChangeText.bind(this)}
                         rightView = { rightView() }
+                        maxLength={6}
+                        validates={[
+                            {require:true, msg: emsg.code.require},
+                            {pattern:pattern.code, msg: emsg.code.pattern}
+                        ]}
             />
         );
     }

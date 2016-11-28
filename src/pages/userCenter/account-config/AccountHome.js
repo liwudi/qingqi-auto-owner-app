@@ -64,7 +64,7 @@ class AccountHome extends Component {
 		this.props.dispatch(UserActions.logout(
 			() => {
 				this.setState({alertActive:false});
-				this.props.router.resetTo(Login)
+				this.props.router.resetTo(Login);
 			}
 		))
 
@@ -134,7 +134,7 @@ class AccountHome extends Component {
 					</ViewForRightArrow>
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyMobile)}>
 						<View style={[estyle.fxRow]}>
-							<Text style={[estyle.fx1, estyle.text]}>已绑定手机</Text><Text style={styles.text}>{userInfo.phone}</Text>
+							<Text style={[estyle.fx1, estyle.text]}>已绑定手机</Text><Text style={styles.text}>{userInfo.phone ? `${userInfo.phone.substr(0, 3)}******${userInfo.phone.substr(9)}` : ''}</Text>
 						</View>
 					</ViewForRightArrow>
 					<View style={[estyle.fxRow, estyle.padding]}>
