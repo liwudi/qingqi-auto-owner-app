@@ -42,14 +42,8 @@ export default class SettingStName extends Component {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title={this.props.title || '设置起点'}/>
-				<LabelInput
-					style = {[estyle.borderBottom]}
-					placeholder='输入城市名称'
-					ref="searchKey"
-					onChangeText={searchKey => {this.setState({searchKey:searchKey})}}/>
 				<PageSectionList
 					style={estyle.fx1}
-					reInitField={[this.state.searchKey]}
 					getSectionData={(list) => {
 						let rs = {};
 						list.forEach(item => {

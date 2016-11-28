@@ -139,6 +139,8 @@ export default class MyLineAdd extends Component {
 
     _addPass(item) {
 
+
+
         let p = Object.assign([], this.state.routeInfo.passbyPoints || []);
         p.push(item);
 
@@ -217,6 +219,7 @@ export default class MyLineAdd extends Component {
             deleteRoute(this.props.routeId)
                 .then((rs) => {
                     Toast.show('删除成功', Toast.SHORT);
+                    this.props.refresh();
                     this.props.router.pop();
                 })
                 .catch(e => {
@@ -277,10 +280,16 @@ export default class MyLineAdd extends Component {
                         color={Env.color.main}
                     />
 
+
+
                     <View style={[estyle.fxRow,estyle.fxRowCenter]}>
                         <ListTitle title="途径点" style={estyle.fx1}/>
                         <View style={estyle.paddingRight}>
                             <Icons.IconPlus onPress={() => {
+                                if(!this.state.routeInfo.routeId){
+                                    Toast.show('请先设置起终点', Toast.SHORT);
+                                    return;
+                                }
                                 this.props.router.push(
                                     MyLineSetStartEnd,
                                     { title: '设置途径点', select: (pass) => this._addPass(pass) }
@@ -311,6 +320,10 @@ export default class MyLineAdd extends Component {
                         left="最高时速"
                         right={this.state.routeInfo.maxSpeed ? (this.state.routeInfo.maxSpeed + 'km/h') : '点击设置'}
                         rightPress={() => {
+                            if(!this.state.routeInfo.routeId){
+                                Toast.show('请先设置起终点', Toast.SHORT);
+                                return;
+                            }
                             this.props.router.push(MyLineSetMaxSpeed, {
                                 submit: this._modifyMaxSpeed.bind(this)
                                 , maxSpeed : this.state.routeInfo.maxSpeed
@@ -322,6 +335,10 @@ export default class MyLineAdd extends Component {
                         left="总油耗限制"
                         right={this.state.routeInfo.oilwearLimit ? (this.state.routeInfo.oilwearLimit + 'L') : '点击设置'}
                         rightPress={() => {
+                            if(!this.state.routeInfo.routeId){
+                                Toast.show('请先设置起终点', Toast.SHORT);
+                                return;
+                            }
                             this.props.router.push(MyLineSetOilwearLimit, {
                                 submit: this._modifyOilwearLimit.bind(this)
                             });
@@ -332,6 +349,10 @@ export default class MyLineAdd extends Component {
                         <ListTitle title="设置车辆" style={estyle.fx1}/>
                         <View style={estyle.paddingRight}>
                             <Icons.IconPlus onPress={() => {
+                                if(!this.state.routeInfo.routeId){
+                                    Toast.show('请先设置起终点', Toast.SHORT);
+                                    return;
+                                }
                                 this.props.router.push(MyLineAddCarList, {
                                     routeId: this.props.routeId,
                                     update: () => {

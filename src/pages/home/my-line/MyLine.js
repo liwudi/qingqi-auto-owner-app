@@ -47,13 +47,20 @@ export default class MyLine extends Component {
                 <TopBanner {...this.props} title="我的线路" rightView={ topRightView()}/>
                 <View style={estyle.fx1}>
                     <PageList
+                        ref="list"
                         style={estyle.fx1}
                         renderRow={(row) => {
                             return <Item
                                 router={this.props.router}
                                 data={row}
                                 onPress={() => {
-                                    this.props.router.push(MyLineAdd,{routeId: row.routeId, title: '编辑线路'});
+                                    this.props.router.push(MyLineAdd,{
+                                        routeId: row.routeId,
+                                        title: '编辑线路',
+                                        refresh : () => {
+                                            this.refs.list.reInitFetch();
+                                        }
+                                    });
                                 }}
                             />
                         }}

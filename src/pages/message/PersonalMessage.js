@@ -34,8 +34,6 @@ class PersonalMessage extends Component{
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props} title="个人消息"/>
-
                 <PageList
                     ref="list"
                     style={estyle.fx1}

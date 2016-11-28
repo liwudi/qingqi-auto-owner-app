@@ -30,7 +30,6 @@ class CarListMessage extends Component{
     render() {
         return(
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props} title="车队信息"/>
                 <PageList
                     ref="list"
                     style={estyle.fx1}
