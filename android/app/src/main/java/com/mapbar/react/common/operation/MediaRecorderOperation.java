@@ -161,7 +161,7 @@ public class MediaRecorderOperation {
             if (file.exists()) {
                 file.delete();
             }
-            mCurrentFilePathString = null;
+            mCurrentFilePathString = "";
         }
     }
 
@@ -171,7 +171,7 @@ public class MediaRecorderOperation {
             if (file.exists()) {
                 file.delete();
             }
-            mDirString = null;
+            mDirString = "";
         }
     }
 

@@ -78,25 +78,31 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
         promise.resolve(writableMap);
     }
 
-    //暂停录音
+    //播放录音
     @ReactMethod
-    public void playAudio(String audioPath, final Promise promise) {
-        MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
-        final WritableMap writableMap = Arguments.createMap();
-        if (!TextUtils.isEmpty(audioPath)) {
-                MediaPlayerOperation.playSound(audioPath,
-                        new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                LogUtils.logd(TAG, "播放完成");
-                                MediaPlayerOperation.release();
-                                writableMap.putString("finishPlayAudio", "播放完成");
-                                promise.resolve(writableMap);
-                            }
-                        });
-        }
+    public void playAudio(String audioPath,Promise promise) {
+        MediaPlayerOperation.playSound(audioPath,promise);
     }
 
+    //暂停播放
+    @ReactMethod
+    public void pauseAudioPlay(Promise promise) {
+        MediaPlayerOperation.pause(promise);
+
+    }
+
+    //获取录音总时长
+    @ReactMethod
+    public void getPlayAudioDuration(String audioPath,Promise promise) {
+        MediaPlayerOperation.getDuration(audioPath,promise);
+    }
+
+    //获取当前录音点
+    @ReactMethod
+    public void getPlayAudioPosition(Promise promise) {
+         MediaPlayerOperation.getCurrentPosition(promise);
+
+    }
     @Override
     public void onHostResume() {
         MediaPlayerOperation.resume();
