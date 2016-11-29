@@ -138,6 +138,9 @@ public class MediaRecorderOperation {
         }
         long endTime = System.currentTimeMillis();
         try {
+            mRecorder.setOnErrorListener(null);
+            mRecorder.setOnInfoListener(null);
+            mRecorder.setPreviewDisplay(null);
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;

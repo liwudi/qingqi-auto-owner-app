@@ -84,8 +84,6 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
         MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
         final WritableMap writableMap = Arguments.createMap();
         if (!TextUtils.isEmpty(audioPath)) {
-            File file = new File(audioPath);
-            if (file.exists()) {
                 MediaPlayerOperation.playSound(audioPath,
                         new MediaPlayer.OnCompletionListener() {
                             @Override
@@ -96,7 +94,6 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
                                 promise.resolve(writableMap);
                             }
                         });
-            }
         }
     }
 

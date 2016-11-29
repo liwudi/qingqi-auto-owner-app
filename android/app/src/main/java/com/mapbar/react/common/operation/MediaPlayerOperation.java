@@ -6,14 +6,15 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 
+import com.mapbar.react.LogUtils;
+
 import java.io.IOException;
 
 public class MediaPlayerOperation {
 
-
 	private static MediaPlayer mPlayer;
-	
 	private static boolean isPause;
+    private static final String TAG="MediaPlayerOperation";
 
 	public static  void playSound(String filePathString,
 			OnCompletionListener onCompletionListener) {
@@ -22,7 +23,7 @@ public class MediaPlayerOperation {
 			mPlayer=new MediaPlayer();
 			//保险起见，设置报错监听
 			mPlayer.setOnErrorListener(new OnErrorListener() {
-				
+
 				@Override
 				public boolean onError(MediaPlayer mp, int what, int extra) {
 					// TODO Auto-generated method stub
@@ -33,7 +34,7 @@ public class MediaPlayerOperation {
 		}else {
 			mPlayer.reset();//就回复
 		}
-		
+
 		try {
 			mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			mPlayer.setOnCompletionListener(onCompletionListener);
@@ -50,11 +51,11 @@ public class MediaPlayerOperation {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			LogUtils.logd(TAG,"请检查文件路径是否正确");
 			e.printStackTrace();
 		}
 	}
-	
+
 	//停止函数
 	public static void pause(){
 		if (mPlayer!=null&&mPlayer.isPlaying()) {
@@ -62,7 +63,7 @@ public class MediaPlayerOperation {
 			isPause=true;
 		}
 	}
-	
+
 	//继续
 	public static void resume()
 	{
@@ -71,7 +72,7 @@ public class MediaPlayerOperation {
 			isPause=false;
 		}
 	}
-	
+
 
 	public  static void release()
 	{
