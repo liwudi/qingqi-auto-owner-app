@@ -30,6 +30,7 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     public CommonModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.context = reactContext;
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
@@ -60,22 +61,20 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     @ReactMethod
     public void stopAudio(Promise promise) {
         MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
-        WritableMap writableMap = Arguments.createMap();
-
         long recordTime = mAudioManager.release();
         LogUtils.logd(TAG, "recordTime:" + recordTime);
         if (recordTime == 0) {
-            mAudioManager.deleteCurrentAudio();
-            writableMap.putString("finishAudio", "您还未录音，请录音");
+            promise.reject("error", "请先录音");
         } else if (recordTime < 600) {
             mAudioManager.deleteCurrentAudio();
-            writableMap.putString("finishAudio", "录音时间过短，请重新录音");
+            promise.reject("error", "录音时间过短，请重新录音");
         } else {
+            WritableMap writableMap = Arguments.createMap();
             writableMap.putString("finishAudio", "录音成功");
+            writableMap.putBoolean("isRecording", false);
+            writableMap.putString("audioPath", mAudioManager.getCurrentFilePath());
+            promise.resolve(writableMap);
         }
-        writableMap.putBoolean("isRecording", false);
-        writableMap.putString("audioPath", mAudioManager.getCurrentFilePath());
-        promise.resolve(writableMap);
     }
 
     //播放录音
@@ -105,16 +104,18 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     }
     @Override
     public void onHostResume() {
-        MediaPlayerOperation.resume();
+//        MediaPlayerOperation.resume();
     }
 
     @Override
     public void onHostPause() {
-        MediaPlayerOperation.pause();
+//        MediaPlayerOperation.pause();
     }
 
     @Override
     public void onHostDestroy() {
+        MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
+        mAudioManager.release();
         MediaPlayerOperation.release();
     }
 }

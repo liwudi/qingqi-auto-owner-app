@@ -79,22 +79,21 @@ public class MediaPlayerOperation {
 
     //获取播放总长
     public static void getDuration(String filePath, Promise promise) {
-        if (mPlayer == null) {
-            mPlayer = new MediaPlayer();
-        }
+        MediaPlayer mediaPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(filePath);
-            mPlayer.prepare();
-            int mediaPlayerDuration = mPlayer.getDuration();
-            release();
+            mediaPlayer.setDataSource(filePath);
+            mediaPlayer.prepare();
+            int mediaPlayerDuration = mediaPlayer.getDuration();
             WritableMap writableMap = Arguments.createMap();
             writableMap.putInt("mediaPlayerDuration", mediaPlayerDuration);
             promise.resolve(writableMap);
-
         } catch (Exception e) {
-            release();
             e.printStackTrace();
             promise.reject("error", e.toString());
+        }finally {
+            if (mediaPlayer!=null) {
+                mediaPlayer.release();
+            }
         }
     }
 
