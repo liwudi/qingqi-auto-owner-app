@@ -18,7 +18,7 @@ import MyCar from './my-car/MyCar';
 import MyCarSearch from './my-car/MyCarSearch';
 import MyDriver from './my-driver/MyDriver';
 import MyLine from './my-line/MyLine';
-import Monitor from './monitor/Monitor';
+import Monitor from './monitor/MonitorMapTrack';
 import OilManage from './oil-maange/OilManage';
 import TripManage from './oil-maange/TripManage';
 

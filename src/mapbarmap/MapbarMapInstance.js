@@ -17,7 +17,8 @@ const e = 100000;
 export function MPoint(point) {
     let pt = {
         longitude: parseInt(point[0] * e),
-        latitude: parseInt(point[1] * e)
+        latitude: parseInt(point[1] * e),
+        level: typeof point[2] === 'number' ? point[2] : 3
     };
     return pt;
 }
