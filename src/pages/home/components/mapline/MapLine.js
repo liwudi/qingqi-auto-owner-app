@@ -25,20 +25,10 @@ let line = null;
 const STATE_STOPING = 1;//状态 播放停止
 let state = STATE_STOPING;
 
-
+import Decode from './Decode';
 import SpeedLine from './SpeedLine';
 import OilLine from './OilLine';
-let demo = {"_instant_oil":0.79688,
-"_mileage":42488.4,
-"_time":1479225623000,
-"_x":113.52852,
-"_y":22.82326,
-"_v":0,
 
-"_car_code":"闽Z23456",
-"_auto_terminal":"14838944625",
-"_car_id":"6",
-"_direction":0}
 
 const PLAY_TYPE_SPEED = 0;
 const PLAY_TYPE_OIL = 1;
@@ -134,16 +124,26 @@ export default class MapLine extends Component {
         this.pointIndex = 0;
     }
 
-    initLine(data = []) {
+    initLine(data = {}) {
         if(data) {
-            line = data;
+            data = Decode.setData(data);
+            if(data.length) {
+                line = data;
+                this.setState({dataLength: data.length});
+                this.addLine();
+                this.addMarker();
+                this.addCar();
+            }
+
+
+            /*line = data;
             this.setState({dataLength: line.length});
             this.Map.clearOverlays();
             if(data.length) {
                 this.addLine();
                 this.addMarker();
                 this.addCar();
-            }
+            }*/
         }
     }
     addLine() {
@@ -183,6 +183,8 @@ export default class MapLine extends Component {
     }
 
     addLineSpeed() {
+        console.info(line)
+        console.info('4444444444444444444444444444444444444444444444')
         let lines = SpeedLine.get(line);
         console.info('line.length', line.length)
         this.Line.add(lines);
@@ -219,7 +221,7 @@ export default class MapLine extends Component {
 
     addCar() {
         let pt = line[0];
-        let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
+        let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.o,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
         let mkOpts = {
@@ -253,7 +255,7 @@ export default class MapLine extends Component {
     moveCar(index) {
         this.pointIndex = index;
         let pt = line[index];
-        let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
+        let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
         console.info(title)

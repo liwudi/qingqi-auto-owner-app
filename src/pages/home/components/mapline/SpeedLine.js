@@ -1,5 +1,3 @@
-import {MPoint} from '../../../../mapbarmap/MapbarMapInstance';
-
 const SPEED_1 = 'SPEED_1';
 const SPEED_2 = 'SPEED_2';
 const SPEED_3 = 'SPEED_3';
@@ -36,17 +34,7 @@ let getSpeedColor = (speedType) => {
             return '#080808';
     }
 };
-const getMapPoint = (pt) =>  {
-    let _pt = MPoint([pt._x, pt._y]);
-    pt.latitude = _pt.latitude;
-    pt.longitude = _pt.longitude;
-    pt.s = pt._v;  //速度
-    pt.o = pt._instant_oil;    //油
-    pt.direction = pt._direction;  //方向
-    pt.time = +pt._auto_terminal;  //时间
-    return pt;
-    //return Object.assign({}, pt, _pt)
-};
+
 let minLng = minLat = maxLng = maxLat = 0;
 const setBounds = (pt) => {
     if(!minLng) minLng = maxLng = pt.longitude;
@@ -65,9 +53,7 @@ const bounds = () => {
     }
 }
 let startTime, endTime;
-const setTimes = (pt, idx) => {
-    idx ? endTime = pt.time : startTime = pt.time;
-}
+
 const times = () => {
     return {
         start : startTime,
@@ -75,19 +61,15 @@ const times = () => {
     }
 }
 const get = (line) => {
-/*    console.info(line)
-    console.info('---------------------------------------------s')*/
     let lines = [], _tmp1 = null;
     line.forEach((_line, index) => {
-        _line = getMapPoint(_line);
-        if(!index || index === line.length - 1) setTimes(_line, index);
         setBounds(_line);
         _tmp1 = _tmp1 || {
                 locations: [],
-                speedType: getSpeedType(_line.s)
+                speedType: getSpeedType(_line.speed)
             };
         if (_tmp1.locations.length === 0 && index > 0) {
-            let _lastline = getMapPoint(line[index - 1]);
+            let _lastline = line[index - 1];
             _tmp1.locations.push({
                 longitude: _lastline.longitude,
                 latitude: _lastline.latitude
@@ -98,12 +80,12 @@ const get = (line) => {
             latitude: _line.latitude
         });
         let _nextline = line[index + 1];
-        _nextline && (_nextline = getMapPoint(_nextline));
-        if (index === line.length - 1 || getSpeedType(_nextline.s) !== _tmp1.speedType) {
+        if (index === line.length - 1 || _nextline.speed !== _tmp1.speedType) {
             lines.push(Object.assign({}, _tmp1));
             _tmp1 = null;
         }
     });
+    console.info(lines)
     return lines.map((line, index) => {
         line.isClose = false;
         line.width = '12';

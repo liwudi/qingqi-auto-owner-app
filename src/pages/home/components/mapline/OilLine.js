@@ -1,5 +1,3 @@
-import {MPoint} from '../../../../mapbarmap/MapbarMapInstance';
-
 const SPEED_1 = 'SPEED_1';
 const SPEED_2 = 'SPEED_2';
 const SPEED_3 = 'SPEED_3';
@@ -28,25 +26,13 @@ let getSpeedColor = (speedType) => {
             return '#FF0000';
     }
 }
-const getMapPoint = (pt) =>  {
-    let _pt = MPoint([pt._x, pt._y]);
-    _pt.s = pt._v;  //速度
-    _pt.o = pt._instant_oil - 160;    //油
-    _pt.direction = pt._direction;  //方向
-    _pt.time = pt._auto_terminal;  //时间
 
-    return Object.assign({}, pt, _pt)
-}
 const get = (line) => {
-    console.info('------------------------------------------------')
-    console.info(line)
     let lines = [], _tmp1 = null;
     line.map((_line, index) => {
-
-    //    _line = getMapPoint(_line);
         _tmp1 = _tmp1 || {
                 locations: [],
-                speedType: getSpeedType(_line.s)
+                speedType: getSpeedType(_line.oil)
             };
         if (_tmp1.locations.length === 0 && index > 0) {
             let _lastline = line[index - 1];
@@ -60,8 +46,7 @@ const get = (line) => {
             latitude: _line.latitude
         });
         let _nextline = line[index + 1];
-       // _nextline && (_nextline = getMapPoint(_nextline));
-        if (index === line.length - 1 || getSpeedType(_nextline.s) !== _tmp1.speedType) {
+        if (index === line.length - 1 || _nextline.oil !== _tmp1.speedType) {
             lines.push(Object.assign({}, _tmp1));
             _tmp1 = null;
         }
