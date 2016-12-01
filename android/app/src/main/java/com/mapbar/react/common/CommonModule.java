@@ -1,8 +1,6 @@
 package com.mapbar.react.common;
 
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.text.TextUtils;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -16,8 +14,6 @@ import com.mapbar.react.LogUtils;
 import com.mapbar.react.common.operation.ContactsOperation;
 import com.mapbar.react.common.operation.MediaPlayerOperation;
 import com.mapbar.react.common.operation.MediaRecorderOperation;
-
-import java.io.File;
 
 /**
  * Created by Administrator on 2016/10/18.
@@ -79,29 +75,50 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
 
     //播放录音
     @ReactMethod
-    public void playAudio(String audioPath,Promise promise) {
-        MediaPlayerOperation.playSound(audioPath,promise);
+    public void playAudio(String audioPath, Promise promise) {
+        MediaPlayerOperation.playSound(audioPath, promise);
     }
 
     //暂停播放
     @ReactMethod
     public void pauseAudioPlay(Promise promise) {
         MediaPlayerOperation.pause(promise);
+    }
 
+    //暂停播放后恢复播放
+    @ReactMethod
+    public void resumeAudioPlay() {
+        MediaPlayerOperation.resume();
     }
 
     //获取录音总时长
     @ReactMethod
-    public void getPlayAudioDuration(String audioPath,Promise promise) {
-        MediaPlayerOperation.getDuration(audioPath,promise);
+    public void getPlayAudioDuration(String audioPath, Promise promise) {
+        MediaPlayerOperation.getDuration(audioPath, promise);
     }
 
-    //获取当前录音点
+    //获取当前录音播放的时间点
     @ReactMethod
     public void getPlayAudioPosition(Promise promise) {
-         MediaPlayerOperation.getCurrentPosition(promise);
-
+        MediaPlayerOperation.getCurrentPosition(promise);
     }
+
+    //指定到播放位置。
+    @ReactMethod
+    public void seekTo(int millis,Promise promise) {
+        MediaPlayerOperation.seekTo(millis,promise);
+    }
+
+    //获取录音音频，用于页面声音波动动画。
+    @ReactMethod
+    public void getVoiceLevel(int millis,Promise promise) {
+        MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
+        int voiceLevel = mAudioManager.getVoiceLevel(millis);
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putInt("voiceLevel", voiceLevel);
+        promise.resolve(writableMap);
+    }
+
     @Override
     public void onHostResume() {
 //        MediaPlayerOperation.resume();
