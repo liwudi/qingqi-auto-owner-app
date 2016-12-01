@@ -18,9 +18,10 @@ import UserCenterHome from './userCenter';
 import Message from './message/Message';
 import News from './home/news/News';
 
+import Login from './user/index';
 
 import MainNavBar from '../components/MainNavBar';
-
+import { addInterceptor } from '../service-config/RequestService';
 
 
 const tabs = [
@@ -35,6 +36,23 @@ let initialRoute = tabs[1];
 class HomeRouter extends Component {
 	constructor(props){
 		super(props);
+addInterceptor((res) => {
+            if(res && (res.resultCode && res.resultCode === 509) || (res.code && res.code === 1019)){
+                this.props.alert(
+                    '提示',
+                    '登录已过期，请重新登陆',
+                    [
+                        {
+                            text:'确定',
+                            onPress:() => {
+                                this.props.router.resetTo(Login);
+                            }
+                        }
+                    ]
+                );
+            }
+            return res;
+        });
 	}
 	render() {
 		return (

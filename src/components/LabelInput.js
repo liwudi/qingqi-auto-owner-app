@@ -37,6 +37,13 @@ export default class LabelInput extends Component {
         }
     }
 
+    focus(){
+        this.refs.textInput.focus();
+    }
+
+    setValue(value){
+        // this.refs.textInput.setValue(value);
+    }
 
     validate(isShowTip = true){
         if(this.props.validates){
@@ -116,6 +123,8 @@ export default class LabelInput extends Component {
                     placeholderTextColor={Env.color.note}
                     onChangeText={this.onChangeText.bind(this)}
                     defaultValue={this.state.value}
+                    value={this.state.value}
+                    ref="textInput"
                 />
                 {_renderRightView()}
             </View>

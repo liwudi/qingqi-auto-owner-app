@@ -85,6 +85,7 @@ export default class TabBar extends React.Component{
             <LabelInput
                 {...this.props}
                 ref="textInput"
+                keyboardType="numeric"
                 style={[this.props.style]}
                 placeholder='短信验证码'
                 label="验证码"

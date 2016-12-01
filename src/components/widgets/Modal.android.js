@@ -11,7 +11,7 @@ import Env from '../../utils/Env';
 const estyle = Env.style;
 
 const color = Env.button.color.confirm;
-export default class ColorButton extends Component {
+export default class ModalAndroid extends Component {
     render() {
         return <Modal
             animationType={"fade"}

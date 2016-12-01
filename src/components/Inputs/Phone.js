@@ -20,6 +20,10 @@ export default class Phone extends Component {
         require: false
     };
 
+    setValue(value){
+        this.refs.textInput.setValue(value);
+    }
+
     render() {
 
         let validates = [
@@ -31,7 +35,7 @@ export default class Phone extends Component {
         return (
             <LabelInput  {...this.props} ref="textInput"
                          style={[this.props.style]}
-                         keyboardType="phone-pad"
+                         keyboardType="numeric"
                          maxLength={11}
                          label="手机"
                          placeholder={this.props.placeholder || emsg.phone.placeholder}

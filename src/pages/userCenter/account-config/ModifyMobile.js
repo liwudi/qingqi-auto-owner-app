@@ -40,7 +40,7 @@ class ModifyMobile extends Component {
 
 	onNext(){
 		if(PhoneInput.Validate(this.refs)){
-			if(this.state.phone != this.props.userStore.userInfo.phone){
+			if(this.state.phone.trim() != this.props.userStore.userInfo.phone.trim()){
                 Toast.show('该手机与当前绑定手机不符', Toast.SHORT);
                 return;
 			}

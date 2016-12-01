@@ -25,11 +25,11 @@ import { addEventSystemBack } from '../utils/SystemEvents';
 
 import Router from '../services/RouterService';
 
-import SplashScreen from 'react-native-splash-screen';
-import Alert from '../components/Modals/Alert';
-const SystemSetting = NativeModules.SystemSettingModule;
 
-import Env from '../utils/Env';
+
+import Env from '../utils/Env'
+const estyle = Env.style;
+import {Alert2} from '../components/Modals/Alert';
 
 class Main extends Component {
 
@@ -49,11 +49,12 @@ class Main extends Component {
 
 	constructor(props){
 		super(props);
-        console.log(props)
 		this.state = {
-			exitAlert : false,
 			isConnected: true
-		}
+		};
+
+
+
 		addEventSystemBack(
 			(exitApp) => {
 				// console.info(123)
@@ -61,7 +62,22 @@ class Main extends Component {
 					this.navigator.pop();
 					return true;
 				} else {
-					this.setState({exitAlert : true, exitApp});
+					this.refs.alert.alert(
+						'提示',
+                        '是否要退出应用?',
+						[
+							{
+								text:'确定',
+								onPress:() => {
+                                    exitApp();
+								}
+							},
+                            {
+                                text:'取消'
+                            }
+						]
+					);
+
 					return true;
 				}
 			}
@@ -96,46 +112,25 @@ class Main extends Component {
             this.setState({NetIsConnected: isConnected !== 'NONE'});
             //this.setState({isConnected: false});
         });
-        
-	
+
+        global.storage.load({
+            key: 'preLoginUserName'
+        })
+            .then(rs => this.setState({preLoginUserName: rs.name}))
+            .catch(e => console.log(e));
+
 	}
 
 	componentWillReceiveProps(props){
 		// console.log(props)
 	}
-	renderNetError() {
-		if(!this.state.isConnected) {
-			SplashScreen.hide();
-			return <ViewForRightArrow style={[{position:'absolute', backgroundColor: Env.color.modalBg, left:0, top:0, width: Env.screen.width}]}
-									  onPress={() => {
-					console.info('opens ettting');
-					SystemSetting.openNetWork();
-				}}>
-				<View style={[estyle.fxRow, estyle.fxRowCenter]}>
-					<IconChainBroken size={Env.font.text * 2} color={'#ffffff'}/>
-					<View style={[estyle.fx1, estyle.marginLeft]}>
-						<Text style={[{fontSize: Env.font.text, color: '#ffffff'}]}>网络中断</Text>
-						<Text style={[{fontSize: Env.font.text, color: '#ffffff'}]}>请检查您的网络设置</Text>
-					</View>
 
-				</View>
-			</ViewForRightArrow>
-		}
-
-/*
-		// console.info('errornet')
-		return <ErrorPage visible={!this.state.isConnected}/>;*/
-		/*return <View style={[{position:'absolute', width:Env.screen.width, height: Env.screen.height, zIndex:10, left:0,top:0}]}>
-			<ErrorPage type="net"/>
-		</View>;*/
-	}
 
 	componentWillMount() {
 
 	}
 
 	renderMain() {
-		// console.info('renderMain')
 		return <View style={[estyle.fx1]}>
 			<Navigator
 				initialRoute = {Router.Page(Guide2)}
@@ -152,6 +147,10 @@ class Main extends Component {
 								navigator.pop()
 							}}
 							NetIsConnected = {this.state.NetIsConnected}
+							preLoginUserName = {this.state.preLoginUserName}
+							alert = {(a,b,c) => {
+                                this.refs.alert.alert(a,b,c);
+							}}
 							{...page.props}
 						/>
 					);
@@ -164,20 +163,7 @@ class Main extends Component {
 		return (
 			<View style={[estyle.fx1]}>
 				{this.renderMain()}
-				{/*{this.renderNetError()}*/}
-				<Alert
-					visible={this.state.exitAlert}
-					onConfirm={(()=> {
-
-						{/*console.info(this.state.isConnected)*/}
-						this.setState({exitAlert: false});
-						this.state.exitApp();
-					})}
-					onCancel={(()=> {
-						{/*console.info(this.state.isConnected)*/}
-						this.setState({exitAlert: false})
-					})}
-				>是否要退出应用?</Alert>
+				<Alert2 ref="alert"/>
 				</View>
 		);
 	}

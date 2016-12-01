@@ -18,24 +18,21 @@ import {UserActions, TYPES} from '../../actions/index';
 import HomeRouter from '../HomeRouter';
 import FindPassword from './FindPassword';
 
-import TopBanner from '../../components/TopBanner';
+import Button from '../../components/widgets/Button';
 import PhoneInput from '../../components/Inputs/Phone';
 import PasswordInput from '../../components/Inputs/Password';
 import SubmitButton from '../../components/SubmitButton';
 import LabelInput from '../../components/LabelInput';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
+import { getCaptcha, CAPTCHA_TYPE_LOGIN } from '../../services/UserService';
 
 import Env from '../../utils/Env';
-const estyle = Env.style,
-    emsg = Env.msg.form,
-    pattern = Env.pattern;
+const estyle = Env.style;
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // phone:'15010053708',
-            // password:'123456',
             phone:'',
             password:'',
             captchaImg: false,
@@ -45,20 +42,19 @@ class Login extends Component {
         global.storage.load({
             key: 'preLoginUserName'
         })
-            .then(rs => this.setState({phone:rs.name}))
+            .then(rs => this.refs.phone.setValue( rs.name ))
             .catch(e => console.log(e));
 
     }
 
     next = (userInfo) => {
-        //this.props.router.replace(HomeRouter);
         this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
     }
 
 
     onLogin() {
         if (PhoneInput.Validate(this.refs)) {
-            this.state.haveCaptcha && setTimeout(this.getCaptcha,500);
+            this.state.haveCaptcha && setTimeout(this.getCaptchaImg,500);
             this.props.dispatch(UserActions.doLogin(this.state, this.next));
         }
     }
@@ -82,11 +78,11 @@ class Login extends Component {
     oldPhone = null;
 
 
-    getCaptcha = () =>{
+    getCaptchaImg = () =>{
         this.imgCapthCache = <Button onPress={() => {this.oldPhone = ''; this.onPhoneChange(this.state.phone);}}><Image
                         style={[Env.vector.captcha.size]}
                         resizeMode={Image.resizeMode.cover}
-                        source={{uri: getCaptcha(this.state.phone)}}
+                        source={{uri: getCaptcha(this.state.phone, CAPTCHA_TYPE_LOGIN)}}
                     /></Button>;
                     
     /*    this.imgCapthCache = <Image
@@ -103,7 +99,7 @@ class Login extends Component {
             if(this.state.captchaImg){
                 if(this.oldPhone !== this.state.phone){
                     this.oldPhone = this.state.phone;
-                    this.getCaptcha();
+                    this.getCaptchaImg();
                 }
                 return this.imgCapthCache;
             }else{
@@ -112,7 +108,7 @@ class Login extends Component {
         }
 
         const _renderCaptcha = ()=>{
-            if(this.props.userStore.error && this.props.userStore.error.code === 1017 || this.state.haveCaptcha){
+            if(this.props.userStore.error && this.props.userStore.error.resultCode === 1017 || this.state.haveCaptcha){
                 this.state.haveCaptcha = true;
                 return <LabelInput
                     ref="captcha"

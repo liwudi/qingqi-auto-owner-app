@@ -18,7 +18,7 @@ import { UserActions, TYPES } from '../../actions/index';
 import TopBanner from '../../components/TopBanner';
 import SubmitButton from '../../components/SubmitButton';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
-import Login from './Login';
+import Home from '../HomeRouter';
 
 import Env from '../../utils/Env';
 const estyle = Env.style,
@@ -32,9 +32,7 @@ class RegCheckCode extends Component {
 
 
 	next = (loginInfo) => {
-		console.info(loginInfo)
-		console.info(this.props)
-		this.props.router.replace(Login, {loginInfo})
+		this.props.router.resetTo(Home)
 	}
 
 	onReg(){
@@ -68,6 +66,7 @@ class RegCheckCode extends Component {
 						label="验证码"
 						sendCode = {this.sendCode.bind(this, true)}
 						sendCodeStatus = {this.props.sendCodeStatus}
+						autoFocus={true}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>

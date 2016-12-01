@@ -1,17 +1,13 @@
 package com.mapbar.react.setting;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.mapbar.MainActivity;
-import com.mapbar.react.common.CommonOperation;
 
 /**
  * Created by cryst on 2016/11/10.

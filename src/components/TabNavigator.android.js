@@ -9,7 +9,8 @@ import Env from '../utils/Env';
 export default class TabNavigator extends Component {
     tabBar = null;
     static defaultProps = {
-        isSwipe: true
+        isSwipe: true,
+        initialIndex:0
     }
     constructor(props){
         super(props);
@@ -19,10 +20,15 @@ export default class TabNavigator extends Component {
             return item;
         })
     }
+
+    changeTab(index){
+        this.tabBar.changeTab(index, false);
+    }
+
     render(){
         return (
             <Navigator
-                initialRoute={this.props.tabs[0]}
+                initialRoute={this.props.tabs[this.props.initialIndex]}
                 initialRouteStack={this.props.tabs}
                 navigationBar={<TabBar ref={(tabBar) => {this.tabBar = tabBar;}} tabs={this.props.tabs} />}
                 configureScene={() => this.props.isSwipe ? Navigator.SceneConfigs.HorizontalSwipeJump : Navigator.SceneConfigs.FadeAndroid}
@@ -34,6 +40,7 @@ export default class TabNavigator extends Component {
                                 {...this.props}
                                 {...route.props}
                                 navigator = {navigator}
+                                changeTab = {this.changeTab.bind(this)}
                             />
                             </View>
                 }}
