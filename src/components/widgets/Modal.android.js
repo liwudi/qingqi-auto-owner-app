@@ -5,7 +5,8 @@
  * Created by cryst on 2016/10/11.
  */
 import React, {Component} from 'react';
-import {TouchableHighlight, View, Text, StyleSheet, Modal} from 'react-native';
+import {TouchableHighlight, View, Text, StyleSheet} from 'react-native';
+import Modal from './Modal2';
 
 import Env from '../../utils/Env';
 const estyle = Env.style;
@@ -16,12 +17,13 @@ export default class ModalAndroid extends Component {
         return <Modal
             animationType={"fade"}
             transparent={true}
-            visible={this.props.visible}
+            isOpen={this.props.visible}
             onRequestClose={this.props.onClose}
+            animationDuration={0}
+            swipeToClose={false}
+            style={[estyle.fxCenter]}
         >
-            <View style={[estyle.fx1, {backgroundColor: Env.color.modalBg}, this.props.style]}>
                 {this.props.children}
-            </View>
         </Modal>
     }
 }
