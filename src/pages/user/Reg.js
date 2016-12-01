@@ -16,16 +16,17 @@ import {
 
 import {UserActions, TYPES} from '../../actions/index';
 
-import { getCaptcha } from '../../services/UserService';
+import { getCaptcha, checkMobile } from '../../services/UserService';
 import Alert from '../../components/Modals/Alert';
 import TopBanner from '../../components/TopBanner';
 import LabelInput from '../../components/LabelInput';
 import SubmitButton from '../../components/SubmitButton';
 import PhoneInput from '../../components/Inputs/Phone';
 import PasswordInput from '../../components/Inputs/Password';
+import Toast from '../../components/Toast';
 
 import RegCheckCode from './RegCheckCode';
-import QuickLogin from './QuickLogin';
+import Login from './index';
 
 import Env from '../../utils/Env';
 const estyle = Env.style,
@@ -33,6 +34,14 @@ const estyle = Env.style,
 	pattern = Env.pattern;
 import Button from '../../components/widgets/Button';
 import Agreement from './Agreement';
+
+const getBLen = function(str) {
+    if (str == null) return 0;
+    if (typeof str != "string"){
+        str += "";
+    }
+    return str.replace(/[^\x00-\xff]/g,"01").length;
+}
 
 class Reg extends Component {
 	constructor(props){
@@ -50,13 +59,30 @@ class Reg extends Component {
 		};
 	}
 
+	onPhoneBlur(){
+        checkMobile(this.state.phone)
+            .then((rs)=>{})
+            .catch(e => {
+                if(e.code === 1006){
+                    this.phoneIsExist()
+                }
+            });
+	}
+
 	onChange(input){
 		this.setState(input);
 	}
 
 	next = (regInfo) => {
-		console.info(regInfo)
-		this.props.router.replace(RegCheckCode, {regInfo});
+        this.props.dispatch(UserActions.sendRegCode(
+            this.state.phone,
+            this.state.captcha,
+            false,
+			() => {
+            	Toast.show('验证码发送成功', Toast.SHORT);
+			}
+        ));
+        this.props.router.replace(RegCheckCode, {regInfo});
     }
 
     phoneIsExist = () => {
@@ -66,19 +92,24 @@ class Reg extends Component {
 	toQuick() {
 		console.info(this.props)
 		this.setState({alertActive:false});
-		this.props.router.replace(QuickLogin, {nav: {phone: this.state.phone}})
+		this.props.router.resetTo(Login, {initialIndex: 1, nav: {phone: this.state.phone}})
 	}
 
 	onReg(){
-	    PhoneInput.Validate(this.refs) &&
-        this.props.dispatch(UserActions.doRegCheckCaptcha(
-	        this.state.phone,
-            this.state.trueName,
-            this.state.password,
-            this.state.captcha,
-            this.next,
-			this.phoneIsExist
-        ));
+	    if(PhoneInput.Validate(this.refs)){
+            if(getBLen(this.state.trueName) > 14){
+                Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
+                return;
+            }
+            this.props.dispatch(UserActions.doRegCheckCaptcha(
+                this.state.phone,
+                this.state.trueName,
+                this.state.password,
+                this.state.captcha,
+                this.next,
+                this.phoneIsExist
+            ));
+		}
 	}
 
 	onPhoneChange(phone){
@@ -100,32 +131,10 @@ class Reg extends Component {
     oldPhone = null;
 
 	render() {
-
-	    /*let captcha = () => {
-	        if(this.state.captchaImg){
-	            if(this.oldPhone !== this.state.phone){
-                    this.oldPhone = this.state.phone;
-                    this.imgCapthCache = <Image
-                        style={[Env.vector.captcha.size]}
-                        resizeMode={Image.resizeMode.cover}
-                        source={{uri: getCaptcha(this.state.phone)}}
-                    />;
-                }
-
-                return this.imgCapthCache;
-            }else{
-                return <View/>
-            }
-        }*/
 		let captcha = () => {
 			if(this.state.captchaImg){
 				if(this.oldPhone !== this.state.phone){
 					this.oldPhone = this.state.phone;
-					/*this.imgCapthCache = <Image
-						style={[Env.vector.captcha.size]}
-						resizeMode={Image.resizeMode.cover}
-						source={{uri: getCaptcha(this.state.phone)}}
-					/>;*/
 					this.oldPhone = this.state.phone;
 					this.imgCapthCache = <Button onPress={() => {this.oldPhone = ''; this.onPhoneChange(this.state.phone);}}><Image
 						style={[Env.vector.captcha.size]}
@@ -151,6 +160,7 @@ class Reg extends Component {
 						onChangeText={phone => this.onPhoneChange(phone)}
 						require={true}
 						labelSize="3"
+						onBlur={this.onPhoneBlur.bind(this)}
 					/>
 
 					<LabelInput

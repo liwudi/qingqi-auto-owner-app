@@ -2,6 +2,7 @@ package com.mapbar.react;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Environment;
 
 import com.mapbar.R;
 
@@ -61,4 +62,14 @@ public class CommonUtils {
         return false;
     }
 
+    /**
+     * 判断SDCard是否可用
+     * <p>
+     * [url=home.php?mod=space&uid=7300]@return[/url]
+     */
+    public static boolean isSDCardEnable() {
+        return Environment.MEDIA_MOUNTED.equals(
+                Environment.getExternalStorageState());
+
+    }
 }

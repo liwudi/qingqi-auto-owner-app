@@ -9,7 +9,8 @@ import ModalBox from '../widgets/Modal';
 import ConfirmButton from '../ConfirmButton'
 import CancelButton from '../CancelButton';
 const estyle = Env.style;
-export default class ColorButton extends Component {
+
+export default class Alert extends Component {
     constructor(props) {
         super(props);
     }
@@ -23,6 +24,69 @@ export default class ColorButton extends Component {
                     <View style={[estyle.fxRow, estyle.fxCenter]}>
                         <ConfirmButton size="small" style={[estyle.margin]} onPress={this.props.onConfirm}>{this.props.confirmTitle || '确定'}</ConfirmButton>
                         <CancelButton size="small" style={[estyle.margin]} onPress={this.props.onCancel} >{this.props.cancelTitle||'取消'}</CancelButton>
+                    </View>
+                </View>
+            </ModalBox>
+        );
+    }
+}
+
+export class Alert2 extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            visible: false,
+            title: '',
+            content: '',
+            buttons: []
+        }
+    }
+
+    alert(title, content, buttons){
+        this.setState({
+            visible: true,
+            title,
+            content,
+            buttons
+        })
+    }
+
+    _onPress(press){
+        this.setState({
+            visible: false,
+            title: '',
+            content: '',
+            buttons: []
+        });
+        press && press();
+    }
+
+    render() {
+        return (
+            <ModalBox
+                onClose={() => {}}
+                visible={this.state.visible}
+                style={[estyle.fxCenter]}
+            >
+                <View style={[estyle.cardBackgroundColor, {width:Env.font.base * 540, borderRadius: Env.font.base * 10}]}>
+                    <Text
+                        style={[estyle.articleTitle, estyle.borderBottom, estyle.paddingVertical, {color:Env.color.auxiliary, textAlign:'center'}]}
+                    >
+                        {this.state.title}
+                        </Text>
+                    <Text style={[estyle.text, estyle.marginHorizontal]}>
+                        {this.state.content}
+                    </Text>
+                    <View style={[estyle.fxRow, estyle.fxCenter]}>
+                        {this.state.buttons.map((button, index) => {
+                            let Button = index === 0 ? ConfirmButton : CancelButton;
+                            return <Button key={index}
+                                size="small"
+                                style={[estyle.margin]}
+                                onPress={() => this._onPress(button.onPress)}>
+                                {button.text}
+                            </Button>
+                        })}
                     </View>
                 </View>
             </ModalBox>

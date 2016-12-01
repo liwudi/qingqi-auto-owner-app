@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.widget.Toast;
 
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
+import com.mapbar.android.statistics.api.MapbarMobStat;
 import com.mapbar.mapdal.Auth;
 import com.mapbar.mapdal.NativeEnv;
 import com.mapbar.mapdal.NativeEnvParams;
@@ -26,6 +26,12 @@ public class MainActivity extends ReactActivity {
         LogUtils.init(MainActivity.this, "ReactABC");
         LogUtils.logd(TAG, LogUtils.getThreadName() + ">>>");
         init();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MapbarMobStat.onPageStart(this,"MainActivity");
     }
 
     @Override
@@ -57,6 +63,12 @@ public class MainActivity extends ReactActivity {
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
      */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MapbarMobStat.onPageEnd(this,"MainActivity");
+    }
+
     /**
      * 初始化引擎所需的基础环境
      */
@@ -113,7 +125,7 @@ public class MainActivity extends ReactActivity {
                         break;
                 }
                 if (msg != null) {
-                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    LogUtils.logd(TAG,"NativeEnvironmentInit:"+msg);
                 }
             }
 
@@ -165,7 +177,7 @@ public class MainActivity extends ReactActivity {
                         break;
                 }
                 if (msg != null) {
-                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    LogUtils.logd(TAG,"onSdkAuthComplete:"+msg);
                 }
             }
         });

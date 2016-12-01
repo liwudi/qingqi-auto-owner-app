@@ -23,8 +23,6 @@ import ModifyMobile from './ModifyMobile';
 import ModifyPassword from './ModifyPassword';
 import ModifyTrueName from './ModifyTrueName';
 
-import { userPic } from '../../../services/UserService';
-
 import { UserActions, TYPES } from '../../../actions';
 
 import { uploadUserPic } from '../../../services/UserService';
@@ -32,56 +30,42 @@ import { uploadUserPic } from '../../../services/UserService';
 import Toast from '../../../components/Toast';
 
 import ImagePickBotton from './components/ImagePickButton';
-import Alert from '../../../components/Modals/Alert';
-
-let options = {
-	title: 'Select Avatar',
-	storageOptions: {
-		skipBackup: true,
-		path: 'images'
-	}
-};
+import { Alert2 } from '../../../components/Modals/Alert';
 
 class AccountHome extends Component {
 
 	constructor(props){
 		super(props);
 		this.state = {
-			picSource:null,
-			alertActive: false
+			picSource:null
 		}
-		// this.userInfo = props.userStore.userInfo;
 	}
-	// componentWillReceiveProps(nextProps){
-	// 	this.userInfo = nextProps.userStore.userInfo;
-	// }
 
 	goTo(page){
 		this.props.router.push(page);
 	}
 
 	logout(){
-		this.props.dispatch(UserActions.logout(
-			() => {
-				this.setState({alertActive:false});
-				this.props.router.resetTo(Login);
-			}
-		))
 
-		/*Alert.alert('提示',
-			'是否要退出登录？',
-			[
-				{
-					text: '确定', onPress: () => {
-						this.props.dispatch(UserActions.logout(
-							() => {
-								this.props.router.replace(Login)
-							}
-						))
-					}
-				},
-				{text: '取消'}
-			])*/
+        this.props.alert(
+            '提示',
+            '是否要退出登录？',
+            [
+                {
+                    text:'确定',
+                    onPress:() => {
+                        this.props.dispatch(UserActions.logout(
+                            () => {
+                                this.props.router.resetTo(Login);
+                            }
+                        ))
+                    }
+                },
+                { text:'取消' }
+            ]
+        );
+
+
 	}
 
 	updatePic = () => {
@@ -91,7 +75,8 @@ class AccountHome extends Component {
 	onImagePick = (imageSource) => {
 		uploadUserPic(imageSource)
 			.then(rs => {
-				
+                Toast.show('头像修改成功', Toast.SHORT);
+                this.props.dispatch(UserActions.getUserPic());
 			})
 			.catch(e => {
 				Toast.show(e.message, Toast.SHORT);
@@ -103,26 +88,18 @@ class AccountHome extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="账号设置"/>
-				<ImagePickBotton ref="ImagePickBotton" onImagePick={this.onImagePick}/>
+				<ImagePickBotton ref="ImagePickBotton" onImagePick={this.onImagePick} maxWidth={200} maxHeight={200}/>
 				<View>
-{/*
 					<ViewForRightArrow onPress={this.updatePic}>
-*/}
-					{/*<ViewForRightArrow>*/}
-						{/*<View style={[estyle.fxRow, estyle.fxCenter]}>*/}
-							{/*<Text style={[estyle.fx1, estyle.text]}>头像</Text>*/}
-							{/*/!*<Image*/}
-								{/*style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,*/}
-									{/*borderColor:Env.color.main}}*/}
-								{/*source={{uri: userPic()}}*/}
-							{/*/>*!/*/}
-							{/*<Image*/}
-								{/*style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,*/}
-									{/*borderColor:'#85C7E7',}}*/}
-								{/*source={require('../../../assets/images/driver.png')}*/}
-							{/*/>*/}
-						{/*</View>*/}
-					{/*</ViewForRightArrow>*/}
+						<View style={[estyle.fxRow, estyle.fxCenter]}>
+							<Text style={[estyle.fx1, estyle.text]}>头像</Text>
+							<Image
+								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
+									borderColor:'#85C7E7',}}
+								source={this.props.userPicStore.userPic}
+							/>
+						</View>
+					</ViewForRightArrow>
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyTrueName)}>
 						<View style={[estyle.fxRow]}>
 							<Text style={[estyle.fx1, estyle.text]}>姓名</Text><Text style={styles.text}>{userInfo.name || '未设置姓名'}</Text>
@@ -144,26 +121,17 @@ class AccountHome extends Component {
 						<SubmitButton
 							size="large"
 							doing={this.props.userStore.status === TYPES.LOGGED_DOING}
-							onPress={(()=>{this.setState({alertActive:true})})}
+							onPress={(()=>{this.logout()})}
 						>退出账户</SubmitButton>
 					</View>
-
 				</View>
-				<Alert visible={this.state.alertActive}
-					   title="提示"
-					   confirmTitle="确定"
-					   cancelTitle="取消"
-					   onConfirm={(()=>{this.logout()})}
-					   onCancel={(()=>{this.setState({alertActive:false})})}>
-					是否要退出登录？
-				</Alert>
 			</View>
 		);
 	}
 }
 
 export default connect(function (stores) {
-	return {userStore: stores.userStore}
+	return {userStore: stores.userStore, userPicStore: stores.userPicStore}
 })(AccountHome);
 
 

@@ -10,7 +10,8 @@ import ConfirmButton from '../../../../components/ConfirmButton.android'
 import CancelButton from '../../../../components/CancelButton.android';
 import Toast from '../../../../components/Toast';
 const estyle = Env.style;
-
+import ImageResizer from 'react-native-image-resizer';
+import RNFetchBlob from 'react-native-fetch-blob';
 import * as ImagePicker from 'react-native-image-picker';
 //https://github.com/marcshilling/react-native-image-picker
 
@@ -22,6 +23,12 @@ let options = {
 };
 
 export default class ImagePickButton extends Component {
+
+    static defaultProps = {
+        maxHeight: 500,
+        maxWidth: 500
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -49,13 +56,18 @@ export default class ImagePickButton extends Component {
             Toast.show('获取图像失败', Toast.SHORT);
         }
         else {
-            const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-            if (Platform.OS === 'ios') {
-                const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-            } else {
-                const source = {uri: response.uri, isStatic: true};
-            }
-            this.props.onImagePick && this.props.onImagePick(source);
+            ImageResizer.createResizedImage(response.path, this.props.maxWidth, this.props.maxHeight, 'JPEG', 100, 0).then((resizedImageUri) => {
+                RNFetchBlob.fs.readFile(resizedImageUri, 'base64')
+                    .then((data) => {
+                        this.props.onImagePick && this.props.onImagePick({
+                            ...response,
+                            path: resizedImageUri,
+                            data: data
+                        });
+                    });
+            }).catch((err) => {
+                Toast.show('获取图像失败', Toast.SHORT);
+            });
         }
     }
 

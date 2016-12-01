@@ -3,12 +3,14 @@
  */
 
 import ServerConfig from './ServerConfig';
+import RNFetchBlob from 'react-native-fetch-blob';
 import Toast from '../components/Toast';
 
 let serviceUrl = '';
 let userInfo;
 let token = null;
 let userId = null;
+let interceptors = [];
 
 function urlEncode(param, key, encode) {
     if (param == null) return '';
@@ -35,7 +37,28 @@ function isString(value) {
     return typeof value === 'string';
 }
 
+function _fetch(fetch_promise, timeout) {
+    let abort_fn = null;
 
+    //这是一个可以被reject的promise
+    let abort_promise = new Promise(function(resolve, reject) {
+        abort_fn = function() {
+            reject({ data: null, resultCode: 500, message: '请求超时，请重试！' });
+        };
+    });
+
+    //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
+    let abortable_promise = Promise.race([
+        fetch_promise,
+        abort_promise
+    ]);
+
+    setTimeout(function() {
+        abort_fn();
+    }, timeout);
+
+    return abortable_promise;
+}
 
 function resultProcessor(result) {
     if (result.status === 200 || result.code === 200 || result.resultCode === 200) {
@@ -63,7 +86,7 @@ function typeToString(obj) {
     return obj;
 }
 
-function request(opts, processor, isUpload) {
+function request(opts, processor, isUpload = false) {
     let url = /^(http|https):\/\//.test(opts.url) ? opts.url : (serviceUrl + opts.url),
         options = {
             method: opts.method || 'GET',
@@ -106,14 +129,16 @@ function request(opts, processor, isUpload) {
             options.body = opts.data;
             options.headers.set('Content-Type', 'multipart/form-data');
         } else if (isUpload) {
-            formData = new FormData();
             if (opts.data) {
-                forEach(opts.data, function (value, key) {
-                    formData.append(key, value);
-                });
+                options.files = Object.keys(opts.data).map(((key) => {
+                    let file = opts.data[key];
+                    if(typeof file === 'string'){
+                        return { name: key, data: file};
+                    }else{
+                        return { name : key, filename : file.fileName, type:file.type, data: RNFetchBlob.wrap(file.path)};
+                    }
+                }));
             }
-            options.body = formData;
-            options.headers.set('Content-Type', 'undefined');
         } else {
             options.body = JSON.stringify(typeToString(opts.data));
             options.headers.set('Content-Type', 'application/json;charset=utf-8');
@@ -139,57 +164,37 @@ function request(opts, processor, isUpload) {
     console.log(options)
     console.log('###############################################');
 
-    // return fetch(url, options)
-    //     .then(function (response) {
-    //         return response.json()
-    //     })
-    //     .then(function (res) {
-    //         return processor(res);
-    //     })
-    //     .catch(function (err) {
-    //          // Toast.show(JSON.stringify(err), Toast.SHORT);
-    //         return Promise.reject(err);
-    //     });
-
-
-
-    function _fetch(fetch_promise, timeout) {
-        let abort_fn = null;
-
-        //这是一个可以被reject的promise
-        let abort_promise = new Promise(function(resolve, reject) {
-            abort_fn = function() {
-                reject({ data: null, resultCode: 500, message: '请求超时，请重试！' });
-            };
-        });
-
-        //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
-        let abortable_promise = Promise.race([
-            fetch_promise,
-            abort_promise
-        ]);
-
-        setTimeout(function() {
-            abort_fn();
-        }, timeout);
-
-        return abortable_promise;
-    }
 
     if(!global.NetIsConnected){
         return Promise.reject({ data: null, resultCode: 500, message: '网络未连接，请检查网络！' });
     } else {
-        return _fetch(fetch(url, options)
-            .then(function (response) {
-                return response.json()
-            })
-            .then(function (res) {
-                return processor(res);
-            })
-            .catch(function (err) {
-                // Toast.show(JSON.stringify(err), Toast.SHORT);
-                return Promise.reject(err);
-            }), 10000);
+        if(isUpload){
+            let _heasers = {};
+            options.headers.forEach((v,k) => {
+                _heasers[k] = v;
+            });
+            return RNFetchBlob.fetch('POST', url, _heasers , options.files )
+                .then(response => response.json())
+                .then((res) => {
+                    return processor(res);
+                }).catch((err) => {
+                    return err
+                });
+        } else {
+            return _fetch(
+                fetch(url, options)
+                    .then(response => response.json())
+                    .then(function (res) {
+                        interceptors.forEach((interceptor) => {
+                            res = interceptor(res);
+                        });
+                        return processor(res);
+                    })
+                    .catch(function (err) {
+                        return Promise.reject(err);
+                    })
+                , 10000);
+        }
     }
 }
 
@@ -238,6 +243,12 @@ function getToken() {
     return userInfo;
 }
 
+/**
+ * 添加拦截器
+ */
+function addInterceptor(interceptor) {
+    interceptors = [interceptor];
+}
 
-export {setServiceUrl, setToken, getToken};
+export {setServiceUrl, setToken, getToken, addInterceptor};
 export default RequetService;

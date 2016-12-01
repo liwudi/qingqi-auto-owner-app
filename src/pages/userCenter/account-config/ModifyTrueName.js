@@ -21,6 +21,14 @@ import SubmitButton from '../../../components/SubmitButton';
 import { modifyUserInfo } from '../../../services/UserService';
 import HomeRouter from '../../HomeRouter';
 
+const getBLen = function(str) {
+    if (str == null) return 0;
+    if (typeof str != "string"){
+        str += "";
+    }
+    return str.replace(/[^\x00-\xff]/g,"01").length;
+}
+
 class ModifyTrueName extends Component {
 	constructor(props){
 		super(props);
@@ -46,6 +54,10 @@ class ModifyTrueName extends Component {
                 this.props.router.pop();
 		        return;
             }
+            if(getBLen(this.state.name) > 14){
+                Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
+                return;
+			}
             this.setState({doing: true});
 			modifyUserInfo(this.state.name).then(()=>{
 				this.props.dispatch(UserActions.getUserDetail());
@@ -71,7 +83,12 @@ class ModifyTrueName extends Component {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="设置姓名" doBack={() => {
-					Toast.show('请输入姓名', Toast.SHORT);
+					if(this.props.userStore.userInfo){
+						this.props.doBack();
+					}else{
+                        Toast.show('请输入姓名', Toast.SHORT);
+					}
+
 				}}/>
                 <View  style={[estyle.fxRowCenter]}>
 					<LabelInput

@@ -2,6 +2,7 @@
  * Created by ligj on 2016/9/26.
  */
 import React from 'react';
+
 import {
 	View,
 	StyleSheet,
@@ -24,7 +25,6 @@ export default class MainNavBar extends React.Component{
 		}
 	}
 	changeTab = (index, isJump = true) => {
-		// console.log(index)
 		this.setState({currentIndex:index});
 		isJump && this.props.changeTab && this.props.changeTab(index, this.props.navigator)
 	}

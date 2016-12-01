@@ -47,7 +47,7 @@ class ModifyPassword extends Component {
 		// ));
 		if(PasswordInput.Validate(this.refs)){
 			if(this.state.oldPassword == this.state.newPassword){
-				Toast.show('新密码不能与原始密码相同', Toast.SHORT);
+				Toast.show('新密码和当前密码一致，请重新输入', Toast.SHORT);
 				return;
 			}
 			this.setState({doing: true});

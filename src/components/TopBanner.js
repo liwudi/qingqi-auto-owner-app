@@ -81,7 +81,7 @@ export default class TopBanner extends React.Component{
 						? null
 						: <View style={[estyle.padding,estyle.fxRow,estyle.fxRowCenter,{backgroundColor:'#FDEDEE'}]}>
 								<Icons.IconWaring size={Env.font.base * 40} color="#E55C5D"/>
-								<Text style={[estyle.note,{marginLeft:Env.font.base * 40}]}>ÍøÂçÁ¬½Ó²»¿ÉÓÃ</Text>
+								<Text style={[estyle.note,{marginLeft:Env.font.base * 40}]}>ç½‘ç»œè¿æ¥ä¸å¯ç”¨</Text>
 							</View>
 				}
 

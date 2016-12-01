@@ -1,4 +1,4 @@
-package com.mapbar.react.common;
+package com.mapbar.react.common.operation;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -15,12 +15,12 @@ import com.facebook.react.bridge.WritableMap;
  * Created by Administrator on 2016/10/27.
  */
 
-public class CommonOperation {
+public class ContactsOperation {
 
     private Context context;
-    private String tag = "CommonOperation";
+    private String tag = "ContactsOperation";
 
-    public CommonOperation(Context context) {
+    public ContactsOperation(Context context) {
         this.context = context;
     }
 

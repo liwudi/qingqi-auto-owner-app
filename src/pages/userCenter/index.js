@@ -23,7 +23,7 @@ import AccountHome from './account-config/AccountHome';
 import ManagerList from './manager/ManagerList';
 import AboutUs from './AboutUs';
 
-import { userPic } from '../../services/UserService';
+import { UserActions } from '../../actions';
 
 class UserCenterHome extends Component {
 
@@ -32,6 +32,7 @@ class UserCenterHome extends Component {
         this.state = {
             userData: {}
         };
+        this.props.dispatch(UserActions.getUserPic());
     }
 
     goTo(page){
@@ -43,7 +44,7 @@ class UserCenterHome extends Component {
     }
 
     clearCache(){
-        Alert.alert(
+        this.props.alert(
             '提示',
             '是否要清除应用缓存？',
             [
@@ -73,7 +74,7 @@ class UserCenterHome extends Component {
                             <Image
                                 style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
                                     borderColor:Env.color.main}}
-                                source={require('../../assets/images/driver.png')}
+                                source={this.props.userPicStore.userPic}
                             />
                             {/*<Image
                                 style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
@@ -97,7 +98,7 @@ class UserCenterHome extends Component {
                             <Text style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>V1.0.1</Text>
                         </View>
                     </ViewForRightArrow>
-                    <ViewForRightArrow onPress={this.clearCache}>
+                    <ViewForRightArrow onPress={this.clearCache.bind(this)}>
                         <Text style={estyle.text}>清除缓存</Text>
                     </ViewForRightArrow>
                     <ViewForRightArrow onPress = {() => this.goTo(AboutUs)}>
@@ -110,29 +111,11 @@ class UserCenterHome extends Component {
 }
 
 export default connect(function (stores) {
-    return {userStore: stores.userStore}
+    return {userStore: stores.userStore, userPicStore: stores.userPicStore}
 })(UserCenterHome);
 
 const styles = StyleSheet.create({
     colorFFF :{
         color:'#FFF'
     }
-	/*body:{
-		flex:1,
-		backgroundColor:Env.color.bg
-	},
-
-    item:{
-	    paddingTop:20 * Env.font.base,
-        paddingBottom:20 * Env.font.base,
-        paddingLeft:30 * Env.font.base,
-        // paddingBottom:30 * Env.font.base,
-        borderBottomWidth:1 * Env.font.base,
-        borderColor:'#e5e5e5',
-        backgroundColor:'#FFF'
-    },
-    text:{
-        fontSize:Env.font.text,
-        color:Env.color.text
-    }*/
 });
