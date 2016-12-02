@@ -51,7 +51,7 @@ const get = (line) => {
     console.info(lines)
     return lines.map((line, index) => {
         line.isClose = false;
-        line.width = '12';
+        line.width = '10';
         line.strokeColor = line.strokeColor = getSpeedColor(line.speedType);
         //line.outlineColor = '#ff8c2b';
         line.lineId = index;

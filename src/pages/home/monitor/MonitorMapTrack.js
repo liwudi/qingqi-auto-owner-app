@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import {
 	Text,
 	View,
-	TouchableOpacity
+	TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import TopBanner from '../../../components/TopBanner';
 import MapLine from '../components/mapline/MapLine';
@@ -18,12 +19,10 @@ export default class MonitorMapTrack extends Component {
 	constructor() {
 		super();
 		this.state = {
-			data: null
+			data: null,
+			animating: false
 		}
 	}
-	/*onInit(mapRef) {
-		this.mapRef = mapRef;
-	}*/
 	selectTime(date) {
 		this.fetchData(date);
 	}
@@ -35,21 +34,22 @@ export default class MonitorMapTrack extends Component {
 		//this.props.router.pop();
 	}
 	fetchData(date) {
+		this.setState({animating: true});
+		//Toast.show('正在查询轨迹信息', Toast.SHORT);
 		//queryTrack({carId: 'ydtest00300', zoom: 0, beginDate: '20161110', endDate: '20161110'}
 		queryTrack({carId: '20161124084', zoom: 0, beginDate: '20161130', endDate: '20161130'}
 		//queryTrack(Object.assign({carId: this.props.nav.carId, zoom: 11}, date)
 		).then((data) => {
-			console.info('success-------------')
-			console.info(data)
+			this.setState({animating: false});
 			data && this.setData(data);
-			}).catch(() => {
-				console.info('catch')
+        }).catch(() => {
+			this.setState({animating: false});
 			Toast.show('没有行程轨迹', Toast.SHORT);
-		}).finally();
+		}).finally(() => {
+
+		});
 	}
 	setData(data) {
-		//data = JSON.parse(data.points);
-		//console.info(data)
 		this.setState({data: data});
 	}
 	componentWillUnmount() {
@@ -64,6 +64,14 @@ export default class MonitorMapTrack extends Component {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="轨迹回放"/>
+                <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: 80, marginTop:Env.screen.height / 3 * Env.font.base}}>
+                    <ActivityIndicator
+						animating={this.state.animating}
+                        color={[Env.color.main]}
+                        size="large"
+                    />
+                </View>
+
 				<View style={[estyle.fx1]}>
 					<MapLine data={this.state.data}/>
 				</View>

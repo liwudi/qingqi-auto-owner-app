@@ -124,8 +124,10 @@ export default class MapLine extends Component {
         this.pointIndex = 0;
     }
 
-    initLine(data = {}) {
+    initLine(data) {
+        this.Map && this.Map.clearOverlays();
         if(data) {
+            console.info(data)
             data = Decode.setData(data);
             if(data.length) {
                 line = data;
@@ -275,10 +277,7 @@ export default class MapLine extends Component {
         this.Marker = instance.Marker;
         this.MarkerRotate = instance.MarkerRotate;
         this.Line = instance.Line;
-        console.info('----------------')
-    //    console.info(this.props.data)
         this.initLine(this.props.data);
-        //this.props.onInit && this.props.onInit(this.mapRef);
     }
 
     componentWillUnmount() {

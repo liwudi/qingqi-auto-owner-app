@@ -36,17 +36,14 @@ export default class PlayView extends Component {
 
     }
     getIntervalTime () {
-        console.info(onePonitTime, '=================================================')
-        if(!onePonitTime) {
-            console.info(this.props.dataLength)
-            console.info(this.props.totalTime)
-            //totalTime -- ms，总时长
-            onePonitTime =  this.props.totalTime / this.props.dataLength / multiple;
+        totalTime = this.props.totalTime;
+        if(!onePonitTime && totalTime) {
+            onePonitTime =  totalTime / this.props.dataLength / multiple;
         }
+        return !!onePonitTime;
     }
     componentWillUnmount() {
         this.pause();
-        //this.Map.finalize();
     }
 
     startPauseButton = () => {
@@ -68,19 +65,20 @@ export default class PlayView extends Component {
 
 
     play() {
-        this.getIntervalTime();
-        this.setState({playing: true});
-        console.info('------------------------------play')
-        if (interVal) return;
-        interVal = setInterval(() => {
-            index++;
+        if(this.getIntervalTime()) {
+            this.setState({playing: true});
+            if (interVal) return;
+            interVal = setInterval(() => {
+                index++;
+                this.run();
+                if (index === this.props.dataLength) {
+                    this.changePlay();
+                    this.playComplete();
+                }
+            }, onePonitTime);
             this.run();
-            if (index === this.props.dataLength) {
-                this.changePlay();
-                this.playComplete();
-            }
-        }, onePonitTime);
-        this.run();
+        }
+
     }
     run () {
         index = index >= this.props.dataLength - 1 ? this.props.dataLength - 1 : index;
@@ -99,24 +97,21 @@ export default class PlayView extends Component {
         this.setState({playing: false});
         index = 0;
         this.run();
-    //    this.props.play && this.props.play(index);
     }
 
 
     pause() {
         this.setState({playing: false});
-        console.info('------------------------------pause')
         clearInterval(interVal);
         interVal = null;
-        //this.props.pause && this.props.pause(index);
     }
 
     slidingComplete = (progress) => {
         index = Math.round(progress);
         if(this.cache_playing) this.play();
         this.cache_playing = null;
-        console.info('------------------------------------sss')
     };
+
     progressTo = (progress) => {
         this.pause();
         if(this.cache_playing === null) {
@@ -124,7 +119,6 @@ export default class PlayView extends Component {
         }
         index = Math.round(progress);
         this.run();
-        console.info('hand move')
     };
 
     render() {
