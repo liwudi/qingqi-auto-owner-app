@@ -62,7 +62,7 @@ class UserCenterHome extends Component {
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<View>
 					<View style={[estyle.padding,estyle.fxRowCenter, {backgroundColor:Env.color.main}]}>
-                        <Text style={[estyle.navTitle]}>我的</Text>
+                        <Text style={[estyle.navTitle]}>设置</Text>
                     </View>
                     <ViewForRightArrow
                         activeOpacity={1}

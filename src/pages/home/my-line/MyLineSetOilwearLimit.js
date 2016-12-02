@@ -35,6 +35,8 @@ export default class MyLineSetOilwearLimit extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder='输入总油耗限制'
 						ref="oilwearLimit"
+						keyboardType="numeric"
+						maxLength={6}
 						onChangeText={oilwearLimit => this.setState({oilwearLimit:oilwearLimit})}/>
 					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
 						<Text style={[estyle.note, estyle.fx1]}>&nbsp;</Text>

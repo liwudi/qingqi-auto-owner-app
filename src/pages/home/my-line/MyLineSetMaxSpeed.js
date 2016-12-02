@@ -19,7 +19,7 @@ export default class MyLineSetMaxSpeed extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			maxSpeed: this.props.maxSpeed || '0'
+			maxSpeed: this.props.maxSpeed
 		};
 	}
 	save() {
@@ -35,7 +35,9 @@ export default class MyLineSetMaxSpeed extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder='输入最高车速'
 						ref="maxSpeed"
-						defaultValue={this.props.maxSpeed || '0'}
+						keyboardType="numeric"
+						maxLength={3}
+						defaultValue={this.props.maxSpeed}
 						onChangeText={maxSpeed => this.setState({maxSpeed:maxSpeed})}/>
 					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
 						<Text style={[estyle.note, estyle.fx1]}>&nbsp;</Text>

@@ -283,7 +283,7 @@ export default class MyLineAdd extends Component {
 
 
                     <View style={[estyle.fxRow,estyle.fxRowCenter]}>
-                        <ListTitle title="途径点" style={estyle.fx1}/>
+                        <ListTitle title="途经点" style={estyle.fx1}/>
                         <View style={estyle.paddingRight}>
                             <Icons.IconPlus onPress={() => {
                                 if(!this.state.routeInfo.routeId){
@@ -292,7 +292,7 @@ export default class MyLineAdd extends Component {
                                 }
                                 this.props.router.push(
                                     MyLineSetStartEnd,
-                                    { title: '设置途径点', select: (pass) => this._addPass(pass) }
+                                    { title: '设置途经点', select: (pass) => this._addPass(pass) }
                                 );
                             }}/>
                         </View>
@@ -312,7 +312,7 @@ export default class MyLineAdd extends Component {
                                         color={Env.color.main}
                                     />
                                 })
-                                : <ListItem left='无途径点' />
+                                : <ListItem left='无途经点' />
                         }
                     </View>
                     <ListTitle title="驾驶规定"/>
