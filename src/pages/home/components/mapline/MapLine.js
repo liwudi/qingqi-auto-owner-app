@@ -133,17 +133,10 @@ export default class MapLine extends Component {
                 this.addLine();
                 this.addMarker();
                 this.addCar();
+
+                this.setTimes();
+                this.setBounds();
             }
-
-
-            /*line = data;
-            this.setState({dataLength: line.length});
-            this.Map.clearOverlays();
-            if(data.length) {
-                this.addLine();
-                this.addMarker();
-                this.addCar();
-            }*/
         }
     }
     addLine() {
@@ -154,8 +147,6 @@ export default class MapLine extends Component {
             this.addLineOil();
         }
         this.moveCar(this.pointIndex);
-        this.setTimes();
-        this.setBounds();
     }
     setTimes() {
         if(!this.state.startTime) {
@@ -175,7 +166,7 @@ export default class MapLine extends Component {
     }
     setBounds() {
         if(!this.lineBounds) {
-            this.lineBounds = SpeedLine.bounds();
+            this.lineBounds = Decode.bounds();
             setTimeout(() => {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
             }, 300)
@@ -183,10 +174,7 @@ export default class MapLine extends Component {
     }
 
     addLineSpeed() {
-        console.info(line)
-        console.info('4444444444444444444444444444444444444444444444')
         let lines = SpeedLine.get(line);
-        console.info('line.length', line.length)
         this.Line.add(lines);
     }
     addLineOil(){
@@ -263,6 +251,7 @@ export default class MapLine extends Component {
             longitude: pt.longitude,
             latitude: pt.latitude,
             imageName: 'ic_mask',
+            title: title,
             iconText: title,
             iconTextColor: Env.color.main,
             iconTextSize: 14,

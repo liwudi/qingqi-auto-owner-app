@@ -35,7 +35,8 @@ export default class MonitorMapTrack extends Component {
 		//this.props.router.pop();
 	}
 	fetchData(date) {
-		queryTrack({carId: 'ydtest00300', zoom: 0, beginDate: '20161110', endDate: '20161110'}
+		//queryTrack({carId: 'ydtest00300', zoom: 0, beginDate: '20161110', endDate: '20161110'}
+		queryTrack({carId: '20161124084', zoom: 0, beginDate: '20161130', endDate: '20161130'}
 		//queryTrack(Object.assign({carId: this.props.nav.carId, zoom: 11}, date)
 		).then((data) => {
 			console.info('success-------------')

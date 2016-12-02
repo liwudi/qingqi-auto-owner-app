@@ -53,7 +53,23 @@ function decodeLevels(encoded) {
     }
     return result;
 }
-
+let minLng = minLat = maxLng = maxLat = 0;
+const setBounds = (pt) => {
+    if(!minLng) minLng = maxLng = pt.longitude;
+    if(!minLat) minLat = maxLat = pt.latitude;
+    minLng = Math.min(minLng,pt.longitude);
+    minLat = Math.min(minLat, pt.latitude);
+    maxLng = Math.max(maxLng, pt.longitude);
+    maxLat = Math.max(maxLat, pt.latitude);
+};
+const bounds = () => {
+    return {
+        min: {longitude: minLng,
+            latitude: minLat},
+        max: {longitude: maxLng,
+            latitude: maxLat}
+    }
+}
 function decodeData(data) {
     let result = [],
         lons = data.lons,
@@ -79,20 +95,17 @@ function decodeData(data) {
             direction: direction,
             oil: oil
         });
-
+        setBounds(pt);
         result.push(pt);
     }
-//    result.length = length;
     return result;
 }
 
 function setData(data) {
-    //console.info('++++++++++++++++++++++++++++++++++++++++++++')
     let firstTime = data.firstTime;
     delete data.firstTime;
     for(let k in data) {
         let v = data[k];
-        //console.info(k,v)
         if(k == 'levels') {
             data[k] = decodeLevels(v);
             continue;
@@ -103,10 +116,10 @@ function setData(data) {
         }
         data[k] = decode(v);
     }
-    //console.info(data)
     return decodeData(data);
 
 }
 export default {
-    setData: setData
+    setData: setData,
+    bounds: bounds
 }
