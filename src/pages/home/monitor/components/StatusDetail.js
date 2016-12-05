@@ -16,9 +16,17 @@ import { IconUser, IconLocationMarker } from '../../../../components/Icons';
 
 export default class StatusDetail extends Component {
     componentWillReceiveProps(props) {
+        console.info('props')
+        //this.setData(props.data);
         console.info(props.data)
-        console.info('====================================')
-        this.setState({data: props.data || {}});
+        //this.requestStart();
+    }
+
+    componentDidMount() {
+        console.info('did')
+
+        console.info(this.props.data)
+        //this.requestStart();
     }
     render() {
         let item = this.state.data;
