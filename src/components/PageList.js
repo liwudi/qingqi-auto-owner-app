@@ -106,6 +106,7 @@ export default class PageList extends Component {
         this._onRefresh();
     }
 
+    timer = null;
     componentWillReceiveProps(nextProps){
         if(nextProps.reInitField){
             if(
@@ -113,8 +114,11 @@ export default class PageList extends Component {
                     return item != nextProps.reInitField[index];
                 })
             ){
-                this._data = [];
-                this._onRefresh();
+                this.timer && clearTimeout(this.timer);
+                this.timer = setTimeout(() => {
+                    this._data = [];
+                    this._onRefresh();
+                }, 500);
             }
             this.reInitField = nextProps.reInitField;
         }

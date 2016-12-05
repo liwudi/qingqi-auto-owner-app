@@ -61,7 +61,7 @@ export default class ManagerEdit extends Component {
 	}
 
 	call () {
-		Alert.alert("提示", `【todo】呼叫${this.state.phone}`);
+		this.props.callTo(this.state.phone);
 	}
 
 	/**
@@ -69,17 +69,18 @@ export default class ManagerEdit extends Component {
 	 */
 	modify () {
 		if (this.state.registerStatus===1) {
-			Alert.alert("提示", `用户【${this.state.name}】已经注册为APP用户，不可以编辑`);
+            this.props.alert("提示", `用户【${this.state.name}】已经注册为APP用户，不可以编辑`);
 			return;
 		}
 		if (!PhoneInput.Validate(this.refs)) {
 			return;
 		}
-		Alert.alert('提示',
+		this.props.alert('提示',
 			`是否保存？`,
 			[
 				{text: '确定',
 					onPress: () => {
+                        this.setState({doing: true});
 						modifyManager(this.state)
 							.then(() => {
 								ToastAndroid.show('保存成功', ToastAndroid.SHORT);
@@ -89,6 +90,7 @@ export default class ManagerEdit extends Component {
 							})
 							.catch((reason) => {
 								ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+                                this.setState({doing: false});
 							});
 					}
 				},
@@ -133,8 +135,9 @@ export default class ManagerEdit extends Component {
 						]}
 						editable={this.state.registerStatus===0}//如果:未注册为app用户，可以编辑
 					/>
-					<View style={[estyle.paddingVertical]} >
-						<SubmitButton onPress={() => this.modify()}>保存</SubmitButton>
+					<View style={[estyle.paddingVertical,estyle.fxRow]} >
+						<SubmitButton size="middle" style={[estyle.marginRight]} onPress={() => this.call()}>呼叫</SubmitButton>
+						<SubmitButton size="middle"  doing={this.state.doing} onPress={() => this.modify()}>保存</SubmitButton>
 					</View>
 				</View>
 			</View>

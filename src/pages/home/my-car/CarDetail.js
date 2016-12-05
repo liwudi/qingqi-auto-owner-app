@@ -167,7 +167,7 @@ export default class CarDetail extends Component {
                                     data.mainDriverPhoneNum && this.props.callTo(data.mainDriverPhoneNum);
                                 }
                             }>
-                                <Text style={[estyle.fx1, estyle.text, {
+                                <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
                                 }]}>{data.mainDriver || '无'}</Text>
@@ -190,7 +190,7 @@ export default class CarDetail extends Component {
                                     data.subDriverPhoneNum && this.props.callTo(data.subDriverPhoneNum);
                                 }
                             }>
-                                <Text style={[estyle.fx1, estyle.text, {
+                                <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
                                 }]}>{data.subDriver || '无'}</Text>
@@ -216,7 +216,7 @@ export default class CarDetail extends Component {
                                     }
                                 );
                             }
-                        }>{data.routeInfo ? '更换线路' : '绑定线路' }</BorderButton>
+                        }>{data.routeId ? '更换线路' : '绑定线路' }</BorderButton>
                     }
                 >
                     <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeId  && data.routeInfo || '未绑定线路'}</Text>

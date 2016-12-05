@@ -16,20 +16,20 @@ import TopBanner from '../../../components/TopBanner';
 import ConfirmButton from '../../../components/ConfirmButton';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
-import {IconUser} from '../../../components/Icons';
+import {IconUser, IconSearch} from '../../../components/Icons';
 import PageList from '../../../components/PageList';
 import Toast from '../../../components/Toast'
 import {queryRouteAddCarList} from '../../../services/LineService';
 import {setCarRoute} from '../../../services/LineService';
 import BorderButton from '../../../components/BorderButton';
+import LabelInput from '../../../components/LabelInput';
 
 
 export default class MyLineAddCarList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			searchKey: '',
-			renovate: false
+            searchKey: ''
 		};
 	}
 
@@ -37,10 +37,6 @@ export default class MyLineAddCarList extends Component {
 		this.props.router.pop({
 			carList: true
 		});
-	}
-
-	onRenovate(){
-		this.setState({renovate:!this.state.renovate});
 	}
 
 	lineAddCar(carId, routeId) {
@@ -58,7 +54,7 @@ export default class MyLineAddCarList extends Component {
         }
 
 	    if(routeId){
-            Alert.alert('提示',
+            this.props.alert('提示',
                 `该车已安排运营线路是否更新？`,
                 [
                     {text: '更新', onPress: _update},
@@ -107,9 +103,16 @@ export default class MyLineAddCarList extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="添加车辆"/>
+				<LabelInput
+					style = {[estyle.borderBottom,  estyle.marginBottom]}
+					placeholder='请输入车牌号'
+					labelSize="0"
+					ref="key"
+					rightView={<IconSearch color={Env.color.note}/>}
+					onChangeText={(searchKey) => {this.setState({searchKey})}}/>
 				<PageList
 					style={estyle.fx1}
-					reInitField={[this.state.searchKey,this.state.renovate]}
+					reInitField={[this.state.searchKey]}
 					renderRow={(row) => {
                         return itemView(row);
                         }}

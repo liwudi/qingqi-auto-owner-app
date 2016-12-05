@@ -35,7 +35,8 @@ export default class HomePage extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			operateStatisToday : {}
+			operateStatisToday : {},
+            myCarsInfo:{}
 		};
 	}
 
@@ -44,9 +45,10 @@ export default class HomePage extends Component {
 	}
 
 	componentDidMount(){
-		queryOperateStatisToday().then((operateStatisToday) => {
+		queryOperateStatisToday().then((rs) => {
 			this.setState({
-				operateStatisToday
+                myCarsInfo: rs[0],
+				operateStatisToday: rs[1]
 			})
 		})
 	}
@@ -69,8 +71,8 @@ export default class HomePage extends Component {
 				</View>
 				<View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>
 				<View style={[estyle.fxRow, estyle.padding,estyle.border, {backgroundColor:'#FFF'}]}>
-					<Text style={[estyle.fx1,estyle.articleTitle]}>车辆数：{this.state.operateStatisToday.activeCarNum||0}辆</Text>
-					{/*<Text style={[estyle.fx1,estyle.articleTitle]}>总车辆数：{this.state.operateStatisToday.activeCarNum||0}辆</Text>*/}
+					<Text style={[estyle.fx1,estyle.articleTitle]}>在线车辆数：{this.state.myCarsInfo.carNumOnline||0}辆</Text>
+					<Text style={[estyle.fx1,estyle.articleTitle]}>总车辆数：{this.state.myCarsInfo.carNumTotal||0}辆</Text>
 				</View>
 				<ViewForRightArrow onPress={() => this.goTo(TripManage)} style={[estyle.fxRow, estyle.cardBackgroundColor]}>
 					<View style={[estyle.fxRow]}>

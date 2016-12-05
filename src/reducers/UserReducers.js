@@ -22,7 +22,7 @@ export function userStore(state = LOGIN_STATE, action){
 			return Object.assign({},LOGIN_STATE,{status:action.type, error: action.error});
 			break;
 		case TYPES.LOGGED_OUT:
-			return Object.assign({},LOGIN_STATE,{status:action.type,  isLogged: false, userInfo: null});
+			return Object.assign({},LOGIN_STATE,{status:action.type,  isLogged: false, userInfo: {}});
 			break;
 		default:
 			return state;

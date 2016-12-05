@@ -42,12 +42,12 @@ export class Alert2 extends Component {
         }
     }
 
-    alert(title, content, buttons){
+    alert(title, content, buttons = []){
         this.setState({
             visible: true,
             title,
             content,
-            buttons
+            buttons: buttons.length === 0 ? [{text:'确定'}] : buttons
         })
     }
 

@@ -31,8 +31,10 @@ class RegCheckCode extends Component {
 	}
 
 
-	next = (loginInfo) => {
-		this.props.router.resetTo(Home)
+	next = () => {
+		this.props.router.resetTo(Home,{
+			showAddCarMessage: true
+		})
 	}
 
 	onReg(){

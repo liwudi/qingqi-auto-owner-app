@@ -88,14 +88,25 @@ export default class MyLineAdd extends Component {
     }
 
     delCarRoute(carId) {
-        delCarRoute(carId)
-            .then(() => {
-                Toast.show('删除成功', Toast.SHORT);
-                this.onRenovate();
-            })
-            .catch((e) => {
-                Toast.show(e.message, Toast.SHORT);
-            })
+
+        this.props.alert('提示',
+            `是否将本车从线路中删除？`,
+            [
+                {text: '确定', onPress: () => {
+                    delCarRoute(carId)
+                        .then(() => {
+                            this.refs.carList.reInitFetch();
+                            Toast.show('删除成功', Toast.SHORT);
+                        })
+                        .catch((e) => {
+                            Toast.show(e.message, Toast.SHORT);
+                        })
+                }},
+                {text: '取消'}
+            ]
+        );
+
+
     }
 
     delPass(pass) {
@@ -116,25 +127,39 @@ export default class MyLineAdd extends Component {
     }
 
     _addRoute() {
-        console.log(this.state)
-        if (this.state.routeInfo.startCityCode && this.state.routeInfo.endCityCode && !this.state.routeInfo.routeId) {
+        if(this.state.routeInfo.routeId){
             let opts = {
                 ...this.state.routeInfo
             };
-            addRoute(opts)
-                .then((data) => {
-                    Toast.show('线路添加成功', Toast.SHORT);
-                    this.setState({
-                        routeInfo: {
-                            ...this.state.routeInfo,
-                            routeId: data.routeId
-                        }
-                    },this.fetchData.bind(this));
+            modifyRoute(opts)
+                .then(()=>{
+                    Toast.show('修改成功', Toast.SHORT);
+                    this.fetchData.bind(this);
                 })
-                .catch((e) => {
+                .catch((e)=>{
                     Toast.show(e.message, Toast.SHORT);
                 })
+        }else{
+            if (this.state.routeInfo.startCityCode && this.state.routeInfo.endCityCode && !this.state.routeInfo.routeId) {
+                let opts = {
+                    ...this.state.routeInfo
+                };
+                addRoute(opts)
+                    .then((data) => {
+                        Toast.show('线路添加成功', Toast.SHORT);
+                        this.setState({
+                            routeInfo: {
+                                ...this.state.routeInfo,
+                                routeId: data.routeId
+                            }
+                        },this.fetchData.bind(this));
+                    })
+                    .catch((e) => {
+                        Toast.show(e.message, Toast.SHORT);
+                    })
+            }
         }
+
     }
 
     _addPass(item) {
@@ -228,7 +253,7 @@ export default class MyLineAdd extends Component {
         }
 
 
-        Alert.alert('提示',
+        this.props.alert('提示',
             `删除线路，会将线路关联车辆一起删除是否删除？`,
             [
                 {text: '确定', onPress: _delete},
@@ -325,8 +350,8 @@ export default class MyLineAdd extends Component {
                                 return;
                             }
                             this.props.router.push(MyLineSetMaxSpeed, {
-                                submit: this._modifyMaxSpeed.bind(this)
-                                , maxSpeed : this.state.routeInfo.maxSpeed
+                                submit: this._modifyMaxSpeed.bind(this),
+                                maxSpeed : this.state.routeInfo.maxSpeed + ''
                             });
                         }}
                         color={Env.color.main}
@@ -340,7 +365,8 @@ export default class MyLineAdd extends Component {
                                 return;
                             }
                             this.props.router.push(MyLineSetOilwearLimit, {
-                                submit: this._modifyOilwearLimit.bind(this)
+                                submit: this._modifyOilwearLimit.bind(this),
+                                oilwearLimit : this.state.routeInfo.oilwearLimit + ''
                             });
                         }}
                         color={Env.color.main}
@@ -376,7 +402,7 @@ export default class MyLineAdd extends Component {
                                         <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver || '无'}</Text>
                                     </View>
                                 </View>
-                                <BorderButton>删除</BorderButton>
+                                <BorderButton onPress={() => this.delCarRoute(item.carId)}>删除</BorderButton>
                             </View>
                         }}
                         fetchData={(pageNumber, pageSize) => {

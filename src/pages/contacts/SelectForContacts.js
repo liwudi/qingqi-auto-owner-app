@@ -85,6 +85,18 @@ export default class SelectForContacts extends Component {
                         return new Promise((resovle) => {
                             setTimeout(() => {
                                 getContacts().then(rs => {
+                                    if(Object.keys(rs).length === 0){
+                                        this.props.alert(
+                                            '提示',
+                                            '读取联系人失败,请检查权限设置',
+                                            [{
+                                                text:'确定',
+                                                onPress:() => {
+                                                    this.props.router.pop();
+                                                }
+                                            }]
+                                        )
+                                    }
                                     resovle({
                                         list: rs
                                     })
