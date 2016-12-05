@@ -65,8 +65,7 @@ export default class OilManageCarList extends Component {
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props}
-                    title="自定义时间"/>
+                <TopBanner {...this.props} title="自定义时间"/>
                 <View style={[estyle.fx1,estyle.fxRowCenter]}>
                     <ViewForRightArrow style={[estyle.marginTop,estyle.fxCenter]} onPress={()=>{ this.datePicker('start') }}>
                         <View style={[estyle.fxRow, estyle.fxRowCenter]}>
@@ -92,7 +91,7 @@ export default class OilManageCarList extends Component {
                         <Text style={[estyle.text]}>&nbsp;</Text>
                     </View>
                     <ConfirmButton disabled={ this.state.beginDate == '' || this.state.endDate == '' }
-                                   size="large" onPress={() => {this.goBack()} }><Text>确认</Text></ConfirmButton>
+                                   size="large" onPress={() => {this.goBack()} }>确认</ConfirmButton>
                 </View>
             </View>
         );

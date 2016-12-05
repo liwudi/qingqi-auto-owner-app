@@ -57,19 +57,19 @@ export default class MapbarMap extends Component {
 
     zoomIn() {
         instance.zoomIn();
-        setTimeout(() => {
+        this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {this.onZoomIn(zoom);});
-        }, 300)
+        })
     }
     zoomOut() {
         instance.zoomOut();
-        setTimeout(() => {
+        this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {this.onZoomOut(zoom);});
-        }, 300)
+        })
     }
     zoomTimeout(fun) {
-        this.zoomTimer && clearTimeout(this.zoomTimer);;
-        this.zoomTimer = setTimeout(fun, 500);
+        this.zoomTimer && clearTimeout(this.zoomTimer);
+        this.zoomTimer = setTimeout(fun, 300);
     }
     onZoomIn(zoom) {
         console.info('onZoomIn', zoom)

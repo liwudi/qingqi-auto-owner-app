@@ -19,9 +19,13 @@ const estyle = Env.style;
 import Button from '../../../../components/widgets/Button'
 let interVal = null;
 let totalTime = 1; //总回放时间  单位  分钟
-let onePonitTime = 0; // 一个点的时间 毫秒*/
+let onePonitTime = 0; // 一个点的时间 毫秒
+
+let oneDayMin = 2; //24小时的播放时间，单位分钟
+let oneHour = oneDayMin * 60 * 1000 / 24; //一天24的播放时间为一分钟，精确到每小时的播放时长
+let minHour = 24 / 4; //最小播放小时数，时间小于这个，就按这个进行播放
 let index = 0;
-let multiple = 4;
+
 export default class PlayView extends Component {
     constructor() {
         super();
@@ -37,8 +41,16 @@ export default class PlayView extends Component {
     }
     getIntervalTime () {
         totalTime = this.props.totalTime;
+/*        console.info(totalTime)
+        console.info(oneHour)*/
         if(!onePonitTime && totalTime) {
-            onePonitTime =  totalTime / this.props.dataLength / multiple;
+            let hour = Math.round(totalTime / 1000 / 60 / 60);
+        //    console.info(hour)
+            if(hour <= minHour) {
+                hour = minHour;
+            }
+         //   console.info(hour * oneHour)
+            onePonitTime =  hour * oneHour / this.props.dataLength;
         }
         return !!onePonitTime;
     }
@@ -53,7 +65,6 @@ export default class PlayView extends Component {
             return <Text><Icons.IconPlay size={50} color={Env.color.main}/></Text>;
         }
     };
-
     changePlay() {
         if (this.state.playing) {
             this.pause();
@@ -70,10 +81,11 @@ export default class PlayView extends Component {
             if (interVal) return;
             interVal = setInterval(() => {
                 index++;
-                this.run();
                 if (index === this.props.dataLength) {
                     this.changePlay();
                     this.playComplete();
+                } else {
+                    this.run();
                 }
             }, onePonitTime);
             this.run();
