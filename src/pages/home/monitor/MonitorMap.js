@@ -297,7 +297,7 @@ export default class MonitorMap extends Component {
         this.props.router.push(CarStatus, {
             nav: {
                 carId: this.monitorCarId,
-                carCode: this.state.detail.carCode,
+                carCode: this.state.detail.carCode || this.state.detail.carNo,
                 doBack: () => {
                     console.info('track')
                     this.resumeView();
@@ -408,8 +408,7 @@ export default class MonitorMap extends Component {
                 }}>
                     <IconLocation color={Env.color.main} size={Env.font.base * 38}/>
                     <Text style={[estyle.text, {marginLeft: Env.font.base * 10}]}>轨迹回放</Text></Button>
-            </View> : null;//<ListItem left="选择监控车辆"/>
-
+            </View> : <View style={[{height:1}]}/>;//<ListItem left="选择监控车辆"/>
     }
 
     render() {
