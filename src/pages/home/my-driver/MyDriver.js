@@ -19,7 +19,7 @@ import {queryDriver} from '../../../services/MyDriverService';
 import MyDriverEdit from './MyDriverEdit';
 import PageSectionList from '../../../components/PageSectionList';
 import MyDriverAdd from './MyDriverAdd';
-import { IconPlus } from '../../../components/Icons';
+import { IconPlus, IconSearch } from '../../../components/Icons';
 import LabelInput from '../../../components/LabelInput';
 
 const estyle = Env.style;
@@ -90,7 +90,13 @@ export default class MyDriver extends Component {
 						</TouchableOpacity>
 					}
 				/>
-				{this.renderSearchView()}
+				<LabelInput
+					style = {[estyle.borderBottom]}
+					placeholder='请输入司机姓名或手机号'
+					labelSize="0"
+					ref="key"
+					rightView={<IconSearch color={Env.color.note}/>}
+					onChangeText={(keyWord) => {this.setState({keyWord})}}/>
 				<View style={[estyle.fx1]}>
 					<PageSectionList
 						ref="list"

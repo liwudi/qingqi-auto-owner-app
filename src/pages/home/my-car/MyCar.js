@@ -16,10 +16,11 @@ import CarDetail from './CarDetail';
 import PageList from '../../../components/PageList';
 import MyCarItem from './components/MyCarItem';
 
-import { IconPlus } from '../../../components/Icons';
+import { IconPlus, IconSearch } from '../../../components/Icons';
 import { queryRealTimeCarList } from '../../../services/MonitorService';
 import { carTeamInfo } from '../../../services/AppService';
 import AddCar from '../../userCenter/add-car/AddCar';
+import MyCarSearch from './MyCarSearch';
 
 export default class MyCar extends Component {
     constructor(props) {
@@ -46,8 +47,14 @@ export default class MyCar extends Component {
             .finally(this.finaliy.bind(this));
     };
 
-    componentWillMount() {
-        this.fetchData();
+    componentDidMount(){
+        if(this.props.toAddCar){
+            setTimeout(() => {
+                this.props.router.push(AddCar);
+            },50);
+        }else{
+            this.fetchData();
+        }
     }
 
     /**
@@ -67,9 +74,15 @@ export default class MyCar extends Component {
     render() {
         const topRightView= () => {
             return (
-                <TouchableOpacity style={{marginRight:Env.font.base * 10}} onPress={() => {this.props.router.push(AddCar)}}>
-                    <IconPlus color="#FFF" size={Env.font.base * 40}/>
-                </TouchableOpacity>
+                <View style={[estyle.fxRow]}>
+                    <TouchableOpacity style={{marginRight:Env.font.base * 30}}
+                                      onPress={() => {this.props.router.push(MyCarSearch)}}>
+                        <IconSearch color="#FFF" size={Env.font.base * 40}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginRight:Env.font.base * 10}} onPress={() => {this.props.router.push(AddCar)}}>
+                        <IconPlus color="#FFF" size={Env.font.base * 40}/>
+                    </TouchableOpacity>
+                </View>
             )
         };
         return (

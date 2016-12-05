@@ -18,6 +18,7 @@ import ListTitle from '../../../components/ListTitle';
 import BorderButton from '../../../components/BorderButton';
 import { queryCity } from '../../../services/LineService';
 import PageSectionList from '../../../components/PageSectionList';
+import { IconSearch } from '../../../components/Icons';
 
 
 export default class SettingStName extends Component {
@@ -42,11 +43,21 @@ export default class SettingStName extends Component {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title={this.props.title || '设置起点'}/>
+				<LabelInput
+					style = {[estyle.borderBottom]}
+					placeholder='请输入城市名称'
+					labelSize="0"
+					ref="key"
+					rightView={<IconSearch color={Env.color.note}/>}
+					onChangeText={(searchKey) => {this.setState({searchKey})}}/>
 				<PageSectionList
 					style={estyle.fx1}
 					getSectionData={(list) => {
 						let rs = {};
-						list.forEach(item => {
+						list.filter(item => {
+							return item.subList && item.subList.length > 0;
+						})
+						.forEach(item => {
 							if(item.fletter){
 								rs[item.fletter] = item.subList || [];
 							}
@@ -78,12 +89,13 @@ export default class SettingStName extends Component {
 							</TouchableOpacity>
 						)
 					}}
+					reInitField={[this.state.searchKey]}
 					fetchData={() => {
-						if(global.myLineCityList){
+						if(global.myLineCityList && !this.state.searchKey){
 							return Promise.resolve(global.myLineCityList);
 						}else{
                             return queryCity(this.state.searchKey).then(rs => {
-                                global.myLineCityList = rs;
+								!this.state.searchKey && (global.myLineCityList = rs);
                                 return rs;
                             })
 						}

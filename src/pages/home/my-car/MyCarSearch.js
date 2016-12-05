@@ -71,7 +71,14 @@ export default class MyCarSearch extends Component {
                     }}
                     pageSize={5}
                     fetchData={(pageNumber, pageSize) => {
-                        return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
+                        if(this.state.key){
+                            return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
+                        }else{
+                            return Promise.resolve({ total: 0,
+                                page_total: 0,
+                                list:[]})
+                        }
+
                     }}
                 />
             </View>
