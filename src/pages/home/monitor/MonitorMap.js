@@ -93,7 +93,7 @@ export default class MonitorMap extends Component {
         queryCarCondition(undefined, undefined, this.monitorCarId).then((data = {}) => {
             if (this.stopRequest) return;
             if (this.monitor) {
-                this.setState({detail: Object.assign(this.state.detail || {}, data.list[0] || {})});
+                this.setState({detail: Object.assign(detail, data.list[0] || {})});
             }
         }).catch(() => {
             console.info('status catch')
@@ -112,8 +112,7 @@ export default class MonitorMap extends Component {
         queryRealTimeCar({carId: this.monitorCarId}).then((data = {}) => {
             if (this.stopRequest) return;
             if (this.monitor) {
-                Object.assign(data, this.state.data);
-                this.setState({detail: Object.assign(this.state.detail || {}, data)});
+                this.setState({detail: Object.assign(detail, data)});
                 this.list = [data];
                 this.setMarker();
                 this.carToCenter(data);
@@ -343,6 +342,7 @@ export default class MonitorMap extends Component {
         this.setState({monitor: monitor, detail: null});
         if (monitor) {
             let data = this.state.data;
+            this.setState({detail: data});
             console.info('setMonitor', data);
             this.Map.setZoomLevel(8);
             this.carToCenter(data);
@@ -381,7 +381,7 @@ export default class MonitorMap extends Component {
         return <View>
             {
                 this.state.detail
-                    ? <StatusDetail data={this.state.detail} onPress={() => {
+                    ?  <StatusDetail data={this.state.detail} onPress={() => {
                     this.goToStatus()
                 }}/>
                     : this.state.data ?
@@ -389,14 +389,14 @@ export default class MonitorMap extends Component {
                         <Text style={[estyle.text, {color: Env.color.note}]}>当前车辆：<Text
                             style={[estyle.text, {color: Env.color.important}]}>{this.state.data.carNo}</Text></Text>
                     </View>
-                    : null
+                    : <View style={[{height:1}]}/>
             }
         </View>
     }
 
     renderButton() {
         return this.state.data ?
-            <View style={[estyle.fxRow, estyle.borderTop, estyle.paddingVertical]}>
+            <View style={[estyle.fxRow, estyle.borderTop, estyle.paddingVertical, {zIndex:100}]}>
                 <Button style={[estyle.fx1, estyle.borderRight, estyle.fxRow, estyle.fxCenter]}
                         onPress={()=> {
                             this.setMonitor()

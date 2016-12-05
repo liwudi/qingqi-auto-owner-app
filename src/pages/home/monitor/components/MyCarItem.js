@@ -38,8 +38,8 @@ export default class MyCarItem extends Component {
     }
 
     setData(data) {
-        console.info('---------------------------')
-        console.info(data)
+/*        console.info('---------------------------')
+        console.info(data)*/
         data.carNo && (data.carCode = data.carNo);
         this.setState({data});
     }

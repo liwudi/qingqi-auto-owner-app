@@ -15,18 +15,21 @@ import ViewForRightArrow from '../../../../components/ViewForRightArrow';
 import { IconUser, IconLocationMarker } from '../../../../components/Icons';
 
 export default class StatusDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {}
+        }
+    }
+
     componentWillReceiveProps(props) {
         console.info('props')
-        //this.setData(props.data);
-        console.info(props.data)
-        //this.requestStart();
+        this.setState({data: props.data});
     }
 
     componentDidMount() {
         console.info('did')
-
-        console.info(this.props.data)
-        //this.requestStart();
+        this.setState({data: this.props.data});
     }
     render() {
         let item = this.state.data;
