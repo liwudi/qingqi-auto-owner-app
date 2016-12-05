@@ -24,14 +24,14 @@ export default class CarStatus extends Component {
         super(props);
     }
 
-    doBack() {
-        this.props.nav.doBack();
-        this.props.router.pop();
+    componentWillUnmount() {
+        this.props.nav.doBack && this.props.nav.doBack();
     }
+
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title={this.props.nav.carCode} onPress={()=>{this.doBack()}}/>
+                <TopBanner {...this.props} title={this.props.nav.carCode}/>
                 <PageList
                     style={estyle.fx1}
                     renderRow={(row) => {
