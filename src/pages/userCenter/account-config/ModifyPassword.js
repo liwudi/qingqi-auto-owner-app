@@ -75,10 +75,11 @@ class ModifyPassword extends Component {
 				<TopBanner {...this.props} title="修改密码"/>
 				<View  style={styles.loginView}>
 					<View style={[Env.style.paddingHorizontal, Env.style.paddingTop]}>
-						<Text style={{flex:1,textAlign:'left',color:Env.color.note,fontSize:Env.font.note}}>
+						<Text style={{textAlign:'left',color:Env.color.note,fontSize:Env.font.note}}>
 							如果忘记或未设置过登录密码，请点击 <Text onPress={() => this.props.router.push(FindPassword)} style={{color: Env.color.main}}>忘记密码</Text> 通过已绑定的手机验证并设置新密码。
 						</Text>
 					</View>
+
 					<PasswordInput
 						ref="oldPassword"
 						style={[estyle.marginTop, estyle.borderBottom]}

@@ -81,7 +81,7 @@ export default class ImagePickButton extends Component {
 
     render() {
         return (
-            <ModalBox visible={this.state.visible} style={[]} onClose={() => {}}>
+            <ModalBox visible={this.state.visible} style={{zIndex:999}} onClose={() => {}}>
                 <View style={[estyle.fx1]}/>
                 <View style={[estyle.cardBackgroundColor, estyle.padding, estyle.fxColumn]}>
                     <View style={[ estyle.fxCenter, estyle.paddingTop]}>

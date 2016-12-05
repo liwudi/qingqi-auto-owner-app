@@ -20,7 +20,7 @@ export default class LabelInput extends Component {
     static Validate(refs){
         return Object.keys(refs).every((ref) => {
             return refs[ref].validate ? refs[ref].validate() : true;
-        });
+        })
     }
 
     constructor(props) {

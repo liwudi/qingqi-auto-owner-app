@@ -88,7 +88,6 @@ class AccountHome extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="账号设置"/>
-				<ImagePickBotton ref="ImagePickBotton" onImagePick={this.onImagePick} maxWidth={200} maxHeight={200}/>
 				<View>
 					<ViewForRightArrow onPress={this.updatePic}>
 						<View style={[estyle.fxRow, estyle.fxCenter]}>
@@ -107,7 +106,7 @@ class AccountHome extends Component {
 
 					</ViewForRightArrow>
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyPassword)} style={[estyle.marginTop]}>
-						<Text style={[estyle.fx1, estyle.text]}>修改密码</Text>
+						<Text style={[estyle.text]}>修改密码</Text>
 					</ViewForRightArrow>
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyMobile)}>
 						<View style={[estyle.fxRow]}>
@@ -125,6 +124,7 @@ class AccountHome extends Component {
 						>退出账户</SubmitButton>
 					</View>
 				</View>
+				<ImagePickBotton ref="ImagePickBotton" onImagePick={this.onImagePick} maxWidth={200} maxHeight={200}/>
 			</View>
 		);
 	}
