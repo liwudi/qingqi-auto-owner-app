@@ -19,7 +19,7 @@ let getSpeedType = (speed) => {
 };
 
 let getSpeedColor = (speedType) => {
-    console.info(speedType)
+//    console.info(speedType)
     switch (speedType) {
         case SPEED_1:
             return '#FFA500';
@@ -56,9 +56,9 @@ const get = (line) => {
         }
 
     });
-    console.info(lines)
+  //  console.info(lines)
     return lines.map((line, index) => {
-        console.info(line);
+    //    console.info(line);
         line.isClose = false;
         line.width = '10';
         line.outlineColor = line.strokeColor = getSpeedColor(line.speedType);

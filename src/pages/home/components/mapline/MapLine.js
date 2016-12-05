@@ -127,7 +127,7 @@ export default class MapLine extends Component {
     initLine(data) {
         this.Map && this.Map.clearOverlays();
         if(data) {
-            console.info(data)
+        //    console.info(data)
             data = Decode.setData(data);
             if(data.length) {
                 line = data;
@@ -248,7 +248,7 @@ export default class MapLine extends Component {
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
-        console.info(title)
+     //   console.info(title)
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
@@ -282,13 +282,17 @@ export default class MapLine extends Component {
 
     componentWillUnmount() {
         this.Map.finalize();
-        console.info('---------------------------finalize')
-        console.info('map finalize')
-
     }
 
     componentWillReceiveProps(props) {
-        this.initLine(props.data);
+    ///    console.info(this.rnTime, props.time)
+        if(this.rnTime != props.time) {
+/*            console.info('*****************************************************************')
+            console.info(props)
+            console.info('---------------------------------------------------------------')*/
+            this.initLine(props.data);
+            this.rnTime = props.time;
+        }
     }
 
     changePlayType() {
@@ -349,7 +353,7 @@ export default class MapLine extends Component {
                         this.pauseMoveCar()
                     }}/> : null
                 }
-                {this.renderTimes()}
+                {this.state.dataLength ? this.renderTimes() : null}
 
                 <MapbarMap legend={this.renderLegend()}
                            center={this.center}

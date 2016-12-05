@@ -2,36 +2,43 @@ const SPEED_1 = 'SPEED_1';
 const SPEED_2 = 'SPEED_2';
 const SPEED_3 = 'SPEED_3';
 const SPEED_4 = 'SPEED_4';
+const SPEED_5 = 'SPEED_5';
+const SPEED_6 = 'SPEED_6';
 let getSpeedType = (speed) => {
     if (0 < speed && speed <= 10) {
         return SPEED_1;
     } else if (10 < speed && speed <= 20) {
         return SPEED_2;
-    } else if (30 < speed && speed <= 40) {
+    } else if (20 < speed && speed <= 30) {
         return SPEED_3;
-    } else {
+    } else if (30 < speed && speed <= 40) {
         return SPEED_4;
+    } else {
+        return SPEED_5;
+    }
+};
+let getSpeedColor = (speedType) => {
+    console.info(speedType)
+    switch (speedType) {
+        case SPEED_1:
+            return '#FFA500';
+        case SPEED_2:
+            return '#A2CD5A';
+        case SPEED_3:
+            return '#7EC0EE';
+        case SPEED_4:
+            return '#FF9C00';
+        case SPEED_5:
+            return '#FF0000';
     }
 };
 
-let getSpeedColor = (speedType) => {
-    switch (speedType) {
-        case SPEED_1:
-            return '#A2CD5A';
-        case SPEED_2:
-            return '#7EC0EE';
-        case SPEED_3:
-            return '#27408B';
-        case SPEED_4:
-            return '#FF0000';
-    }
-}
 
 const get = (line) => {
     let lines = [], _tmp1 = null;
 
     line.map((_line, index) => {
-        console.info(_line)
+//console.info(_line)
 
         _tmp1 = _tmp1 || {
                 locations: [],
@@ -50,9 +57,10 @@ const get = (line) => {
     });
     console.info(lines)
     return lines.map((line, index) => {
+        console.info(line);
         line.isClose = false;
         line.width = '10';
-        line.strokeColor = line.strokeColor = getSpeedColor(line.speedType);
+        line.outlineColor = line.strokeColor = getSpeedColor(line.speedType);
         //line.outlineColor = '#ff8c2b';
         line.lineId = index;
         return line;

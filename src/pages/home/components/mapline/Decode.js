@@ -80,17 +80,19 @@ function decodeData(data) {
         oils = data.instantOils,
         directions = data.directions,
         length = lons.length;
-    let lat = 0, lon = 0, level = 0, speed = 0, time = 0, oil = 0, direction = 0, pt;
+    let lat = 0, lon = 0, level = 0, speed = 0, time = 0, oil = 0, direction = 0, pt, timeDiff = 0;
     for(let i = 0; i < length; i ++) {
         level = levels[i] || 0;
         lat += lats[i] * 0.00001;
         lon += lons[i] * 0.00001;
+        timeDiff = i ? +times[i] : 0;
         time += +times[i];
         speed += speeds[i];
         direction += directions[i];
         oil += oils[i];
         pt = Object.assign(MPoint([lon, lat, level]), {
             time: time,
+            timeDiff: timeDiff,
             speed: speed,
             direction: direction,
             oil: oil
