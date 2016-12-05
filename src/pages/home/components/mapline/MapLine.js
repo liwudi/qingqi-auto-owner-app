@@ -25,20 +25,10 @@ let line = null;
 const STATE_STOPING = 1;//状态 播放停止
 let state = STATE_STOPING;
 
-
+import Decode from './Decode';
 import SpeedLine from './SpeedLine';
 import OilLine from './OilLine';
-let demo = {"_instant_oil":0.79688,
-"_mileage":42488.4,
-"_time":1479225623000,
-"_x":113.52852,
-"_y":22.82326,
-"_v":0,
 
-"_car_code":"闽Z23456",
-"_auto_terminal":"14838944625",
-"_car_id":"6",
-"_direction":0}
 
 const PLAY_TYPE_SPEED = 0;
 const PLAY_TYPE_OIL = 1;
@@ -134,15 +124,20 @@ export default class MapLine extends Component {
         this.pointIndex = 0;
     }
 
-    initLine(data = []) {
+    initLine(data) {
+        this.Map && this.Map.clearOverlays();
         if(data) {
-            line = data;
-            this.setState({dataLength: line.length});
-            this.Map.clearOverlays();
+        //    console.info(data)
+            data = Decode.setData(data);
             if(data.length) {
+                line = data;
+                this.setState({dataLength: data.length});
                 this.addLine();
                 this.addMarker();
                 this.addCar();
+
+                this.setTimes();
+                this.setBounds();
             }
         }
     }
@@ -154,8 +149,6 @@ export default class MapLine extends Component {
             this.addLineOil();
         }
         this.moveCar(this.pointIndex);
-        this.setTimes();
-        this.setBounds();
     }
     setTimes() {
         if(!this.state.startTime) {
@@ -175,7 +168,7 @@ export default class MapLine extends Component {
     }
     setBounds() {
         if(!this.lineBounds) {
-            this.lineBounds = SpeedLine.bounds();
+            this.lineBounds = Decode.bounds();
             setTimeout(() => {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
             }, 300)
@@ -184,7 +177,6 @@ export default class MapLine extends Component {
 
     addLineSpeed() {
         let lines = SpeedLine.get(line);
-        console.info('line.length', line.length)
         this.Line.add(lines);
     }
     addLineOil(){
@@ -219,7 +211,7 @@ export default class MapLine extends Component {
 
     addCar() {
         let pt = line[0];
-        let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
+        let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.o,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
         let mkOpts = {
@@ -253,14 +245,15 @@ export default class MapLine extends Component {
     moveCar(index) {
         this.pointIndex = index;
         let pt = line[index];
-        let title = this.playType === PLAY_TYPE_SPEED ? pt.s : pt.o,
+        let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
         title = title + unit;
-        console.info(title)
+     //   console.info(title)
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
             imageName: 'ic_mask',
+            title: title,
             iconText: title,
             iconTextColor: Env.color.main,
             iconTextSize: 14,
@@ -284,21 +277,22 @@ export default class MapLine extends Component {
         this.Marker = instance.Marker;
         this.MarkerRotate = instance.MarkerRotate;
         this.Line = instance.Line;
-        console.info('----------------')
-    //    console.info(this.props.data)
         this.initLine(this.props.data);
-        //this.props.onInit && this.props.onInit(this.mapRef);
     }
 
     componentWillUnmount() {
         this.Map.finalize();
-        console.info('---------------------------finalize')
-        console.info('map finalize')
-
     }
 
     componentWillReceiveProps(props) {
-        this.initLine(props.data);
+    ///    console.info(this.rnTime, props.time)
+        if(this.rnTime != props.time) {
+/*            console.info('*****************************************************************')
+            console.info(props)
+            console.info('---------------------------------------------------------------')*/
+            this.initLine(props.data);
+            this.rnTime = props.time;
+        }
     }
 
     changePlayType() {
@@ -359,7 +353,7 @@ export default class MapLine extends Component {
                         this.pauseMoveCar()
                     }}/> : null
                 }
-                {this.renderTimes()}
+                {this.state.dataLength ? this.renderTimes() : null}
 
                 <MapbarMap legend={this.renderLegend()}
                            center={this.center}

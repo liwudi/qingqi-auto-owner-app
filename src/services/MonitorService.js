@@ -38,11 +38,11 @@ export function queryRealTimeCar(item){
 }
 
 //轨迹回放查询抽析
-export function queryTrack(item, fun){
+export function queryTrack(item){
     return RequestService.get(
         makeUrl('queryTrack'),
         item
-    ).then((data) => {fun(data)});
+    );
 }
 //获取统计数据
 export function queryShareSummary(item){

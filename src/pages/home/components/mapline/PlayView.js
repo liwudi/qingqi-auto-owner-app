@@ -19,9 +19,13 @@ const estyle = Env.style;
 import Button from '../../../../components/widgets/Button'
 let interVal = null;
 let totalTime = 1; //总回放时间  单位  分钟
-let onePonitTime = 0; // 一个点的时间 毫秒*/
+let onePonitTime = 0; // 一个点的时间 毫秒
+
+let oneDayMin = 2; //24小时的播放时间，单位分钟
+let oneHour = oneDayMin * 60 * 1000 / 24; //一天24的播放时间为一分钟，精确到每小时的播放时长
+let minHour = 24 / 4; //最小播放小时数，时间小于这个，就按这个进行播放
 let index = 0;
-let multiple = 4;
+
 export default class PlayView extends Component {
     constructor() {
         super();
@@ -36,17 +40,22 @@ export default class PlayView extends Component {
 
     }
     getIntervalTime () {
-        console.info(onePonitTime, '=================================================')
-        if(!onePonitTime) {
-            console.info(this.props.dataLength)
-            console.info(this.props.totalTime)
-            //totalTime -- ms，总时长
-            onePonitTime =  this.props.totalTime / this.props.dataLength / multiple;
+        totalTime = this.props.totalTime;
+/*        console.info(totalTime)
+        console.info(oneHour)*/
+        if(!onePonitTime && totalTime) {
+            let hour = Math.round(totalTime / 1000 / 60 / 60);
+        //    console.info(hour)
+            if(hour <= minHour) {
+                hour = minHour;
+            }
+         //   console.info(hour * oneHour)
+            onePonitTime =  hour * oneHour / this.props.dataLength;
         }
+        return !!onePonitTime;
     }
     componentWillUnmount() {
         this.pause();
-        //this.Map.finalize();
     }
 
     startPauseButton = () => {
@@ -56,7 +65,6 @@ export default class PlayView extends Component {
             return <Text><Icons.IconPlay size={50} color={Env.color.main}/></Text>;
         }
     };
-
     changePlay() {
         if (this.state.playing) {
             this.pause();
@@ -68,19 +76,21 @@ export default class PlayView extends Component {
 
 
     play() {
-        this.getIntervalTime();
-        this.setState({playing: true});
-        console.info('------------------------------play')
-        if (interVal) return;
-        interVal = setInterval(() => {
-            index++;
+        if(this.getIntervalTime()) {
+            this.setState({playing: true});
+            if (interVal) return;
+            interVal = setInterval(() => {
+                index++;
+                if (index === this.props.dataLength) {
+                    this.changePlay();
+                    this.playComplete();
+                } else {
+                    this.run();
+                }
+            }, onePonitTime);
             this.run();
-            if (index === this.props.dataLength) {
-                this.changePlay();
-                this.playComplete();
-            }
-        }, onePonitTime);
-        this.run();
+        }
+
     }
     run () {
         index = index >= this.props.dataLength - 1 ? this.props.dataLength - 1 : index;
@@ -99,24 +109,21 @@ export default class PlayView extends Component {
         this.setState({playing: false});
         index = 0;
         this.run();
-    //    this.props.play && this.props.play(index);
     }
 
 
     pause() {
         this.setState({playing: false});
-        console.info('------------------------------pause')
         clearInterval(interVal);
         interVal = null;
-        //this.props.pause && this.props.pause(index);
     }
 
     slidingComplete = (progress) => {
         index = Math.round(progress);
         if(this.cache_playing) this.play();
         this.cache_playing = null;
-        console.info('------------------------------------sss')
     };
+
     progressTo = (progress) => {
         this.pause();
         if(this.cache_playing === null) {
@@ -124,7 +131,6 @@ export default class PlayView extends Component {
         }
         index = Math.round(progress);
         this.run();
-        console.info('hand move')
     };
 
     render() {
