@@ -66,10 +66,8 @@ import MyLineAddCarList from '../home/my-line/MyLineAddCarList'
 
 import Monitor from '../home/monitor/Monitor'
 import MonitorMap from '../home/monitor/MonitorMap'
-import MonitorMapOil from '../home/monitor/MonitorMapOil'
-import MonitorMapSpeed from '../home/monitor/MonitorMapSpeed'
+
 import MonitorShare from '../home/monitor/MonitorShare'
-import MonitorTimeTracking from '../home/monitor/MonitorTimeTracking'
 
 import OilManage from '../home/oil-maange/OilManage'
 import OilManageCarList from '../home/oil-maange/OilManageCarList'
@@ -311,9 +309,6 @@ export default class Guide extends Component {
                     <Text {...this.props} onPress={() => {this.toPage(Monitor)}}  >实时监控列表</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MonitorMap)}}  >实时监控-地图模式</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MonitorCarDetail)}}  >实时监控-车辆监控详情</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MonitorTimeTracking)}}  >实时监控-实时跟踪</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MonitorMapSpeed)}}  >实时监控-轨迹回放速度</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MonitorMapOil)}}  >实时监控-轨迹回放油耗</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MonitorShare)}}  >实时监控-分享</Text>
                 </View>
                 <View>

@@ -14,26 +14,21 @@ const estyle = Env.style;
 import ViewForRightArrow from '../../../../components/ViewForRightArrow';
 import { IconUser, IconLocationMarker } from '../../../../components/Icons';
 
-export default class StatusItem extends Component {
-
+export default class StatusDetail extends Component {
+    componentWillReceiveProps(props) {
+        console.info(props.data)
+        console.info('====================================')
+        this.setState({data: props.data || {}});
+    }
     render() {
-        let item = this.props.data;
-        const SpeedView= (realtimeSpeed) => {
-            if (realtimeSpeed == 0) {
-                return "静止";
-            } else {
-                return realtimeSpeed + "km/h";
-            }
-        }
-
+        let item = this.state.data;
         return (
-            <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}
-                                rightIcon={item.imgurl && null}>
+            <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
                 <View style={[estyle.fxRow]}>
                     <View style={[estyle.fx1]}>
                         <View style={[estyle.fxRow, estyle.fxRowCenter, estyle.marginFontBottom]}>
                             <View style={[estyle.fx1, estyle.fxRow]}>
-                                <Text style={[estyle.text,{color: Env.color.important}]}>{item.carCode}</Text>
+                                <Text style={[estyle.text,{color: Env.color.important}]}>{item.carCode||item.carNo}</Text>
                             </View>
                             <View style={[estyle.fx1]}>
                                 <Text style ={{textAlign:'right'}}>今日：<Text>{item.todayLen || 0}</Text> km</Text>

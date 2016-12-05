@@ -12,6 +12,7 @@ import {
     DeviceEventEmitter,
     findNodeHandle,
     TouchableHighlight,
+    ActivityIndicator,
     Image
 } from "react-native";
 
@@ -69,7 +70,8 @@ export default class MonitorMap extends Component {
         this.state = {
             data: null,
             monitor: null,
-            detail: null
+            detail: null,
+            animating: true
         }
         this.carStatus = [];
     }
@@ -154,6 +156,7 @@ export default class MonitorMap extends Component {
             }).catch(() => {
                 console.info('all catch')
             }).finally(() => {
+                this.setState({animating: false});
                 this.requesting = false;
                 setTimeout(() => {
                     this.fetchDataAll();
