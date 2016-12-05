@@ -16,7 +16,7 @@ export default class MonitorMapTrack extends Component {
 	render() {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-				<TopBanner {...this.props} title="轨迹回放"/>
+				<TopBanner {...this.props} title={this.props.nav.carCode}/>
 				<TrackPlayback {...this.props}/>
 			</View>
 		);

@@ -265,8 +265,10 @@ export default class MonitorMap extends Component {
     //去轨迹页面
     goToTrack() {
         this.pauseView();
+        let data = this.state.data;
         this.props.router.push(MonitorMapTrack, {
             nav: {
+                carCode: data.carCode || data.carNo,
                 carId: this.monitorCarId,
                 doBack: () => {
                     console.info('track')
@@ -414,7 +416,7 @@ export default class MonitorMap extends Component {
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="地图模式"
+                <TopBanner {...this.props} title="实时监控"
                            rightView={
                                <Button onPress={()=> {
                                    this.goToList()
@@ -424,6 +426,9 @@ export default class MonitorMap extends Component {
                                </Button>
                            }
                 />
+                <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: 80, marginTop:Env.screen.height / 3 * Env.font.base}}>
+                    <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
+                </View>
                 <MapbarMap style={[estyle.fx1]}
                            center={this.center}
                            onZoomIn={(zoom)=> {

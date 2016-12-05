@@ -27,7 +27,7 @@ import TopBanner from '../../../components/TopBanner';
 import BorderButton from '../../../components/BorderButton';
 import {IconTrash} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
-import TimeTracking from './TimeTracking';
+import MonitorMapTrack from '../monitor/MonitorMapTrack';
 import Toast from '../../../components/Toast';
 
 import MonitorMap from '../monitor/MonitorMap';
@@ -137,7 +137,7 @@ export default class CarDetail extends Component {
                         }]}>{data.carCode}</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={()=>{this.props.router.replace(MonitorMap, {nav: {carId: data.carId}});}}>
+                <ViewForRightArrow onPress={()=>{this.props.router.push(MonitorMap, {nav: {carId: data.carId}});}}>
                     <View style={[estyle.fxRow]}>
                         <Text style={[estyle.text, {textAlign: 'left'}]}>车辆速度</Text>
                         <Text style={[estyle.fx1, estyle.text, {
@@ -146,7 +146,7 @@ export default class CarDetail extends Component {
                         }]}>{data.speed}km/h</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={()=>{this.props.router.push(TimeTracking, {nav: {carId: data.carId}})}}>
+                <ViewForRightArrow onPress={()=>{this.props.router.push(MonitorMapTrack, {nav: {carId: data.carId, carCode: data.carCode}})}}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow >
