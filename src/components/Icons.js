@@ -72,6 +72,11 @@ export class IconCall extends React.Component {
 		)
 	}
 }
+
+
+/**
+ * 警告
+ */
 export class IconWarning extends React.Component {
 	render(){
 		return (
@@ -79,6 +84,18 @@ export class IconWarning extends React.Component {
 		)
 	}
 }
+
+/**
+ * 警告  -_- 重了
+ */
+export  class IconWaring extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="exclamation-circle" size={size} color={Env.color.color} {...this.props} />
+        )
+    }
+}
+
 /**
 * 向下箭头
 * */

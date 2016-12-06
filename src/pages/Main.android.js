@@ -103,7 +103,7 @@ class Main extends Component {
 	NetInfo.isConnected.fetch().done(isConnected => {
             console.info('net status', isConnected, 'from fetch');
             global.NetIsConnected = isConnected;
-            this.setState({NetIsConnected});
+            this.setState({NetIsConnected: isConnected});
             //this.setState({isConnected: false});
         });
         NetInfo.addEventListener('change', isConnected => {

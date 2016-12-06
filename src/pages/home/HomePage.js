@@ -21,6 +21,7 @@ import MyLine from './my-line/MyLine';
 import Monitor from './monitor/Monitor';
 import OilManage from './oil-maange/OilManage';
 import TripManage from './oil-maange/TripManage';
+import * as Icons from '../../components/Icons';
 
 
 import { IconSearch } from '../../components/Icons';
@@ -69,6 +70,14 @@ export default class HomePage extends Component {
 						<IconSearch size={Env.font.base * 36} color={Env.color.text}/><Text style={estyle.text}> 请输入司机姓名、VIN或车牌号</Text>
 					</TouchableOpacity>
 				</View>
+                {
+                    this.props.NetIsConnected
+                        ? null
+                        : <View style={[estyle.padding,estyle.fxRow,estyle.fxRowCenter,{backgroundColor:'#FDEDEE'}]}>
+						<Icons.IconWaring size={Env.font.base * 40} color="#E55C5D"/>
+						<Text style={[estyle.note,{marginLeft:Env.font.base * 40}]}>网络连接不可用</Text>
+					</View>
+                }
 				<View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>
 				<View style={[estyle.fxRow, estyle.padding,estyle.border, {backgroundColor:'#FFF'}]}>
 					<Text style={[estyle.fx1,estyle.articleTitle]}>在线车辆数：{this.state.myCarsInfo.carNumOnline||0}辆</Text>

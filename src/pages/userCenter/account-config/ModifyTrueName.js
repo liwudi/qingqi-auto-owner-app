@@ -83,7 +83,7 @@ class ModifyTrueName extends Component {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
 				<TopBanner {...this.props} title="设置姓名" doBack={() => {
-					if(this.props.userStore.userInfo){
+					if(this.props.userStore.userInfo.name){
 						this.props.doBack();
 					}else{
                         Toast.show('请输入姓名', Toast.SHORT);

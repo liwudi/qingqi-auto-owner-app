@@ -32,6 +32,8 @@ import Toast from '../../../components/Toast';
 
 import MonitorMap from '../monitor/MonitorMap';
 
+import MessageListCar from '../../message/MessageListCar';
+
 export default class CarDetail extends Component {
     constructor(props) {
         super(props);
@@ -149,7 +151,7 @@ export default class CarDetail extends Component {
                 <ViewForRightArrow onPress={()=>{this.props.router.push(MonitorMapTrack, {nav: {carId: data.carId, carCode: data.carCode}})}}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
                 </ViewForRightArrow>
-                <ViewForRightArrow >
+                <ViewForRightArrow onPress={() => this.props.router.push(MessageListCar, {carNumber:data.carCode, carId:data.carId})}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>报警通知</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow onPress={this.goToParams.bind(this)}>

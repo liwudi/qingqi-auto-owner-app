@@ -45,10 +45,6 @@ export default class MyLineAdd extends Component {
         };
     }
 
-    onRenovate() {
-        this.setState({renovate: !this.state.renovate});
-    }
-
     fetchData() {
         this.setState({refreshing: true});
         routeInfo(this.state.routeInfo.routeId)
@@ -126,7 +122,7 @@ export default class MyLineAdd extends Component {
 
     }
 
-    _addRoute() {
+    _addRoute = () => {
         if(this.state.routeInfo.routeId){
             let opts = {
                 ...this.state.routeInfo
@@ -146,6 +142,7 @@ export default class MyLineAdd extends Component {
                 };
                 addRoute(opts)
                     .then((data) => {
+                        this.props.refresh();
                         Toast.show('线路添加成功', Toast.SHORT);
                         this.setState({
                             routeInfo: {
