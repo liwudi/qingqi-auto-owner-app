@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.widget.Toast;
+import android.view.WindowManager;
 
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
@@ -22,7 +22,7 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this, true);
+        SplashScreen.show(this);
         super.onCreate(savedInstanceState);
         LogUtils.init(MainActivity.this, "ReactABC");
         LogUtils.logd(TAG, LogUtils.getThreadName() + ">>>");

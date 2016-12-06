@@ -24,7 +24,6 @@ export default class AddCarFind extends Component {
                     <ConfirmButton size="large">向原车主取回身份</ConfirmButton>
                     <ConfirmButton size="large" style={[estyle.marginVertical]}>申请认证车主身份</ConfirmButton>
                 </View>
-
             </View>
         );
     }

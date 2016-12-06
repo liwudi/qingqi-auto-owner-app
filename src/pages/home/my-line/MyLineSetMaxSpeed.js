@@ -19,10 +19,15 @@ export default class MyLineSetMaxSpeed extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			maxSpeed: this.props.maxSpeed || '0'
+			maxSpeed: props.maxSpeed
 		};
 	}
 	save() {
+
+		if(!/^\d{1,3}$/.test(this.state.maxSpeed)){
+			Toast.show('最高车速需在于0-999之间', Toast.SHORT);
+			return;
+		}
 		this.props.submit(this.state.maxSpeed);
 		this.props.router.pop();
 	}
@@ -35,7 +40,9 @@ export default class MyLineSetMaxSpeed extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder='输入最高车速'
 						ref="maxSpeed"
-						defaultValue={this.props.maxSpeed || '0'}
+						keyboardType="numeric"
+						maxLength={10}
+						defaultValue={this.props.maxSpeed}
 						onChangeText={maxSpeed => this.setState({maxSpeed:maxSpeed})}/>
 					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
 						<Text style={[estyle.note, estyle.fx1]}>&nbsp;</Text>

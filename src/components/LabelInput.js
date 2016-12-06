@@ -20,7 +20,7 @@ export default class LabelInput extends Component {
     static Validate(refs){
         return Object.keys(refs).every((ref) => {
             return refs[ref].validate ? refs[ref].validate() : true;
-        });
+        })
     }
 
     constructor(props) {
@@ -37,6 +37,13 @@ export default class LabelInput extends Component {
         }
     }
 
+    focus(){
+        this.refs.textInput.focus();
+    }
+
+    setValue(value){
+        // this.refs.textInput.setValue(value);
+    }
 
     validate(isShowTip = true){
         if(this.props.validates){
@@ -111,11 +118,14 @@ export default class LabelInput extends Component {
                 <TextInput
                     {...this.props}
                     underlineColorAndroid="transparent"
+                    selectTextOnFocus={true}
                     style={[estyle.fx1, estyle.text]}
                     secureTextEntry={this.props.type === 'password' && this.state.eyeOff === true}
                     placeholderTextColor={Env.color.note}
                     onChangeText={this.onChangeText.bind(this)}
                     defaultValue={this.state.value}
+                    value={this.state.value}
+                    ref="textInput"
                 />
                 {_renderRightView()}
             </View>

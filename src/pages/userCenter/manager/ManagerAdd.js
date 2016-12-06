@@ -97,17 +97,13 @@ export default class ManagerAdd extends Component {
 							{require:true, msg:Env.msg.form.truename.require},
 						]}
 					/>
-					<LabelInput
+					<PhoneInput
 						ref="phone"
 						value={this.state.phone}
 						onChangeText={(phone) => this.setState({phone})}
 						style = {[estyle.borderBottom]}
 						placeholder={Env.msg.form.phone.placeholder}
 						label="电话"
-						validates={[
-							{require:true, msg:Env.msg.form.phone.require},
-							{pattern:Env.pattern.phone, msg: Env.msg.form.phone.pattern}
-						]}
 					/>
 					<View style={[estyle.paddingVertical]} >
 						<SubmitButton size="large" onPress={() => this.submit()}>添加</SubmitButton>

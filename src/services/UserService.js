@@ -1,48 +1,52 @@
 /**
  * Created by ligj on 2016/9/29.
  */
+
+
+import {
+    NativeModules
+} from 'react-native';
+
+import RNFetchBlob from 'react-native-fetch-blob';
+
 import Server from '../service-config/ServerConfig';
-import RequestService, { getToken } from '../service-config/RequestService';
+import RequestService, {getToken} from '../service-config/RequestService';
 const loginUrl = `${Server.WD_SERVICE}user/login`;
 
 
-export function sendModifyMobileSendCode(){
-	return new Promise((resolve, reject) => {
-		//模拟登录成功
-		setTimeout(() => {
-			resolve({username:1111});
-		},2000);
-		//模拟登录失败
-		// setTimeout(() => {
-		// 	reject({message:'密码错误'});
-		// },2000);
-	});
+export function sendModifyMobileSendCode() {
+    return new Promise((resolve, reject) => {
+        //模拟登录成功
+        setTimeout(() => {
+            resolve({username: 1111});
+        }, 2000);
+        //模拟登录失败
+        // setTimeout(() => {
+        // 	reject({message:'密码错误'});
+        // },2000);
+    });
 }
-
-
-
-
 
 
 //车主端司机查询接口
-export function queryDriver(page_number, page_size, keyWord){
-	return new Promise((resolve, reject) => {
-		let url = 'queryDriver';
-	});
+export function queryDriver(page_number, page_size, keyWord) {
+    return new Promise((resolve, reject) => {
+        let url = 'queryDriver';
+    });
 }
 
 //车主端添加司机
-export function addDriver(name,phone) {
-	return new Promise((resolve, reject) => {
-		let url = 'addDriver';
-	});
+export function addDriver(name, phone) {
+    return new Promise((resolve, reject) => {
+        let url = 'addDriver';
+    });
 }
 
 //删除司机-司机ID
 export function delDriver(driverId) {
-	return new Promise((resolve, reject) => {
-		let url = 'delDriver';
-	});
+    return new Promise((resolve, reject) => {
+        let url = 'delDriver';
+    });
 }
 
 /**
@@ -52,25 +56,25 @@ export function delDriver(driverId) {
  * @returns {*}
  */
 /*export function login(phone, password, captcha = '') {
-    return RequestService.post(loginUrl,{
+ return RequestService.post(loginUrl,{
+ "loginName": phone,
+ "autoLogin": '1',
+ "captcha": captcha,
+ "password": password,
+ "product": Server.APP_PRODUCT
+ });
+ }*/
+
+export function login(phone, password, captcha = '') {
+    return RequestService.post(`${Server.QINGQI}tocapp/login`, {
         "loginName": phone,
         "autoLogin": '1',
         "captcha": captcha,
         "password": password,
-		"product": Server.APP_PRODUCT
+        "product": Server.APP_PRODUCT,
+        deviceId: Server.DEVICE_ID,
+        deviceType: Server.DEVICE_TYPE
     });
-}*/
-
-export function login(phone, password, captcha = '') {
-	return RequestService.post(`${Server.QINGQI}tocapp/login`,{
-		"loginName": phone,
-		"autoLogin": '1',
-		"captcha": captcha,
-		"password": password,
-		"product": Server.APP_PRODUCT,
-		deviceId: Server.DEVICE_ID,
-		deviceType: Server.DEVICE_TYPE
-	});
 }
 
 export const SEND_SMS_TYPE_REG = 'register';
@@ -80,19 +84,18 @@ export const SEND_SMS_TYPE_CHANGE_BIND = 'changeBind';
 export const SEND_SMS_TYPE_BIND_NEW = 'bind';
 
 
-
 /**
  * 快捷登录 发送验证码
  * @param phone
  * @returns {*}
  */
 export function fastLoginSendCode(phone, next) {
-	return RequestService.post(`${Server.WD_SERVICE}user/sendSms`,{
-		mobile : phone,
-		product: Server.APP_PRODUCT,
+    return RequestService.post(`${Server.WD_SERVICE}user/sendSms`, {
+        mobile: phone,
+        product: Server.APP_PRODUCT,
 //		product : "webUser",
-		type : SEND_SMS_TYPE_QUICK_LOGIN
-	});
+        type: SEND_SMS_TYPE_QUICK_LOGIN
+    });
 }
 
 /**
@@ -102,16 +105,15 @@ export function fastLoginSendCode(phone, next) {
  * @returns {*}
  */
 export function fastLogin(phone, smsCode) {
-	return RequestService.post(`${Server.QINGQI}tocapp/quickLogin`,{
-		mobile: phone,
-		product: Server.APP_PRODUCT,
-		autoLogin:'1',
-		smsCode: smsCode,
-		deviceType: Server.DEVICE_TYPE,
-		deviceId: Server.DEVICE_ID
-	});
+    return RequestService.post(`${Server.QINGQI}tocapp/quickLogin`, {
+        mobile: phone,
+        product: Server.APP_PRODUCT,
+        autoLogin: '1',
+        smsCode: smsCode,
+        deviceType: Server.DEVICE_TYPE,
+        deviceId: Server.DEVICE_ID
+    });
 }
-
 
 
 export const CAPTCHA_TYPE_REGISTER = 'register';
@@ -124,8 +126,8 @@ export const CAPTCHA_TYPE_LOGIN = 'login';
  * @returns {string}
  */
 export function getCaptcha(phone, type = CAPTCHA_TYPE_REGISTER) {
-	console.info(`${Server.WD_SERVICE}user/getCaptcha?identifier=${phone}&type=${type}&product=${Server.APP_PRODUCT}&__rid=${Math.random()}`)
-	return `${Server.WD_SERVICE}user/getCaptcha?identifier=${phone}&type=${type}&product=${Server.APP_PRODUCT}&__rid=${Math.random()}`;
+    console.info(`${Server.WD_SERVICE}user/getCaptcha?identifier=${phone}&type=${type}&product=${Server.APP_PRODUCT}&__rid=${Math.random()}`)
+    return `${Server.WD_SERVICE}user/getCaptcha?identifier=${phone}&type=${type}&product=${Server.APP_PRODUCT}&__rid=${Math.random()}`;
 }
 
 /**
@@ -134,13 +136,13 @@ export function getCaptcha(phone, type = CAPTCHA_TYPE_REGISTER) {
  * @returns {string}
  */
 export function checkCaptcha(phone, verifyCode) {
-	return RequestService.post(`${Server.WD_SERVICE}user/checkCaptcha`,{
-		identifier : phone,
+    return RequestService.post(`${Server.WD_SERVICE}user/checkCaptcha`, {
+        identifier: phone,
         //product: 'webUser',
-		product: Server.APP_PRODUCT,
-		type  :  "register",
-		verifyCode  : verifyCode
-	});
+        product: Server.APP_PRODUCT,
+        type: "register",
+        verifyCode: verifyCode
+    });
 }
 
 
@@ -150,13 +152,13 @@ export function checkCaptcha(phone, verifyCode) {
  * @returns {*}
  */
 export function regSendCode(phone, captcha, isRetry = false) {
-	return RequestService.post(`${Server.WD_SERVICE}user/sendSms`,{
-		captcha : isRetry ? '' : captcha,
-		mobile : phone,
-		product: Server.APP_PRODUCT,
-	//	product : "webUser",
-		type : isRetry ? SEND_SMS_TYPE_REG_RESEND : SEND_SMS_TYPE_REG
-	});
+    return RequestService.post(`${Server.WD_SERVICE}user/sendSms`, {
+        captcha: isRetry ? '' : captcha,
+        mobile: phone,
+        product: Server.APP_PRODUCT,
+        //	product : "webUser",
+        type: isRetry ? SEND_SMS_TYPE_REG_RESEND : SEND_SMS_TYPE_REG
+    });
 }
 
 /**
@@ -168,16 +170,16 @@ export function regSendCode(phone, captcha, isRetry = false) {
  * @returns {*}
  */
 export function reg(phone, trueName, password, smsCode) {
-	console.info(arguments)
-	//return RequestService.post(`${Server.WD_SERVICE}user/mobileRegister`,{
-	return RequestService.post(`${Server.QINGQI}tocapp/register`,{
-		phone: phone,
-		name: trueName,
-		password: password,
-		smsCode: smsCode,
-		product: Server.APP_PRODUCT,
-		type: Server.APP_TYPE
-	});
+    console.info(arguments)
+    //return RequestService.post(`${Server.WD_SERVICE}user/mobileRegister`,{
+    return RequestService.post(`${Server.QINGQI}tocapp/register`, {
+        phone: phone,
+        name: trueName,
+        password: password,
+        smsCode: smsCode,
+        product: Server.APP_PRODUCT,
+        type: Server.APP_TYPE
+    });
 }
 
 /**
@@ -187,13 +189,13 @@ export function reg(phone, trueName, password, smsCode) {
  * @returns {*}
  */
 export function findPasswordSendCode(phone, captcha) {
-	return RequestService.post(`${Server.WD_SERVICE}user/findPasswordBySms`,{
-		captcha : captcha,
-		mobile : phone,
-	//	product : "webUser",
-		product: Server.APP_PRODUCT,
-		type: Server.APP_TYPE
-	});
+    return RequestService.post(`${Server.WD_SERVICE}user/findPasswordBySms`, {
+        captcha: captcha,
+        mobile: phone,
+        //	product : "webUser",
+        product: Server.APP_PRODUCT,
+        type: Server.APP_TYPE
+    });
 }
 
 /**
@@ -202,11 +204,11 @@ export function findPasswordSendCode(phone, captcha) {
  * @returns {*}
  */
 export function findPasswordReSendCode(phone) {
-	return RequestService.post(`${Server.WD_SERVICE}user/sendSms`,{
-		mobile : phone,
-		product: Server.APP_PRODUCT,
-		type : 'findPassword'
-	});
+    return RequestService.post(`${Server.WD_SERVICE}user/sendSms`, {
+        mobile: phone,
+        product: Server.APP_PRODUCT,
+        type: 'findPassword'
+    });
 }
 
 /**
@@ -216,12 +218,12 @@ export function findPasswordReSendCode(phone) {
  * @returns {*}
  */
 export function findPasswordCheckSmsCode(phone, smsCode) {
-	return RequestService.post(`${Server.WD_SERVICE}user/validateFindPasswordSms`,{
-		mobile : phone,
-		product: Server.APP_PRODUCT,
-		//product : "webUser",
-		smsCode : smsCode
-	});
+    return RequestService.post(`${Server.WD_SERVICE}user/validateFindPasswordSms`, {
+        mobile: phone,
+        product: Server.APP_PRODUCT,
+        //product : "webUser",
+        smsCode: smsCode
+    });
 }
 
 /**
@@ -232,13 +234,13 @@ export function findPasswordCheckSmsCode(phone, smsCode) {
  * @returns {*}
  */
 export function findPasswordResetPassword(phone, newPassword, smsCode) {
-	return RequestService.post(`${Server.WD_SERVICE}user/resetPassword`,{
-		identifier : phone,
-		verifyCode: smsCode,
-		newPassword: newPassword,
-		product: Server.APP_PRODUCT
+    return RequestService.post(`${Server.WD_SERVICE}user/resetPassword`, {
+        identifier: phone,
+        verifyCode: smsCode,
+        newPassword: newPassword,
+        product: Server.APP_PRODUCT
 //		product : "webUser"
-	});
+    });
 }
 
 
@@ -260,14 +262,14 @@ export function findPasswordResetPassword(phone, newPassword, smsCode) {
 // }
 //用户信息查询
 export function getUserInfo() {
-	return RequestService.get(
-		`${Server.QINGQI}tocapp/getUserInfo`,{
-			product:Server.APP_PRODUCT
-		}
-	).then(rs => {
-		console.log(Object.assign({}, getToken(), rs))
-		return Object.assign({}, getToken(), rs);
-	});
+    return RequestService.get(
+        `${Server.QINGQI}tocapp/getUserInfo`, {
+            product: Server.APP_PRODUCT
+        }
+    ).then(rs => {
+        console.log(Object.assign({}, getToken(), rs))
+        return Object.assign({}, getToken(), rs);
+    });
 }
 
 /**
@@ -275,7 +277,7 @@ export function getUserInfo() {
  * @returns {string}
  */
 export function userPic() {
-	return `${Server.WD_SERVICE}user/queryPic?token=${encodeURIComponent(getToken())}`;
+    return `${Server.WD_SERVICE}user/queryPic?token=${encodeURIComponent(getToken())}`;
 }
 
 
@@ -285,10 +287,9 @@ export function userPic() {
  * @returns {*}
  */
 export function uploadUserPic(pic) {
-	let form = new FormData();
-	form.append('file',Object.assign({}, pic, {type: 'application/octet-stream'}));
-	// form.append('file2', {uri: pic, type: 'application/octet-stream', name: 'upload.jpg'});
-	return RequestService.post(`${Server.WD_SERVICE}user/uploadPic`, form);
+    return RequestService.post(`${Server.WD_SERVICE}user/uploadPic`, {
+        file: pic,
+    }, null, true);
 }
 
 /**
@@ -297,12 +298,12 @@ export function uploadUserPic(pic) {
  * @returns {*}
  */
 export function changeBindSendCode(phone, type = SEND_SMS_TYPE_CHANGE_BIND) {
-	return RequestService.post(`${Server.WD_SERVICE}user/applyBindMobile`,{
-		mobile : phone,
-		product: Server.APP_PRODUCT,
+    return RequestService.post(`${Server.WD_SERVICE}user/applyBindMobile`, {
+        mobile: phone,
+        product: Server.APP_PRODUCT,
 //		product : "webUser",
-		type : type
-	});
+        type: type
+    });
 }
 
 /**
@@ -312,12 +313,12 @@ export function changeBindSendCode(phone, type = SEND_SMS_TYPE_CHANGE_BIND) {
  * @returns {*}
  */
 export function checkChangeBindSmsCode(phone, smsCode) {
-	return RequestService.post(`${Server.WD_SERVICE}user/checkChangeBindMobile`,{
-		mobile : phone,
-		product: Server.APP_PRODUCT,
+    return RequestService.post(`${Server.WD_SERVICE}user/checkChangeBindMobile`, {
+        mobile: phone,
+        product: Server.APP_PRODUCT,
 //		product : "webUser",
-		smsCode : smsCode
-	});
+        smsCode: smsCode
+    });
 }
 
 /**
@@ -329,27 +330,27 @@ export function checkChangeBindSmsCode(phone, smsCode) {
  * @returns {*}
  */
 export function bindNewMobile(phone, smsCode, oldMobile, oldSmsCode) {
-	return RequestService.post(`${Server.WD_SERVICE}user/bindMobile`,{
-		"mobile": phone,
-		"smsCode": smsCode,
-		"type":"changeBind",
-		"oldMobile": oldMobile,
-		"oldSmsCode": oldSmsCode,
-		product: Server.APP_PRODUCT
+    return RequestService.post(`${Server.WD_SERVICE}user/bindMobile`, {
+        "mobile": phone,
+        "smsCode": smsCode,
+        "type": "changeBind",
+        "oldMobile": oldMobile,
+        "oldSmsCode": oldSmsCode,
+        product: Server.APP_PRODUCT
 //		"product":"webUser"
-	});
+    });
 }
 
 export function bindMobile(phone, smsCode, oldMobile, oldSmsCode) {
-	return RequestService.post(`${Server.QINGQI}tocapp/bindMobile`,{
-		"mobile": phone,
-		"smsCode": smsCode,
-		"type":"changeBind",
-		"oldMobile": oldMobile,
-		"oldSmsCode": oldSmsCode,
-		product: Server.APP_PRODUCT
+    return RequestService.post(`${Server.QINGQI}tocapp/bindMobile`, {
+        "mobile": phone,
+        "smsCode": smsCode,
+        "type": "changeBind",
+        "oldMobile": oldMobile,
+        "oldSmsCode": oldSmsCode,
+        product: Server.APP_PRODUCT
 //		"product":"webUser"
-	});
+    });
 }
 
 /**
@@ -357,10 +358,10 @@ export function bindMobile(phone, smsCode, oldMobile, oldSmsCode) {
  * @returns {*}
  */
 export function logout() {
-	return RequestService.get(`${Server.QINGQI}tocapp/logout`, {
-		product: Server.APP_PRODUCT
-	});
-	//return RequestService.post(`${Server.WD_SERVICE}user/logout`, {product: Server.APP_PRODUCT});
+    return RequestService.get(`${Server.QINGQI}tocapp/logout`, {
+        product: Server.APP_PRODUCT
+    });
+    //return RequestService.post(`${Server.WD_SERVICE}user/logout`, {product: Server.APP_PRODUCT});
 }
 
 /**
@@ -370,15 +371,42 @@ export function logout() {
  * @returns {*}
  */
 export function modifyPassword(oldPassword, newPassword) {
-	return RequestService.post(
-		`${Server.WD_SERVICE}user/updatePassword`,
-		{
-			"oldPassword":oldPassword,
-			"newPassword":newPassword,
-	//		product : "webUser",
-			product:Server.APP_PRODUCT
-		}
-	);
+    return RequestService.post(
+        `${Server.WD_SERVICE}user/updatePassword`,
+        {
+            "oldPassword": oldPassword,
+            "newPassword": newPassword,
+            //		product : "webUser",
+            product: Server.APP_PRODUCT
+        }
+    );
+}
+
+export function queryPicById() {
+    return RNFetchBlob.fetch(
+        'GET',
+        `${Server.WD_SERVICE}user/queryPicById?userId=${getToken().userId}&_=${Math.random()}`,
+        {}
+    )
+        .then((res) => {
+            let _b = res.base64();
+            if(_b){
+                return `data:image/jpg;base64,${res.base64()}`
+            } else {
+                return Promise.reject({
+                    message:'',
+                    code: 500
+                })
+            }
+
+        })
+        .catch((errorMessage, statusCode) => {
+            return Promise.reject({
+                message:'',
+                code: 500
+            })
+        });
+    // return `${Server.WD_SERVICE}user/queryPicById?userId=${getToken().userId}&_=${Math.random()}`;
 }
 
 
@@ -387,20 +415,41 @@ export function modifyUserInfo(name, phone) {
     return RequestService.get(
         `${Server.QINGQI}tocapp/modifyUserInfo`,
         {
-			product:Server.APP_PRODUCT,
+            product: Server.APP_PRODUCT,
             name: name,
-			phone: phone
+            phone: phone
         }
     );
 }
 
 export function modifyDriverInfo(identityCard, drivingLicense) {
-	return RequestService.get(
-		`${Server.QINGQI}tocapp/modifyDriverInfo`,
-		{
-			product:Server.APP_PRODUCT,
-			identityCard: identityCard,
-			drivingLicense: drivingLicense
-		}
-	);
+    return RequestService.get(
+        `${Server.QINGQI}tocapp/modifyDriverInfo`,
+        {
+            product: Server.APP_PRODUCT,
+            identityCard: identityCard,
+            drivingLicense: drivingLicense
+        }
+    );
+}
+
+/**
+ * 验证手机号是否被使用
+ * @param mobile
+ * @returns {*}
+ */
+export function checkMobile(mobile) {
+    return RequestService.get(
+        `${Server.WD_SERVICE}user/checkMobile`,
+        {
+            mobile
+        },
+        (rs) => {
+            if(rs.code === 1007){
+                return Promise.resolve({});
+            }else{
+                return Promise.reject(rs);
+            }
+        }
+    );
 }

@@ -12,14 +12,29 @@ import moment from 'moment';
 import Env from '../../../utils/Env';
 import BorderButton from '../../../components/BorderButton';
 import OilManageSelectTime from '../oil-maange/OilManageSelectTime';
-
+import Toast from '../../../components/Toast';
 export default class DateButtonGroup extends Component {
     constructor() {
         super();
-        this.state = {timeType:1}
+        this.state = {
+            timeType : 1
+        };
+        this.isFetching = false;
+    }
+    componentWillReceiveProps(props) {
+        this.isFetching = props.isFetching;
+    }
+    fetchStatus() {
+        if(this.isFetching) {
+            Toast.show('正在查询轨迹信息', Toast.SHORT);
+            return true;
+        }
+        this.isFetching = true;
+        return false;
     }
     //时间段选择，选择后重新获取数据
     selectTime(value){
+        if(this.fetchStatus()) {return;}
         let beginDate,endDate=moment().subtract(1, 'days').format('YYYYMMDD');
         switch (value){
             case 1: beginDate= moment().subtract(1, 'days').format('YYYYMMDD'); break;
@@ -35,18 +50,19 @@ export default class DateButtonGroup extends Component {
     }
     //自定义时间
     customTime(){
+        if(this.fetchStatus()) {return;}
         this.setState({timeType: 4});
+        //this.props.router.push(OilManageSelectTime);
         this.props.router.push(OilManageSelectTime,
-            { beginDate:this.state.beginDate || '',
-                endDate: this.state.endDate || '',update:(date={
-            }) => {
-                !date.beginDate && (date.beginDate = this.state.beginDate);
-                !date.endDate && (date.endDate = this.state.endDate);
-                // date.beginDate.indexOf('.') > -1 && (date.beginDate = moment(date.beginDate.split('.')).format('YYYYMMDD'));
-                // date.endDate.indexOf('.') > -1 && (date.endDate = moment(date.endDate.split('.')).format('YYYYMMDD'));
-                this.setState(date);
-                this.props.selectTime(date);
-            }})
+        { beginDate:this.state.beginDate || '',
+            endDate: this.state.endDate || '',update:(date={
+        }) => {
+            console.info('update')
+            !date.beginDate && (date.beginDate = this.state.beginDate);
+            !date.endDate && (date.endDate = this.state.endDate);
+            this.setState(date);
+            this.props.selectTime(date);
+        }})
     }
     componentDidMount() {
         this.selectTime(1);

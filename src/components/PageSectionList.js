@@ -58,7 +58,7 @@ export default class PageSectionList extends Component {
         this.pageNumber = pageNumber || this.pageNumber;
         this.props.fetchData(this.pageNumber, this.pageSize)
             .then(rs => {
-                this._data = Object.assign({}, this._data, this.props.getSectionData(rs.list));
+                this._data = Object.assign({}, this.props.getSectionData(rs.list));
                 this._keysCount = Object.keys(this._data).length || 0;
                 // this._data = rs.list && rs.list.length > 0 ? Object.assign({}, this._data, this.props.getSectionData(rs.list)) : this._data;
 
@@ -93,10 +93,10 @@ export default class PageSectionList extends Component {
     }
 
     reInitFetch(){
-        this._data = [];
-        this.getData(1);
+        this._onRefresh();
     }
 
+    timer = null;
     componentWillReceiveProps(nextProps){
         if(nextProps.reInitField){
             if(
@@ -104,8 +104,11 @@ export default class PageSectionList extends Component {
                     return item != nextProps.reInitField[index];
                 })
             ){
-                this._data = [];
-                this._onRefresh();
+                this.timer && clearTimeout(this.timer);
+                this.timer = setTimeout(() => {
+                    this._data = [];
+                    this._onRefresh();
+                }, 500);
             }
             this.reInitField = nextProps.reInitField;
         }

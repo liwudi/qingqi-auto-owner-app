@@ -48,8 +48,6 @@ import BoundLine from '../home/my-car/BoundLine';
 import CarParameter from '../home/my-car/CarParameter';
 import MessageCars from '../home/my-car/MessageCars';
 import ModifyVehicleLicence from '../home/my-car/ModifyVehicleLicence';
-import TimeTracking from '../home/my-car/TimeTracking';
-import TrackPlay from '../home/my-car/TrackPlay';
 
 import MyDriver from '../home/my-driver/MyDriver'
 import MyDriverAdd from '../home/my-driver/MyDriverAdd'
@@ -66,10 +64,8 @@ import MyLineAddCarList from '../home/my-line/MyLineAddCarList'
 
 import Monitor from '../home/monitor/Monitor'
 import MonitorMap from '../home/monitor/MonitorMap'
-import MonitorMapOil from '../home/monitor/MonitorMapOil'
-import MonitorMapSpeed from '../home/monitor/MonitorMapSpeed'
+
 import MonitorShare from '../home/monitor/MonitorShare'
-import MonitorTimeTracking from '../home/monitor/MonitorTimeTracking'
 
 import OilManage from '../home/oil-maange/OilManage'
 import OilManageCarList from '../home/oil-maange/OilManageCarList'
@@ -280,8 +276,6 @@ export default class Guide extends Component {
                     <Text style={styles.over} onPress={() => {this.toPage(MyCar)}}  >3、我的车辆</Text>
                     <Text style={styles.over} onPress={() => {this.toPage(CarDetail)}}  >4、车辆详情</Text>
                     <Text style={styles.over} onPress={() => {this.props.router.push(ModifyVehicleLicence,{nav:{carId: 300,carCode: '辽A30001'}})}}  >5、车辆详情-修改车牌号</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(TimeTracking)}}  >6、车辆详情-实时跟踪</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(TrackPlay)}}  >7、车辆详情-轨迹回放</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MessageCars)}}  >8、车辆详情-消息车辆</Text>
                     <Text {...this.props} onPress={() => {this.toPage(BoundDriver)}}  >9、车辆详情-绑定司机</Text>
                     <Text style={styles.modify} {...this.props} onPress={() => {this.toPage(BoundLine)}}  >10、车辆详情-绑定线路</Text>
@@ -311,9 +305,6 @@ export default class Guide extends Component {
                     <Text {...this.props} onPress={() => {this.toPage(Monitor)}}  >实时监控列表</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MonitorMap)}}  >实时监控-地图模式</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MonitorCarDetail)}}  >实时监控-车辆监控详情</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MonitorTimeTracking)}}  >实时监控-实时跟踪</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MonitorMapSpeed)}}  >实时监控-轨迹回放速度</Text>
-                    <Text {...this.props} onPress={() => {this.toPage(MonitorMapOil)}}  >实时监控-轨迹回放油耗</Text>
                     <Text {...this.props} onPress={() => {this.toPage(MonitorShare)}}  >实时监控-分享</Text>
                 </View>
                 <View>

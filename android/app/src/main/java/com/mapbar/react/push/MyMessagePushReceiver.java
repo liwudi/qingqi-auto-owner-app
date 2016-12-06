@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
 
 import com.mapbar.MainActivity;
 import com.mapbar.pushservice.mapbarpush.bean.MessageBean;

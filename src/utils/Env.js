@@ -268,9 +268,9 @@ const icon = {
 }
 const pattern = {
   phone: /^(1[3-9])\d{9}$/,
-  password: /^.{6,20}$/,
+  password: /^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,20}$/,
   code: /^\d{6}$/,
-  carCode: /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/,
+  carCode: /^[\u4e00-\u9fa5]{1}[A-Z]{1}[A-Z_0-9]{5}$/i,
   identityCard: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|x)$/i
 };
 const msg = {
@@ -283,7 +283,7 @@ const msg = {
     password: {
       require: '请输入密码',
       placeholder: '请输入密码',
-      pattern: '请输入6-20位半角字符，建议数字、字母、符号组合'
+      pattern: '密码请输入6-20位半角字符，建议数字、字母、符号组合'
     },
     truename: {
       require: '请输入姓名',

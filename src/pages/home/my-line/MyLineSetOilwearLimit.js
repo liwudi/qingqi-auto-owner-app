@@ -19,11 +19,15 @@ export default class MyLineSetOilwearLimit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			oilwearLimit: ''
+            oilwearLimit: props.oilwearLimit
 		};
 	}
 	save() {
-        this.props.submit(this.state.oilwearLimit);
+        if(!/^[\d.]+$/.test(this.state.oilwearLimit) || +this.state.oilwearLimit > 999999){
+            Toast.show('总油耗需在于0-999999之间', Toast.SHORT);
+            return;
+        }
+        this.props.submit((+this.state.oilwearLimit).toFixed(1));
         this.props.router.pop();
 	}
 	render() {
@@ -35,7 +39,10 @@ export default class MyLineSetOilwearLimit extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder='输入总油耗限制'
 						ref="oilwearLimit"
-						onChangeText={oilwearLimit => this.setState({oilwearLimit:oilwearLimit})}/>
+						keyboardType="numeric"
+						maxLength={10}
+						defaultValue={this.props.oilwearLimit}
+						onChangeText={oilwearLimit => this.setState({oilwearLimit})}/>
 					<View style={[estyle.marginBottom, estyle.fxRow, estyle.paddingHorizontal]}>
 						<Text style={[estyle.note, estyle.fx1]}>&nbsp;</Text>
 					</View>

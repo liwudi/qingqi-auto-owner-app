@@ -18,10 +18,12 @@ import UserCenterHome from './userCenter';
 import Message from './message/Message';
 import News from './home/news/News';
 
+import Login from './user/index';
 
 import MainNavBar from '../components/MainNavBar';
+import { addInterceptor } from '../service-config/RequestService';
 
-
+import MyCar from './home/my-car/MyCar';
 
 const tabs = [
 	{component:Message,index:0,name:'Message'},
@@ -35,7 +37,46 @@ let initialRoute = tabs[1];
 class HomeRouter extends Component {
 	constructor(props){
 		super(props);
+		addInterceptor((res) => {
+            if(res && (res.resultCode && res.resultCode === 509) || (res.code && res.code === 1019)){
+                res.message = '账号未登录';
+                this.props.alert(
+                    '提示',
+                    '您的账号已在其它设备登录，如非本人操作，请修改密码！',
+                    [
+                        {
+                            text:'确定',
+                            onPress:() => {
+                                this.props.router.resetTo(Login);
+                            }
+                        }
+                    ]
+                );
+            }
+            return res;
+        });
 	}
+
+    componentDidMount(){
+        if(this.props.showAddCarMessage){
+            this.props.alert(
+                '提示',
+                '您已注册成功, 是否要添加车辆？',
+                [
+                    {
+                        text:'确定',
+                        onPress:() => {
+                            this.props.router.push(MyCar, {toAddCar:true});
+                        }
+                    },
+                    {
+                        text:'取消'
+                    }
+                ]
+            );
+        }
+	}
+
 	render() {
 		return (
 			<Navigator

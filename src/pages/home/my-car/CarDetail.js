@@ -27,9 +27,12 @@ import TopBanner from '../../../components/TopBanner';
 import BorderButton from '../../../components/BorderButton';
 import {IconTrash} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
-import MapLine from '../components/mapline/MapLine';
+import MonitorMapTrack from '../monitor/MonitorMapTrack';
 import Toast from '../../../components/Toast';
 
+import MonitorMap from '../monitor/MonitorMap';
+
+import MessageListCar from '../../message/MessageListCar';
 
 export default class CarDetail extends Component {
     constructor(props) {
@@ -136,19 +139,19 @@ export default class CarDetail extends Component {
                         }]}>{data.carCode}</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow>
+                <ViewForRightArrow onPress={()=>{this.props.router.push(MonitorMap, {nav: {carId: data.carId}});}}>
                     <View style={[estyle.fxRow]}>
                         <Text style={[estyle.text, {textAlign: 'left'}]}>车辆速度</Text>
                         <Text style={[estyle.fx1, estyle.text, {
                             color: Env.color.main,
                             textAlign: 'right'
-                        }]}>{data.speed}</Text>
+                        }]}>{data.speed}km/h</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={()=>{ this.props.router.push(MapLine, {nav: {carId: this.props.nav.carId}});}}>
+                <ViewForRightArrow onPress={()=>{this.props.router.push(MonitorMapTrack, {nav: {carId: data.carId, carCode: data.carCode}})}}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
                 </ViewForRightArrow>
-                <ViewForRightArrow >
+                <ViewForRightArrow onPress={() => this.props.router.push(MessageListCar, {carNumber:data.carCode, carId:data.carId})}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>报警通知</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow onPress={this.goToParams.bind(this)}>
@@ -167,7 +170,7 @@ export default class CarDetail extends Component {
                                     data.mainDriverPhoneNum && this.props.callTo(data.mainDriverPhoneNum);
                                 }
                             }>
-                                <Text style={[estyle.fx1, estyle.text, {
+                                <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
                                 }]}>{data.mainDriver || '无'}</Text>
@@ -190,7 +193,7 @@ export default class CarDetail extends Component {
                                     data.subDriverPhoneNum && this.props.callTo(data.subDriverPhoneNum);
                                 }
                             }>
-                                <Text style={[estyle.fx1, estyle.text, {
+                                <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
                                 }]}>{data.subDriver || '无'}</Text>
@@ -216,7 +219,7 @@ export default class CarDetail extends Component {
                                     }
                                 );
                             }
-                        }>{data.routeInfo ? '更换线路' : '绑定线路' }</BorderButton>
+                        }>{data.routeId ? '更换线路' : '绑定线路' }</BorderButton>
                     }
                 >
                     <Text style={[estyle.text, {textAlign: 'left'}]}>{data.routeId  && data.routeInfo || '未绑定线路'}</Text>

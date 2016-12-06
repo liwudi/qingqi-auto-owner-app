@@ -7,6 +7,7 @@ import * as TYPES from './types';
 import * as UserService from '../services/UserService';
 import { setToken } from '../service-config/RequestService';
 
+const defUserPic = require('../assets/images/driver.png');
 
 function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
 	dispatch({'type': TYPES.SEND_CODE_ING});
@@ -147,35 +148,16 @@ export function doLogin(UserParams, next) {
  * @returns {function(*)}
  */
 export function doRegCheckCaptcha(phone, trueName, password, captcha, next, err) {
-	console.info('doRegCheckCaptcha');
-	console.info(arguments)
-
 	return (dispatch) => {
-/*		next({
-			phone, trueName, password, captcha
-		});
-		return;*/
 		dispatch({'type': TYPES.REG_STEP1_DOING});
 		UserService.checkCaptcha(phone, captcha)
 			.then((rs)=>{
-				console.info(rs)
-				UserService.regSendCode(phone, captcha, false).then((d)=>{
-					console.info(333)
-					next({
-						phone, trueName, password, captcha
-					});
-				}).catch((e) => {
-					dispatch({'type': TYPES.REG_STEP2_START, regInfo: {
-						phone, trueName, password, captcha
-					}});
-					(e.code === 1006) && err && err();
-				});
-				/*next({
-					phone, trueName, password, captcha
-				});*/
 				dispatch({'type': TYPES.REG_STEP2_START, regInfo: {
 					phone, trueName, password, captcha
 				}});
+				next && next({
+                    phone, trueName, password, captcha
+                });
 			}).catch((e)=>{
 				ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
@@ -290,11 +272,29 @@ export function doReg(phone, trueName, password, smsCode, next) {
 	return (dispatch) => {
 		dispatch({'type': TYPES.REG_STEP1_DOING});
 		UserService.reg(phone, trueName, password, smsCode)
-			.then((rs)=>{
-				console.info(rs)
-				ToastAndroid.show('注册成功，请登录！', ToastAndroid.SHORT);
-				next({phone, password});
-			}).catch((e)=>{
+            .then((res)=>{
+                let userToken = {token:res.token, userId: res.userId};
+                setToken(userToken);
+                global.storage.save({
+                    key: 'token',
+                    rawData: userToken,
+                    expires: null
+                });
+                global.storage.save({
+                    key: 'preLoginUserName',
+                    rawData: {
+                        name: phone
+                    },
+                    expires: null
+                });
+                return UserService.getUserInfo();
+            })
+            .then(res => {
+                ToastAndroid.show('恭喜您注册成功，快去完善资料吧！', ToastAndroid.SHORT);
+                dispatch({'type': TYPES.LOGGED_IN, user: res});
+                next({phone, password});
+            })
+			.catch((e)=>{
 				console.info(e)
 				ToastAndroid.show(e.message, ToastAndroid.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
@@ -441,3 +441,19 @@ export function sendModifyMobileCode() {
 // 			});
 // 	}
 // }
+
+/**
+ * 获取用户头像
+ * @returns {function(*)}
+ */
+export function getUserPic() {
+    return (dispatch) => {
+        UserService.queryPicById()
+			.then(img => {
+                dispatch({'type': TYPES.USER_PIC, img : {uri: img}});
+			})
+			.catch(e => {
+                dispatch({'type': TYPES.USER_PIC, img: defUserPic});
+			})
+    }
+}

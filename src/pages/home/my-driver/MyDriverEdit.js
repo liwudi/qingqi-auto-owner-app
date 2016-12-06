@@ -68,9 +68,9 @@ export default class MyDriverEdit extends Component {
 		);
 	}
 
-	call () {
-		Alert.alert("提示", `【todo】呼叫${this.state.phone}`);
-	}
+    call () {
+        this.props.callTo(this.state.phone);
+    }
 
 	_modify(){
         if (LabelInput.Validate(this.refs)) {
@@ -94,13 +94,13 @@ export default class MyDriverEdit extends Component {
 	 */
 	modify () {
 		if (this.state.registerStatus === 1) {
-			Alert.alert("提示", `用户【${this.state.name}】已经注册为APP用户，不可以编辑`);
+            this.props.alert("提示", `用户【${this.props.nav.name}】已经注册为APP用户，不可以编辑`);
 			return;
 		}
 		if (!PhoneInput.Validate(this.refs)) {
 			return;
 		}
-		Alert.alert('提示',
+		this.props.alert('提示',
 			`是否保存？`,
 			[
 				{text: '确定',
@@ -139,8 +139,9 @@ export default class MyDriverEdit extends Component {
                         onChangeText={phone => this.setState({phone})}
 						require={true}
                     />
-					<View style={[estyle.paddingVertical]} >
-						<SubmitButton doing={this.state.doing} onPress={() => this.modify()}><Text>保存</Text></SubmitButton>
+					<View style={[estyle.paddingVertical,estyle.fxRow]} >
+						<SubmitButton size="middle" style={[estyle.marginRight]} onPress={() => this.call()}>呼叫</SubmitButton>
+						<SubmitButton size="middle" doing={this.state.doing} onPress={() => this.modify()}><Text>保存</Text></SubmitButton>
 					</View>
 				</View>
 			</View>

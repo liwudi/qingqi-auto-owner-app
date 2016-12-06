@@ -47,7 +47,7 @@ export default class User extends Component {
 					title="登录"
 					rightView={(<Text style={{fontSize:Env.font.text,color:'#FFF'}} onPress={() => this.props.router.push(Reg)}>注册</Text>)}
 				/>
-				<TabNavigator {...this.props} tabs={tabs}/>
+				<TabNavigator initialIndex={this.props.initialIndex} {...this.props} tabs={tabs}/>
 			</View>
 		);
 	}

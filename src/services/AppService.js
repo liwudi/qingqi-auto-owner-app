@@ -120,9 +120,14 @@ export function routeInfo(routeId){
 }
 //今日营运统计接口
 export function queryOperateStatisToday(){
-    return RequestService.get(
-        makeUrl('queryOperateStatisToday')
-    );
+    return Promise.all([
+        RequestService.get(
+            makeUrl('carTeamInfo')
+        ),
+        RequestService.get(
+            makeUrl('queryOperateStatisToday')
+        )
+    ]);
 }
 
 //区间油耗日统计接口

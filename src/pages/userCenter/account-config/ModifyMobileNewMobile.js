@@ -13,7 +13,7 @@ import {
 	StyleSheet
 } from 'react-native';
 
-import { changeBindSendCode, bindMobile, SEND_SMS_TYPE_BIND_NEW } from '../../../services/UserService';
+import { changeBindSendCode, bindMobile, checkMobile, SEND_SMS_TYPE_BIND_NEW } from '../../../services/UserService';
 
 import PhoneInput from '../../../components/Inputs/Phone';
 import TopBanner from '../../../components/TopBanner';
@@ -56,7 +56,17 @@ class ModifyMobileNewMobile extends Component {
 
 	sendSmsCode = () => {
 		if(this.refs.phone.validate()){
-			return changeBindSendCode(this.state.phone, SEND_SMS_TYPE_BIND_NEW)
+            return checkMobile(this.state.phone)
+				.then((rs)=>{
+					console.log('validate', rs)
+                    return changeBindSendCode(this.state.phone, SEND_SMS_TYPE_BIND_NEW)
+				})
+				.catch(e => {
+					if(e.code === 1006){
+						e.message = '该手机已经绑定其他账号，请先解绑';
+					}
+					return Promise.reject(e);
+				});
 		}else{
 			return false;
 		}

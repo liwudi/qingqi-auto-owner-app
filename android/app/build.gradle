@@ -97,12 +97,12 @@ android {
         }
     }
     /*signingConfigs {
-        release { ////打release包 请取消注释   gradlew assembleRelease
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
-        }
+        //release { ////打release包 请取消注释   gradlew assembleRelease
+            //storeFile file(MYAPP_RELEASE_STORE_FILE)
+            //storePassword MYAPP_RELEASE_STORE_PASSWORD
+            //keyAlias MYAPP_RELEASE_KEY_ALIAS
+            //keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        //}
     }*/
     splits {
         abi {
@@ -152,6 +152,8 @@ dependencies {
     compile project(':react-native-splash-screen')
     compile files('libs/com.mapbar.android.push.client.jar')
     compile files('libs/com.mapbar.android.mobstat.jar')
+    compile project(':react-native-fetch-blob')
+    compile project(':react-native-image-resizer')
 }
 
 // Run this once to be able to run the application with BUCK

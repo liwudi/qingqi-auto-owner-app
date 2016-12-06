@@ -13,6 +13,7 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import LabelInput from '../../../components/LabelInput';
 import ConfirmButton from '../../../components/ConfirmButton';
+import Toast from '../../../components/Toast';
 
 import Env from '../../../utils/Env';
 const estyle = Env.style,
@@ -34,7 +35,8 @@ export default class ModifyVehicleLicence extends Component {
 		// }
 		if (LabelInput.Validate(this.refs)) {
 			modifyCar(this.props.nav.carId,this.carCode, this.props.nav.carCode) //参数旧车牌号也要传递
-				.then(this.success.bind(this));
+				.then(this.success.bind(this))
+				.catch(e => Toast.show(e.message, Toast.SHORT));
 		}
 
 	}

@@ -22,7 +22,7 @@ export function userStore(state = LOGIN_STATE, action){
 			return Object.assign({},LOGIN_STATE,{status:action.type, error: action.error});
 			break;
 		case TYPES.LOGGED_OUT:
-			return Object.assign({},LOGIN_STATE,{status:action.type,  isLogged: false, userInfo: null});
+			return Object.assign({},LOGIN_STATE,{status:action.type,  isLogged: false, userInfo: {}});
 			break;
 		default:
 			return state;
@@ -105,4 +105,21 @@ export function findPasswordStore(state = STATE, action) {
 		default:
 			return state;
 	}
+}
+
+const USER_PIC_STATE = {
+    isLogged: false,
+    userPic: {},
+    error:{},
+    status: null
+};
+
+export function userPicStore(state = USER_PIC_STATE, action){
+    switch (action.type){
+        case TYPES.USER_PIC:
+            return Object.assign({}, USER_PIC_STATE, { userPic: action.img });
+            break;
+        default:
+            return state;
+    }
 }
