@@ -57,7 +57,6 @@ public class MediaPlayerOperation {
 		} catch (IllegalArgumentException e) {
             mPlayer.setOnCompletionListener(null);
             release();
-<<<<<<< HEAD
             promise.reject(e);
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -77,27 +76,6 @@ public class MediaPlayerOperation {
             e.printStackTrace();
         }
     }
-=======
-            promise.reject("error",e.toString());
-			e.printStackTrace();
-		} catch (SecurityException e) {
-            mPlayer.setOnCompletionListener(null);
-            release();
-            promise.reject("error",e.toString());
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-            mPlayer.setOnCompletionListener(null);
-            release();
-            promise.reject("error",e.toString());
-			e.printStackTrace();
-		} catch (IOException e) {
-            mPlayer.setOnCompletionListener(null);
-            release();
-            promise.reject("error","请检查文件是否存在");
-			e.printStackTrace();
-		}
-	}
->>>>>>> a985aebf377fa07c83f5f15a51ddb6dd3f74a7fd
 
     //获取播放总长
     public static void getDuration(String filePath, Promise promise) {
@@ -130,7 +108,6 @@ public class MediaPlayerOperation {
         }
     }
 
-<<<<<<< HEAD
     //从指定位置开始播放
     public static void seekTo(int millis, Promise promise) {
         if (mPlayer != null) {
@@ -142,8 +119,6 @@ public class MediaPlayerOperation {
             promise.reject("error", "请在播放录音或暂停时获取播放位置");
         }
     }
-=======
->>>>>>> a985aebf377fa07c83f5f15a51ddb6dd3f74a7fd
 
 	//停止函数
 	public static void pause(Promise promise){
