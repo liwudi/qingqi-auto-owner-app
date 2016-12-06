@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.WindowManager;
 
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
@@ -19,9 +20,24 @@ import com.mapbar.react.LogUtils;
 public class MainActivity extends ReactActivity {
     private static final String TAG = "MainActivity";
 
+/*    private void fullscreen(boolean enable) {
+        if (enable) { //显示状态栏
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            getWindow().setAttributes(lp);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else { //隐藏状态栏
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setAttributes(lp);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this, true);
+    //    fullscreen(true);
+        SplashScreen.show(this);
         super.onCreate(savedInstanceState);
         LogUtils.init(MainActivity.this, "ReactABC");
         LogUtils.logd(TAG, LogUtils.getThreadName() + ">>>");
