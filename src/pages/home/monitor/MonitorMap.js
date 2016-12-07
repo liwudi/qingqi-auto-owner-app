@@ -94,7 +94,7 @@ export default class MonitorMap extends Component {
         queryCarCondition(undefined, undefined, this.monitorCarId).then((data = {}) => {
             if (this.stopRequest) return;
             if (this.monitor) {
-                this.setState({detail: Object.assign(detail, data.list[0] || {})});
+                this.setState({detail: Object.assign(this.state.detail, data.list[0] || {})});
             }
         }).catch(() => {
             console.info('status catch')
@@ -107,22 +107,22 @@ export default class MonitorMap extends Component {
 
     fetchDataSingleInit() {
         queryRealTimeCar({carId: this.monitorCarId}).then((data = {}) => {
-            this.setSingleData(data);
+            this.setSingleData(data, true);
         }).catch(() => {
             console.info('single init catch')
             Toast.show('获取车辆信息异常', Toast.SHORT);
         }).finally(() => {this.setState({animating: false});})
     }
 
-    setSingleData(data) {
+    setSingleData(data, zoom) {
         this.setState({detail: Object.assign(this.state.detail, data)});
         this.list = [data];
         this.setMarker();
-        init  && this.Map.setZoomLevel(8);
+        zoom  && this.Map.setZoomLevel(8);
         this.carToCenter(data);
     }
     //单车车辆信息
-    fetchDataSingle(init) {
+    fetchDataSingle() {
         if (this.stopRequest) return;
         if (!this.monitor) return;
         console.info('fetch single, this.stopRequest', this.stopRequest)
@@ -135,9 +135,9 @@ export default class MonitorMap extends Component {
             this.requestStop();
             console.info('single catch')
         }).finally(() => {
-            !init && (this.times[1] = setTimeout(() => {
+            this.times[1] = setTimeout(() => {
                 this.fetchDataSingle();
-            }, TIMEOUT * 1000));
+            }, TIMEOUT * 1000);
         })
     }
 
@@ -166,9 +166,10 @@ export default class MonitorMap extends Component {
                         Toast.show('没有监控车辆', Toast.SHORT);
                     }
                 }
-            }).catch(() => {
-                this.requestStop();
+            }).catch((e) => {
+            //    this.requestStop();
                 console.info('all catch')
+                console.info(e)
             }).finally(() => {
                 this.setState({animating: false});
                 this.requesting = false;
@@ -203,7 +204,7 @@ export default class MonitorMap extends Component {
 
     clearTimer() {
         this.times.forEach((item) => {
-            item && this.clearTimeout(item);
+            item && clearTimeout(item);
         })
         this.times = [];
     }
