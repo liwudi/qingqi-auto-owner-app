@@ -290,10 +290,9 @@ export default class MapLine extends Component {
     }
 
     componentWillReceiveProps(props) {
-    ///    console.info(this.rnTime, props.time)
+   //     console.info(this.rnTime, props.time)
         if(this.rnTime != props.time) {
 /*            console.info('*****************************************************************')
-            console.info(props)
             console.info('---------------------------------------------------------------')*/
             this.initLine(props.data);
             this.rnTime = props.time;
