@@ -21,15 +21,15 @@ let getSpeedColor = (speedType) => {
     console.info(speedType)
     switch (speedType) {
         case SPEED_1:
-            return '#FFA500';
+            return '#99CC59';
         case SPEED_2:
-            return '#A2CD5A';
+            return '#3EB6AD';
         case SPEED_3:
-            return '#7EC0EE';
+            return '#02B9F2';
         case SPEED_4:
-            return '#FF9C00';
+            return '#FF8400';
         case SPEED_5:
-            return '#FF0000';
+            return '#FF1E1E';
     }
 };
 

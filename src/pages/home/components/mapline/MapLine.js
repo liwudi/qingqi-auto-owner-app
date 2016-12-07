@@ -59,10 +59,15 @@ const legend = {
     1: [
         {
             value: '0-10L/100km',
-            color: '#3EB6AD'
+            color: '#99CC59'
+
         },
         {
             value: '10-20L/100km',
+            color: '#3EB6AD'
+        },
+        {
+            value: '20-30L/100km',
             color: '#02B9F2'
         },
         {
@@ -304,7 +309,7 @@ export default class MapLine extends Component {
             Toast.show(`已切换到速度模式`, Toast.SHORT);
         }
         this.setState({playType: this.playType});
-        this.addLine();
+        this.state.dataLength && this.addLine();
     }
 
     renderLegend() {

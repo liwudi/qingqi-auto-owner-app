@@ -46,7 +46,16 @@ export default class DateButtonGroup extends Component {
             beginDate: beginDate,
             endDate: endDate
         });
-        this.props.selectTime({beginDate:beginDate, endDate: endDate});
+        this.toSelectTime({beginDate:beginDate, endDate: endDate})
+    }
+    toSelectTime(date) {
+        let format = 'YYYY-MM-DD',
+            ed = date.endDate,
+            sd = date.beginDate;
+        ed = moment(ed).format(format) + ' 23:59:59';
+        sd = moment(sd).format(format) + ' 00:00:00';
+        this.props.selectTime({beginDate: sd, endDate: ed});
+        this.setState(date);
     }
     //自定义时间
     customTime(){
@@ -60,8 +69,9 @@ export default class DateButtonGroup extends Component {
             console.info('update')
             !date.beginDate && (date.beginDate = this.state.beginDate);
             !date.endDate && (date.endDate = this.state.endDate);
-            this.setState(date);
-            this.props.selectTime(date);
+            //this.setState(date);
+            this.toSelectTime(date);
+            //this.props.selectTime(date);
         }})
     }
     componentDidMount() {
