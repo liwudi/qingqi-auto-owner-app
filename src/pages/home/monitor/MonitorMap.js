@@ -115,11 +115,20 @@ export default class MonitorMap extends Component {
     }
 
     setSingleData(data, zoom) {
-        this.setState({detail: Object.assign(this.state.detail, data)});
+        data.longitude = data.lon;
+        data.latitude = data.lat;
+        data.carNo = data.carCode;
+        data.count = 1;
         this.list = [data];
         this.setMarker();
-        zoom  && this.Map.setZoomLevel(8);
+        if(zoom) {
+            this.setState({data});
+            this.Map.setZoomLevel(8);
+        } else {
+            this.setState({detail: Object.assign(this.state.detail || {}, data)});
+        }
         this.carToCenter(data);
+
     }
     //单车车辆信息
     fetchDataSingle() {
@@ -220,7 +229,9 @@ export default class MonitorMap extends Component {
         let list = this.list || [];
         //    console.info(list)
         if (list.length) {
-            this.markers.length = this.markers_d.length = 0;
+            this.markers = [];
+            this.markers_d = [];
+//            this.markers.length = this.markers_d.length = 0;
             list.forEach((item, idx) => {
                 list['carId_' + item.carId] = item;
                 this.addMarkerOpts(item, idx);
@@ -232,7 +243,7 @@ export default class MonitorMap extends Component {
     }
 
     addMarkerOpts(data, idx) {
-        let iconText = data.carNo,
+        let iconText = data.carNo || data.carCode,
             ox = 0.5,
             oy = 17,
             imageName = "res/icons/c100" + data.travelStatus + ".png",
@@ -258,6 +269,7 @@ export default class MonitorMap extends Component {
                 offsetY: oy,
                 click: true
             };
+
         this.markers.push(mkOpts);
         mkOpts = {
             longitude: pt.longitude,
