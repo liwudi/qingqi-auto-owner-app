@@ -74,6 +74,7 @@ export default class MonitorMap extends Component {
             animating: true
         }
         this.carStatus = [];
+        this.times = [];
     }
 
     toFetch() {
@@ -93,17 +94,33 @@ export default class MonitorMap extends Component {
         queryCarCondition(undefined, undefined, this.monitorCarId).then((data = {}) => {
             if (this.stopRequest) return;
             if (this.monitor) {
-                this.setState({detail: Object.assign(detail, data.list[0] || {})});
+                this.setState({detail: Object.assign(this.state.detail, data.list[0] || {})});
             }
         }).catch(() => {
             console.info('status catch')
         }).finally(() => {
-            setTimeout(() => {
+            this.times[0] = setTimeout(() => {
                 this.fetchStatus();
             }, STATUS_TIMEOUT * 1000);
         })
     }
 
+    fetchDataSingleInit() {
+        queryRealTimeCar({carId: this.monitorCarId}).then((data = {}) => {
+            this.setSingleData(data, true);
+        }).catch(() => {
+            console.info('single init catch')
+            Toast.show('获取车辆信息异常', Toast.SHORT);
+        }).finally(() => {this.setState({animating: false});})
+    }
+
+    setSingleData(data, zoom) {
+        this.setState({detail: Object.assign(this.state.detail, data)});
+        this.list = [data];
+        this.setMarker();
+        zoom  && this.Map.setZoomLevel(8);
+        this.carToCenter(data);
+    }
     //单车车辆信息
     fetchDataSingle() {
         if (this.stopRequest) return;
@@ -112,21 +129,19 @@ export default class MonitorMap extends Component {
         queryRealTimeCar({carId: this.monitorCarId}).then((data = {}) => {
             if (this.stopRequest) return;
             if (this.monitor) {
-                this.setState({detail: Object.assign(detail, data)});
-                this.list = [data];
-                this.setMarker();
-                this.carToCenter(data);
+                this.setSingleData(data);
             }
         }).catch(() => {
+            this.requestStop();
             console.info('single catch')
         }).finally(() => {
-            setTimeout(() => {
+            this.times[1] = setTimeout(() => {
                 this.fetchDataSingle();
             }, TIMEOUT * 1000);
         })
     }
 
-    fetchDataAll(fun) {
+    fetchDataAll() {
         if (this.stopRequest) return;
         if (this.monitor) return;
         if (this.requesting) return;
@@ -146,18 +161,19 @@ export default class MonitorMap extends Component {
                     this.list = data.list || [];
                     if(this.list.length) {
                         this.setMarker();
-                        fun && fun();
                     } else {
                         this.requestStop();
                         Toast.show('没有监控车辆', Toast.SHORT);
                     }
                 }
-            }).catch(() => {
+            }).catch((e) => {
+            //    this.requestStop();
                 console.info('all catch')
+                console.info(e)
             }).finally(() => {
                 this.setState({animating: false});
                 this.requesting = false;
-                setTimeout(() => {
+                this.times[2] = setTimeout(() => {
                     this.fetchDataAll();
                 }, TIMEOUT * 1000);
             })
@@ -186,8 +202,14 @@ export default class MonitorMap extends Component {
         console.info('requestStart', this.stopRequest)
     }
 
-
+    clearTimer() {
+        this.times.forEach((item) => {
+            item && clearTimeout(item);
+        })
+        this.times = [];
+    }
     componentWillUnmount() {
+        this.clearTimer();
         this.pauseView();
         this.Map.finalize();
         console.info('monitor map finalize')
@@ -255,10 +277,13 @@ export default class MonitorMap extends Component {
         this.MPoint = instance.MPoint;
         this.Marker = instance.Marker;
         this.MarkerRotate = instance.MarkerRotate;
-        this.fetchDataAll(() => {
-            this.props.nav && this.props.nav.carId && this.readyMonitor(this.props.nav.carId, true);
-
-        });
+        if(this.props.nav && this.props.nav.carId) {
+            this.monitorCarId = this.props.nav.carId;
+            this.fetchDataSingleInit();
+            
+        } else {
+            this.fetchDataAll();
+        }
     }
 
     //去轨迹页面
@@ -324,16 +349,13 @@ export default class MonitorMap extends Component {
         }, 300);
     }
 
-    readyMonitor(carId, zoom) {
+
+    readyMonitor(carId) {
         let data = this.list['carId_' + carId];
         console.info('readyMonitor', carId, data);
         if (!data) return;
         this.monitorCarId = carId;
         this.setState({data: data});
-        if(zoom) {
-            this.Map.setZoomLevel(8);
-            this.carToCenter(data);
-        }
     }
 
     setMonitor() {

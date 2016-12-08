@@ -47,16 +47,26 @@ export default class OilManageCarList extends Component {
             }).catch()
     }
     goBack(){
-        let start=this.state.beginDate.split('.')[0]+this.state.beginDate.split('.')[1]+this.state.beginDate.split('.')[2],
+/*        let start=this.state.beginDate.split('.')[0]+this.state.beginDate.split('.')[1]+this.state.beginDate.split('.')[2],
             end=this.state.endDate.split('.')[0]+this.state.endDate.split('.')[1]+this.state.endDate.split('.')[2];
         if(end - start < 0){
             ToastAndroid.show('结束时间不能小于开始时间', ToastAndroid.SHORT);
         }else if(end - start >6){
             ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
+        }else {*/
+        let sl = 7 * 24 * 60 * 60 * 1000; //七天的时间间隔，单位：ms
+        console.info(this.state.beginDate)
+        console.info(this.state.endDate)
+        let start_ = this.state.beginDate.split('.'), end_ = this.state.endDate.split('.');
+        let start = new Date(...start_).getTime(), end = new Date(...end_).getTime();
+        if(end < start){
+            ToastAndroid.show('结束时间不能小于开始时间', ToastAndroid.SHORT);
+        }else if(end - start >= sl){
+            ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
         }else {
             this.props.update({
-                beginDate: start,
-                endDate: end
+                beginDate: start_.join(''),
+                endDate: end_.join('')
             });
             this.props.router.pop();
         }
