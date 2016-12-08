@@ -51,8 +51,8 @@ export default class News extends Component {
     render() {
         return (
             <View  style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props} title="解放推荐" leftShow={false}/>
-                {this.tabs.length === 0 ? null : <TabNavigator {...this.props} tabs={this.tabs}/>}
+                <TopBanner {...this.props} title="解放推荐"/>
+                {this.tabs.length === 0 ? <ActivityIndicator style={[estyle.fx1]} animating={this.tabs.length === 0}/> : <TabNavigator {...this.props} tabs={this.tabs}/>}
             </View>
         );
     }

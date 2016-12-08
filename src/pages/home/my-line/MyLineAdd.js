@@ -377,7 +377,7 @@ export default class MyLineAdd extends Component {
                                     return;
                                 }
                                 this.props.router.push(MyLineAddCarList, {
-                                    routeId: this.props.routeId,
+                                    routeId: this.state.routeInfo.routeId,
                                     update: () => {
                                         this.refs.carList.reInitFetch();
                                     }
