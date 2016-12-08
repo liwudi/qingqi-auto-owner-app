@@ -6,7 +6,7 @@ import {
     Text,
     View,
     TextInput,
-    StyleSheet,ToastAndroid
+    StyleSheet
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';

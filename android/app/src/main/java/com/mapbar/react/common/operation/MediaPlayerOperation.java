@@ -57,25 +57,25 @@ public class MediaPlayerOperation {
 		} catch (IllegalArgumentException e) {
             mPlayer.setOnCompletionListener(null);
             release();
-            promise.reject("error",e.toString());
-			e.printStackTrace();
-		} catch (SecurityException e) {
+            promise.reject(e);
+            e.printStackTrace();
+        } catch (SecurityException e) {
             mPlayer.setOnCompletionListener(null);
             release();
-            promise.reject("error",e.toString());
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
+            promise.reject(e);
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
             mPlayer.setOnCompletionListener(null);
             release();
-            promise.reject("error",e.toString());
-			e.printStackTrace();
-		} catch (IOException e) {
+            promise.reject(e);
+            e.printStackTrace();
+        } catch (IOException e) {
             mPlayer.setOnCompletionListener(null);
             release();
-            promise.reject("error","请检查文件是否存在");
-			e.printStackTrace();
-		}
-	}
+            promise.reject(e);
+            e.printStackTrace();
+        }
+    }
 
     //获取播放总长
     public static void getDuration(String filePath, Promise promise) {
@@ -108,6 +108,17 @@ public class MediaPlayerOperation {
         }
     }
 
+    //从指定位置开始播放
+    public static void seekTo(int millis, Promise promise) {
+        if (mPlayer != null) {
+            mPlayer.seekTo(millis);
+            WritableMap writableMap = Arguments.createMap();
+            writableMap.putString("seekTo", "seekTo"+millis);
+            promise.resolve(writableMap);
+        } else {
+            promise.reject("error", "请在播放录音或暂停时获取播放位置");
+        }
+    }
 
 	//停止函数
 	public static void pause(Promise promise){

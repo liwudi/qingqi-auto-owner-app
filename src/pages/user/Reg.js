@@ -9,7 +9,6 @@ import {
 	TextInput,
 	View,
 	TouchableOpacity,
-	ToastAndroid,
 	StyleSheet,
     Image
 } from 'react-native';

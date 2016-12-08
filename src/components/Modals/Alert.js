@@ -74,7 +74,7 @@ export class Alert2 extends Component {
                     >
                         {this.state.title}
                         </Text>
-                    <Text style={[estyle.text, estyle.marginHorizontal]}>
+                    <Text style={[estyle.text, estyle.marginHorizontal, estyle.marginTop]}>
                         {this.state.content}
                     </Text>
                     <View style={[estyle.fxRow, estyle.fxCenter]}>

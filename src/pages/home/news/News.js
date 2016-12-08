@@ -2,48 +2,58 @@
  * Created by ligj on 2016/10/20.
  */
 import React, { Component } from 'react';
-import { View ,TouchableOpacity, Text } from 'react-native';
+import { View ,TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
 
-import WebView from '../../../components/WebView';
+import Category from './Category';
+
+import TabNavigator from '../../../components/TabNavigator';
+import Toast  from '../../../components/Toast';
 
 import Env from '../../../utils/Env';
+
+import { getCategorys } from '../../../services/NewsService';
 
 const estyle = Env.style;
 
 export default class News extends Component {
+
     constructor(props){
         super(props);
         this.state = {
-            uri: 'http://219.146.249.190:10106/',
-            page:{}
+            categories:[],
+            animating: true
         }
     }
 
-    doBack(){
-        this.refs.webView.doBack();
+    tabs = [];
+    componentDidMount(){
+        getCategorys()
+            .then(res => {
+                console.log(res)
+                this.tabs = res.categories.map((category => {
+                    return {
+                        title: category.title,
+                        component: Category,
+                        props:{
+                            ...category
+                        }
+                    }
+                }));
+                this.setState({})
+            })
+            .catch(e => {
+                Toast.show(e.message, Toast.SHORT);
+            })
     }
 
-    render(){
-
+    render() {
         return (
-            <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props}
-                    leftShow={this.state.page.canGoBack || false}
-                    title={"推荐"}
-                    doBack={this.doBack.bind(this)}
-                />
-                <WebView
-                    ref="webView"
-                    showBanner={false}
-                    {...this.props}
-                    uri = {this.state.uri}
-                    onPageChange={(page) => {
-                        this.setState({page});
-                    }}
-                />
+            <View  style={[estyle.fx1, estyle.containerBackgroundColor]}>
+                <TopBanner {...this.props} title="解放推荐"/>
+                {this.tabs.length === 0 ? <ActivityIndicator style={[estyle.fx1]} animating={this.tabs.length === 0}/> : <TabNavigator {...this.props} tabs={this.tabs}/>}
             </View>
-        )
+        );
     }
 }

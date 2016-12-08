@@ -9,7 +9,6 @@ import {
 	TextInput,
 	View,
 	TouchableOpacity,
-	ToastAndroid,
 	StyleSheet,
     ActivityIndicator
 } from 'react-native';
@@ -21,7 +20,7 @@ import TopBanner from '../../components/TopBanner';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
 import LabelInput from '../../components/LabelInput';
 import SubmitButton from '../../components/SubmitButton';
-import Button  from '../../components/widgets/Button.android';
+import Button  from '../../components/widgets/Button';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 import HomeRouter from '../HomeRouter';
 import Env from '../../utils/Env';

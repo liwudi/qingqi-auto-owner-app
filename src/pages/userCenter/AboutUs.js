@@ -13,7 +13,7 @@ import TopBanner from '../../components/TopBanner';
 import ListItem from '../../components/ListItem';
 import Env from '../../utils/Env';
 import Agreement from '../user/Agreement';
-import Button from '../../components/widgets/Button.android';
+import Button from '../../components/widgets/Button';
 const estyle = Env.style;
 export default class AboutUs extends Component {
 	render() {
@@ -28,7 +28,7 @@ export default class AboutUs extends Component {
 					<View style={[estyle.fx1]}>
 						<ListItem left="官方网址" right="www.fawjiefang.com.cn"/>
 						<ListItem left="客服电话" right="400-1234-123"/>
-						<ListItem left="版本信息" right="V1.0.0"/>
+						<ListItem left="版本信息" right="V1.0.1"/>
 					</View>
 					<View style={[estyle.fx1, estyle.fxRowCenter, {justifyContent: 'flex-end'}]}>
 						<Button onPress={()=>{this.props.router.push(Agreement)}}>

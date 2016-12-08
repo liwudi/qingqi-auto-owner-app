@@ -5,9 +5,9 @@ import React, {Component} from 'react';
 import {TouchableHighlight, View, Text, StyleSheet, Modal} from 'react-native';
 
 import Env from '../../utils/Env';
-import ModalBox from '../widgets/Modal.android';
-import ConfirmButton from '../ConfirmButton.android'
-import CancelButton from '../CancelButton.android';
+import ModalBox from '../widgets/Modal';
+import ConfirmButton from '../ConfirmButton'
+import CancelButton from '../CancelButton';
 const estyle = Env.style;
 export default class ColorButton extends Component {
     constructor(props) {

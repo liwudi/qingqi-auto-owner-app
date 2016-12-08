@@ -75,6 +75,7 @@ export default class News extends Component {
                     }}
                     style={{flex:1}}
                     source={{uri: this.state.uri}}
+                    startInLoadingState={true}
                 />
             </View>
         )

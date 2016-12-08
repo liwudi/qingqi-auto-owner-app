@@ -12,7 +12,7 @@ import {
 	TouchableOpacity
 } from 'react-native';
 
-import IconButton from './widgets/IconButton.android';
+import IconButton from './widgets/IconButton';
 
 import Env from '../utils/Env';
 
