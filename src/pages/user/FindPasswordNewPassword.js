@@ -18,7 +18,7 @@ import TopBanner from '../../components/TopBanner';
 import PasswordInput from '../../components/Inputs/Password';
 import SubmitButton from '../../components/SubmitButton';
 import Toast from '../../components/Toast';
-
+import PhoneInput from '../../components/Inputs/Phone';
 import Login from './index';
 
 import Env from '../../utils/Env';
@@ -38,12 +38,15 @@ class FindPasswordNewPassword extends Component {
 	}
 
 	onModifyPassword(){
-		this.props.dispatch(UserActions.findPasswordNewPassword(this.phone, this.state.password,this.smsCode, () => {
-            Toast.show('恭喜您设置密码成功！', Toast.SHORT);
-            setTimeout(() => {
-                this.props.router.resetTo(Login);
-			},500);
-		}));
+		if (PhoneInput.Validate(this.refs)) {
+			this.props.dispatch(UserActions.findPasswordNewPassword(this.phone, this.state.password,this.smsCode, () => {
+				Toast.show('恭喜您设置密码成功！', Toast.SHORT);
+				setTimeout(() => {
+					this.props.router.resetTo(Login);
+				},500);
+			}));
+		}
+
 	}
 
 	render() {
