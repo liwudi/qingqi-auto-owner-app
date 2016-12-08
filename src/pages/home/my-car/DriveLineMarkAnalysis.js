@@ -10,7 +10,7 @@ import {
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import TopBanner from '../../../components/TopBanner';
-import Button from '../../../components/widgets/Button.android'
+import Button from '../../../components/widgets/Button'
 import {IconShare} from '../../../components/Icons'
 const DEFAULT_URL = 'http://m.mapbar.com';
 export default class DriveLineMarkAnalysis extends Component {

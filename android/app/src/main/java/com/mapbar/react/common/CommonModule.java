@@ -86,7 +86,12 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     @ReactMethod
     public void pauseAudioPlay(Promise promise) {
         MediaPlayerOperation.pause(promise);
+    }
 
+    //暂停播放后恢复播放
+    @ReactMethod
+    public void resumeAudioPlay() {
+        MediaPlayerOperation.resume();
     }
 
     //获取录音总时长
@@ -99,7 +104,22 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     @ReactMethod
     public void getPlayAudioPosition(Promise promise) {
         MediaPlayerOperation.getCurrentPosition(promise);
+    }
 
+    //指定到播放位置。
+    @ReactMethod
+    public void seekTo(int millis,Promise promise) {
+        MediaPlayerOperation.seekTo(millis,promise);
+    }
+
+    //获取录音音频，用于页面声音波动动画。
+    @ReactMethod
+    public void getVoiceLevel(int millis,Promise promise) {
+        MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
+        int voiceLevel = mAudioManager.getVoiceLevel(millis);
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putInt("voiceLevel", voiceLevel);
+        promise.resolve(writableMap);
     }
 
     @Override

@@ -13,7 +13,7 @@ import {
 
 import Env from '../utils/Env';
 import TopBanner from './TopBanner';
-import CancelButton from './CancelButton.android';
+import CancelButton from './CancelButton';
 const estyle = Env.style;
 
 

@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    TextInput,ToastAndroid
+    TextInput
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -15,6 +15,7 @@ import {IconBarcode} from '../../../components/Icons'
 import { getCarList } from '../../../services/UserService';
 import Env from '../../../utils/Env';
 import UpdateDriverCard from './UpdateDriverCard';
+import Toast from '../../../components/Toast';
 
 const estyle = Env.style;
 
@@ -36,7 +37,7 @@ export default class AddCar extends Component {
                     this.props.router.push(UpdateDriverCard);
                 })
                 .catch((e)=>{
-                    ToastAndroid.show(e.message, ToastAndroid.SHORT);
+                    Toast.show(e.message, Toast.SHORT);
                 })
         }
     }

@@ -10,13 +10,13 @@ import {
 	Text,
 	StatusBar,
 	Linking,
-	ToastAndroid,
 	DeviceEventEmitter,
 	NetInfo,
 	Switch,
 	NativeModules
 } from 'react-native';
 
+import Toast from '../components/Toast';
 import { MessageActions } from '../actions/index';
 
 import Guide2 from './guide2';
@@ -42,7 +42,7 @@ class Main extends Component {
 			if (supported) {
 				Linking.openURL(url);
 			} else {
-				ToastAndroid.show('拨打电话' + url + '失败', ToastAndroid.SHORT);
+				Toast.show('拨打电话' + url + '失败', Toast.SHORT);
 			}
 		});
 	};

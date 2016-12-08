@@ -9,7 +9,6 @@ import {
 	TextInput,
 	View,
 	TouchableOpacity,
-	ToastAndroid,
 	StyleSheet
 } from 'react-native';
 
@@ -20,6 +19,10 @@ import LabelInput from '../../../components/LabelInput';
 import SubmitButton from '../../../components/SubmitButton';
 import { modifyUserInfo } from '../../../services/UserService';
 import HomeRouter from '../../HomeRouter';
+
+import Env from '../../../utils/Env';
+
+const estyle = Env.style;
 
 const getBLen = function(str) {
     if (str == null) return 0;

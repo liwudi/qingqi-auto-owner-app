@@ -17,7 +17,7 @@ import * as instance from './MapbarMapInstance';
 import Env from '../utils/Env';
 import Button from '../components/widgets/Button';
 import * as Icons from '../components/Icons';
-const eStyles = Env.style;
+const estyle = eStyles = Env.style;
 export default class MapbarMap extends Component {
     constructor() {
         super();

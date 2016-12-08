@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    TextInput,ToastAndroid
+    TextInput
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -13,6 +13,7 @@ import ConfirmButton from '../../../components/ConfirmButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import { addCar } from '../../../services/AppService';
+import Toast from '../../../components/Toast';
 import MyCar from '../../home/my-car/MyCar';
 const estyle = Env.style;
 
@@ -37,12 +38,12 @@ export default class AddCarPostCarCode extends Component {
         if (LabelInput.Validate(this.refs)) {
             addCar(this.state)
                 .then(()=>{
-                    ToastAndroid.show('添加成功', ToastAndroid.SHORT);
+                    Toast.show('添加成功', Toast.SHORT);
                     this.props.router.popN(3);
                     this.props.router.replace(MyCar);
                 })
                 .catch((e)=>{
-                    ToastAndroid.show(e.message, ToastAndroid.SHORT);
+                    Toast.show(e.message, Toast.SHORT);
                 })
         }
     }

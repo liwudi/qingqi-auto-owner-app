@@ -5,9 +5,9 @@ import React, {Component} from 'react';
 import {Platform, TouchableHighlight, View, Text, StyleSheet, Modal} from 'react-native';
 
 import Env from '../../../../utils/Env';
-import ModalBox from '../../../../components/widgets/Modal.android';
-import ConfirmButton from '../../../../components/ConfirmButton.android'
-import CancelButton from '../../../../components/CancelButton.android';
+import ModalBox from '../../../../components/widgets/Modal';
+import ConfirmButton from '../../../../components/ConfirmButton'
+import CancelButton from '../../../../components/CancelButton';
 import Toast from '../../../../components/Toast';
 const estyle = Env.style;
 import ImageResizer from 'react-native-image-resizer';

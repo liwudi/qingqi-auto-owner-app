@@ -7,7 +7,6 @@ import {
     Text,
     View,
     TextInput,TouchableOpacity,
-    ToastAndroid
 } from 'react-native';
 
 import { AddCarAction, TYPES} from '../../../actions/index';
@@ -19,6 +18,8 @@ import AddCarList from './AddCarList';
 import ListTitle from '../../../components/ListTitle';
 import AddCarVinAdd from './AddCarVinAdd';
 const estyle = Env.style, pattern = Env.pattern;
+
+import Toast from '../../../components/Toast';
 
 
 class AddCar extends Component {
@@ -40,7 +41,7 @@ class AddCar extends Component {
     //未查询到车辆信息去填写Vin码页
     toVin(info){
         //this.props.router.push(AddCarVinAdd,{carInfo: info});
-        ToastAndroid.show('你填写的信息没有查到关联车辆，请确认信息是否填写正确。', ToastAndroid.LONG);
+        Toast.show('你填写的信息没有查到关联车辆，请确认信息是否填写正确。', Toast.LONG);
     }
 
     nextStep () {
