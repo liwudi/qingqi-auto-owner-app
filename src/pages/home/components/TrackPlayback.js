@@ -33,9 +33,8 @@ export default class TrackPlayback extends Component {
 		).then((data) => {
 
 			if(!data.lons) {
-				this.setState({animating: false});
+				data = null;
 				Toast.show('没有行程轨迹', Toast.SHORT);
-				return;
 			}
 		//	console.info('success-rrrr')
 			this.time = Math.random();
