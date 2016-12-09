@@ -50,7 +50,7 @@ export default class AddCarPostCarCode extends Component {
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="添加车辆" onPress={() => this.toList}/>
+                <TopBanner {...this.props} title="添加车辆"/>
                 <LabelInput
                     style={[estyle.marginTop, estyle.borderBottom]}
                     ref="carNumber"

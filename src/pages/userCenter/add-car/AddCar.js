@@ -6,12 +6,12 @@ import {connect} from 'react-redux'
 import {
     Text,
     View,
-    TextInput,TouchableOpacity,
+    TextInput,TouchableOpacity,Keyboard
 } from 'react-native';
 
 import { AddCarAction, TYPES} from '../../../actions/index';
 import TopBanner from '../../../components/TopBanner';
-import ConfirmButton from '../../../components/ConfirmButton';
+import SubmitButton from '../../../components/SubmitButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import AddCarList from './AddCarList';
@@ -26,6 +26,7 @@ class AddCar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            doing: false,
             invoiceNo:'',
             identityCard:''
         };
@@ -36,16 +37,26 @@ class AddCar extends Component {
 
     //查询到车辆信息去添加车辆列表
     toList(info){
+        this.setState({
+            doing: false
+        });
         this.props.router.push(AddCarList,{carInfo: info});
     }
     //未查询到车辆信息去填写Vin码页
     toVin(info){
+        this.setState({
+            doing: false
+        });
         //this.props.router.push(AddCarVinAdd,{carInfo: info});
         Toast.show('你填写的信息没有查到关联车辆，请确认信息是否填写正确。', Toast.LONG);
     }
 
     nextStep () {
         if (LabelInput.Validate(this.refs)) {
+            Keyboard.dismiss();
+            this.setState({
+                doing: true
+            });
             this.props.dispatch(AddCarAction.getCarList(this.state, this.toList.bind(this),this.toVin.bind(this)));
         }
     }
@@ -86,7 +97,7 @@ class AddCar extends Component {
                     <Text style={[estyle.text]}>&nbsp;</Text>
                 </View>
                 <View style={[estyle.fxRowCenter]}>
-                    <ConfirmButton size="large" onPress={this.nextStep.bind(this)}>下一步</ConfirmButton>
+                    <SubmitButton doing={this.state.doing} size="large" onPress={this.nextStep.bind(this)}>下一步</SubmitButton>
                 </View>
             </View>
         );

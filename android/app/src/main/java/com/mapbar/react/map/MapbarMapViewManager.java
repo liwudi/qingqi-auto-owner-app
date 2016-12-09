@@ -10,6 +10,7 @@ import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.mapbar.map.ScaleView;
 import com.mapbar.react.LogUtils;
 import com.mapbar.react.map.config.Constants;
 
@@ -40,6 +41,11 @@ public class MapbarMapViewManager extends SimpleViewManager<MapbarMapView> {
     @Override
     protected MapbarMapView createViewInstance(ThemedReactContext reactContext) {
         MapbarMapView mapView = new MapbarMapView(reactContext);
+        mapView.enableShowBuiltInControl(true);
+        ScaleView sv = mapView.getScaleView();
+        sv.setX(-200);
+        sv.setY(0);
+        mapView.setScaleView(sv);
         LogUtils.logd(TAG, LogUtils.getThreadName() + "--MapView--" + mapView.hashCode());
         return mapView;
     }

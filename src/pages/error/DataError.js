@@ -28,7 +28,7 @@ export default class Error extends Component {
 	}
 	renderNetError () {
 		return <View style={[estyle.fx1]}>
-			<TopBanner title="网络请求失败" leftShow={false}/>
+			<TopBanner {...this.props} title="网络请求失败" leftShow={false}/>
 			<View style={[estyle.fx1, estyle.fxCenter, estyle.marginBottom]}>
 				<IconChainBroken size={Env.font.base *160} color={Env.color.note}/>
 				<Text style={[estyle.articleTitle, {color:Env.color.text, textAlign: 'center'}, estyle.marginTop]}>网络请求失败</Text>
@@ -39,7 +39,7 @@ export default class Error extends Component {
 	}
 	renderDataError() {
 		return <View style={[estyle.fx1]}>
-			<TopBanner title="数据加载失败" leftShow={false}/>
+			<TopBanner {...this.props} title="数据加载失败" leftShow={false}/>
 			<View style={[estyle.fx1, estyle.fxCenter, estyle.marginBottom]}>
 				<Image style={[{width: Env.font.base * 343, height: Env.font.base * 199}]} source={require('../../assets/images/data-error.png')}/>
 				<Text style={[estyle.articleTitle, {color:Env.color.text, textAlign: 'center'}, estyle.marginVertical]}>数据加载失败</Text>
