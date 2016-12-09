@@ -64,7 +64,7 @@ function resultProcessor(result) {
     if (result.status === 200 || result.code === 200 || result.resultCode === 200) {
         console.info('success-result');
         console.info(result);
-        return Promise.resolve(result.data || {} );
+        return Promise.resolve(result.data || {noResult: true} );
     } else {
         console.info('error-result');
         console.info(result);
