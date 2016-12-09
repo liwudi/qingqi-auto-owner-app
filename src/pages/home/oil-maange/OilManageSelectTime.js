@@ -6,15 +6,16 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet,DatePickerAndroid,
-    ToastAndroid
+    StyleSheet,DatePickerAndroid
 } from 'react-native';
+import moment from 'moment';
 
 import TopBanner from '../../../components/TopBanner';
 import OilManageSetMark from './OilManageSetMark';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import ConfirmButton from '../../../components/ConfirmButton';
 import Env from '../../../utils/Env';
+import Toast from '../../../components/Toast';
 const estyle = Env.style;
 
 export default class OilManageCarList extends Component {
@@ -33,36 +34,47 @@ export default class OilManageCarList extends Component {
                     :
                 this.state.endDate ? new Date(this.state.endDate.split('.')[0],this.state.endDate.split('.')[1]-1,this.state.endDate.split('.')[2]) : new Date()
             }
-        )
-            .then((obj) => {
-                let month= obj.month < 9 ? '0'+(obj.month+1) : obj.month+1,
-                    day= obj.day < 10 ? '0'+obj.day : obj.day;
-                if (obj.action !== DatePickerAndroid.dismissedAction) {
-                    if (type == 'start') {
-                        this.setState({beginDate: obj.year + '.' + month + '.' + day});
-                    } else if (type == 'end') {
-                        this.setState({endDate: obj.year + '.' + month + '.' + day});
-                    }
+        ).then((obj) => {
+            let month= obj.month < 9 ? '0'+(obj.month+1) : obj.month+1,
+                day= obj.day < 10 ? '0'+obj.day : obj.day;
+            if (obj.action !== DatePickerAndroid.dismissedAction) {
+                if (type == 'start') {
+                    this.setState({beginDate: obj.year + '.' + month + '.' + day});
+                } else if (type == 'end') {
+                    this.setState({endDate: obj.year + '.' + month + '.' + day});
                 }
-            }).catch()
+            }
+        }).catch()
+
     }
     goBack(){
-/*        let start=this.state.beginDate.split('.')[0]+this.state.beginDate.split('.')[1]+this.state.beginDate.split('.')[2],
-            end=this.state.endDate.split('.')[0]+this.state.endDate.split('.')[1]+this.state.endDate.split('.')[2];
-        if(end - start < 0){
-            ToastAndroid.show('结束时间不能小于开始时间', ToastAndroid.SHORT);
-        }else if(end - start >6){
-            ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
-        }else {*/
-        let sl = 7 * 24 * 60 * 60 * 1000; //七天的时间间隔，单位：ms
-        console.info(this.state.beginDate)
-        console.info(this.state.endDate)
-        let start_ = this.state.beginDate.split('.'), end_ = this.state.endDate.split('.');
-        let start = new Date(...start_).getTime(), end = new Date(...end_).getTime();
-        if(end < start){
-            ToastAndroid.show('结束时间不能小于开始时间', ToastAndroid.SHORT);
+        moment().subtract(1, 'days').format('YYYYMMDD');
+        let oneDayMs = 24 * 60 * 60 * 1000, //1天的时间间隔，单位：
+            sl = 7 * oneDayMs, //七天
+            days = 91 * oneDayMs;   //90天
+
+
+
+        let start_ = this.state.beginDate.split('.'), end_ = this.state.endDate.split('.'),
+            today_ = moment().format('YYYY.MM.DD').split('.');
+
+        let getMonth = (v, k) => {
+            return k === 1 ? +v - 1 : v;
+        };
+
+        let start = new Date(...(start_.map(getMonth))).getTime(),
+            end = new Date(...(end_.map(getMonth))).getTime(),
+            today = new Date(...(today_.map(getMonth))).getTime();
+        days = today - days;
+
+        if(start < days || end < days) {
+            Toast.show('小于90天前的那个日子', Toast.SHORT);
+        } else if(start >= today || end >= today) {
+            Toast.show('大于等于今天，所以不能选', Toast.SHORT);
+        } else if(end < start){
+            Toast.show('结束时间不能小于开始时间', Toast.SHORT);
         }else if(end - start >= sl){
-            ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
+            Toast.show('时间区间不能大于7天', Toast.SHORT);
         }else {
             this.props.update({
                 beginDate: start_.join(''),

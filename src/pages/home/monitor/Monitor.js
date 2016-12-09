@@ -30,9 +30,6 @@ export default class Monitor extends Component {
         };
     }
 
-    goToMap(carId) {
-        this.props.router.replace(MonitorMap, {nav: {carId: carId}});
-    }
 
     clearTimer() {
         this.timer = clearTimeout(this.timer);
@@ -49,6 +46,9 @@ export default class Monitor extends Component {
         }, TIMEOUT);
     }
 
+    goToMap(carId) {
+        this.props.router.replace(MonitorMap, {nav: {carId: carId}});
+    }
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
