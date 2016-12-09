@@ -30,9 +30,6 @@ export default class Monitor extends Component {
         };
     }
 
-    goToMap(carId) {
-        this.props.router.replace(MonitorMap, {nav: {carId: carId}});
-    }
 
     clearTimer() {
         this.timer = clearTimeout(this.timer);
@@ -72,7 +69,7 @@ export default class Monitor extends Component {
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
                         return <MyCarItem data={row} onPress={() => {
-                            this.goToMap(row.carId);
+                            this.props.router.replace(MonitorMap, {nav: {carId: row.carId}});
                         }}/>
                     }}
                     fetchData={(pageNumber, pageSize) => {

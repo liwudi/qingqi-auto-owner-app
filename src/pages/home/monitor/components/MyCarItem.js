@@ -37,10 +37,13 @@ export default class MyCarItem extends Component {
         }, TIMEOUT * 1000);
     }
 
-    setData(data) {
+    setData(data={}) {
 /*        console.info('---------------------------')
         console.info(data)*/
-        data.carNo && (data.carCode = data.carNo);
+        let _data = this.state.data;
+        data.carCode = data.carCode || data.carNo || _data.carCode || _DATA.carNo;
+        //data.carId = data.carId || _data.carId;
+        //data.carNo && (data.carCode = data.carNo);
         this.setState({data});
     }
 

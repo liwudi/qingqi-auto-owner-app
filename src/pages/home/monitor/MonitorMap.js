@@ -106,8 +106,15 @@ export default class MonitorMap extends Component {
     }
 
     fetchDataSingleInit() {
-        queryRealTimeCar({carId: this.monitorCarId}).then((data = {}) => {
-            this.setSingleData(data, true);
+        queryRealTimeCar({carId: this.monitorCarId}).then((data) => {
+            console.info('single init then')
+            console.info(data)
+            if(data.noResult) {
+                Toast.show('没有获取车辆信息', Toast.SHORT);
+            }
+            else {
+                this.setSingleData(data, true);
+            }
         }).catch(() => {
             console.info('single init catch')
             Toast.show('获取车辆信息异常', Toast.SHORT);
@@ -227,11 +234,9 @@ export default class MonitorMap extends Component {
 
     setMarker() {
         let list = this.list || [];
-        //    console.info(list)
         if (list.length) {
             this.markers = [];
             this.markers_d = [];
-//            this.markers.length = this.markers_d.length = 0;
             list.forEach((item, idx) => {
                 list['carId_' + item.carId] = item;
                 this.addMarkerOpts(item, idx);
