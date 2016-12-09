@@ -75,9 +75,10 @@ export default class BarChart extends Component {
 						backgroundColor,
 						width,
 						height,
-						alignItems:'center'
+						alignItems:'center',
+						position:'relative'
 					}}
-				><Text style={{color:'#FFF'}}>{dataPoint}</Text></View>
+				><Text style={{color:'#000000',position:'absolute',top:-30}}>{dataPoint}</Text></View>
 			</TouchableWithoutFeedback>
 		);
 	};

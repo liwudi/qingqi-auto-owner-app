@@ -170,6 +170,7 @@ export default class Chart extends Component {
 											containerWidth={this.state.containerWidth}
 											maxVerticalBound={this.state.bounds.max}
 											style={{ width: this.props.yAxisWidth }}
+											verticalGridStep={this.state.bounds.max / 50}
 										/>
 									</View>
 									<ChartType

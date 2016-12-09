@@ -41,6 +41,7 @@ export default class MyLineSetMaxSpeed extends Component {
 						placeholder='输入最高车速'
 						ref="maxSpeed"
 						keyboardType="numeric"
+						autoFocus={true}
 						maxLength={10}
 						defaultValue={this.props.maxSpeed}
 						onChangeText={maxSpeed => this.setState({maxSpeed:maxSpeed})}/>

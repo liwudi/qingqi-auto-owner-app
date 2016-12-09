@@ -170,14 +170,14 @@ export default class CarDetail extends Component {
                                     data.mainDriverPhoneNum && this.props.callTo(data.mainDriverPhoneNum);
                                 }
                             }>
-                                <Text style={[estyle.text, {
-                                    color: Env.color.note,
-                                    textAlign: 'right'
-                                }]}>{data.mainDriver || '无'}</Text>
                                 {
                                     data.mainDriver ?
                                         <IconCall color={Env.color.main} size={Env.vector.call.size}/> : null
                                 }
+                                <Text style={[estyle.text, {
+                                    color: Env.color.note,
+                                    textAlign: 'right'
+                                }]}>{data.mainDriver || '无'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -193,14 +193,14 @@ export default class CarDetail extends Component {
                                     data.subDriverPhoneNum && this.props.callTo(data.subDriverPhoneNum);
                                 }
                             }>
-                                <Text style={[estyle.text, {
-                                    color: Env.color.note,
-                                    textAlign: 'right'
-                                }]}>{data.subDriver || '无'}</Text>
                                 {
                                     data.subDriver ?
                                         <IconCall color={Env.color.main} size={Env.vector.call.size}/> : null
                                 }
+                                <Text style={[estyle.text, {
+                                    color: Env.color.note,
+                                    textAlign: 'right'
+                                }]}>{data.subDriver || '无'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

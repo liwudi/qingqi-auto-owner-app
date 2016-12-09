@@ -348,7 +348,7 @@ export default class MyLineAdd extends Component {
                             }
                             this.props.router.push(MyLineSetMaxSpeed, {
                                 submit: this._modifyMaxSpeed.bind(this),
-                                maxSpeed : this.state.routeInfo.maxSpeed + ''
+                                maxSpeed : (this.state.routeInfo.maxSpeed || '') + ''
                             });
                         }}
                         color={Env.color.main}
@@ -363,7 +363,7 @@ export default class MyLineAdd extends Component {
                             }
                             this.props.router.push(MyLineSetOilwearLimit, {
                                 submit: this._modifyOilwearLimit.bind(this),
-                                oilwearLimit : this.state.routeInfo.oilwearLimit + ''
+                                oilwearLimit : (this.state.routeInfo.oilwearLimit || '') + ''
                             });
                         }}
                         color={Env.color.main}

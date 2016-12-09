@@ -39,7 +39,8 @@ export default class MyLineSetOilwearLimit extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder='输入总油耗限制'
 						ref="oilwearLimit"
-						keyboardType="numeric"
+						keyboardType="numbers-and-punctuation"
+						autoFocus={true}
 						maxLength={10}
 						defaultValue={this.props.oilwearLimit}
 						onChangeText={oilwearLimit => this.setState({oilwearLimit})}/>

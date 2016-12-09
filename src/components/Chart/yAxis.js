@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default class YAxis extends Component<void, any, any> {
+export default class YAxis extends Component {
 
 	static propTypes = {
 		axisColor: PropTypes.any,
@@ -26,16 +26,16 @@ export default class YAxis extends Component<void, any, any> {
 		yAxisTransform: PropTypes.func,
 	};
 
-	static defaultProps : any = {
+	static defaultProps = {
 		placement: 'left',
 	};
 
-	constructor(props : any) {
+	constructor(props) {
 		super(props);
 		this.state = { bounds: { min: 0, max: 0 } };
 	}
 
-	_createLabelForYAxis = (index : number) => {
+	_createLabelForYAxis = (index) => {
 		let minBound = this.props.minVerticalBound;
 		let maxBound = this.props.maxVerticalBound;
 
