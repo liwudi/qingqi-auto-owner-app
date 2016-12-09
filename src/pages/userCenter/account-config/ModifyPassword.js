@@ -87,8 +87,8 @@ class ModifyPassword extends Component {
 						placeholder='当前密码'
 						labelSize={3}
 						validates={[
-							{require:true, msg: '请填写当前密码'},
-							{pattern:pattern.password, msg: '当前密码格式错误'}
+							{require:true, msg: '请输入当前密码'},
+							{pattern:pattern.password, msg: '当前密码请输入6-20位半角字符，建议数字、字母、符号组合'}
 						]}
 					/>
 					<PasswordInput
@@ -98,8 +98,8 @@ class ModifyPassword extends Component {
 						label="新密码"
 						labelSize={3}
 						validates={[
-							{require:true, msg: '请填写新密码'},
-							{pattern:pattern.password, msg: '新密码格式错误'}
+							{require:true, msg: '请输入新密码'},
+							{pattern:pattern.password, msg: '新密码请输入6-20位半角字符，建议数字、字母、符号组合'}
 						]}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>

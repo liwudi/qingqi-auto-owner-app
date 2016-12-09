@@ -38,12 +38,14 @@ class FindPasswordNewPassword extends Component {
 	}
 
 	onModifyPassword(){
-		this.props.dispatch(UserActions.findPasswordNewPassword(this.phone, this.state.password,this.smsCode, () => {
-            Toast.show('恭喜您设置密码成功！', Toast.SHORT);
-            setTimeout(() => {
-                this.props.router.resetTo(Login);
-			},500);
-		}));
+        if (PasswordInput.Validate(this.refs)) {
+            this.props.dispatch(UserActions.findPasswordNewPassword(this.phone, this.state.password,this.smsCode, () => {
+                Toast.show('恭喜您设置密码成功！', Toast.SHORT);
+                setTimeout(() => {
+                    this.props.router.resetTo(Login);
+                },500);
+            }));
+        }
 	}
 
 	render() {

@@ -28,6 +28,9 @@ export default class MyDriverEdit extends Component {
     }
 
 	componentDidMount() {
+        if (this.state.registerStatus === 1) {
+            this.props.alert("提示", `用户【${this.props.nav.name}】已经注册为APP用户，不可以编辑`);
+        }
 	}
 
 	/**
@@ -59,7 +62,7 @@ export default class MyDriverEdit extends Component {
 	 * 移除xxx司机
 	 */
 	delete () {
-		Alert.alert('提示',
+        this.props.alert('提示',
 			`是否从车队中删除【${this.props.nav.name}】司机？`,
 			[
 				{text: '确定', onPress: this._delete.bind(this)},
@@ -128,7 +131,8 @@ export default class MyDriverEdit extends Component {
                         defaultValue={this.state.name}
                         onChangeText={name => this.setState({name})}
                         validates={[{require:true, msg:"请输入司机姓名。"}]}
-                    />
+						editable={this.state.registerStatus !== 1}
+					/>
                     <PhoneInput
                         style = {[estyle.borderBottom]}
                         placeholder='请填写司机手机号'
@@ -138,6 +142,7 @@ export default class MyDriverEdit extends Component {
                         ref="phone"
                         onChangeText={phone => this.setState({phone})}
 						require={true}
+						editable={this.state.registerStatus !== 1}
                     />
 					<View style={[estyle.paddingVertical,estyle.fxRow]} >
 						<SubmitButton size="middle" style={[estyle.marginRight]} onPress={() => this.call()}>呼叫</SubmitButton>
