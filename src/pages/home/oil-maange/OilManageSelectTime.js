@@ -6,8 +6,7 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet,DatePickerAndroid,
-    ToastAndroid
+    StyleSheet,DatePickerAndroid
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -15,6 +14,7 @@ import OilManageSetMark from './OilManageSetMark';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import ConfirmButton from '../../../components/ConfirmButton';
 import Env from '../../../utils/Env';
+import Toast from '../../../components/Toast';
 const estyle = Env.style;
 
 export default class OilManageCarList extends Component {
@@ -33,45 +33,40 @@ export default class OilManageCarList extends Component {
                     :
                 this.state.endDate ? new Date(this.state.endDate.split('.')[0],this.state.endDate.split('.')[1]-1,this.state.endDate.split('.')[2]) : new Date()
             }
-        )
-            .then((obj) => {
-                let month= obj.month < 9 ? '0'+(obj.month+1) : obj.month+1,
-                    day= obj.day < 10 ? '0'+obj.day : obj.day;
-                if (obj.action !== DatePickerAndroid.dismissedAction) {
-                    if (type == 'start') {
-                        this.setState({beginDate: obj.year + '.' + month + '.' + day});
-                    } else if (type == 'end') {
-                        this.setState({endDate: obj.year + '.' + month + '.' + day});
-                    }
+        ).then((obj) => {
+            let month= obj.month < 9 ? '0'+(obj.month+1) : obj.month+1,
+                day= obj.day < 10 ? '0'+obj.day : obj.day;
+            if (obj.action !== DatePickerAndroid.dismissedAction) {
+                if (type == 'start') {
+                    this.setState({beginDate: obj.year + '.' + month + '.' + day});
+                } else if (type == 'end') {
+                    this.setState({endDate: obj.year + '.' + month + '.' + day});
                 }
-            }).catch()
+            }
+        }).catch()
+
     }
     goBack(){
-/*        let start=this.state.beginDate.split('.')[0]+this.state.beginDate.split('.')[1]+this.state.beginDate.split('.')[2],
-            end=this.state.endDate.split('.')[0]+this.state.endDate.split('.')[1]+this.state.endDate.split('.')[2];
-        if(end - start < 0){
-            ToastAndroid.show('结束时间不能小于开始时间', ToastAndroid.SHORT);
-        }else if(end - start >6){
-            ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
-        }else {*/
-        let sl = 7 * 24 * 60 * 60 * 1000; //七天的时间间隔，单位：ms
-      /*  console.info(this.state.beginDate)
-        console.info(this.state.endDate)*/
+        let oneDayMs = 24 * 60 * 60 * 1000, //1天的时间间隔，单位：
+            sl = 7 * oneDayMs, //七天
+            days = new Date().getTime() - 91 * oneDayMs;//90天
+
+
 
         let start_ = this.state.beginDate.split('.'), end_ = this.state.endDate.split('.');
 
         let getMonth = (v, k) => {
             return k === 1 ? +v - 1 : v;
         };
-        //console.info(start_, end_)
-        //console.info(new Date(...(start_.map(getMonth))), new Date(...(end_.map(getMonth))))
+
         let start = new Date(...(start_.map(getMonth))).getTime(),
             end = new Date(...(end_.map(getMonth))).getTime();
-        //console.info(start, end)
-        if(end < start){
-            ToastAndroid.show('结束时间不能小于开始时间', ToastAndroid.SHORT);
+        if(start < days || end < days) {
+            Toast.show('只能查询90天之内的数据', Toast.SHORT);
+        } else if(end < start){
+            Toast.show('结束时间不能小于开始时间', Toast.SHORT);
         }else if(end - start >= sl){
-            ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
+            Toast.show('时间区间不能大于7天', Toast.SHORT);
         }else {
             this.props.update({
                 beginDate: start_.join(''),

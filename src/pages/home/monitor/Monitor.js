@@ -46,6 +46,9 @@ export default class Monitor extends Component {
         }, TIMEOUT);
     }
 
+    goToMap(carId) {
+        this.props.router.replace(MonitorMap, {nav: {carId: carId}});
+    }
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
@@ -69,7 +72,7 @@ export default class Monitor extends Component {
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
                         return <MyCarItem data={row} onPress={() => {
-                            this.props.router.replace(MonitorMap, {nav: {carId: row.carId}});
+                            this.goToMap(row.carId);
                         }}/>
                     }}
                     fetchData={(pageNumber, pageSize) => {
