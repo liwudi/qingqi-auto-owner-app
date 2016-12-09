@@ -55,10 +55,19 @@ export default class OilManageCarList extends Component {
             ToastAndroid.show('时间区间不能大于7天', ToastAndroid.SHORT);
         }else {*/
         let sl = 7 * 24 * 60 * 60 * 1000; //七天的时间间隔，单位：ms
-        console.info(this.state.beginDate)
-        console.info(this.state.endDate)
+      /*  console.info(this.state.beginDate)
+        console.info(this.state.endDate)*/
+
         let start_ = this.state.beginDate.split('.'), end_ = this.state.endDate.split('.');
-        let start = new Date(...start_).getTime(), end = new Date(...end_).getTime();
+
+        let getMonth = (v, k) => {
+            return k === 1 ? +v - 1 : v;
+        };
+        //console.info(start_, end_)
+        //console.info(new Date(...(start_.map(getMonth))), new Date(...(end_.map(getMonth))))
+        let start = new Date(...(start_.map(getMonth))).getTime(),
+            end = new Date(...(end_.map(getMonth))).getTime();
+        //console.info(start, end)
         if(end < start){
             ToastAndroid.show('结束时间不能小于开始时间', ToastAndroid.SHORT);
         }else if(end - start >= sl){
