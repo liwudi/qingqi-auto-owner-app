@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     StyleSheet,DatePickerAndroid
 } from 'react-native';
+import moment from 'moment';
 
 import TopBanner from '../../../components/TopBanner';
 import OilManageSetMark from './OilManageSetMark';
@@ -47,22 +48,29 @@ export default class OilManageCarList extends Component {
 
     }
     goBack(){
+        moment().subtract(1, 'days').format('YYYYMMDD');
         let oneDayMs = 24 * 60 * 60 * 1000, //1天的时间间隔，单位：
             sl = 7 * oneDayMs, //七天
-            days = new Date().getTime() - 91 * oneDayMs;//90天
+            days = 91 * oneDayMs;   //90天
 
 
 
-        let start_ = this.state.beginDate.split('.'), end_ = this.state.endDate.split('.');
+        let start_ = this.state.beginDate.split('.'), end_ = this.state.endDate.split('.'),
+            today_ = moment().format('YYYY.MM.DD').split('.');
 
         let getMonth = (v, k) => {
             return k === 1 ? +v - 1 : v;
         };
 
         let start = new Date(...(start_.map(getMonth))).getTime(),
-            end = new Date(...(end_.map(getMonth))).getTime();
+            end = new Date(...(end_.map(getMonth))).getTime(),
+            today = new Date(...(today_.map(getMonth))).getTime();
+        days = today - days;
+
         if(start < days || end < days) {
-            Toast.show('只能查询90天之内的数据', Toast.SHORT);
+            Toast.show('小于90天前的那个日子', Toast.SHORT);
+        } else if(start >= today || end >= today) {
+            Toast.show('大于等于今天，所以不能选', Toast.SHORT);
         } else if(end < start){
             Toast.show('结束时间不能小于开始时间', Toast.SHORT);
         }else if(end - start >= sl){
