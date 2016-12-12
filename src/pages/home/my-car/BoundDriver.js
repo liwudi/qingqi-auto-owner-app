@@ -20,7 +20,7 @@ import {queryDriver, bindDriver,unbindDriver} from '../../../services/MyDriverSe
 import PageSectionList from '../../../components/PageSectionList';
 import LabelInput from '../../../components/LabelInput';
 import BorderButton from '../../../components/BorderButton';
-import {IconTrash} from '../../../components/Icons';
+import {IconSearch} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
 
 const estyle = Env.style;
@@ -32,18 +32,6 @@ export default class MyDriver extends Component {
             keyWord: '',
             alertCActive:false
         };
-    }
-
-    renderSearchView() {
-        if(this.state.isSearch) {
-            return <LabelInput
-                style = {[estyle.borderBottom]}
-                placeholder='请输入司机姓名或手机号'
-                label="搜索"
-                labelSize="3"
-                ref="keyWord"
-                onChangeText={keyWord => this.setState({keyWord:keyWord})}/>;
-        }
     }
     //解绑司机
     deleteDriver(){
@@ -102,7 +90,13 @@ export default class MyDriver extends Component {
                     title="选择司机"
                     rightView={ this.rightView.bind(this)() }
                 />
-                {this.renderSearchView()}
+                <LabelInput
+                    style = {[estyle.borderBottom,  estyle.marginBottom]}
+                    placeholder='请输入司机姓名或手机号'
+                    labelSize="0"
+                    ref="key"
+                    rightView={<IconSearch color={Env.color.note}/>}
+                    onChangeText={(keyWord) => {this.setState({keyWord})}}/>
                 <View style={[estyle.fx1]}>
                     <PageSectionList
                         ref="list"
