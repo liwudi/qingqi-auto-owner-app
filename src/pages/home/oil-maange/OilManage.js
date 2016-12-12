@@ -22,10 +22,11 @@ const estyle = Env.style;
 import Toast from '../../../components/Toast';
 import PageList from '../../../components/PageList';
 
-import Chart from '../../../components/Chart/Chart';
-
 import MyLineItem from './components/MyLineItem';
 import OilManageCarList from './OilManageCarList';
+
+import Echarts from '../../../components/ECharts';
+
 
 let currentDate = moment();
 function getWeekDays(num) {
@@ -42,21 +43,12 @@ export default class OilManage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentIndex:6,
+			currentIndex: 6,
 			weeks: getWeekDays(),
             datas: []
 		}
 		this.weekIndex = 0;
 	}
-
-    /**
-     * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
-     * */
-    backRender(){
-        this.setState({
-            isRender: new Date().getTime()
-        })
-    }
 
 	_preWeek(){
         this.weekIndex--;
@@ -90,10 +82,61 @@ export default class OilManage extends Component {
 
 	render() {
 
-		const data = this.state.weeks.map((date) => {
+        const option = {
+            title: {
+				show:false
+            },
+            tooltip: {
+            	show:false
+			},
+			grid:{
+            	x:50,
+				x2:20,
+            	y:10,
+				y2:40
+			},
+            legend: {
+                data:['油耗'],
+                show:false
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: '油耗',
+                type: 'bar',
+                data: []
+            }]
+        };
+
+		this.state.weeks.map((date, index) => {
 			let _d = this.state.datas.filter((item) => item.statisDate == date.format('YYYYMMDD'));
-			return [date.format('MM-DD'), (_d.length > 0 ? _d[0].oilwear : 0)]
+            option.xAxis.data.push(date.format('MM-DD'));
+            option.series[0].data.push({
+                value : _d.length > 0 ? _d[0].oilwear : 0,
+				itemValue: (_d[0] || {}),
+				index:index,
+				label:{
+                    normal:{show:true,position:'top'}
+				},
+                itemStyle:{
+                	normal:{color: Env.color.main},
+                    emphasis:{color: '#88C057'}
+                }
+            });
+
 		});
+
+		const chart = () => {
+			if(!this.chart || JSON.stringify(option) !== JSON.stringify(this.option || {})){
+				this.chart = <Echarts option={option} height={Env.font.base*340} onClick={e => {
+                    this.setState({currentIndex: e.index})
+                }}/>;
+				this.option = option;
+			}
+			return this.chart;
+		}
 
 		return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
@@ -108,23 +151,8 @@ export default class OilManage extends Component {
 						<Icons.IconArrowRight style={this.weekIndex >= 0 ? estyle.note : styles.textBlue}/>
 					</TouchableOpacity>
 				</View>
-				<Chart
-					style={{height:Env.screen.height * 0.3,backgroundColor:"#FFF"}}
-					data={data}
-					type="bar"
-					color={Env.color.main}
-					highlightColor={'#88C057'}
-					currentIndex={6}
-					widthPercent={1}
-					axisLineWidth={0.5}
-					gridLineWidth={0.1}
-					labelFontSize={Env.font.base * 24}
-					onDataPointPress={(e,v,k) => {
-						this.setState({currentIndex: k});
-					}}
-					hideVerticalGridLines={true}
-				/>
-				<View style={estyle.padding}><Text>线路油耗详情</Text></View>
+				{chart()}
+				<View style={estyle.padding}><Text>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 线路油耗详情</Text></View>
 				<PageList
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
 					renderRow={(row) => {
@@ -145,9 +173,9 @@ export default class OilManage extends Component {
 						)
 					}}
 					fetchData={(pageNumber, pageSize) => {
-						return statisRouteOilwearByDay(pageNumber, pageSize,this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
+						return statisRouteOilwearByDay(pageNumber, pageSize, this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
 					}}
-					reInitField={[this.state.currentIndex, this.state.datas, this.state.isRender]}
+					reInitField={[this.state.weeks[this.state.currentIndex].format('YYYYMMDD')]}
 				/>
 			</View>
 		);
