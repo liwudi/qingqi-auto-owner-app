@@ -63,12 +63,14 @@ const setBounds = (pt) => {
     maxLat = Math.max(maxLat, pt.latitude);
 };
 const bounds = () => {
-    return {
+    let bd = {
         min: {longitude: minLng,
             latitude: minLat},
         max: {longitude: maxLng,
             latitude: maxLat}
-    }
+    };
+    minLng = minLat = maxLng = maxLat = 0;
+    return bd;
 }
 function decodeData(data) {
     let result = [],
@@ -80,6 +82,8 @@ function decodeData(data) {
         oils = data.instantOils,
         directions = data.directions,
         length = lons.length;
+ /*   console.info(oils)
+    console.info(times)*/
     let lat = 0, lon = 0, level = 0, speed = 0, time = 0, oil = 0, direction = 0, pt, timeDiff = 0;
     for(let i = 0; i < length; i ++) {
         level = levels[i] || 0;
@@ -90,6 +94,9 @@ function decodeData(data) {
         speed += speeds[i];
         direction += directions[i];
         oil += oils[i];
+        /*if(i < 100) {
+            console.info('oil:', oils[i], oil, 'time:', times[i], new Date(time))
+        }*/
         pt = Object.assign(MPoint([lon, lat]), {
             time: time,
             timeDiff: timeDiff,
