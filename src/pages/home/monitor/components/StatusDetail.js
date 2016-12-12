@@ -33,6 +33,7 @@ export default class StatusDetail extends Component {
     }
     render() {
         let item = this.state.data;
+        console.info(item)
         return (
             <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
                 <View style={[estyle.fxRow]}>
@@ -46,8 +47,14 @@ export default class StatusDetail extends Component {
                             </View>
                         </View>
                         <Text style={[estyle.note,{color: Env.color.auxiliary}, estyle.marginFontBottom]}>车况：{item.msgTitle || "无"}</Text>
-                        <Text style={[estyle.note, estyle.marginFontBottom]}>{item.happenTime}</Text>
+                        {item.happenTime ? <Text style={[estyle.note, estyle.marginFontBottom]}>{item.happenTime}</Text> : null}
+                        <View style={[estyle.fxRow, estyle.fxRowCenter,estyle.marginFontBottom]}>
+                            <IconUser color='#FEBEBE'/><Text> </Text>
+                            <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver || '无'}</Text>
 
+                            <IconUser color='#C4DFFE'/><Text> </Text>
+                            <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver || '无'}</Text>
+                        </View>
                         <View style={[estyle.fxRow, estyle.fxRowCenter, estyle.marginFontBottom]}>
                             <Text style={[estyle.note]}>瞬时油耗：</Text>
                             <Text style={[estyle.note]}><Text style={{color: Env.color.main}}>{item.realtimeOil || 0}</Text>L/100Km</Text>

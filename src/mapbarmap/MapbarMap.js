@@ -21,6 +21,7 @@ const estyle = eStyles = Env.style;
 export default class MapbarMap extends Component {
     constructor() {
         super();
+        this.maxMapLevel = 16;
         this.options = {
             zoom: 0,
             center: {
@@ -57,40 +58,41 @@ export default class MapbarMap extends Component {
 
     zoomIn() {
         instance.zoomIn();
-    //    this.zoomTimeout(() => {
+        this.zoomTimeout(() => {
         instance.getZoomLevel().then((zoom) => {this.onZoomIn(zoom);});
-    //    })
+        })
     }
     zoomOut() {
         instance.zoomOut();
-    //    this.zoomTimeout(() => {
+        this.zoomTimeout(() => {
         instance.getZoomLevel().then((zoom) => {this.onZoomOut(zoom);});
-    //    })
+        })
     }
     zoomTimeout(fun) {
         this.zoomTimer && clearTimeout(this.zoomTimer);;
         this.zoomTimer = setTimeout(fun, 500);
     }
     onZoomIn(zoom) {
-        console.info('onZoomIn', zoom)
+    //    console.info('onZoomIn', zoom)
+      /*  let _zoom = zoom;
         zoom = Math.ceil(zoom);
-        if(zoom > 14) zoom = 14;
+        if(zoom > 14) zoom = 14;*/
         this.zoomTimeout(() => {
-            if(zoom == 14) Toast.show('已经是最大级别', Toast.SHORT);
-            this.props.onZoomIn && this.props.onZoomIn(zoom);
+            if(zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
+            this.props.onZoomIn && this.props.onZoomIn( Math.ceil(zoom));
         });
     }
     onZoomOut(zoom) {
-        console.info('onZoomOut', zoom)
-        zoom = Math.floor(zoom);
-        if(zoom < 0) zoom = 0;
+    //    console.info('onZoomOut', zoom)
+     /*   zoom = Math.floor(zoom);
+        if(zoom < 0) zoom = 0;*/
         this.zoomTimeout(() => {
             if(zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
-            this.props.onZoomOut && this.props.onZoomOut(zoom);
+            this.props.onZoomOut && this.props.onZoomOut(Math.floor(zoom));
         });
     }
     onSpan() {
-        console.info('span')
+    //    console.info('span')
         this.props.onSpan && this.props.onSpan();
     }
     onInit() {

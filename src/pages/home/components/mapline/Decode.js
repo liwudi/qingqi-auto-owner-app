@@ -90,12 +90,13 @@ function decodeData(data) {
         speed += speeds[i];
         direction += directions[i];
         oil += oils[i];
-        pt = Object.assign(MPoint([lon, lat, level]), {
+        pt = Object.assign(MPoint([lon, lat]), {
             time: time,
             timeDiff: timeDiff,
             speed: speed,
-            direction: direction,
-            oil: oil
+            direction: 360 - direction,
+            oil: oil,
+            levelGroup : level
         });
         setBounds(pt);
         result.push(pt);

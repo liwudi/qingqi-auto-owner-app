@@ -5,7 +5,7 @@ const SPEED_4 = 'SPEED_4';
 const SPEED_5 = 'SPEED_5';
 const SPEED_6 = 'SPEED_6';
 let getSpeedType = (speed) => {
-    if (0 < speed && speed <= 10) {
+    if (0 <= speed && speed <= 10) {
         return SPEED_1;
     } else if (10 < speed && speed <= 20) {
         return SPEED_2;
@@ -32,37 +32,103 @@ let getSpeedColor = (speedType) => {
             return '#FF1E1E';
     }
 };
-
-
-const get = (line) => {
-    let lines = [], _tmp1 = null;
-
-    line.map((_line, index) => {
-//console.info(_line)
-
-        _tmp1 = _tmp1 || {
-                locations: [],
-                speedType: getSpeedType(_line.oil)
-            };
-        if (_tmp1.locations.length === 0 && index > 0) {
-            _tmp1.locations.push({latitude: line[index - 1].latitude, longitude: line[index - 1].longitude});
+let maxLevel, minLevel;
+const inLevelRange = function(pt, mapLevel) {
+    if(mapLevel>=0 && mapLevel<=3 && pt.levelGroup==3) {
+        maxLevel = 3;
+        minLevel = 0;
+        return true;
+    } else if (mapLevel>=4 && mapLevel<=7 && pt.levelGroup>=2) {
+        maxLevel =7;
+        minLevel = 4;
+        return true;
+    } else if (mapLevel>=8 && mapLevel<=11 && pt.levelGroup>=1) {
+        maxLevel = 11;
+        minLevel = 8;
+        return true;
+    } else if (mapLevel>=12 && mapLevel<=18 && pt.levelGroup>=0) {
+        maxLevel = 18;
+        minLevel = 12;
+        return true;
+    } else{
+        return false;
+    }
+};
+const get = (line, mapLevel, paint) => {
+    let lines = [], _tmp1 = null, type = 'oil';
+    console.info('map level', mapLevel);
+    if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
+        let baseLocations = [],
+            baseType = 'SPEED_1',
+            speedType;
+        let baseLine = {
+            locations: baseLocations,
+            speedType: baseType
         }
-        _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude});
+        lines.push(baseLine);
 
-        if (index === line.length - 1 || getSpeedType(line[index + 1].oil) !== _tmp1.speedType) {
-            lines.push(Object.assign({}, _tmp1));
-            _tmp1 = null;
+        addBaseLine = (_line) => {
+            baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
         }
 
-    });
-    console.info(lines)
+        addTmpLine = (_line, index) => {
+            _tmp1 = _tmp1 || {
+                    locations: [],
+                    speedType: speedType
+                };
+            if (_tmp1.locations.length === 0 && index > 0) {
+                _tmp1.locations.push({
+                    latitude: line[index - 1].latitude,
+                    longitude: line[index - 1].longitude
+                });
+            }
+            _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude});
+            if (index === line.length - 1 || getSpeedType(line[index + 1][type]) !== _tmp1.speedType) {
+                lines.push(Object.assign({}, _tmp1));
+                _tmp1 = null;
+            }
+        }
+
+
+        line.map((_line, index) => {
+            speedType = getSpeedType(_line[type]);
+            if (inLevelRange(_line, mapLevel)) {
+                addBaseLine(_line);
+                //console.info(_line.levelGroup, _line[type], baseType, speedType, index);
+                if (speedType != baseType) {
+                    addTmpLine(_line, index);
+                }
+            } else {
+                if(index === 0 || index === line.length - 1) {
+                    addBaseLine(_line);
+                    if(index === line.length - 1) {
+                        _tmp1 = _tmp1 || {
+                                locations: [{
+                                    latitude: line[index - 1].latitude,
+                                    longitude: line[index - 1].longitude
+                                }],
+                                speedType: speedType
+                            };
+                    }
+
+                    addTmpLine(_line, index);
+                }
+            }
+        });
+        console.info(lines.length)
+        console.info('levelGroup', baseLocations[0].levelGroup)
+        console.info('baseLocations', baseLocations.length)
+    }
+
+
+
+    console.info('lines', lines.length)
     return lines.map((line, index) => {
-        console.info(line);
         line.isClose = false;
-        line.width = '10';
-        line.outlineColor = line.strokeColor = getSpeedColor(line.speedType);
-        //line.outlineColor = '#ff8c2b';
         line.lineId = index;
+        line.strokeColor = getSpeedColor(line.speedType);
+        line.width = index ? '8' : '12';
+        line.outlineColor = index ? line.strokeColor : '#666666';
         return line;
     });
 }

@@ -114,6 +114,7 @@ class MapView extends React.Component {
 
 MapView.name = 'MapView';
 MapView.propTypes = {
+    useBuiltInControl: PropTypes.bool,
     zoomLevel: PropTypes.number,
     worldCenter: PropTypes.object,
     forbidGesture: PropTypes.bool,

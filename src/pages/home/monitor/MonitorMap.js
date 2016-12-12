@@ -252,7 +252,7 @@ export default class MonitorMap extends Component {
             ox = 0.5,
             oy = 17,
             imageName = "res/icons/c100" + data.travelStatus + ".png",
-            direction = data.direction;
+            direction = 360 - data.direction;
         if (data.count > 1) {
             iconText = data.count.toString();
             ox = 0.2;

@@ -82,7 +82,6 @@ const legend = {
 }
 
 
-
 // 根据两个坐标获取连线的角度
 function getAngle(pt1, pt2) {
     var angle = 0;
@@ -111,7 +110,8 @@ function getAngle(pt1, pt2) {
 export default class MapLine extends Component {
     constructor() {
         super();
-        this.zoom = 0;
+        this.initZoom = 0;
+        this.zoom = this.initZoom;
         this.center = {
             longitude: 104.621367,
             latitude: 35.317133
@@ -131,13 +131,13 @@ export default class MapLine extends Component {
 
     initLine(data) {
         this.Map && this.Map.clearOverlays();
-        if(data) {
-        //    console.info(data)
+        if (data) {
+            //    console.info(data)
             data = Decode.setData(data);
-            if(data.length) {
+            if (data.length) {
                 line = data;
                 this.setState({dataLength: data.length});
-                this.addLine();
+                this.addLine(true);
                 this.addMarker();
                 this.addCar();
 
@@ -146,17 +146,9 @@ export default class MapLine extends Component {
             }
         }
     }
-    addLine() {
-        this.Line.clear();
-        if (this.playType === PLAY_TYPE_SPEED) {
-            this.addLineSpeed();
-        } else {
-            this.addLineOil();
-        }
-        this.moveCar(this.pointIndex);
-    }
+
     setTimes() {
-        if(!this.state.startTime) {
+        if (!this.state.startTime) {
             let stime = line[0].time,
                 etime = line[line.length - 1].time
             this.setState({
@@ -166,13 +158,15 @@ export default class MapLine extends Component {
             });
         }
     }
+
     setCurrentTimes(index) {
         this.setState({
             currentTime: line[index].time
         });
     }
+
     setBounds() {
-        if(!this.lineBounds) {
+        if (!this.lineBounds) {
             this.lineBounds = Decode.bounds();
             setTimeout(() => {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
@@ -180,14 +174,41 @@ export default class MapLine extends Component {
         }
     }
 
-    addLineSpeed() {
-        let lines = SpeedLine.get(line);
-        this.Line.add(lines);
+    onZoomChange(zoom) {
+        console.info('zoom', zoom)
+        this.zoom = zoom;
+        this.addLine();
     }
-    addLineOil(){
-        let lines = OilLine.get(line);
-        this.Line.add(lines);
+
+    addLine(paint) {
+        //this.Line.clear();
+        /* if (this.playType === PLAY_TYPE_SPEED) {
+         this.addLineSpeed();
+         } else {
+         this.addLineOil();
+         }*/
+        let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
+        if (lines.length) {
+            this.Line.clear();
+            this.Line.add([lines.shift()]);
+            this.Line.add(lines);
+        }
+        this.moveCar(this.pointIndex);
     }
+
+    /*    addLineSpeed() {
+     let lines = SpeedLine.get(line, this.zoom);
+     if(lines.length) {
+     this.Line.clear();
+     this.Line.add([lines.shift()]);
+     this.Line.add(lines);
+     }
+
+     }
+     addLineOil(){
+     let lines = OilLine.get(line);
+     this.Line.add(lines);
+     }*/
 
     addMarker() {
         let list = [line[0], line[line.length - 1]],
@@ -196,18 +217,18 @@ export default class MapLine extends Component {
         list.forEach((item, idx) => {
             let imageName = idx ? "ic_end" : "ic_start",
                 pt = item;
-                mkOpts = {
-                    longitude: pt.longitude,
-                    latitude: pt.latitude,
-                    imageName: imageName,
-                    iconText: '',
-                    iconTextColor: Env.color.main,
-                    iconTextSize: 14,
-                    id: idx,
-                    offsetX: .5,
-                    offsetY: .8,
-                    click: true
-                }
+            mkOpts = {
+                longitude: pt.longitude,
+                latitude: pt.latitude,
+                imageName: imageName,
+                iconText: '',
+                iconTextColor: Env.color.main,
+                iconTextSize: 14,
+                id: idx,
+                offsetX: .5,
+                offsetY: .8,
+                click: true
+            }
             markers.push(mkOpts);
             pts.push(pt);
         });
@@ -217,12 +238,13 @@ export default class MapLine extends Component {
     addCar() {
         let pt = line[0];
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.o,
-            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
+            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
+            direction = line[1].direction;
         title = title + unit;
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
-            title: '',
+            title: title,
             imageName: 'ic_mask',
             iconText: title,
             iconTextColor: Env.color.main,
@@ -238,10 +260,9 @@ export default class MapLine extends Component {
             longitude: pt.longitude,
             latitude: pt.latitude,
             id: this.carIdx,
-            title: '',
             click: true,
             imageName: "res/icons/c1002.png",
-            direction: pt.direction
+            direction: direction
         };
         this.MarkerRotate.add([mkOpts]);
         this.setCurrentTimes(0);
@@ -251,9 +272,10 @@ export default class MapLine extends Component {
         this.pointIndex = index;
         let pt = line[index];
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
-            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h': 'L/100km';
+            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
+            npt = index === line.length - 1 ? line[index] : line[index + 1];
         title = title + unit;
-     //   console.info(title)
+        //   console.info(title)
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
@@ -269,7 +291,7 @@ export default class MapLine extends Component {
             longitude: pt.longitude,
             latitude: pt.latitude,
             id: this.carIdx,
-            direction: pt.direction
+            direction: npt.direction
         };
         this.MarkerRotate.update([mkOpts]);
         this.setCurrentTimes(index);
@@ -290,10 +312,10 @@ export default class MapLine extends Component {
     }
 
     componentWillReceiveProps(props) {
-   //     console.info(this.rnTime, props.time)
-        if(this.rnTime != props.time) {
-/*            console.info('*****************************************************************')
-            console.info('---------------------------------------------------------------')*/
+        //     console.info(this.rnTime, props.time)
+        if (this.rnTime != props.time) {
+            /*            console.info('*****************************************************************')
+             console.info('---------------------------------------------------------------')*/
             this.initLine(props.data);
             this.rnTime = props.time;
         }
@@ -307,8 +329,9 @@ export default class MapLine extends Component {
             this.playType = PLAY_TYPE_SPEED;
             Toast.show(`已切换到速度模式`, Toast.SHORT);
         }
+        this.Line.clear();
         this.setState({playType: this.playType});
-        this.state.dataLength && this.addLine();
+        this.state.dataLength && this.addLine(true);
     }
 
     renderLegend() {
@@ -337,10 +360,17 @@ export default class MapLine extends Component {
     }
 
     renderTimes() {
-        return this.state.startTime ? <View style={[estyle.fxRow,estyle.fxCenter,estyle.paddingHorizontal,{paddingLeft:70,marginTop:-10,paddingBottom:5}]}>
-            <Text style={[estyle.text]}>{DateUtil.format(this.state.startTime,'MM-dd hh:mm')}</Text>
-            <Text style={[estyle.fx1,estyle.text,{textAlign:'center',color:Env.color.main}]}>{DateUtil.format(this.state.currentTime,'MM-dd hh:mm')}</Text>
-            <Text style={[estyle.text]}>{DateUtil.format(this.state.endTime,'MM-dd hh:mm')}</Text>
+        return this.state.startTime ? <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingHorizontal, {
+            paddingLeft: 70,
+            marginTop: -10,
+            paddingBottom: 5
+        }]}>
+            <Text style={[estyle.text]}>{DateUtil.format(this.state.startTime, 'MM-dd hh:mm')}</Text>
+            <Text style={[estyle.fx1, estyle.text, {
+                textAlign: 'center',
+                color: Env.color.main
+            }]}>{DateUtil.format(this.state.currentTime, 'MM-dd hh:mm')}</Text>
+            <Text style={[estyle.text]}>{DateUtil.format(this.state.endTime, 'MM-dd hh:mm')}</Text>
         </View> : null
     }
 
@@ -360,8 +390,14 @@ export default class MapLine extends Component {
                 {this.state.dataLength ? this.renderTimes() : null}
 
                 <MapbarMap legend={this.renderLegend()}
+                           zoom={this.initZoom}
                            center={this.center}
-                           zoom={this.zoom}
+                           onZoomIn={(zoom)=> {
+                               this.onZoomChange(zoom)
+                           }}
+                           onZoomOut={(zoom)=> {
+                               this.onZoomChange(zoom)
+                           }}
                            onInit={(instance)=> {
                                this.onInit(instance);
                            }}
