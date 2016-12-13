@@ -56,6 +56,60 @@ const inLevelRange = function(pt, mapLevel) {
 };
 const get = (line, mapLevel, paint) => {
     let lines = [], _tmp1 = null, type = 'oil';
+        console.info('map level', mapLevel);
+    if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
+        let baseLocations = [],
+            baseType = 'SPEED_1',
+            pts = [];
+        let baseLine = {
+            locations: baseLocations,
+            speedType: baseType
+        }
+        lines.push(baseLine);
+        addBaseLine = (_line) => {
+            baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
+        };
+        line.map((_line) => {
+            if (inLevelRange(_line, mapLevel)) {
+                addBaseLine(_line);
+                pts.push(Object.assign({}, _line));
+            }
+        });
+        pts.map((_line, index) => {
+            _tmp1 = _tmp1 || {
+                    locations: [],
+                    speedType: getSpeedType(_line[type])
+                };
+            if (_tmp1.locations.length === 0 && index > 0) {
+                _tmp1.locations.push({latitude: pts[index - 1].latitude, longitude: pts[index - 1].longitude});
+            }
+            _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude});
+
+            if (index === pts.length - 1 || getSpeedType(pts[index + 1][type]) !== _tmp1.speedType) {
+                lines.push(Object.assign({}, _tmp1));
+                _tmp1 = null;
+            }
+        });
+
+        console.info(lines.length)
+        console.info('levelGroup')
+        console.info('baseLocations', baseLocations.length)
+    }
+
+
+
+    console.info('lines', lines.length)
+    return lines.map((line, index) => {
+        line.isClose = false;
+        line.lineId = index;
+        line.strokeColor = getSpeedColor(line.speedType);
+        line.width = index ? '8' : '12';
+        line.outlineColor = index ? line.strokeColor : '#666666';
+        return line;
+    });
+};
+/*const get = (line, mapLevel, paint) => {
+    let lines = [], _tmp1 = null, type = 'oil';
     console.info('map level', mapLevel);
     if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
         let baseLocations = [],
@@ -131,7 +185,7 @@ const get = (line, mapLevel, paint) => {
         line.outlineColor = index ? line.strokeColor : '#666666';
         return line;
     });
-}
+}*/
 
 export default {
     get: get

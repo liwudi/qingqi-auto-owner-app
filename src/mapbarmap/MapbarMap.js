@@ -21,7 +21,7 @@ const estyle = eStyles = Env.style;
 export default class MapbarMap extends Component {
     constructor() {
         super();
-        this.maxMapLevel = 16;
+        this.maxMapLevel = 14;
         this.options = {
             zoom: 0,
             center: {

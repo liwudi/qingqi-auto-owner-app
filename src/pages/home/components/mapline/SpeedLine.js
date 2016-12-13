@@ -57,72 +57,52 @@ const inLevelRange = function (pt, mapLevel) {
 };
 const get = (line, mapLevel, paint) => {
     let lines = [], _tmp1 = null, type = 'speed';
+
     console.info('map level', mapLevel);
-    if (!(mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
+    if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
         let baseLocations = [],
             baseType = 'SPEED_1',
-            speedType;
+            pts = [];
         let baseLine = {
             locations: baseLocations,
             speedType: baseType
         }
         lines.push(baseLine);
-
         addBaseLine = (_line) => {
             baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
-        }
-
-        addTmpLine = (_line, index) => {
+        };
+        console.info(line.length, 'line.length')
+        line.map((_line) => {
+            if (inLevelRange(_line, mapLevel)) {
+                addBaseLine(_line);
+                pts.push(Object.assign({}, _line));
+            }
+        });
+        console.info(pts.length, 'pts.length')
+        pts.map((_line, index) => {
             _tmp1 = _tmp1 || {
                     locations: [],
-                    speedType: speedType
+                    speedType: getSpeedType(_line[type])
                 };
             if (_tmp1.locations.length === 0 && index > 0) {
-                _tmp1.locations.push({
-                    latitude: line[index - 1].latitude,
-                    longitude: line[index - 1].longitude
-                });
+                _tmp1.locations.push({latitude: pts[index - 1].latitude, longitude: pts[index - 1].longitude});
             }
             _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude});
-            if (index === line.length - 1 || getSpeedType(line[index + 1][type]) !== _tmp1.speedType) {
+
+            if (index === pts.length - 1 || getSpeedType(pts[index + 1][type]) !== _tmp1.speedType) {
                 lines.push(Object.assign({}, _tmp1));
                 _tmp1 = null;
             }
-        }
-
-
-        line.map((_line, index) => {
-            speedType = getSpeedType(_line[type]);
-            if (inLevelRange(_line, mapLevel)) {
-                addBaseLine(_line);
-                //console.info(_line.levelGroup, _line[type], baseType, speedType, index);
-                if (speedType != baseType) {
-                    addTmpLine(_line, index);
-                }
-            } else {
-                if (index === 0 || index === line.length - 1) {
-                    addBaseLine(_line);
-                    if (index === line.length - 1) {
-                        _tmp1 = _tmp1 || {
-                                locations: [{
-                                    latitude: line[index - 1].latitude,
-                                    longitude: line[index - 1].longitude
-                                }],
-                                speedType: speedType
-                            };
-                    }
-
-                    addTmpLine(_line, index);
-                }
-            }
         });
+
         console.info(lines.length)
-        console.info('levelGroup', baseLocations[0].levelGroup)
+        console.info('levelGroup')
         console.info('baseLocations', baseLocations.length)
     }
 
 
-    //console.info('lines', lines.length)
+
+    console.info('lines', lines.length)
     return lines.map((line, index) => {
         line.isClose = false;
         line.lineId = index;
@@ -131,8 +111,7 @@ const get = (line, mapLevel, paint) => {
         line.outlineColor = index ? line.strokeColor : '#666666';
         return line;
     });
-}
-
+};
 export default {
     get: get
 }
