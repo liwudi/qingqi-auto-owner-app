@@ -68,9 +68,9 @@ export default class OilManageCarList extends Component {
         days = today - days;
 
         if(start < days || end < days) {
-            Toast.show('小于90天前的那个日子', Toast.SHORT);
+            Toast.show('仅提供近90天（不含今天）的行驶轨迹查询。', Toast.SHORT);
         } else if(start >= today || end >= today) {
-            Toast.show('大于等于今天，所以不能选', Toast.SHORT);
+            Toast.show('仅提供近90天（不含今天）的行驶轨迹查询。', Toast.SHORT);
         } else if(end < start){
             Toast.show('结束时间不能小于开始时间', Toast.SHORT);
         }else if(end - start >= sl){
