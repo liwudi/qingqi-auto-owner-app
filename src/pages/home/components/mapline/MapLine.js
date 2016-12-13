@@ -137,12 +137,19 @@ export default class MapLine extends Component {
             if (data.length) {
                 line = data;
                 this.setState({dataLength: data.length});
-                this.addLine(true);
+                this.lineBounds = Decode.bounds();
+                setTimeout(() => {
+                    this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
+                    this.Map.getZoomLevel().then((zoom) => {
+                        this.zoom = +zoom;
+                        console.info(zoom, '------------------------------------------')
+                        this.addLine(true);
+                    });
+                }, 300);
+
                 this.addMarker();
                 this.addCar();
-
                 this.setTimes();
-                this.setBounds();
             }
         }
     }
@@ -165,14 +172,7 @@ export default class MapLine extends Component {
         });
     }
 
-    setBounds() {
-        //if (!this.lineBounds) {
-            this.lineBounds = Decode.bounds();
-            setTimeout(() => {
-                this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
-            }, 300)
-        //}
-    }
+
 
     onZoomChange(zoom) {
         console.info('zoom', zoom)
@@ -217,7 +217,7 @@ export default class MapLine extends Component {
     }
 
     addCar() {
-        let pt = line[0];
+        let pt = Object.assign({}, line[0]);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.o,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
             direction = line[1].direction;
@@ -251,7 +251,7 @@ export default class MapLine extends Component {
 
     moveCar(index) {
         this.pointIndex = index;
-        let pt = line[index];
+        let pt = Object.assign({}, line[index]);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
             npt = index === line.length - 1 ? line[index] : line[index + 1];
