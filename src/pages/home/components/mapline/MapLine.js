@@ -166,12 +166,12 @@ export default class MapLine extends Component {
     }
 
     setBounds() {
-        if (!this.lineBounds) {
+        //if (!this.lineBounds) {
             this.lineBounds = Decode.bounds();
             setTimeout(() => {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
             }, 300)
-        }
+        //}
     }
 
     onZoomChange(zoom) {
@@ -181,12 +181,6 @@ export default class MapLine extends Component {
     }
 
     addLine(paint) {
-        //this.Line.clear();
-        /* if (this.playType === PLAY_TYPE_SPEED) {
-         this.addLineSpeed();
-         } else {
-         this.addLineOil();
-         }*/
         let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
         if (lines.length) {
             this.Line.clear();
@@ -196,19 +190,6 @@ export default class MapLine extends Component {
         this.moveCar(this.pointIndex);
     }
 
-    /*    addLineSpeed() {
-     let lines = SpeedLine.get(line, this.zoom);
-     if(lines.length) {
-     this.Line.clear();
-     this.Line.add([lines.shift()]);
-     this.Line.add(lines);
-     }
-
-     }
-     addLineOil(){
-     let lines = OilLine.get(line);
-     this.Line.add(lines);
-     }*/
 
     addMarker() {
         let list = [line[0], line[line.length - 1]],
@@ -226,7 +207,7 @@ export default class MapLine extends Component {
                 iconTextSize: 14,
                 id: idx,
                 offsetX: .5,
-                offsetY: .8,
+                offsetY: .5,
                 click: true
             }
             markers.push(mkOpts);
