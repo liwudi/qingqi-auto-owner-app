@@ -13,6 +13,7 @@ import com.mapbar.android.statistics.api.MapbarMobStat;
 import com.mapbar.mapdal.Auth;
 import com.mapbar.mapdal.NativeEnv;
 import com.mapbar.mapdal.NativeEnvParams;
+import com.mapbar.mapdal.NaviCore;
 import com.mapbar.mapdal.SdkAuth;
 import com.mapbar.mapdal.WorldManager;
 import com.mapbar.react.LogUtils;
@@ -184,6 +185,8 @@ public class MainActivity extends ReactActivity {
         });
         // params.sdkAuthOfflineOnly=true;
         NativeEnv.init(getApplicationContext(), params);
+        NaviCore.getVersion();
+        //NativeEnv
         WorldManager.getInstance().init();
     }
 
