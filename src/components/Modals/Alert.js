@@ -23,7 +23,8 @@ export default class Alert extends Component {
                     <Text style={[estyle.text, estyle.marginHorizontal]}>{this.props.children}</Text>
                     <View style={[estyle.fxRow, estyle.fxCenter]}>
                         <ConfirmButton size="small" style={[estyle.margin]} onPress={this.props.onConfirm}>{this.props.confirmTitle || '确定'}</ConfirmButton>
-                        <CancelButton size="small" style={[estyle.margin]} onPress={this.props.onCancel} >{this.props.cancelTitle||'取消'}</CancelButton>
+                        {this.props.showCancel == false ? null
+                             : <CancelButton size="small" style={[estyle.margin]} onPress={this.props.onCancel} >{this.props.cancelTitle||'取消'}</CancelButton>}
                     </View>
                 </View>
             </ModalBox>

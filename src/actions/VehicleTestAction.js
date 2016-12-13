@@ -1,9 +1,9 @@
 /**
  * Created by linyao on 2016/10/20.
  */
-import { ToastAndroid } from 'react-native';
 import * as AppService from '../services/AppService';
 import * as TYPES from './types';
+import Toast from '../components/Toast';
 
 
 /**
@@ -40,7 +40,7 @@ export function queryLastPhyExamResult(next) {
             }
         ).catch(
             (e) => {
-                ToastAndroid.show('获取数据失败，请检查网络', ToastAndroid.SHORT);
+                Toast.show('获取数据失败，请检查网络', Toast.SHORT);
                 dispatch({'type': TYPES.TEST_DATA_ERROR});
             }
         );
@@ -59,7 +59,7 @@ export function phyExam(next) {
             }
         ).catch(
             (e) => {
-                ToastAndroid.show(e.message, ToastAndroid.SHORT);
+                Toast.show(e.message, Toast.SHORT);
                 dispatch({'type': TYPES.TEST_DATA_ERROR});
             }
         );

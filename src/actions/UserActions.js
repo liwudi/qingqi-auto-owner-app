@@ -1,11 +1,11 @@
 /**
  * Created by ligj on 2016/9/27.
  */
-import { ToastAndroid } from 'react-native';
 
 import * as TYPES from './types';
 import * as UserService from '../services/UserService';
 import { setToken } from '../service-config/RequestService';
+import Toast from '../components/Toast';
 
 const defUserPic = require('../assets/images/driver.png');
 
@@ -17,7 +17,7 @@ function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
 		.then((res)=>{
 			console.info('sendCodeDispatch')
 			console.info(res)
-			ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
+			Toast.show('验证码已发送', Toast.SHORT);
 			let second = 60;
 			let intval = setInterval(() => {
 
@@ -34,7 +34,7 @@ function sendCodeDispatch(dispatch, sendFun, then = (rs, error)=>{}) {
 			console.info(res)
 			then(res || {}, null);
 		}).catch((e)=>{
-			ToastAndroid.show(e.message, ToastAndroid.SHORT);
+			Toast.show(e.message, Toast.SHORT);
 			dispatch({'type': TYPES.SEND_CODE_ERROR, error: e});
 			then(null, e);
 		});
@@ -88,11 +88,11 @@ export function logout(next) {
 		dispatch({'type': TYPES.LOGGED_DOING});
 		UserService.logout()
 			.then(res => {
-				ToastAndroid.show('退出成功', ToastAndroid.SHORT);
+				Toast.show('退出成功', Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_OUT});
 			})
 			.catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
 			}).finally(next);
 	}
@@ -127,12 +127,12 @@ export function doLogin(UserParams, next) {
 				return UserService.getUserInfo();
 			})
 			.then(res => {
-				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				Toast.show('登录成功', Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 				next(res);
 			})
 			.catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
 			});
 	}
@@ -159,7 +159,7 @@ export function doRegCheckCaptcha(phone, trueName, password, captcha, next, err)
                     phone, trueName, password, captcha
                 });
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
 			});
 	}
@@ -228,7 +228,7 @@ export function findPasswordCheckSmsCode(phone, smsCode, next) {
 				dispatch({'type': TYPES.FINDPASS_STEP3, phoneInfo: {phone, smsCode}});
 				next();
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.FINDPASS_STEP2_ERROR, error: e});
 			});
 	}
@@ -251,7 +251,7 @@ export function findPasswordNewPassword(phone, newPassword, smsCode, next) {
 				dispatch({'type': TYPES.FINDPASS_STEP3_DONE, phoneInfo: {phone}});
 				next();
 			}).catch((e)=>{
-			ToastAndroid.show(e.message, ToastAndroid.SHORT);
+			Toast.show(e.message, Toast.SHORT);
 			dispatch({'type': TYPES.FINDPASS_STEP3_ERROR, error: e});
 		});
 	}
@@ -290,13 +290,13 @@ export function doReg(phone, trueName, password, smsCode, next) {
                 return UserService.getUserInfo();
             })
             .then(res => {
-                ToastAndroid.show('恭喜您注册成功，快去完善资料吧！', ToastAndroid.SHORT);
+                Toast.show('恭喜您注册成功，快去完善资料吧！', Toast.SHORT);
                 dispatch({'type': TYPES.LOGGED_IN, user: res});
                 next({phone, password});
             })
 			.catch((e)=>{
 				console.info(e)
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
 			});
 	}
@@ -328,7 +328,7 @@ export function doQuickLogin(phone, code, next) {
                     },
                     expires: null
                 });
-				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				Toast.show('登录成功', Toast.SHORT);
 				UserService.getUserInfo().then(userInfo => {
 					console.info(userInfo)
 					dispatch({'type': TYPES.LOGGED_IN, user: userInfo});
@@ -337,17 +337,17 @@ export function doQuickLogin(phone, code, next) {
 				// dispatch({'type': TYPES.LOGGED_IN, user: res});
 			})
 			/*.then(res => {
-				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				Toast.show('登录成功', Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 				next(res);
 			})*/
 			.catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
 			});
 			/*.then((res)=>{
 				console.info(res)
-				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				Toast.show('登录成功', Toast.SHORT);
 				setToken(res.token);
 				UserService.userDetail().then(userInfo => {
 					console.info(userInfo)
@@ -357,7 +357,7 @@ export function doQuickLogin(phone, code, next) {
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 				//next();
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
 			});*/
 	}
@@ -401,7 +401,7 @@ export function sendModifyMobileCode() {
 		UserService.sendModifyMobileSendCode()
 			.then((res)=>{
 				console.info('sendModifyMobileCode')
-				ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
+				Toast.show('验证码已发送', Toast.SHORT);
 				let second = 60;
 				let intval = setInterval(() => {
 
@@ -416,7 +416,7 @@ export function sendModifyMobileCode() {
 
 				},1000);
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.SEND_CODE_ERROR, error: e});
 			});
 	}
@@ -425,18 +425,18 @@ export function sendModifyMobileCode() {
 // export function modifyPassword(oldPassword, newPassword, next) {
 // 	return (dispatch) => {
 // 		if(oldPassword == newPassword){
-// 			ToastAndroid.show('新密码不能与原始密码相同', ToastAndroid.SHORT);
+// 			Toast.show('新密码不能与原始密码相同', Toast.SHORT);
 // 			return;
 // 		}
 // 		dispatch({'type': TYPES.MODIFY_PASSWORD_DOING});
 // 		UserService.modifyPassword(oldPassword, newPassword)
 // 			.then((res)=>{
-// 				ToastAndroid.show('密码修改成功', ToastAndroid.SHORT);
+// 				Toast.show('密码修改成功', Toast.SHORT);
 // 				dispatch({'type': TYPES.MODIFY_PASSWORD_NULL, user: res});
 // 				next();
 // 			})
 // 			.catch((e)=>{
-// 				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+// 				Toast.show(e.message, Toast.SHORT);
 // 				dispatch({'type': TYPES.MODIFY_PASSWORD_DOING, error: e});
 // 			});
 // 	}

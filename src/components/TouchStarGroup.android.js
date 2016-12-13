@@ -47,6 +47,10 @@ export default class ColorButton extends Component {
     _onPress = (evt) => {
         this.setState({
             fullStarNum: Math.floor((evt.nativeEvent.locationX + (evt.nativeEvent.pageX - this._startX)) / this.size)
+        },()=>{
+            let score= this.state.fullStarNum;
+            if(score >4 ) score=4;
+            this.props.onChange( score<0 ? '' : score+1);
         })
     }
     getStars () {

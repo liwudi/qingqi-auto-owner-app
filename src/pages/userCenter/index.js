@@ -10,7 +10,6 @@ import {
 	TouchableOpacity,
 	StyleSheet,
     Image,
-    ToastAndroid,
     Alert
 } from 'react-native';
 
@@ -24,6 +23,9 @@ import ManagerList from './manager/ManagerList';
 import AboutUs from './AboutUs';
 
 import { UserActions } from '../../actions';
+
+import Toast from '../../components/Toast';
+
 
 class UserCenterHome extends Component {
 
@@ -40,7 +42,7 @@ class UserCenterHome extends Component {
     }
 
     checkUpdate(){
-        ToastAndroid.show('暂无更新', ToastAndroid.SHORT);
+        Toast.show('暂无更新', Toast.SHORT);
     }
 
     clearCache(){
@@ -49,7 +51,7 @@ class UserCenterHome extends Component {
             '是否要清除应用缓存？',
             [
                 {text: '确定', onPress: () => {
-                    ToastAndroid.show('缓存清除成功', ToastAndroid.SHORT);
+                    Toast.show('缓存清除成功', Toast.SHORT);
                 }},
                 {text: '取消'}
             ]

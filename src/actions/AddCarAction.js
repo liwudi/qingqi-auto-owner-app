@@ -1,22 +1,20 @@
 /**
  * Created by ligj on 2016/9/27.
  */
-import { ToastAndroid } from 'react-native';
-
 import * as TYPES from './types';
 import * as UserService from '../services/UserService';
 import * as AppService from '../services/AppService';
-
+import Toast from '../components/Toast';
 export function doLogin(UserParams, next) {
 	return (dispatch) => {
 		dispatch({'type': TYPES.LOGGED_DOING});
 		UserService.login(UserParams.phone, UserParams.password)
 			.then((res)=>{
-				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				Toast.show('登录成功', Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 				next();
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_ERROR, error: e});
 			});
 	}
@@ -34,7 +32,7 @@ export function doRegCheckCaptcha(phone, trueName, password, captcha, next) {
 					phone, trueName, password, captcha
 				}});
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
 			});
 	}
@@ -47,7 +45,7 @@ export function doReg(phone, trueName, password, smsCode, next) {
 			.then((rs)=>{
 				next({phone, password});
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
 			});
 	}
@@ -58,11 +56,11 @@ export function doQuickLogin(phone, code, next) {
 		dispatch({'type': TYPES.LOGGED_DOING});
 		UserService.fastLogin(phone, code)
 			.then((res)=>{
-				ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+				Toast.show('登录成功', Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 				next();
 			}).catch((e)=>{
-			ToastAndroid.show(e.message, ToastAndroid.SHORT);
+			Toast.show(e.message, Toast.SHORT);
 			dispatch({'type': TYPES.LOGGED_ERROR, error: e});
 		});
 	}
@@ -73,7 +71,7 @@ export function sendQuickLoginCode(phone) {
 		dispatch({'type': TYPES.SEND_CODE_ING});
 		UserService.fastLoginSendCode(phone)
 			.then((res)=>{
-				ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
+				Toast.show('验证码已发送', Toast.SHORT);
 				let second = 10;
 				let intval = setInterval(() => {
 
@@ -88,7 +86,7 @@ export function sendQuickLoginCode(phone) {
 
 				},1000);
 			}).catch((e)=>{
-			ToastAndroid.show(e.message, ToastAndroid.SHORT);
+			Toast.show(e.message, Toast.SHORT);
 			dispatch({'type': TYPES.SEND_CODE_ERROR, error: e});
 		});
 	}
@@ -99,7 +97,7 @@ export function sendRegCode(phone, captcha, isReSend) {
 		dispatch({'type': TYPES.SEND_CODE_ING});
 		UserService.regSendCode(phone, captcha, isReSend)
 			.then((res)=>{
-				ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
+				Toast.show('验证码已发送', Toast.SHORT);
 				let second = 10;
 				let intval = setInterval(() => {
 
@@ -114,7 +112,7 @@ export function sendRegCode(phone, captcha, isReSend) {
 
 				},1000);
 			}).catch((e)=>{
-			ToastAndroid.show(e.message, ToastAndroid.SHORT);
+			Toast.show(e.message, Toast.SHORT);
 			dispatch({'type': TYPES.SEND_CODE_ERROR, error: e});
 		});
 	}
@@ -126,7 +124,7 @@ export function sendModifyMobileCode() {
 		dispatch({'type': TYPES.SEND_CODE_ING});
 		UserService.sendModifyMobileSendCode()
 			.then((res)=>{
-				ToastAndroid.show('验证码已发送', ToastAndroid.SHORT);
+				Toast.show('验证码已发送', Toast.SHORT);
 				let second = 10;
 				let intval = setInterval(() => {
 
@@ -141,7 +139,7 @@ export function sendModifyMobileCode() {
 
 				},1000);
 			}).catch((e)=>{
-				ToastAndroid.show(e.message, ToastAndroid.SHORT);
+				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.SEND_CODE_ERROR, error: e});
 			});
 	}
@@ -162,11 +160,11 @@ export function getCarList(state,toList,toVin) {
 				}else {
 					toVin();
 	/*				console.log(11111111)
-					ToastAndroid.show('未查询到相关数据', ToastAndroid.SHORT);*/
+					Toast.show('未查询到相关数据', Toast.SHORT);*/
 				}
 			})
 			.catch((e)=>{
-			ToastAndroid.show(e.message, ToastAndroid.SHORT);
+			Toast.show(e.message, Toast.SHORT);
 			dispatch({'type': TYPES.TDS_DATA_ERROR, error: e});
 		});
 	}
