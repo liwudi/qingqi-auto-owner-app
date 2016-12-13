@@ -41,11 +41,12 @@ public class MapbarMapViewManager extends SimpleViewManager<MapbarMapView> {
     @Override
     protected MapbarMapView createViewInstance(ThemedReactContext reactContext) {
         MapbarMapView mapView = new MapbarMapView(reactContext);
-        mapView.enableShowBuiltInControl(true);
+/*        mapView.enableShowBuiltInControl(true);
         ScaleView sv = mapView.getScaleView();
         sv.setX(-200);
         sv.setY(0);
-        mapView.setScaleView(sv);
+        mapView.setScaleView(sv);*/
+        mapView.getMapRenderer().getScale()
         LogUtils.logd(TAG, LogUtils.getThreadName() + "--MapView--" + mapView.hashCode());
         return mapView;
     }
