@@ -15,30 +15,60 @@ const estyle = Env.style;
 import {queryTrack} from '../../../services/MonitorService';
 import DateButtonGroup from './DateButtonGroup';
 export default class TrackPlayback extends Component {
-	constructor() {
-		super();
+
+	static defaultProps = {
+        onTimeChange: () => {}
+	}
+
+
+	constructor(props) {
+		super(props);
 		this.state = {
 			data: null,
-			animating: false
+			animating: false,
+			carId: props.nav.carId
 		}
 	}
 
-	fetchData(date) {
+    selectTime = null;
+	fetchData() {
+		let date = this.selectTime;
 		this.time = Math.random();
 		this.setState({animating: true, data: null});
-		queryTrack(Object.assign({carId: this.props.nav.carId, zoom: 0}, date)
+		console.info(date)
+		//queryTrack({carId: 'ydtest00300', zoom: 0, beginDate: '20161110', endDate: '20161110'}
+		//queryTrack({carId: '20161124084', zoom: 0, beginDate: '20161130', endDate: '20161130'}
+		queryTrack(Object.assign({carId: this.state.carId, zoom: 0}, date)
 		).then((data) => {
+
 			if(!data.lons) {
 				data = null;
 				Toast.show('没有行程轨迹', Toast.SHORT);
 			}
+		//	console.info('success-rrrr')
 			this.time = Math.random();
 			this.setState({data: data, animating: false});
-		}).catch(() => {
+        }).catch(() => {
+		//	console.info('success-eeeee')
 			this.time = Math.random();
 			this.setState({data: null, animating: false});
-			Toast.show('获取行程轨迹异常', Toast.SHORT);
+			Toast.show('没有行程轨迹', Toast.SHORT);
 		}).finally(()=>{});
+	}
+
+    componentWillReceiveProps(nextProps){
+		if(nextProps.nav.carId !== this.props.nav.carId){
+			this.setState(
+				{carId:nextProps.nav.carId},
+				() => {
+					this.selectTime && this.fetchData();
+				}
+			)
+		}
+	}
+
+    onTimeChange(){
+        this.props.onTimeChange(this.selectTime);
 	}
 
 	render() {
@@ -50,7 +80,13 @@ export default class TrackPlayback extends Component {
 				<View style={[estyle.fx1]}>
 					<MapLine data={this.state.data} time={this.time}/>
 				</View>
-				<DateButtonGroup {...this.props} selectTime={(date) => {this.fetchData(date)}} isFetching={this.state.animating}/>
+				<DateButtonGroup {...this.props}
+								 selectTime={(date) => {
+								 	this.selectTime = date;
+									this.onTimeChange();
+									this.fetchData();
+								}}
+								 isFetching={this.state.animating}/>
 			</View>
 		);
 	}

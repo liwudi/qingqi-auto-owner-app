@@ -154,6 +154,7 @@ export default class OilManage extends Component {
 				{chart()}
 				<View style={estyle.padding}><Text>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 线路油耗详情</Text></View>
 				<PageList
+					ref="list"
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
 					renderRow={(row) => {
 						return (
@@ -167,7 +168,7 @@ export default class OilManage extends Component {
                                             routeId: row.routeId,
 											routeName: `${row.startPointName}——${row.endPointName}`,
                                             date: this.state.weeks[this.state.currentIndex],
-                                            updata: this.backRender.bind(this)
+                                            updata: () => this.refs.list.reInitFetch()
 										})}
 								}/>
 						)
