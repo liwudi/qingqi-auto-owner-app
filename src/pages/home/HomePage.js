@@ -22,6 +22,7 @@ import Monitor from './monitor/Monitor';
 import OilManage from './oil-maange/OilManage';
 import TripManage from './oil-maange/TripManage';
 import * as Icons from '../../components/Icons';
+import Toast from '../../components/Toast';
 
 
 import { IconSearch } from '../../components/Icons';
@@ -48,10 +49,11 @@ export default class HomePage extends Component {
 	componentDidMount(){
 		queryOperateStatisToday().then((rs) => {
 			this.setState({
-                myCarsInfo: rs[0],
-				operateStatisToday: rs[1]
+				operateStatisToday: rs
 			})
-		})
+		}).catch(e => {
+			Toast.show(e.message, Toast.SHORT);
+		});
 	}
 
 	render() {
@@ -80,8 +82,8 @@ export default class HomePage extends Component {
                 }
 				<View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>
 				<View style={[estyle.fxRow, estyle.padding,estyle.border, {backgroundColor:'#FFF'}]}>
-					<Text style={[estyle.fx1,estyle.articleTitle]}>在线车辆数：{this.state.myCarsInfo.carNumOnline||0}辆</Text>
-					<Text style={[estyle.fx1,estyle.articleTitle]}>总车辆数：{this.state.myCarsInfo.carNumTotal||0}辆</Text>
+					<Text style={[estyle.fx1,estyle.articleTitle]}>在线车辆数：{this.state.myCarsInfo.onlineCar||0}辆</Text>
+					<Text style={[estyle.fx1,estyle.articleTitle]}>总车辆数：{this.state.myCarsInfo.totalCarNum||0}辆</Text>
 				</View>
 				<ViewForRightArrow onPress={() => this.goTo(TripManage)} style={[estyle.fxRow, estyle.cardBackgroundColor]}>
 					<View style={[estyle.fxRow]}>
