@@ -46,7 +46,7 @@ public class MapbarMapViewManager extends SimpleViewManager<MapbarMapView> {
         sv.setX(-200);
         sv.setY(0);
         mapView.setScaleView(sv);*/
-        mapView.getMapRenderer().getScale()
+       // mapView.getMapRenderer().getScale()
         LogUtils.logd(TAG, LogUtils.getThreadName() + "--MapView--" + mapView.hashCode());
         return mapView;
     }
