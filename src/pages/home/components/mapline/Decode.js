@@ -35,13 +35,14 @@ function decodeTimes(times,  firstTime) {
     times[0] = firstTime;
     return times;
 }
+
+//item[0]- level3
+//item[1]- level2
+//item[2]- level1
 function decodeLevels(encoded) {
     var result = [];
     if (typeof encoded == "string" && encoded && encoded.indexOf(",") != -1) {
         var levelstr = encoded.split(",");
-        //item[0]- level3
-        //item[1]- level2
-        //item[2]- level1
         for (var i = 0; i < levelstr.length; i++) {
             var items = _decodeNumberEx(levelstr[i]);
             var x = 0;
@@ -62,7 +63,7 @@ const setBounds = (pt) => {
     maxLng = Math.max(maxLng, pt.longitude);
     maxLat = Math.max(maxLat, pt.latitude);
 };
-const bounds = () => {
+const getBounds = () => {
     let bd = {
         min: {longitude: minLng,
             latitude: minLat},
@@ -70,6 +71,7 @@ const bounds = () => {
             latitude: maxLat}
     };
     minLng = minLat = maxLng = maxLat = 0;
+    console.info(bd)
     return bd;
 }
 function decodeData(data) {
@@ -82,8 +84,6 @@ function decodeData(data) {
         oils = data.instantOils,
         directions = data.directions,
         length = lons.length;
- /*   console.info(oils)
-    console.info(times)*/
     let lat = 0, lon = 0, level = 0, speed = 0, time = 0, oil = 0, direction = 0, pt, timeDiff = 0;
     for(let i = 0; i < length; i ++) {
         level = levels[i] || 0;
@@ -131,5 +131,5 @@ function setData(data) {
 }
 export default {
     setData: setData,
-    bounds: bounds
+    getBounds: getBounds
 }

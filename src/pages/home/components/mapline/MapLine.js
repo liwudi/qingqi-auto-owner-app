@@ -137,15 +137,12 @@ export default class MapLine extends Component {
             if (data.length) {
                 line = data;
                 this.setState({dataLength: data.length});
-                this.lineBounds = Decode.bounds();
+                this.lineBounds = Decode.getBounds();
                 setTimeout(() => {
                     this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                     this.Map.getZoomLevel().then((zoom) => {
-                    //    console.info(line, '99999999999999999999999999999999999999999')
                         this.zoom = +zoom;
-                    //    console.info(zoom, '------------------------------------------')
                         this.addLine(true);
-
                     });
                 }, 300);
                 this.addMarker();
@@ -290,10 +287,11 @@ export default class MapLine extends Component {
     }
 
     componentWillUnmount() {
+        this.Map.pause();
         this.Map.clearOverlays();
+        this.Map.finalize();
         this.rnTime = null;
         this.data = null;
-        this.Map.finalize();
         this.props.nav.doBack && this.props.nav.doBack();
     }
 
