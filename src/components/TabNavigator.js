@@ -10,7 +10,8 @@ export default class TabNavigator extends Component {
     tabBar = null;
     static defaultProps = {
         isSwipe: true,
-        initialIndex:0
+        initialIndex:0,
+        onChangeTab: () => {}
     }
     constructor(props){
         super(props);
@@ -23,6 +24,7 @@ export default class TabNavigator extends Component {
 
     changeTab(index){
         this.tabBar.changeTab(index, false);
+        this.props.onChangeTab(index);
     }
 
     render(){

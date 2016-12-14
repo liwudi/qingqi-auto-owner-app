@@ -25,6 +25,10 @@ class PersonalMessage extends Component{
         super(props);
     }
 
+    getComponentName(){
+        return 'PersonalMessage';
+    }
+
     componentWillReceiveProps(nextProps){
         if(nextProps.messageStore.PersonalMessage.length != this.props.messageStore.PersonalMessage.length){
             setTimeout(() => this.refs.list.reInitFetch(), 50);

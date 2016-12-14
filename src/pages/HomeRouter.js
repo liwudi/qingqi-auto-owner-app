@@ -17,6 +17,7 @@ import HomePage from './home/HomePage';
 import UserCenterHome from './userCenter';
 import Message from './message/Message';
 import News from './home/news/News';
+import { setCurrentActivePage } from '../actions/MessageActions';
 
 import Login from './user/index';
 
@@ -83,7 +84,10 @@ class HomeRouter extends Component {
 				initialRoute={initialRoute}
 				navigationBar={<MainNavBar
 					ref={(navBar) => {this.navBar = navBar;}}
-					changeTab={(index, navigator) => navigator.jumpTo(tabs[index])}
+					changeTab={(index, navigator) => {
+						this.props.dispatch(setCurrentActivePage({main:index}));
+						navigator.jumpTo(tabs[index]);
+                    }}
 					sign={this.props.messageStore.AllUnReadCount}
 				/>}
 				initialRouteStack={tabs}

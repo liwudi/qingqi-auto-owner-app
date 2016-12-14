@@ -49,7 +49,7 @@ class Message extends Component {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="消息中心" leftShow={false}/>
-				<TabNavigator {...this.props} tabs={this.state.tabs}/>
+				<TabNavigator {...this.props} tabs={this.state.tabs} onChangeTab={() => {}}/>
 			</View>
 		);
 	}

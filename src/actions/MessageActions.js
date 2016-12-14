@@ -28,6 +28,10 @@ export function getMessages() {
 	}
 }
 
+export function setCurrentActivePage(){
+
+}
+
 export function messageCountHaveAdd(have = true) {
     return (dispatch) => {
     	if(have){
