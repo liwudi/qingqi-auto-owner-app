@@ -57,9 +57,9 @@ const inLevelRange = function (pt, mapLevel) {
 };
 const get = (line, mapLevel, paint) => {
     let lines = [], _tmp1 = null, type = 'speed';
-    mapLevel = Math.floor(mapLevel);
     console.info('map level', mapLevel);
     if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
+        mapLevel = Math.floor(mapLevel);
         let baseLocations = [],
             baseType = 'SPEED_1',
             pts = [];

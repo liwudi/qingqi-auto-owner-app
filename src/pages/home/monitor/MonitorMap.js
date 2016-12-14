@@ -49,8 +49,8 @@ const legend = [
     }
 ];
 
-const TIMEOUT = 5,
-    STATUS_TIMEOUT = 10;
+const TIMEOUT = 30,
+    STATUS_TIMEOUT = 30;
 export default class MonitorMap extends Component {
     constructor() {
         super();
@@ -377,17 +377,21 @@ export default class MonitorMap extends Component {
 
     setMonitor() {
         this.requestStop();
-        let monitor = this.monitor = !this.monitor;
-        this.setState({monitor: monitor, detail: null});
-        if (monitor) {
-            let data = this.state.data;
-            this.setState({detail: data});
-            console.info('setMonitor', data);
-            this.Map.setZoomLevel(8);
-            this.carToCenter(data);
-        }
-        this.requestStart();
-        Toast.show(monitor ? '正在开启实时监控' : '已关闭实时监控', Toast.SHORT);
+        this.minitorTimer && clearTimeout(this.minitorTimer);
+        this.minitorTimer = setTimeout(() => {
+            let monitor = this.monitor = !this.monitor;
+            this.setState({monitor: monitor, detail: null});
+            if (monitor) {
+                let data = this.state.data;
+                this.setState({detail: data});
+                console.info('setMonitor', data);
+                this.Map.setZoomLevel(8);
+                this.carToCenter(data);
+            }
+            this.requestStart();
+            Toast.show(monitor ? '正在开启实时监控' : '已关闭实时监控', Toast.SHORT);
+        }, 500);
+
     }
 
     clickMarker(idx) {

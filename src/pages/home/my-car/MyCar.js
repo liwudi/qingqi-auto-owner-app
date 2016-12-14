@@ -14,7 +14,7 @@ import Env from '../../../utils/Env';
 const estyle = Env.style;
 import CarDetail from './CarDetail';
 import PageList from '../../../components/PageList';
-import MyCarItem from './components/MyCarItem';
+import MyCarItem from '../monitor/components/MyCarItem';
 
 import { IconPlus, IconSearch } from '../../../components/Icons';
 import { queryRealTimeCarList } from '../../../services/MonitorService';
@@ -110,7 +110,7 @@ export default class MyCar extends Component {
                     ref="list"
                     style={estyle.fx1}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)}/>
+                        return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)} oneTime={true}/>
                     }}
                     fetchData={(pageNumber, pageSize) => {
                         return queryRealTimeCarList(pageNumber, pageSize, this.state.key)

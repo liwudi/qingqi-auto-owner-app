@@ -7,8 +7,9 @@ import {
 	View,
 	TouchableOpacity,
     Alert,StyleSheet,
-    ToastAndroid
+    ActivityIndicator
 } from 'react-native';
+import Toast from '../../../components/Toast';
 
 //import MapLine from '../../../components/MapLine';
 import MapLine from '../../home/components/mapline/MapLine';
@@ -19,7 +20,9 @@ import BorderButton from '../../../components/BorderButton';
 import * as Icons from '../../../components/Icons';
 import { IconArrowDown, IconQuestion } from '../../../components/Icons';
 import {viewStandard ,deleteStandard} from '../../../services/AppService';
-import {queryShareSummary} from '../../../services/MonitorService';
+import {queryShareSummary, queryTrack} from '../../../services/MonitorService';
+
+
 import OilManageSetMark from  './OilManageSetMark';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
@@ -28,7 +31,8 @@ export default class OilManageShowMark extends Component {
     constructor(props){
         super(props);
         this.state={
-            standardInfo:{}
+            standardInfo:{},
+            animating: true
         }
     }
 
@@ -39,6 +43,8 @@ export default class OilManageShowMark extends Component {
     getStandardInfo(){
         viewStandard( this.props.routeId )
             .then( (res)=>{
+                res.startTime += ':00';
+                res.endTime += ':00';
                 this.getShareSummary( {
                     carId: res.carId,
                     beginDate: res.startTime,
@@ -63,10 +69,20 @@ export default class OilManageShowMark extends Component {
         queryTrack({
             carId: info.carId,
             beginDate: info.startTime,
-            endDate: info.endTime
-        })
-            .then((data)=>{ this.setState({data: data}) })
-            .catch()
+            endDate: info.endTime,
+            zoom: 0
+        }).then((data) => {
+            if(!data.lons || data.noResult) {
+                data = null;
+                Toast.show('没有行程轨迹', Toast.SHORT);
+            }
+            this.time = Math.random();
+            this.setState({data: data, animating: false});
+        }).catch(() => {
+            this.time = Math.random();
+            this.setState({data: null, animating: false});
+            Toast.show('获取行程轨迹异常', Toast.SHORT);
+        }).finally(()=>{});
     }
 
     //删除标杆
@@ -80,7 +96,7 @@ export default class OilManageShowMark extends Component {
             } )
             .catch(
                 ()=>{
-                    ToastAndroid.show('删除失败', ToastAndroid.SHORT);
+                    Toast.show('删除失败', ToastAndroid.SHORT);
                 }
             )
     }
@@ -97,10 +113,16 @@ export default class OilManageShowMark extends Component {
 		return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
 				<TopBanner {...this.props} title="查看标杆"/>
+                <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: 80, marginTop:Env.screen.height / 3 * Env.font.base}}>
+                    <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
+                </View>
 				<MapLine style={[estyle.fx1]}
+                         data={this.state.data}
+                         time={this.time}
                          rightButtomView={<View style={styles.rightView}>
                                  <View style={[styles.rightItem]}>
-                                     <Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/><Text style={styles.rightText}>{ this.props.routeName }</Text>
+                                     <Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>
+                                     <Text style={styles.rightText}>{ this.props.routeName }</Text>
                                  </View>
                                  <Text style={styles.rightText}>车牌：{ standardInfo.carCode }</Text>
                                  <Text style={styles.rightText}>总时长：{ standardInfo.timeTotal }</Text>

@@ -132,24 +132,23 @@ export default class MapLine extends Component {
     initLine(data) {
         this.Map && this.Map.clearOverlays();
         if (data) {
-            //    console.info(data)
             data = Decode.setData(data);
             if (data.length) {
                 line = data;
                 this.setState({dataLength: data.length});
-                this.lineBounds = Decode.bounds();
+                this.lineBounds = Decode.getBounds();
                 setTimeout(() => {
                     this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                     this.Map.getZoomLevel().then((zoom) => {
                         this.zoom = +zoom;
-                        console.info(zoom, '------------------------------------------')
                         this.addLine(true);
                     });
                 }, 300);
-
                 this.addMarker();
                 this.addCar();
                 this.setTimes();
+            } else {
+                this.setState({dataLength: 0});
             }
         }
     }
@@ -157,7 +156,7 @@ export default class MapLine extends Component {
     setTimes() {
         if (!this.state.startTime) {
             let stime = line[0].time,
-                etime = line[line.length - 1].time
+                etime = line[line.length - 1].time;
             this.setState({
                 startTime: stime,
                 endTime: etime,
@@ -167,9 +166,12 @@ export default class MapLine extends Component {
     }
 
     setCurrentTimes(index) {
-        this.setState({
-            currentTime: line[index].time
-        });
+        if(line[index]) {
+            this.setState({
+                currentTime: line[index].time
+            });
+        }
+
     }
 
 
@@ -251,31 +253,34 @@ export default class MapLine extends Component {
 
     moveCar(index) {
         this.pointIndex = index;
-        let pt = Object.assign({}, line[index]);
-        let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
-            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
-            npt = index === line.length - 1 ? line[index] : line[index + 1];
-        title = title + unit;
-        //   console.info(title)
-        let mkOpts = {
-            longitude: pt.longitude,
-            latitude: pt.latitude,
-            imageName: 'ic_mask',
-            title: title,
-            iconText: title,
-            iconTextColor: Env.color.main,
-            iconTextSize: 14,
-            id: this.carIdx
-        };
-        this.Marker.update([mkOpts]);
-        mkOpts = {
-            longitude: pt.longitude,
-            latitude: pt.latitude,
-            id: this.carIdx,
-            direction: npt.direction
-        };
-        this.MarkerRotate.update([mkOpts]);
-        this.setCurrentTimes(index);
+        if(line[index]) {
+            let pt = Object.assign({}, line[index]);
+            let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
+                unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
+                npt = index === line.length - 1 ? line[index] : line[index + 1];
+            title = title + unit;
+            //   console.info(title)
+            let mkOpts = {
+                longitude: pt.longitude,
+                latitude: pt.latitude,
+                imageName: 'ic_mask',
+                title: title,
+                iconText: title,
+                iconTextColor: Env.color.main,
+                iconTextSize: 14,
+                id: this.carIdx
+            };
+            this.Marker.update([mkOpts]);
+            mkOpts = {
+                longitude: pt.longitude,
+                latitude: pt.latitude,
+                id: this.carIdx,
+                direction: npt.direction
+            };
+            this.MarkerRotate.update([mkOpts]);
+            this.setCurrentTimes(index);
+        }
+
     }
 
     onInit(instance) {
@@ -289,30 +294,39 @@ export default class MapLine extends Component {
     }
 
     componentWillUnmount() {
+        this.Map.pause();
+        this.Map.clearOverlays();
         this.Map.finalize();
+        this.rnTime = null;
+        this.data = null;
+        this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
     }
 
     componentWillReceiveProps(props) {
-        //     console.info(this.rnTime, props.time)
-        if (this.rnTime != props.time) {
-            /*            console.info('*****************************************************************')
-             console.info('---------------------------------------------------------------')*/
+        if (this.rnTime !== props.time) {
+            this.setState({rnTime: this.time});
+
             this.initLine(props.data);
             this.rnTime = props.time;
+
         }
     }
 
     changePlayType() {
-        if (this.state.playType === PLAY_TYPE_SPEED) {
-            this.playType = PLAY_TYPE_OIL;
-            Toast.show(`已切换到油耗模式`, Toast.SHORT);
-        } else {
-            this.playType = PLAY_TYPE_SPEED;
-            Toast.show(`已切换到速度模式`, Toast.SHORT);
-        }
-        this.Line.clear();
-        this.setState({playType: this.playType});
-        this.state.dataLength && this.addLine(true);
+        this.changeTimer && clearTimeout(this.changeTimer);
+        this.changeTimer = setTimeout(() => {
+            if (this.state.playType === PLAY_TYPE_SPEED) {
+                this.playType = PLAY_TYPE_OIL;
+                Toast.show(`已切换到油耗模式`, Toast.SHORT);
+            } else {
+                this.playType = PLAY_TYPE_SPEED;
+                Toast.show(`已切换到速度模式`, Toast.SHORT);
+            }
+            this.Line.clear();
+            this.setState({playType: this.playType});
+            this.state.dataLength && this.addLine(true);
+        }, 500);
+
     }
 
     renderLegend() {
@@ -358,16 +372,16 @@ export default class MapLine extends Component {
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                {
-                    this.state.dataLength ? <PlayView
-                        dataLength={this.state.dataLength}
-                        totalTime={this.state.totalTime}
-                        play={(index) => {
-                            this.moveCar(index);
-                        }} pause={() => {
-                        this.pauseMoveCar()
-                    }}/> : null
-                }
+                <PlayView
+                    dataLength={this.state.dataLength}
+                    totalTime={this.state.totalTime}
+                    time={this.state.rnTime}
+                    play={(index) => {
+                        this.moveCar(index);
+                    }} pause={() => {
+                    this.pauseMoveCar()
+                }}/>
+
                 {this.state.dataLength ? this.renderTimes() : null}
 
                 <MapbarMap legend={this.renderLegend()}

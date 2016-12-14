@@ -33,26 +33,19 @@ export default class TrackPlayback extends Component {
     selectTime = null;
 	fetchData() {
 		let date = this.selectTime;
-		this.time = Math.random();
 		this.setState({animating: true, data: null});
-		console.info(date)
-		//queryTrack({carId: 'ydtest00300', zoom: 0, beginDate: '20161110', endDate: '20161110'}
-		//queryTrack({carId: '20161124084', zoom: 0, beginDate: '20161130', endDate: '20161130'}
 		queryTrack(Object.assign({carId: this.state.carId, zoom: 0}, date)
 		).then((data) => {
-
-			if(!data.lons) {
+			if(!data.lons || data.noResult) {
 				data = null;
 				Toast.show('没有行程轨迹', Toast.SHORT);
 			}
-		//	console.info('success-rrrr')
 			this.time = Math.random();
 			this.setState({data: data, animating: false});
         }).catch(() => {
-		//	console.info('success-eeeee')
 			this.time = Math.random();
 			this.setState({data: null, animating: false});
-			Toast.show('没有行程轨迹', Toast.SHORT);
+			Toast.show('获取行程轨迹异常', Toast.SHORT);
 		}).finally(()=>{});
 	}
 
@@ -78,7 +71,7 @@ export default class TrackPlayback extends Component {
                     <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
                 </View>
 				<View style={[estyle.fx1]}>
-					<MapLine data={this.state.data} time={this.time}/>
+					<MapLine data={this.state.data} time={this.time} {...this.props}/>
 				</View>
 				<DateButtonGroup {...this.props}
 								 selectTime={(date) => {
