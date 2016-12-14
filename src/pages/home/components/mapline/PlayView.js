@@ -50,7 +50,7 @@ export default class PlayView extends Component {
         }
         return !!onePonitTime;
     }
-    reset() {
+/*    reset() {
         this.pause();
         this.cache_playing = null;
         this.ready();
@@ -60,8 +60,10 @@ export default class PlayView extends Component {
             this.rnTime = props.time;
             this.reset();
         }
+    }*/
+    componentWillReceiveProps (props) {
+        this.setState({progress: props.progress || 0});
     }
-
     componentWillUnmount() {
         this.pause();
     }
@@ -141,7 +143,7 @@ export default class PlayView extends Component {
         this.run();
     };
 
-    renderView() {
+    render() {
         return <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingHorizontal]}>
             <Button onPress={() => {
                 this.changePlay()
@@ -169,10 +171,5 @@ export default class PlayView extends Component {
             <Image source={require('../../../../assets/images/end.png')} style={{width: 25, height: 25}}
                    resizeMode={Image.resizeMode.cover}/>
         </View>;
-    }
-    render() {
-        return <View>{
-            this.props.dataLength ? this.renderView() : <View/>
-        }</View>
     }
 }

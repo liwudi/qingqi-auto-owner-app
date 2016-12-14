@@ -82,30 +82,6 @@ const legend = {
 }
 
 
-// 根据两个坐标获取连线的角度
-function getAngle(pt1, pt2) {
-    var angle = 0;
-    if (pt1 && pt2) {
-        var lon1 = pt1.lon,
-            lat1 = pt1.lat,
-            lon2 = pt2.lon,
-            lat2 = pt2.lat;
-
-        var xDiff = lon2 - lon1,
-            yDiff = lat2 - lat1;
-
-        angle = Math.atan(xDiff / (yDiff || 1)) / Math.PI * 180;
-
-
-        if (xDiff > 0 && yDiff < 0) {
-            angle = 180 + angle;
-        } else if (xDiff < 0 && yDiff < 0) {
-            angle = angle - 180;
-        }
-
-    }
-    return angle;
-}
 
 export default class MapLine extends Component {
     constructor() {
@@ -131,25 +107,26 @@ export default class MapLine extends Component {
 
     initLine(data) {
         this.Map && this.Map.clearOverlays();
+        this.setState({dataLength: 0, progress: 0});
         if (data) {
-            data = Decode.setData(data);
-            if (data.length) {
-                line = data;
-                this.setState({dataLength: data.length});
-                this.lineBounds = Decode.getBounds();
-                setTimeout(() => {
-                    this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
-                    this.Map.getZoomLevel().then((zoom) => {
-                        this.zoom = +zoom;
-                        this.addLine(true);
-                    });
-                }, 300);
-                this.addMarker();
-                this.addCar();
-                this.setTimes();
-            } else {
-                this.setState({dataLength: 0});
-            }
+            setTimeout(() => {
+                data = Decode.setData(data);
+                if (data.length) {
+                    line = data;
+                    this.setState({dataLength: data.length, progress: 0});
+                    this.lineBounds = Decode.getBounds();
+                    setTimeout(() => {
+                        this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
+                        this.Map.getZoomLevel().then((zoom) => {
+                            this.zoom = +zoom;
+                            this.addLine(true);
+                        });
+                    }, 300);
+                    this.addMarker();
+                    this.addCar();
+                    this.setTimes();
+                }
+            }, 500);
         }
     }
 
@@ -283,6 +260,7 @@ export default class MapLine extends Component {
 
     }
 
+
     onInit(instance) {
         this.mapRef = instance.getMapRef();
         this.Map = instance;
@@ -304,11 +282,9 @@ export default class MapLine extends Component {
 
     componentWillReceiveProps(props) {
         if (this.rnTime !== props.time) {
-            this.setState({rnTime: this.time});
-
+            //this.setState({rnTime: this.time});
             this.initLine(props.data);
             this.rnTime = props.time;
-
         }
     }
 
@@ -372,15 +348,17 @@ export default class MapLine extends Component {
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <PlayView
-                    dataLength={this.state.dataLength}
-                    totalTime={this.state.totalTime}
-                    time={this.state.rnTime}
-                    play={(index) => {
-                        this.moveCar(index);
-                    }} pause={() => {
-                    this.pauseMoveCar()
-                }}/>
+                {
+                    this.state.dataLength ? <PlayView
+                        dataLength={this.state.dataLength}
+                        totalTime={this.state.totalTime}
+                        progress={this.state.progress}
+                        play={(index) => {
+                            this.moveCar(index);
+                        }} pause={() => {
+                        this.pauseMoveCar()
+                    }}/> : null
+                }
 
                 {this.state.dataLength ? this.renderTimes() : null}
 
