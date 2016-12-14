@@ -49,8 +49,8 @@ const legend = [
     }
 ];
 
-const TIMEOUT = 5,
-    STATUS_TIMEOUT = 10;
+const TIMEOUT = 30,
+    STATUS_TIMEOUT = 30;
 export default class MonitorMap extends Component {
     constructor() {
         super();

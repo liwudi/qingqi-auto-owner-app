@@ -35,12 +35,8 @@ export default class TrackPlayback extends Component {
 		let date = this.selectTime;
 		this.time = Math.random();
 		this.setState({animating: true, data: null});
-		console.info(date)
-		//queryTrack({carId: 'ydtest00300', zoom: 0, beginDate: '20161110', endDate: '20161110'}
-		//queryTrack({carId: '20161124084', zoom: 0, beginDate: '20161130', endDate: '20161130'}
 		queryTrack(Object.assign({carId: this.state.carId, zoom: 0}, date)
 		).then((data) => {
-
 			if(!data.lons) {
 				data = null;
 				Toast.show('没有行程轨迹', Toast.SHORT);
@@ -78,7 +74,7 @@ export default class TrackPlayback extends Component {
                     <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
                 </View>
 				<View style={[estyle.fx1]}>
-					<MapLine data={this.state.data} time={this.time}/>
+					<MapLine data={this.state.data} time={this.time} {...this.props}/>
 				</View>
 				<DateButtonGroup {...this.props}
 								 selectTime={(date) => {

@@ -141,12 +141,13 @@ export default class MapLine extends Component {
                 setTimeout(() => {
                     this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                     this.Map.getZoomLevel().then((zoom) => {
+                    //    console.info(line, '99999999999999999999999999999999999999999')
                         this.zoom = +zoom;
-                        console.info(zoom, '------------------------------------------')
+                    //    console.info(zoom, '------------------------------------------')
                         this.addLine(true);
+
                     });
                 }, 300);
-
                 this.addMarker();
                 this.addCar();
                 this.setTimes();
@@ -289,30 +290,35 @@ export default class MapLine extends Component {
     }
 
     componentWillUnmount() {
+        this.Map.clearOverlays();
+        this.rnTime = null;
+        this.data = null;
         this.Map.finalize();
+        this.props.nav.doBack && this.props.nav.doBack();
     }
 
     componentWillReceiveProps(props) {
-        //     console.info(this.rnTime, props.time)
-        if (this.rnTime != props.time) {
-            /*            console.info('*****************************************************************')
-             console.info('---------------------------------------------------------------')*/
+        if (this.rnTime !== props.time) {
             this.initLine(props.data);
             this.rnTime = props.time;
         }
     }
 
     changePlayType() {
-        if (this.state.playType === PLAY_TYPE_SPEED) {
-            this.playType = PLAY_TYPE_OIL;
-            Toast.show(`已切换到油耗模式`, Toast.SHORT);
-        } else {
-            this.playType = PLAY_TYPE_SPEED;
-            Toast.show(`已切换到速度模式`, Toast.SHORT);
-        }
-        this.Line.clear();
-        this.setState({playType: this.playType});
-        this.state.dataLength && this.addLine(true);
+        this.changeTimer && clearTimeout(this.changeTimer);
+        this.changeTimer = setTimeout(() => {
+            if (this.state.playType === PLAY_TYPE_SPEED) {
+                this.playType = PLAY_TYPE_OIL;
+                Toast.show(`已切换到油耗模式`, Toast.SHORT);
+            } else {
+                this.playType = PLAY_TYPE_SPEED;
+                Toast.show(`已切换到速度模式`, Toast.SHORT);
+            }
+            this.Line.clear();
+            this.setState({playType: this.playType});
+            this.state.dataLength && this.addLine(true);
+        }, 500);
+
     }
 
     renderLegend() {

@@ -94,7 +94,7 @@ function decodeData(data) {
         speed += speeds[i];
         direction += directions[i];
         oil += oils[i];
-        /*if(i < 100) {
+/*        if(i < 100) {
             console.info('oil:', oils[i], oil, 'time:', times[i], new Date(time))
         }*/
         pt = Object.assign(MPoint([lon, lat]), {
