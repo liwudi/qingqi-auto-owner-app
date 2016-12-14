@@ -78,6 +78,10 @@ class HomeRouter extends Component {
         }
 	}
 
+	setCurrentPage = (index) => {
+        this.props.dispatch(setCurrentActivePage({main:index}));
+	}
+
 	render() {
 		return (
 			<Navigator
@@ -85,14 +89,16 @@ class HomeRouter extends Component {
 				navigationBar={<MainNavBar
 					ref={(navBar) => {this.navBar = navBar;}}
 					changeTab={(index, navigator) => {
-						this.props.dispatch(setCurrentActivePage({main:index}));
 						navigator.jumpTo(tabs[index]);
                     }}
 					sign={this.props.messageStore.AllUnReadCount}
 				/>}
 				initialRouteStack={tabs}
 				configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
-				onDidFocus={(router) => {this.navBar.changeTab(router.index, false)}}
+				onDidFocus={(router) => {
+					this.navBar.changeTab(router.index, false);
+                    this.setCurrentPage(router.index)
+				}}
 				renderScene={(route, navigator) => {
 					let Component = route.component;
 					return <Component

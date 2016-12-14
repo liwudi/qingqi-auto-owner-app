@@ -176,7 +176,7 @@ class Main extends Component {
 					<WebView
 						mediaPlaybackRequiresUserAction={false}
 						style={[{width:Env.screen.width,height:Env.screen.height}]}
-						source={{uri:'http://10.10.32.80:8080/index.html?322111111111'}}
+						source={{uri:'file:///android_asset/video/index.html'}}
 						onMessage={(event) => {
 
 							let e = JSON.parse(event.nativeEvent.data);

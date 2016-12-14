@@ -99,7 +99,7 @@ export default class TripManage extends Component {
             grid:{
                 x:50,
                 x2:20,
-                y:10,
+                y:20,
                 y2:40
             },
             legend: {

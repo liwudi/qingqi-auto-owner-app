@@ -15,6 +15,8 @@ import TopBanner from '../../components/TopBanner';
 import CarListMessage from './CarListMessage';
 import PersonalMessage from './PersonalMessage';
 import TabNavigator from '../../components/TabNavigator';
+import {setCurrentActivePage} from '../../actions/MessageActions';
+
 import Env from '../../utils/Env';
 
 class Message extends Component {
@@ -35,6 +37,10 @@ class Message extends Component {
 		}
 	}
 
+    setCurrentPage = (index) => {
+        this.props.dispatch(setCurrentActivePage({message:index}));
+    }
+
     componentWillReceiveProps(nextProps){
         if(nextProps.messageStore.PersonalMessageUnread.count != this.props.messageStore.PersonalMessageUnread.count){
         	let tabsState = this.state.tabs;
@@ -46,14 +52,20 @@ class Message extends Component {
     }
 
 	render() {
+        console.log(this.props.activePageStore)
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="消息中心" leftShow={false}/>
-				<TabNavigator {...this.props} tabs={this.state.tabs} onChangeTab={() => {}}/>
+				<TabNavigator {...this.props} tabs={this.state.tabs} onChangeTab={(index) => {
+					this.setCurrentPage(index);
+				}}/>
 			</View>
 		);
 	}
 }
 export default connect(function (stores) {
-    return {messageStore: stores.messageStore}
+    return {
+    	messageStore: stores.messageStore,
+		activePageStore: stores.activePageStore
+    }
 })(Message);

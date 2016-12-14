@@ -48,6 +48,7 @@ export const TDS_DATA_ERROR = 'TDS_DATA_ERROR'; //获取体检数据-出错
 //推送消息
 export const PUSH_MESSAGE_ADD = 'PUSH_MESSAGE_ADD'; //添加消息
 export const PUSH_MESSAGE_LIST = 'PUSH_MESSAGE_LIST'; //添加列表
+export const PUSH_MESSAGE_ACTIVE_PAGE = 'PUSH_MESSAGE_ACTIVE_PAGE'; //添加列表
 
 //头像
 export const USER_PIC = 'USER_PIC'; //头像
