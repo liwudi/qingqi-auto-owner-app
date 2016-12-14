@@ -76,7 +76,7 @@ export default class ManagerAdd extends Component {
             Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
             return;
         }
-		Alert.alert('提示',
+		this.props.alert('提示',
 			'是否添加这个管理员？',
 			[
 				{text: '确定', onPress: this._add.bind(this)},
@@ -106,6 +106,7 @@ export default class ManagerAdd extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder={Env.msg.form.truename.placeholder}
 						label="姓名"
+						maxLength={14}
 						validates={[
 							{require:true, msg:Env.msg.form.truename.require},
 						]}

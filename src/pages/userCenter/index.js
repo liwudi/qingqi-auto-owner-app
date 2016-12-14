@@ -89,14 +89,15 @@ class UserCenterHome extends Component {
                             </View>
                         </View>
                     </ViewForRightArrow>
-                    <ViewForRightArrow style={[estyle.marginTop]} onPress = {() => this.goTo(ManagerList)}>
+
+                    {userInfo.role === 4 ? <ViewForRightArrow style={[estyle.marginTop]} onPress = {() => this.goTo(ManagerList)}>
                         <Text style={estyle.text}>车队管理员</Text>
-                    </ViewForRightArrow>
+                    </ViewForRightArrow> : null}
 
                     <ViewForRightArrow style={[estyle.marginTop]}  onPress={this.checkUpdate}>
                         <View style={{flexDirection:'row'}}>
-                            <Text style={estyle.text}>版本更新</Text><
-                            Text style={[estyle.text,{color:'red'}]}> new</Text>
+                            <Text style={estyle.text}>版本更新</Text>
+                            {/*<Text style={[estyle.text,{color:'red'}]}> new</Text>*/}
                             <Text style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>V1.0.1</Text>
                         </View>
                     </ViewForRightArrow>

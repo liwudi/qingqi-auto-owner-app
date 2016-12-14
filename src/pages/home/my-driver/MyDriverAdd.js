@@ -9,7 +9,6 @@ import {
 	View,
 	TouchableOpacity,
 	TextInput,
-	ToastAndroid,
 	StyleSheet,
 	Image
 } from 'react-native';
@@ -22,6 +21,16 @@ import * as Icons from '../../../components/Icons';
 import {addDriver} from '../../../services/MyDriverService';
 import SelectForContacts from '../../contacts/SelectForContacts';
 import PhoneInput from '../../../components/Inputs/Phone';
+
+import Toast from '../../../components/Toast';
+
+const getBLen = function(str) {
+    if (str == null) return 0;
+    if (typeof str != "string"){
+        str += "";
+    }
+    return str.replace(/[^\x00-\xff]/g,"01").length;
+}
 
 const estyle = Env.style;
 export default class MyDriverAdd extends Component {
@@ -39,17 +48,23 @@ export default class MyDriverAdd extends Component {
 
 	addDriver() {
 		if (LabelInput.Validate(this.refs)) {
+
+            if(getBLen(this.state.name) > 14){
+                Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
+                return;
+            }
+
 			this.setState({doing:true});
 			addDriver(this.state)
 				.then(()=>{
-					ToastAndroid.show('添加成功', ToastAndroid.SHORT);
+					Toast.show('添加成功', Toast.SHORT);
 					this.timer=setTimeout(()=>{
 						this.props.refresh();
 						this.props.router.pop();
 					},500)
 				})
 				.catch((e)=>{
-					ToastAndroid.show(e.message, ToastAndroid.SHORT);
+					Toast.show(e.message, Toast.SHORT);
                     this.setState({doing:false});
 				})
 		}
@@ -91,6 +106,7 @@ export default class MyDriverAdd extends Component {
 						label="姓名"
 						value={this.state.name}
 						ref="name"
+						maxLength={14}
 						onChangeText={name => this.setState({name})}
 						validates={[{require:true, msg:"请输入司机姓名。"}]}
 					/>

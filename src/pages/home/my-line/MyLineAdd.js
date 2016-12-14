@@ -91,6 +91,7 @@ export default class MyLineAdd extends Component {
                 {text: '确定', onPress: () => {
                     delCarRoute(carId)
                         .then(() => {
+                            this.props.refresh();
                             this.refs.carList.reInitFetch();
                             Toast.show('删除成功', Toast.SHORT);
                         })
@@ -129,6 +130,7 @@ export default class MyLineAdd extends Component {
             };
             modifyRoute(opts)
                 .then(()=>{
+                    this.props.refresh();
                     Toast.show('修改成功', Toast.SHORT);
                     this.fetchData.bind(this);
                 })

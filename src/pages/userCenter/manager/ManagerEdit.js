@@ -6,7 +6,7 @@
  * 车队管理员编辑
  */
 import React, {Component} from "react";
-import {Text, View, TextInput, ToastAndroid, Alert} from "react-native";
+import {Text, View, TextInput, Alert} from "react-native";
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
@@ -14,8 +14,16 @@ import SubmitButton from "../../../components/SubmitButton";
 import PhoneInput from "../../../components/Inputs/Phone";
 import { IconTrash } from '../../../components/Icons';
 import {modifyManager, deleteManager} from "../../../services/MotorcadeManagerService";
-
+import Toast from '../../../components/Toast';
 const estyle = Env.style;
+
+const getBLen = function(str) {
+    if (str == null) return 0;
+    if (typeof str != "string"){
+        str += "";
+    }
+    return str.replace(/[^\x00-\xff]/g,"01").length;
+}
 
 export default class ManagerEdit extends Component {
 
@@ -35,14 +43,14 @@ export default class ManagerEdit extends Component {
 	 * 移除xxx的管理员权限
 	 */
 	delete () {
-		Alert.alert('提示',
+		this.props.alert('提示',
 			`是否移除用户【${this.props.nav.name}】的管理员权限？`,
 			[
 				{text: '确定', onPress: () => {
 					deleteManager(this.props.nav.phone)
 						.then(
 							() => {
-								ToastAndroid.show('删除成功', ToastAndroid.SHORT);
+								Toast.show('删除成功', Toast.SHORT);
 								setTimeout(() => {
 									this.toListPage();
 								},1000);
@@ -50,7 +58,7 @@ export default class ManagerEdit extends Component {
 						)
 						.catch(
 							(reason) => {
-								ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+								Toast.show(reason.message, Toast.SHORT);
 							}
 						);
 					}
@@ -75,6 +83,10 @@ export default class ManagerEdit extends Component {
 		if (!PhoneInput.Validate(this.refs)) {
 			return;
 		}
+        if(getBLen(this.state.name) > 14){
+            Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
+            return;
+        }
 		this.props.alert('提示',
 			`是否保存？`,
 			[
@@ -83,13 +95,13 @@ export default class ManagerEdit extends Component {
                         this.setState({doing: true});
 						modifyManager(this.state)
 							.then(() => {
-								ToastAndroid.show('保存成功', ToastAndroid.SHORT);
+								Toast.show('保存成功', Toast.SHORT);
 								setTimeout(() => {
 									this.toListPage();
 								},1000);
 							})
 							.catch((reason) => {
-								ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+								Toast.show(reason.message, Toast.SHORT);
                                 this.setState({doing: false});
 							});
 					}
@@ -116,6 +128,7 @@ export default class ManagerEdit extends Component {
 						labelSize="3"
 						defaultValue={this.state.name}
 						ref="name"
+						maxLength={14}
 						onChangeText={(name) => this.setState({name})}
 						validates={[
 							{require:true, msg:Env.msg.form.truename.require},
