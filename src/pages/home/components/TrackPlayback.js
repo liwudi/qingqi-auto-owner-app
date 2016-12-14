@@ -33,11 +33,10 @@ export default class TrackPlayback extends Component {
     selectTime = null;
 	fetchData() {
 		let date = this.selectTime;
-	//	this.time = Math.random();
 		this.setState({animating: true, data: null});
 		queryTrack(Object.assign({carId: this.state.carId, zoom: 0}, date)
 		).then((data) => {
-			if(!data.lons) {
+			if(!data.lons || data.noResult) {
 				data = null;
 				Toast.show('没有行程轨迹', Toast.SHORT);
 			}

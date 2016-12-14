@@ -27,7 +27,7 @@ export default class MyCarItem extends Component {
                 this.setData(data);
             }
         }).catch().finally(()=> {
-            this.props.oneTime && this.setTimer();
+            !this.props.oneTime && this.setTimer();
         });
     }
 

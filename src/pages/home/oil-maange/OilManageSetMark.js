@@ -107,6 +107,7 @@ export default class OilManageSetMark extends Component {
                 />
                 {this.state.carId ?
                     <TrackPlayback
+                        {...this.props}
                         onTimeChange={(date) => {
                             this.selectDate = date
                         }}

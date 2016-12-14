@@ -41,19 +41,27 @@ export default class PlayView extends Component {
     }
     getIntervalTime () {
         totalTime = this.props.totalTime;
-/*        console.info(totalTime)
-        console.info(oneHour)*/
         if(!onePonitTime && totalTime) {
             let hour = Math.round(totalTime / 1000 / 60 / 60);
-        //    console.info(hour)
             if(hour <= minHour) {
                 hour = minHour;
             }
-         //   console.info(hour * oneHour)
             onePonitTime =  hour * oneHour / this.props.dataLength;
         }
         return !!onePonitTime;
     }
+    reset() {
+        this.pause();
+        this.cache_playing = null;
+        this.ready();
+    }
+    componentWillReceiveProps(props) {
+        if (this.rnTime !== props.time) {
+            this.rnTime = props.time;
+            this.reset();
+        }
+    }
+
     componentWillUnmount() {
         this.pause();
     }
@@ -133,7 +141,7 @@ export default class PlayView extends Component {
         this.run();
     };
 
-    render() {
+    renderView() {
         return <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingHorizontal]}>
             <Button onPress={() => {
                 this.changePlay()
@@ -160,6 +168,11 @@ export default class PlayView extends Component {
             />
             <Image source={require('../../../../assets/images/end.png')} style={{width: 25, height: 25}}
                    resizeMode={Image.resizeMode.cover}/>
-        </View>
+        </View>;
+    }
+    render() {
+        return <View>{
+            this.props.dataLength ? this.renderView() : <View/>
+        }</View>
     }
 }
