@@ -20,7 +20,7 @@ export default class App extends Component {
           style={{
             height: this.props.height || 400,
           }}
-          source={require('./tpl.html')}
+          source={{uri:'file:///android_asset/echarts/tpl.html'}}
           onMessage={(e) => this.props.onClick(JSON.parse(e.nativeEvent.data))}
         />
       </View>

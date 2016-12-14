@@ -19,7 +19,6 @@ import BorderButton from '../../../components/BorderButton';
 import TrackPlayback from '../components/TrackPlayback';
 
 import OilManageSelectCar from './OilManageSelectCar';
-import {queryShareSummary} from '../../../services/MonitorService';
 import {standardMark} from '../../../services/AppService';
 
 import Env from '../../../utils/Env';
@@ -60,20 +59,17 @@ export default class OilManageSetMark extends Component {
                 {
                     text: '确认', onPress: () => {
 
-                    queryShareSummary({...this.selectDate, carId: this.state.carId})
-                        .then(rs => {
-                            return standardMark({
-                                routeId: this.props.routeId,
-                                carId: this.state.carId,
-                                startTime: moment(this.selectDate.beginDate).format('YYYY-MM-DD HH:mm'),
-                                endTime: moment(this.selectDate.endDate).format('YYYY-MM-DD HH:mm'),
-                                totalMileage: Math.floor(rs.mileageTotal),
-                                totalOilwear: rs.oilwearTotal,
-                                avgOilwear: rs.oilwearAvg,
-                                avgSpeed: 66,
-                                level: 0,
-                            })
-                        })
+                    standardMark({
+                        routeId: this.props.routeId,
+                        carId: this.state.carId,
+                        startTime: moment(this.selectDate.beginDate).format('YYYY-MM-DD HH:mm'),
+                        endTime: moment(this.selectDate.endDate).format('YYYY-MM-DD HH:mm'),
+                        // totalMileage: Math.floor(rs.mileageTotal),
+                        // totalOilwear: rs.oilwearTotal,
+                        // avgOilwear: rs.oilwearAvg,
+                        // avgSpeed: 66,
+                        // level: 0,
+                    })
                         .then(rs => {
                             this.props.backFuns.forEach((item, index) => {
                                 index == 0 ? item(1) : item()

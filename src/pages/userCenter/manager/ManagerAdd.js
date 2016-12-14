@@ -6,7 +6,7 @@
  * 车队管理员添加
  */
 import React, {Component} from "react";
-import {Text, View, TextInput, ToastAndroid, Image, Alert, TouchableOpacity} from "react-native";
+import {Text, View, TextInput, Image, Alert, TouchableOpacity} from "react-native";
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
@@ -15,9 +15,18 @@ import PhoneInput from "../../../components/Inputs/Phone";
 import {addManager} from "../../../services/MotorcadeManagerService";
 import SelectForContacts from '../../contacts/SelectForContacts';
 import { IconAddressBook, IconFire } from '../../../components/Icons';
+import Toast from '../../../components/Toast';
 
 
 const estyle = Env.style;
+
+const getBLen = function(str) {
+    if (str == null) return 0;
+    if (typeof str != "string"){
+        str += "";
+    }
+    return str.replace(/[^\x00-\xff]/g,"01").length;
+}
 
 export default class ManagerAdd extends Component {
 
@@ -51,11 +60,11 @@ export default class ManagerAdd extends Component {
 	_add(){
 		addManager(this.state)
 			.then(() => {
-				ToastAndroid.show('添加成功', ToastAndroid.SHORT);
+				Toast.show('添加成功', Toast.SHORT);
 				setTimeout(this.toListPage.bind(this), 1000);
 			})
 			.catch((reason) => {
-				ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+				Toast.show(reason.message, Toast.SHORT);
 			})
 	}
 
@@ -63,7 +72,11 @@ export default class ManagerAdd extends Component {
 		if (!PhoneInput.Validate(this.refs)) {
 			return;
 		}
-		Alert.alert('提示',
+        if(getBLen(this.state.name) > 14){
+            Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
+            return;
+        }
+		this.props.alert('提示',
 			'是否添加这个管理员？',
 			[
 				{text: '确定', onPress: this._add.bind(this)},
@@ -93,6 +106,7 @@ export default class ManagerAdd extends Component {
 						style = {[estyle.borderBottom]}
 						placeholder={Env.msg.form.truename.placeholder}
 						label="姓名"
+						maxLength={14}
 						validates={[
 							{require:true, msg:Env.msg.form.truename.require},
 						]}

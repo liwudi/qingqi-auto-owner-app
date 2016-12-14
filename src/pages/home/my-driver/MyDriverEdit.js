@@ -6,15 +6,23 @@
  * 我的司机编辑
  */
 import React, {Component} from "react";
-import {Text, View, TextInput, ToastAndroid, Alert, TouchableOpacity} from "react-native";
+import {Text, View, TextInput, Alert, TouchableOpacity} from "react-native";
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
 import SubmitButton from "../../../components/SubmitButton";
 import { IconTrash } from '../../../components/Icons';
 import PhoneInput from '../../../components/Inputs/Phone';
-
+import Toast from '../../../components/Toast';
 import {modifyDriver, deleteDriver} from "../../../services/MyDriverService";
+
+const getBLen = function(str) {
+    if (str == null) return 0;
+    if (typeof str != "string"){
+        str += "";
+    }
+    return str.replace(/[^\x00-\xff]/g,"01").length;
+}
 
 const estyle = Env.style;
 
@@ -46,7 +54,7 @@ export default class MyDriverEdit extends Component {
         deleteDriver(this.props.nav.phone)
             .then(
                 () => {
-                    ToastAndroid.show('删除成功', ToastAndroid.SHORT);
+                    Toast.show('删除成功', Toast.SHORT);
                     setTimeout(() => {
                         this.toListPage();
                     },1000);
@@ -54,7 +62,7 @@ export default class MyDriverEdit extends Component {
             )
             .catch(
                 (reason) => {
-                    ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+                    Toast.show(reason.message, Toast.SHORT);
                 }
             );
     }
@@ -77,16 +85,22 @@ export default class MyDriverEdit extends Component {
 
 	_modify(){
         if (LabelInput.Validate(this.refs)) {
+
+            if(getBLen(this.state.name) > 14){
+                Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
+                return;
+            }
+
             this.setState({doing: true});
             modifyDriver(this.state, this.props.nav.phone)
                 .then(() => {
-                    ToastAndroid.show('保存成功', ToastAndroid.SHORT);
+                    Toast.show('保存成功', Toast.SHORT);
                     setTimeout(() => {
                         this.toListPage();
                     }, 1000);
                 })
                 .catch((reason) => {
-                    ToastAndroid.show(reason.message, ToastAndroid.SHORT);
+                    Toast.show(reason.message, Toast.SHORT);
                     this.setState({doing: false});
                 });
         }
@@ -128,6 +142,7 @@ export default class MyDriverEdit extends Component {
                         label="姓名"
                         labelSize="3"
                         ref="name"
+						maxLength={14}
                         defaultValue={this.state.name}
                         onChangeText={name => this.setState({name})}
                         validates={[{require:true, msg:"请输入司机姓名。"}]}

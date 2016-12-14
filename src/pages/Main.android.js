@@ -13,7 +13,8 @@ import {
 	DeviceEventEmitter,
 	NetInfo,
 	Switch,
-	NativeModules
+	NativeModules,
+    Image
 } from 'react-native';
 
 import Toast from '../components/Toast';
@@ -164,6 +165,7 @@ class Main extends Component {
 			<View style={[estyle.fx1]}>
 				{this.renderMain()}
 				<Alert2 ref="alert"/>
+				{/*<Image style={{width: 340, height: 340}} source={{uri:'http://s1.dwstatic.com/group1/M00/E7/2F/2ba0a2d7480737255620f56722901cc4.gif'}}/>*/}
 				</View>
 		);
 	}

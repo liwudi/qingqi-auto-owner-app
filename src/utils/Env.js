@@ -287,7 +287,7 @@ const msg = {
     },
     truename: {
       require: '请输入姓名',
-      placeholder: '请输入姓名'
+      placeholder: '请输入姓名',
     },
     code: {
       require: '请输入短信验证码',
