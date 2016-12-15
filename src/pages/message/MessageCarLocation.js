@@ -156,6 +156,7 @@ export default class MessageCarLocation extends Component {
 						   onInit={(instance)=> {
 							   this.onInit(instance);
 						   }}
+						   router={this.props.router}
 						   legend={this.renderLegend()}/>
 				{this.renderBottom()}
 			</View>

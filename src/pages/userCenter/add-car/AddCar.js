@@ -60,6 +60,9 @@ class AddCar extends Component {
             this.props.dispatch(AddCarAction.getCarList(this.state, this.toList.bind(this),this.toVin.bind(this)));
         }
     }
+    componentWillUnmount() {
+        this.props.nav.backRender();
+    }
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>

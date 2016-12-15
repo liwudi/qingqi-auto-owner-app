@@ -131,7 +131,7 @@ const _addPersonalMessageCount = () => {
         return global.storage.save({
             key: STORAGE_KEY_MESSAGE_UNREAD_COUNT,
             rawData: {
-                count : count
+                count : currentPage === '0-1' ? 0 : count
             },
             expires: null
         })

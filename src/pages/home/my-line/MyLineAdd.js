@@ -58,6 +58,9 @@ export default class MyLineAdd extends Component {
         this.state.routeInfo.routeId && this.fetchData();
     }
 
+    componentWillUnmount() {
+
+    }
     carList() {
         if (this.state.carList) {
             return <PageList
@@ -114,6 +117,7 @@ export default class MyLineAdd extends Component {
 
         modifyRoute(opts)
             .then(()=>{
+                this.props.refresh();
                 Toast.show('删除途经点成功', Toast.SHORT);
                 this.fetchData();
             })
@@ -175,6 +179,7 @@ export default class MyLineAdd extends Component {
 
         modifyRoute(opts)
             .then(()=>{
+                this.props.refresh();
                 Toast.show('添加成功', Toast.SHORT);
                 this.fetchData();
             })
@@ -243,7 +248,6 @@ export default class MyLineAdd extends Component {
             deleteRoute(this.props.routeId)
                 .then((rs) => {
                     Toast.show('删除成功', Toast.SHORT);
-                    this.props.refresh();
                     this.props.router.pop();
                 })
                 .catch(e => {
@@ -381,6 +385,7 @@ export default class MyLineAdd extends Component {
                                 this.props.router.push(MyLineAddCarList, {
                                     routeId: this.state.routeInfo.routeId,
                                     update: () => {
+                                        this.props.refresh();
                                         this.refs.carList.reInitFetch();
                                     }
                                 });
