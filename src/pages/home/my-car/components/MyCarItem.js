@@ -15,28 +15,22 @@ import { IconUser, IconLocationMarker } from '../../../../components/Icons';
 
 export default class MyCarItem extends Component {
 
-    render() {
+    constructor() {
+        super();
+        this.cacheData = {};
+    }
 
-        let item = this.props.data;
-//console.info(item)
-        // item = {"realtimeSpeed": 60.1,
-        //     "todayLen": 34.1,
-        //     "position": "辽宁省沈阳市华航大厦",
-        //     "slaveDriver": "李四",
-        //     "mastDriver": "张三",
-        //     "carCode": "辽A88888",
-        //     "carId": "1234567"}
-
-        const SpeedView= (realtimeSpeed) => {
-            if(typeof realtimeSpeed === 'undefined') {
-                return '';
-            } else if (realtimeSpeed == 0) {
-                return "静止";
-            } else {
-                return realtimeSpeed + "km/h";
-            }
+    SpeedView = (realtimeSpeed) => {
+        if(typeof realtimeSpeed === 'undefined') {
+            return '';
+        } else if (realtimeSpeed == 0) {
+            return "静止";
+        } else {
+            return realtimeSpeed + "km/h";
         }
-
+    }
+    render() {
+        let item = Object.assign(this.cacheData, this.props.data);
         return (
             <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
                 <View style={[estyle.fxRow]}>
@@ -59,7 +53,7 @@ export default class MyCarItem extends Component {
                         <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
                         <Text> </Text>
                         <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
-                        <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{SpeedView(item.realtimeSpeed)}</Text>
+                        <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{this.SpeedView(item.realtimeSpeed)}</Text>
                     </View>
                     {/*<View style={[estyle.paddingRight]}>*/}
                     {/*<IconTrash/>*/}
