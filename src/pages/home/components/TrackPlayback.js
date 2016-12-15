@@ -24,6 +24,7 @@ export default class TrackPlayback extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+
 			data: null,
 			animating: false,
 			carId: props.nav.carId
@@ -71,7 +72,9 @@ export default class TrackPlayback extends Component {
                     <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
                 </View>
 				<View style={[estyle.fx1]}>
-					<MapLine data={this.state.data} time={this.time} {...this.props}/>
+					<MapLine
+						data={this.state.data}
+						time={this.time} {...this.props}/>
 				</View>
 				<DateButtonGroup {...this.props}
 								 selectTime={(date) => {
