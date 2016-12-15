@@ -15,6 +15,10 @@ const ServerConfig = {
     // WD_SERVICE: 'http://192.168.85.49/',
     WD_SERVICE: 'http://119.255.37.167:8808/',
 
+    BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
+
+    GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
+
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
 
     IMG_SERVICE: 'https://wdservice.mapbar.com/ssoapi/user/queryPicById',//用于头像相关

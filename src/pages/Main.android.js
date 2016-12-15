@@ -60,7 +60,6 @@ class Main extends Component {
 
 		addEventSystemBack(
 			(exitApp) => {
-				// console.info(123)
 				if(this.navigator.getCurrentRoutes().length > 1){
 					this.navigator.pop();
 					return true;
@@ -99,7 +98,6 @@ class Main extends Component {
 
         });
         DeviceEventEmitter.addListener("notificationReceive", (event) => {
-            console.log('收到了通知栏消息：', event);
             event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
             console.log('收到了通知栏消息：', event);
 
@@ -109,11 +107,11 @@ class Main extends Component {
                 this.props.dispatch(MessageActions.addMessage(event));
 			}
         });
-        DeviceEventEmitter.addListener("messageReceiver", (event) => {
-            event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
-            console.log('接收到消息：', event);
-            this.props.dispatch(MessageActions.addMessage(event));
-        });
+        // DeviceEventEmitter.addListener("messageReceiver", (event) => {
+        //     event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
+        //     console.log('接收到消息：', event);
+        //     this.props.dispatch(MessageActions.addMessage(event));
+        // });
 	
 	this.props.dispatch(MessageActions.getMessages());
 

@@ -55,7 +55,7 @@ class PersonalMessage extends Component{
                                     <View style={estyle.fx1}>
                                         <Text style={[estyle.articleTitle]}>{row.message.Title}</Text>
                                     </View>
-                                    <Text style={[estyle.text,estyle.marginLeft]}>{moment(row.time).format('MM-DD hh:ss')}</Text>
+                                    <Text style={[estyle.text,estyle.marginLeft]}>{moment(row.time).format('MM-DD HH:ss')}</Text>
                                 </View>
                                 <View>
                                     <Text style={[estyle.note]}>{row.message.Content}</Text>

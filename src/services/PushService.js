@@ -14,6 +14,25 @@ const STORAGE_KEY_CARS = 'pushMessageCars';
 //车辆消息集合  存储某车的所有消息
 const STORAGE_KEY_CAR = 'pushMessageCar';
 
+let currentPage = null;
+
+export function setCurrentPage(main, message, next) {
+    let cp = `${main}-${message}`;
+    switch (cp){
+        case '0-0':
+            //在消息列表车辆消息页
+            resetCarMessageCount();
+            break;
+        case '0-1':
+            resetPersonalMessageCount();
+            next && next();
+            break;
+        default:
+
+    }
+    currentPage = `${main}-${message}`;
+}
+
 /**
  * 添加消息
  * @param message
@@ -172,6 +191,23 @@ export function  readAllCarMessage  ()  {
         console.log('readAllCarMessage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',rs)
         return rs;
     });
+}
+
+export function  resetCarMessageCount  ()  {
+    // return global.storage.getAllDataForKey(STORAGE_KEY_CARS).then(rs => {
+    //     console.log('readAllCarMessage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',rs)
+    //     return rs;
+    // });
+}
+
+export function  resetPersonalMessageCount  ()  {
+    global.storage.save({
+        key: STORAGE_KEY_MESSAGE_UNREAD_COUNT,
+        rawData: {
+            count : 0
+        },
+        expires: null
+    })
 }
 
 export function  readAllCarMessageUnreadCount  ()  {

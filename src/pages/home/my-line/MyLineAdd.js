@@ -396,9 +396,9 @@ export default class MyLineAdd extends Component {
                                     <Text style={[estyle.articleTitle]}>{item.carCode}</Text>
                                     <View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
                                         <IconUser color='#FEBEBE'/><Text> </Text>
-                                        <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mastDriver || '无'}</Text>
+                                        <Text style={[estyle.note, estyle.marginRight,{color: Env.color.text}]}>{item.mainDriverName || '无'}</Text>
                                         <IconUser color='#C4DFFE'/><Text> </Text>
-                                        <Text style={[estyle.note, {color: Env.color.text}]}>{item.slaveDriver || '无'}</Text>
+                                        <Text style={[estyle.note, {color: Env.color.text}]}>{item.subDriverName || '无'}</Text>
                                     </View>
                                 </View>
                                 <BorderButton onPress={() => this.delCarRoute(item.carId)}>删除</BorderButton>
