@@ -105,29 +105,52 @@ export default class MapLine extends Component {
         this.pointIndex = 0;
     }
 
-    initLine(data) {
+    clearMap() {
         this.Map && this.Map.clearOverlays();
         this.setState({dataLength: 0, progress: 0});
-        if (data) {
-            setTimeout(() => {
-                data = Decode.setData(data);
-                if (data.length) {
-                    line = data;
-                    this.setState({dataLength: data.length, progress: 0});
-                    this.lineBounds = Decode.getBounds();
-                    setTimeout(() => {
-                        this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
-                        this.Map.getZoomLevel().then((zoom) => {
-                            this.zoom = +zoom;
-                            this.addLine(true);
-                        });
-                    }, 300);
-                    this.addMarker();
-                    this.addCar();
-                    this.setTimes();
-                }
-            }, 500);
+    }
+
+    initLine(data) {
+        this.clearMap();
+        if(data.noResult) return;
+        line = data = Decode.setData(data);
+        setTimeout(() => {
+            if (data.length) {
+                this.setState({dataLength: data.length, progress: 0});
+                this.lineBounds = Decode.getBounds();
+                    this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
+                    this.Map.getZoomLevel().then((zoom) => {
+                        this.zoom = +zoom;
+                        this.addLine(true);
+                    });
+                this.addMarker();
+                this.addCar();
+                this.setTimes();
+            }
+        }, 500);
+    }
+
+    onInit(instance) {
+        this.mapRef = instance.getMapRef();
+        this.Map = instance;
+        this.MPoint = instance.MPoint;
+        this.Marker = instance.Marker;
+        this.MarkerRotate = instance.MarkerRotate;
+        this.Line = instance.Line;
+        this.setState({initMap: true});
+    }
+    shouldComponentUpdate(props, state) {
+        let result = props.data && state.initMap;
+        if(result) {
+            if (this.rnTime !== props.time) {
+                this.rnTime = props.time;
+                this.initLine(Object.assign({},props.data));
+            }
         }
+        return true;
+    }
+    componentWillReceiveProps(props) {
+
     }
 
     setTimes() {
@@ -148,9 +171,7 @@ export default class MapLine extends Component {
                 currentTime: line[index].time
             });
         }
-
     }
-
 
 
     onZoomChange(zoom) {
@@ -260,17 +281,6 @@ export default class MapLine extends Component {
 
     }
 
-
-    onInit(instance) {
-        this.mapRef = instance.getMapRef();
-        this.Map = instance;
-        this.MPoint = instance.MPoint;
-        this.Marker = instance.Marker;
-        this.MarkerRotate = instance.MarkerRotate;
-        this.Line = instance.Line;
-        this.initLine(this.props.data);
-    }
-
     componentWillUnmount() {
         this.Map.pause();
         this.Map.clearOverlays();
@@ -280,13 +290,7 @@ export default class MapLine extends Component {
         this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
     }
 
-    componentWillReceiveProps(props) {
-        if (this.rnTime !== props.time) {
-            //this.setState({rnTime: this.time});
-            this.initLine(props.data);
-            this.rnTime = props.time;
-        }
-    }
+
 
     changePlayType() {
         this.changeTimer && clearTimeout(this.changeTimer);

@@ -70,8 +70,8 @@ const get = (line, mapLevel, paint) => {
         addBaseLine = (_line) => {
             baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
         };
-        line.map((_line) => {
-            if (inLevelRange(_line, mapLevel)) {
+        line.map((_line, index) => {
+            if (!index || index === line.length - 1 || inLevelRange(_line, mapLevel)) {
                 addBaseLine(_line);
                 pts.push(Object.assign({}, _line));
             }
