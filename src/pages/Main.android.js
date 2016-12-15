@@ -14,8 +14,7 @@ import {
 	NetInfo,
 	Switch,
 	NativeModules,
-    Image,
-	WebView
+    Image
 } from 'react-native';
 
 import Toast from '../components/Toast';
@@ -27,13 +26,13 @@ import { addEventSystemBack } from '../utils/SystemEvents';
 
 import Router from '../services/RouterService';
 
-import Modal from '../components/widgets/Modal';
 
 import Env from '../utils/Env'
 const estyle = Env.style;
 import {Alert2} from '../components/Modals/Alert';
 
-import Video from 'react-native-video';
+import VideoShow from './VideoShow';
+
 
 class Main extends Component {
 
@@ -54,8 +53,7 @@ class Main extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			isConnected: true,
-            modalShow: true
+			isConnected: true
 		};
 
 
@@ -92,15 +90,24 @@ class Main extends Component {
             console.log('点击了通知栏消息：', event);
             console.log(this.navigator.getCurrentRoutes())
             // this.props.dispatch(MessageActions.addMessage(event));
+
+            if(/庆祝解放行车联网品牌发布/.test(event.Title)){
+                this.router.push(VideoShow);
+            }else{
+                this.props.dispatch(MessageActions.addMessage(event));
+            }
+
         });
         DeviceEventEmitter.addListener("notificationReceive", (event) => {
             console.log('收到了通知栏消息：', event);
             event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
             console.log('收到了通知栏消息：', event);
-            this.setState({
-            	modalShow: true
-			});
-            //this.props.dispatch(MessageActions.addMessage(event));
+
+            if(/庆祝解放行车联网品牌发布/.test(event.Title)){
+                this.router.push(VideoShow);
+			}else{
+                this.props.dispatch(MessageActions.addMessage(event));
+			}
         });
         DeviceEventEmitter.addListener("messageReceiver", (event) => {
             event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
@@ -109,7 +116,8 @@ class Main extends Component {
         });
 	
 	this.props.dispatch(MessageActions.getMessages());
-	NetInfo.isConnected.fetch().done(isConnected => {
+
+		NetInfo.isConnected.fetch().done(isConnected => {
             console.info('net status', isConnected, 'from fetch');
             global.NetIsConnected = isConnected;
             this.setState({NetIsConnected: isConnected});
@@ -173,12 +181,7 @@ class Main extends Component {
 			<View style={[estyle.fx1]}>
 				{this.renderMain()}
 				<Alert2 ref="alert"/>
-
-				<Modal style={[estyle.fxCenter,estyle.fx1]} visible={this.state.modalShow}>
-					<Video style={[estyle.fx1]} source={{uri:'https://vjs.zencdn.net/v/oceans.mp4'}}></Video>
-
-				</Modal>
-				</View>
+			</View>
 		);
 	}
 }
@@ -186,19 +189,3 @@ class Main extends Component {
 export default connect(function (stores) {
 	return {messageStore: stores.messageStore}
 })(Main);
-
-/**
- * <WebView
- mediaPlaybackRequiresUserAction={false}
- style={[{width:Env.screen.width,height:Env.screen.height}]}
- source={{uri:'file:///android_asset/video/index.html'}}
- onMessage={(event) => {
-
-							let e = JSON.parse(event.nativeEvent.data);
-                            console.log(e.event)
-							if(e.event == 'ended'){
-                                this.setState({modalShow:false});
-							}
-						}}
- />
- **/

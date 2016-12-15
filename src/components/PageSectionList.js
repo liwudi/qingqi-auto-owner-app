@@ -89,7 +89,9 @@ export default class PageSectionList extends Component {
     }
 
     componentDidMount(){
-        this.getData();
+        setTimeout(() => {
+            this.getData();
+        },500);
     }
 
     reInitFetch(){
@@ -201,7 +203,11 @@ export default class PageSectionList extends Component {
 
 
         return (
-            <View  style={[this.props.style,{paddingRight:Env.font.base * 20}]}>
+            <View onLayout={(e) => {
+                console.log(`this._startViewY` ,e.nativeEvent.layout.y)
+                this._startViewY = e.nativeEvent.layout.y + 84 * Env.font.base
+            }}
+                  style={[this.props.style,{paddingRight:Env.font.base * 20}]}>
                 {_listView()}
                 <View  style={[
                     Env.style.fxCenter,
