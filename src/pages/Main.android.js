@@ -14,7 +14,8 @@ import {
 	NetInfo,
 	Switch,
 	NativeModules,
-    Image
+    Image,
+	WebView
 } from 'react-native';
 
 import Toast from '../components/Toast';
@@ -26,7 +27,7 @@ import { addEventSystemBack } from '../utils/SystemEvents';
 
 import Router from '../services/RouterService';
 
-
+import Modal from '../components/widgets/Modal';
 
 import Env from '../utils/Env'
 const estyle = Env.style;
@@ -51,7 +52,8 @@ class Main extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			isConnected: true
+			isConnected: true,
+            modalShow: false
 		};
 
 
@@ -90,9 +92,13 @@ class Main extends Component {
             // this.props.dispatch(MessageActions.addMessage(event));
         });
         DeviceEventEmitter.addListener("notificationReceive", (event) => {
+            console.log('收到了通知栏消息：', event);
             event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
             console.log('收到了通知栏消息：', event);
-            this.props.dispatch(MessageActions.addMessage(event));
+            this.setState({
+            	modalShow: true
+			});
+            //this.props.dispatch(MessageActions.addMessage(event));
         });
         DeviceEventEmitter.addListener("messageReceiver", (event) => {
             event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
@@ -165,7 +171,22 @@ class Main extends Component {
 			<View style={[estyle.fx1]}>
 				{this.renderMain()}
 				<Alert2 ref="alert"/>
-				{/*<Image style={{width: 340, height: 340}} source={{uri:'http://s1.dwstatic.com/group1/M00/E7/2F/2ba0a2d7480737255620f56722901cc4.gif'}}/>*/}
+
+				<Modal style={[estyle.fxCenter,estyle.fx1]} visible={this.state.modalShow}>
+					<WebView
+						mediaPlaybackRequiresUserAction={false}
+						style={[{width:Env.screen.width,height:Env.screen.height}]}
+						source={{uri:'file:///android_asset/video/index.html'}}
+						onMessage={(event) => {
+
+							let e = JSON.parse(event.nativeEvent.data);
+                            console.log(e.event)
+							if(e.event == 'ended'){
+                                this.setState({modalShow:false});
+							}
+						}}
+					/>
+				</Modal>
 				</View>
 		);
 	}

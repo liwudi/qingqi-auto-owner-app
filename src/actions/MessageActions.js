@@ -28,6 +28,12 @@ export function getMessages() {
 	}
 }
 
+export function setCurrentActivePage(activePage){
+    return (dispatch) => {
+        dispatch({'type': TYPES.PUSH_MESSAGE_ACTIVE_PAGE, ...activePage});
+    }
+}
+
 export function messageCountHaveAdd(have = true) {
     return (dispatch) => {
     	if(have){

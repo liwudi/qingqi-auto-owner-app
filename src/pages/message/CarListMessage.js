@@ -26,6 +26,10 @@ class CarListMessage extends Component{
         setTimeout(() => this.refs.list.reInitFetch(), 50);
     }
 
+    getComponentName(){
+        return 'CarListMessage';
+    }
+
 
     render() {
         return(

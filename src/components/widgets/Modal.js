@@ -12,6 +12,9 @@ const estyle = Env.style;
 
 const color = Env.button.color.confirm;
 export default class ModalAndroid extends Component {
+    static defaultProps = {
+        onClose: () => {}
+    }
     render() {
         return <Modal
             animationType={"fade"}

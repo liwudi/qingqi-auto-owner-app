@@ -24,6 +24,10 @@ import TripManage from './oil-maange/TripManage';
 import * as Icons from '../../components/Icons';
 import Toast from '../../components/Toast';
 
+import MessageGoods from '../message/MessageGoods';
+import Bbs from './bbs/index';
+import CustomerService from './customer-service/CustomerService';
+
 
 import { IconSearch } from '../../components/Icons';
 
@@ -105,6 +109,11 @@ export default class HomePage extends Component {
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Monitor)} src={require('../../assets/images/icon-4.png')} title="实时监控"/>
 					<ImgButton onPress={() => this.goTo(OilManage)} src={require('../../assets/images/icon-5.png')} title="油耗管理"/>
+					<ImgButton onPress={() => this.goTo(MessageGoods)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
+				</View>
+				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
+					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
+					<ImgButton onPress={() => this.goTo(CustomerService)} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
 					<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>
 				</View>
 			</View>

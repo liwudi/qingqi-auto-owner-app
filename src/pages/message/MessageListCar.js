@@ -20,19 +20,30 @@ import ConfirmButton from '../../components/ConfirmButton';
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import { readAllCarMessageForId } from '../../services/PushService';
 import MessageCarLocation from './MessageCarLocation';
+import { setCurrentActivePage } from '../../actions/MessageActions';
+
+
 const estyle = Env.style;
 
 class MessageListCar extends Component {
+
+	constructor(props){
+		super(props);
+        this.props.dispatch(setCurrentActivePage({carId: props.carId}));
+	}
 
     componentWillReceiveProps(nextProps){
         console.log('CarListMessage componentWillReceiveProps');
 		setTimeout(() => this.refs.list.reInitFetch(), 50);
     }
 
-	render() {
+    render() {
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
-				<TopBanner {...this.props} title={this.props.carNumber}/>
+				<TopBanner {...this.props} title={this.props.carNumber} doBack={() => {
+                    this.props.dispatch(setCurrentActivePage({carId: ''}));
+					this.props.doBack();
+				}}/>
 				<PageList
 					ref="list"
 					style={estyle.fx1}

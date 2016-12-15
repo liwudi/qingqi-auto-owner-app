@@ -11,9 +11,20 @@ const STATE = {
 export function messageStore(state = STATE, action){
 	switch (action.type){
 		case TYPES.PUSH_MESSAGE_LIST:
-			return Object.assign({},STATE,{ ...action, status: action.type});
+			return Object.assign({}, state ,{ ...action, status: action.type});
 			break;
 		default:
 			return state;
 	}
+}
+
+export function activePageStore(state = STATE, action) {
+	console.log(action)
+    switch (action.type){
+        case TYPES.PUSH_MESSAGE_ACTIVE_PAGE:
+            return Object.assign({}, state , action );
+            break;
+        default:
+            return state;
+    }
 }

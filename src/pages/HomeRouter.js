@@ -17,6 +17,7 @@ import HomePage from './home/HomePage';
 import UserCenterHome from './userCenter';
 import Message from './message/Message';
 import News from './home/news/News';
+import { setCurrentActivePage } from '../actions/MessageActions';
 
 import Login from './user/index';
 
@@ -77,18 +78,27 @@ class HomeRouter extends Component {
         }
 	}
 
+	setCurrentPage = (index) => {
+        this.props.dispatch(setCurrentActivePage({main:index}));
+	}
+
 	render() {
 		return (
 			<Navigator
 				initialRoute={initialRoute}
 				navigationBar={<MainNavBar
 					ref={(navBar) => {this.navBar = navBar;}}
-					changeTab={(index, navigator) => navigator.jumpTo(tabs[index])}
+					changeTab={(index, navigator) => {
+						navigator.jumpTo(tabs[index]);
+                    }}
 					sign={this.props.messageStore.AllUnReadCount}
 				/>}
 				initialRouteStack={tabs}
 				configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
-				onDidFocus={(router) => {this.navBar.changeTab(router.index, false)}}
+				onDidFocus={(router) => {
+					this.navBar.changeTab(router.index, false);
+                    this.setCurrentPage(router.index)
+				}}
 				renderScene={(route, navigator) => {
 					let Component = route.component;
 					return <Component
