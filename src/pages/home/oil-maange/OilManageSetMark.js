@@ -5,8 +5,8 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    TouchableOpacity, Alert, DatePickerAndroid,
-    ToastAndroid
+    TouchableOpacity, DatePickerAndroid,
+    ToastAndroid,StyleSheet
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -14,12 +14,17 @@ import moment from 'moment';
 
 
 import {IconArrowDown, IconQuestion} from '../../../components/Icons';
-import BorderButton from '../../../components/BorderButton';
 
 import TrackPlayback from '../components/TrackPlayback';
 
 import OilManageSelectCar from './OilManageSelectCar';
 import {standardMark} from '../../../services/AppService';
+
+
+import ListItem from '../../../components/ListItem';
+import {statisOilwearForOneRoute} from '../../../services/AppService';
+import BorderButton from '../../../components/BorderButton';
+import PageList from '../../../components/PageList';
 
 import Env from '../../../utils/Env';
 const estyle = Env.style;
@@ -30,7 +35,8 @@ export default class OilManageSetMark extends Component {
         super(props);
         this.state = {
             title: '请选择车辆',
-            timeType: 1
+            timeType: 1,
+            showSelect: true
         }
     }
 
@@ -47,7 +53,8 @@ export default class OilManageSetMark extends Component {
     setCar(carInfo) {
         this.setState({
             title: carInfo.carCode,
-            carId: carInfo.carId
+            carId: carInfo.carId,
+            showSelect:false
         })
     }
 
@@ -89,7 +96,7 @@ export default class OilManageSetMark extends Component {
     }
 
     componentDidMount() {
-        this.props.alert('提示', '请选择一辆车查看轨迹', [{text: '选择车辆', onPress: this.selectCar.bind(this)}])
+        // this.props.alert('提示', '请选择一辆车查看轨迹', [{text: '选择车辆', onPress: this.selectCar.bind(this)}])
     }
 
     render() {
@@ -98,13 +105,36 @@ export default class OilManageSetMark extends Component {
                 <TopBanner
                     {...this.props}
                     titleView={
-                        <TouchableOpacity onPress={this.selectCar.bind(this)}
+                        <TouchableOpacity onPress={() => this.setState({showSelect:true})}
                                           style={[estyle.fx1, estyle.fxRow, estyle.fxRowCenter, {backgroundColor: 'transparent'}]}>
                             <Text style={[estyle.articleTitle, {color: '#FFF'}]}>{this.state.title}</Text><IconArrowDown
                             color="#FFF"/>
                         </TouchableOpacity>
                     }
                 />
+                <View style={[
+                    styles.optionContainer,
+                    {
+                        zIndex: 10,
+                        height: ( this.state.showSelect ?  Env.screen.height - 84 * basefont : 0)}
+                        ]
+                } visible={false}>
+                    <PageList
+                        style={[{height:Env.screen.height/2}]}
+                        renderRow={(row) => {
+                            return (
+                                <ListItem left={row.carCode} right={<BorderButton onPress={() => this.setCar(row)}>选择</BorderButton>} />
+                            )
+                        }}
+                        fetchData={(pageNumber, pageSize) => {
+                            return statisOilwearForOneRoute(
+                                pageNumber,
+                                pageSize,
+                                this.props.routeId,
+                                this.props.date.format('YYYYMMDD'))
+                        }}
+                    />
+                </View>
                 {this.state.carId ?
                     <TrackPlayback
                         {...this.props}
@@ -134,3 +164,14 @@ export default class OilManageSetMark extends Component {
         );
     }
 }
+
+const basefont = Env.font.base;
+const styles = StyleSheet.create({
+    optionContainer: {
+        position: 'absolute',
+        width: Env.screen.width,
+        height:0,
+        backgroundColor: Env.color.modalBg,
+        top: 84 * basefont
+    }
+});
