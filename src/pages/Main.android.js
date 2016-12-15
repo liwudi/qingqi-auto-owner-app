@@ -33,6 +33,8 @@ import Env from '../utils/Env'
 const estyle = Env.style;
 import {Alert2} from '../components/Modals/Alert';
 
+import Video from 'react-native-video';
+
 class Main extends Component {
 
 	navigator = null;
@@ -53,7 +55,7 @@ class Main extends Component {
 		super(props);
 		this.state = {
 			isConnected: true,
-            modalShow: false
+            modalShow: true
 		};
 
 
@@ -173,19 +175,8 @@ class Main extends Component {
 				<Alert2 ref="alert"/>
 
 				<Modal style={[estyle.fxCenter,estyle.fx1]} visible={this.state.modalShow}>
-					<WebView
-						mediaPlaybackRequiresUserAction={false}
-						style={[{width:Env.screen.width,height:Env.screen.height}]}
-						source={{uri:'file:///android_asset/video/index.html'}}
-						onMessage={(event) => {
+					<Video style={[estyle.fx1]} source={{uri:'https://vjs.zencdn.net/v/oceans.mp4'}}></Video>
 
-							let e = JSON.parse(event.nativeEvent.data);
-                            console.log(e.event)
-							if(e.event == 'ended'){
-                                this.setState({modalShow:false});
-							}
-						}}
-					/>
 				</Modal>
 				</View>
 		);
@@ -195,3 +186,19 @@ class Main extends Component {
 export default connect(function (stores) {
 	return {messageStore: stores.messageStore}
 })(Main);
+
+/**
+ * <WebView
+ mediaPlaybackRequiresUserAction={false}
+ style={[{width:Env.screen.width,height:Env.screen.height}]}
+ source={{uri:'file:///android_asset/video/index.html'}}
+ onMessage={(event) => {
+
+							let e = JSON.parse(event.nativeEvent.data);
+                            console.log(e.event)
+							if(e.event == 'ended'){
+                                this.setState({modalShow:false});
+							}
+						}}
+ />
+ **/
