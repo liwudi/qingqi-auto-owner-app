@@ -18,7 +18,7 @@ import MyCarItem from '../monitor/components/MyCarItem';
 
 import { IconPlus, IconSearch } from '../../../components/Icons';
 import { queryRealTimeCarList } from '../../../services/MonitorService';
-import { carTeamInfo } from '../../../services/AppService';
+import { queryOperateStatisToday } from '../../../services/AppService';
 import AddCar from '../../userCenter/add-car/AddCar';
 import MyCarSearch from './MyCarSearch';
 
@@ -40,7 +40,7 @@ export default class MyCar extends Component {
     }
 
     fetchData() {
-        carTeamInfo()
+        queryOperateStatisToday()
             .then((myCarsInfo)=>{
                 this.setState({myCarsInfo});}
             )
@@ -99,15 +99,15 @@ export default class MyCar extends Component {
                 />
                 <View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:Env.color.main,paddingVertical:Env.font.base*40}]}>
                     <View style={[estyle.fx1,estyle.fxCenter,estyle.borderRight]}>
-                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.myCarsInfo.carNumOnline || 0}</Text>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.myCarsInfo.onlineCar || 0}</Text>
                         <Text style={[estyle.text,{color:'#FFF'}]}>在线车辆数(辆)</Text>
                     </View>
                     <View style={[estyle.fx1,estyle.fxCenter,estyle.borderRight]}>
-                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.myCarsInfo.carNumTotal || 0}</Text>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.myCarsInfo.totalCarNum || 0}</Text>
                         <Text style={[estyle.text,{color:'#FFF'}]}>总车辆数(辆)</Text>
                     </View>
                     <View style={[estyle.fx1,estyle.fxCenter,]}>
-                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.myCarsInfo.mileageTotal || 0}</Text>
+                        <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.myCarsInfo.mileAgeTotal || 0}</Text>
                         <Text style={[estyle.text,{color:'#FFF'}]}>今日总里程(公里)</Text>
                     </View>
                 </View>
