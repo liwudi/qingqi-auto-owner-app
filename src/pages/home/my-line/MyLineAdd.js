@@ -59,7 +59,7 @@ export default class MyLineAdd extends Component {
     }
 
     componentWillUnmount() {
-        this.props.refresh();
+
     }
     carList() {
         if (this.state.carList) {
@@ -117,6 +117,7 @@ export default class MyLineAdd extends Component {
 
         modifyRoute(opts)
             .then(()=>{
+                this.props.refresh();
                 Toast.show('删除途经点成功', Toast.SHORT);
                 this.fetchData();
             })
@@ -178,6 +179,7 @@ export default class MyLineAdd extends Component {
 
         modifyRoute(opts)
             .then(()=>{
+                this.props.refresh();
                 Toast.show('添加成功', Toast.SHORT);
                 this.fetchData();
             })
@@ -383,6 +385,7 @@ export default class MyLineAdd extends Component {
                                 this.props.router.push(MyLineAddCarList, {
                                     routeId: this.state.routeInfo.routeId,
                                     update: () => {
+                                        this.props.refresh();
                                         this.refs.carList.reInitFetch();
                                     }
                                 });
