@@ -29,6 +29,9 @@ export default class MyCarSearch extends Component {
             myCarsInfo:{}
         };
     }
+    componentWillUnmount() {
+        this.props.nav.backRender();
+    }
 
     componentWillMount() {
     }

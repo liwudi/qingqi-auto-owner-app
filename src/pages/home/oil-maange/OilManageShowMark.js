@@ -49,7 +49,7 @@ export default class OilManageShowMark extends Component {
                     carId: res.carId,
                     beginDate: res.startTime,
                     endDate: res.endTime
-                },res.carCode);
+                },this.props.carCode);
                 this.fetchData(res);
             } )
             .catch()
@@ -119,6 +119,7 @@ export default class OilManageShowMark extends Component {
 				<MapLine style={[estyle.fx1]}
                          data={this.state.data}
                          time={this.time}
+                         {...this.props}
                          rightButtomView={<View style={styles.rightView}>
                                  <View style={[styles.rightItem]}>
                                      <Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>

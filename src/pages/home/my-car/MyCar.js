@@ -51,7 +51,8 @@ export default class MyCar extends Component {
     componentDidMount(){
         if(this.props.toAddCar){
             setTimeout(() => {
-                this.props.router.push(AddCar);
+                this.goTo(AddCar);
+                //this.props.router.push(AddCar);
             },50);
         }else{
             this.fetchData();
@@ -66,9 +67,10 @@ export default class MyCar extends Component {
         this.setState({stop: false});
     }
 
-    goToDetail(carId) {
+
+    goTo(page, carId) {
         this.setState({stop: true});
-        this.props.router.push(CarDetail, {nav: {
+        this.props.router.push(page, {nav: {
             carId: carId ,
             backRender: this.backRender.bind(this)
         }});
@@ -79,10 +81,10 @@ export default class MyCar extends Component {
             return (
                 <View style={[estyle.fxRow]}>
                     <TouchableOpacity style={{marginRight:Env.font.base * 30}}
-                                      onPress={() => {this.props.router.push(MyCarSearch)}}>
+                                      onPress={() => {this.goTo(MyCarSearch)}}>
                         <IconSearch color="#FFF" size={Env.font.base * 40}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginRight:Env.font.base * 10}} onPress={() => {this.props.router.push(AddCar)}}>
+                    <TouchableOpacity style={{marginRight:Env.font.base * 10}} onPress={() => {this.goTo(AddCar)}}>
                         <IconPlus color="#FFF" size={Env.font.base * 40}/>
                     </TouchableOpacity>
                 </View>
@@ -113,7 +115,7 @@ export default class MyCar extends Component {
                     ref="list"
                     style={estyle.fx1}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)} stop={this.state.stop}/>
+                        return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId)} stop={this.state.stop}/>
                     }}
                     fetchData={(pageNumber, pageSize) => {
                         return queryRealTimeCarList(pageNumber, pageSize, this.state.key)

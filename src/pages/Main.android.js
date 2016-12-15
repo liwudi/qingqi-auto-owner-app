@@ -48,43 +48,50 @@ class Main extends Component {
 			}
 		});
 	};
-
+	doBack = (exitApp) => {
+		if(this.navigator.getCurrentRoutes().length > 1){
+			if(!this.wait) {
+				console.info(this.router.map);
+				let timeout = this.router.map.length ? 500 : 0;
+				this.wait = !!this.router.map.legnth;
+				setTimeout(() => {
+					this.navigator.pop();
+					this.router.map.pop();
+					this.wait = false;
+				}, timeout);
+			}
+		} else {
+			this.refs.alert.alert(
+				'提示',
+				'是否要退出应用?',
+				[
+					{
+						text:'确定',
+						onPress:() => {
+							exitApp();
+						}
+					},
+					{
+						text:'取消'
+					}
+				]
+			);
+		}
+		return true;
+	};
+	componentDidMount() {
+		addEventSystemBack(
+			(exitApp) => {
+				return this.doBack(exitApp);
+			}
+		);
+	}
 	constructor(props){
 		super(props);
 		this.state = {
 			isConnected: true,
             modalShow: false
 		};
-
-
-
-		addEventSystemBack(
-			(exitApp) => {
-				// console.info(123)
-				if(this.navigator.getCurrentRoutes().length > 1){
-					this.navigator.pop();
-					return true;
-				} else {
-					this.refs.alert.alert(
-						'提示',
-                        '是否要退出应用?',
-						[
-							{
-								text:'确定',
-								onPress:() => {
-                                    exitApp();
-								}
-							},
-                            {
-                                text:'取消'
-                            }
-						]
-					);
-
-					return true;
-				}
-			}
-		);
 
         DeviceEventEmitter.addListener("notificationClick", (event) => {
             console.log('点击了通知栏消息：', event);
@@ -143,6 +150,7 @@ class Main extends Component {
 				initialRoute = {Router.Page(Guide2)}
 				renderScene = {(page, navigator) => {
 					this.router = this.router || new Router(navigator);
+					this.router.map = this.router.map || [];
 					this.navigator = navigator;
 					let Component = page.component;
 					return (
@@ -151,7 +159,7 @@ class Main extends Component {
 							router = {this.router}
 							callTo = {this.callTo}
 							doBack = {() => {
-								navigator.pop()
+								this.doBack();
 							}}
 							NetIsConnected = {this.state.NetIsConnected}
 							preLoginUserName = {this.state.preLoginUserName}

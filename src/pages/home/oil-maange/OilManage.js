@@ -112,7 +112,9 @@ export default class OilManage extends Component {
 
 		this.state.weeks.map((date, index) => {
 			let _d = this.state.datas.filter((item) => item.statisDate == date.format('YYYYMMDD'));
-            option.xAxis.data.push(date.format('MM-DD'));
+			let _d_ = date.format('MM-DD'),
+				_td = moment(new Date()).format('MM-DD');
+            option.xAxis.data.push(_d_);
             option.series[0].data.push({
                 value : _d.length > 0 ? _d[0].oilwear : 0,
 				itemValue: (_d[0] || {}),
@@ -121,7 +123,7 @@ export default class OilManage extends Component {
                     normal:{show:true,position:'top'}
 				},
                 itemStyle:{
-                	normal:{color: Env.color.main},
+                	normal:{color: _d_ === _td ? '#88C057' : Env.color.main},
                     emphasis:{color: '#88C057'}
                 }
             });

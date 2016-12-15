@@ -118,11 +118,12 @@ export default class MapLine extends Component {
             if (data.length) {
                 this.setState({dataLength: data.length, progress: 0});
                 this.lineBounds = Decode.getBounds();
-                    this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
-                    this.Map.getZoomLevel().then((zoom) => {
-                        this.zoom = +zoom;
-                        this.addLine(true);
-                    });
+                this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
+                this.Map.getZoomLevel().then((zoom) => {
+                    this.zoom = +zoom;
+                    this.Map.setZoomLevel(Math.floor(zoom));
+                    this.addLine(true);
+                });
                 this.addMarker();
                 this.addCar();
                 this.setTimes();
@@ -162,6 +163,7 @@ export default class MapLine extends Component {
                 endTime: etime,
                 totalTime: etime - stime
             });
+            this.setCurrentTimes(0);
         }
     }
 
@@ -378,6 +380,7 @@ export default class MapLine extends Component {
                            onInit={(instance)=> {
                                this.onInit(instance);
                            }}
+                           router={this.props.router}
                 />
                 {this.renderTypeBtn()}
                 {this.props.totalView || null}
