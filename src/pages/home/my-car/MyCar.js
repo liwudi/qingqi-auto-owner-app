@@ -27,7 +27,8 @@ export default class MyCar extends Component {
         super(props);
         this.state = {
             selecting : false,
-            myCarsInfo:{}
+            myCarsInfo:{},
+            stop: false
         };
     }
 
@@ -62,9 +63,11 @@ export default class MyCar extends Component {
      * */
     backRender(){
        this.refs.list.reInitFetch()
+        this.setState({stop: false});
     }
 
     goToDetail(carId) {
+        this.setState({stop: true});
         this.props.router.push(CarDetail, {nav: {
             carId: carId ,
             backRender: this.backRender.bind(this)
@@ -110,7 +113,7 @@ export default class MyCar extends Component {
                     ref="list"
                     style={estyle.fx1}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)} oneTime={true}/>
+                        return <MyCarItem data={row} onPress={() => this.goToDetail(row.carId)} stop={this.state.stop}/>
                     }}
                     fetchData={(pageNumber, pageSize) => {
                         return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
