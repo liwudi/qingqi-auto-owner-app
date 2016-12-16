@@ -51,7 +51,7 @@ class PersonalMessage extends Component{
                                 />
                             </View>
                             <View style={[estyle.marginLeft,estyle.fx1]}>
-                                <View style={[estyle.fxRow,estyle.fx1]}>
+                                <View style={[estyle.fxRow]}>
                                     <View style={estyle.fx1}>
                                         <Text style={[estyle.articleTitle]}>{row.message.Title}</Text>
                                     </View>

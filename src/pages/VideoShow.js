@@ -26,6 +26,7 @@ export default class VideoShow extends Component {
                         }
                     }
                     onEnd={() => {
+                        global.toVideoShowFunIsPlayIng = false;
                         this.props.router.pop();
                     }}
                 />
