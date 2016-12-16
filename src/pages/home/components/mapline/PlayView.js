@@ -35,6 +35,18 @@ export default class PlayView extends Component {
         };
         this.cache_playing = null;
     }
+    /*shouldComponentUpdate (props, state) {
+        console.info(props.progress, props.dataLength)
+        return true;
+    }*/
+    shouldComponentUpdate(props, state) {
+        if (this.rnTime !== props.time) {
+            this.rnTime = props.time;
+            this.pause();
+            this.ready();
+        }
+        return true;
+    }
 
     componentDidMount() {
         this.setState({progress: 0});
@@ -105,6 +117,7 @@ console.info(this.state.progress)
 
     ready() {
         this.setState({playing: false});
+        this.cache_playing = null;
         index = 0;
         this.run();
     }

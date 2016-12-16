@@ -145,6 +145,7 @@ export default class MapLine extends Component {
         if(result) {
             if (this.rnTime !== props.time) {
                 this.rnTime = props.time;
+                this.setState({time: this.rnTime});
                 this.initLine(Object.assign({},props.data));
             }
         }
@@ -359,6 +360,7 @@ export default class MapLine extends Component {
                         dataLength={this.state.dataLength}
                         totalTime={this.state.totalTime}
                         progress={this.state.progress}
+                        time={this.state.time}
                         play={(index) => {
                             this.moveCar(index);
                         }} pause={() => {
