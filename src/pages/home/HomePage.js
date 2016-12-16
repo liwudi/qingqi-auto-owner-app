@@ -51,14 +51,32 @@ export default class HomePage extends Component {
 	}
 
 	componentDidMount(){
-		queryOperateStatisToday().then((rs) => {
-			this.setState({
-				operateStatisToday: rs
-			})
-		}).catch(e => {
-			Toast.show(e.message, Toast.SHORT);
-		});
+        queryOperateStatisToday().then((rs) => {
+            this.setState({
+                operateStatisToday: rs
+            })
+        }).catch(e => {
+            Toast.show(e.message, Toast.SHORT);
+        })
+            .finally( ()=>{
+                this.fetchData();
+            } )
 	}
+	//请求数据 没1分钟刷新一次
+	fetchData(){
+		this.timer=setInterval(()=>{
+            queryOperateStatisToday().then((rs) => {
+                this.setState({
+                    operateStatisToday: rs
+                })
+            }).catch(e => {
+                Toast.show(e.message, Toast.SHORT);
+            });
+        },60000)
+	}
+    componentWillUnmount(){
+	    clearInterval(this.timer);
+    }
 
 	render() {
 		const renderItem = (name, value, isShowBorder = true) => {
