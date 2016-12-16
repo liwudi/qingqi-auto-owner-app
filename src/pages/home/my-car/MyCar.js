@@ -64,9 +64,7 @@ export default class MyCar extends Component {
      * */
     backRender(){
     //   this.refs.list.reInitFetch()
-        if(typeof this.state.stop === 'boolean') {
-            this.setState({stop: false});
-        }
+        this.setState({stop: false});
     }
 
 
