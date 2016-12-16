@@ -124,7 +124,7 @@ export default class OilManage extends Component {
                     normal:{show:true,position:'top'}
 				},
                 itemStyle:{
-					normal: Env.color.main,
+					normal: {color: Env.color.main},
 					emphasis:{color: '#88C057'}
                 }
             });
