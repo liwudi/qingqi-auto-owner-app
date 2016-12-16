@@ -84,6 +84,9 @@ export default class OilManageCarList extends Component {
             this.props.router.pop();
         }
     }
+/*    componentWillUnmount() {
+        this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
+    }*/
 
     render() {
         return (

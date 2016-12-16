@@ -175,7 +175,7 @@ export function getMapRef() {
     return mapRef;
 }
 export function setMapRef(ref) {
-    console.info('serMapRef--------------------', mapRef)
+    console.info('setMapRef--------------------', ref,mapRef)
     mapRef = ref;
 }
 
@@ -255,4 +255,11 @@ export function resume() {
 }
 export function clearOverlays() {
     module.removeAllOverlayAndAnnotation(mapRef);
+}
+export function disposeMap (mapRef) {
+    setMapRef(mapRef);
+    pause();
+    clearOverlays();
+    finalize();
+    console.info('dispose', mapRef);
 }
