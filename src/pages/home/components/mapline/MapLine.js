@@ -155,16 +155,14 @@ export default class MapLine extends Component {
     }
 
     setTimes() {
-        if (!this.state.startTime) {
-            let stime = line[0].time,
-                etime = line[line.length - 1].time;
-            this.setState({
-                startTime: stime,
-                endTime: etime,
-                totalTime: etime - stime
-            });
-            this.setCurrentTimes(0);
-        }
+        let stime = line[0].time,
+            etime = line[line.length - 1].time;
+        this.setState({
+            startTime: stime,
+            endTime: etime,
+            totalTime: etime - stime
+        });
+        this.setCurrentTimes(0);
     }
 
     setCurrentTimes(index) {
@@ -183,13 +181,15 @@ export default class MapLine extends Component {
     }
 
     addLine(paint) {
-        let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
-        if (lines.length) {
-            this.Line.clear();
-            this.Line.add([lines.shift()]);
-            this.Line.add(lines);
+        this.Line.clear();
+        if(this.state.dataLength) {
+            let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
+            if (lines.length) {
+                this.Line.add([lines.shift()]);
+                this.Line.add(lines);
+            }
+            this.moveCar(this.pointIndex);
         }
-        this.moveCar(this.pointIndex);
     }
 
 
@@ -306,7 +306,7 @@ export default class MapLine extends Component {
             }
             this.Line.clear();
             this.setState({playType: this.playType});
-            this.state.dataLength && this.addLine(true);
+            this.addLine(true);
         }, 500);
 
     }
