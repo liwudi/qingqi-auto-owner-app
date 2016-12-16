@@ -32,7 +32,8 @@ export default class MyCarItem extends Component {
     }
 
     setTimer() {
-        setTimeout(() => {
+        if(this.props.stop) return;
+        this.timer = setTimeout(() => {
             this.fetchData();
         }, TIMEOUT * 1000);
     }
@@ -58,6 +59,8 @@ export default class MyCarItem extends Component {
 
     componentWillUnmount() {
         this.requestStop();
+        this.timer && clearTimeout(this.timer);
+        this.timer = null;
     }
 
     componentWillReceiveProps(props) {
@@ -77,7 +80,7 @@ export default class MyCarItem extends Component {
         return (
             <View>
                  <Item data={this.state.data || {}} onPress={() => {
-                    this.requestStop();
+                 //   this.requestStop();
                     this.props.onPress();
                 }}/>
             </View>

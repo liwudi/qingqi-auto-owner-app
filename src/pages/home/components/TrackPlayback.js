@@ -42,8 +42,7 @@ export default class TrackPlayback extends Component {
 			}
 			this.setState({data: data, animating: false, time: Math.random()});
         }).catch(() => {
-			this.time = Math.random();
-			this.setState({data: null, animating: false, time: Math.random()});
+			this.setState({data: {noResult: true}, animating: false, time: Math.random()});
 			Toast.show('获取行程轨迹异常', Toast.SHORT);
 		}).finally(()=>{});
 	}
@@ -63,12 +62,16 @@ export default class TrackPlayback extends Component {
         this.props.onTimeChange(this.selectTime);
 	}
 
+	renderAi () {
+		let height = this.state.animating ? 80 : 0;
+		return <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: height, marginTop:Env.screen.height / 3 * Env.font.base}}>
+			<ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
+		</View>
+	}
 	render() {
 		return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: 80, marginTop:Env.screen.height / 3 * Env.font.base}}>
-                    <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
-                </View>
+				{this.renderAi()}
 				<View style={[estyle.fx1]}>
 					<MapLine
 						data={this.state.data}

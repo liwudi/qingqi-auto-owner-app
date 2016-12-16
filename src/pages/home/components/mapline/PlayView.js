@@ -145,32 +145,35 @@ console.info(this.state.progress)
     };
 
     render() {
-        return <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingHorizontal, estyle.paddingTop]}>
-            <Button onPress={() => {
-                this.changePlay()
-            }}>{this.startPauseButton()}</Button>
-            <Image source={require('../../../../assets/images/start.png')} style={{width: 25, height: 25, marginLeft: 10}}
-                   resizeMode={Image.resizeMode.cover}/>
-            <Slider
-                style={{flex: 1}}
-                minimumValue={0}
-                maximumValue={this.props.dataLength}
-                onSlidingComplete={(progress) => {
-                    this.slidingComplete(progress);
-                }}
-                onValueChange={(progress) => {
-                    this.progressTo(progress);
-                }}
-                value={this.state.progress}
-                minimumTrackTintColor={Env.color.main}
-                maximumTrackTintColor={Env.color.line}
-                thumbTintColor={Env.color.main}
-                thumbTouchSize={{width: 30, height: 30}}
-                trackStyle={{height: 5}}
-                thumbStyle={{height: 15, width: 15}}
-            />
-            <Image source={require('../../../../assets/images/end.png')} style={{width: 25, height: 25}}
-                   resizeMode={Image.resizeMode.cover}/>
-        </View>;
+        return <View>
+            {this.props.dataLength ? <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingHorizontal, estyle.paddingTop]}>
+                <Button onPress={() => {
+                    this.changePlay()
+                }}>{this.startPauseButton()}</Button>
+                <Image source={require('../../../../assets/images/start.png')} style={{width: 25, height: 25, marginLeft: 10}}
+                       resizeMode={Image.resizeMode.cover}/>
+                <Slider
+                    style={{flex: 1}}
+                    minimumValue={0}
+                    maximumValue={this.props.dataLength}
+                    onSlidingComplete={(progress) => {
+                        this.slidingComplete(progress);
+                    }}
+                    onValueChange={(progress) => {
+                        this.progressTo(progress);
+                    }}
+                    value={this.state.progress}
+                    minimumTrackTintColor={Env.color.main}
+                    maximumTrackTintColor={Env.color.line}
+                    thumbTintColor={Env.color.main}
+                    thumbTouchSize={{width: 30, height: 30}}
+                    trackStyle={{height: 5}}
+                    thumbStyle={{height: 15, width: 15}}
+                />
+                <Image source={require('../../../../assets/images/end.png')} style={{width: 25, height: 25}}
+                       resizeMode={Image.resizeMode.cover}/>
+            </View> : <View/>}
+            </View>
+
     }
 }

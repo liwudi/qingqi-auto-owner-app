@@ -459,6 +459,12 @@ export default class MonitorMap extends Component {
             </View> : <View style={[{height:1}]}/>;//<ListItem left="选择监控车辆"/>
     }
 
+	renderAi () {
+		let height = this.state.animating ? 80 : 0;
+		return <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: height, marginTop:Env.screen.height / 3 * Env.font.base}}>
+			<ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
+		</View>
+	}
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
@@ -472,9 +478,7 @@ export default class MonitorMap extends Component {
                                </Button>
                            }
                 />
-                <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: 80, marginTop:Env.screen.height / 3 * Env.font.base}}>
-                    <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
-                </View>
+                {this.renderAi()}
                 <MapbarMap style={[estyle.fx1]}
                            center={this.center}
                            onZoomIn={(zoom)=> {
