@@ -37,7 +37,7 @@ export default class PlayView extends Component {
     }
 
     componentDidMount() {
-
+        this.setState({progress: 0});
     }
     getIntervalTime () {
         totalTime = this.props.totalTime;
@@ -50,20 +50,7 @@ export default class PlayView extends Component {
         }
         return !!onePonitTime;
     }
-/*    reset() {
-        this.pause();
-        this.cache_playing = null;
-        this.ready();
-    }
-    componentWillReceiveProps(props) {
-        if (this.rnTime !== props.time) {
-            this.rnTime = props.time;
-            this.reset();
-        }
-    }*/
-    componentWillReceiveProps (props) {
-        this.setState({progress: props.progress || 0});
-    }
+
     componentWillUnmount() {
         this.pause();
     }
@@ -104,6 +91,7 @@ export default class PlayView extends Component {
     }
     run () {
         index = index >= this.props.dataLength - 1 ? this.props.dataLength - 1 : index;
+console.info(this.state.progress)
         this.setState({progress: index});
         this.props.play && this.props.play(index);
     }
@@ -144,7 +132,7 @@ export default class PlayView extends Component {
     };
 
     render() {
-        return <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingHorizontal]}>
+        return <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingHorizontal, estyle.paddingTop]}>
             <Button onPress={() => {
                 this.changePlay()
             }}>{this.startPauseButton()}</Button>
@@ -161,9 +149,9 @@ export default class PlayView extends Component {
                     this.progressTo(progress);
                 }}
                 value={this.state.progress}
-                minimumTrackTintColor='#169ADA'
-                maximumTrackTintColor="#E5E5E5"
-                thumbTintColor='#169ADA'
+                minimumTrackTintColor={Env.color.main}
+                maximumTrackTintColor={Env.color.line}
+                thumbTintColor={Env.color.main}
                 thumbTouchSize={{width: 30, height: 30}}
                 trackStyle={{height: 5}}
                 thumbStyle={{height: 15, width: 15}}

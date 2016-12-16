@@ -22,6 +22,7 @@ import {statisOilwearForOneRoute,viewStandard} from '../../../services/AppServic
 import OilManageSetMark from './OilManageSetMark';
 import OilManageShowMark from './OilManageShowMark';
 import BorderButton from '../../../components/BorderButton';
+import Toast from '../../../components/Toast';
 
 export default class OilManageCarList extends Component {
 	constructor(props) {
@@ -67,7 +68,13 @@ export default class OilManageCarList extends Component {
             </View>
         }else {
             return <View>
-                <BorderButton color="#FFF" onPress = {() => this.toPage(OilManageSetMark)}>设定标杆</BorderButton>
+                <BorderButton color="#FFF" onPress = {() => {
+                	if(this.data && this.data.list.length) {
+						this.toPage(OilManageSetMark)
+					} else {
+						Toast.show('当前没有车辆',Toast.SHORT);
+					}
+				}}>设定标杆</BorderButton>
             </View>
         }
     }
@@ -108,7 +115,10 @@ export default class OilManageCarList extends Component {
 							)
 						}}
 						fetchData={(pageNumber, pageSize) => {
-							return statisOilwearForOneRoute(pageNumber, pageSize,this.state.routeId,this.state.statisDate)
+							return statisOilwearForOneRoute(pageNumber, pageSize,this.state.routeId,this.state.statisDate).then((data={list:[]}) => {
+								this.data = data;
+								return data;
+							});
 						}}
 					/>
 				</View>

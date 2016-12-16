@@ -98,6 +98,7 @@ export default class MapbarMap extends Component {
     onInit() {
         instance.initMap(this.refs.mapView);
         this.props.onInit && this.props.onInit(instance);
+        this.props.router.map.push(true);
     }
     clickMarker(pointId) {
         this.props.clickMarker && this.props.clickMarker(pointId);

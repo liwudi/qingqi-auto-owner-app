@@ -11,6 +11,8 @@ import WebView from '../../../components/WebView';
 
 import Env from '../../../utils/Env';
 
+import ServerConfig from '../../../service-config/ServerConfig'
+
 const styles = Env.style;
 
 
@@ -21,7 +23,7 @@ class Bbs extends Component {
         let userStore = props.userStore.userInfo;
 
         this.state = {
-            uri: `http://61.161.238.158:8071/mapbar/yqlt.php?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}`,
+            uri: `${ServerConfig.BBS_PAGE}?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}`,
             page:{}
         }
     }

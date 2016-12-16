@@ -57,7 +57,7 @@ export default class AddCarPostCarCode extends Component {
                     label="车牌号"
                     labelSize={3}
                     maxLength={10}
-                    onChangeText={carNumber => this.setState({carNumber})}
+                    onChangeText={carNumber => this.setState({carNumber: carNumber.toUpperCase()})}
                     placeholder="请输入添加车辆车牌号"
                     validates={[
                         {require:true, msg:"车牌号为你的车队管理的重要标识,为方便您的车队管理,请输入车牌号。"}

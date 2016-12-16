@@ -489,6 +489,7 @@ export default class MonitorMap extends Component {
                            clickMarker={(pointId)=> {
                                this.clickMarker(pointId)
                            }}
+                           router={this.props.router}
                            legend={this.renderLegend()}/>
                 {this.renderDetail()}
                 {this.renderButton()}
