@@ -182,10 +182,10 @@ export default class MapLine extends Component {
     }
 
     addLine(paint) {
-        this.Line.clear();
         if(this.state.dataLength) {
             let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
             if (lines.length) {
+                this.Line.clear();
                 this.Line.add([lines.shift()]);
                 this.Line.add(lines);
             }
@@ -285,12 +285,14 @@ export default class MapLine extends Component {
     }
 
     componentWillUnmount() {
-        this.Map.pause();
+        this.Map.disposeMap(this.mapRef);
+        //console.info('mapline')
+        /*this.Map.pause();
         this.Map.clearOverlays();
-        this.Map.finalize();
+        this.Map.finalize();*/
+        this.mapRef = null;
         this.rnTime = null;
         this.data = null;
-        this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
     }
 
 

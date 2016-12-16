@@ -16,7 +16,7 @@ import {
 	NativeModules,
     Image
 } from 'react-native';
-
+//import {disposeMap} from '../mapbarmap/MapbarMapInstance';
 import Toast from '../components/Toast';
 import { MessageActions } from '../actions/index';
 
@@ -50,17 +50,33 @@ class Main extends Component {
 		});
 	};
 	doBack = (exitApp) => {
-		if(this.navigator.getCurrentRoutes().length > 1){
-			if(!this.wait) {
+		let routeIdx = this.router.currentIndex();
+		if(routeIdx > 1){
+			this.navigator.pop();
+			/*if(!this.wait) {
+				console.info(routeIdx)
+				console.info(this.router.map)
+				let cmap = this.router.map[routeIdx],
+					timeout = 0;
+				if(typeof cmap === 'number') {
+					timeout = 500;
+					disposeMap(cmap);
+					this.router.map[routeIdx] = undefined;
+				}
+				setTimeout(() => {
+					this.navigator.pop();
+					this.wait = false;
+				}, timeout);
+
 				console.info(this.router.map);
 				let timeout = this.router.map.length ? 500 : 0;
 				this.wait = !!this.router.map.legnth;
+				timeout && disposeMap(this.router.map.pop());
 				setTimeout(() => {
 					this.navigator.pop();
-					this.router.map.pop();
 					this.wait = false;
 				}, timeout);
-			}
+			}*/
 		} else {
 			this.refs.alert.alert(
 				'提示',
@@ -160,7 +176,7 @@ class Main extends Component {
 				initialRoute = {Router.Page(Guide2)}
 				renderScene = {(page, navigator) => {
 					this.router = this.router || new Router(navigator);
-					this.router.map = this.router.map || [];
+					//this.router.map = this.router.map || [];
 					this.navigator = navigator;
 					let Component = page.component;
 					return (

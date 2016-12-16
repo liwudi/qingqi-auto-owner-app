@@ -196,7 +196,7 @@ export default class MonitorMap extends Component {
         });
     }
 
-    pauseView() {
+   /* pauseView() {
         this.requestStop();
         this.Map.pause();
     }
@@ -205,7 +205,7 @@ export default class MonitorMap extends Component {
         this.Map.setMapRef(this.mapRef);
         this.Map.resume();
         this.requestStart();
-    }
+    }*/
 
     requestStop() {
         this.stopRequest = true;
@@ -225,9 +225,12 @@ export default class MonitorMap extends Component {
         this.times = [];
     }
     componentWillUnmount() {
+        this.requestStop();
         this.clearTimer();
-        this.pauseView();
-        this.Map.finalize();
+        this.Map.disposeMap(this.mapRef);
+        this.mapRef = null;
+    //    this.pauseView();
+    //    this.Map.finalize();
         console.info('monitor map finalize')
     }
 
@@ -305,7 +308,7 @@ export default class MonitorMap extends Component {
 
     //去轨迹页面
     goToTrack() {
-        this.pauseView();
+        this.requestStop();
         let data = this.state.data;
         this.props.router.push(MonitorMapTrack, {
             nav: {
@@ -314,7 +317,7 @@ export default class MonitorMap extends Component {
                 doBack: () => {
                     console.info('track')
                     setTimeout(() => {
-                        this.resumeView();
+                        this.requestStart();
                     }, 500)
                 }
             }
@@ -323,12 +326,12 @@ export default class MonitorMap extends Component {
 
     //去列表页面
     goToList() {
-        this.pauseView();
+        this.requestStop();
         this.props.router.replace(Monitor, {
             nav: {
                 doBack: () => {
                     console.info('List')
-                    this.resumeView();
+                    this.requestStart();
                 }
             }
         });
@@ -336,14 +339,14 @@ export default class MonitorMap extends Component {
 
     //去车况列表页页
     goToStatus() {
-        this.pauseView();
+        this.requestStop();
         this.props.router.push(CarStatus, {
             nav: {
                 carId: this.monitorCarId,
                 carCode: this.state.detail.carCode || this.state.detail.carNo,
                 doBack: () => {
                     console.info('track')
-                    this.resumeView();
+                    this.requestStart();
                 }
             }
         });
