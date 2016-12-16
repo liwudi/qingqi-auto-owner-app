@@ -130,7 +130,7 @@ export default class TripManage extends Component {
                     normal:{show:true,position:'top'}
                 },
                 itemStyle:{
-					normal:{color: _d_ === _td ? '#88C057' : Env.color.main},
+					normal: Env.color.main,
                     emphasis:{color: '#88C057'}
                 }
             });

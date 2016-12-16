@@ -197,8 +197,8 @@ export default class MapLine extends Component {
                 this.Line.clear();
                 this.Line.add([lines.shift()]);
                 this.Line.add(lines);
+                this.moveCar(this.pointIndex);
             }
-            this.moveCar(this.pointIndex);
         }
     }
 
@@ -262,9 +262,12 @@ export default class MapLine extends Component {
     }
 
     moveCar(index) {
+        if(index <= 0) index = 0;
+        console.info('-------------------------------------------------------', index)
         this.pointIndex = index;
         if(line[index]) {
             let pt = Object.assign({}, line[index]);
+            console.info(pt)
             let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
                 unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
                 npt = index === line.length - 1 ? line[index] : line[index + 1];

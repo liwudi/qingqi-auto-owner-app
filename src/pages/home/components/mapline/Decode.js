@@ -23,6 +23,7 @@ function _decodeNumberEx(line) {
         result = ((result & 0x01) == 0x01) ? ~(result >> 1) : (result >> 1);
         rets.push(result);
     }
+    //console.info(JSON.stringify(rets))
     return rets;
 }
 
@@ -71,7 +72,7 @@ const getBounds = () => {
             latitude: maxLat + df}
     };
     minLng = minLat = maxLng = maxLat = 0;
-    console.info(bd)
+    //console.info(bd)
     return bd;
 }
 function decodeData(data) {
@@ -117,6 +118,7 @@ function setData(data) {
     let firstTime = data.firstTime;
     delete data.firstTime;
     for(let k in data) {
+         console.info(k)
         let v = data[k];
         if(k == 'levels') {
             data[k] = decodeLevels(v);
