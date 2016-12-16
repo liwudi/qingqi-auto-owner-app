@@ -14,7 +14,8 @@ import {
 	NetInfo,
 	Switch,
 	NativeModules,
-    Image
+    Image,
+    Keyboard
 } from 'react-native';
 
 import Toast from '../components/Toast';
@@ -110,6 +111,10 @@ class Main extends Component {
     doBack = (exitApp) => {
         let routeIdx = this.router.currentIndex();
         if(routeIdx > 1){
+            /**
+             * 页面退出之前收起键盘
+            * */
+            Keyboard.dismiss();
             this.navigator.pop();
         } else {
             this.refs.alert.alert(
