@@ -1,6 +1,9 @@
 /**
  * Created by ligj on 2016/11/9.
  */
+import { NativeModules, View } from 'react-native';
+
+
 import { queryMessageInfo } from './TripService';
 
 //个人消息列表
@@ -13,6 +16,11 @@ const STORAGE_KEY_MESSAGE_IDS = 'pushMessageListIds';
 const STORAGE_KEY_CARS = 'pushMessageCars';
 //车辆消息集合  存储某车的所有消息
 const STORAGE_KEY_CAR = 'pushMessageCar';
+
+const pushModule = NativeModules.MarbarPushModule;
+
+const cancelNotifacation = pushModule.cancelNotifacation;
+
 
 let currentPage = null;
 
@@ -40,7 +48,6 @@ export function setCurrentPage(main, message, next) {
  * @returns {*}
  */
 export function addMessage(message, messageId){
-    console.log(message, messageId)
     let type = message.CustomContent.type || 0;
     switch (type){
         case '4':
@@ -81,6 +88,17 @@ const _addCarMessageCount = (message, messageId, messageInfo) => {
         return _addMessage(ret.count + 1);
     }).catch(() => {
         return _addMessage(1);
+    })
+}
+
+export function hasPersonalMessage(messageId) {
+    return global.storage.load({
+        key: STORAGE_KEY_MESSAGE_LIST,
+        id: messageId,
+    }).then(ret => {
+        return Promise.resolve(true);
+    }).catch(() => {
+        return Promise.resolve(false);
     })
 }
 
@@ -139,7 +157,7 @@ const _addPersonalMessageCount = () => {
     return global.storage.load({
         key: STORAGE_KEY_MESSAGE_UNREAD_COUNT,
     }).then(ret => {
-        console.log('ret:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:::',ret);
+        // console.log('ret:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:::',ret);
         return _addCount(ret.count + 1);
     }).catch(() => {
         return _addCount(1);
@@ -154,11 +172,20 @@ const _addPersonalMessageCount = () => {
  * @returns {*}
  */
 export function addPersonalMessage  (message, messageId)  {
-    console.log(message, messageId);
-    return Promise.all([
-        _addPersonalMessage(message, messageId),
-        _addPersonalMessageCount()
-    ]);
+
+    return hasPersonalMessage(messageId)
+        .then((has) => {
+            if(has){
+                console.log('message has save',messageId);
+                return {};
+            }else{
+                console.log('message no save',messageId);
+                return Promise.all([
+                    _addPersonalMessage(message, messageId),
+                    _addPersonalMessageCount()
+                ]);
+            }
+        });
 };
 
 /**
@@ -167,7 +194,7 @@ export function addPersonalMessage  (message, messageId)  {
  */
 export function  readAllPersonalMessage  ()  {
     return global.storage.getAllDataForKey(STORAGE_KEY_MESSAGE_LIST).then(rs => {
-        console.log('readAllPersonalMessage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',rs)
+        // console.log('readAllPersonalMessage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',rs)
         return rs;
     });
 }
@@ -176,7 +203,7 @@ export function  readAllPersonalMessageUnreadCount  ()  {
     return global.storage.load({
         key: STORAGE_KEY_MESSAGE_UNREAD_COUNT,
     }).then(ret => {
-        console.log('STORAGE_KEY_MESSAGE_LIST_COUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',ret)
+        // console.log('STORAGE_KEY_MESSAGE_LIST_COUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',ret)
         return ret;
     }).catch(() => {
         return {count:0};
@@ -188,7 +215,7 @@ export function  readAllPersonalMessageUnreadCount  ()  {
  */
 export function  readAllCarMessage  ()  {
     return global.storage.getAllDataForKey(STORAGE_KEY_CARS).then(rs => {
-        console.log('readAllCarMessage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',rs)
+        // console.log('readAllCarMessage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',rs)
         return rs;
     });
 }

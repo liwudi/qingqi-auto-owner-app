@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { NativeModules, View } from 'react-native';
+import { NativeModules, View, AppState } from 'react-native';
 import { Provider } from 'react-redux'
 
 import configureStore from './configure-store';
@@ -20,6 +20,11 @@ pushModule.getDeviceId().then((r) => {
 	console.log('设备id:', r.deviceId)
 }, (e) => {
 	global.deviceId = null;
+});
+
+AppState.addEventListener('change', (currentAppState) => {
+    global.appIsActive = (currentAppState == 'active');
+    console.log('currentAppState', global.appIsActive)
 });
 
 let store = configureStore();
