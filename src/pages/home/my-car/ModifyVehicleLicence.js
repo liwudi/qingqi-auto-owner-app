@@ -46,8 +46,14 @@ export default class ModifyVehicleLicence extends Component {
         });
 		this.props.doBack();
 	}
-	setFromData(value) {
+	/*setFromData(value) {
 		this.carCode = value;
+	}*/
+	setFormData(carNumber) {
+		carNumber = carNumber.trim();
+		carNumber && (carNumber = carNumber.toUpperCase());
+		this.carCode = carNumber;
+	//	this.setState({carNumber})
 	}
 	success() {
 		console.info(arguments)
@@ -64,7 +70,7 @@ export default class ModifyVehicleLicence extends Component {
 						label="车牌号"
 						labelSize={3}
 						placeholder={emsg.carCode.placeholder}
-						onChangeText={value => this.setFromData(value)}
+						onChangeText={value => this.setFormData(value)}
 						defaultValue={this.props.nav.carCode}
 						validates={[
 							{require:true, msg:emsg.carCode.require},

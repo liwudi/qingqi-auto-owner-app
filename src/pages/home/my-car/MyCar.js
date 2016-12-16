@@ -63,8 +63,10 @@ export default class MyCar extends Component {
      * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
      * */
     backRender(){
-       this.refs.list.reInitFetch()
-        this.setState({stop: false});
+    //   this.refs.list.reInitFetch()
+        if(typeof this.state.stop === 'boolean') {
+            this.setState({stop: false});
+        }
     }
 
 
