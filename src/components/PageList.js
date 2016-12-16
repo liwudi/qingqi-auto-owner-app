@@ -93,12 +93,13 @@ export default class PageList extends Component {
 
     componentDidMount(){
         this.startActive();
-        setTimeout(() => {
+        this.timer=setTimeout(() => {
             this.getData();
         }, 500);
     }
 
     componentWillUnmount() {
+        clearTimeout(this.timer);
         this.stopActive();
     }
 

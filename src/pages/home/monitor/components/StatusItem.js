@@ -21,18 +21,13 @@ export default class StatusItem extends Component {
         return (
             <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}
                                 rightIcon={null}>
-                <View style={[estyle.fxRow]}>
-                    <View style={[estyle.fx1]}>
                         <Text style={[{color: Env.color.auxiliary, fontSize: Env.font.articleTitle}, estyle.marginFontBottom]}>{item.msgTitle}</Text>
                         <Text style={[estyle.marginFontBottom,estyle.text]}>{item.msgContent}</Text>
                         <Text style={[estyle.note, estyle.marginFontBottom]}>{item.happenTime}</Text>
-                        <View style={[estyle.fx1,estyle.fxRow]}>
+                        <View style={[estyle.fxRow]}>
                             <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
-                            <Text> </Text>
                             <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
                         </View>
-                    </View>
-                </View>
             </ViewForRightArrow>
         )
     }
