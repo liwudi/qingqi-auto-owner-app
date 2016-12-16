@@ -52,7 +52,7 @@ export default class LabelInput extends Component {
                 if(validate.require){
                     isValidate = !!this.state.value.trim();
                 } else if(validate.pattern) {
-                    isValidate = (new RegExp(validate.pattern).test(this.state.value));
+                    isValidate = (new RegExp(validate.pattern).test(this.state.value.trim()));
                 }
                 !isValidate && isShowTip && Toast.show(validate.msg, Toast.SHORT);
                 return isValidate;
