@@ -20,8 +20,7 @@ import * as DateUtil from '../../../../utils/Date';
 import Env from '../../../../utils/Env';
 const estyle = Env.style;
 
-let line = null;
-
+let line = [];
 const STATE_STOPING = 1;//状态 播放停止
 let state = STATE_STOPING;
 
@@ -107,16 +106,20 @@ export default class MapLine extends Component {
 
     clearMap() {
         this.Map && this.Map.clearOverlays();
-        this.setState({dataLength: 0, progress: 0});
+        line = [];
+        this.dataLength = 0;
     }
 
     initLine(data) {
-        this.clearMap();
+/*        this.clearMap();
+        line = null;*/
         if(data.noResult) return;
-        line = data = Decode.setData(data);
+
         setTimeout(() => {
+            line = data = Decode.setData(data);
             if (data.length) {
-                this.setState({dataLength: data.length, progress: 0});
+                this.dataLength = data.length;
+                this.setState({progress: 0});
                 this.lineBounds = Decode.getBounds();
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                 this.Map.getZoomLevel().then((zoom) => {
@@ -143,9 +146,15 @@ export default class MapLine extends Component {
     shouldComponentUpdate(props, state) {
         let result = props.data && state.initMap;
         if(result) {
+            console.info('--------------------------------------')
+            console.info(props.data)
             if (this.rnTime !== props.time) {
                 this.rnTime = props.time;
-                this.setState({time: this.rnTime});
+                this.clearMap();
+                this.setState({time: this.rnTime, progress: 0});
+                console.info(props.data.noResult, 'noResult')
+
+
                 this.initLine(Object.assign({},props.data));
             }
         }
@@ -182,7 +191,7 @@ export default class MapLine extends Component {
     }
 
     addLine(paint) {
-        if(this.state.dataLength) {
+        if(this.dataLength) {
             let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
             if (lines.length) {
                 this.Line.clear();
@@ -355,11 +364,12 @@ export default class MapLine extends Component {
     }
 
     render() {
+        console.info(this.state)
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 {
-                    this.state.dataLength ? <PlayView
-                        dataLength={this.state.dataLength}
+                    <PlayView
+                        dataLength={this.dataLength}
                         totalTime={this.state.totalTime}
                         progress={this.state.progress}
                         time={this.state.time}
@@ -367,10 +377,10 @@ export default class MapLine extends Component {
                             this.moveCar(index);
                         }} pause={() => {
                         this.pauseMoveCar()
-                    }}/> : null
+                    }}/>
                 }
 
-                {this.state.dataLength ? this.renderTimes() : null}
+                {this.dataLength ? this.renderTimes() : null}
 
                 <MapbarMap legend={this.renderLegend()}
                            zoom={this.initZoom}

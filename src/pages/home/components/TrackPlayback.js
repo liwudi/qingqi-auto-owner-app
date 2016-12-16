@@ -42,8 +42,7 @@ export default class TrackPlayback extends Component {
 			}
 			this.setState({data: data, animating: false, time: Math.random()});
         }).catch(() => {
-			this.time = Math.random();
-			this.setState({data: null, animating: false, time: Math.random()});
+			this.setState({data: {noResult: true}, animating: false, time: Math.random()});
 			Toast.show('获取行程轨迹异常', Toast.SHORT);
 		}).finally(()=>{});
 	}
