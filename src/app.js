@@ -24,7 +24,6 @@ pushModule.getDeviceId().then((r) => {
 
 AppState.addEventListener('change', (currentAppState) => {
     global.appIsActive = (currentAppState == 'active');
-    console.log('currentAppState', global.appIsActive)
 });
 
 let store = configureStore();

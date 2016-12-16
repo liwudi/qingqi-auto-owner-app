@@ -133,6 +133,11 @@ export function addCarMessage  (message, messageId)  {
 };
 
 const _addPersonalMessage = (message, messageId) => {
+
+    if(currentPage === '0-1'){
+        cancelNotifacation(messageId);
+    }
+
     return global.storage.save({
         key: STORAGE_KEY_MESSAGE_LIST,
         id: messageId,
@@ -193,6 +198,7 @@ export function addPersonalMessage  (message, messageId)  {
  * @returns {*}
  */
 export function  readAllPersonalMessage  ()  {
+
     return global.storage.getAllDataForKey(STORAGE_KEY_MESSAGE_LIST).then(rs => {
         // console.log('readAllPersonalMessage!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',rs)
         return rs;
@@ -228,6 +234,12 @@ export function  resetCarMessageCount  ()  {
 }
 
 export function  resetPersonalMessageCount  ()  {
+
+    global.storage.getIdsForKey(STORAGE_KEY_MESSAGE_LIST).then(ids => {
+        ids.forEach(messageId => cancelNotifacation(messageId))
+    }).catch(e => {
+    });
+
     global.storage.save({
         key: STORAGE_KEY_MESSAGE_UNREAD_COUNT,
         rawData: {
