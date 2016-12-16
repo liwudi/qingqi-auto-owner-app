@@ -30,11 +30,10 @@ export default class MyCarSearch extends Component {
         };
     }
     componentWillUnmount() {
-        this.props.nav.backRender();
+        this.props.nav && this.props.nav.backRender();
+
     }
 
-    componentWillMount() {
-    }
 
     /**
      * 这个方法是为了在内部更改完车牌号回退是列表能够刷新

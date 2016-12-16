@@ -93,7 +93,7 @@ class AddCar extends Component {
                     placeholder="身份证号或组织机构代码"
                     validates={[
                         {require: true, msg:"请输入购车发票上的身份证号或组织机构代码"},
-                        {pattern: /^\d{8,18}$/, msg: '身份证号或组织机构代码格式错误'}
+                        {pattern: /^([\S]{8}|[\S]{18})$/, msg: '身份证号或组织机构代码格式错误'}
                     ]}
                 />
                 <View style={[estyle.fxRow, estyle.padding]}>

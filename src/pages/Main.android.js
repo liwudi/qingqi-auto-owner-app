@@ -15,7 +15,8 @@ import {
     Switch,
     NativeModules,
     Image,
-    AppState
+    AppState,
+    Keyboard
 } from 'react-native';
 
 
@@ -141,6 +142,10 @@ class Main extends Component {
     doBack = (exitApp) => {
         let routeIdx = this.router.currentIndex();
         if (routeIdx > 1) {
+            /**
+             * 页面退出之前收起键盘
+            * */
+            Keyboard.dismiss();
             this.navigator.pop();
         } else {
             this.refs.alert.alert(

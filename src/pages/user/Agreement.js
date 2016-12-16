@@ -26,8 +26,8 @@ export default class Agreement extends Component {
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="服务条款和隐私政策"/>
                 <ScrollView style={[estyle.padding, estyle.fx1]}>
-                    <Text style={[estyle.h1]}>解放者车联网系统服务条款</Text>
-                    <Text>&nbsp;&nbsp;&nbsp;&nbsp; 欢迎您使用解放者车联网系统（下称“本系统”）！解放者车联网系统服务条款（下称“本条款”）是用户（指登录、使用、浏览本系统的个人或组织）与一汽解放青岛汽车有限公司（下称“青汽”）及其服务开发、运营合作单位（下称“合作单位”）之间关于用户登录、使用本系统所订立的服务条款。</Text>
+                    <Text style={[estyle.h1]}>解放行车联网系统服务条款</Text>
+                    <Text>&nbsp;&nbsp;&nbsp;&nbsp; 欢迎您使用解放行车联网系统（下称“本系统”）！解放行车联网系统服务条款（下称“本条款”）是用户（指登录、使用、浏览本系统的个人或组织）与一汽解放青岛汽车有限公司（下称“青汽”）及其服务开发、运营合作单位（下称“合作单位”）之间关于用户登录、使用本系统所订立的服务条款。</Text>
                     <Text>
                         &nbsp;&nbsp;&nbsp;&nbsp;您在使用本系统之前，请务必认真阅读、充分理解本条款。一旦您开始使用本系统，即表示您已经理解并同意本条款，本条款即构成对您（和或您的雇主或客户）具有法律约束力的法律文件。</Text>
                     <Text>
@@ -68,7 +68,7 @@ export default class Agreement extends Component {
                     <Text>&nbsp;&nbsp;&nbsp;&nbsp;4.若您对青汽及本服务有任何意见，欢迎联系青汽客服。</Text>
                     <View>
                         <Text style={{textAlign: 'right'}}>一汽解放青岛汽车有限公司</Text>
-                        <Text style={{textAlign: 'right'}}>2016年10月20日版本</Text>
+                        <Text style={{textAlign: 'right'}}>2016年12月16日版本</Text>
                     </View>
                     <View style={[estyle.padding]}></View>
                 </ScrollView>
