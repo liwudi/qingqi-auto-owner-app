@@ -144,7 +144,7 @@ class Main extends Component {
         if (routeIdx > 1) {
             /**
              * 页面退出之前收起键盘
-            * */
+             * */
             Keyboard.dismiss();
             this.navigator.pop();
         } else {
@@ -181,6 +181,10 @@ class Main extends Component {
         }, 1100)
     }
 
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+
+    }
 
     componentWillReceiveProps(props) {
         // console.log(props)

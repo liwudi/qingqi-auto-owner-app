@@ -8,7 +8,7 @@ import {
 	TouchableOpacity,
 	Image,
 	StyleSheet,
-
+    NativeModules
 } from 'react-native';
 
 import ViewForRightArrow from '../../components/ViewForRightArrow';
@@ -26,15 +26,15 @@ import Toast from '../../components/Toast';
 
 import MessageGoods from '../message/MessageGoods';
 import Bbs from './bbs/index';
-import CustomerService from './customer-service/CustomerService';
-
 
 import { IconSearch } from '../../components/Icons';
 
 import Env from '../../utils/Env';
 const estyle = Env.style;
 
-import { queryOperateStatisToday } from '../../services/AppService';
+import { queryOperateStatisToday, choiceCustomer } from '../../services/AppService';
+var CommonModule = NativeModules.CommonModule;
+
 
 export default class HomePage extends Component {
 
@@ -50,7 +50,16 @@ export default class HomePage extends Component {
 		this.props.router.push(page);
 	}
 
+    customerServiceInfo = null;
+    customerServiceInfoErrorMsg = null;
+
 	componentDidMount(){
+        choiceCustomer().then(rs => {
+            this.customerServiceInfo = rs;
+        }).catch(e => {
+            this.customerServiceInfoErrorMsg = e.message;
+        });
+
         queryOperateStatisToday().then((rs) => {
             this.setState({
                 operateStatisToday: rs
@@ -74,6 +83,20 @@ export default class HomePage extends Component {
             });
         },60000)
 	}
+
+    startCustomerService(){
+        if(this.customerServiceInfoErrorMsg){
+            Toast.show(this.customerServiceInfoErrorMsg, Toast.SHORT);
+        }else{
+            CommonModule.startKefuActivity(
+                this.customerServiceInfo.accountId,
+                this.customerServiceInfo.userId,
+                "1",
+                this.customerServiceInfo.token
+            );
+        }
+    }
+
     componentWillUnmount(){
 	    clearInterval(this.timer);
     }
@@ -131,7 +154,7 @@ export default class HomePage extends Component {
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-					<ImgButton onPress={() => this.goTo(CustomerService)} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
+					<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
 					<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>
 				</View>
 			</View>

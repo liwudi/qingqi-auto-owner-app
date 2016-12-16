@@ -5,7 +5,8 @@
         <item name="android:windowBackground">@drawable/startup</item>
         <item name="android:windowNoTitle">true</item>
         <!--Status bar color-->
-        <!--<item name="colorPrimaryDark">#FFFFFF</item>-->
+        <item name="colorPrimary">#169ADA</item>
+        <item name="colorPrimaryDark">#169ADA</item>
     </style>
    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 

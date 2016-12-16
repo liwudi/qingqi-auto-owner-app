@@ -3,8 +3,8 @@
  */
 
 import Server from '../service-config/ServerConfig';
-import RequestService from '../service-config/RequestService';
-const serviceUrl = `${Server.QINGQI}stationManage/`;
+import RequestService,{getToken}  from '../service-config/RequestService';
+const serviceUrl = `${Server.QINGQI}servicestation/`;
 
 const defaultPage = Server.defaultPage;
 
@@ -52,78 +52,56 @@ export function stationDetail(stationId){
 }
 
 //服务预约
-export function serviceOrder(opts){
+export function newWo(opts){
+    let user=getToken().userId;
 	return RequestService.post(
-		makeUrl('serviceOrder'),
-		opts
+		makeUrl('newWo'),
+		Object.assign({},{repairId:user},opts)
 	);
 }
 
 //预约列表查询
-export function orderList(page_number, page_size, userId){
-	//todo
-	return Promise.resolve({
-		"page_number": 1,
-		"page_size": 20,
-		"page_total": 10,
-		"list": [
-			{
-				"stationId": 1,
-				"orderId": 123,
-				"stationName": "北京顺义4S店",
-				"orderTime": "2016-10-09 14:30",
-				"typeList": [
-					{
-						"name": "常规保养"
-					}
-				]
-			},{
-				"stationId": 1,
-				"orderId": 123,
-				"stationName": "北京顺义4S店",
-				"orderTime": "2016-10-09 14:30",
-				"typeList": [
-					{
-						"name": "常规保养"
-					}
-				]
-			}
-		]
-	});
-
-	// return RequestService.get(
-	// 	makeUrl('orderList'),
-	// 	{
-	// 		page_number: page_number || 1,
-	// 		page_size:page_size || 20,
-	// 		userId:userId || 1
-	// 	}
-	// );
+export function orderList( ){
+	return RequestService.get(
+		makeUrl('wo/queryWo')
+	);
+}
+//取消预约
+export function orderCancel(woCode,reason){
+    return RequestService.get(
+        makeUrl('wo/cancelWo'),
+		{
+			woCode:woCode,
+			reason:reason
+		}
+    );
+}
+//确认服务完成
+export function orderOver(woCode){
+    return RequestService.get(
+        makeUrl('wo/confirmWo'),
+        {
+            woCode:woCode
+        }
+    );
+}
+//服务评价
+export function orderConfir(woCode,score,content){
+    return RequestService.get(
+        makeUrl('orderProcess/rateAdd'),
+        {
+            woCode:woCode,
+            score:score,
+            content:content
+        }
+    );
 }
 
 //预约详情-预约ID
 export function orderDetail(orderId){
-	//todo
-	return new Promise.resolve({
-		"orderId": "abc",
-		"userId": 123,
-		"userName": "张三",
-		"phone": 13912345678,
-		"time": "2016-10-09 14:30",
-		"type": [
-			{
-				"type": "常规保养"
-			},
-			{
-				"type": "发动机"
-			}
-		],
-		"content": "洗车"
-	});
-
 	return RequestService.get(
-		makeUrl('orderDetail'),
-		{orderId: orderId}
+		makeUrl('wo/getWo'),
+		{woCode: orderId}
 	);
 }
 
@@ -144,22 +122,41 @@ export function serviceRated(opts){
 }
 
 //评价查询
-export function queryRated(page_number, page_size, page_total, userId, stationId){
+export function queryRated(page_number, page_size,stationId,flag,woCode){
+    let user=getToken().userId;
 	return RequestService.get(
 		makeUrl('queryRated'),
 		{
 			page_number: page_number || 1,
-			page_size:page_size || 20,
-			userId:userId,
-			stationId:stationId
+			page_size:page_size || 2,
+			stationId:stationId,
+			flag: flag,
+            driverId:user,
+            woCode:woCode
 		}
 	);
 }
 
-//评价查询-评价ID
-export function delRated(rateId){
+
+//服务预约
+export function getPosition(woCode){
 	return RequestService.get(
-		makeUrl('delRated'),
-		{rateId: rateId}
+		makeUrl('wo/getPostion'),
+		{woCode: woCode}
 	);
+}
+
+//催单接口
+export function urgeWo(woCode){
+    return RequestService.get(
+        makeUrl('wo/urgeWo'),
+        {woCode: woCode}
+    );
+}
+//删除评论
+export function delRated(rateId){
+    return RequestService.get(
+        makeUrl('delRated'),
+        {rateId: rateId}
+    );
 }

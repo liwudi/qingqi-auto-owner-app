@@ -6,11 +6,13 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.mapbar.nim.MessageServer;
 import com.mapbar.react.CommonUtils;
 import com.mapbar.react.LogUtils;
 import com.mapbar.react.common.operation.ContactsOperation;
@@ -164,4 +166,13 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
             e.printStackTrace();
         }
     }
+
+    /* 打开客服
+    * */
+    @ReactMethod
+    public void startKefuActivity(String userId,String kefuId,String type,String nimToken) {
+        MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
+        messageServer.prepare(userId,kefuId,type,nimToken);
+    }
+
 }

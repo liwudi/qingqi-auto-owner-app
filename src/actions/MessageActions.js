@@ -1,10 +1,10 @@
 /**
  * Created by ligj on 2016/9/27.
  */
-import { ToastAndroid } from 'react-native';
 
 import * as TYPES from './types';
 import * as PushService from '../services/PushService';
+import Toast from '../components/Toast';
 
 export function addMessage(message) {
 	return (dispatch) => {

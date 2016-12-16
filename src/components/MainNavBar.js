@@ -17,6 +17,10 @@ import IconButton from './widgets/IconButton';
 import Env from '../utils/Env';
 
 export default class MainNavBar extends React.Component{
+	static defaultProps = {
+        changeTab: () => {}
+	}
+
 	constructor(){
 		super();
 
@@ -26,7 +30,7 @@ export default class MainNavBar extends React.Component{
 	}
 	changeTab = (index, isJump = true) => {
 		this.setState({currentIndex:index});
-		isJump && this.props.changeTab && this.props.changeTab(index, this.props.navigator)
+		isJump && this.props.changeTab(index, this.props.navigator)
 	}
 	render (){
 		return (

@@ -90,19 +90,20 @@ android {
         applicationId "com.mapbar.qingqi.onwer"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1000
+        versionCode 10000
         versionName "1.0.1"
         ndk {
             abiFilters "armeabi-v7a"
         }
+        manifestPlaceholders = [ AMAP_KEY:"9dc7358337ad59f13ec3f1a9887e84a6" ]
     }
     signingConfigs {
-        //release { ////打release包 请取消注释   gradlew assembleRelease
-            //storeFile file(MYAPP_RELEASE_STORE_FILE)
-            //storePassword MYAPP_RELEASE_STORE_PASSWORD
-            //keyAlias MYAPP_RELEASE_KEY_ALIAS
-            //keyPassword MYAPP_RELEASE_KEY_PASSWORD
-        //}
+        release { ////打release包 请取消注释   gradlew assembleRelease
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        }
     }
     splits {
         abi {
@@ -116,7 +117,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            //signingConfig signingConfigs.release //打release包 请取消注释
+            signingConfig signingConfigs.release //打release包 请取消注释
         }
     }
     // applicationVariants are e.g. debug, release
@@ -147,7 +148,8 @@ dependencies {
     compile project(':react-native-splash-screen')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-resizer')
-	compile project(':react-native-video')
+    compile project(':react-native-video')
+    compile project(':uikit')
 }
 
 // Run this once to be able to run the application with BUCK

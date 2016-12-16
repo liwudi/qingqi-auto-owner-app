@@ -11,6 +11,25 @@ function makeUrl(path) {
     return serviceUrl + path;
 }
 
+export function choiceCustomer(){
+    return RequestService.get(
+        `${Server.QINGQI}crm/queryUserInfo`,
+        {
+            type:1
+        }
+    ).then(rs => {
+        return choiceCustomerService().then(rs2 => {
+            return Object.assign({}, rs, rs2);
+        })
+    });
+}
+
+export function choiceCustomerService(){
+    return RequestService.get(
+        `${Server.QINGQI}crm/choiceCustomerService`
+    );
+}
+
 //当前车队信息查询接口
 export function carTeamInfo(){
     return RequestService.get(

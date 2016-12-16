@@ -39,7 +39,6 @@ class Bbs extends Component {
                 <TopBanner
                     {...this.props}
                     title={"卡友论坛"}
-                    doBack={this.doBack.bind(this)}
                 />
                 <WebView
                     ref="webView"
