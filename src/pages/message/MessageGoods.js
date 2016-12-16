@@ -12,7 +12,7 @@ import {
 
 import WebView from '../../components/WebView';
 
-
+import ServerConfig from '../../service-config/ServerConfig';
 import TopBanner from '../../components/TopBanner';
 
 import Env from '../../utils/Env';
@@ -31,7 +31,7 @@ export default class MessageGoods extends Component {
 				<WebView
 					style={[Env.style.fx1]}
 					showBanner={false}
-					uri="https://www.lujing56.com/activities/goodsource/view/find_goods.html"
+					uri={ServerConfig.GOODS_PAGE}
 				/>
 			</View>
 		);

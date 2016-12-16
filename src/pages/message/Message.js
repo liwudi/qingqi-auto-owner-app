@@ -15,7 +15,8 @@ import TopBanner from '../../components/TopBanner';
 import CarListMessage from './CarListMessage';
 import PersonalMessage from './PersonalMessage';
 import TabNavigator from '../../components/TabNavigator';
-import {setCurrentActivePage} from '../../actions/MessageActions';
+import {setCurrentActivePage, getMessages} from '../../actions/MessageActions';
+import { setCurrentPage } from '../../services/PushService';
 
 import Env from '../../utils/Env';
 
@@ -41,6 +42,7 @@ class Message extends Component {
         this.props.dispatch(setCurrentActivePage({message:index}));
     }
 
+    activePageStore = null;
     componentWillReceiveProps(nextProps){
         if(nextProps.messageStore.PersonalMessageUnread.count != this.props.messageStore.PersonalMessageUnread.count){
         	let tabsState = this.state.tabs;
@@ -49,10 +51,21 @@ class Message extends Component {
                 tabs: tabsState
 			})
 		}
+
+		if(JSON.stringify(this.activePageStore) !== JSON.stringify(nextProps.activePageStore)){
+            setCurrentPage(
+                nextProps.activePageStore.main,
+                nextProps.activePageStore.message,
+                () => {
+                    this.props.dispatch(getMessages());
+                }
+            );
+            this.activePageStore = nextProps.activePageStore;
+		}
     }
 
 	render() {
-        console.log(this.props.activePageStore)
+
 		return (
 			<View style={[estyle.fx1,estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="消息中心" leftShow={false}/>

@@ -15,7 +15,6 @@ import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import ViewForRightDom from '../../../components/ViewForRightDom';
 import {IconCall} from '../../../components/Icons';
 import Env from '../../../utils/Env';
-const estyle = Env.style;
 import {carInfo, addCar } from '../../../services/AppService';
 
 import CarParameter from './CarParameter';
@@ -31,8 +30,10 @@ import MonitorMapTrack from '../monitor/MonitorMapTrack';
 import Toast from '../../../components/Toast';
 
 import MonitorMap from '../monitor/MonitorMap';
-
+import MessageCar from './MessageCars';
 import MessageListCar from '../../message/MessageListCar';
+const estyle = Env.style;
+const basefont= Env.font.base;
 
 export default class CarDetail extends Component {
     constructor(props) {
@@ -154,7 +155,7 @@ export default class CarDetail extends Component {
                 <ViewForRightArrow onPress={()=>{this.props.router.push(MonitorMapTrack, {nav: {carId: data.carId, carCode: data.carCode}})}}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>轨迹回放</Text>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={() => this.props.router.push(MessageListCar, {carNumber:data.carCode, carId:data.carId})}>
+                <ViewForRightArrow onPress={() => this.props.router.push(MessageCar, {nav:{carCode:data.carCode, carId:data.carId,data:data}})}>
                     <Text style={[estyle.text, {textAlign: 'left'}]}>报警通知</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow onPress={this.goToParams.bind(this)}>
@@ -168,19 +169,19 @@ export default class CarDetail extends Component {
                             <Text style={[estyle.text, {textAlign: 'left'}]}>主驾驶</Text>
                         </View>
                         <View style={[estyle.fxCenter]}>
-                            <TouchableOpacity style={[estyle.fxRow, estyle.fxRowCenter]} onPress={
+                            <TouchableOpacity style={[{borderRadius: basefont * 5,borderColor:Env.color.main,borderWidth:data.mainDriver ? 0.5 :0}, estyle.paddingHorizontal,estyle.fxRow, estyle.fxRowCenter]} onPress={
                                 ()=> {
                                     data.mainDriverPhoneNum && this.props.callTo(data.mainDriverPhoneNum);
                                 }
                             }>
-                                {
-                                    data.mainDriver ?
-                                        <IconCall color={Env.color.main} size={Env.vector.call.size}/> : null
-                                }
                                 <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
                                 }]}>{data.mainDriver || '无'}</Text>
+                                {
+                                    data.mainDriver ?
+                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.vector.call.size}/> : null
+                                }
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -191,19 +192,19 @@ export default class CarDetail extends Component {
                             <Text style={[estyle.text, {textAlign: 'left'}]}>副驾驶</Text>
                         </View>
                         <View style={[estyle.fxCenter]}>
-                            <TouchableOpacity style={[estyle.fxRow, estyle.fxRowCenter]} onPress={
+                            <TouchableOpacity style={[{borderRadius: basefont * 5,borderColor:Env.color.main,borderWidth:data.subDriver ? 0.5 :0},estyle.paddingHorizontal,estyle.fxRow, estyle.fxRowCenter]} onPress={
                                 ()=> {
                                     data.subDriverPhoneNum && this.props.callTo(data.subDriverPhoneNum);
                                 }
                             }>
-                                {
-                                    data.subDriver ?
-                                        <IconCall color={Env.color.main} size={Env.vector.call.size}/> : null
-                                }
                                 <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
                                 }]}>{data.subDriver || '无'}</Text>
+                                {
+                                    data.subDriver ?
+                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.vector.call.size}/> : null
+                                }
                             </TouchableOpacity>
                         </View>
                     </View>

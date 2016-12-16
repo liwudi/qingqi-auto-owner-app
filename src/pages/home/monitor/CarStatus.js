@@ -30,15 +30,15 @@ export default class CarStatus extends Component {
 
     render() {
         return (
-            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
+            <View style={[estyle.containerBackgroundColor,estyle.fx1]}>
                 <TopBanner {...this.props} title={this.props.nav.carCode}/>
                 <PageList
-                    style={estyle.fx1}
+                    style={[estyle.fx1]}
                     renderRow={(row) => {
                         return <StatusItem data={row} />;
                     }}
                     fetchData={(pageNumber, pageSize) => {
-                        return queryCarCondition(pageNumber,pageSize, this.props.nav.carId);
+                        return queryCarCondition(pageNumber,10, this.props.nav.carId);
                     }}
                 />
             </View>

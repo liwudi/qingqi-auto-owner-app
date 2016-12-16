@@ -8,9 +8,6 @@ import {
 } from 'react-native';
 
 import Video from 'react-native-video';
-import Env from '../utils/Env';
-
-import VideoView from '../components/VideoView';
 
 export default class VideoShow extends Component {
 
