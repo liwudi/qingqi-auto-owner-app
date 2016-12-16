@@ -114,7 +114,7 @@ export default class MapbarMap extends Component {
         instance.initMap(this.refs.mapView);
         this.Map = instance;
         this.mapRef = this.Map.getMapRef();
-    //    this.props.router.map.push(this.mapRef);
+        this.ridx = this.props.router.currentIndex();
         this.props.onInit && this.props.onInit(this.Map);
 
     }
@@ -143,6 +143,7 @@ export default class MapbarMap extends Component {
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
         if(!this.ridx) this.ridx = cidx;
+        console.info(cidx, this.ridx, this.mapRef)
         if(cidx === this.ridx) this.resume();
         else  this.pause();
         return true;

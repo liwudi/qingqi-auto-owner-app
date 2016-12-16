@@ -2,18 +2,18 @@
  * Created by ligj on 2016/9/23.
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {
-	Navigator,
-	View,
-	Text,
-	StatusBar,
-	Linking,
-	DeviceEventEmitter,
-	NetInfo,
-	Switch,
-	NativeModules,
+    Navigator,
+    View,
+    Text,
+    StatusBar,
+    Linking,
+    DeviceEventEmitter,
+    NetInfo,
+    Switch,
+    NativeModules,
     Image,
     AppState
 } from 'react-native';
@@ -22,9 +22,9 @@ import {
 var pushModule = NativeModules.MarbarPushModule;
 
 import Toast from '../components/Toast';
-import { MessageActions } from '../actions/index';
+import {MessageActions} from '../actions/index';
 import Guide2 from './guide2';
-import { addEventSystemBack } from '../utils/SystemEvents';
+import {addEventSystemBack} from '../utils/SystemEvents';
 import Router from '../services/RouterService';
 import Env from '../utils/Env'
 const estyle = Env.style;
@@ -36,10 +36,10 @@ import HomeRouter from './HomeRouter';
 
 AppState.addEventListener('change', (currentAppState) => {
     global.appIsActive = (currentAppState == 'active');
-    if(global.appIsActive){
+    if (global.appIsActive) {
         setTimeout(() => {
-           global.toVideoShowMessage && global.toVideoShowFun();
-        },900)
+            global.toVideoShowMessage && global.toVideoShowFun();
+        }, 900)
     }
 });
 
@@ -48,39 +48,38 @@ global.toVideoShowFun = null;
 global.toVideoShowFunIsPlayIng = false;
 
 
-
 class Main extends Component {
 
-	navigator = null;
-	router = null;
+    navigator = null;
+    router = null;
 
-	toVideoShow = () => {
+    toVideoShow = () => {
         let noticeId = global.toVideoShowMessage.noticeId;
         pushModule.cancelNotifacation(noticeId);
         global.toVideoShowMessage = null;
         global.toVideoShowFunIsPlayIng = true;
         this.router.push(VideoShow);
-	}
+    }
 
-    toMessagePage(){
+    toMessagePage() {
         //this.router.resetTo(HomeRouter, {initPage:0});
     }
 
-    newPushMessage(message, isNotificationClick = false){
-        if(/庆祝解放行车联网品牌发布/.test(message.Title)){
-            if(!global.toVideoShowMessage && !global.toVideoShowFunIsPlayIng){
-            	global.toVideoShowMessage = message;
-                if(global.appIsActive){
+    newPushMessage(message, isNotificationClick = false) {
+        if (/庆祝解放行车联网品牌发布/.test(message.Title)) {
+            if (!global.toVideoShowMessage && !global.toVideoShowFunIsPlayIng) {
+                global.toVideoShowMessage = message;
+                if (global.appIsActive) {
                     global.toVideoShowFun();
                 }
             }
-        }else{
+        } else {
             this.props.dispatch(MessageActions.addMessage(message));
             // isNotificationClick && this.toMessagePage();
         }
-	}
+    }
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isConnected: true
@@ -88,17 +87,17 @@ class Main extends Component {
         global.toVideoShowFun = this.toVideoShow.bind(this);
 
         DeviceEventEmitter.addListener("notificationClick", (event) => {
-            try{
+            try {
                 event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent || '{}') : {};
-            }catch (e){
+            } catch (e) {
                 event.CustomContent = {};
             }
             this.newPushMessage(event, true);
         });
         DeviceEventEmitter.addListener("notificationReceive", (event) => {
-            try{
+            try {
                 event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent || '{}') : {};
-            }catch (e){
+            } catch (e) {
                 event.CustomContent = {};
             }
             this.newPushMessage(event);
@@ -127,22 +126,21 @@ class Main extends Component {
             .catch(e => console.log(e));
 
 
-
     }
 
-	callTo = (phone) => {
-		let url = 'tel:' + phone;
-		Linking.canOpenURL(url).then(supported => {
-			if (supported) {
-				Linking.openURL(url);
-			} else {
-				Toast.show('拨打电话' + url + '失败', Toast.SHORT);
-			}
-		});
-	};
+    callTo = (phone) => {
+        let url = 'tel:' + phone;
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                Toast.show('拨打电话' + url + '失败', Toast.SHORT);
+            }
+        });
+    };
     doBack = (exitApp) => {
         let routeIdx = this.router.currentIndex();
-        if(routeIdx > 1){
+        if (routeIdx > 1) {
             this.navigator.pop();
         } else {
             this.refs.alert.alert(
@@ -150,77 +148,78 @@ class Main extends Component {
                 '是否要退出应用?',
                 [
                     {
-                        text:'确定',
-                        onPress:() => {
+                        text: '确定',
+                        onPress: () => {
                             exitApp();
                         }
                     },
                     {
-                        text:'取消'
+                        text: '取消'
                     }
                 ]
             );
         }
         return true;
     };
-	componentDidMount() {
+
+    componentDidMount() {
         addEventSystemBack(
             (exitApp) => {
                 return this.doBack(exitApp);
             }
         );
 
-		setTimeout(() => {
-			if(global.toVideoShowMessage){
-				global.toVideoShowFun();
-			}
-		},1100)
-	}
+        setTimeout(() => {
+            if (global.toVideoShowMessage) {
+                global.toVideoShowFun();
+            }
+        }, 1100)
+    }
 
 
-	componentWillReceiveProps(props){
-		// console.log(props)
-	}
+    componentWillReceiveProps(props) {
+        // console.log(props)
+    }
 
-	renderMain() {
-		return <View style={[estyle.fx1]}>
-			<Navigator
-				initialRoute = {Router.Page(Guide2)}
-				renderScene = {(page, navigator) => {
-					this.router = this.router || new Router(navigator);
-					this.navigator = navigator;
-					let Component = page.component;
-					return (
-						<Component
-							navigator = {navigator}
-							router = {this.router}
-							callTo = {this.callTo}
-							doBack = {() => {
-								this.doBack();
-							}}
-							NetIsConnected = {this.state.NetIsConnected}
-							preLoginUserName = {this.state.preLoginUserName}
-							alert = {(a,b,c) => {
-                                this.refs.alert.alert(a,b,c);
-							}}
-							{...page.props}
-						/>
-					);
-				}}
-			/>
-		</View>
-	}
+    renderMain() {
+        return <View style={[estyle.fx1]}>
+            <Navigator
+                initialRoute={Router.Page(Guide2)}
+                renderScene={(page, navigator) => {
+                    this.router = this.router || new Router(navigator);
+                    this.navigator = navigator;
+                    let Component = page.component;
+                    return (
+                        <Component
+                            navigator={navigator}
+                            router={this.router}
+                            callTo={this.callTo}
+                            doBack={() => {
+                                this.doBack();
+                            }}
+                            NetIsConnected={this.state.NetIsConnected}
+                            preLoginUserName={this.state.preLoginUserName}
+                            alert={(a, b, c) => {
+                                this.refs.alert.alert(a, b, c);
+                            }}
+                            {...page.props}
+                        />
+                    );
+                }}
+            />
+        </View>
+    }
 
-	render() {
-		return (
-			<View style={[estyle.fx1]}>
-				{this.renderMain()}
-				<Alert2 ref="alert"/>
-			</View>
-		);
-	}
+    render() {
+        return (
+            <View style={[estyle.fx1]}>
+                {this.renderMain()}
+                <Alert2 ref="alert"/>
+            </View>
+        );
+    }
 }
 
 export default connect(function (stores) {
-	return {messageStore: stores.messageStore}
+    return {messageStore: stores.messageStore}
 })(Main);
