@@ -39,16 +39,21 @@ export default class MapbarMap extends Component {
         }
         this.zoomTimer = null;
     }
+
     renderController() {
         return <View>
             {
                 this.options.showZoomController && <View style={styles.controlView}>
-                    <Button onPress={() => {this.zoomIn()}}
+                    <Button onPress={() => {
+                        this.zoomIn()
+                    }}
                             style={styles.controlButton}>
                         <Icons.IconAdd size={Env.font.base * 60}/>
                     </Button>
-                    <Button onPress={() => {this.zoomOut()}}
-                            style={[styles.controlButton,eStyles.borderTop]}>
+                    <Button onPress={() => {
+                        this.zoomOut()
+                    }}
+                            style={[styles.controlButton, eStyles.borderTop]}>
                         <Icons.IconRemove size={Env.font.base * 60}/>
                     </Button>
                 </View>
@@ -59,54 +64,106 @@ export default class MapbarMap extends Component {
     zoomIn() {
         instance.zoomIn();
         this.zoomTimeout(() => {
-        instance.getZoomLevel().then((zoom) => {this.onZoomIn(zoom);});
+            instance.getZoomLevel().then((zoom) => {
+                this.onZoomIn(zoom);
+            });
         })
     }
+
     zoomOut() {
         instance.zoomOut();
         this.zoomTimeout(() => {
-        instance.getZoomLevel().then((zoom) => {this.onZoomOut(zoom);});
+            instance.getZoomLevel().then((zoom) => {
+                this.onZoomOut(zoom);
+            });
         })
     }
+
     zoomTimeout(fun) {
-        this.zoomTimer && clearTimeout(this.zoomTimer);;
+        this.zoomTimer && clearTimeout(this.zoomTimer);
         this.zoomTimer = setTimeout(fun, 500);
     }
+
     onZoomIn(zoom) {
-    //    console.info('onZoomIn', zoom)
-      /*  let _zoom = zoom;
-        zoom = Math.ceil(zoom);
-        if(zoom > 14) zoom = 14;*/
+        //    console.info('onZoomIn', zoom)
+        /*  let _zoom = zoom;
+         zoom = Math.ceil(zoom);
+         if(zoom > 14) zoom = 14;*/
         this.zoomTimeout(() => {
-            if(zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
-            this.props.onZoomIn && this.props.onZoomIn( Math.ceil(zoom));
+            if (zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
+            this.props.onZoomIn && this.props.onZoomIn(Math.ceil(zoom));
         });
     }
+
     onZoomOut(zoom) {
-    //    console.info('onZoomOut', zoom)
-     /*   zoom = Math.floor(zoom);
-        if(zoom < 0) zoom = 0;*/
+        //    console.info('onZoomOut', zoom)
+        /*   zoom = Math.floor(zoom);
+         if(zoom < 0) zoom = 0;*/
         this.zoomTimeout(() => {
-            if(zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
+            if (zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
             this.props.onZoomOut && this.props.onZoomOut(Math.floor(zoom));
         });
     }
+
     onSpan() {
-    //    console.info('span')
+        //    console.info('span')
         this.props.onSpan && this.props.onSpan();
     }
+
     onInit() {
         instance.initMap(this.refs.mapView);
-        this.props.onInit && this.props.onInit(instance);
-        this.props.router.map.push(true);
+        this.Map = instance;
+        this.mapRef = this.Map.getMapRef();
+    //    this.props.router.map.push(this.mapRef);
+        this.props.onInit && this.props.onInit(this.Map);
+
     }
+
+    clearTimer() {
+        if(this.mapTimer) clearTimeout(this.mapTimer);
+        if(this.zoomTimer) clearTimeout(this.zoomTimer);
+    }
+    pause() {
+        console.info('map pause', this.mapRef)
+        this.clearTimer();
+        this.Map.pause();
+    }
+
+    resume() {
+        this.clearTimer();
+        this.mapTimer = setTimeout(() => {
+            if(this.mapRef) {
+                console.info('map resume', this.mapRef)
+                this.Map.setMapRef(this.mapRef);
+                this.Map.resume();
+            }
+        }, 500);
+    }
+
+    shouldComponentUpdate(props) {
+        let cidx = props.router.currentIndex();
+        if(!this.ridx) this.ridx = cidx;
+        if(cidx === this.ridx) this.resume();
+        else  this.pause();
+        return true;
+    }
+
+    componentWillUnmount() {
+        this.clearTimer();
+        this.ridx = null;
+        this.mapRef = null;
+        this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
+    }
+
     clickMarker(pointId) {
         this.props.clickMarker && this.props.clickMarker(pointId);
     }
+
     getCenter() {
         let center = this.props.center || this.options.center;
         return instance.MPoint([center.longitude, center.latitude]);
     }
+
     render() {
         return <View style={[estyle.fx1]}>
             <MapView
@@ -117,19 +174,31 @@ export default class MapbarMap extends Component {
                 isZoom={this.options.isZoom}
                 isMove={this.options.isMove}
                 isRotate={this.options.isRotate}
-                onZoomIn={(zoom) => {this.onZoomIn(zoom)}}
-                onZoomOut={(zoom) => {this.onZoomOut(zoom)}}
-                onSpan={() => {this.onSpan()}}
-                onAnnotationClick={(pointId) => {this.clickMarker(pointId)}}
-                onIconOverlayClick={(pointId) => {this.clickMarker(pointId)}}
-                onInit={() => {this.onInit()}}
+                onZoomIn={(zoom) => {
+                    this.onZoomIn(zoom)
+                }}
+                onZoomOut={(zoom) => {
+                    this.onZoomOut(zoom)
+                }}
+                onSpan={() => {
+                    this.onSpan()
+                }}
+                onAnnotationClick={(pointId) => {
+                    this.clickMarker(pointId)
+                }}
+                onIconOverlayClick={(pointId) => {
+                    this.clickMarker(pointId)
+                }}
+                onInit={() => {
+                    this.onInit()
+                }}
                 ref="mapView"
             />
             {this.state.showLegend ? this.props.legend : null}
             {this.renderController()}
-            {this.props.hideLegend ? null : <View style={[styles.controlView,{bottom:Env.font.base * 30}]}>
+            {this.props.hideLegend ? null : <View style={[styles.controlView, {bottom: Env.font.base * 30}]}>
                 <Button
-                    onPress={() => this.setState({showLegend:!this.state.showLegend})}
+                    onPress={() => this.setState({showLegend: !this.state.showLegend})}
                     style={styles.controlButton}>
                     <Icons.IconBrowsers size={Env.font.base * 60}/>
                 </Button>
@@ -139,19 +208,19 @@ export default class MapbarMap extends Component {
 }
 
 const styles = StyleSheet.create({
-    controlView:{
-        position:'absolute',
+    controlView: {
+        position: 'absolute',
         bottom: Env.font.base * 330,
         right: Env.font.base * 30,
-        borderRadius:Env.font.base * 10,
+        borderRadius: Env.font.base * 10,
         ...eStyles.border,
-        backgroundColor:'#FFF',
-        borderWidth:1
+        backgroundColor: '#FFF',
+        borderWidth: 1
     },
-    controlButton:{
+    controlButton: {
         width: Env.font.base * 80,
         height: Env.font.base * 80,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });

@@ -24,9 +24,9 @@ export default class CarStatus extends Component {
         super(props);
     }
 
-    componentWillUnmount() {
-        this.props.nav.doBack && this.props.nav.doBack();
-    }
+/*    componentWillUnmount() {
+        this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
+    }*/
 
     render() {
         return (

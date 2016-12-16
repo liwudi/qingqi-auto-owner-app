@@ -69,6 +69,9 @@ export default class RouterService {
             this.navigator.pop();
         }
     }
+    currentIndex() {
+        return this.navigator.getCurrentRoutes().length;
+    }
 
     /**
      * getCurrentRoutes() - 获取当前栈里的路由，也就是push进来，没有pop掉的那些。

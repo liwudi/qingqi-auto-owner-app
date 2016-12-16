@@ -145,6 +145,7 @@ export default class MapLine extends Component {
         if(result) {
             if (this.rnTime !== props.time) {
                 this.rnTime = props.time;
+                this.setState({time: this.rnTime});
                 this.initLine(Object.assign({},props.data));
             }
         }
@@ -155,16 +156,14 @@ export default class MapLine extends Component {
     }
 
     setTimes() {
-        if (!this.state.startTime) {
-            let stime = line[0].time,
-                etime = line[line.length - 1].time;
-            this.setState({
-                startTime: stime,
-                endTime: etime,
-                totalTime: etime - stime
-            });
-            this.setCurrentTimes(0);
-        }
+        let stime = line[0].time,
+            etime = line[line.length - 1].time;
+        this.setState({
+            startTime: stime,
+            endTime: etime,
+            totalTime: etime - stime
+        });
+        this.setCurrentTimes(0);
     }
 
     setCurrentTimes(index) {
@@ -183,13 +182,15 @@ export default class MapLine extends Component {
     }
 
     addLine(paint) {
-        let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
-        if (lines.length) {
-            this.Line.clear();
-            this.Line.add([lines.shift()]);
-            this.Line.add(lines);
+        if(this.state.dataLength) {
+            let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
+            if (lines.length) {
+                this.Line.clear();
+                this.Line.add([lines.shift()]);
+                this.Line.add(lines);
+            }
+            this.moveCar(this.pointIndex);
         }
-        this.moveCar(this.pointIndex);
     }
 
 
@@ -284,12 +285,14 @@ export default class MapLine extends Component {
     }
 
     componentWillUnmount() {
-        this.Map.pause();
+        this.Map.disposeMap(this.mapRef);
+        //console.info('mapline')
+        /*this.Map.pause();
         this.Map.clearOverlays();
-        this.Map.finalize();
+        this.Map.finalize();*/
+        this.mapRef = null;
         this.rnTime = null;
         this.data = null;
-        this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
     }
 
 
@@ -306,7 +309,7 @@ export default class MapLine extends Component {
             }
             this.Line.clear();
             this.setState({playType: this.playType});
-            this.state.dataLength && this.addLine(true);
+            this.addLine(true);
         }, 500);
 
     }
@@ -359,6 +362,7 @@ export default class MapLine extends Component {
                         dataLength={this.state.dataLength}
                         totalTime={this.state.totalTime}
                         progress={this.state.progress}
+                        time={this.state.time}
                         play={(index) => {
                             this.moveCar(index);
                         }} pause={() => {
