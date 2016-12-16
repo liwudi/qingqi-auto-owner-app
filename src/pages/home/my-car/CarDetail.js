@@ -83,10 +83,13 @@ export default class CarDetail extends Component {
                 type:0,
                 flag:1
             })
-                .then(()=>{ this.props.nav.backRender(); this.props.router.pop(); })
+                .then(()=>{ this.props.router.pop(); })
                 .catch(e => Toast.show(e.message, Toast.SHORT))
                 .finally(()=>{this.setState({alertCActive: false})})
         }
+    }
+    componentWillUnmount() {
+        this.props.nav.backRender();
     }
     //修改车牌号
     modifyCarDode() {

@@ -24,7 +24,6 @@ export default class TrackPlayback extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
 			data: null,
 			animating: false,
 			carId: props.nav.carId
@@ -38,14 +37,13 @@ export default class TrackPlayback extends Component {
 		queryTrack(Object.assign({carId: this.state.carId, zoom: 0}, date)
 		).then((data) => {
 			if(!data.lons || data.noResult) {
-				data = null;
+				data = {noResult: true};
 				Toast.show('没有行程轨迹', Toast.SHORT);
 			}
-			this.time = Math.random();
-			this.setState({data: data, animating: false});
+			this.setState({data: data, animating: false, time: Math.random()});
         }).catch(() => {
 			this.time = Math.random();
-			this.setState({data: null, animating: false});
+			this.setState({data: null, animating: false, time: Math.random()});
 			Toast.show('获取行程轨迹异常', Toast.SHORT);
 		}).finally(()=>{});
 	}
@@ -74,7 +72,7 @@ export default class TrackPlayback extends Component {
 				<View style={[estyle.fx1]}>
 					<MapLine
 						data={this.state.data}
-						time={this.time} {...this.props}/>
+						time={this.state.time} {...this.props}/>
 				</View>
 				<DateButtonGroup {...this.props}
 								 selectTime={(date) => {

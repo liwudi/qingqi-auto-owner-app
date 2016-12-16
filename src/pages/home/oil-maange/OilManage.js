@@ -24,6 +24,7 @@ import PageList from '../../../components/PageList';
 
 import MyLineItem from './components/MyLineItem';
 import OilManageCarList from './OilManageCarList';
+import OilManageSetMark from './OilManageSetMark';
 
 import Echarts from '../../../components/ECharts';
 
@@ -160,6 +161,7 @@ export default class OilManage extends Component {
 						return (
 							<MyLineItem
 								data={row}
+
 								onPress={() => {
 									this.props.router.push(
 										OilManageCarList,

@@ -112,6 +112,8 @@ function decodeData(data) {
 }
 
 function setData(data) {
+    if(this.data) return;
+    this.data = data = Object.assign({}, data);
     let firstTime = data.firstTime;
     delete data.firstTime;
     for(let k in data) {
@@ -126,7 +128,9 @@ function setData(data) {
         }
         data[k] = decode(v);
     }
-    return decodeData(data);
+    let result = decodeData(data);
+    this.data = null;
+    return result;
 
 }
 export default {

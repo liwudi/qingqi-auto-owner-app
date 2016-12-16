@@ -86,8 +86,8 @@ export default class HomePage extends Component {
                 }
 				<View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>
 				<View style={[estyle.fxRow, estyle.padding,estyle.border, {backgroundColor:'#FFF'}]}>
-					<Text style={[estyle.fx1,estyle.articleTitle]}>在线车辆数：{this.state.myCarsInfo.onlineCar||0}辆</Text>
-					<Text style={[estyle.fx1,estyle.articleTitle]}>总车辆数：{this.state.myCarsInfo.totalCarNum||0}辆</Text>
+					<Text style={[estyle.fx1,estyle.articleTitle]}>在线车辆数：{this.state.operateStatisToday.onlineCar||0}辆</Text>
+					<Text style={[estyle.fx1,estyle.articleTitle]}>总车辆数：{this.state.operateStatisToday.totalCarNum||0}辆</Text>
 				</View>
 				<ViewForRightArrow onPress={() => this.goTo(TripManage)} style={[estyle.fxRow, estyle.cardBackgroundColor]}>
 					<View style={[estyle.fxRow]}>
