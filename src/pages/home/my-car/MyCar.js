@@ -125,7 +125,12 @@ export default class MyCar extends Component {
                         return <ItemView data={row} onPress={() => this.goTo(CarDetail, row.carId)} />*/}
                     }}
                     fetchData={(pageNumber, pageSize) => {
-                        return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
+                        return queryRealTimeCarList(pageNumber, pageSize, this.state.key);
+                        /*
+                        * return queryRealTimeCarList(pageNumber, pageSize, this.state.key).then((data) => {
+                         data.list.length = 1;
+                         return data;
+                         });*/
                     }}
                     noMore="已经没有更多车辆了"
                 />

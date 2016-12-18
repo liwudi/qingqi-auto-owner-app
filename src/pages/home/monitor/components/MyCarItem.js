@@ -17,11 +17,14 @@ export default class MyCarItem extends Component {
         this.state = {};
         this.stopRequest = true;
         this.ridx = null;
+        this.isLoadding = false;
     }
 
     fetchData() {
         console.info('this.stopRequest-------------------------------------', this.stopRequest)
+        if(this.isLoadding) return;
         if (this.stopRequest) return;
+        this.isLoadding = true;
         this.props.data.carId &&
         queryRealTimeCar({carId: this.props.data.carId}).then((data)=> {
             if (this.stopRequest) return;
@@ -29,11 +32,13 @@ export default class MyCarItem extends Component {
                 this.setData(data);
             }
         }).catch().finally(()=> {
+            this.isLoadding = false;
             this.setTimer();
         });
     }
 
     setTimer() {
+        if(this.isLoadding) return;
         if (this.stopRequest) return;
         this.timer = setTimeout(() => {
             this.fetchData();
@@ -59,35 +64,37 @@ export default class MyCarItem extends Component {
         this.requestStop();
         this.timer && clearTimeout(this.timer);
         this.timer = null;
+        this.ridx = null;
     }
 
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
         if(this.ridx === null) this.ridx = cidx;
-/*        console.info(cidx, this.ridx)
-        console.info('update -----------------------------------')*/
+        console.info('update -----------------------------------')
         this.timer && clearTimeout(this.timer);
         if(cidx === this.ridx) {
             this.requestStart();
-        //    if(!this.state.data) {
-                //this.requestStart();
-        //    }
+            setTimeout(() => {
+                this.fetchData();
+            }, Math.random() * 2000);
         } else {
             this.requestStop();
         }
         return true;
     }
     componentWillReceiveProps(props) {
-        if(this.ridx === null) {
-            props.data && this.setData(props.data);
-            this.fetchData();
-            //this.requestStart();
-        }
+        props.data && this.setData(props.data);
+        this.requestStart();
+       /* if(this.ridx === null) {
+
+        }*/
     }
 
-    componentDidMount() {
-        this.ridx = null;
-    }
+/*    componentDidMount() {
+        setTimeout(() => {
+            this.fetchData();
+        }, Math.random() * 2000);
+    }*/
 
     render() {
         return (
