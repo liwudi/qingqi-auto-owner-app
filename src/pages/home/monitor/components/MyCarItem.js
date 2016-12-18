@@ -19,6 +19,8 @@ export default class MyCarItem extends Component {
     }
 
     fetchData() {
+        console.info('this.stopRequest-------------------------------------', this.stopRequest)
+        console.info('this.stop--------------------------------', this.stop)
         if (this.stopRequest) return;
         this.props.data.carId &&
         queryRealTimeCar({carId: this.props.data.carId}).then((data)=> {
@@ -65,7 +67,7 @@ export default class MyCarItem extends Component {
     }
 
     componentWillReceiveProps(props) {
-        if(typeof props.stop === 'boolean') {
+        //if(typeof props.stop === 'boolean') {
             this.stop = props.stop;
             if(props.stop) {
                 this.requestStop();
@@ -73,7 +75,7 @@ export default class MyCarItem extends Component {
                 this.setData(props.data);
                 this.requestStart();
             }
-        }
+        //}
     }
 
     componentDidMount() {

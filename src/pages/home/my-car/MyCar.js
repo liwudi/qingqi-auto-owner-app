@@ -120,9 +120,9 @@ export default class MyCar extends Component {
                     style={estyle.fx1}
                     renderRow={(row) => {
                         return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId)} stop={this.state.stop}/>
-                  {/*      console.info(this.state.stop)
+                        {/*console.info(this.state.stop)
                         let ItemView = this.state.stop ? Item : MyCarItem;
-                        return <ItemView data={row} onPress={() => this.goTo(CarDetail, row.carId)}/>*/}
+                        return <ItemView data={row} onPress={() => this.goTo(CarDetail, row.carId)} />*/}
                     }}
                     fetchData={(pageNumber, pageSize) => {
                         return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
