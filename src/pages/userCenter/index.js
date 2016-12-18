@@ -47,23 +47,24 @@ class UserCenterHome extends Component {
     }
 
     _checkUpdate(){
-        checkUpdate().then(rs => {
-            console.log(rs)
-            if(rs['version_no'] != this.state.versionCode){
-                this.props.alert(
-                    `发现新版本(${rs.version_name})`,
-                    '是否更新？',
-                    [
-                        {text:'确定',onPress:() => {
-                            Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
-                        }},
-                        {text:'取消'}
-                    ]
-                )
-            } else {
-                Toast.show('暂无更新', Toast.SHORT);
-            }
-        });
+        Toast.show('暂无更新', Toast.SHORT);
+        // checkUpdate().then(rs => {
+        //     console.log(rs)
+        //     if(rs['version_no'] != this.state.versionCode){
+        //         this.props.alert(
+        //             `发现新版本(${rs.version_name})`,
+        //             '是否更新？',
+        //             [
+        //                 {text:'确定',onPress:() => {
+        //                     Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
+        //                 }},
+        //                 {text:'取消'}
+        //             ]
+        //         )
+        //     } else {
+        //         Toast.show('暂无更新', Toast.SHORT);
+        //     }
+        // });
     }
 
     componentDidMount(){
