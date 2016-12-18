@@ -52,7 +52,7 @@ export default class MyCarItem extends Component {
 
     requestStart() {
         this.stopRequest = false;
-        this.fetchData();
+    //    this.fetchData();
     }
 
     componentWillUnmount() {
@@ -68,8 +68,9 @@ export default class MyCarItem extends Component {
         console.info('update -----------------------------------')*/
         this.timer && clearTimeout(this.timer);
         if(cidx === this.ridx) {
+            this.requestStart();
         //    if(!this.state.data) {
-                this.requestStart();
+                //this.requestStart();
         //    }
         } else {
             this.requestStop();
@@ -79,6 +80,8 @@ export default class MyCarItem extends Component {
     componentWillReceiveProps(props) {
         if(this.ridx === null) {
             props.data && this.setData(props.data);
+            this.fetchData();
+            //this.requestStart();
         }
     }
 
