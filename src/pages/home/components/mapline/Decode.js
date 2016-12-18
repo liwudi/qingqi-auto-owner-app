@@ -103,7 +103,7 @@ function decodeData(data) {
             timeDiff: timeDiff,
             speed: speed,
             direction: 360 - direction,
-            oil: oil,
+            oil: oil / 100,
             levelGroup : level
         });
         setBounds(pt);
@@ -118,7 +118,7 @@ function setData(data) {
     let firstTime = data.firstTime;
     delete data.firstTime;
     for(let k in data) {
-         console.info(k)
+    //     console.info(k)
         let v = data[k];
         if(k == 'levels') {
             data[k] = decodeLevels(v);

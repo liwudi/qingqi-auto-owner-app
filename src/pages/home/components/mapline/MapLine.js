@@ -105,6 +105,7 @@ export default class MapLine extends Component {
     }
 
     clearMap() {
+        SpeedLine.clear();
         this.Map && this.Map.clearOverlays();
         line = [];
         this.dataLength = 0;
@@ -192,7 +193,8 @@ export default class MapLine extends Component {
 
     addLine(paint) {
         if(this.dataLength) {
-            let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
+            //let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
+            let lines = SpeedLine.get(line, this.zoom, !!paint, this.playType);
             if (lines.length) {
                 this.Line.clear();
                 this.Line.add([lines.shift()]);
@@ -255,15 +257,15 @@ export default class MapLine extends Component {
             id: this.carIdx,
             click: true,
             imageName: "res/icons/c1002.png",
-            direction: direction
+            direction: pt.direction
         };
         this.MarkerRotate.add([mkOpts]);
         this.setCurrentTimes(0);
     }
 
     moveCar(index) {
-        if(index <= 0) index = 0;
-        console.info('-------------------------------------------------------', index)
+        //if(index <= 0) index = 0;
+    //    console.info('-------------------------------------------------------', index)
         this.pointIndex = index;
         if(line[index]) {
             let pt = Object.assign({}, line[index]);
@@ -288,7 +290,7 @@ export default class MapLine extends Component {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
                 id: this.carIdx,
-                direction: npt.direction
+                direction: pt.direction
             };
             this.MarkerRotate.update([mkOpts]);
             this.setCurrentTimes(index);
@@ -298,6 +300,9 @@ export default class MapLine extends Component {
 
     componentWillUnmount() {
         this.Map.disposeMap(this.mapRef);
+        SpeedLine.clear();
+        line = [];
+        this.dataLength = 0;
         //console.info('mapline')
         /*this.Map.pause();
         this.Map.clearOverlays();
@@ -367,7 +372,7 @@ export default class MapLine extends Component {
     }
 
     render() {
-        console.info(this.state)
+    //    console.info(this.state)
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 {
