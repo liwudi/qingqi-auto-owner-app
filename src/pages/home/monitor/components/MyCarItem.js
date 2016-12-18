@@ -10,7 +10,7 @@ import {
 import {queryRealTimeCar} from '../../../../services/MonitorService';
 
 import Item from '../../my-car/components/MyCarItem';
-const TIMEOUT = 30; //间隔30秒刷新
+const TIMEOUT = 5; //间隔30秒刷新
 export default class MyCarItem extends Component {
     constructor() {
         super();
@@ -71,12 +71,14 @@ export default class MyCarItem extends Component {
         let cidx = props.router.currentIndex();
         if(this.ridx === null) this.ridx = cidx;
         console.info('update -----------------------------------')
-        this.timer && clearTimeout(this.timer);
+        //this.timer && clearTimeout(this.timer);
         if(cidx === this.ridx) {
-            this.requestStart();
-            setTimeout(() => {
-                this.fetchData();
-            }, Math.random() * 2000);
+            if(this.stopRequest) {
+                this.requestStart();
+                setTimeout(() => {
+                    this.fetchData();
+                }, Math.random() * 2000);
+            }
         } else {
             this.requestStop();
         }
@@ -84,7 +86,7 @@ export default class MyCarItem extends Component {
     }
     componentWillReceiveProps(props) {
         props.data && this.setData(props.data);
-        this.requestStart();
+        //this.requestStart();
        /* if(this.ridx === null) {
 
         }*/
