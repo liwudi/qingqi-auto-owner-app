@@ -103,6 +103,7 @@ export default class PlayView extends Component {
     }
     run () {
         index = index >= this.props.dataLength - 1 ? this.props.dataLength - 1 : index;
+        if(index <= 0) index = 0;
 console.info(this.state.progress)
         this.setState({progress: index});
         this.props.play && this.props.play(index);
