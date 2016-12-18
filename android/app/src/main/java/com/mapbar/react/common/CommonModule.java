@@ -1,6 +1,8 @@
 package com.mapbar.react.common;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -173,6 +175,38 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     public void startKefuActivity(String userId,String kefuId,String type,String nimToken) {
         MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
         messageServer.prepare(userId,kefuId,type,nimToken);
+    }
+
+
+    /**
+     * 获取版本信息
+     * @param promise
+     */
+    @ReactMethod
+    public void getVersionInfo(Promise promise) {
+        PackageInfo packageInfo = getPackageInfo(context);
+
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putString("versionName", packageInfo.versionName);
+        writableMap.putInt("versionCode", packageInfo.versionCode);
+
+        promise.resolve(writableMap);
+    }
+
+    private static PackageInfo getPackageInfo(Context context) {
+        PackageInfo pi = null;
+
+        try {
+            PackageManager pm = context.getPackageManager();
+            pi = pm.getPackageInfo(context.getPackageName(),
+                    PackageManager.GET_CONFIGURATIONS);
+
+            return pi;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pi;
     }
 
 }

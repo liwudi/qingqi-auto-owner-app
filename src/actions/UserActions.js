@@ -127,7 +127,7 @@ export function doLogin(UserParams, next) {
 				return UserService.getUserInfo();
 			})
 			.then(res => {
-				Toast.show('登录成功', Toast.SHORT);
+				// Toast.show('登录成功', Toast.SHORT);
 				dispatch({'type': TYPES.LOGGED_IN, user: res});
 				next(res);
 			})

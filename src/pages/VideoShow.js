@@ -13,6 +13,10 @@ const estyle = Env.style;
 
 export default class VideoShow extends Component {
 
+    componentWillUnmount(){
+        global.toVideoShowFunIsPlayIng = false;
+    }
+
     render() {
         return (
             <View style={[estyle.fx1]}>
@@ -28,7 +32,6 @@ export default class VideoShow extends Component {
                         }
                     }
                     onEnd={() => {
-                        global.toVideoShowFunIsPlayIng = false;
                         this.props.router.pop();
                     }}
                 />

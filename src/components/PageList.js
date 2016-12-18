@@ -18,6 +18,14 @@ import Toast from './Toast';
 
 export default class PageList extends Component {
 
+    static defaultProps = {
+         clickMore:'加载更多',
+         loadingMore: '加载中...',
+         noMore: '已经没有更多数据了',
+         noData:'没有数据'
+    };
+
+
     pageNumber = 1;
     pageSize = 20;
 
@@ -151,10 +159,10 @@ export default class PageList extends Component {
                     renderRow={this.props.renderRow}
                     renderFooter={() => {
                         if((this.state.pageTotal || this._data.length) <= this.pageNumber){
-                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}><Text>{this._data.length === 0 ? '没有数据' : '已经没有更多数据了'}</Text></View>;
+                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}><Text>{this._data.length === 0 ? this.props.noData : this.props.noMore}</Text></View>;
                         }
                         if(this.state.pageTotal > this.pageNumber){
-                            return <View style={[Env.style.fxCenter, Env.style.padding]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? '加载中...' : '加载更多'}</Text></View>
+                            return <View style={[Env.style.fxCenter, Env.style.padding]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? this.props.loadingMore : this.props.clickMore}</Text></View>
                         }
                         return null;
                     }}

@@ -10,7 +10,8 @@ import {
 	TouchableOpacity,
 	StyleSheet,
     Image,
-    Alert
+    Alert,
+    Linking
 } from 'react-native';
 
 import ViewForRightArrow from '../../components/ViewForRightArrow';
@@ -22,6 +23,8 @@ import AccountHome from './account-config/AccountHome';
 import ManagerList from './manager/ManagerList';
 import AboutUs from './AboutUs';
 
+import { getAppVersion, checkUpdate } from '../../services/UpdateService';
+
 import { UserActions } from '../../actions';
 
 import Toast from '../../components/Toast';
@@ -32,7 +35,9 @@ class UserCenterHome extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userData: {}
+            userData: {},
+            versionName : '',
+            versionCode : ''
         };
         this.props.dispatch(UserActions.getUserPic());
     }
@@ -41,8 +46,33 @@ class UserCenterHome extends Component {
         this.props.router.push(page);
     }
 
-    checkUpdate(){
-        Toast.show('暂无更新', Toast.SHORT);
+    _checkUpdate(){
+        checkUpdate().then(rs => {
+            console.log(rs)
+            if(rs['version_no'] != this.state.versionCode){
+                this.props.alert(
+                    `发现新版本(${rs.version_name})`,
+                    '是否更新？',
+                    [
+                        {text:'确定',onPress:() => {
+                            Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
+                        }},
+                        {text:'取消'}
+                    ]
+                )
+            } else {
+                Toast.show('暂无更新', Toast.SHORT);
+            }
+        });
+    }
+
+    componentDidMount(){
+        getAppVersion().then(v => {
+            this.setState({
+                versionName : v.versionName,
+                versionCode : v.versionCode
+            })
+        });
     }
 
     clearCache(){
@@ -94,7 +124,7 @@ class UserCenterHome extends Component {
                         <Text style={estyle.text}>车队管理员</Text>
                     </ViewForRightArrow> : null}
 
-                    <ViewForRightArrow style={[estyle.marginTop]}  onPress={this.checkUpdate}>
+                    <ViewForRightArrow style={[estyle.marginTop]}  onPress={this._checkUpdate.bind(this)}>
                         <View style={{flexDirection:'row'}}>
                             <Text style={estyle.text}>版本更新</Text>
                             {/*<Text style={[estyle.text,{color:'red'}]}> new</Text>*/}

@@ -69,6 +69,8 @@ class PersonalMessage extends Component{
                             pageTotal:1
                         })
                     }}
+                    noData="没未收到任何个人消息"
+                    noMore=""
                 />
             </View>
         );

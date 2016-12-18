@@ -27,6 +27,8 @@ const ServerConfig = {
 
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
 
+    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.driver&ck=922432a3270d48de985db96d365b6df8',
+
     defaultPage : {
         page_number: 1,
         page_size: 20,

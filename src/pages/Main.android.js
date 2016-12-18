@@ -34,6 +34,7 @@ import {Alert2} from '../components/Modals/Alert';
 import VideoShow from './VideoShow';
 
 import HomeRouter from './HomeRouter';
+import { checkUpdate } from '../services/UpdateService';
 
 AppState.addEventListener('change', (currentAppState) => {
     global.appIsActive = (currentAppState == 'active');
@@ -60,6 +61,25 @@ class Main extends Component {
         global.toVideoShowMessage = null;
         global.toVideoShowFunIsPlayIng = true;
         this.router.push(VideoShow);
+    }
+
+    _checkUpdate(){
+        // checkUpdate().then(rs => {
+        //     if(rs['version_no'] != this.state.versionCode){
+        //         this.refs.alert.alert(
+        //             `发现新版本(${rs.version_name})`,
+        //             '是否更新？',
+        //             [
+        //                 {text:'去下载',onPress:() => {
+        //                     Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
+        //                 }},
+        //                 {text:'以后再说'}
+        //             ]
+        //         )
+        //     } else {
+        //         Toast.show('暂无更新', Toast.SHORT);
+        //     }
+        // });
     }
 
     toMessagePage() {
@@ -178,7 +198,8 @@ class Main extends Component {
             if (global.toVideoShowMessage) {
                 global.toVideoShowFun();
             }
-        }, 1100)
+        }, 1100);
+        setTimeout(this._checkUpdate.bind(this),2000);
     }
 
     componentWillUnmount() {

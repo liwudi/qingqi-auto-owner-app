@@ -120,6 +120,7 @@ export default class MyCar extends Component {
                     fetchData={(pageNumber, pageSize) => {
                         return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
                     }}
+                    noMore="已经没有更多车辆了"
                 />
             </View>
         )
