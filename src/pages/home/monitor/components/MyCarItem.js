@@ -10,17 +10,17 @@ import {
 import {queryRealTimeCar} from '../../../../services/MonitorService';
 
 import Item from '../../my-car/components/MyCarItem';
-const TIMEOUT = 15; //间隔30秒刷新
+const TIMEOUT = 30; //间隔30秒刷新
 export default class MyCarItem extends Component {
     constructor() {
         super();
         this.state = {};
         this.stopRequest = true;
+        this.ridx = null;
     }
 
     fetchData() {
         console.info('this.stopRequest-------------------------------------', this.stopRequest)
-        console.info('this.stop--------------------------------', this.stop)
         if (this.stopRequest) return;
         this.props.data.carId &&
         queryRealTimeCar({carId: this.props.data.carId}).then((data)=> {
@@ -34,19 +34,15 @@ export default class MyCarItem extends Component {
     }
 
     setTimer() {
-        if(this.stop) return;
+        if (this.stopRequest) return;
         this.timer = setTimeout(() => {
             this.fetchData();
         }, TIMEOUT * 1000);
     }
 
     setData(data={}) {
-/*        console.info('---------------------------')
-        console.info(data)*/
         let _data = this.state.data;
         data.carCode = data.carCode || data.carNo || _data.carCode || _DATA.carNo;
-        //data.carId = data.carId || _data.carId;
-        //data.carNo && (data.carCode = data.carNo);
         this.setState({data});
     }
 
@@ -61,32 +57,39 @@ export default class MyCarItem extends Component {
 
     componentWillUnmount() {
         this.requestStop();
-        this.stop = true;
         this.timer && clearTimeout(this.timer);
         this.timer = null;
     }
 
-    componentWillReceiveProps(props) {
-        //if(typeof props.stop === 'boolean') {
-            this.stop = props.stop;
-            if(props.stop) {
-                this.requestStop();
-            } else {
-                this.setData(props.data);
+    shouldComponentUpdate(props) {
+        let cidx = props.router.currentIndex();
+        if(this.ridx === null) this.ridx = cidx;
+/*        console.info(cidx, this.ridx)
+        console.info('update -----------------------------------')*/
+        this.timer && clearTimeout(this.timer);
+        if(cidx === this.ridx) {
+        //    if(!this.state.data) {
                 this.requestStart();
-            }
-        //}
+        //    }
+        } else {
+            this.requestStop();
+        }
+        return true;
+    }
+    componentWillReceiveProps(props) {
+        if(this.ridx === null) {
+            props.data && this.setData(props.data);
+        }
     }
 
     componentDidMount() {
-        //this.requestStart();
+        this.ridx = null;
     }
 
     render() {
         return (
             <View>
                  <Item data={this.state.data || {}} onPress={() => {
-                 //   this.requestStop();
                     this.props.onPress();
                 }}/>
             </View>
