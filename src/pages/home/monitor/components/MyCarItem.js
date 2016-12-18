@@ -10,7 +10,7 @@ import {
 import {queryRealTimeCar} from '../../../../services/MonitorService';
 
 import Item from '../../my-car/components/MyCarItem';
-const TIMEOUT = 5; //间隔30秒刷新
+const TIMEOUT = 30; //间隔30秒刷新
 export default class MyCarItem extends Component {
     constructor() {
         super();
