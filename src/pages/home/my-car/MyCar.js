@@ -119,7 +119,7 @@ export default class MyCar extends Component {
                     ref="list"
                     style={estyle.fx1}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId)} stop={this.state.stop}/>
+                        return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId)} router={this.props.router} />
                         {/*console.info(this.state.stop)
                         let ItemView = this.state.stop ? Item : MyCarItem;
                         return <ItemView data={row} onPress={() => this.goTo(CarDetail, row.carId)} />*/}
