@@ -79,9 +79,9 @@ export default class MapbarMap extends Component {
         })
     }
 
-    zoomTimeout(fun) {
+    zoomTimeout(fun, timeout) {
         this.zoomTimer && clearTimeout(this.zoomTimer);
-        this.zoomTimer = setTimeout(fun, 500);
+        this.zoomTimer = setTimeout(fun, timeout ||500);
     }
 
     onZoomIn(zoom) {
@@ -92,7 +92,7 @@ export default class MapbarMap extends Component {
         this.zoomTimeout(() => {
             if (zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
             this.props.onZoomIn && this.props.onZoomIn(Math.ceil(zoom));
-        });
+        }, 300);
     }
 
     onZoomOut(zoom) {
@@ -102,7 +102,7 @@ export default class MapbarMap extends Component {
         this.zoomTimeout(() => {
             if (zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
             this.props.onZoomOut && this.props.onZoomOut(Math.floor(zoom));
-        });
+        }, 300);
     }
 
     onSpan() {
