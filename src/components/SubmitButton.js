@@ -6,6 +6,7 @@ import {
     StyleSheet,
     ActivityIndicator
 } from 'react-native';
+import ModalBox from './widgets/Modal';
 
 import Env from '../utils/Env';
 const color = Env.button.color.confirm,
@@ -42,7 +43,7 @@ export default class SubmitButton extends Component {
                     : <Text style={[estyle.text,
                     {color: this.props.disabled ? color.disabledFont : Env.color.navTitle}]}>{this.props.children}</Text>
                 }
-
+                <ModalBox visible={this.props.doing} style={[{backgroundColor:'transparent'}]}/>
             </TouchableOpacity>
         );
     }
