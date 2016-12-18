@@ -22,6 +22,13 @@ import Toast from './Toast';
 //https://github.com/hugohua/rn-listview-example/blob/master/index.ios.js
 export default class PageSectionList extends Component {
 
+    static defaultProps = {
+        clickMore:'加载更多',
+        loadingMore: '加载中...',
+        noMore: '已经没有更多数据了',
+        noData:'没有数据'
+    };
+
     pageNumber = 1;
     pageSize = 20;
 
@@ -189,7 +196,7 @@ export default class PageSectionList extends Component {
                     }
                     renderFooter={() => {
                         if((this.state.pageTotal || this._data.length) <= this.pageNumber){
-                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}><Text>{this._data.length === 0 ? '没有数据' : '已经没有更多数据了'}</Text></View>;
+                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}><Text>{this._data.length === 0 ? this.props.noData : this.props.noMore}</Text></View>;
                         }else {
                             //return <View style={[Env.style.fxCenter, Env.style.padding]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? '加载中...' : '加载更多'}</Text></View>
                             return null;
@@ -204,8 +211,7 @@ export default class PageSectionList extends Component {
 
         return (
             <View onLayout={(e) => {
-                console.log(`this._startViewY` ,e.nativeEvent.layout.y)
-                this._startViewY = e.nativeEvent.layout.y + 84 * Env.font.base
+                this._startViewY = e.nativeEvent.layout.y;
             }}
                   style={[this.props.style,{paddingRight:Env.font.base * 20}]}>
                 {_listView()}
@@ -220,7 +226,7 @@ export default class PageSectionList extends Component {
                         right:0,
                     }]}>
                     <View {...this._panResponder.panHandlers} onLayout={(e) => {
-                        this._startLocationY = e.nativeEvent.layout.y + 84 * Env.font.base
+                        this._startLocationY = e.nativeEvent.layout.y + this._startViewY;
                     }}>
                         {dataKeys.map((item,index) =>
                             <View

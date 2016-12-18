@@ -97,8 +97,7 @@ export default class MyDriver extends Component {
 					ref="key"
 					rightView={<IconSearch color={Env.color.note}/>}
 					onChangeText={(keyWord) => {this.setState({keyWord})}}/>
-				<View style={[estyle.fx1]}>
-					<PageSectionList
+				<PageSectionList
 						ref="list"
 						style={estyle.fx1}
 						reInitField={[this.state.keyWord]}
@@ -130,8 +129,6 @@ export default class MyDriver extends Component {
 							return queryDriver(pageNumber,pageSize,this.state.keyWord)
 						}}
 					/>
-
-				</View>
 			</View>
 		);
 	}

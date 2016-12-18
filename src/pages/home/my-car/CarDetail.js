@@ -40,8 +40,7 @@ export default class CarDetail extends Component {
         super(props);
         this.state = {
             isRefreshing: true,
-            data: {},
-            alertCActive: false
+            data: {}
         }
     }
 
@@ -85,7 +84,7 @@ export default class CarDetail extends Component {
             })
                 .then(()=>{ this.props.router.pop(); })
                 .catch(e => Toast.show(e.message, Toast.SHORT))
-                .finally(()=>{this.setState({alertCActive: false})})
+                .finally(()=>{})
         }
     }
     componentWillUnmount() {
@@ -114,6 +113,19 @@ export default class CarDetail extends Component {
                 update:  [this.fetchData.bind(this), this.props.nav.backRender.bind(this)]
             }
         );
+    }
+
+    deleteCarC(){
+        this.props.alert(
+            '删除车辆',
+            `您确定要将此车辆从车队删除吗？`,
+            [
+                {text:'确认',onPress:() => {
+                    this.deleteCar();
+                }},
+                {text:'取消'}
+            ]
+        )
     }
 
     renderView() {
@@ -238,7 +250,7 @@ export default class CarDetail extends Component {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="车辆详情" rightView={ <TouchableOpacity onPress={()=> {
-                    this.setState({alertCActive: true})
+                    this.deleteCarC();
                 } }><IconTrash color="#fff"/></TouchableOpacity>  }/>
                 <ScrollView style={[estyle.fx1]}
                             refreshControl={
@@ -251,18 +263,7 @@ export default class CarDetail extends Component {
                             }>
                     {this.renderView.bind(this)()}
                 </ScrollView>
-                <Alert visible={this.state.alertCActive}
-                       title="删除车辆"
-                       confirmTitle="确认"
-                       cancelTitle="取消"
-                       onConfirm={(()=> {
-                           this.deleteCar()
-                       })}
-                       onCancel={(()=> {
-                           this.setState({alertCActive: false})
-                       })}>
-                    您确定要将此车辆从车队删除吗？
-                </Alert>
+
             </View>
         );
     }

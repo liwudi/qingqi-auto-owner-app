@@ -93,6 +93,8 @@ class CarListMessage extends Component{
                             pageTotal:1
                         })
                     }}
+                    noData="没未收到任何车队消息"
+                    noMore=""
                 />
             </View>
         );

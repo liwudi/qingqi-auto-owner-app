@@ -29,8 +29,7 @@ export default class MyDriver extends Component {
         super(props);
         this.state = {
             isSearch : false,
-            keyWord: '',
-            alertCActive:false
+            keyWord: ''
         };
     }
     //解绑司机
@@ -42,7 +41,7 @@ export default class MyDriver extends Component {
                 this.props.router.pop();
             })
             .catch()
-            .finally(()=>{this.setState({alertCActive: false})})
+            .finally(()=>{})
     }
 
     bindLine(driverId){
@@ -71,15 +70,28 @@ export default class MyDriver extends Component {
     rightView(){
         if(this.props.nav.driverType === 1 && this.props.nav.mainDriverId != null){
             return <TouchableOpacity onPress={()=> {
-                this.setState({alertCActive: true})
+                this.removeBound();
             } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
         }else if(this.props.nav.driverType === 2 && this.props.nav.subDriverId != null){
             return <TouchableOpacity onPress={()=> {
-                this.setState({alertCActive: true})
+                this.removeBound();
             } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
         }else {
             return <View/>
         }
+    }
+
+    removeBound(){
+        this.props.alert(
+            '提示',
+            `您确定要解除绑定${ this.props.nav.driverType === 1 ? '主驾驶' : '副驾驶' }吗？`,
+            [
+                {text:'确认',onPress:() => {
+                    this.deleteDriver();
+                }},
+                {text:'取消'}
+            ]
+        )
     }
 
     render() {
@@ -97,7 +109,6 @@ export default class MyDriver extends Component {
                     ref="key"
                     rightView={<IconSearch color={Env.color.note}/>}
                     onChangeText={(keyWord) => {this.setState({keyWord})}}/>
-                <View style={[estyle.fx1]}>
                     <PageSectionList
                         ref="list"
                         style={estyle.fx1}
@@ -129,20 +140,6 @@ export default class MyDriver extends Component {
                             return queryDriver(pageNumber,pageSize,this.state.keyWord)
                         }}
                     />
-
-                </View>
-                <Alert visible={this.state.alertCActive}
-                       title="解绑司机"
-                       confirmTitle="确认"
-                       cancelTitle="取消"
-                       onConfirm={(()=> {
-                           this.deleteDriver()
-                       })}
-                       onCancel={(()=> {
-                           this.setState({alertCActive: false})
-                       })}>
-                    您确定要解除绑定{ this.props.nav.driverType === 1 ? '主驾驶' : '副驾驶' }吗？
-                </Alert>
             </View>
         );
     }

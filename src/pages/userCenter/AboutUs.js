@@ -10,13 +10,34 @@ import {
     Linking
 } from 'react-native';
 
+
 import TopBanner from '../../components/TopBanner';
 import ListItem from '../../components/ListItem';
 import Env from '../../utils/Env';
 import Agreement from '../user/Agreement';
 import Button from '../../components/widgets/Button';
+import { getAppVersion } from '../../services/UpdateService';
+
 const estyle = Env.style;
 export default class AboutUs extends Component {
+
+	constructor(props){
+		super(props);
+		this.state = {
+            versionName : '',
+            versionCode : ''
+		}
+	}
+
+    componentDidMount(){
+        getAppVersion().then(v => {
+            this.setState({
+                versionName : v.versionName,
+                versionCode : v.versionCode
+            })
+		});
+    }
+
     render() {
         return (
 			<View style={[estyle.containerBackgroundColor, estyle.fx1]}>
