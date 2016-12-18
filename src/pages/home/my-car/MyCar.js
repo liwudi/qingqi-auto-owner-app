@@ -67,6 +67,7 @@ export default class MyCar extends Component {
     backRender(){
         this.setState({stop: false});
         setTimeout(() => {
+                this.fetchData();
                 this.refs.list.reInitFetch()
             }, 50);
     }
