@@ -32,7 +32,7 @@ export default class MyCarItem extends Component {
     }
 
     setTimer() {
-        if(this.props.stop) return;
+        if(this.stop) return;
         this.timer = setTimeout(() => {
             this.fetchData();
         }, TIMEOUT * 1000);
@@ -59,16 +59,20 @@ export default class MyCarItem extends Component {
 
     componentWillUnmount() {
         this.requestStop();
+        this.stop = true;
         this.timer && clearTimeout(this.timer);
         this.timer = null;
     }
 
     componentWillReceiveProps(props) {
-        if(props.stop) {
-            this.requestStop();
-        } else {
-            this.setData(props.data);
-            this.requestStart();
+        if(typeof props.stop === 'boolean') {
+            this.stop = props.stop;
+            if(props.stop) {
+                this.requestStop();
+            } else {
+                this.setData(props.data);
+                this.requestStart();
+            }
         }
     }
 
