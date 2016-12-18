@@ -180,7 +180,7 @@ export default class CarDetail extends Component {
                                 }]}>{data.mainDriver || '无'}&nbsp;
                                 {
                                     data.mainDriver ?
-                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.vector.call.size}/> : null
+                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.font.base * 32}/> : null
                                 }
                                 </Text>
                             </TouchableOpacity>
@@ -204,7 +204,7 @@ export default class CarDetail extends Component {
                                 }]}>{data.subDriver || '无'}&nbsp;
                                 {
                                     data.subDriver ?
-                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.vector.call.size}/> : null
+                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.font.base * 32}/> : null
                                 }</Text>
                             </TouchableOpacity>
                         </View>

@@ -71,7 +71,7 @@ export default class Monitor extends Component {
                     style={estyle.fx1}
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={() => {
+                        return <MyCarItem data={row} router={this.props.router} onPress={() => {
                             this.goToMap(row.carId);
                         }}/>
                     }}
