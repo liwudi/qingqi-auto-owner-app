@@ -54,11 +54,7 @@ export default class HomePage extends Component {
     customerServiceInfoErrorMsg = null;
 
 	componentDidMount(){
-        choiceCustomer().then(rs => {
-            this.customerServiceInfo = rs;
-        }).catch(e => {
-            this.customerServiceInfoErrorMsg = e.message;
-        });
+
 
         queryOperateStatisToday().then((rs) => {
             this.setState({
@@ -85,16 +81,32 @@ export default class HomePage extends Component {
 	}
 
     startCustomerService(){
-        if(this.customerServiceInfoErrorMsg){
-            Toast.show(this.customerServiceInfoErrorMsg, Toast.SHORT);
-        }else{
+
+		if(this.customerServiceInfo){
             CommonModule.startKefuActivity(
                 this.customerServiceInfo.accountId,
                 this.customerServiceInfo.userId,
                 "1",
                 this.customerServiceInfo.token
             );
-        }
+		}else {
+            choiceCustomer().then(rs => {
+                this.customerServiceInfo = rs;
+            }).catch(e => {
+                this.customerServiceInfoErrorMsg = e.message;
+            }).finally(() => {
+                if(this.customerServiceInfoErrorMsg){
+                    Toast.show(this.customerServiceInfoErrorMsg, Toast.SHORT);
+                }else{
+                    CommonModule.startKefuActivity(
+                        this.customerServiceInfo.accountId,
+                        this.customerServiceInfo.userId,
+                        "1",
+                        this.customerServiceInfo.token
+                    );
+                }
+            }) ;
+		}
     }
 
     componentWillUnmount(){
