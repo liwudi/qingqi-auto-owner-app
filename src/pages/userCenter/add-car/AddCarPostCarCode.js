@@ -40,7 +40,7 @@ export default class AddCarPostCarCode extends Component {
                 .then(()=>{
                     Toast.show('添加成功', Toast.SHORT);
                     this.props.router.popN(3);
-                    this.props.router.replace(MyCar);
+                //    this.props.router.replace(MyCar);
                 })
                 .catch((e)=>{
                     Toast.show(e.message, Toast.SHORT);

@@ -98,6 +98,7 @@ export default class MonitorMap extends Component {
             }
         }).catch(() => {
             console.info('status catch')
+            Toast.show('获取状态列表异常', Toast.SHORT);
         }).finally(() => {
             this.times[0] = setTimeout(() => {
                 this.fetchStatus();
@@ -149,6 +150,7 @@ export default class MonitorMap extends Component {
             }
         }).catch(() => {
             this.requestStop();
+            Toast.show('获取单车监控信息异常', Toast.SHORT);
             console.info('single catch')
         }).finally(() => {
             this.times[1] = setTimeout(() => {

@@ -10,16 +10,21 @@ import {
 import {queryRealTimeCar} from '../../../../services/MonitorService';
 
 import Item from '../../my-car/components/MyCarItem';
-const TIMEOUT = 15; //间隔30秒刷新
+const TIMEOUT = 30; //间隔30秒刷新
 export default class MyCarItem extends Component {
     constructor() {
         super();
         this.state = {};
         this.stopRequest = true;
+        this.ridx = null;
+        this.isLoadding = false;
     }
 
     fetchData() {
+        console.info('this.stopRequest-------------------------------------', this.stopRequest)
+        if(this.isLoadding) return;
         if (this.stopRequest) return;
+        this.isLoadding = true;
         this.props.data.carId &&
         queryRealTimeCar({carId: this.props.data.carId}).then((data)=> {
             if (this.stopRequest) return;
@@ -27,24 +32,22 @@ export default class MyCarItem extends Component {
                 this.setData(data);
             }
         }).catch().finally(()=> {
+            this.isLoadding = false;
             this.setTimer();
         });
     }
 
     setTimer() {
-        if(this.props.stop) return;
+        if(this.isLoadding) return;
+        if (this.stopRequest) return;
         this.timer = setTimeout(() => {
             this.fetchData();
         }, TIMEOUT * 1000);
     }
 
     setData(data={}) {
-/*        console.info('---------------------------')
-        console.info(data)*/
         let _data = this.state.data;
         data.carCode = data.carCode || data.carNo || _data.carCode || _DATA.carNo;
-        //data.carId = data.carId || _data.carId;
-        //data.carNo && (data.carCode = data.carNo);
         this.setState({data});
     }
 
@@ -54,33 +57,51 @@ export default class MyCarItem extends Component {
 
     requestStart() {
         this.stopRequest = false;
-        this.fetchData();
+    //    this.fetchData();
     }
 
     componentWillUnmount() {
         this.requestStop();
         this.timer && clearTimeout(this.timer);
         this.timer = null;
+        this.ridx = null;
     }
 
-    componentWillReceiveProps(props) {
-        if(props.stop) {
-            this.requestStop();
+    shouldComponentUpdate(props) {
+        let cidx = props.router.currentIndex();
+        if(this.ridx === null) this.ridx = cidx;
+        console.info('update -----------------------------------')
+        //this.timer && clearTimeout(this.timer);
+        if(cidx === this.ridx) {
+            if(this.stopRequest) {
+                this.requestStart();
+                setTimeout(() => {
+                    this.fetchData();
+                }, Math.random() * 2000);
+            }
         } else {
-            this.setData(props.data);
-            this.requestStart();
+            this.requestStop();
         }
+        return true;
+    }
+    componentWillReceiveProps(props) {
+        props.data && this.setData(props.data);
+        //this.requestStart();
+       /* if(this.ridx === null) {
+
+        }*/
     }
 
-    componentDidMount() {
-        //this.requestStart();
-    }
+/*    componentDidMount() {
+        setTimeout(() => {
+            this.fetchData();
+        }, Math.random() * 2000);
+    }*/
 
     render() {
         return (
             <View>
                  <Item data={this.state.data || {}} onPress={() => {
-                 //   this.requestStop();
                     this.props.onPress();
                 }}/>
             </View>

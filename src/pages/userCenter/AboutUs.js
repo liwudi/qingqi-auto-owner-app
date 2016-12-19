@@ -21,13 +21,13 @@ import { getAppVersion } from '../../services/UpdateService';
 const estyle = Env.style;
 export default class AboutUs extends Component {
 
-	constructor(props){
-		super(props);
-		this.state = {
+    constructor(props){
+        super(props);
+        this.state = {
             versionName : '',
             versionCode : ''
-		}
-	}
+        }
+    }
 
     componentDidMount(){
         getAppVersion().then(v => {
@@ -35,7 +35,7 @@ export default class AboutUs extends Component {
                 versionName : v.versionName,
                 versionCode : v.versionCode
             })
-		});
+        });
     }
 
     render() {
@@ -52,7 +52,7 @@ export default class AboutUs extends Component {
                         Linking.openURL('http://www.fawjiefang.com.cn/').catch(err => console.error('An error occurred', err));
                     }}/>
                     {/*<ListItem left="客服电话" right="400-1234-123"/>*/}
-					<ListItem left="版本信息" right="V1.0.1"/>
+					<ListItem left="版本信息" right={this.state.versionName}/>
 				</View>
 				<View style={[estyle.fx1, estyle.fxRowCenter, {justifyContent: 'flex-end'}]}>
 					<Button onPress={()=>{this.props.router.push(Agreement)}}>

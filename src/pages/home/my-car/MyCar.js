@@ -15,6 +15,8 @@ const estyle = Env.style;
 import CarDetail from './CarDetail';
 import PageList from '../../../components/PageList';
 import MyCarItem from '../monitor/components/MyCarItem';
+import Item from '../my-car/components/MyCarItem';
+
 
 import { IconPlus, IconSearch } from '../../../components/Icons';
 import { queryRealTimeCarList } from '../../../services/MonitorService';
@@ -63,8 +65,11 @@ export default class MyCar extends Component {
      * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
      * */
     backRender(){
-    //   this.refs.list.reInitFetch()
         this.setState({stop: false});
+        setTimeout(() => {
+                this.fetchData();
+                this.refs.list.reInitFetch()
+            }, 50);
     }
 
 
@@ -115,10 +120,18 @@ export default class MyCar extends Component {
                     ref="list"
                     style={estyle.fx1}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId)} stop={this.state.stop}/>
+                        return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId)} router={this.props.router} />
+                        {/*console.info(this.state.stop)
+                        let ItemView = this.state.stop ? Item : MyCarItem;
+                        return <ItemView data={row} onPress={() => this.goTo(CarDetail, row.carId)} />*/}
                     }}
                     fetchData={(pageNumber, pageSize) => {
-                        return queryRealTimeCarList(pageNumber, pageSize, this.state.key)
+                        return queryRealTimeCarList(pageNumber, pageSize, this.state.key);
+
+                        {/*return queryRealTimeCarList(pageNumber, pageSize, this.state.key).then((data) => {
+                         data.list.length = 1;
+                         return data;
+                         });*/}
                     }}
                     noMore="已经没有更多车辆了"
                 />

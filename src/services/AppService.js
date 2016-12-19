@@ -21,12 +21,34 @@ export function choiceCustomer(){
         return choiceCustomerService().then(rs2 => {
             return Object.assign({}, rs, rs2);
         })
+    }).catch(e => {
+        return refreshToken().then(rs => {
+            return RequestService.get(
+                `${Server.QINGQI}crm/queryUserInfo`,
+                {
+                    type:1
+                }
+            ).then(rs => {
+                return choiceCustomerService().then(rs2 => {
+                    return Object.assign({}, rs, rs2);
+                })
+            })
+        })
     });
 }
 
 export function choiceCustomerService(){
     return RequestService.get(
         `${Server.QINGQI}crm/choiceCustomerService`
+    );
+}
+
+export function refreshToken(){
+    return RequestService.get(
+        `${Server.QINGQI}crm/refreshToken`,
+        {
+            type:1
+        }
     );
 }
 

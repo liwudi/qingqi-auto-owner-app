@@ -206,7 +206,9 @@ export default class MapLine extends Component {
 
 
     addMarker() {
-        let list = [line[0], line[line.length - 1]],
+        let s = Object.assign({}, line[0]),
+            e = Object.assign({}, line[line.length - 1]);
+        let list = [s, e],
             pts = [],
             markers = [];
         list.forEach((item, idx) => {

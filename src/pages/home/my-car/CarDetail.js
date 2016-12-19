@@ -189,11 +189,12 @@ export default class CarDetail extends Component {
                                 <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
-                                }]}>{data.mainDriver || '无'}</Text>
+                                }]}>{data.mainDriver || '无'}&nbsp;
                                 {
                                     data.mainDriver ?
-                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.vector.call.size}/> : null
+                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.font.base * 32}/> : null
                                 }
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -212,11 +213,11 @@ export default class CarDetail extends Component {
                                 <Text style={[estyle.text, {
                                     color: Env.color.note,
                                     textAlign: 'right'
-                                }]}>{data.subDriver || '无'}</Text>
+                                }]}>{data.subDriver || '无'}&nbsp;
                                 {
                                     data.subDriver ?
-                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.vector.call.size}/> : null
-                                }
+                                        <IconCall style={[{marginLeft:5*Env.font.base}]} color={Env.color.main} size={Env.font.base * 32}/> : null
+                                }</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
