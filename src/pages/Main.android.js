@@ -64,22 +64,24 @@ class Main extends Component {
     }
 
     _checkUpdate(){
-        // checkUpdate().then(rs => {
-        //     if(rs['version_no'] != this.state.versionCode){
-        //         this.refs.alert.alert(
-        //             `发现新版本(${rs.version_name})`,
-        //             '是否更新？',
-        //             [
-        //                 {text:'去下载',onPress:() => {
-        //                     Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
-        //                 }},
-        //                 {text:'以后再说'}
-        //             ]
-        //         )
-        //     } else {
-        //         Toast.show('暂无更新', Toast.SHORT);
-        //     }
-        // });
+        checkUpdate().then(rs => {
+
+            console.log('version_no', rs['version_no'] , this.state.versionCode)
+
+
+            if(rs['version_no'] > this.state.versionCode){
+                this.refs.alert.alert(
+                    `发现新版本(${rs.version_name})`,
+                    '是否更新？',
+                    [
+                        {text:'去下载',onPress:() => {
+                            Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
+                        }},
+                        {text:'以后再说'}
+                    ]
+                )
+            }
+        });
     }
 
     toMessagePage() {
@@ -96,7 +98,6 @@ class Main extends Component {
             }
         } else {
             this.props.dispatch(MessageActions.addMessage(message));
-            // isNotificationClick && this.toMessagePage();
         }
     }
 

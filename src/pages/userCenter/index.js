@@ -37,7 +37,8 @@ class UserCenterHome extends Component {
         this.state = {
             userData: {},
             versionName : '',
-            versionCode : ''
+            versionCode : '',
+            isUpdate:false
         };
         this.props.dispatch(UserActions.getUserPic());
     }
@@ -46,25 +47,26 @@ class UserCenterHome extends Component {
         this.props.router.push(page);
     }
 
-    _checkUpdate(){
-        Toast.show('暂无更新', Toast.SHORT);
-        // checkUpdate().then(rs => {
-        //     console.log(rs)
-        //     if(rs['version_no'] != this.state.versionCode){
-        //         this.props.alert(
-        //             `发现新版本(${rs.version_name})`,
-        //             '是否更新？',
-        //             [
-        //                 {text:'确定',onPress:() => {
-        //                     Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
-        //                 }},
-        //                 {text:'取消'}
-        //             ]
-        //         )
-        //     } else {
-        //         Toast.show('暂无更新', Toast.SHORT);
-        //     }
-        // });
+    _checkUpdate(isShowTip = true){
+        checkUpdate().then(rs => {
+            if(rs['version_no'] > this.state.versionCode){
+                this.setState({
+                    isUpdate:true
+                })
+                isShowTip && this.props.alert(
+                    `发现新版本(${rs.version_name})`,
+                    '是否更新？',
+                    [
+                        {text:'确定',onPress:() => {
+                            Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
+                        }},
+                        {text:'取消'}
+                    ]
+                )
+            } else {
+                isShowTip && Toast.show('暂无更新', Toast.SHORT);
+            }
+        });
     }
 
     componentDidMount(){
@@ -74,6 +76,7 @@ class UserCenterHome extends Component {
                 versionCode : v.versionCode
             })
         });
+        this._checkUpdate(false);
     }
 
     clearCache(){
@@ -128,8 +131,8 @@ class UserCenterHome extends Component {
                     <ViewForRightArrow style={[estyle.marginTop]}  onPress={this._checkUpdate.bind(this)}>
                         <View style={{flexDirection:'row'}}>
                             <Text style={estyle.text}>版本更新</Text>
-                            {/*<Text style={[estyle.text,{color:'red'}]}> new</Text>*/}
-                            <Text style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>V1.0.1</Text>
+                            {this.state.isUpdate ? <Text style={[estyle.text,{color:'red'}]}> new</Text> : null}
+                            <Text style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>{this.state.versionName}</Text>
                         </View>
                     </ViewForRightArrow>
                     <ViewForRightArrow onPress={this.clearCache.bind(this)}>
