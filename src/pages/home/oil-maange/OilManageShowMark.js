@@ -138,7 +138,7 @@ export default class OilManageShowMark extends Component {
                                      <Text style={styles.rightText}>{ this.props.routeName }</Text>
                                  </View>
                                  <Text style={styles.rightText}>车牌：{ this.props.carCode }</Text>
-                                 <Text style={styles.rightText}>总时长：{ this.formatTime(standardInfo.timeTotal) }</Text>
+                                 <Text style={styles.rightText}>总时长：{ this.formatTime(standardInfo.timeTotal || 0) }</Text>
                                  <Text style={styles.rightText}>总里程：{ standardInfo.mileageTotal } Km</Text>
                                  <Text style={styles.rightText}>总油耗：{ standardInfo.oilwearTotal }L</Text>
                                  <Text style={styles.rightText}>平均油耗：{ standardInfo.oilwearAvg } L/100km</Text>

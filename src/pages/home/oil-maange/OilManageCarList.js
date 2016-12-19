@@ -64,13 +64,13 @@ export default class OilManageCarList extends Component {
     setRightView(){
         if(this.state.flag == 1){
             return <View>
-                <BorderButton color="#FFF" onPress = {() => this.toPage(OilManageShowMark)}>查看标杆</BorderButton>
+                <BorderButton color="#FFF" onPress = {() => this.toPage(OilManageShowMark,{...this.props})}>查看标杆</BorderButton>
             </View>
         }else {
             return <View>
                 <BorderButton color="#FFF" onPress = {() => {
                 	if(this.data && this.data.list.length) {
-						this.toPage(OilManageSetMark)
+						this.toPage(OilManageSetMark,{...this.props})
 					} else {
 						Toast.show('当前没有车辆',Toast.SHORT);
 					}
