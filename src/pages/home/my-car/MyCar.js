@@ -67,6 +67,7 @@ export default class MyCar extends Component {
     backRender(){
         this.setState({stop: false});
         setTimeout(() => {
+                this.fetchData();
                 this.refs.list.reInitFetch()
             }, 50);
     }
@@ -126,11 +127,11 @@ export default class MyCar extends Component {
                     }}
                     fetchData={(pageNumber, pageSize) => {
                         return queryRealTimeCarList(pageNumber, pageSize, this.state.key);
-                        /*
-                        * return queryRealTimeCarList(pageNumber, pageSize, this.state.key).then((data) => {
+
+                        {/*return queryRealTimeCarList(pageNumber, pageSize, this.state.key).then((data) => {
                          data.list.length = 1;
                          return data;
-                         });*/
+                         });*/}
                     }}
                     noMore="已经没有更多车辆了"
                 />
