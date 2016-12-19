@@ -34,7 +34,7 @@ import {Alert2} from '../components/Modals/Alert';
 import VideoShow from './VideoShow';
 
 import HomeRouter from './HomeRouter';
-import { checkUpdate } from '../services/UpdateService';
+import { checkUpdate, getAppVersion } from '../services/UpdateService';
 
 AppState.addEventListener('change', (currentAppState) => {
     global.appIsActive = (currentAppState == 'active');
@@ -104,8 +104,16 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isConnected: true
+            isConnected: true,
+            versionName : '',
+            versionCode : '',
         };
+        getAppVersion().then(v => {
+            this.setState({
+                versionName : v.versionName,
+                versionCode : v.versionCode
+            })
+        });
         global.toVideoShowFun = this.toVideoShow.bind(this);
 
         DeviceEventEmitter.addListener("notificationClick", (event) => {
