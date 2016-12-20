@@ -22,5 +22,5 @@ export function checkUpdate(){
  * @returns {*}
  */
 export function getAppVersion() {
-    return Promise.resolve();
+    return Promise.resolve({});
 }

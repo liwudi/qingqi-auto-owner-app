@@ -36,6 +36,7 @@
 		8424760D1E08F92200CB97F2 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 842476041E08F92200CB97F2 /* Octicons.ttf */; };
 		8424760E1E08F92200CB97F2 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 842476051E08F92200CB97F2 /* SimpleLineIcons.ttf */; };
 		8424760F1E08F92200CB97F2 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 842476061E08F92200CB97F2 /* Zocial.ttf */; };
+		842476141E091D8C00CB97F2 /* echarts in Resources */ = {isa = PBXBuildFile; fileRef = 842476131E091D8C00CB97F2 /* echarts */; };
 		ACF84D3DD2D14939A8D42E71 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB38131746B4490AA18B8E3 /* libRNImagePicker.a */; };
 /* End PBXBuildFile section */
 
@@ -247,6 +248,7 @@
 		842476041E08F92200CB97F2 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		842476051E08F92200CB97F2 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		842476061E08F92200CB97F2 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		842476131E091D8C00CB97F2 /* echarts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = echarts; sourceTree = "<group>"; };
 		ADB38131746B4490AA18B8E3 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		BCE733C2DEA045D18B88C7A1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		DCBC6663A34E4BC885F0D3DC /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				842476131E091D8C00CB97F2 /* echarts */,
 				842475FD1E08F92200CB97F2 /* fonts */,
 				13B07FAE1A68108700A75B9A /* QingqiOwnerApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -826,6 +829,7 @@
 				8424760F1E08F92200CB97F2 /* Zocial.ttf in Resources */,
 				8424760A1E08F92200CB97F2 /* Foundation.ttf in Resources */,
 				8424760E1E08F92200CB97F2 /* SimpleLineIcons.ttf in Resources */,
+				842476141E091D8C00CB97F2 /* echarts in Resources */,
 				842476071E08F92200CB97F2 /* Entypo.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);

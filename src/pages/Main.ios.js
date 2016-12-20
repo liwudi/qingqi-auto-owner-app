@@ -250,7 +250,7 @@ class Main extends Component {
 
     render() {
         return (
-            <View style={[estyle.fx1]}>
+            <View style={[estyle.fx1, {paddingTop: 32 * Env.font.base}]}>
                 {this.renderMain()}
                 <Alert2 ref="alert"/>
             </View>
