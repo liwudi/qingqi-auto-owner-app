@@ -4,34 +4,65 @@ const SPEED_3 = 'SPEED_3';
 const SPEED_4 = 'SPEED_4';
 const SPEED_5 = 'SPEED_5';
 const SPEED_6 = 'SPEED_6';
+let type = null;
 let getSpeedType = (speed) => {
-    if (0 <= speed && speed <= 30) {
-        return SPEED_1;
-    } else if (30 < speed && speed <= 60) {
-        return SPEED_2;
-    } else if (60 < speed && speed <= 80) {
-        return SPEED_3;
-    } else if (80 < speed && speed <= 100) {
-        return SPEED_4;
+    if(type === 'oil') {
+        if (0 <= speed && speed <= 10) {
+            return SPEED_1;
+        } else if (10 < speed && speed <= 20) {
+            return SPEED_2;
+        } else if (20 < speed && speed <= 30) {
+            return SPEED_3;
+        } else if (30 < speed && speed <= 40) {
+            return SPEED_4;
+        } else {
+            return SPEED_5;
+        }
     } else {
-        return SPEED_5;
+        if (0 <= speed && speed <= 30) {
+            return SPEED_1;
+        } else if (30 < speed && speed <= 60) {
+            return SPEED_2;
+        } else if (60 < speed && speed <= 80) {
+            return SPEED_3;
+        } else if (80 < speed && speed <= 100) {
+            return SPEED_4;
+        } else {
+            return SPEED_5;
+        }
     }
+
 };
 
 let getSpeedColor = (speedType) => {
-//    console.info(speedType)
-    switch (speedType) {
-        case SPEED_1:
-            return '#FFA500';
-        case SPEED_2:
-            return '#A2CD5A';
-        case SPEED_3:
-            return '#7EC0EE';
-        case SPEED_4:
-            return '#FF9C00';
-        case SPEED_5:
-            return '#FF0000';
+    if(type === 'oil') {
+        switch (speedType) {
+            case SPEED_1:
+                return '#99CC59';
+            case SPEED_2:
+                return '#3EB6AD';
+            case SPEED_3:
+                return '#02B9F2';
+            case SPEED_4:
+                return '#FF8400';
+            case SPEED_5:
+                return '#FF1E1E';
+        }
+    } else {
+        switch (speedType) {
+            case SPEED_1:
+                return '#FFBA25';
+            case SPEED_2:
+                return '#3EB6AD';
+            case SPEED_3:
+                return '#02B9F2';
+            case SPEED_4:
+                return '#FF8400';
+            case SPEED_5:
+                return '#FF1E1E';
+        }
     }
+
 };
 let maxLevel, minLevel;
 let groupIdx;
@@ -64,9 +95,9 @@ const inLevelRange = function (pt, mapLevel) {
 const clear = () => {
     pointGroup = [];
 };
-const get = (line, mapLevel, paint, type) => {
+const get = (line, mapLevel, paint, typeIdx) => {
     let lines = [], _tmp1 = null;
-    type = type ? 'oil' : 'speed';
+    type = typeIdx ? 'oil' : 'speed';
     console.info(type, 'type')
     console.info('map level', mapLevel);
     if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
