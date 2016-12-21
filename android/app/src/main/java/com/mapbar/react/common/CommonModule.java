@@ -176,6 +176,12 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
         MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
         messageServer.prepare(userId,kefuId,type,nimToken);
     }
+    /* 注销客服登录
+        * */
+    @ReactMethod
+    public void logoutKefu() {
+        MessageServer.logout();
+    }
 
 
     /**

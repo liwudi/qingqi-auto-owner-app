@@ -39,7 +39,6 @@ import okhttp3.Response;
 public class MessageServer {
     private Context context;
     private String userId, kefuId, type, nimToken;
-    private String Tag = "MessageServer";
 
     public MessageServer(Context context) {
         this.context = context;
@@ -61,7 +60,14 @@ public class MessageServer {
         service.observeRecentContact(messageObserver, true);
         login();
     }
-
+    /**
+     * 注销
+     */
+    public static void logout() {
+        Preferences.saveUserToken("");
+        LogoutHelper.logout();
+        NIMClient.getService(AuthService.class).logout();
+    }
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(List<RecentContact> recentContacts) {
@@ -143,21 +149,18 @@ public class MessageServer {
     }
 
     private void login() {
-        final String account = userId;
-        final String token = nimToken;
-        final String kefu = kefuId;
         if (canAutoLogin()) {
-            NimUIKit.startChatting(context, kefu, SessionTypeEnum.P2P, null, null);
+            NimUIKit.startChatting(context, kefuId, SessionTypeEnum.P2P, null, null);
         } else {
             // 登录
-            AbortableFuture<LoginInfo> loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, token));
+            AbortableFuture<LoginInfo> loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(userId, nimToken));
             loginRequest.setCallback(new RequestCallback<LoginInfo>() {
                 @Override
                 public void onSuccess(LoginInfo param) {
 //                    Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
-                    DemoCache.setAccount(account);
-                    saveLoginInfo(account, token);
-                    NimUIKit.startChatting(context, kefu, SessionTypeEnum.P2P, null, null);
+                    DemoCache.setAccount(userId);
+                    saveLoginInfo(userId, nimToken);
+                    NimUIKit.startChatting(context, kefuId, SessionTypeEnum.P2P, null, null);
                 }
 
                 @Override
