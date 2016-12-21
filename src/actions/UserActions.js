@@ -291,6 +291,7 @@ export function doReg(phone, trueName, password, smsCode, next) {
             })
             .then(res => {
                 Toast.show('恭喜您注册成功，快去完善资料吧！', Toast.SHORT);
+                dispatch({'type':TYPES.REG_STEP1_SUCCESS});
                 dispatch({'type': TYPES.LOGGED_IN, user: res});
                 next({phone, password});
             })

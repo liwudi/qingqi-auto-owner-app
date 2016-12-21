@@ -1,7 +1,7 @@
 /**
  * Created by cryst on 2016/10/16.
  */
-const DEBUG = false;
+const DEBUG = true;
 if(!DEBUG) {
     console.info = console.log = () => {}
 }
