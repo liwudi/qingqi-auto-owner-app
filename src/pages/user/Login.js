@@ -146,6 +146,7 @@ class Login extends Component {
                         onChangeText={password => this.setState({password})}
                         editable={this.props.userStore.status !== TYPES.LOGGED_DOING}
                         require={true}
+                        validates={[{pattern:Env.pattern.password, msg: '手机或密码错误'}]}
                     />
 
                     {_renderCaptcha()}

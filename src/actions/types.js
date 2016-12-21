@@ -17,6 +17,7 @@ export const SEND_CODE_ERROR = 'SEND_CODE_ERROR';//发送失败
 
 //注册
 export const REG_STEP1_DOING = 'REG_STEP1_DOING'; //
+export const REG_STEP1_SUCCESS = 'REG_STEP1_SUCCESS'; //
 export const REG_STEP1_ERROR = 'REG_STEP1_ERROR'; //
 export const REG_STEP2_START = 'REG_STEP2_START'; //
 
