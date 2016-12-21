@@ -51,8 +51,7 @@ export default class MyCarItem extends Component {
                 <View style={[estyle.fxRow, estyle.fxRowCenter,{marginTop:Env.font.base * 10}]}>
                     <View style={[estyle.fx1,estyle.fxRow]}>
                         <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
-                        <Text> </Text>
-                        <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
+                        <Text style={[estyle.fx1,estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
                         <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{this.SpeedView(item.realtimeSpeed)}</Text>
                     </View>
                     {/*<View style={[estyle.paddingRight]}>*/}
