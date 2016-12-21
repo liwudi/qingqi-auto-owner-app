@@ -433,9 +433,9 @@ export default class MonitorMap extends Component {
                     this.goToStatus()
                 }}/>
                     : this.state.data ?
-                    <View style={[estyle.padding]}>
-                        <Text style={[estyle.text, {color: Env.color.note}]}>当前车辆：<Text
-                            style={[estyle.text, {color: Env.color.important}]}>{this.state.data.carNo}</Text></Text>
+                    <View style={[estyle.padding, estyle.fxRow]}>
+                        <Text style={[estyle.text, {color: Env.color.note}]}>当前车辆：</Text><Text
+                            style={[estyle.text, {color: Env.color.important}]}>{this.state.data.carNo}</Text>
                     </View>
                     : <View style={[{height:1}]}/>
             }

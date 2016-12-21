@@ -53,18 +53,24 @@ export default class PlayView extends Component {
     }
     getIntervalTime () {
         totalTime = this.props.totalTime;
+        console.info('-----------------------------------------------------------ffffffffffffff')
+        console.info(totalTime, 'totalTime')
         if(!onePonitTime && totalTime) {
-            let hour = Math.round(totalTime / 1000 / 60 / 60);
+            let hour = Math.ceil(totalTime / 1000 / 60 / 60);
+            console.info(hour, 'hour')
+            console.info(minHour, 'minHour')
             if(hour <= minHour) {
                 hour = minHour;
             }
             onePonitTime =  hour * oneHour / this.props.dataLength;
+            console.info(onePonitTime, 'onePonitTime')
         }
         return !!onePonitTime;
     }
 
     componentWillUnmount() {
         this.pause();
+        onePonitTime = null;
     }
 
     startPauseButton = () => {
@@ -88,6 +94,8 @@ export default class PlayView extends Component {
         if(this.getIntervalTime()) {
             this.setState({playing: true});
             if (interVal) return;
+  /*          index ++;
+            this.run();*/
             interVal = setInterval(() => {
                 index++;
                 if (index === this.props.dataLength) {
@@ -104,7 +112,7 @@ export default class PlayView extends Component {
     run () {
         index = index >= this.props.dataLength - 1 ? this.props.dataLength - 1 : index;
         if(index <= 0) index = 0;
-console.info(this.state.progress)
+//console.info(this.state.progress)
         this.setState({progress: index});
         this.props.play && this.props.play(index);
     }
