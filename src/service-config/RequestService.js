@@ -63,11 +63,11 @@ function _fetch(fetch_promise, timeout) {
 function resultProcessor(result) {
     if (result.status === 200 || result.code === 200 || result.resultCode === 200) {
         console.info('success-result');
-        console.info(result);
+    //    console.info(result);
         return Promise.resolve(result.data || {noResult: true} );
     } else {
         console.info('error-result');
-        console.info(result);
+    //    console.info(result);
         result.message = result.message || '服务器错误';
         return Promise.reject(result);
     }
@@ -159,10 +159,10 @@ function request(opts, processor, isUpload = false) {
 
     processor = processor || resultProcessor;
 
-    console.log('###############################################');
+/*    console.log('###############################################');
     console.log(url)
     console.log(options)
-    console.log('###############################################');
+    console.log('###############################################');*/
 
 
     if(!global.NetIsConnected){
