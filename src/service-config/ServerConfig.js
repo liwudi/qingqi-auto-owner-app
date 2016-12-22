@@ -6,16 +6,16 @@ if(!DEBUG) {
     console.info = console.log = () => {}
 }
 const ServerConfig = {
-    // QINGQI: 'http://61.161.238.158:8950/qingqi/',
-    QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
+    QINGQI: 'http://61.161.238.158:8950/qingqi/',
+    //QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
     // QINGQI: 'http://10.30.50.151:8950/qingqi/',
 
     //WD_SERVICE: 'https://wdservice.mapbar.com/ssoapi/',
     //WEB_PAGE: 'http://119.255.37.167:2220/',
 
     // WD_SERVICE: 'http://192.168.85.49/',
-    // WD_SERVICE: 'http://119.255.37.167:8808/',
-    WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
+    WD_SERVICE: 'http://119.255.37.167:8808/',
+    //WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
 
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
 
