@@ -38,6 +38,7 @@ export default class MapbarMap extends Component {
             showLegend: false
         }
         this.zoomTimer = null;
+        this.isPause = true;
     }
 
     renderController() {
@@ -125,26 +126,32 @@ export default class MapbarMap extends Component {
     }
     pause() {
         console.info('map pause', this.mapRef)
+        this.isPause = true;
         this.clearTimer();
         this.Map.pause();
     }
 
     resume() {
-        this.clearTimer();
-        this.mapTimer = setTimeout(() => {
-            if(this.mapRef) {
-                console.info('map resume', this.mapRef)
-                this.Map.setMapRef(this.mapRef);
-                this.Map.resume();
-            }
-        }, 500);
+        if(this.isPause) {
+            this.isPause = false;
+            this.clearTimer();
+            this.mapTimer = setTimeout(() => {
+                if(this.mapRef) {
+                    console.info('map resume', this.mapRef)
+                    this.Map.setMapRef(this.mapRef);
+                    this.Map.resume();
+                }
+            }, 500);
+        }
     }
 
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
         if(!this.ridx) this.ridx = cidx;
         console.info(cidx, this.ridx, this.mapRef)
-        if(cidx === this.ridx) this.resume();
+        if(cidx === this.ridx) {
+            this.resume();
+        }
         else  this.pause();
         return true;
     }
