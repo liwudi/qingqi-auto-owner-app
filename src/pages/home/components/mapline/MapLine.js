@@ -125,11 +125,11 @@ export default class MapLine extends Component {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                 this.Map.getZoomLevel().then((zoom) => {
                     this.zoom = +zoom;
-                    this.Map.setZoomLevel(Math.floor(zoom));
+               //     this.Map.setZoomLevel(Math.floor(zoom));
                     this.addLine(true);
                 });
                 this.addMarker();
-                this.addCar();
+              //  this.addCar();
                 this.setTimes();
             }
         }, 500);
@@ -147,13 +147,13 @@ export default class MapLine extends Component {
     shouldComponentUpdate(props, state) {
         let result = props.data && state.initMap;
         if(result) {
-            console.info('--------------------------------------')
-            console.info(props.data)
+        //    console.info('--------------------------------------')
+        //    console.info(props.data)
             if (this.rnTime !== props.time) {
                 this.rnTime = props.time;
                 this.clearMap();
                 this.setState({time: this.rnTime, progress: 0});
-                console.info(props.data.noResult, 'noResult')
+            //    console.info(props.data.noResult, 'noResult')
 
 
                 this.initLine(Object.assign({},props.data));
@@ -243,13 +243,15 @@ export default class MapLine extends Component {
             latitude: pt.latitude,
             title: title,
             imageName: 'ic_mask',
+            iconImageName: "res/icons/c1002.png",
             iconText: title,
             iconTextColor: Env.color.main,
             iconTextSize: 14,
             id: this.carIdx,
             offsetX: .5,
             offsetY: 17,
-            click: true
+            click: true,
+            direction: pt.direction
         };
         this.Marker.add([mkOpts]);
 
@@ -266,6 +268,7 @@ export default class MapLine extends Component {
     }
 
     moveCar(index) {
+        return;
         //if(index <= 0) index = 0;
     //    console.info('-------------------------------------------------------', index)
         this.pointIndex = index;

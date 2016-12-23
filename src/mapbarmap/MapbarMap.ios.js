@@ -53,21 +53,24 @@ export default class MapbarMap extends Component {
         this.zoomTimer = null;
     }
     zoomIn() {
-        instance.zoomIn();
+        let zoom = this.zoom + 1;
+        console.info('zoomIn', zoom)
+
+        if(zoom > this.maxMapLevel) zoom = this.maxMapLevel;
+        instance.setZoomLevel(zoom);
         this.zoomTimeout(() => {
-            instance.getZoomLevel().then((zoom) => {
-                this.onZoomIn(zoom);
-            });
-        })
+            this.onZoomIn(zoom);
+        });
     }
 
     zoomOut() {
-        instance.zoomOut();
+        let zoom = this.zoom - 1;
+        console.info('zoomOut', zoom)
+        if(zoom < 0) zoom = 0;
+        instance.setZoomLevel(zoom);
         this.zoomTimeout(() => {
-            instance.getZoomLevel().then((zoom) => {
-                this.onZoomOut(zoom);
-            });
-        })
+            this.onZoomOut(zoom);
+        });
     }
 
     zoomTimeout(fun, timeout) {
@@ -76,31 +79,33 @@ export default class MapbarMap extends Component {
     }
     onZoom(zoom) {
         console.info('zoom change', zoom)
-        let _zoom = this.zoom;
+   /*     let _zoom = this.zoom;
         this.zoom = zoom;
         if(zoom > _zoom) {
             this.onZoomOut(zoom);
         } else if(zoom < _zoom) {
             this.onZoomIn(zoom);
-        }
+        }*/
     }
 
     onZoomIn(zoom) {
-        //    console.info('onZoomIn', zoom)
+            console.info('onZoomIn', zoom)
         /*  let _zoom = zoom;
          zoom = Math.ceil(zoom);
          if(zoom > 14) zoom = 14;*/
         this.zoomTimeout(() => {
+            this.zoom = zoom;
             if (zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
             this.props.onZoomIn && this.props.onZoomIn(Math.ceil(zoom));
         }, 300);
     }
 
     onZoomOut(zoom) {
-        //    console.info('onZoomOut', zoom)
+            console.info('onZoomOut', zoom)
         /*   zoom = Math.floor(zoom);
          if(zoom < 0) zoom = 0;*/
         this.zoomTimeout(() => {
+            this.zoom = zoom;
             if (zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
             this.props.onZoomOut && this.props.onZoomOut(Math.floor(zoom));
         }, 300);
@@ -171,6 +176,8 @@ export default class MapbarMap extends Component {
                 <MapView
                     style={[estyle.fx1]}
                     zoomLevel={isNaN(this.props.zoom) ? this.options.zoom : this.props.zoom}
+                    center={this.getCenter()}
+
                     forbidGesture={this.options.forbidGesture}
                     isZoom={this.options.isZoom}
                     isMove={this.options.isMove}
@@ -194,7 +201,13 @@ export default class MapbarMap extends Component {
                     onTap={()=>{}}
                 />
                 {this.renderController()}
-
+                {this.props.hideLegend ? null : <View style={[styles.controlView, {bottom: Env.font.base * 30}]}>
+                    <Button
+                        onPress={() => this.setState({showLegend: !this.state.showLegend})}
+                        style={styles.controlButton}>
+                        <Icons.IconBrowsers size={Env.font.base * 60}/>
+                    </Button>
+                </View>}
             </View>
         );
     }

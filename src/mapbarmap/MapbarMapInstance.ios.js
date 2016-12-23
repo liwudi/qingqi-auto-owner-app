@@ -9,6 +9,9 @@ import {
 } from "react-native";
 
 const module = NativeModules.MapViewManager;
+console.info('++++++++++++++++++++++++++++++++++++++++')
+console.info(module)
+console.info('++++++++++++++++++++++++++++++++++++++++')
 let mapRef = null;
 const e = 100000;
 /*
@@ -19,7 +22,7 @@ export function MPoint(point) {
         longitude: parseInt(point[0] * e),
         latitude: parseInt(point[1] * e)
     };
-    console.info('-----------------', pt)
+    //console.info('-----------------', pt)
     return pt;
 }
 
@@ -31,6 +34,9 @@ export class Marker {
      * */
     /*添加标注*/
     static add = (opts) => {
+     /*   console.info('*****************************************')
+        console.info(opts)*/
+    //    opts.imageName = opts.iconImageName || opts.imageName;
         module.addAnnotations(
             mapRef, opts
         )
@@ -91,6 +97,7 @@ export class MarkerRotate {
     * }]
      * */
     static add = (opts) => {
+        return;
         module.setIconOverlayIcons(
             mapRef, opts
         );
@@ -145,7 +152,17 @@ export class Line {
      * }]
      * */
     static add = (opts) => {
-        module.addLine(mapRef, opts);
+        //console.info(opts)
+        opts.map((item) => {
+            item.width = +item.width;
+            item.outlineColor = item.outlineColor.replace('#', '');
+            item.strokeColor = item.strokeColor.replace('#', '');
+
+            console.info(mapRef,  item)
+            module.addLine(mapRef, item);
+        });
+
+
     }
     /**
      * opts=[1,2,3,4] id数组
@@ -154,7 +171,8 @@ export class Line {
         module.deleteLine(mapRef, opts)
     }
     static clear = () => {
-        Line.remove([-1]);
+        module.deleteLine(mapRef);
+//        Line.remove([-1]);
     }
     /**
      * opts=[{
@@ -170,14 +188,14 @@ export class Line {
 
 /**************************地图方法**************************/
 export function initMap(ref) {
-    console.info(module, '**************************', ref)
+    //console.info(module, '**************************', ref)
     setMapRef(findNodeHandle(ref));
 }
 export function getMapRef() {
     return mapRef;
 }
 export function setMapRef(ref) {
-    console.info('setMapRef--------------------', ref,mapRef)
+    //console.info('setMapRef--------------------', ref,mapRef)
     mapRef = ref;
 }
 
@@ -193,33 +211,35 @@ export function finalize () {
  * }
  * */
 export function setCenter(opts) {
-    module.setWorldCenter(mapRef, opts);
+    module.setWorldCenter(mapRef, opts, true);
 }
 export function setZoomLevel(zoom) {
-    module.setZoomLevel(mapRef, zoom);
+    console.info(zoom)
+    console.info(mapRef)
+    console.info('-------------------')
+    return module.setZoomLevel(mapRef, zoom, true);
 }
 export function getZoomLevel() {
-    return module.getZoomLevel(mapRef);
+    return Promise.resolve(2);
+    //return module.getZoomLevel(mapRef);
 }
-export function zoomIn() {
+/*export function zoomIn() {
     module.setZoomIn(mapRef, 1);
 }
 export function zoomOut() {
     module.setZoomOut(mapRef, 1);
-}
+}*/
 
 const MIN_LNG = 72.5,
     MIN_LAT = 32.5,
     MAX_LNG = 132.5,
     MAX_LAT = 50.5;
 export function getBounds() {
-    return Promise.resolve(() => {
-        return {
-            minLongitude: MIN_LNG,
-            minLatitude: MIN_LAT,
-            maxLongitude: MAX_LNG,
-            maxLatitude: MAX_LAT
-        }
+    return Promise.resolve({
+        minLongitude: MIN_LNG,
+        minLatitude: MIN_LAT,
+        maxLongitude: MAX_LNG,
+        maxLatitude: MAX_LAT
     });
     /*return module.getWorldRect(mapRef).then(bounds => {
         let minlng = +bounds.minLongitude / e,
