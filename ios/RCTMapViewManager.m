@@ -129,7 +129,7 @@ RCT_EXPORT_METHOD(setZoomLevel:(nonnull NSNumber *)reactTag zoomLevel:(float)zoo
 }
 
 #pragma mark 设置地图中心点坐标
-RCT_EXPORT_METHOD(setLocation:(nonnull NSNumber *)reactTag location:(NSDictionary *)location
+RCT_EXPORT_METHOD(setWorldCenter:(nonnull NSNumber *)reactTag location:(NSDictionary *)location
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject){
   MapView *myView = [self getViewWithTag:reactTag];
@@ -283,6 +283,64 @@ RCT_EXPORT_METHOD(getIconOverlayIds:(nonnull NSNumber *)reactTag
   return dispatch_get_main_queue();
 }
 
+/******************add by liufang**********************/
+
+RCT_EXPORT_METHOD(getZoomLevel:(nonnull NSNumber *)reactTag
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject){
+  MapView *myView = [self getViewWithTag:reactTag];
+  //float zoomLevel = myView.zoomLevel;
+  float zoomLevel = [myView getZoomLevelValue];
+  NSLog(@"getZoomLevel方法被调用了");
+  NSLog(@"%f", zoomLevel);
+  if (zoomLevel >= 0) {
+    resolve([NSNumber numberWithFloat:zoomLevel]);
+  }else {
+    reject(@"1002", @"调用方法4出错", [NSError errorWithDomain:@"调用方法4出错" code:1002 userInfo:nil]);
+  }
+}
+
+RCT_EXPORT_METHOD(setZoomIn:(nonnull NSNumber *)reactTag){
+  MapView *myView = [self getViewWithTag:reactTag];
+  float zoomLevel = [myView getZoomLevelValue] + 1;
+  [myView setZoomLevel:zoomLevel animated:YES];
+}
+
+RCT_EXPORT_METHOD(setZoomOut:(nonnull NSNumber *)reactTag){
+  MapView *myView = [self getViewWithTag:reactTag];
+  float zoomLevel = [myView getZoomLevelValue] - 1;
+  [myView setZoomLevel:zoomLevel animated:YES];
+}
+
+RCT_EXPORT_METHOD(getWorldRect:(nonnull NSNumber *)reactTag
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject){
+  MapView *myView = [self getViewWithTag:reactTag];
+  //float zoomLevel = myView.zoomLevel;
+  MBRect boundArea = [myView getWorldRect];
+  NSLog(@"getWorldRect方法被调用了");
+  NSLog(@"%i,%i,%i,%i", boundArea.top,boundArea.bottom, boundArea.left, boundArea.right);
+  if (true) {
+    
+    resolve([NSNumber numberWithInteger:boundArea.bottom]);
+    
+  }else {
+    reject(@"1002", @"调用方法4出错", [NSError errorWithDomain:@"调用方法4出错" code:1002 userInfo:nil]);
+  }
+  
+}
+
+RCT_EXPORT_METHOD(fitWorldArea:(nonnull NSNumber *)reactTag
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject){
+  //  MapView *myView = [self getViewWithTag:reactTag];
+  
+  
+}
+
+RCT_EXPORT_METHOD(onDestroyMap:(nonnull NSNumber *)reactTag){
+  //  MapView *myView = [self getViewWithTag:reactTag];
+}
 
 
 @end

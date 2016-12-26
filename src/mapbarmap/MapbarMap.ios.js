@@ -44,7 +44,7 @@ export default class MapbarMap extends Component {
             isZoom: true,
             isMove: true,
             isRotate: true,
-            forbidGesture: true,
+            forbidGesture: false,
             showZoomController: true
         }
         this.state = {
@@ -53,24 +53,21 @@ export default class MapbarMap extends Component {
         this.zoomTimer = null;
     }
     zoomIn() {
-        let zoom = this.zoom + 1;
-        console.info('zoomIn', zoom)
-
-        if(zoom > this.maxMapLevel) zoom = this.maxMapLevel;
-        instance.setZoomLevel(zoom);
+        instance.zoomIn();
         this.zoomTimeout(() => {
-            this.onZoomIn(zoom);
-        });
+            instance.getZoomLevel().then((zoom) => {
+                this.onZoomIn(zoom);
+            });
+        })
     }
 
     zoomOut() {
-        let zoom = this.zoom - 1;
-        console.info('zoomOut', zoom)
-        if(zoom < 0) zoom = 0;
-        instance.setZoomLevel(zoom);
+        instance.zoomOut();
         this.zoomTimeout(() => {
-            this.onZoomOut(zoom);
-        });
+            instance.getZoomLevel().then((zoom) => {
+                this.onZoomOut(zoom);
+            });
+        })
     }
 
     zoomTimeout(fun, timeout) {

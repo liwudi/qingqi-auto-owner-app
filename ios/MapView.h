@@ -55,6 +55,8 @@ typedef void(^Failure)(NSError *error);
 - (void)removeAnnotation:(NSArray *)annotations;
 //- (void)setAnnotations:(NSArray<my *> *)annotations;
 - (void)setZoomLevel:(CGFloat)zoomLevel animated:(BOOL)animated;
+- (MBRect)getWorldRect;
+- (float)getZoomLevelValue;
 - (NSArray *)getAnnotationIds;
 - (NSArray *)getIconOverlayIds;
 - (void)removeLine;

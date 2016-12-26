@@ -161,6 +161,18 @@
   self.mapView.zoomLevel = zoomLevel;
 }
 
+/***************add by liufang*****************/
+#pragma mark 获取地图缩放级别
+- (float)getZoomLevelValue
+{
+  return self.mapView.zoomLevel;
+}
+
+- (MBRect)getWorldRect
+{
+  return self.mapView.boundArea;
+}
+
 - (void)setForbidGesture:(BOOL)forbidGesture
 {
   self.mapView.forbidGesture = forbidGesture;

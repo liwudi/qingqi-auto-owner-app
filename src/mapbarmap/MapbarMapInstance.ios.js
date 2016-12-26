@@ -211,7 +211,7 @@ export function finalize () {
  * }
  * */
 export function setCenter(opts) {
-    module.setWorldCenter(mapRef, opts, true);
+    module.setWorldCenter(mapRef, opts);
 }
 export function setZoomLevel(zoom) {
     console.info(zoom)
@@ -220,15 +220,15 @@ export function setZoomLevel(zoom) {
     return module.setZoomLevel(mapRef, zoom, true);
 }
 export function getZoomLevel() {
-    return Promise.resolve(2);
-    //return module.getZoomLevel(mapRef);
+    //return Promise.resolve(2);
+    return module.getZoomLevel(mapRef);
 }
-/*export function zoomIn() {
-    module.setZoomIn(mapRef, 1);
+export function zoomIn() {
+    module.setZoomIn(mapRef);
 }
 export function zoomOut() {
-    module.setZoomOut(mapRef, 1);
-}*/
+    module.setZoomOut(mapRef);
+}
 
 const MIN_LNG = 72.5,
     MIN_LAT = 32.5,
@@ -279,9 +279,11 @@ export function setBounds(pt1, pt2) {
     });
 }
 export function pause() {
+    module.setForbidGesture(mapRef, true);
     //module.onPauseMap(mapRef);
 }
 export function resume() {
+    module.setForbidGesture(mapRef, false);
     //module.onResumeMap(mapRef);
 }
 export function clearOverlays() {
