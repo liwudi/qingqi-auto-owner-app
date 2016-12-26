@@ -9,7 +9,8 @@ import {
     DeviceEventEmitter,
     findNodeHandle,
     TouchableHighlight,
-    Image
+    Image,
+    Platform
 } from "react-native";
 
 import Toast from '../../../../components/Toast';
@@ -85,7 +86,7 @@ const legend = {
 export default class MapLine extends Component {
     constructor() {
         super();
-        this.initZoom = 0;
+        this.initZoom = 1;
         this.zoom = this.initZoom;
         this.center = {
             longitude: 104.621367,
@@ -125,11 +126,11 @@ export default class MapLine extends Component {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                 this.Map.getZoomLevel().then((zoom) => {
                     this.zoom = +zoom;
-                    this.Map.setZoomLevel(Math.floor(zoom));
+               //     this.Map.setZoomLevel(Math.floor(zoom));
                     this.addLine(true);
                 });
                 this.addMarker();
-                this.addCar();
+              //  this.addCar();
                 this.setTimes();
             }
         }, 500);
@@ -147,13 +148,13 @@ export default class MapLine extends Component {
     shouldComponentUpdate(props, state) {
         let result = props.data && state.initMap;
         if(result) {
-            console.info('--------------------------------------')
-            console.info(props.data)
+        //    console.info('--------------------------------------')
+        //    console.info(props.data)
             if (this.rnTime !== props.time) {
                 this.rnTime = props.time;
                 this.clearMap();
                 this.setState({time: this.rnTime, progress: 0});
-                console.info(props.data.noResult, 'noResult')
+            //    console.info(props.data.noResult, 'noResult')
 
 
                 this.initLine(Object.assign({},props.data));
@@ -212,7 +213,7 @@ export default class MapLine extends Component {
             pts = [],
             markers = [];
         list.forEach((item, idx) => {
-            let imageName = idx ? "ic_end" : "ic_start",
+            let imageName = idx ? "10010" : "10020",
                 pt = item;
             mkOpts = {
                 longitude: pt.longitude,
@@ -242,14 +243,15 @@ export default class MapLine extends Component {
             longitude: pt.longitude,
             latitude: pt.latitude,
             title: title,
-            imageName: 'ic_mask',
+            imageName: Platform.OS === 'ios' ? '91002' : 'ic_mask',
             iconText: title,
             iconTextColor: Env.color.main,
             iconTextSize: 14,
             id: this.carIdx,
             offsetX: .5,
-            offsetY: 17,
-            click: true
+            offsetY: Platform.OS === 'ios' ? 0.5 : 17,
+            click: true,
+            direction: pt.direction
         };
         this.Marker.add([mkOpts]);
 
@@ -258,7 +260,7 @@ export default class MapLine extends Component {
             latitude: pt.latitude,
             id: this.carIdx,
             click: true,
-            imageName: "res/icons/c1002.png",
+            imageName: "res/icons/91002.png",
             direction: pt.direction
         };
         this.MarkerRotate.add([mkOpts]);
@@ -266,6 +268,7 @@ export default class MapLine extends Component {
     }
 
     moveCar(index) {
+        return;
         //if(index <= 0) index = 0;
     //    console.info('-------------------------------------------------------', index)
         this.pointIndex = index;
@@ -280,8 +283,8 @@ export default class MapLine extends Component {
             let mkOpts = {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                imageName: 'ic_mask',
-                title: title,
+                imageName: Platform.OS === 'ios' ? '91002' : 'ic_mask',
+                title: '',
                 iconText: title,
                 iconTextColor: Env.color.main,
                 iconTextSize: 14,
