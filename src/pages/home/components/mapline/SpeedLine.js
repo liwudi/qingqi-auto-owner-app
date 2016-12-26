@@ -144,8 +144,10 @@ const get = (line, mapLevel, paint, typeIdx) => {
                     locations: [],
                     speedType: getSpeedType(_line[type])
                 };
+
             if (_tmp1.locations.length === 0 && index > 0) {
-                _tmp1.locations.push({latitude: pts[index - 1].latitude, longitude: pts[index - 1].longitude});
+
+                _tmp1.locations.push({latitude: pts[index - 1].latitude, longitude: pts[index - 1].longitude, id: idx ++});
             }
             _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude});
 

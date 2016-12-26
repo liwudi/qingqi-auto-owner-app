@@ -56,7 +56,7 @@ export default class TopBanner extends React.Component{
 					</View>
 			}else if(this.props.titleShow){
 				return (
-					<View style={[styles.textView, {flexWrap: 'nowrap',position:'absolute', width:Env.screen.width * .6,left:Env.screen.width * .2, top: Env.font.base * 17.5}, estyle.fxColumnCenter]}>
+					<View style={[styles.textView, styles.height,{flexWrap: 'nowrap',position:'absolute', width:Env.screen.width * .6,left:Env.screen.width * .2, top: 0}, estyle.fxColumnCenter]}>
 						<Text style={[estyle.navTitle, {textAlign: 'center'}]}>{this.props.title}</Text>
 					</View>
 				)
