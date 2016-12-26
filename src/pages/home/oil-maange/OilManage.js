@@ -170,6 +170,7 @@ export default class OilManage extends Component {
 										{
 											lineInfo: row,
                                             routeId: row.routeId,
+                                            carCode:row.carCode,
 											routeName: `${row.startPointName}——${row.endPointName}`,
                                             date: this.state.weeks[this.state.currentIndex],
                                             updata: () => this.refs.list.reInitFetch()

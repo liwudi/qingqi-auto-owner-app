@@ -156,14 +156,14 @@
 
         <meta-data
             android:name="apiKey"
-            android:value="0c3e9882fd20490b9fde42c015c46c8a" />
+            android:value="test-1f009f31c1a44cd196e46a257d0c4343" />
         <!-- 图吧推送结束-->
         <!-- 图吧统计开始-->
         <meta-data
 
             android:name="MAPBAR_STAT_APPKEY"
 
-            android:value="YOURKEY" />
+            android:value="c11ff0503aa84d0ea7d0bdaba84358c2" />
 
         <meta-data
 
@@ -172,7 +172,7 @@
             android:value="market" />
 
         <meta-data
-            android:value="583d53174ad15633e5000d8f" android:name="UMENG_APPKEY"/>
+            android:value="585b8cc999f0c70a01000ffa" android:name="UMENG_APPKEY"/>
 
 
         <meta-data

@@ -68,7 +68,7 @@ export default class MessageCars extends Component {
                                             <Text style={[{color:Env.color.main}]}>{this.props.nav.data.subDriver +''+ this.props.nav.data.subDriverPhoneNum}</Text></Button>
                                         : null
                                 }
-                            </View> : <Text style={[estyle.text]}>暂无司机</Text>
+                            </View> : <View style={[estyle.fxCenter,estyle.paddingVertical]}><Text style={[estyle.text]}>暂无司机</Text></View>
                     }
                 </View>
 			</View>

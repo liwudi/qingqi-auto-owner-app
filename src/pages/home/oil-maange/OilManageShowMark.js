@@ -113,6 +113,15 @@ export default class OilManageShowMark extends Component {
             <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
         </View>
     }
+    //格式化时间
+    formatTime(time){
+        let h= parseInt(time/(3600*1000)),
+            m= parseInt( (time-h*(3600*1000))/(60*1000)),
+            s= parseInt((time-h*3600*1000-m*60*1000)/1000),
+            H = h ? h+'时': '',
+            M = m+'分';
+        return H+M+s+'秒';
+    }
     render() {
         let standardInfo= this.state.standardInfo;
 		return (
@@ -128,8 +137,8 @@ export default class OilManageShowMark extends Component {
                                      <Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>
                                      <Text style={styles.rightText}>{ this.props.routeName }</Text>
                                  </View>
-                                 <Text style={styles.rightText}>车牌：{ standardInfo.carCode }</Text>
-                                 <Text style={styles.rightText}>总时长：{ standardInfo.timeTotal }</Text>
+                                 <Text style={styles.rightText}>车牌：{ standardInfo.carNumber}</Text>
+                                 <Text style={styles.rightText}>总时长：{ this.formatTime(standardInfo.timeTotal || 0) }</Text>
                                  <Text style={styles.rightText}>总里程：{ standardInfo.mileageTotal } Km</Text>
                                  <Text style={styles.rightText}>总油耗：{ standardInfo.oilwearTotal }L</Text>
                                  <Text style={styles.rightText}>平均油耗：{ standardInfo.oilwearAvg } L/100km</Text>
