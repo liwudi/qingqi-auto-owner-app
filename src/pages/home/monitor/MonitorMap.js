@@ -13,7 +13,8 @@ import {
     findNodeHandle,
     TouchableHighlight,
     ActivityIndicator,
-    Image
+    Image,
+    Platform
 } from "react-native";
 
 import Toast from '../../../components/Toast';
@@ -255,31 +256,34 @@ export default class MonitorMap extends Component {
     addMarkerOpts(data, idx) {
         let iconText = data.carNo || data.carCode,
             ox = 0.5,
-            oy = 17,
-            imageName = "res/icons/c100" + data.travelStatus + ".png",
+            oy = Platform.OS === 'ios' ? 0.5 : 17,
+            iconImageName = "9100" + data.travelStatus,
+            imageName = "res/icons/"+ iconImageName + ".png",
             direction = 360 - data.direction;
-        if (data.count > 1) {
+        if (data.count && data.count > 1) {
             iconText = data.count.toString();
             ox = 0.2;
             oy = 0;
             direction = 0;
-            imageName = "res/icons/c1002-e.png";
+            iconImageName = "910026";
+            imageName = "res/icons/" + iconImageName + ".png";
         }
         let pt = this.MPoint([data.longitude, data.latitude]),
             mkOpts = {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
                 title: '',
-                imageName: 'ic_mask',
+                imageName: Platform.OS === 'ios' ? iconImageName : 'ic_mask',
                 iconText: iconText,
                 iconTextColor: Env.color.main,
                 iconTextSize: 14,
                 id: idx,
                 offsetX: ox,
                 offsetY: oy,
-                click: true
+                callout: false,
+                click: true,
+                direction: direction
             };
-
         this.markers.push(mkOpts);
         mkOpts = {
             longitude: pt.longitude,
@@ -426,7 +430,7 @@ export default class MonitorMap extends Component {
     }
 
     renderDetail() {
-        return <View>
+        return <View style={[estyle.cardBackgroundColor]}>
             {
                 this.state.detail
                     ?  <StatusDetail data={this.state.detail} onPress={() => {
@@ -444,7 +448,7 @@ export default class MonitorMap extends Component {
 
     renderButton() {
         return this.state.data ?
-            <View style={[estyle.fxRow, estyle.borderTop, estyle.paddingVertical, {zIndex:100}]}>
+            <View style={[estyle.fxRow,estyle.cardBackgroundColor, estyle.borderTop, estyle.paddingVertical, {zIndex:100}]}>
                 <Button style={[estyle.fx1, estyle.borderRight, estyle.fxRow, estyle.fxCenter]}
                         onPress={()=> {
                             this.setMonitor()

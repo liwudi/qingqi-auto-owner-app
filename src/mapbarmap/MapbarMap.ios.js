@@ -147,6 +147,10 @@ export default class MapbarMap extends Component {
         let center = this.props.center || this.options.center;
         return instance.MPoint([center.longitude, center.latitude]);
     }
+    clickMarker(pointId) {
+        console.info(arguments)
+        //this.props.clickMarker && this.props.clickMarker(pointId);
+    }
     renderController() {
         return <View>
             {
