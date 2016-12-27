@@ -127,17 +127,17 @@ const get = (line, mapLevel, paint, typeIdx) => {
             baseLine.locations = pointGroup[groupIdx].locations;
             pts = pointGroup[groupIdx].pts
         }
-    //    pts = baseLine.locations;
+        //    pts = baseLine.locations;
         /*addBaseLine = (_line) => {
-            baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
-        };
-        console.info(line.length, 'line.length')
-        line.map((_line, index) => {
-            if (!index || index === line.length - 1 || inLevelRange(_line, mapLevel)) {
-                addBaseLine(_line);
-                pts.push(Object.assign({}, _line));
-            }
-        });*/
+         baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
+         };
+         console.info(line.length, 'line.length')
+         line.map((_line, index) => {
+         if (!index || index === line.length - 1 || inLevelRange(_line, mapLevel)) {
+         addBaseLine(_line);
+         pts.push(Object.assign({}, _line));
+         }
+         });*/
         console.info(pts.length, 'pts.length')
         pts.map((_line, index) => {
             _tmp1 = _tmp1 || {
@@ -159,7 +159,7 @@ const get = (line, mapLevel, paint, typeIdx) => {
 
         console.info(lines.length)
         console.info('levelGroup')
-    //    console.info('baseLocations', baseLocations.length)
+        //    console.info('baseLocations', baseLocations.length)
     }
 
 

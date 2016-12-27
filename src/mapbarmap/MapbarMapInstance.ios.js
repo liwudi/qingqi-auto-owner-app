@@ -46,9 +46,13 @@ export class Marker {
     *   iconTextColor:'red', iconText:'text', iconTextSize:12,title:'tt'
      * */
     static update = (opts) => {
-        module.setRotationAnnotations(
+        module.setIconOverlayIcons(
             mapRef, opts
-        );
+        )
+        //return;
+        /*module.setRotationAnnotations(
+            mapRef, opts
+        );*/
     }
     /**opts=[{
     *   id:1, offsetX:12, offsetY:12, imageName:''
@@ -108,9 +112,13 @@ export class MarkerRotate {
     * }]
      * */
     static update = (opts) => {
-        module.refreshIconOverlayLocation(
-            mapRef, opts
-        );
+        return;
+        opts.map((item) => {
+            /*module.refreshAnnotationLocation(
+                mapRef, item
+            );*/
+        });
+
     }
     /**opts=[{
     *   id:1, imageName:''
@@ -161,8 +169,6 @@ export class Line {
             console.info(mapRef,  item)
             module.addLine(mapRef, item);
         });
-
-
     }
     /**
      * opts=[1,2,3,4] id数组
@@ -211,7 +217,7 @@ export function finalize () {
  * }
  * */
 export function setCenter(opts) {
-    module.setWorldCenter(mapRef, opts, true);
+    module.setWorldCenter(mapRef, opts);
 }
 export function setZoomLevel(zoom) {
     console.info(zoom)
@@ -220,28 +226,28 @@ export function setZoomLevel(zoom) {
     return module.setZoomLevel(mapRef, zoom, true);
 }
 export function getZoomLevel() {
-    return Promise.resolve(2);
-    //return module.getZoomLevel(mapRef);
+    //return Promise.resolve(2);
+    return module.getZoomLevel(mapRef);
 }
-/*export function zoomIn() {
-    module.setZoomIn(mapRef, 1);
+export function zoomIn() {
+    module.setZoomIn(mapRef);
 }
 export function zoomOut() {
-    module.setZoomOut(mapRef, 1);
-}*/
+    module.setZoomOut(mapRef);
+}
 
 const MIN_LNG = 72.5,
     MIN_LAT = 32.5,
     MAX_LNG = 132.5,
     MAX_LAT = 50.5;
 export function getBounds() {
-    return Promise.resolve({
+/*    return Promise.resolve({
         minLongitude: MIN_LNG,
         minLatitude: MIN_LAT,
         maxLongitude: MAX_LNG,
         maxLatitude: MAX_LAT
-    });
-    /*return module.getWorldRect(mapRef).then(bounds => {
+    });*/
+    return module.getWorldRect(mapRef).then(bounds => {
         let minlng = +bounds.minLongitude / e,
             minlat = +bounds.minLatitude / e,
             maxlng = +bounds.maxLongitude / e,
@@ -254,7 +260,7 @@ export function getBounds() {
         }
         console.info('getBounds', bounds);
         return _bounds;
-    });*/
+    });
 }
 
 /**
@@ -266,7 +272,6 @@ export function getBounds() {
  * }
  * */
 export function setBounds(pt1, pt2) {
-    return;
     let p1lat = pt1.latitude,
         p1lng = pt1.longitude,
         p2lat = pt2.latitude,
@@ -279,9 +284,11 @@ export function setBounds(pt1, pt2) {
     });
 }
 export function pause() {
+    module.setForbidGesture(mapRef, true);
     //module.onPauseMap(mapRef);
 }
 export function resume() {
+    module.setForbidGesture(mapRef, false);
     //module.onResumeMap(mapRef);
 }
 export function clearOverlays() {
