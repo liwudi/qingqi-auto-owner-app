@@ -63,6 +63,24 @@ export default class MapbarMap extends Component {
     }
 
     zoomIn() {
+        this.zoomTimeout(() => {
+            instance.getZoomLevel().then((zoom) => {
+                instance.zoomIn();
+                this.onZoomIn(+zoom + 1);
+            });
+        })
+    }
+
+    zoomOut() {
+        this.zoomTimeout(() => {
+            instance.getZoomLevel().then((zoom) => {
+                instance.zoomOut();
+                this.onZoomOut(+zoom - 1);
+            });
+        })
+    }
+
+   /* zoomIn() {
         instance.zoomIn();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
@@ -78,7 +96,7 @@ export default class MapbarMap extends Component {
                 this.onZoomOut(zoom);
             });
         })
-    }
+    }*/
 
     zoomTimeout(fun, timeout) {
         this.zoomTimer && clearTimeout(this.zoomTimer);
