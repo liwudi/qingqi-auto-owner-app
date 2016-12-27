@@ -149,6 +149,18 @@
   self.poiQuery = nil;
 }
 
+- (void)onDestory{
+  self.mapView.delegate = nil;
+  self.mapView = nil;
+  self.reverseGeocoder.delegate = nil;
+  self.reverseGeocoder = nil;
+  [self.gpsLocation stopUpdatingLocation];
+  self.gpsLocation.delegate = nil;
+  self.gpsLocation = nil;
+  self.poiQuery.delegate = nil;
+  self.poiQuery = nil;
+  NSLog(@"地图销毁");
+}
 /**
  *  设置地图缩放级别
  *  @param  zoomLevel   缩放级别，取值范围[1.0, 14.0]
@@ -211,10 +223,12 @@
     calloutStyle.anchor.x = 0.5f;
     calloutStyle.anchor.y = 0;
     annotation.calloutStyle = calloutStyle;
-    annotation.title = info[@"title"];//文本内容
+    annotation.title = info[@"title"];//文本内容
+    [annotation showCallout:NO];
+    /*
     if([info[@"callOut"] intValue] == 1) {
       [annotation showCallout:YES]; //设置气泡可显示
-    }
+    }*/
     
   }
   NSLog(@"打点");
@@ -320,7 +334,7 @@
       [iconOverlayIds addObject:[NSString stringWithFormat:@"%@",info[@"id"]]];
     }
     
-    [self.mapView setWorldCenter:self.overlay.position];
+  //  [self.mapView setWorldCenter:self.overlay.position];
   }
   
 }
@@ -329,7 +343,7 @@
 - (void)refreshIconOVerlayLocation:(NSDictionary *)dict
 {
   MBPoint point = {[dict[@"longitude"] intValue],[dict[@"latitude"] intValue]};
-  self.mapView.worldCenter = point;
+  //self.mapView.worldCenter = point;
   self.overlay.position = point;
   self.overlay.orientAngle  = [dict[@"direction"] floatValue];
   [self.overlay setImageFilePath:[NSString stringWithFormat:@"res/icons/%@.png",dict[@"imageName"]]];
@@ -571,7 +585,7 @@
 
 #pragma mark - MBMapViewDelegate
 -(void)mbMapView:(MBMapView *)mapView onAnnotationSelected:(MBAnnotation *)annot{
-  [annot showCallout:YES];
+  [annot showCallout:NO];
   self.onAnnotationClick(@{@"tag":@(annot.tag).stringValue,@"longitude":@(annot.position.x).stringValue,@"latitude":@(annot.position.y).stringValue});
 //  NSLog(@"annotation点击");
 //  CGPoint pivotPoint = {0.5, 1};//设置气泡在点上的偏移量
@@ -634,6 +648,7 @@
 - (void)mbMapView:(MBMapView *)mapView onTileLoadingFinished:(void*)unused
 {
   NSLog(@"地图初始化完成事件");
+  self.onInit(@{});
 }
 
 - (NSInteger)test4

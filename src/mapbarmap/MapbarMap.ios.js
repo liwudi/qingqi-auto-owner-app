@@ -53,19 +53,19 @@ export default class MapbarMap extends Component {
         this.zoomTimer = null;
     }
     zoomIn() {
-        instance.zoomIn();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
-                this.onZoomIn(zoom);
+                instance.zoomIn();
+                this.onZoomIn(+zoom + 1);
             });
         })
     }
 
     zoomOut() {
-        instance.zoomOut();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
-                this.onZoomOut(zoom);
+                instance.zoomOut();
+                this.onZoomOut(+zoom - 1);
             });
         })
     }
@@ -87,9 +87,6 @@ export default class MapbarMap extends Component {
 
     onZoomIn(zoom) {
             console.info('onZoomIn', zoom)
-        /*  let _zoom = zoom;
-         zoom = Math.ceil(zoom);
-         if(zoom > 14) zoom = 14;*/
         this.zoomTimeout(() => {
             this.zoom = zoom;
             if (zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
@@ -99,8 +96,6 @@ export default class MapbarMap extends Component {
 
     onZoomOut(zoom) {
             console.info('onZoomOut', zoom)
-        /*   zoom = Math.floor(zoom);
-         if(zoom < 0) zoom = 0;*/
         this.zoomTimeout(() => {
             this.zoom = zoom;
             if (zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
@@ -143,13 +138,31 @@ export default class MapbarMap extends Component {
             }
         }, 500);
     }
+    shouldComponentUpdate(props) {
+        let cidx = props.router.currentIndex();
+        if(!this.ridx) this.ridx = cidx;
+        console.info(cidx, this.ridx, this.mapRef)
+        if(cidx === this.ridx) {
+            this.resume();
+        }
+        else  this.pause();
+        return true;
+    }
+
+    componentWillUnmount() {
+        this.clearTimer();
+        this.ridx = null;
+        this.mapRef = null;
+        this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
+    }
+
     getCenter() {
         let center = this.props.center || this.options.center;
         return instance.MPoint([center.longitude, center.latitude]);
     }
-    clickMarker(pointId) {
+    clickMarker(event) {
         console.info(arguments)
-        //this.props.clickMarker && this.props.clickMarker(pointId);
+        this.props.clickMarker && this.props.clickMarker(event.nativeEvent.tag);
     }
     renderController() {
         return <View>

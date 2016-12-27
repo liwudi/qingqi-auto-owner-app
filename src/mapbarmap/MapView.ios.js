@@ -25,6 +25,7 @@ export default class MapView extends React.Component {
         onTap:                   React.PropTypes.func,
         onRotation:              React.PropTypes.func,
         onInit:                  React.PropTypes.func,
+        onInit:                  React.PropTypes.func,
         ...View.propTypes
         // annotations:React.PropTypes.arrayOf(React.PropTypes.shape({
         //     latitude: React.PropTypes.number.isRequired,
@@ -42,17 +43,20 @@ export default class MapView extends React.Component {
 
     };
 
-    componentDidMount() {
+/*    componentDidMount() {
         setTimeout(() => {
             this.props.onInit();
         }, 500);
         console.log("MyView被加载了");
-    }
+    }*/
 
     render() {
         return(
             <RCTMapView
+                worldCenter={this.props.center}
+                onTab={()=>{}}
                 {...this.props}
+
             >
             </RCTMapView>
         );

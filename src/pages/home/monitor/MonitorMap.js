@@ -280,7 +280,7 @@ export default class MonitorMap extends Component {
                 id: idx,
                 offsetX: ox,
                 offsetY: oy,
-                callout: false,
+                callOut: 0,
                 click: true,
                 direction: direction
             };

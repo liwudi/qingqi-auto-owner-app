@@ -56,6 +56,7 @@ typedef void(^Failure)(NSError *error);
 //- (void)setAnnotations:(NSArray<my *> *)annotations;
 - (void)setZoomLevel:(CGFloat)zoomLevel animated:(BOOL)animated;
 - (MBRect)getWorldRect;
+- (void)onDestory;
 - (void)fitWorldArea:(MBRect)rect;
 - (float)getZoomLevelValue;
 - (NSArray *)getAnnotationIds;
