@@ -126,7 +126,7 @@ export default class MapLine extends Component {
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                 this.Map.getZoomLevel().then((zoom) => {
                     this.zoom = +zoom;
-               //     this.Map.setZoomLevel(Math.floor(zoom));
+                    this.Map.setZoomLevel(Math.floor(zoom));
                     this.addLine(true);
                 });
                 this.addMarker();
@@ -193,13 +193,18 @@ export default class MapLine extends Component {
     }
 
     addLine(paint) {
+        console.info('addline')
+        console.info(this.dataLength)
         if(this.dataLength) {
             //let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
             let lines = SpeedLine.get(line, this.zoom, !!paint, this.playType);
+            //console.info(lines.length)
             if (lines.length) {
                 this.Line.clear();
                 this.Line.add([lines.shift()]);
                 this.Line.add(lines);
+                console.info('------------------')
+                console.info(this.pointIndex)
                 this.moveCar(this.pointIndex);
             }
         }
@@ -268,7 +273,6 @@ export default class MapLine extends Component {
     }
 
     moveCar(index) {
-        return;
         //if(index <= 0) index = 0;
     //    console.info('-------------------------------------------------------', index)
         this.pointIndex = index;

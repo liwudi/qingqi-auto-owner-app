@@ -4,65 +4,34 @@ const SPEED_3 = 'SPEED_3';
 const SPEED_4 = 'SPEED_4';
 const SPEED_5 = 'SPEED_5';
 const SPEED_6 = 'SPEED_6';
-let type = null;
 let getSpeedType = (speed) => {
-    if(type === 'oil') {
-        if (0 <= speed && speed <= 10) {
-            return SPEED_1;
-        } else if (10 < speed && speed <= 20) {
-            return SPEED_2;
-        } else if (20 < speed && speed <= 30) {
-            return SPEED_3;
-        } else if (30 < speed && speed <= 40) {
-            return SPEED_4;
-        } else {
-            return SPEED_5;
-        }
+    if (0 <= speed && speed <= 30) {
+        return SPEED_1;
+    } else if (30 < speed && speed <= 60) {
+        return SPEED_2;
+    } else if (60 < speed && speed <= 80) {
+        return SPEED_3;
+    } else if (80 < speed && speed <= 100) {
+        return SPEED_4;
     } else {
-        if (0 <= speed && speed <= 30) {
-            return SPEED_1;
-        } else if (30 < speed && speed <= 60) {
-            return SPEED_2;
-        } else if (60 < speed && speed <= 80) {
-            return SPEED_3;
-        } else if (80 < speed && speed <= 100) {
-            return SPEED_4;
-        } else {
-            return SPEED_5;
-        }
+        return SPEED_5;
     }
-
 };
 
 let getSpeedColor = (speedType) => {
-    if(type === 'oil') {
-        switch (speedType) {
-            case SPEED_1:
-                return '#99CC59';
-            case SPEED_2:
-                return '#3EB6AD';
-            case SPEED_3:
-                return '#02B9F2';
-            case SPEED_4:
-                return '#FF8400';
-            case SPEED_5:
-                return '#FF1E1E';
-        }
-    } else {
-        switch (speedType) {
-            case SPEED_1:
-                return '#FFBA25';
-            case SPEED_2:
-                return '#3EB6AD';
-            case SPEED_3:
-                return '#02B9F2';
-            case SPEED_4:
-                return '#FF8400';
-            case SPEED_5:
-                return '#FF1E1E';
-        }
+//    console.info(speedType)
+    switch (speedType) {
+        case SPEED_1:
+            return '#FFA500';
+        case SPEED_2:
+            return '#A2CD5A';
+        case SPEED_3:
+            return '#7EC0EE';
+        case SPEED_4:
+            return '#FF9C00';
+        case SPEED_5:
+            return '#FF0000';
     }
-
 };
 let maxLevel, minLevel;
 let groupIdx;
@@ -95,9 +64,10 @@ const inLevelRange = function (pt, mapLevel) {
 const clear = () => {
     pointGroup = [];
 };
-const get = (line, mapLevel, paint, typeIdx) => {
+const get = (line, mapLevel, paint, type) => {
+    let idx = 0;
     let lines = [], _tmp1 = null;
-    type = typeIdx ? 'oil' : 'speed';
+    type = type ? 'oil' : 'speed';
     console.info(type, 'type')
     console.info('map level', mapLevel);
     if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
@@ -110,7 +80,7 @@ const get = (line, mapLevel, paint, typeIdx) => {
         }
         lines.push(baseLine);
         addBaseLine = (_line) => {
-            baseLine.locations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
+            baseLine.locations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup, id: idx ++});
         };
         if(!pointGroup[groupIdx]) {
             line.map((_line, index) => {
@@ -127,29 +97,27 @@ const get = (line, mapLevel, paint, typeIdx) => {
             baseLine.locations = pointGroup[groupIdx].locations;
             pts = pointGroup[groupIdx].pts
         }
-    //    pts = baseLine.locations;
+        //    pts = baseLine.locations;
         /*addBaseLine = (_line) => {
-            baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
-        };
-        console.info(line.length, 'line.length')
-        line.map((_line, index) => {
-            if (!index || index === line.length - 1 || inLevelRange(_line, mapLevel)) {
-                addBaseLine(_line);
-                pts.push(Object.assign({}, _line));
-            }
-        });*/
+         baseLocations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
+         };
+         console.info(line.length, 'line.length')
+         line.map((_line, index) => {
+         if (!index || index === line.length - 1 || inLevelRange(_line, mapLevel)) {
+         addBaseLine(_line);
+         pts.push(Object.assign({}, _line));
+         }
+         });*/
         console.info(pts.length, 'pts.length')
         pts.map((_line, index) => {
             _tmp1 = _tmp1 || {
                     locations: [],
                     speedType: getSpeedType(_line[type])
                 };
-
             if (_tmp1.locations.length === 0 && index > 0) {
-
                 _tmp1.locations.push({latitude: pts[index - 1].latitude, longitude: pts[index - 1].longitude, id: idx ++});
             }
-            _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude});
+            _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude, id: idx ++});
 
             if (index === pts.length - 1 || getSpeedType(pts[index + 1][type]) !== _tmp1.speedType) {
                 lines.push(Object.assign({}, _tmp1));
@@ -159,7 +127,7 @@ const get = (line, mapLevel, paint, typeIdx) => {
 
         console.info(lines.length)
         console.info('levelGroup')
-    //    console.info('baseLocations', baseLocations.length)
+        //    console.info('baseLocations', baseLocations.length)
     }
 
 

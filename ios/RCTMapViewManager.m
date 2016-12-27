@@ -316,26 +316,29 @@ RCT_EXPORT_METHOD(getWorldRect:(nonnull NSNumber *)reactTag
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject){
   MapView *myView = [self getViewWithTag:reactTag];
-  //float zoomLevel = myView.zoomLevel;
-  MBRect boundArea = [myView getWorldRect];
+  MBRect worldRect = [myView getWorldRect];
+  NSNumber *minLongitude = [NSNumber numberWithInt:worldRect.left],
+  *minLatitude = [NSNumber numberWithInt:worldRect.top],
+  *maxLongitude = [NSNumber numberWithInt:worldRect.right],
+  *maxLatitude = [NSNumber numberWithInt:worldRect.bottom];
   NSLog(@"getWorldRect方法被调用了");
-  NSLog(@"%i,%i,%i,%i", boundArea.top,boundArea.bottom, boundArea.left, boundArea.right);
   if (true) {
-    
-    resolve([NSNumber numberWithInteger:boundArea.bottom]);
-    
+    resolve(@{ @"minLongitude":minLongitude,@"minLatitude":minLatitude,@"maxLongitude":maxLongitude, @"maxLatitude":maxLatitude });
   }else {
-    reject(@"1002", @"调用方法4出错", [NSError errorWithDomain:@"调用方法4出错" code:1002 userInfo:nil]);
+    reject(@"1002", @"调用方法getWorldRect出错", [NSError errorWithDomain:@"调用方法getWorldRect出错" code:1002 userInfo:nil]);
   }
-  
 }
 
-RCT_EXPORT_METHOD(fitWorldArea:(nonnull NSNumber *)reactTag
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject){
-  //  MapView *myView = [self getViewWithTag:reactTag];
+RCT_EXPORT_METHOD(fitWorldArea:(nonnull NSNumber *)reactTag dictionary:(NSDictionary *)dictionary){
+  MBRect worldRect = {
+    [dictionary[@"minLongitude"]intValue],
+    [dictionary[@"minLatitude"]intValue],
+    [dictionary[@"maxLongitude"]intValue],
+    [dictionary[@"maxLatitude"]intValue]
+  };
+  MapView *myView = [self getViewWithTag:reactTag];
   
-  
+  [myView fitWorldArea:worldRect];
 }
 
 RCT_EXPORT_METHOD(onDestroyMap:(nonnull NSNumber *)reactTag){

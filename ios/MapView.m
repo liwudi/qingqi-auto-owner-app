@@ -161,7 +161,7 @@
   self.mapView.zoomLevel = zoomLevel;
 }
 
-/***************add by liufang*****************/
+/***************add by liufang@mapbar.com*****************/
 #pragma mark 获取地图缩放级别
 - (float)getZoomLevelValue
 {
@@ -170,7 +170,13 @@
 
 - (MBRect)getWorldRect
 {
-  return self.mapView.boundArea;
+  
+  return self.mapView.worldRect;
+}
+- (void)fitWorldArea:(MBRect) rect
+{
+  
+  [self.mapView fitWorldArea:rect];
 }
 
 - (void)setForbidGesture:(BOOL)forbidGesture
