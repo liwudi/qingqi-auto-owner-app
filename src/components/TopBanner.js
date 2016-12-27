@@ -65,9 +65,13 @@ export default class TopBanner extends React.Component{
 			}
 		}
 		return (
-			<View>
-				<View style={[styles.topBanner,styles.height, {backgroundColor: this.props.color || Env.color.main}]}>
-					<StatusBar backgroundColor={ this.props.color || Env.color.main} />
+			<View style={[estyle.iosStatusBarHeight, {backgroundColor: this.props.color || Env.color.main}]}>
+				<View style={[styles.topBanner,styles.height]}>
+					<StatusBar
+						backgroundColor={ this.props.color || Env.color.main}
+						hidden={false}
+						barStyle={'light-content'}
+					/>
 					<View style = {[styles.backButton, styles.height, estyle.fxColumnCenter]}>
                         {_renderLeft()}
 					</View>

@@ -69,7 +69,12 @@ export class Alert2 extends Component {
                 visible={this.state.visible}
                 style={[estyle.fxCenter]}
             >
-                <View style={[estyle.cardBackgroundColor, {width:Env.font.base * 540, borderRadius: Env.font.base * 10}]}>
+                <View style={[estyle.cardBackgroundColor, {
+                    width:Env.font.base * 540,
+                    borderRadius: Env.font.base * 10,
+                    backgroundColor:'red',
+                    borderTopLeftRadius:20
+                }]}>
                     <Text
                         style={[estyle.articleTitle, estyle.borderBottom, estyle.paddingVertical, {color:Env.color.auxiliary, textAlign:'center'}]}
                     >

@@ -119,7 +119,7 @@ export default class LabelInput extends Component {
                 <TextInput
                     {...this.props}
                     underlineColorAndroid="transparent"
-                    selectTextOnFocus={true}
+                    clearButtonMode={'while-editing'}
                     style={[estyle.fx1, estyle.text]}
                     secureTextEntry={this.props.type === 'password' && this.state.eyeOff === true}
                     placeholderTextColor={Env.color.note}
