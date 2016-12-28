@@ -214,6 +214,7 @@ export default class MapbarMap extends Component {
                     ref="mapView"
                     onTap={()=>{}}
                 />
+                {this.state.showLegend ? this.props.legend : null}
                 {this.renderController()}
                 {this.props.hideLegend ? null : <View style={[styles.controlView, {bottom: Env.font.base * 30}]}>
                     <Button

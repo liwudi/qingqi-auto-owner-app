@@ -138,15 +138,7 @@
  *  销毁
  */
 -(void)dealloc{
-  self.mapView.delegate = nil;
-  self.mapView = nil;
-  self.reverseGeocoder.delegate = nil;
-  self.reverseGeocoder = nil;
-  [self.gpsLocation stopUpdatingLocation];
-  self.gpsLocation.delegate = nil;
-  self.gpsLocation = nil;
-  self.poiQuery.delegate = nil;
-  self.poiQuery = nil;
+  [self onDestory];
 }
 
 - (void)onDestory{

@@ -123,7 +123,7 @@ RCT_EXPORT_METHOD(refreshAnnotationLocation:(nonnull NSNumber *)reactTag diction
 RCT_EXPORT_METHOD(setZoomLevel:(nonnull NSNumber *)reactTag zoomLevel:(float)zoomLevel                  resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject){
   MapView *myView = [self getViewWithTag:reactTag];
-  [myView setZoomLevel:zoomLevel animated:YES];
+  [myView setZoomLevel:zoomLevel animated:NO];
 }
 
 #pragma mark 设置地图中心点坐标
@@ -298,13 +298,13 @@ RCT_EXPORT_METHOD(getZoomLevel:(nonnull NSNumber *)reactTag
 RCT_EXPORT_METHOD(setZoomIn:(nonnull NSNumber *)reactTag){
   MapView *myView = [self getViewWithTag:reactTag];
   float zoomLevel = [myView getZoomLevelValue] + 1;
-  [myView setZoomLevel:zoomLevel animated:YES];
+  [myView setZoomLevel:zoomLevel animated:NO];
 }
 
 RCT_EXPORT_METHOD(setZoomOut:(nonnull NSNumber *)reactTag){
   MapView *myView = [self getViewWithTag:reactTag];
   float zoomLevel = [myView getZoomLevelValue] - 1;
-  [myView setZoomLevel:zoomLevel animated:YES];
+  [myView setZoomLevel:zoomLevel animated:NO];
 }
 
 RCT_EXPORT_METHOD(getWorldRect:(nonnull NSNumber *)reactTag
