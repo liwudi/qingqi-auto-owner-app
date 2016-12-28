@@ -61,7 +61,7 @@ class AddCar extends Component {
         }
     }
     componentWillUnmount() {
-        this.props.nav.backRender();
+        this.props.nav && this.props.nav.backRender && this.props.nav.backRender();
     }
     render() {
         return (

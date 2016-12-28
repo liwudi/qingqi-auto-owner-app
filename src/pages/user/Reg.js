@@ -183,6 +183,7 @@ class Reg extends Component {
 						style={[estyle.marginVertical, estyle.borderBottom]}
 						onChangeText={password => this.setState({password})}
 						require={true}
+						placeholder='请输入6-20位字符'
 						labelSize="3"
 					/>
 
