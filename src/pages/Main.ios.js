@@ -16,7 +16,8 @@ import {
     NativeModules,
     Image,
     AppState,
-    Keyboard
+    Keyboard,
+    Alert
 } from 'react-native';
 
 
@@ -88,16 +89,9 @@ class Main extends Component {
     }
 
     newPushMessage(message, isNotificationClick = false) {
-        if (/庆祝解放行车联网品牌发布/.test(message.Title)) {
-            if (!global.toVideoShowMessage && !global.toVideoShowFunIsPlayIng) {
-                global.toVideoShowMessage = message;
-                if (global.appIsActive) {
-                    global.toVideoShowFun();
-                }
-            }
-        } else {
-            this.props.dispatch(MessageActions.addMessage(message));
-        }
+
+        this.props.dispatch(MessageActions.addMessage(message));
+
     }
 
     constructor(props) {
@@ -176,7 +170,7 @@ class Main extends Component {
             Keyboard.dismiss();
             this.navigator.pop();
         } else {
-            this.refs.alert.alert(
+            Alert.alert(
                 '提示',
                 '是否要退出应用?',
                 [
@@ -238,7 +232,7 @@ class Main extends Component {
                             NetIsConnected={this.state.NetIsConnected}
                             preLoginUserName={this.state.preLoginUserName}
                             alert={(a, b, c) => {
-                                this.refs.alert.alert(a, b, c);
+                                Alert.alert(a, b, c);
                             }}
                             {...page.props}
                         />
@@ -250,9 +244,8 @@ class Main extends Component {
 
     render() {
         return (
-            <View style={[estyle.fx1, {paddingTop: 32 * Env.font.base}]}>
+            <View style={[estyle.fx1]}>
                 {this.renderMain()}
-                <Alert2 ref="alert"/>
             </View>
         );
     }

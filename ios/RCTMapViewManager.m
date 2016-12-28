@@ -51,7 +51,6 @@ RCT_EXPORT_VIEW_PROPERTY(onTap,RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onRotation,RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onInit,RCTBubblingEventBlock)
 
-
 #pragma mark - 导出函数供JS调用
 
 #pragma mark 测试方法
@@ -121,11 +120,10 @@ RCT_EXPORT_METHOD(refreshAnnotationLocation:(nonnull NSNumber *)reactTag diction
 
 
 #pragma mark 设置地图缩放级别
-RCT_EXPORT_METHOD(setZoomLevel:(nonnull NSNumber *)reactTag zoomLevel:(float)zoomLevel animated:(BOOL)animated
-                  resolve:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(setZoomLevel:(nonnull NSNumber *)reactTag zoomLevel:(float)zoomLevel                  resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject){
   MapView *myView = [self getViewWithTag:reactTag];
-  [myView setZoomLevel:zoomLevel animated:animated];
+  [myView setZoomLevel:zoomLevel animated:NO];
 }
 
 #pragma mark 设置地图中心点坐标
@@ -183,10 +181,9 @@ RCT_EXPORT_METHOD(setIcon:(nonnull NSNumber *)reactTag info:(NSDictionary *)info
 
 
 #pragma mark 删除所有的覆盖物
-RCT_EXPORT_METHOD(removeAllOverlayAndAnnotation:(nonnull NSNumber *)reactTag
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject){
+RCT_EXPORT_METHOD(removeAllOverlayAndAnnotation:(nonnull NSNumber *)reactTag){
   MapView *myView = [self getViewWithTag:reactTag];
+  [myView removeLine];
   [myView removeAllOverlayAndAnnotation];
 }
 
@@ -218,9 +215,7 @@ RCT_EXPORT_METHOD(stopLocation:(nonnull NSNumber *)reactTag
 #pragma mark -----------------------iconOverlay-------------------------
 
 #pragma mark  刷新iconOverlay位置
-RCT_EXPORT_METHOD(refreshIconOverlayLocation:(nonnull NSNumber *)reactTag dictionary:(NSDictionary *)dictionary
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject){
+RCT_EXPORT_METHOD(refreshIconOverlayLocation:(nonnull NSNumber *)reactTag dictionary:(NSDictionary *)dictionary){
   MapView *myView = [self getViewWithTag:reactTag];
   [myView refreshIconOVerlayLocation:dictionary];
 }
@@ -303,13 +298,13 @@ RCT_EXPORT_METHOD(getZoomLevel:(nonnull NSNumber *)reactTag
 RCT_EXPORT_METHOD(setZoomIn:(nonnull NSNumber *)reactTag){
   MapView *myView = [self getViewWithTag:reactTag];
   float zoomLevel = [myView getZoomLevelValue] + 1;
-  [myView setZoomLevel:zoomLevel animated:YES];
+  [myView setZoomLevel:zoomLevel animated:NO];
 }
 
 RCT_EXPORT_METHOD(setZoomOut:(nonnull NSNumber *)reactTag){
   MapView *myView = [self getViewWithTag:reactTag];
   float zoomLevel = [myView getZoomLevelValue] - 1;
-  [myView setZoomLevel:zoomLevel animated:YES];
+  [myView setZoomLevel:zoomLevel animated:NO];
 }
 
 RCT_EXPORT_METHOD(getWorldRect:(nonnull NSNumber *)reactTag
@@ -342,7 +337,8 @@ RCT_EXPORT_METHOD(fitWorldArea:(nonnull NSNumber *)reactTag dictionary:(NSDictio
 }
 
 RCT_EXPORT_METHOD(onDestroyMap:(nonnull NSNumber *)reactTag){
-  //  MapView *myView = [self getViewWithTag:reactTag];
+  MapView *myView = [self getViewWithTag:reactTag];
+  [myView onDestory];
 }
 
 
