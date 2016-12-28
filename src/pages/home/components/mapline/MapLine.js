@@ -216,7 +216,7 @@ export default class MapLine extends Component {
             mkOpts = {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                imageName: Platform.OS === 'ios' ? imageName : 'and-' + imageName,
+                imageName: Platform.OS === 'ios' ? imageName : 'and_' + imageName,
                 iconText: '',
                 iconTextColor: Env.color.main,
                 iconTextSize: 14,
