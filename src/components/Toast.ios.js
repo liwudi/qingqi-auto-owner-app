@@ -1,5 +1,10 @@
+export default Toast = function () {
 
-import Toast from '@remobile/react-native-toast';
 
-export default Toast;
+};
+Toast.show = () => {
 
+}
+
+Toast.SHORT = '';
+Toast.LONG =  '';

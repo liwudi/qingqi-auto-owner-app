@@ -89,7 +89,16 @@ class Main extends Component {
     }
 
     newPushMessage(message, isNotificationClick = false) {
-        this.props.dispatch(MessageActions.addMessage(message));
+        if (/庆祝解放行车联网品牌发布/.test(message.Title)) {
+            if (!global.toVideoShowMessage && !global.toVideoShowFunIsPlayIng) {
+                global.toVideoShowMessage = message;
+                if (global.appIsActive) {
+                    global.toVideoShowFun();
+                }
+            }
+        } else {
+            this.props.dispatch(MessageActions.addMessage(message));
+        }
     }
 
     constructor(props) {
