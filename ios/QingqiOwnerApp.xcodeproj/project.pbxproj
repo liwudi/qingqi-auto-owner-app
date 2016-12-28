@@ -41,7 +41,8 @@
 		C30DDB891DB60DB9008C95D9 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C30DDB841DB60DB9008C95D9 /* MapView.m */; };
 		C30DDB8B1DB60DB9008C95D9 /* RCTMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C30DDB881DB60DB9008C95D9 /* RCTMapViewManager.m */; };
 		C30DDBC91DB8F151008C95D9 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C30DDBC81DB8F151008C95D9 /* UIColor+HexString.m */; };
-		C31129641DB4F9140099F3F3 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C31129631DB4F9140099F3F3 /* libc++.1.tbd */; };
+		C31129641DB4F9140099F3F3 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile;
+		fileRef = C31129631DB4F9140099F3F3 /* libc++.1.tbd */; };
 		C31129661DB4F91C0099F3F3 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C31129651DB4F91C0099F3F3 /* libsqlite3.tbd */; };
 		C31129681DB4F9270099F3F3 /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C31129671DB4F9270099F3F3 /* libz.1.1.3.tbd */; };
 		C311296A1DB4F9310099F3F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C31129691DB4F9310099F3F3 /* UIKit.framework */; };
