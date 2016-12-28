@@ -163,7 +163,6 @@ export default class OilManage extends Component {
 						return (
 							<MyLineItem
 								data={row}
-
 								onPress={() => {
 									this.props.router.push(
 										OilManageCarList,
