@@ -44,6 +44,8 @@ export default class HomePage extends Component {
 			operateStatisToday : {},
             myCarsInfo:{}
 		};
+        this.ridx = null;
+        this.isRouterChange=false;
 	}
 
 	goTo(page){
@@ -54,34 +56,45 @@ export default class HomePage extends Component {
     customerServiceInfoErrorMsg = null;
 
 	componentDidMount(){
-
-
-        queryOperateStatisToday().then((rs) => {
+        this.fetchData();
+        !this.timer && this.setTimer();
+	}
+	//请求数据
+	fetchData(){
+        return queryOperateStatisToday().then((rs) => {
             this.setState({
                 operateStatisToday: rs
             })
         }).catch(e => {
             Toast.show(e.message, Toast.SHORT);
         })
-            .finally( ()=>{
+	}
+	//启动定时器
+    setTimer(){
+	    this.timer=setInterval(()=>{
+	        this.fetchData();
+        },63000)
+    }
+
+    shouldComponentUpdate(props){
+        console.log(props.router.currentIndex(),this.ridx);
+        let cidx = props.router.currentIndex();
+        if(this.ridx === null) this.ridx = cidx;
+        if(cidx === this.ridx) {
+            if(this.isRouterChange){
+                this.isRouterChange=false;
                 this.fetchData();
-            } )
-	}
-	//请求数据 没1分钟刷新一次
-	fetchData(){
-		this.timer=setInterval(()=>{
-            queryOperateStatisToday().then((rs) => {
-                this.setState({
-                    operateStatisToday: rs
-                })
-            }).catch(e => {
-                Toast.show(e.message, Toast.SHORT);
-            });
-        },60000)
-	}
+                !this.timer && this.setTimer();
+            }
+        }else {
+            this.timer && clearInterval(this.timer);
+            this.timer=null;
+            this.isRouterChange=true;
+        }
+        return true;
+    }
 
     startCustomerService(){
-
 		if(this.customerServiceInfo){
             CommonModule.startKefuActivity(
                 this.customerServiceInfo.accountId,
@@ -110,7 +123,7 @@ export default class HomePage extends Component {
     }
 
     componentWillUnmount(){
-	    clearInterval(this.timer);
+	    this.timer &&clearInterval(this.timer);
     }
 
 	render() {
@@ -170,6 +183,6 @@ export default class HomePage extends Component {
 					<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>
 				</View>
 			</View>
-		);
+		)
 	}
 }
