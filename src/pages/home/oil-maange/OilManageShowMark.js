@@ -59,7 +59,7 @@ export default class OilManageShowMark extends Component {
         queryShareSummary(obj)
             .then( (data)=>{
                 this.setState({
-                    standardInfo:{ carCode:carCode, timeTotal:data.timeTotal,oilwearTotal:data.oilwearTotal,mileageTotal:data.mileageTotal,oilwearAvg:data.oilwearAvg }
+                    standardInfo:{carNumber:data.carNumber,carCode:carCode, timeTotal:data.timeTotal,oilwearTotal:data.oilwearTotal,mileageTotal:data.mileageTotal,oilwearAvg:data.oilwearAvg }
                 })
             } )
             .catch()
