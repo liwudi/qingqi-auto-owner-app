@@ -77,7 +77,6 @@ export default class HomePage extends Component {
     }
 
     shouldComponentUpdate(props){
-        console.log(props.router.currentIndex(),this.ridx);
         let cidx = props.router.currentIndex();
         if(this.ridx === null) this.ridx = cidx;
         if(cidx === this.ridx) {

@@ -19,6 +19,10 @@ export default class MyCarItem extends Component {
         this.ridx = null;
         this.isLoadding = false;
     }
+    componentDidMount(){
+        //console.log(this.props.data);
+        this.setData(this.props.data);
+    }
 
     fetchData() {
         console.info('this.stopRequest-------------------------------------', this.stopRequest)
@@ -69,6 +73,7 @@ export default class MyCarItem extends Component {
 
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
+        console.log(cidx);
         if(this.ridx === null) this.ridx = cidx;
         console.info('update -----------------------------------')
         //this.timer && clearTimeout(this.timer);
