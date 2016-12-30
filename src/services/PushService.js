@@ -50,15 +50,15 @@ export function setCurrentPage(main, message, next) {
 export function addMessage(message, messageId){
     let type = message.CustomContent.type || 0;
     switch (type){
-        case '4':
-            return addCarMessage(message, messageId);
-            break;
-        case '5':
-            return addCarMessage(message, messageId);
-            break;
-        case '6':
-            return addCarMessage(message, messageId);
-            break;
+        // case '4':
+        //     return addCarMessage(message, messageId);
+        //     break;
+        // case '5':
+        //     return addCarMessage(message, messageId);
+        //     break;
+        // case '6':
+        //     return addCarMessage(message, messageId);
+        //     break;
         default:
             return addPersonalMessage(message, messageId);
 
