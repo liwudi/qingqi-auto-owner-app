@@ -167,20 +167,29 @@ export default class MonitorMap extends Component {
         console.info('fetch all, this.stopRequest', this.stopRequest);
         this.Map.getBounds().then(mapbounds => {
             let b = mapbounds;
-            queryCarPolymerize({
-                leftLongitude: b.minLongitude, //左下， 右上
-                leftLatitude: b.minLatitude,
-                rightLongitude: b.maxLongitude,
-                rightLatitude: b.maxLatitude,
-                zoom: this.zoom
-            }).then((data = {}) => {
+            queryCarPolymerize(
+                //todo 0级别时地图sdk返回经纬度有问题，添加兼容
+                this.zoom === 0 ? {
+                    leftLongitude: 72.5, //左下， 右上
+                    leftLatitude: 32.5,
+                    rightLongitude: 132.5,
+                    rightLatitude: 50.5,
+                    zoom: this.zoom
+                } : {
+                    leftLongitude: b.minLongitude, //左下， 右上
+                    leftLatitude: b.minLatitude,
+                    rightLongitude: b.maxLongitude,
+                    rightLatitude: b.maxLatitude,
+                    zoom: this.zoom
+                }
+            ).then((data = {}) => {
                 if (this.stopRequest) return;
                 if (!this.monitor) {
                     this.list = data.list || [];
                     if(this.list.length) {
                         this.setMarker();
                     } else {
-                        this.requestStop();
+                        // this.requestStop();
                         Toast.show('没有监控车辆', Toast.SHORT);
                     }
                 }
