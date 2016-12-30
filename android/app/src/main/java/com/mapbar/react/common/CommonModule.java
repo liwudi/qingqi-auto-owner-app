@@ -125,7 +125,18 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
         writableMap.putInt("voiceLevel", voiceLevel);
         promise.resolve(writableMap);
     }
-
+    //删除所有录音文件
+    @ReactMethod
+    public void deleteAllAudio() {
+        MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
+        mAudioManager.deleteAllAudio();
+    }
+    //删除某个录音文件
+    @ReactMethod
+    public void deleteAudio(String audioPath) {
+        MediaRecorderOperation mAudioManager = MediaRecorderOperation.getInstance(context.getApplicationContext());
+        mAudioManager.deleteAudio(audioPath);
+    }
     @Override
     public void onHostResume() {
 //        MediaPlayerOperation.resume();

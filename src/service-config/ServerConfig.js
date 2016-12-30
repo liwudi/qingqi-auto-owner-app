@@ -15,7 +15,7 @@ const ServerTestSZB = {
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
-    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=922432a3270d48de985db96d365b6df8',
+    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=52b376899aaf4714a4e40e902a1f5aa5',
 };
 
 //测试环境
@@ -27,7 +27,7 @@ const ServerTest = {
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
-    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=922432a3270d48de985db96d365b6df8',
+    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=52b376899aaf4714a4e40e902a1f5aa5',
 };
 //联调环境
 const ServerDebug = {
@@ -38,7 +38,7 @@ const ServerDebug = {
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
-    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=922432a3270d48de985db96d365b6df8',
+    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=52b376899aaf4714a4e40e902a1f5aa5',
 };
 //正式环境
 const ServerOnline = {
@@ -49,7 +49,7 @@ const ServerOnline = {
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
-    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=922432a3270d48de985db96d365b6df8',
+    UPDATE_SERVICE: 'http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=com.mapbar.qingqi.onwer&ck=52b376899aaf4714a4e40e902a1f5aa5',
 };
 
 

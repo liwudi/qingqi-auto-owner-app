@@ -164,7 +164,7 @@ public class MediaRecorderOperation {
             mCurrentFilePathString = "";
         }
     }
-
+    //删除所有录音文件
     public void deleteAllAudio() {
         if (!TextUtils.isEmpty(mDirString)) {
             File file = new File(mDirString);
@@ -172,6 +172,15 @@ public class MediaRecorderOperation {
                 file.delete();
             }
             mDirString = "";
+        }
+    }
+    //删除某个录音文件
+    public void deleteAudio(String audioPath) {
+        if (!TextUtils.isEmpty(audioPath)) {
+            File file = new File(audioPath);
+            if (file.exists()) {
+                file.delete();
+            }
         }
     }
 
