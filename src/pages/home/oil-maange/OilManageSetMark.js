@@ -5,8 +5,8 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    TouchableOpacity, DatePickerAndroid,
-    ToastAndroid,StyleSheet
+    TouchableOpacity,
+    StyleSheet
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -20,7 +20,7 @@ import TrackPlayback from '../components/TrackPlayback';
 import OilManageSelectCar from './OilManageSelectCar';
 import {standardMark} from '../../../services/AppService';
 
-
+import Toast from '../../../components/Toast';
 import ListItem from '../../../components/ListItem';
 import {statisOilwearForOneRoute} from '../../../services/AppService';
 import BorderButton from '../../../components/BorderButton';
@@ -83,7 +83,7 @@ export default class OilManageSetMark extends Component {
                             });
                             this.props.isOccupy ? this.props.router.popN(2) : this.props.router.pop();
                         }).catch(e => {
-                        ToastAndroid.show(e.message, ToastAndroid.SHORT);
+                        Toast.show(e.message, Toast.SHORT);
                     });
 
                 }
@@ -91,7 +91,7 @@ export default class OilManageSetMark extends Component {
                 {text: '取消'},
             ])
         } else {
-            ToastAndroid.show('请选择车辆与时间', ToastAndroid.SHORT);
+            Toast.show('请选择车辆与时间', Toast.SHORT);
         }
     }
 

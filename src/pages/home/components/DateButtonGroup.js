@@ -66,7 +66,7 @@ export default class DateButtonGroup extends Component {
         { beginDate:this.state.beginDate || '',
             endDate: this.state.endDate || '',update:(date={
         }) => {
-            console.info('update')
+            //console.info('update')
             !date.beginDate && (date.beginDate = this.state.beginDate);
             !date.endDate && (date.endDate = this.state.endDate);
             //this.setState(date);
@@ -79,7 +79,7 @@ export default class DateButtonGroup extends Component {
     }
     render() {
         return (
-            <View style={[estyle.padding,estyle.borderTop,estyle.borderBottom,estyle.fxRow]}>
+            <View style={[estyle.padding,estyle.borderTop,estyle.borderBottom,estyle.fxRow, estyle.cardBackgroundColor]}>
                 <Text style={[estyle.text, estyle.fx1]}>设定时间：</Text>
                 <BorderButton style={{marginRight:Env.font.base*6}} color={this.state.timeType === 1 ? Env.color.auxiliary : Env.color.main }  onPress={this.selectTime.bind(this,1)}>前一天</BorderButton>
                 <BorderButton style={{marginRight:Env.font.base*6}} color={this.state.timeType === 2 ? Env.color.auxiliary : Env.color.main } onPress={this.selectTime.bind(this,2)}>前三天</BorderButton>

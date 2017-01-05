@@ -93,8 +93,9 @@ class AccountHome extends Component {
 						<View style={[estyle.fxRow, estyle.fxCenter]}>
 							<Text style={[estyle.fx1, estyle.text]}>头像</Text>
 							<Image
-								style={{borderRadius:100,width:60,height:60,borderWidth:4 * Env.font.base,
-									borderColor:'#85C7E7',}}
+								resizeMode={Image.resizeMode.cover}
+								style={{borderRadius:50 * Env.font.base,width:100 * Env.font.base,height:100 * Env.font.base,borderWidth:4 * Env.font.base,
+									borderColor:Env.color.main}}
 								source={this.props.userPicStore.userPic}
 							/>
 						</View>

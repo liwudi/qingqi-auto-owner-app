@@ -56,7 +56,7 @@ export default class TopBanner extends React.Component{
 					</View>
 			}else if(this.props.titleShow){
 				return (
-					<View style={[styles.textView, {flexWrap: 'nowrap',position:'absolute', width:Env.screen.width * .6,left:Env.screen.width * .2, top: Env.font.base * 17.5}, estyle.fxColumnCenter]}>
+					<View style={[styles.textView, styles.height,{flexWrap: 'nowrap',position:'absolute', width:Env.screen.width * .6,left:Env.screen.width * .2, top: 0}, estyle.fxColumnCenter]}>
 						<Text style={[estyle.navTitle, {textAlign: 'center'}]}>{this.props.title}</Text>
 					</View>
 				)
@@ -65,9 +65,13 @@ export default class TopBanner extends React.Component{
 			}
 		}
 		return (
-			<View>
-				<View style={[styles.topBanner,styles.height, {backgroundColor: this.props.color || Env.color.main}]}>
-					<StatusBar backgroundColor={ this.props.color || Env.color.main} />
+			<View style={[estyle.iosStatusBarHeight, {backgroundColor: this.props.color || Env.color.main}]}>
+				<View style={[styles.topBanner,styles.height]}>
+					<StatusBar
+						backgroundColor={ this.props.color || Env.color.main}
+						hidden={false}
+						barStyle={'light-content'}
+					/>
 					<View style = {[styles.backButton, styles.height, estyle.fxColumnCenter]}>
                         {_renderLeft()}
 					</View>

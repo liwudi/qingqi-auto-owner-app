@@ -1,19 +1,8 @@
-import React, {Component, PropTypes} from "react";
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    NativeModules,
-    DeviceEventEmitter,
-    findNodeHandle,
-    TouchableHighlight,
-    Image
-} from "react-native";
-import Toast from '../components/Toast';
-const MapView = require('./MapView');
+import React, {Component} from "react";
+import {StyleSheet, View, Platform} from "react-native";
+import MapView from  './MapView';
 import * as instance from './MapbarMapInstance';
+import Toast from '../components/Toast';
 import Env from '../utils/Env';
 import Button from '../components/widgets/Button';
 import * as Icons from '../components/Icons';
@@ -23,7 +12,7 @@ export default class MapbarMap extends Component {
         super();
         this.maxMapLevel = 14;
         this.options = {
-            zoom: 0,
+            zoom: Platform.OS === 'ios' ? 2 : 0,
             center: {
                 longitude: 115.95380,//2868291,11595380
                 latitude: 28.68291
@@ -31,7 +20,6 @@ export default class MapbarMap extends Component {
             isZoom: true,
             isMove: true,
             isRotate: true,
-            forbidGesture: true,
             showZoomController: true
         }
         this.state = {
@@ -63,48 +51,51 @@ export default class MapbarMap extends Component {
     }
 
     zoomIn() {
-        instance.zoomIn();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
-                this.onZoomIn(zoom);
+                instance.zoomIn();
+                this.onZoomIn(+zoom + 1);
             });
         })
     }
 
     zoomOut() {
-        instance.zoomOut();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
-                this.onZoomOut(zoom);
+                instance.zoomOut();
+                this.onZoomOut(+zoom - 1);
             });
         })
     }
+
 
     zoomTimeout(fun, timeout) {
         this.zoomTimer && clearTimeout(this.zoomTimer);
         this.zoomTimer = setTimeout(fun, timeout ||500);
     }
 
+    onZoom(zoom) {
+        console.info('zoom change', zoom)
+    }
+
     onZoomIn(zoom) {
-        //    console.info('onZoomIn', zoom)
-        /*  let _zoom = zoom;
-         zoom = Math.ceil(zoom);
-         if(zoom > 14) zoom = 14;*/
+        console.info('onZoomIn', zoom)
         this.zoomTimeout(() => {
+            this.zoom = zoom;
             if (zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
             this.props.onZoomIn && this.props.onZoomIn(Math.ceil(zoom));
         }, 300);
     }
 
     onZoomOut(zoom) {
-        //    console.info('onZoomOut', zoom)
-        /*   zoom = Math.floor(zoom);
-         if(zoom < 0) zoom = 0;*/
+        console.info('onZoomOut', zoom)
         this.zoomTimeout(() => {
+            this.zoom = zoom;
             if (zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
             this.props.onZoomOut && this.props.onZoomOut(Math.floor(zoom));
         }, 300);
     }
+
 
     onSpan() {
         //    console.info('span')
@@ -112,9 +103,13 @@ export default class MapbarMap extends Component {
     }
 
     onInit() {
+        if(this.mapRef && this.Map) return;
         instance.initMap(this.refs.mapView);
         this.Map = instance;
+        this.zoom = isNaN(this.props.zoom) ? this.options.zoom : this.props.zoom;
         this.mapRef = this.Map.getMapRef();
+        console.info('地图初始化完成，', this.mapRef)
+        console.info('这是RN里面的初初始化')
         this.ridx = this.props.router.currentIndex();
         this.props.onInit && this.props.onInit(this.Map);
 
@@ -178,7 +173,7 @@ export default class MapbarMap extends Component {
                 style={[estyle.fx1]}
                 zoomLevel={isNaN(this.props.zoom) ? this.options.zoom : this.props.zoom}
                 worldCenter={this.getCenter()}
-                forbidGesture={this.options.forbidGesture}
+
                 isZoom={this.options.isZoom}
                 isMove={this.options.isMove}
                 isRotate={this.options.isRotate}

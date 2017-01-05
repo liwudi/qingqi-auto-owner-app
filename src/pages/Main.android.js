@@ -31,23 +31,7 @@ import Env from '../utils/Env'
 const estyle = Env.style;
 import {Alert2} from '../components/Modals/Alert';
 
-import VideoShow from './VideoShow';
-
-import HomeRouter from './HomeRouter';
 import { checkUpdate, getAppVersion } from '../services/UpdateService';
-
-AppState.addEventListener('change', (currentAppState) => {
-    global.appIsActive = (currentAppState == 'active');
-    if (global.appIsActive) {
-        setTimeout(() => {
-            global.toVideoShowMessage && global.toVideoShowFun();
-        }, 900)
-    }
-});
-
-global.toVideoShowMessage = null;
-global.toVideoShowFun = null;
-global.toVideoShowFunIsPlayIng = false;
 
 
 class Main extends Component {
@@ -55,19 +39,10 @@ class Main extends Component {
     navigator = null;
     router = null;
 
-    toVideoShow = () => {
-        let noticeId = global.toVideoShowMessage.noticeId;
-        pushModule.cancelNotifacation(noticeId);
-        global.toVideoShowMessage = null;
-        global.toVideoShowFunIsPlayIng = true;
-        this.router.push(VideoShow);
-    }
-
     _checkUpdate(){
         checkUpdate().then(rs => {
 
             console.log('version_no', rs['version_no'] , this.state.versionCode)
-
 
             if(rs['version_no'] > this.state.versionCode){
                 this.refs.alert.alert(
@@ -105,7 +80,6 @@ class Main extends Component {
                 versionCode : v.versionCode
             })
         });
-        global.toVideoShowFun = this.toVideoShow.bind(this);
 
         DeviceEventEmitter.addListener("notificationClick", (event) => {
             try {
@@ -193,12 +167,6 @@ class Main extends Component {
                 return this.doBack(exitApp);
             }
         );
-
-        setTimeout(() => {
-            if (global.toVideoShowMessage) {
-                global.toVideoShowFun();
-            }
-        }, 1100);
         setTimeout(this._checkUpdate.bind(this),2000);
     }
 

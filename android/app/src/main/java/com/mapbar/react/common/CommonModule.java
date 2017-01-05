@@ -21,6 +21,7 @@ import com.mapbar.react.common.operation.ContactsOperation;
 import com.mapbar.react.common.operation.HttpPostUpload;
 import com.mapbar.react.common.operation.MediaPlayerOperation;
 import com.mapbar.react.common.operation.MediaRecorderOperation;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by Administrator on 2016/10/18.
@@ -186,6 +187,8 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     public void startKefuActivity(String userId,String kefuId,String type,String nimToken) {
         MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
         messageServer.prepare(userId,kefuId,type,nimToken);
+        ImageLoader.getInstance().clearMemoryCache();
+        ImageLoader.getInstance().clearDiskCache();
     }
     /* 注销客服登录
         * */

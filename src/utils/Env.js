@@ -1,4 +1,4 @@
-import {PixelRatio, Dimensions, StatusBar} from 'react-native';
+import {PixelRatio, Dimensions, StatusBar, Platform} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -94,7 +94,7 @@ const spacing = {
 
 
 const border = {
-  width: 0.5,
+  width: 1,
   color: color.line
 };
 const style = {
@@ -216,7 +216,10 @@ const style = {
   },
   paddingHorizontal: {
     paddingHorizontal:spacing.padding.horizontal
-  }
+  },
+    iosStatusBarHeight:{
+        paddingTop: fontSize.base * (Platform.OS == 'ios' ? 36 : 0)
+    }
 };
 
 const vector = {

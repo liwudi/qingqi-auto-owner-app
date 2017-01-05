@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactApplication;
+import io.rnkit.actionsheetpicker.ASPickerViewPackage;
+import com.remobile.toast.RCTToastPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -90,6 +92,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ASPickerViewPackage(),
+            new RCTToastPackage(),
             new ReactVideoPackage(),
             new ImageResizerPackage(),
             new RNFetchBlobPackage(),
