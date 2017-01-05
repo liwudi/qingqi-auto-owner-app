@@ -101,8 +101,11 @@ export default class MonitorMap extends Component {
             console.info('status catch')
             Toast.show('获取状态列表异常', Toast.SHORT);
         }).finally(() => {
-            this.times[0] = setTimeout(() => {
+            if(this.times[0]) return;
+            this.times[1] = setTimeout(() => {
                 this.fetchStatus();
+                clearTimeout(this.times[0]);
+                this.times[0] = null;
             }, STATUS_TIMEOUT * 1000);
         })
     }
@@ -154,8 +157,11 @@ export default class MonitorMap extends Component {
             Toast.show('获取单车监控信息异常', Toast.SHORT);
             console.info('single catch')
         }).finally(() => {
+            if(this.times[1]) return;
             this.times[1] = setTimeout(() => {
                 this.fetchDataSingle();
+                clearTimeout(this.times[1]);
+                this.times[1] = null;
             }, TIMEOUT * 1000);
         })
     }
@@ -201,8 +207,11 @@ export default class MonitorMap extends Component {
             }).finally(() => {
                 this.setState({animating: false});
                 this.requesting = false;
+                if(this.times[2]) return;
                 this.times[2] = setTimeout(() => {
                     this.fetchDataAll();
+                    clearTimeout(this.times[2]);
+                    this.times[2] = null;
                 }, TIMEOUT * 1000);
             })
         });
@@ -245,15 +254,18 @@ export default class MonitorMap extends Component {
                 list['carId_' + item.carId] = item;
                 this.addMarkerOpts(item, idx);
             });
+            console.info('清理旧标注')
             this.Map.clearOverlays();
+            console.info('添加新标注')
             this.Marker.add(this.markers);
             this.MarkerRotate.add(this.markers_d);
         }
     }
 
     addMarkerOpts(data, idx) {
+        console.info(data, 'data')
         let iconText = data.carNo || data.carCode,
-            ity = -.35,
+            ity = Platform.OS === 'ios' ? -.12 : -.35,
             imageName = "9100" + data.travelStatus,
             textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main,
             iconTextSize = Platform.OS === 'ios' ? 18 : 14,
@@ -268,7 +280,6 @@ export default class MonitorMap extends Component {
         let pt = this.MPoint([data.longitude, data.latitude]),
             mkOpts = {
                 longitude: pt.longitude,
-
                 latitude: pt.latitude,
                 title: '',
                 imageName: Platform.OS === 'ios' ? '910000' : 'and_0',

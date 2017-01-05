@@ -9,7 +9,8 @@ import {
 	DeviceEventEmitter,
 	findNodeHandle,
 	TouchableHighlight,
-	Image
+	Image,
+	Platform
 } from "react-native";
 
 import Toast from '../../components/Toast';
@@ -76,34 +77,37 @@ export default class MessageCarLocation extends Component {
 		this.setMarker(data);
 	}
 	setMarker(data) {
-		console.info('--------------------------', data);
-		let pt = this.MPoint([data.longitude, data.latitude]),
-			ox = 0.5,
-			oy = 17,
-			imageName = "res/icons/c100" + data.travelStatus + ".png",
-			direction = data.direction,
-			iconText = data.carNumber,
+		let iconText = data.carNumber,
+			ity = Platform.OS === 'ios' ? -.12 : -.35,
+			imageName = "9100" + data.travelStatus,
+			textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main,
+			iconTextSize = Platform.OS === 'ios' ? 18 : 14,
+			direction = 360 - data.direction,
 			id = Math.floor(Math.random() * 100);
-		let mkOpts = {
-			longitude: pt.longitude,
-			latitude: pt.latitude,
-			title: '',
-			imageName: 'ic_mask',
-			iconText: iconText,
-			iconTextColor: Env.color.main,
-			iconTextSize: 14,
-			id: id,
-			offsetX: ox,
-			offsetY: oy,
-			click: false
-		}
+		let pt = this.MPoint([data.longitude, data.latitude]),
+			mkOpts = {
+				longitude: pt.longitude,
+				latitude: pt.latitude,
+				title: '',
+				imageName: Platform.OS === 'ios' ? '910000' : 'and_0',
+				iconTextX:.5,
+				iconTextY:ity,
+				iconText: iconText,
+				iconTextColor: textColor,
+				iconTextSize: iconTextSize,
+				id: idx,
+				offsetX: .5,
+				offsetY: .5,
+				callOut: false,
+				click: false
+			};
 		this.Marker.add([mkOpts]);
 		mkOpts = {
 			longitude: pt.longitude,
 			latitude: pt.latitude,
-			id: id,
+			id: idx,
 			click: false,
-			imageName: imageName,
+			imageName: Platform.OS === 'ios' ? imageName : "res/icons/" + imageName + ".png",
 			direction: direction
 		}
 		this.MarkerRotate.add([mkOpts]);

@@ -12,7 +12,7 @@ export default class MapbarMap extends Component {
         super();
         this.maxMapLevel = 14;
         this.options = {
-            zoom: Platform.OS === 'ios' ? 2 : 0,
+            zoom: Platform.OS === 'ios' ? 1 : 0,
             center: {
                 longitude: 115.95380,//2868291,11595380
                 latitude: 28.68291
@@ -51,19 +51,19 @@ export default class MapbarMap extends Component {
     }
 
     zoomIn() {
+        instance.zoomIn();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
-                instance.zoomIn();
-                this.onZoomIn(+zoom + 1);
+                this.onZoomIn(zoom);
             });
         })
     }
 
     zoomOut() {
+        instance.zoomOut();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
-                instance.zoomOut();
-                this.onZoomOut(+zoom - 1);
+                this.onZoomOut(zoom);
             });
         })
     }
@@ -74,23 +74,21 @@ export default class MapbarMap extends Component {
         this.zoomTimer = setTimeout(fun, timeout ||500);
     }
 
-    onZoom(zoom) {
-        console.info('zoom change', zoom)
-    }
-
     onZoomIn(zoom) {
+        if(!this.isInit) return;
         console.info('onZoomIn', zoom)
         this.zoomTimeout(() => {
-            this.zoom = zoom;
+            //this.zoom = zoom;
             if (zoom >= this.maxMapLevel) Toast.show('已经是最大级别', Toast.SHORT);
             this.props.onZoomIn && this.props.onZoomIn(Math.ceil(zoom));
         }, 300);
     }
 
     onZoomOut(zoom) {
+        if(!this.isInit) return;
         console.info('onZoomOut', zoom)
         this.zoomTimeout(() => {
-            this.zoom = zoom;
+            //this.zoom = zoom;
             if (zoom == 0) Toast.show('已经是最小级别', Toast.SHORT);
             this.props.onZoomOut && this.props.onZoomOut(Math.floor(zoom));
         }, 300);
@@ -98,7 +96,7 @@ export default class MapbarMap extends Component {
 
 
     onSpan() {
-        //    console.info('span')
+        console.info('span')
         this.props.onSpan && this.props.onSpan();
     }
 
@@ -106,12 +104,13 @@ export default class MapbarMap extends Component {
         if(this.mapRef && this.Map) return;
         instance.initMap(this.refs.mapView);
         this.Map = instance;
-        this.zoom = isNaN(this.props.zoom) ? this.options.zoom : this.props.zoom;
+        //this.zoom = isNaN(this.props.zoom) ? this.options.zoom : this.props.zoom;
         this.mapRef = this.Map.getMapRef();
         console.info('地图初始化完成，', this.mapRef)
         console.info('这是RN里面的初初始化')
         this.ridx = this.props.router.currentIndex();
         this.props.onInit && this.props.onInit(this.Map);
+        this.isInit = true;
 
     }
 
@@ -155,6 +154,7 @@ export default class MapbarMap extends Component {
         this.clearTimer();
         this.ridx = null;
         this.mapRef = null;
+        this.isInit = false;
         this.props.nav && this.props.nav.doBack && this.props.nav.doBack();
     }
 

@@ -661,7 +661,12 @@
 - (void)mbMapView:(MBMapView *)mapView onTileLoadingFinished:(void*)unused
 {
 //   NSLog(@"地图初始化完成事件");
-  self.onZoom(@{@"zoomLevel":@(mapView.zoomLevel),@"scale":@(mapView.zoomLevel/self.lastZoomLevel)});
+  //self.onZoom(@{@"zoomLevel":@(mapView.zoomLevel),@"scale":@(mapView.zoomLevel/self.lastZoomLevel)});
+  if(self.lastZoomLevel > self.zoomLevel) {
+    self.onZoomIn(@{@"zoomLevel":@(self.lastZoomLevel)});
+  } else {
+    self.onZoomOut(@{@"zoomLevel":@(self.lastZoomLevel)});
+  }
   self.lastZoomLevel = mapView.zoomLevel;
   
   if(self.isInit == NO) {

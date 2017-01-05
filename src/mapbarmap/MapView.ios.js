@@ -25,6 +25,8 @@ export default class MapView extends React.Component {
         onTap:                   React.PropTypes.func,
         onRotation:              React.PropTypes.func,
         onInit:                  React.PropTypes.func,
+        onZoomOut:                 React.PropTypes.func,
+        onZoomIn:                  React.PropTypes.func,
         // annotations:React.PropTypes.arrayOf(React.PropTypes.shape({
         //     latitude: React.PropTypes.number.isRequired,
         //     longitude: React.PropTypes.number.isRequired,
@@ -55,7 +57,15 @@ export default class MapView extends React.Component {
                 onAnnotationClick = {(event)=> {this.props.onIconOverlayClick(event.nativeEvent.pointId);}}
                 onIconOverlayClick = {(event)=> {this.props.onIconOverlayClick(event.nativeEvent.pointId);}}
                 onTap = {()=>{}}
+                onZoom = {()=>{}}
+                onZoomOut = {(e)=>{
+                    this.props.onZoomOut(e.nativeEvent.zoomLevel);
+                }}
+                onZoomIn = {(e)=>{
+                    this.props.onZoomIn(e.nativeEvent.zoomLevel);
+                }}
                 forbidGesture={false}
+                mapCenter={this.props.worldCenter}
             >
             </RCTMapView>
         );

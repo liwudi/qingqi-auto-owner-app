@@ -31,6 +31,7 @@ export class Marker {
      * */
     /*添加标注*/
     static add = (opts) => {
+      //  console.info(JSON.stringify(opts))
         module.addAnnotations(
             mapRef, opts
         )
@@ -94,6 +95,7 @@ export class MarkerRotate {
     * }]
      * */
     static add = (opts) => {
+      //  console.info(JSON.stringify(opts))
         module.setIconOverlayIcons(
             mapRef, opts
         )
@@ -248,7 +250,7 @@ export function getBounds() {
  *      maxLatitude: 1
  * }
  * */
-let diff = 50000;
+let diff = 10000;
 export function setBounds(pt1, pt2) {
     let p1lat = pt1.latitude,
         p1lng = pt1.longitude,

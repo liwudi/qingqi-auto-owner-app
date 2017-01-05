@@ -33,6 +33,8 @@ typedef void(^Failure)(NSError *error);
 @property (nonatomic, copy) RCTBubblingEventBlock onAnnotationClick;
 @property (nonatomic, copy) RCTBubblingEventBlock onIconOverlayClick;
 @property (nonatomic, copy) RCTBubblingEventBlock onZoom;//缩放
+@property (nonatomic, copy) RCTBubblingEventBlock onZoomIn;//缩放
+@property (nonatomic, copy) RCTBubblingEventBlock onZoomOut;//缩放
 @property (nonatomic, copy) RCTBubblingEventBlock onSpan;//平移
 @property (nonatomic, copy) RCTBubblingEventBlock onTap;//点击事件
 @property (nonatomic, copy) RCTBubblingEventBlock onRotation;//旋转事件
