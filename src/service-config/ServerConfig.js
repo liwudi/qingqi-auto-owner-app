@@ -1,7 +1,7 @@
 /**
  * Created by cryst on 2016/10/16.
  */
-const DEBUG = false;
+const DEBUG = true;
 if(!DEBUG) {
     console.info = console.log = () => {}
 }
@@ -9,6 +9,7 @@ if(!DEBUG) {
 //测试环境 宋宗彬
 const ServerTestSZB = {
     QINGQI: 'http://10.30.50.151:8950/qingqi/',
+    SERVICE_STATION: 'http://10.30.50.151:8950/qingqi/',
     WD_SERVICE: 'http://119.255.37.167:8808/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
@@ -21,6 +22,7 @@ const ServerTestSZB = {
 //测试环境
 const ServerTest = {
     QINGQI: 'http://10.30.50.153:8950/qingqi/',
+    SERVICE_STATION: 'http://10.30.50.153:8950/qingqi/',
     WD_SERVICE: 'http://119.255.37.167:8808/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
@@ -32,6 +34,7 @@ const ServerTest = {
 //联调环境
 const ServerDebug = {
     QINGQI: 'http://61.161.238.158:8950/qingqi/',
+    SERVICE_STATION:'http://61.161.238.158:8950/qingqi/',
     WD_SERVICE: 'http://119.255.37.167:8808/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
@@ -43,6 +46,7 @@ const ServerDebug = {
 //正式环境
 const ServerOnline = {
     QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
+    SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
@@ -54,7 +58,7 @@ const ServerOnline = {
 
 
 let ServerConfig = {
-    ...ServerOnline,
+    ...ServerDebug,
     defaultPage : {
         page_number: 1,
         page_size: 20,

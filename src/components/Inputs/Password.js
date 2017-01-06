@@ -28,7 +28,7 @@ export default class Password extends Component {
         this.props.require && validates.unshift({require:true, msg: emsg.password.require});
 
         return (
-            <LabelInput {...this.props} ref="textInput"
+            <LabelInput  ref="textInput" {...this.props}
                 style={[this.props.style]}
                 type="password"
                 placeholder={this.props.placeholder || emsg.password.placeholder}

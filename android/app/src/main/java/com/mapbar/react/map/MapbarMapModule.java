@@ -373,10 +373,21 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
 
     //定位开始
     @ReactMethod
-    public void startLocation(Promise promise) {
-        Location.startLocation(getReactApplicationContext(), promise);
+    public void startLocation(final Promise promise) {
+        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Location.startLocation(getReactApplicationContext(), promise);
+            }
+        });
+
     }
 
+    //定位开始
+    @ReactMethod
+    public void initLocation(Promise promise) {
+        Location.initLocation();
+    }
     //定位结束
     @ReactMethod
     public void stopLocation() {

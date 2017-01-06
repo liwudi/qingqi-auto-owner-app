@@ -171,9 +171,9 @@ export default class MonitorMap extends Component {
                 //todo 0级别时地图sdk返回经纬度有问题，添加兼容
                 this.zoom === 0 ? {
                     leftLongitude: 72.5, //左下， 右上
-                    leftLatitude: 32.5,
-                    rightLongitude: 132.5,
-                    rightLatitude: 50.5,
+                    leftLatitude: 10.86,
+                    rightLongitude: 135.05,
+                    rightLatitude: 53.55,
                     zoom: this.zoom
                 } : {
                     leftLongitude: b.minLongitude, //左下， 右上

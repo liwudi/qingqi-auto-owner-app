@@ -5,11 +5,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {
-	Text,
-	TextInput,
-	View,
-	TouchableOpacity,
-	StyleSheet,
+    Text,
+    TextInput,
+    View,
+    TouchableOpacity,
+    StyleSheet,
     ActivityIndicator
 } from 'react-native';
 
@@ -17,7 +17,6 @@ import { UserActions,TYPES } from '../../actions/index';
 
 import PhoneInput from '../../components/Inputs/Phone';
 import TopBanner from '../../components/TopBanner';
-import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
 import LabelInput from '../../components/LabelInput';
 import SubmitButton from '../../components/SubmitButton';
 import Button  from '../../components/widgets/Button';
@@ -25,45 +24,45 @@ import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 import HomeRouter from '../HomeRouter';
 import Env from '../../utils/Env';
 import Agreement from './Agreement';
+import { fastLoginSendCode } from '../../services/UserService';
+import SendMobileCode from '../../components/Inputs/SendMobileCode'
 
 const estyle = Env.style,
-	emsg = Env.msg.form,
-	pattern = Env.pattern;
+    emsg = Env.msg.form,
+    pattern = Env.pattern;
 
 
 class QuickLogin extends Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			phone: (this.props.nav || {}).phone,
-			code: ''
-		}
-	}
+    constructor(props){
+        super(props);
+        this.state = {
+            phone: (this.props.nav || {}).phone,
+            code: ''
+        }
+    }
 
-	next = (userInfo) => {
-		this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
-	}
+    next = (userInfo) => {
+        this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
+    }
 
-	vertify() {
-		return LabelInput.Validate(this.refs);
-	}
+    vertify() {
+        return LabelInput.Validate(this.refs);
+    }
 
-	sendCode(){
-		if(this.refs.phone.validate()) {
-			this.props.dispatch(UserActions.sendQuickLoginCode(this.state.phone, (rs)=>{
-                !!rs && this.refs.code.focus();
-			}));
-		}
-	}
+    sendCode(){
+        if(this.refs.phone.validate()) {
+            return fastLoginSendCode(this.state.phone)
+        }
+    }
 
-	onLogin() {
-		if(this.vertify()) {
-			this.props.dispatch(UserActions.doQuickLogin(this.state.phone, this.state.code.value, this.next));
-		}
-	}
+    onLogin() {
+        if(this.vertify()) {
+            this.props.dispatch(UserActions.doQuickLogin(this.state.phone, this.state.code.value, this.next));
+        }
+    }
 
-	render() {
-		return (
+    render() {
+        return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<View
 					style={[estyle.fxRowCenter]}
@@ -76,12 +75,11 @@ class QuickLogin extends Component {
 						labelSize={3}
 						require={true}
 					/>
-					<PhoneChkCodeInput
+					<SendMobileCode
 						ref="code"
 						style={[estyle.borderBottom]}
 						onChangeText={code => this.setState({code})}
 						sendCode = {this.sendCode.bind(this)}
-						sendCodeStatus = {this.props.sendCodeStatus}
 					/>
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
@@ -98,13 +96,13 @@ class QuickLogin extends Component {
 					</View>
 				</View>
 			</View>
-		);
-	}
+        );
+    }
 }
 
 export default connect(function(stores) {
-	return {
-		userStore: stores.userStore,
-		sendCodeStatus: stores.sendCodeStore
-	}
+    return {
+        userStore: stores.userStore,
+        sendCodeStatus: stores.sendCodeStore
+    }
 })(QuickLogin);
