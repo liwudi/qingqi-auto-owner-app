@@ -29,6 +29,7 @@ import BorderButton from '../../../components/BorderButton';
 
 import ListTitle from '../../../components/ListTitle';
 import ListItem from '../../../components/ListItem';
+import ProvincePicker from '../../../components/ProvincePicker';
 
 import {routeCarList, delCarRoute, routeInfo, modifyRoute, addRoute, deleteRoute} from '../../../services/LineService';
 
@@ -176,6 +177,7 @@ export default class MyLineAdd extends Component {
             ...this.state.routeInfo,
             passbyPoints: p
         };
+        console.log(opts.passbyPoints);
 
         modifyRoute(opts)
             .then(()=>{
@@ -190,6 +192,7 @@ export default class MyLineAdd extends Component {
 
     setStartOrEnd(startOrEnd) {
         if (startOrEnd.start) {
+            console.log(startOrEnd.start);
             this.setState({
                 routeInfo: {
                     ...this.state.routeInfo,
@@ -290,8 +293,16 @@ export default class MyLineAdd extends Component {
                         right={this.state.routeInfo.startPointName || '点击设置'}
                         rightPress={() => {
                             this.props.router.push(
-                                MyLineSetStartEnd,
-                                { title: '设置起点', select: (start) => this.setStartOrEnd({start}) }
+                                ProvincePicker,
+                                { changeCity: (row) =>{
+                                    let opt={pointName: row.name,
+                                                cityCode: row.id,
+                                                pointPos: '1',
+                                                pointDes: row.name,
+                                                radius:'100' };
+                                    this.setStartOrEnd({start:opt})
+                                    }
+                                }
                             );
                         }}
                         color={Env.color.main}
@@ -301,8 +312,16 @@ export default class MyLineAdd extends Component {
                         right={this.state.routeInfo.endPointName || '点击设置'}
                         rightPress={() => {
                             this.props.router.push(
-                                MyLineSetStartEnd,
-                                { title: '设置终点', select: (end) => this.setStartOrEnd({end}) }
+                                ProvincePicker,
+                                { changeCity: (row) =>{
+                                    let opt={pointName: row.name,
+                                                cityCode: row.id,
+                                                pointPos: '1',
+                                                pointDes: row.name,
+                                                radius:'100' };
+                                    this.setStartOrEnd({end:opt})
+                                    }
+                                }
                             );
                         }}
                         color={Env.color.main}
@@ -319,8 +338,16 @@ export default class MyLineAdd extends Component {
                                     return;
                                 }
                                 this.props.router.push(
-                                    MyLineSetStartEnd,
-                                    { title: '设置途经点', select: (pass) => this._addPass(pass) }
+                                    ProvincePicker,
+                                { changeCity: (row) =>{
+                                    let opt={pointName: row.name,
+                                                cityCode: row.id,
+                                                pointPos: '1',
+                                                pointDes: row.name,
+                                                radius:'100' };
+                                    this._addPass(opt)
+                                    }
+                                }
                                 );
                             }}/>
                         </View>

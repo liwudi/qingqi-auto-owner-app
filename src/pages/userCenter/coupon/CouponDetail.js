@@ -30,7 +30,7 @@ export default class CouponDetail extends Component {
     constructor(props) {
         super(props);
         this.state={
-            data:{}
+            data:null
         }
     }
     componentDidMount(){
@@ -84,69 +84,74 @@ export default class CouponDetail extends Component {
                     <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:this.props.couponId,vin:data.vin})}
                      }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button>
                 }/>
-                <ScrollView style={[estyle.paddingHorizontal]}>
-                    <View style={[estyle.cardBackgroundColor,estyle.fxRowCenter]}>
-                        <Text style={[estyle.articleTitle,estyle.marginVertical,{color:Env.color.main}]}>{data.couponName}</Text>
-                        <Text style={[estyle.text,estyle.marginBottom,{color:Env.color.main}]}>{data.couponContent}</Text>
-                        <Text style={[estyle.note]}>限使用车辆（车牌/VIN）：</Text>
-                        <Text style={[estyle.text,estyle.marginBottom]}>{data.carNumber+'/'+data.vin}</Text>
-                        <Text style={[estyle.note,estyle.marginBottom]}>使用有效期：{data.startDate+'至'+data.endDate}</Text>
-                        <View style={[estyle.borderTop,estyle.padding]}>
-                            <Text style={[estyle.note]}>请向商家或服务站出示消费码或二维码使用优惠劵</Text>
-                        </View>
-                        <View style={[estyle.fxCenter,estyle.marginBottom]}>
-                            <QRCode
-                                value={data.tradeCode}
-                                size={300*basefont}
-                                bgColor='#000'
-                                fgColor='#fff'/>
-                            <View style={[estyle.fxCenter,estyle.borderBottom,estyle.paddingVertical]}>
-                                <Text style={[estyle.text]}>{data.tradeCode}</Text>
-                            </View>
-                        </View>
-                        <View style={[estyle.fxRow,estyle.paddingBottom]}>
-                            <View style={[estyle.fx1,estyle.fxCenter,estyle.fxRow]}>
-                                <Text style={[estyle.note]}>已使用：</Text>
-                                <Text style={[estyle.text,{color:Env.color.main}]}>{data.usedNum}</Text>
-                            </View>
-                            <View style={[estyle.fx1,estyle.fxCenter,estyle.fxRow]}>
-                                <Text style={[estyle.note]}>未使用：</Text>
-                                <Text style={[estyle.text,{color:Env.color.main}]}>{data.unUsedNum}</Text>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={[estyle.marginTop,estyle.padding]}>
-                        <Text style={[estyle.note]}>服务商信息</Text>
-                    </View>
+                <ScrollView style={[estyle.paddingHorizontal,estyle.fx1]}>
                     {
-                        this.state.serverStation ?
-                            <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                <ViewForRightArrow
-                                    rightIcon={IconCall}
-                                    iconSize={Env.vector.call.size}
-                                    iconColor={Env.color.main}
-                                    style={{borderBottomWidth:0}}
-                                    onPress={() => {
-                                this.props.callTo(this.state.serverStation.phone)
-                            }}
-                                >
-                                    <View style={[estyle.fx1]}>
-                                        <View style={[estyle.fxRow]}>
-                                            <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
-                                            <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
-                                        </View>
-                                        <View>
-                                            <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
+                        this.state.data ?
+                            <View>
+                                <View style={[estyle.cardBackgroundColor,estyle.fxRowCenter]}>
+                                    <Text style={[estyle.articleTitle,estyle.marginVertical,{color:Env.color.main}]}>{data.couponName}</Text>
+                                    <Text style={[estyle.text,estyle.marginBottom,{color:Env.color.main}]}>{data.couponContent}</Text>
+                                    <Text style={[estyle.note]}>限使用车辆（车牌/VIN）：</Text>
+                                    <Text style={[estyle.text,estyle.marginBottom]}>{data.carNumber+'/'+data.vin}</Text>
+                                    <Text style={[estyle.note,estyle.marginBottom]}>使用有效期：{data.startDate+'至'+data.endDate}</Text>
+                                    <View style={[estyle.borderTop,estyle.padding]}>
+                                        <Text style={[estyle.note]}>请向商家或服务站出示消费码或二维码使用优惠劵</Text>
+                                    </View>
+                                    <View style={[estyle.fxCenter,estyle.marginBottom]}>
+                                        <QRCode
+                                            value={data.tradeCode}
+                                            size={300*basefont}
+                                            bgColor='#000'
+                                            fgColor='#fff'/>
+                                        <View style={[estyle.fxCenter,estyle.borderBottom,estyle.paddingVertical]}>
+                                            <Text style={[estyle.text]}>{data.tradeCode}</Text>
                                         </View>
                                     </View>
-                                </ViewForRightArrow>
-                            </View> : null
+                                    <View style={[estyle.fxRow,estyle.paddingBottom]}>
+                                        <View style={[estyle.fx1,estyle.fxCenter,estyle.fxRow]}>
+                                            <Text style={[estyle.note]}>已使用：</Text>
+                                            <Text style={[estyle.text,{color:Env.color.main}]}>{data.usedNum}</Text>
+                                        </View>
+                                        <View style={[estyle.fx1,estyle.fxCenter,estyle.fxRow]}>
+                                            <Text style={[estyle.note]}>未使用：</Text>
+                                            <Text style={[estyle.text,{color:Env.color.main}]}>{data.unUsedNum}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={[estyle.marginTop,estyle.padding]}>
+                                    <Text style={[estyle.note]}>服务商信息</Text>
+                                </View>
+                                {
+                                    this.state.serverStation ?
+                                        <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                            <ViewForRightArrow
+                                                rightIcon={IconCall}
+                                                iconSize={Env.vector.call.size}
+                                                iconColor={Env.color.main}
+                                                style={{borderBottomWidth:0}}
+                                                onPress={() => {
+                                this.props.callTo(this.state.serverStation.phone)
+                            }}
+                                            >
+                                                <View style={[estyle.fx1]}>
+                                                    <View style={[estyle.fxRow]}>
+                                                        <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
+                                                        <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
+                                                    </View>
+                                                    <View>
+                                                        <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
+                                                    </View>
+                                                </View>
+                                            </ViewForRightArrow>
+                                        </View> : null
+                                }
+                                <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId})}}>
+                                        <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View> : <View />
                     }
-                    <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                        <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId})}}>
-                            <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
-                        </TouchableOpacity>
-                    </View>
                 </ScrollView>
             </View>
         );
