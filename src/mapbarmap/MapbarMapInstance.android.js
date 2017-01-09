@@ -269,10 +269,12 @@ export function resume() {
 export function clearOverlays() {
     module.removeAllOverlayAndAnnotation(mapRef);
 }
-export function disposeMap (mapRef) {
-    setMapRef(mapRef);
-    pause();
-    clearOverlays();
-    finalize();
-    console.info('dispose', mapRef);
+export function disposeMap (mapRef=-1) {
+    if(mapRef >= 0) {
+        setMapRef(mapRef);
+        pause();
+        clearOverlays();
+        finalize();
+        console.info('dispose', mapRef);
+    }
 }
