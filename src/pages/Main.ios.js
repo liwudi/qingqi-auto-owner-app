@@ -44,7 +44,7 @@ class Main extends Component {
             console.log('version_no', rs['version_no'] , this.state.versionCode)
 
             if(rs['version_no'] > this.state.versionCode){
-                this.refs.alert.alert(
+                Alert.alert(
                     `发现新版本(${rs.version_name})`,
                     '是否更新？',
                     [

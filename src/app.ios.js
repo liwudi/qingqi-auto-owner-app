@@ -9,7 +9,6 @@ import Main from './pages/Main';
 import Env from './utils/Env';
 
 const estyle = Env.style;
-import ServerConfig from './service-config/ServerConfig';
 
 
 

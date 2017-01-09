@@ -1,1 +1,206 @@
-function setViewHeight(){var e=window.innerHeight||window.screen.availHeight-20;document.body.style.height=e+"px",$("#map-wrapper").css("height",e+"px")}function isnotUndefined(e){return"undefined"!=typeof e}function getQueryString(e){var i=new RegExp("(^|&)"+e+"=([^&]*)(&|$)","i"),t=window.location.search||window.location.hash,n=t.substr(1).match(i);return null!=n?decodeURIComponent(n[2]):null}function polarToCartesian(e,i,t,n){var r=(n-90)*Math.PI/180;return{x:e+t*Math.cos(r),y:i+t*Math.sin(r)}}function transData(e){var i={};return isnotUndefined(e.driveSuggest)&&(i.driveSuggest=e.driveSuggest),isnotUndefined(e.speedingCount)&&(i.speedingCount=e.speedingCount),isnotUndefined(e.crookCount)&&(i.crookCount=e.crookCount),isnotUndefined(e.fastlowCount)&&(i.fastlowCount=e.fastlowCount),isnotUndefined(e.fastupCount)&&(i.fastupCount=e.fastupCount),isnotUndefined(e.overTime)&&(i.overTime=setTime(e.overTime)),isnotUndefined(e.highTime)&&(i.highTime=setTime(e.highTime)),isnotUndefined(e.midTime)&&(i.midTime=setTime(e.midTime)),isnotUndefined(e.lowTime)&&(i.lowTime=setTime(e.lowTime)),isnotUndefined(e.slowTime)&&(i.slowTime=setTime(e.slowTime)),isnotUndefined(e.zeroUpTime)&&(i.zeroUpTime=setTime(e.zeroUpTime)),isnotUndefined(e.driveLevel)&&(i.driveLevel=e.driveLevel),isnotUndefined(e.oilSuggest)&&(i.oilSuggest=e.oilSuggest),isnotUndefined(e.avgOilHistory)&&(i.avgOilHistory=e.avgOilHistory),isnotUndefined(e.avgOilCarModel)&&(i.avgOilCarModel=e.avgOilCarModel),isnotUndefined(e.oilLevel)&&(i.oilLevel=e.oilLevel),isnotUndefined(e.tripOil)&&(i.tripOil=e.tripOil),isnotUndefined(e.tripTime)&&(i.tripTime=Math.floor(e.tripTime/1e3/60)),isnotUndefined(e.avgSpeed)&&(i.avgSpeed=e.avgSpeed),isnotUndefined(e.avgOil)&&(i.avgOil=e.avgOil),i.avgOil2=e.avgOil,isnotUndefined(e.tripLen)&&(i.tripLen=e.tripLen),isnotUndefined(e.tripScore)&&(i.tripScore=e.tripScore),isnotUndefined(e.endLocal)&&(i.endLocal=e.endLocal),isnotUndefined(e.endTime)&&(i.endTime=new Date(e.endTime).format("yyyy-MM-dd hh:mm")),isnotUndefined(e.startLocal)&&(i.startLocal=e.startLocal),isnotUndefined(e.startTime)&&(i.startTime=new Date(e.startTime).format("yyyy-MM-dd hh:mm")),i.length={meoil:e.avgOil,his:e.avgOilHistory,type:e.avgOilCarModel},i.speedPer={overPer:e.overPer,highPer:e.highPer,midPer:e.midPer,lowPer:e.lowPer,slowPer:e.slowPer,zeroUpPer:e.zeroUpPer},i}function drawCircle(e,i,t,n){function r(){a=a>=o?o:a;var e=describeArc(d,l,d,0,a);i.attr("d",e),a<=o&&requestAnimFrame(r),a+=s}if(e){n="boolean"!=typeof n||n;var o=360*e,s=o/15,a=n?0:o,d=Math.floor(t/2),l=d;requestAnimFrame(r)}}function describeArc(e,i,t,n,r){var o=polarToCartesian(e,i,t,r),s=polarToCartesian(e,i,t,n),a=r-n<=180?"0":"1",d=["M",o.x,o.y,"A",t,t,0,a,0,s.x,s.y].join(" ");return d}function getTripFromId(){$.ajax({type:"get",url:"http://61.161.238.158:8950/qingqi/tripAnalysis/queryTripInfo",data:{tripId:tripId,userId:userId,token:token},dataType:"json",async:!0,success:function(e){200==e.resultCode?fill(transData(e.data)):alert(e.message)},error:function(e){alert("数据获取失败")}})}function fill(e){var i=[],t=[];for(var n in e){var r=$("."+n).eq(0);r&&r.html(e[n])}var o=+e.tripScore/100==1?.9999:+e.tripScore/100;drawCircle(o,$("#tripScore"),118);for(var s in e.speedPer){$("."+s).eq(0).html(e.speedPer[s]);var a=$("."+s).eq(1),d=+e.speedPer[s]/100==1?.9999:+e.speedPer[s]/100;drawCircle(d,a,80,!1)}var l=+(e.length.his||0),g=+(e.length.meoil||0),f=+(e.length.type||0),u=Math.max(l,g,f);if(g&&$(".car-bar").eq(0).css("width",parseInt(g/u*100)+"%"),f&&$(".same-car-bar").eq(0).css("width",parseInt(f/u*100)+"%"),$(".history-bar").eq(0).css("width",parseInt(l/u*100)+"%"),e.driveLevel){for(var m=0;m<5;m++)m<=Math.floor(e.driveLevel)-1?i[m]='<i class="iconfont star">&#xe620;</i>':i[m]='<i class="iconfont dark">&#xe620;</i>';$(".driveStar").eq(0).html(i.join(""))}if(e.oilLevel){for(var m=0;m<5;m++)m<=Math.floor(e.oilLevel)-1?t[m]='<i class="iconfont star">&#xe620;</i>':t[m]='<i class="iconfont dark">&#xe620;</i>';$(".oilStar").eq(0).html(t.join(""))}}Date.prototype.format=function(e){var i={"M+":this.getMonth()+1,"d+":this.getDate(),"h+":this.getHours(),"m+":this.getMinutes(),"s+":this.getSeconds(),"q+":Math.floor((this.getMonth()+3)/3),S:this.getMilliseconds()};/(y+)/.test(e)&&(e=e.replace(RegExp.$1,(this.getFullYear()+"").substr(4-RegExp.$1.length)));for(var t in i)new RegExp("("+t+")").test(e)&&(e=e.replace(RegExp.$1,1==RegExp.$1.length?i[t]:("00"+i[t]).substr((""+i[t]).length)));return e};var tripId=getQueryString("tripId"),userId=getQueryString("userId"),token=getQueryString("token"),requestAnimFrame=function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||function(e){window.setTimeout(e,1e3/60)}}(),setTime=function(e){var i=Math.floor(e/1e3/3600),t=Math.floor(e/1e3/60)-(i?60*i:0);s=Math.floor(e/1e3)-(i?3600*i:0)-(t?60*t:0);var n=1==i.toString().length?"0"+i:i,r=1==t.toString().length?"0"+t:t,o=1==s.toString().length?"0"+s:s;return n+":"+r+":"+o};
+/**
+ * Created by linyao on 2016/10/26.
+ */
+Date.prototype.format =function(format)
+{
+    var o = {
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(), //day
+        "h+" : this.getHours(), //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3), //quarter
+        "S" : this.getMilliseconds() //millisecond
+    }
+    if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+        (this.getFullYear()+"").substr(4- RegExp.$1.length));
+    for(var k in o)if(new RegExp("("+ k +")").test(format))
+        format = format.replace(RegExp.$1,
+            RegExp.$1.length==1? o[k] :
+                ("00"+ o[k]).substr((""+ o[k]).length));
+    return format;
+}
+var tripId=getQueryString('tripId'),
+    userId=getQueryString('userId'),
+	share=getQueryString('share')==='false'? false : true ,
+    token=getQueryString('token');
+
+function setViewHeight() {
+    var _h_ = window.innerHeight || (window.screen.availHeight - 20);
+    document.body.style.height = _h_ + 'px';
+    $('#map-wrapper').css('height',_h_+'px');
+}
+function isnotUndefined(str) {
+    return typeof str != 'undefined';
+}
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var str = window.location.search || window.location.hash;
+    var r = str.substr(1).match(reg);
+    if (r != null) return decodeURIComponent(r[2]);
+    return null;
+}
+function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+    var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+    return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+    };
+}
+var requestAnimFrame = (function(){
+    return  window.requestAnimationFrame || window.webkitRequestAnimationFrame || function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+        };
+})();
+var setTime=function(time){
+	var h= Math.floor(time/1000/3600),
+		m= Math.floor(time/1000/60)-(h ? h*60 : 0) ;
+		s= Math.floor(time/1000)-(h ? h*3600 : 0) -(m ? m*60 : 0 );
+	var hh= h.toString().length == 1 ? '0'+ h : h ;
+	var mm= m.toString().length == 1 ? '0'+ m : m ;
+	var ss= s.toString().length == 1 ? '0'+ s : s ;
+	return hh+':'+mm+':'+ss
+}
+
+function transData(data) {
+    var d = {};
+    if(isnotUndefined(data.driveSuggest)) d.driveSuggest = data.driveSuggest;
+    if(isnotUndefined(data.speedingCount)) d.speedingCount = data.speedingCount;
+    if(isnotUndefined(data.crookCount)) d.crookCount = data.crookCount;
+    if(isnotUndefined(data.fastlowCount)) d.fastlowCount = data.fastlowCount;
+    if(isnotUndefined(data.fastupCount)) d.fastupCount = data.fastupCount;
+    if(isnotUndefined(data.overTime)) d.overTime = setTime(data.overTime);
+    if(isnotUndefined(data.highTime)) d.highTime = setTime(data.highTime);
+    if(isnotUndefined(data.midTime)) d.midTime = setTime(data.midTime);
+    if(isnotUndefined(data.lowTime)) d.lowTime = setTime(data.lowTime);
+    if(isnotUndefined(data.slowTime)) d.slowTime = setTime(data.slowTime);
+    if(isnotUndefined(data.zeroUpTime)) d.zeroUpTime = setTime(data.zeroUpTime);
+    if(isnotUndefined(data.driveLevel)) d.driveLevel = data.driveLevel;
+    if(isnotUndefined(data.oilSuggest)) d.oilSuggest = data.oilSuggest;
+    if(isnotUndefined(data.avgOilHistory)) d.avgOilHistory = data.avgOilHistory;
+    if(isnotUndefined(data.avgOilCarModel)) d.avgOilCarModel = data.avgOilCarModel;
+    if(isnotUndefined(data.oilLevel)) d.oilLevel = data.oilLevel;
+    if(isnotUndefined(data.tripOil)) d.tripOil = data.tripOil;
+    if(isnotUndefined(data.tripTime)) d.tripTime = Math.floor(data.tripTime/1000/60);
+    if(isnotUndefined(data.avgSpeed)) d.avgSpeed = data.avgSpeed;
+    if(isnotUndefined(data.avgOil)) d.avgOil = data.avgOil; d.avgOil2 = data.avgOil;
+    if(isnotUndefined(data.tripLen)) d.tripLen = data.tripLen;
+    if(isnotUndefined(data.tripScore)) d.tripScore = data.tripScore;
+    if(isnotUndefined(data.endLocal)) d.endLocal = data.endLocal;
+    if(isnotUndefined(data.endTime)) d.endTime = new Date(data.endTime).format('yyyy-MM-dd hh:mm');
+    if(isnotUndefined(data.startLocal)) d.startLocal = data.startLocal;
+    if(isnotUndefined(data.startTime)) d.startTime = new Date(data.startTime).format('yyyy-MM-dd hh:mm');
+    d.length={
+        meoil: data.avgOil,
+        his: data.avgOilHistory,
+        type: data.avgOilCarModel
+    };
+    d.speedPer={
+        overPer:data.overPer,
+        highPer:data.highPer,
+        midPer:data.midPer,
+        lowPer:data.lowPer,
+        slowPer:data.slowPer,
+        zeroUpPer:data.zeroUpPer
+    };
+    return d;
+}
+function drawCircle (per, elem, width, animate) {
+    if(!per) return;
+    animate = typeof animate == 'boolean' ? animate : true;
+    var total = per * 360,
+        diff = total / 15,
+        deg = animate ? 0 : total;
+    var cx = Math.floor(width / 2),
+        cy = cx;
+    function draw () {
+        deg = deg >= total ? total : deg;
+        var d = describeArc(cx, cy, cx , 0, deg);
+        elem.attr('d', d);
+        if(deg <= total) {
+            requestAnimFrame(draw);
+        }
+        deg += diff;
+    }
+    requestAnimFrame(draw);
+
+}
+function describeArc(x, y, radius, startAngle, endAngle){
+    var start = polarToCartesian(x, y, radius, endAngle);
+    var end = polarToCartesian(x, y, radius, startAngle);
+    var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+    var d = [
+        "M", start.x, start.y,
+        "A", radius, radius, 0, arcSweep, 0, end.x, end.y
+    ].join(" ");
+    return d;
+}
+
+function getTripFromId() {
+    if(!share && tripDetailData){
+        fill(transData(tripDetailData));
+    }else {
+        $.ajax({
+            type:"get",
+            url:"http://jfx.mapbar.com/api/qingqi/tripAnalysis/queryTripInfo",
+            data:{tripId: tripId, userId: userId , token: token},
+            dataType: 'json',
+            async:true,
+            success: function(data){
+                if(data.resultCode == 200){
+                    fill(transData(data.data));
+                }else {
+                    alert(data.message);
+                }
+            },
+            error : function(e){
+                alert('数据获取失败');
+            }
+        });
+    }
+}
+function  fill(data) {
+    var driverStar=[],oilStar=[];
+    for(var k in data) {
+        var q = $('.' + k).eq(0);
+        if(q) q.html(data[k]);
+    }
+    var per=(+data.tripScore/100) ==1 ? 0.9999 : (+data.tripScore/100);
+    drawCircle(per, $('#tripScore'), 118);
+    for(var i in data.speedPer){
+        $('.'+ i).eq(0).html(data.speedPer[i]);
+        var elem= $('.'+ i).eq(1);
+        var sPer=(+data.speedPer[i]/100) == 1 ? 0.9999 : (+data.speedPer[i]/100);
+        drawCircle(sPer, elem, 80, false);
+    }
+    var hdata = +(data.length.his || 0),   //历史
+    adata = +(data.length.meoil || 0),  //本车
+    cdata = +(data.length.type || 0);    //同类型车
+    var maxdata = Math.max(hdata, adata, cdata);
+    if(adata) $('.car-bar').eq(0).css('width', parseInt(adata / maxdata * 100) + '%');
+    if(cdata) $('.same-car-bar').eq(0).css('width', parseInt(cdata / maxdata * 100) + '%');
+    $('.history-bar').eq(0).css('width', parseInt(hdata / maxdata * 100) + '%');
+
+    if(data.driveLevel){
+        for(var s=0 ; s<5 ; s++ ){
+            if(s <= Math.floor(data.driveLevel)-1){
+                driverStar[s]='<i class="iconfont star">&#xe620;</i>'
+            }else {
+                driverStar[s]='<i class="iconfont dark">&#xe620;</i>'
+            }
+        }
+        $('.driveStar').eq(0).html(driverStar.join(''));
+    }
+    if(data.oilLevel){
+        for(var s=0 ; s<5 ; s++ ){
+            if(s <= Math.floor(data.oilLevel)-1){
+                oilStar[s]='<i class="iconfont star">&#xe620;</i>'
+            }else {
+                oilStar[s]='<i class="iconfont dark">&#xe620;</i>'
+            }
+        }
+        $('.oilStar').eq(0).html(oilStar.join(''));
+    }
+
+}
+

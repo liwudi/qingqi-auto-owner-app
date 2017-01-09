@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 
 import Env from '../utils/Env';
-    estyle = Env.style;
+const estyle = Env.style;
+
 import Button from './widgets/Button';
 export default class BorderButton extends Component {
     _onPress() {
