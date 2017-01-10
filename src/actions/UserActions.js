@@ -161,6 +161,7 @@ export function doRegCheckCaptcha(phone, trueName, password, captcha, next, err)
 			}).catch((e)=>{
 				Toast.show(e.message, Toast.SHORT);
 				dispatch({'type': TYPES.REG_STEP1_ERROR, error: e});
+				err && err();
 			});
 	}
 }
@@ -172,7 +173,7 @@ export function doRegCheckCaptcha(phone, trueName, password, captcha, next, err)
  * @param next
  * @returns {function(*)}
  */
-export function doFindPasswordCheckCaptcha(phone, captcha, next) {
+export function doFindPasswordCheckCaptcha(phone, captcha, next,err) {
 	console.info(arguments)
 	return (dispatch) => {
 		dispatch({'type': TYPES.FINDPASS_STEP1_DOING});
@@ -186,9 +187,10 @@ export function doFindPasswordCheckCaptcha(phone, captcha, next) {
 				dispatch({'type': TYPES.FINDPASS_STEP2, phoneInfo:{phone, captcha}});
 				console.info('next')
 				console.info(next)
-				next();
+				next && next();
 			}else if(error){
 				dispatch({'type': TYPES.FINDPASS_STEP1_ERROR, error});
+				err && err();
 			}
 		}
 		);

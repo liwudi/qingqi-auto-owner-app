@@ -57,7 +57,7 @@ class QuickLogin extends Component {
 
     onLogin() {
         if(this.vertify()) {
-            this.props.dispatch(UserActions.doQuickLogin(this.state.phone, this.state.code.value, this.next));
+            this.props.dispatch(UserActions.doQuickLogin(this.state.phone, this.state.code, this.next));
         }
     }
 

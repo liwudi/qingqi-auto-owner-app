@@ -58,7 +58,7 @@ const ServerOnline = {
 
 
 let ServerConfig = {
-    ...ServerDebug,
+    ...ServerTest,
     defaultPage : {
         page_number: 1,
         page_size: 20,

@@ -55,7 +55,7 @@ export default class OilManage extends Component {
         this.weekIndex--;
 		this.setState({
             weeks: getWeekDays(this.weekIndex)
-		})
+		},()=>{ this._getStatisOilwearByDay() })
 	}
 
     _nextWeek(){
@@ -63,7 +63,7 @@ export default class OilManage extends Component {
         this.weekIndex++;
         this.setState({
             weeks: getWeekDays(this.weekIndex)
-        })
+        },()=>{ this._getStatisOilwearByDay() })
     }
 
 	_getStatisOilwearByDay(){
