@@ -78,28 +78,15 @@ export default class MessageCarLocation extends Component {
 	}
 	setMarker(data) {
 		let iconText = data.carNumber,
-			ity = Platform.OS === 'ios' ? -.12 : -.35,
 			imageName = "9100" + data.travelStatus,
-			textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main,
-			iconTextSize = Platform.OS === 'ios' ? 18 : 14,
-			direction = 360 - data.direction,
-			id = Math.floor(Math.random() * 100);
+			direction = 360 - data.direction;
 		let pt = this.MPoint([data.longitude, data.latitude]),
 			mkOpts = {
+				...Env.marker.car,
 				longitude: pt.longitude,
 				latitude: pt.latitude,
-				title: '',
-				imageName: Platform.OS === 'ios' ? '910000' : 'and_0',
-				iconTextX:.5,
-				iconTextY:ity,
 				iconText: iconText,
-				iconTextColor: textColor,
-				iconTextSize: iconTextSize,
-				id: idx,
-				offsetX: .5,
-				offsetY: .5,
-				callOut: false,
-				click: false
+				id: idx
 			};
 		this.Marker.add([mkOpts]);
 		mkOpts = {
@@ -107,9 +94,9 @@ export default class MessageCarLocation extends Component {
 			latitude: pt.latitude,
 			id: idx,
 			click: false,
-			imageName: Platform.OS === 'ios' ? imageName : "res/icons/" + imageName + ".png",
+			imageName: `${Env.marker.icon.resPre}${imageName}${Env.marker.icon.resSuf}`,
 			direction: direction
-		}
+		};
 		this.MarkerRotate.add([mkOpts]);
 		this.Map.setZoomLevel(8);
 		setTimeout(() => {
