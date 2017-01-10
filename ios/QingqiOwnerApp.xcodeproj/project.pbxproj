@@ -576,6 +576,9 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				842F60941E1D073F00D2A6B5 /* RNKitASPickerView.xcodeproj */,
+				842F608E1E1D072600D2A6B5 /* SplashScreen.xcodeproj */,
+				842F60881E1D070700D2A6B5 /* RCTToast.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -611,9 +614,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				842F60941E1D073F00D2A6B5 /* RNKitASPickerView.xcodeproj */,
-				842F608E1E1D072600D2A6B5 /* SplashScreen.xcodeproj */,
-				842F60881E1D070700D2A6B5 /* RCTToast.xcodeproj */,
 				C34E13B41E1CFE09009C949D /* echarts */,
 				C34E13B01E1CFE04009C949D /* data */,
 				C34E13B11E1CFE04009C949D /* res */,
