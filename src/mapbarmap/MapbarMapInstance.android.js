@@ -247,7 +247,7 @@ export function getBounds() {
         maxLatitude: Math.max(p1lat, p2lat)
     });
 }*/
-let diff = 5000;
+let diff = 0;
 export function setBounds(pt1, pt2) {
     let p1lat = pt1.latitude,
         p1lng = pt1.longitude,
@@ -259,9 +259,15 @@ export function setBounds(pt1, pt2) {
         maxLongitude: Math.max(p1lng, p2lng) + diff,
         maxLatitude: Math.max(p1lat, p2lat) + diff
     });
+    setTimeout(() => {
+        getZoomLevel().then((level) => {
+            level = Math.floor(level);
+            setZoomLevel(level);
+        });
+    }, 300);
 }
 export function pause() {
-    module.onPauseMap(mapRef);
+    mapRef && mapRef >= 0 && module.onPauseMap(mapRef);
 }
 export function resume() {
     module.onResumeMap(mapRef);
@@ -269,12 +275,13 @@ export function resume() {
 export function clearOverlays() {
     module.removeAllOverlayAndAnnotation(mapRef);
 }
-export function disposeMap (mapRef=-1) {
-    if(mapRef >= 0) {
-        setMapRef(mapRef);
+export function disposeMap (ref=-1) {
+    if(ref >= 0) {
+        setMapRef(ref);
         pause();
         clearOverlays();
         finalize();
         console.info('dispose', mapRef);
     }
+    mapRef = null;
 }

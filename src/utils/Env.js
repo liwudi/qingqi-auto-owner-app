@@ -269,6 +269,46 @@ const icon = {
         }
     }
 }
+const isAndroid = Platform.OS === 'android',
+        isIOS = Platform.OS === 'ios';
+
+const marker = {
+    bubble: {
+        title: '',
+        iconText: '',
+        iconTextColor: isIOS ? color.main.replace('#','') : color.main,
+        iconTextSize: 14,
+        offsetX: .5,
+        offsetY: .8,
+        iconTextX:.5,
+        iconTextY:.5,
+        callOut: false,
+        click: true
+    },
+    icon: {
+        pre: isAndroid ? 'and_' : '',
+        resPre: isAndroid ? 'res/icons/' : '',  //前缀
+        resSuf: isAndroid ? '.png' : ''     //后缀
+    },
+    car: {
+        title: '',
+        imageName: isIOS ? '910000' : 'and_0',
+        iconTextColor: isIOS ? color.main.replace('#','') : color.main,
+        iconTextSize: 14,
+        offsetX: .5,
+        offsetY: .5,
+        iconTextX: .5,
+        iconTextY: -.3,
+        callOut: false,
+        click: false
+    },
+    car_rotate: {
+        imageName: isIOS ? '91002' : 'res/icons/91002.png',
+        iconTextColor: isIOS ? color.main.replace('#','') : color.main,
+        iconTextSize: 14,
+        click: false,
+    }
+}
 const pattern = {
     phone: /^(1[3-9])\d{9}$/,
     password: /^[a-zA-Z0-9~`!@#\$%\^&\*\(\)_\+\{\}\|:"<>\?\-=\[\]\;',\\.\/]{6,20}$/,
@@ -326,6 +366,7 @@ export default {
     pattern: pattern,
     refreshCircle: refreshCircle,
     icon: icon,
-    isAndroid: Platform.OS == 'ios' ? false : true,
-    isIOS: Platform.OS == 'ios' ? true : false
+    marker: marker,
+    isAndroid: isAndroid,
+    isIOS: isIOS
 };

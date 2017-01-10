@@ -204,26 +204,18 @@ export default class MapLine extends Component {
             e = Object.assign({}, line[line.length - 1]);
         let list = [s, e],
             pts = [],
-            markers = [],
-            textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main;
+            markers = [];
 
         list.forEach((item, idx) => {
             let imageName = idx ? "10020" : "10010",
                 pt = item;
+            imageName = `${Env.marker.icon.pre}${imageName}`;
             mkOpts = {
+                ...Env.marker.bubble,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                title: '',
-                imageName: Platform.OS === 'ios' ? imageName : 'and_' + imageName,
-                iconText: '',
-                iconTextColor: textColor,
-                iconTextSize: 14,
-                iconTextY:0,
-                iconTextX:0,
-                id: idx,
-                offsetX: .5,
-                offsetY: .8,
-                click: true
+                imageName: imageName,
+                id: idx
             }
             markers.push(mkOpts);
             pts.push(pt);
@@ -233,35 +225,23 @@ export default class MapLine extends Component {
 
     addCar() {
         let pt = Object.assign({}, line[0]);
-        let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.o,
+        let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
             textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main;
         title = title + unit;
         let mkOpts = {
+            ...Env.marker.car,
             longitude: pt.longitude,
             latitude: pt.latitude,
-            title: '',
-            imageName: Platform.OS === 'ios' ? '910000' : 'and_0',
             iconText: title,
-            iconTextColor: textColor,
-            iconTextSize: Platform.OS === 'ios' ? 18 : 14,
-            id: this.carIdx,
-            offsetX: .5,
-            offsetY: .5,
-            iconTextX: .5,
-            iconTextY: -.35,
-            callOut: false,
-            click: true
+            id: this.carIdx
         };
         this.Marker.add([mkOpts]);
        // console.info(mkOpts)
         mkOpts = {
+            ...Env.marker.car_rotate,
             longitude: pt.longitude,
             latitude: pt.latitude,
-            imageName: Platform.OS === 'ios' ? '91002' : 'res/icons/91002.png',
-            iconTextColor: textColor,
-            iconTextSize: 14,
-            click: true,
             id: this.carIdx,
             direction: pt.direction
         };
@@ -279,18 +259,14 @@ export default class MapLine extends Component {
         //    console.info(pt)
             let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
                 unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
-                npt = index === line.length - 1 ? line[index] : line[index + 1],
-                textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main;
+                npt = index === line.length - 1 ? line[index] : line[index + 1];
             title = title + unit;
             //   console.info(title)
             let mkOpts = {
-                iconTextX: .5,
-                iconTextY: -.35,
+                ...Env.marker.car,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
                 iconText: title,
-                iconTextColor: textColor,
-                iconTextSize: Platform.OS === 'ios' ? 18 : 14,
                 id: this.carIdx
             };
         //    console.info('------------------', 'move car')
@@ -298,9 +274,9 @@ export default class MapLine extends Component {
 
             this.Marker.update([mkOpts]);
             mkOpts = {
+                ...Env.marker.car_rotate,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                imageName: Platform.OS === 'ios' ? '91002' : 'res/icons/91002.png',
                 id: this.carIdx,
                 direction: pt.direction
             };

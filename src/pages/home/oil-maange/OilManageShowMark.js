@@ -108,7 +108,7 @@ export default class OilManageShowMark extends Component {
         })
     }
     renderAi () {
-        let height = this.state.animating ? 80 : 0;
+        let height = this.state.animating ? Env.screen.height / 3 : 0;
         return <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: height, marginTop:Env.screen.height / 3 * Env.font.base}}>
             <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
         </View>

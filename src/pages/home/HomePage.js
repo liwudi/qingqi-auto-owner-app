@@ -30,7 +30,7 @@ import Bbs from './bbs/index';
 import { IconSearch } from '../../components/Icons';
 
 import Env from '../../utils/Env';
-const estyle = Env.style;
+estyle = Env.style;
 
 import { queryOperateStatisToday, choiceCustomer } from '../../services/AppService';
 var CommonModule = NativeModules.CommonModule;
