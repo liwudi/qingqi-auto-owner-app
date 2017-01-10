@@ -52,8 +52,7 @@ export default class MapView extends React.Component {
         return(
             <RCTMapView
                 {...this.props}
-                style={[estyle.containerBackgroundColor, estyle.fx1]}
-
+                style={[estyle.fx1]}
                 onAnnotationClick = {(event)=> {this.props.onIconOverlayClick(event.nativeEvent.pointId);}}
                 onIconOverlayClick = {(event)=> {this.props.onIconOverlayClick(event.nativeEvent.pointId);}}
                 onTap = {()=>{}}
