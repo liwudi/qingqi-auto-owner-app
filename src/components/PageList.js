@@ -155,6 +155,7 @@ export default class PageList extends Component {
                         />
                     }
                     enableEmptySections={true}
+                    removeClippedSubviews={Env.isIOS ? false : true}
                     dataSource={this.state.ds}
                     renderRow={this.props.renderRow}
                     renderFooter={() => {

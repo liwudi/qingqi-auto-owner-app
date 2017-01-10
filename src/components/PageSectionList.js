@@ -187,6 +187,7 @@ export default class PageSectionList extends Component {
                     initialListSize={1000}
                     showsVerticalScrollIndicator={false}
                     enableEmptySections={true}
+                    removeClippedSubviews={Env.isIOS ? false : true}
                     dataSource={this.state.ds}
                     renderRow={this.props.renderRow}
                     renderSectionHeader={(sectionData, sectionId) =>
