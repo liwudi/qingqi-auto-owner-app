@@ -35,7 +35,7 @@ public class HeadImageView extends CircleImageView {
                 .showImageOnLoading(defaultIcon)
                 .showImageOnFail(defaultIcon)
                 .cacheInMemory(true)
-                .cacheOnDisk(true)
+                .cacheOnDisk(false)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
     }

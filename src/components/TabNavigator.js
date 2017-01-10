@@ -24,6 +24,7 @@ export default class TabNavigator extends Component {
 
     changeTab(index){
         this.tabBar.changeTab(index, false);
+
     }
 
     render(){
@@ -34,12 +35,12 @@ export default class TabNavigator extends Component {
                 navigationBar={<TabBar ref={(tabBar) => {this.tabBar = tabBar;}} tabs={this.props.tabs} />}
                 configureScene={() => this.props.isSwipe ? Navigator.SceneConfigs.HorizontalSwipeJump : Navigator.SceneConfigs.FadeAndroid}
                 onDidFocus={(router) => {
-                    this.tabBar.changeTab(router.index, false);
+                    this.tabBar.changeTab(router.index, false)
                     this.props.onChangeTab(router.index);
                 }}
                 renderScene={(route, navigator) => {
                     let Component = route.component;
-                    return <View style={{flex:1,paddingTop: Env.font.base * 84}}>
+                    return <View style={[{flex:1,paddingTop: Env.font.base * 84}]}>
                             <Component
                                 {...this.props}
                                 {...route.props}

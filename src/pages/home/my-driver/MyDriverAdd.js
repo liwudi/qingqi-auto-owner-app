@@ -10,7 +10,8 @@ import {
 	TouchableOpacity,
 	TextInput,
 	StyleSheet,
-	Image
+	Image,
+	Platform
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -89,16 +90,19 @@ export default class MyDriverAdd extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="添加司机"/>
-                <TouchableOpacity onPress={this.toAddForContacts.bind(this)} style ={[estyle.fxRow,estyle.fxRowCenter,estyle.padding,estyle.cardBackgroundColor]}>
-                    <Icons.IconAddressBook color={'#FFB30F'} size={Env.font.base * 60}/>
-                    <View style = {estyle.fx1}>
-                        <View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
-                            <Text style={[{fontSize:Env.font.text, color:Env.color.main}]}>手机联系人</Text>
-                            <Text style={[{fontSize:Env.font.note, color:Env.color.note}]}>添加手机通讯录中的司机</Text>
-                        </View>
-                    </View>
-                    <View style={[estyle.padding,estyle.fxRow]}><Icons.IconFire size={Env.font.base * 30} color="red" /><Text style={{fontSize:Env.font.note, color:Env.color.main}}>推荐</Text></View>
-                </TouchableOpacity>
+				{
+					Platform.OS === 'ios' ? null : <TouchableOpacity onPress={this.toAddForContacts.bind(this)} style ={[estyle.fxRow,estyle.fxRowCenter,estyle.padding,estyle.cardBackgroundColor]}>
+						<Icons.IconAddressBook color={'#FFB30F'} size={Env.font.base * 60}/>
+						<View style = {estyle.fx1}>
+							<View style={{justifyContent:'center',marginLeft:20 * Env.font.base,flex:1}}>
+								<Text style={[{fontSize:Env.font.text, color:Env.color.main}]}>手机联系人</Text>
+								<Text style={[{fontSize:Env.font.note, color:Env.color.note}]}>添加手机通讯录中的司机</Text>
+							</View>
+						</View>
+						<View style={[estyle.padding,estyle.fxRow]}><Icons.IconFire size={Env.font.base * 30} color="red" /><Text style={{fontSize:Env.font.note, color:Env.color.main}}>推荐</Text></View>
+					</TouchableOpacity>
+				}
+
 				<View  style={[estyle.fxRowCenter,estyle.marginTop]}>
 					<LabelInput
 						style = {[estyle.borderBottom]}

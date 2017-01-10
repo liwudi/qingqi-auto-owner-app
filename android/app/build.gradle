@@ -136,6 +136,8 @@ def releaseTime() {
 }
 
 dependencies {
+    compile project(':rnkit-actionsheet-picker')
+    compile project(':@remobile/react-native-toast')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.facebook.react:react-native:+'

@@ -9,7 +9,8 @@ import {
     DeviceEventEmitter,
     findNodeHandle,
     TouchableHighlight,
-    Image
+    Image,
+    Platform
 } from "react-native";
 
 import Toast from '../../../../components/Toast';
@@ -26,8 +27,6 @@ let state = STATE_STOPING;
 
 import Decode from './Decode';
 import SpeedLine from './SpeedLine';
-import OilLine from './OilLine';
-
 
 const PLAY_TYPE_SPEED = 0;
 const PLAY_TYPE_OIL = 1;
@@ -85,7 +84,7 @@ const legend = {
 export default class MapLine extends Component {
     constructor() {
         super();
-        this.initZoom = 0;
+        this.initZoom = 1;
         this.zoom = this.initZoom;
         this.center = {
             longitude: 104.621367,
@@ -112,8 +111,6 @@ export default class MapLine extends Component {
     }
 
     initLine(data) {
-/*        this.clearMap();
-        line = null;*/
         if(data.noResult) return;
 
         setTimeout(() => {
@@ -123,14 +120,12 @@ export default class MapLine extends Component {
                 this.setState({progress: 0});
                 this.lineBounds = Decode.getBounds();
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
-                this.Map.getZoomLevel().then((zoom) => {
-                    this.zoom = +zoom;
-                    this.Map.setZoomLevel(Math.floor(zoom));
-                    this.addLine(true);
-                });
+
                 this.addMarker();
                 this.addCar();
+
                 this.setTimes();
+                this.addLine(true);
             }
         }, 500);
     }
@@ -147,19 +142,20 @@ export default class MapLine extends Component {
     shouldComponentUpdate(props, state) {
         let result = props.data && state.initMap;
         if(result) {
-            console.info('--------------------------------------')
-            console.info(props.data)
+        //    console.info('--------------------------------------')
+        //    console.info(props.data)
             if (this.rnTime !== props.time) {
                 this.rnTime = props.time;
                 this.clearMap();
                 this.setState({time: this.rnTime, progress: 0});
-                console.info(props.data.noResult, 'noResult')
+            //    console.info(props.data.noResult, 'noResult')
 
 
                 this.initLine(Object.assign({},props.data));
             }
         }
         return true;
+
     }
     componentWillReceiveProps(props) {
 
@@ -186,19 +182,17 @@ export default class MapLine extends Component {
 
 
     onZoomChange(zoom) {
-        console.info('zoom', zoom)
         this.zoom = zoom;
         this.addLine();
     }
 
     addLine(paint) {
         if(this.dataLength) {
-            //let lines = this.playType === PLAY_TYPE_SPEED ? SpeedLine.get(line, this.zoom, !!paint) : OilLine.get(line, this.zoom, !!paint);
             let lines = SpeedLine.get(line, this.zoom, !!paint, this.playType);
             if (lines.length) {
                 this.Line.clear();
                 this.Line.add([lines.shift()]);
-                this.Line.add(lines);
+                lines.length && this.Line.add(lines);
                 this.moveCar(this.pointIndex);
             }
         }
@@ -210,20 +204,25 @@ export default class MapLine extends Component {
             e = Object.assign({}, line[line.length - 1]);
         let list = [s, e],
             pts = [],
-            markers = [];
+            markers = [],
+            textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main;
+
         list.forEach((item, idx) => {
-            let imageName = idx ? "ic_end" : "ic_start",
+            let imageName = idx ? "10020" : "10010",
                 pt = item;
             mkOpts = {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                imageName: imageName,
+                title: '',
+                imageName: Platform.OS === 'ios' ? imageName : 'and_' + imageName,
                 iconText: '',
-                iconTextColor: Env.color.main,
+                iconTextColor: textColor,
                 iconTextSize: 14,
+                iconTextY:0,
+                iconTextX:0,
                 id: idx,
                 offsetX: .5,
-                offsetY: .5,
+                offsetY: .8,
                 click: true
             }
             markers.push(mkOpts);
@@ -236,31 +235,37 @@ export default class MapLine extends Component {
         let pt = Object.assign({}, line[0]);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.o,
             unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
-            direction = line[1].direction;
+            textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main;
         title = title + unit;
         let mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
-            title: title,
-            imageName: 'ic_mask',
+            title: '',
+            imageName: Platform.OS === 'ios' ? '910000' : 'and_0',
             iconText: title,
-            iconTextColor: Env.color.main,
-            iconTextSize: 14,
+            iconTextColor: textColor,
+            iconTextSize: Platform.OS === 'ios' ? 18 : 14,
             id: this.carIdx,
             offsetX: .5,
-            offsetY: 17,
+            offsetY: .5,
+            iconTextX: .5,
+            iconTextY: -.35,
+            callOut: false,
             click: true
         };
         this.Marker.add([mkOpts]);
-
+       // console.info(mkOpts)
         mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
-            id: this.carIdx,
+            imageName: Platform.OS === 'ios' ? '91002' : 'res/icons/91002.png',
+            iconTextColor: textColor,
+            iconTextSize: 14,
             click: true,
-            imageName: "res/icons/c1002.png",
+            id: this.carIdx,
             direction: pt.direction
         };
+      //  console.info(mkOpts)
         this.MarkerRotate.add([mkOpts]);
         this.setCurrentTimes(0);
     }
@@ -271,29 +276,36 @@ export default class MapLine extends Component {
         this.pointIndex = index;
         if(line[index]) {
             let pt = Object.assign({}, line[index]);
-            console.info(pt)
+        //    console.info(pt)
             let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
                 unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
-                npt = index === line.length - 1 ? line[index] : line[index + 1];
+                npt = index === line.length - 1 ? line[index] : line[index + 1],
+                textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main;
             title = title + unit;
             //   console.info(title)
             let mkOpts = {
+                iconTextX: .5,
+                iconTextY: -.35,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                imageName: 'ic_mask',
-                title: title,
                 iconText: title,
-                iconTextColor: Env.color.main,
-                iconTextSize: 14,
+                iconTextColor: textColor,
+                iconTextSize: Platform.OS === 'ios' ? 18 : 14,
                 id: this.carIdx
             };
+        //    console.info('------------------', 'move car')
+        //    console.info(mkOpts)
+
             this.Marker.update([mkOpts]);
             mkOpts = {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
+                imageName: Platform.OS === 'ios' ? '91002' : 'res/icons/91002.png',
                 id: this.carIdx,
                 direction: pt.direction
             };
+        //    console.info(mkOpts)
+
             this.MarkerRotate.update([mkOpts]);
             this.setCurrentTimes(index);
         }
@@ -305,10 +317,6 @@ export default class MapLine extends Component {
         SpeedLine.clear();
         line = [];
         this.dataLength = 0;
-        //console.info('mapline')
-        /*this.Map.pause();
-        this.Map.clearOverlays();
-        this.Map.finalize();*/
         this.mapRef = null;
         this.rnTime = null;
         this.data = null;
@@ -317,6 +325,7 @@ export default class MapLine extends Component {
 
 
     changePlayType() {
+    //    console.info(this.playType)
         this.changeTimer && clearTimeout(this.changeTimer);
         this.changeTimer = setTimeout(() => {
             if (this.state.playType === PLAY_TYPE_SPEED) {

@@ -116,19 +116,23 @@
         <service
             android:name="com.mapbar.pushservice.mapbarpush.service.MapbarPushService"
             android:exported="true"
-            android:process=":mapbarpush_v1" >
-            <intent-filter android:priority="1000" >
+            android:process=":mapbarpush_v1">
+            <intent-filter android:priority="1000">
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <service android:name="com.mapbar.pushservice.mapbarpush.service.MapbarPushService$InnerService" />
         <service
             android:name="com.mapbar.pushservice.mapbarpush.service.MapbarPushDaemonService"
-            android:exported="true" >
-            <intent-filter android:priority="1000" >
+            android:exported="true">
+            <intent-filter android:priority="1000">
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
+        <!-- 这个service是用来启动被杀的mapbarpushservice -->
+        <service
+            android:name="com.mapbar.pushservice.mapbarpush.service.KeepLiveService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver android:name="com.mapbar.pushservice.mapbarpush.receiver.MapbarPushServiceReceiver" >
             <intent-filter>

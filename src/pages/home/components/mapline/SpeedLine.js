@@ -96,6 +96,7 @@ const clear = () => {
     pointGroup = [];
 };
 const get = (line, mapLevel, paint, typeIdx) => {
+    let idx = 0;
     let lines = [], _tmp1 = null;
     type = typeIdx ? 'oil' : 'speed';
     console.info(type, 'type')
@@ -110,7 +111,7 @@ const get = (line, mapLevel, paint, typeIdx) => {
         }
         lines.push(baseLine);
         addBaseLine = (_line) => {
-            baseLine.locations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup});
+            baseLine.locations.push({latitude: _line.latitude, longitude: _line.longitude, levelGroup: _line.levelGroup, id: idx ++});
         };
         if(!pointGroup[groupIdx]) {
             line.map((_line, index) => {
@@ -145,9 +146,9 @@ const get = (line, mapLevel, paint, typeIdx) => {
                     speedType: getSpeedType(_line[type])
                 };
             if (_tmp1.locations.length === 0 && index > 0) {
-                _tmp1.locations.push({latitude: pts[index - 1].latitude, longitude: pts[index - 1].longitude});
+                _tmp1.locations.push({latitude: pts[index - 1].latitude, longitude: pts[index - 1].longitude, id: idx ++});
             }
-            _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude});
+            _tmp1.locations.push({latitude: _line.latitude, longitude: _line.longitude, id: idx ++});
 
             if (index === pts.length - 1 || getSpeedType(pts[index + 1][type]) !== _tmp1.speedType) {
                 lines.push(Object.assign({}, _tmp1));
@@ -155,16 +156,16 @@ const get = (line, mapLevel, paint, typeIdx) => {
             }
         });
 
-        console.info(lines.length)
-        console.info('levelGroup')
-    //    console.info('baseLocations', baseLocations.length)
+//        console.info(lines.length)
+  //      console.info('levelGroup')
+        //    console.info('baseLocations', baseLocations.length)
     }
 
 
 
 
-    console.info('lines', lines.length)
-    console.info(pointGroup.length);
+    //console.info('lines', lines.length)
+   // console.info(pointGroup.length);
     return lines.map((line, index) => {
         line.isClose = false;
         line.lineId = index;

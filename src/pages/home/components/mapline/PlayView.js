@@ -53,11 +53,11 @@ export default class PlayView extends Component {
     }
     getIntervalTime () {
         totalTime = this.props.totalTime;
-        console.info('-----------------------------------------------------------ffffffffffffff')
+    //    console.info('-----------------------------------------------------------ffffffffffffff')
         console.info(totalTime, 'totalTime')
         if(!onePonitTime && totalTime) {
             let hour = Math.ceil(totalTime / 1000 / 60 / 60);
-            console.info(hour, 'hour')
+        //    console.info(hour, 'hour')
             console.info(minHour, 'minHour')
             if(hour <= minHour) {
                 hour = minHour;

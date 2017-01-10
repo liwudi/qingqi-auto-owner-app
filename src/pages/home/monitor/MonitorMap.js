@@ -13,7 +13,8 @@ import {
     findNodeHandle,
     TouchableHighlight,
     ActivityIndicator,
-    Image
+    Image,
+    Platform
 } from "react-native";
 
 import Toast from '../../../components/Toast';
@@ -100,8 +101,11 @@ export default class MonitorMap extends Component {
             console.info('status catch')
             Toast.show('获取状态列表异常', Toast.SHORT);
         }).finally(() => {
-            this.times[0] = setTimeout(() => {
+            if(this.times[0]) return;
+            this.times[1] = setTimeout(() => {
                 this.fetchStatus();
+                clearTimeout(this.times[0]);
+                this.times[0] = null;
             }, STATUS_TIMEOUT * 1000);
         })
     }
@@ -153,8 +157,11 @@ export default class MonitorMap extends Component {
             Toast.show('获取单车监控信息异常', Toast.SHORT);
             console.info('single catch')
         }).finally(() => {
+            if(this.times[1]) return;
             this.times[1] = setTimeout(() => {
                 this.fetchDataSingle();
+                clearTimeout(this.times[1]);
+                this.times[1] = null;
             }, TIMEOUT * 1000);
         })
     }
@@ -200,23 +207,15 @@ export default class MonitorMap extends Component {
             }).finally(() => {
                 this.setState({animating: false});
                 this.requesting = false;
+                if(this.times[2]) return;
                 this.times[2] = setTimeout(() => {
                     this.fetchDataAll();
+                    clearTimeout(this.times[2]);
+                    this.times[2] = null;
                 }, TIMEOUT * 1000);
             })
         });
     }
-
-   /* pauseView() {
-        this.requestStop();
-        this.Map.pause();
-    }
-
-    resumeView() {
-        this.Map.setMapRef(this.mapRef);
-        this.Map.resume();
-        this.requestStart();
-    }*/
 
     requestStop() {
         this.stopRequest = true;
@@ -255,47 +254,53 @@ export default class MonitorMap extends Component {
                 list['carId_' + item.carId] = item;
                 this.addMarkerOpts(item, idx);
             });
+            console.info('清理旧标注')
             this.Map.clearOverlays();
+            console.info('添加新标注')
             this.Marker.add(this.markers);
             this.MarkerRotate.add(this.markers_d);
         }
     }
 
     addMarkerOpts(data, idx) {
+        console.info(data, 'data')
         let iconText = data.carNo || data.carCode,
-            ox = 0.5,
-            oy = 17,
-            imageName = "res/icons/c100" + data.travelStatus + ".png",
+            ity = Platform.OS === 'ios' ? -.12 : -.35,
+            imageName = "9100" + data.travelStatus,
+            textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main,
+            iconTextSize = Platform.OS === 'ios' ? 18 : 14,
             direction = 360 - data.direction;
-        if (data.count > 1) {
+        if (data.count && data.count > 1) {
             iconText = data.count.toString();
-            ox = 0.2;
-            oy = 0;
             direction = 0;
-            imageName = "res/icons/c1002-e.png";
+            ity = .5,
+            imageName = '910026';
+            iconTextSize = 14;
         }
         let pt = this.MPoint([data.longitude, data.latitude]),
             mkOpts = {
                 longitude: pt.longitude,
                 latitude: pt.latitude,
                 title: '',
-                imageName: 'ic_mask',
+                imageName: Platform.OS === 'ios' ? '910000' : 'and_0',
+                iconTextX:.5,
+                iconTextY:ity,
                 iconText: iconText,
-                iconTextColor: Env.color.main,
-                iconTextSize: 14,
+                iconTextColor: textColor,
+                iconTextSize: iconTextSize,
                 id: idx,
-                offsetX: ox,
-                offsetY: oy,
+                offsetX: .5,
+                offsetY: .5,
+                callOut: false,
                 click: true
             };
-
         this.markers.push(mkOpts);
         mkOpts = {
             longitude: pt.longitude,
             latitude: pt.latitude,
             id: idx,
             click: true,
-            imageName: imageName,
+            imageName: Platform.OS === 'ios' ? imageName : "res/icons/" + imageName + ".png",
             direction: direction
         };
         this.markers_d.push(mkOpts);
@@ -435,7 +440,7 @@ export default class MonitorMap extends Component {
     }
 
     renderDetail() {
-        return <View>
+        return <View style={[estyle.cardBackgroundColor]}>
             {
                 this.state.detail
                     ?  <StatusDetail data={this.state.detail} onPress={() => {
@@ -453,7 +458,7 @@ export default class MonitorMap extends Component {
 
     renderButton() {
         return this.state.data ?
-            <View style={[estyle.fxRow, estyle.borderTop, estyle.paddingVertical, {zIndex:100}]}>
+            <View style={[estyle.fxRow,estyle.cardBackgroundColor, estyle.borderTop, estyle.paddingVertical, {zIndex:100}]}>
                 <Button style={[estyle.fx1, estyle.borderRight, estyle.fxRow, estyle.fxCenter]}
                         onPress={()=> {
                             this.setMonitor()

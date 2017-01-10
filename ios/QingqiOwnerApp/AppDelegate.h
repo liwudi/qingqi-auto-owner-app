@@ -8,8 +8,9 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <iNaviCore/MBEngine.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,MBEngineDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 

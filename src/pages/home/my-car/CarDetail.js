@@ -181,7 +181,7 @@ export default class CarDetail extends Component {
                             <Text style={[estyle.text, {textAlign: 'left'}]}>主驾驶</Text>
                         </View>
                         <View style={[estyle.fxCenter]}>
-                            <TouchableOpacity style={[{borderRadius: basefont * 5,borderColor:Env.color.main,borderWidth:data.mainDriver ? 0.5 :0}, estyle.paddingHorizontal,estyle.fxRow, estyle.fxRowCenter]} onPress={
+                            <TouchableOpacity style={[{paddingVertical:basefont * 6,borderRadius: basefont * 5,borderColor:Env.color.main,borderWidth:data.mainDriver ? 0.5 :0}, estyle.paddingHorizontal,estyle.fxRow, estyle.fxRowCenter]} onPress={
                                 ()=> {
                                     data.mainDriverPhoneNum && this.props.callTo(data.mainDriverPhoneNum);
                                 }
@@ -205,7 +205,8 @@ export default class CarDetail extends Component {
                             <Text style={[estyle.text, {textAlign: 'left'}]}>副驾驶</Text>
                         </View>
                         <View style={[estyle.fxCenter]}>
-                            <TouchableOpacity style={[{borderRadius: basefont * 5,borderColor:Env.color.main,borderWidth:data.subDriver ? 0.5 :0},estyle.paddingHorizontal,estyle.fxRow, estyle.fxRowCenter]} onPress={
+                            <TouchableOpacity style={[{paddingVertical:basefont * 6,
+                            borderRadius: basefont * 5,borderColor:Env.color.main,borderWidth:data.subDriver ? 0.5 :0},estyle.paddingHorizontal,estyle.fxRow, estyle.fxRowCenter]} onPress={
                                 ()=> {
                                     data.subDriverPhoneNum && this.props.callTo(data.subDriverPhoneNum);
                                 }

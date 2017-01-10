@@ -7,7 +7,7 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet,DatePickerAndroid
+    StyleSheet
 } from 'react-native';
 import moment from 'moment';
 
@@ -17,6 +17,7 @@ import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import ConfirmButton from '../../../components/ConfirmButton';
 import Env from '../../../utils/Env';
 import Toast from '../../../components/Toast';
+import DatePicker from '../../../components/picker/DatePicker';
 const estyle = Env.style;
 
 export default class OilManageCarList extends Component {
@@ -28,7 +29,7 @@ export default class OilManageCarList extends Component {
         }
     }
     datePicker(type) {
-        DatePickerAndroid.open(
+        DatePicker.open(
             {
                 date: type == 'start' ?
                 this.state.beginDate ? new Date(this.state.beginDate.split('.')[0],this.state.beginDate.split('.')[1]-1,this.state.beginDate.split('.')[2]): new Date()
@@ -36,9 +37,12 @@ export default class OilManageCarList extends Component {
                 this.state.endDate ? new Date(this.state.endDate.split('.')[0],this.state.endDate.split('.')[1]-1,this.state.endDate.split('.')[2]) : new Date()
             }
         ).then((obj) => {
+            //console.info('datepicker', obj)
             let month= obj.month < 9 ? '0'+(obj.month+1) : obj.month+1,
                 day= obj.day < 10 ? '0'+obj.day : obj.day;
-            if (obj.action !== DatePickerAndroid.dismissedAction) {
+            //console.info(DatePicker.dismissedAction)
+            if (obj.action !== DatePicker.dismissedAction) {
+            //    console.info(type)
                 if (type == 'start') {
                     this.setState({beginDate: obj.year + '.' + month + '.' + day});
                 } else if (type == 'end') {
