@@ -30,11 +30,13 @@ import Bbs from './bbs/index';
 import { IconSearch } from '../../components/Icons';
 
 import Env from '../../utils/Env';
-estyle = Env.style;
+
 
 import { queryOperateStatisToday, choiceCustomer } from '../../services/AppService';
 var CommonModule = NativeModules.CommonModule;
 
+
+estyle = Env.style;
 
 export default class HomePage extends Component {
 

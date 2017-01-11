@@ -83,7 +83,6 @@ class FindPassword extends Component {
 						source={{uri: getCaptcha(this.state.phone, CAPTCHA_TYPE_FIND_PASSWORD)}}
 					/></Button>;
 				}
-
 				return this.imgCapthCache;
 			}else{
 				return <View/>
@@ -100,6 +99,7 @@ class FindPassword extends Component {
 						style={[estyle.marginTop, estyle.borderBottom]}
 						onChangeText={phone => this.onPhoneChange(phone)}
 						require={true}
+						placeholder={'注册时所填手机'}
 						labelSize="3"
 					/>
 					<LabelInput
