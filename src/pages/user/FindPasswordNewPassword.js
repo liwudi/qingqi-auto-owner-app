@@ -60,7 +60,6 @@ class FindPasswordNewPassword extends Component {
 						onChangeText={password => this.setState({password})}
 						require={true}
 					/>
-
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>

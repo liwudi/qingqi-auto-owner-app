@@ -26,6 +26,8 @@ import AboutUs from './AboutUs';
 import { getAppVersion, checkUpdate } from '../../services/UpdateService';
 
 import { UserActions } from '../../actions';
+import CouponList  from './coupon/CouponList';
+import { couponNum } from '../../services/ServiceStationService';
 
 import Toast from '../../components/Toast';
 
@@ -76,6 +78,7 @@ class UserCenterHome extends Component {
                 versionCode : v.versionCode
             })
         });
+        couponNum().then((data)=>{ this.setState({coupon:data.num}) });
         this._checkUpdate(false);
     }
 
@@ -122,6 +125,12 @@ class UserCenterHome extends Component {
                     {/*{userInfo.role === 4 ? <ViewForRightArrow style={[estyle.marginTop]} onPress = {() => this.goTo(ManagerList)}>*/}
                         {/*<Text style={estyle.text}>车队管理员</Text>*/}
                     {/*</ViewForRightArrow> : null}*/}
+                    <ViewForRightArrow onPress = {() => this.goTo(CouponList)}>
+                        <View style={[estyle.fxRow]}>
+                            <Text style={[estyle.text,estyle.fx1]}>优惠券</Text>
+                            <Text style={[estyle.text,{color:Env.color.main}]}>{this.state.coupon}</Text>
+                        </View>
+                    </ViewForRightArrow>
 
                 <ViewForRightArrow style={[estyle.marginTop]}  onPress={this._checkUpdate.bind(this)}>
                     <View style={{flexDirection:'row'}}>

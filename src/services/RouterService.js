@@ -48,11 +48,18 @@ export default class RouterService {
     resetTo(page, props){
         this.navigator.resetTo(Page(page, props));
     }
-    popN(num){
-        if(num && typeof num == 'number'){
-            this.navigator.popN(num);
+    popN(num,props){
+        if(props){
+            let _routers = this.navigator.getCurrentRoutes();
+            let prePage = _routers[_routers.length - num];
+            Object.assign(prePage.props, props);
+            this.navigator.replacePreviousAndPop(prePage);
         }else {
-            this.navigator.pop();
+            if(num && typeof num == 'number'){
+                this.navigator.popN(num);
+            }else {
+                this.navigator.pop();
+            }
         }
     }
     pop(props){
