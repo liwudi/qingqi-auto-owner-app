@@ -111,19 +111,22 @@ export default class MapLine extends Component {
     }
 
     initLine(data) {
+        this.lineExist = false;
         if(data.noResult) return;
-
+        line = data = Decode.setData(data);
+        if (data.length) {
+            this.lineBounds = Decode.getBounds();
+            this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
+        }
         setTimeout(() => {
-            line = data = Decode.setData(data);
             if (data.length) {
                 this.dataLength = data.length;
                 this.setState({progress: 0});
-                this.lineBounds = Decode.getBounds();
-                this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                 this.addMarker();
                 this.addCar();
                 this.setTimes();
                 this.addLine(true);
+                this.lineExist = true;
             }
         }, 500);
     }
@@ -180,7 +183,7 @@ export default class MapLine extends Component {
 
     onZoomChange(zoom) {
         this.zoom = zoom;
-        this.addLine();
+        this.lineExist && this.addLine();
     }
 
     addLine(paint) {
@@ -346,7 +349,12 @@ export default class MapLine extends Component {
     //    console.info(this.state)
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                {
+                <View style={[estyle.cardBackgroundColor, {
+                    position:'absolute',
+                    zIndex:100,
+                    left:0, width: Env.screen.width,
+                    height:this.dataLength ? Env.font.base * 146 : 0,
+                }]}>
                     <PlayView
                         dataLength={this.dataLength}
                         totalTime={this.state.totalTime}
@@ -357,10 +365,8 @@ export default class MapLine extends Component {
                         }} pause={() => {
                         this.pauseMoveCar()
                     }}/>
-                }
-
-                {this.dataLength ? this.renderTimes() : null}
-
+                    {this.dataLength ? this.renderTimes() : null}
+                </View>
                 <MapbarMap legend={this.renderLegend()}
                            zoom={this.initZoom}
                            center={this.center}

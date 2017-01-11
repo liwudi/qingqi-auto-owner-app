@@ -17,6 +17,7 @@ const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist
 const ServerBase = {
     QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
+    SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
@@ -32,18 +33,21 @@ const Servers = {
         QINGQI: 'http://10.30.50.151:8950/qingqi/',
         WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
+        SERVICE_STATION: 'http://10.30.50.151:8950/qingqi/',
     },
     ServerDebug153:{
         ...ServerBase,
         QINGQI: 'http://10.30.50.153:8950/qingqi/',
         WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
+        SERVICE_STATION: 'http://10.30.50.153:8950/qingqi/',
     },
     ServerDebug:{
         ...ServerBase,
         QINGQI: 'http://61.161.238.158:8950/qingqi/',
         WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
+        SERVICE_STATION:'http://61.161.238.158:8950/qingqi/',
     },
     ServerRelease:{
         ...ServerBase,
