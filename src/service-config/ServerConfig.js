@@ -10,7 +10,7 @@ if(!DEBUG) {
 }
 
 let ServerConfig = {
-    ...Config.servers.ServerDebug,
+    ...Config.server,
     defaultPage : {
         page_number: 1,
         page_size: 20,
@@ -18,7 +18,7 @@ let ServerConfig = {
     },
     APP_TYPE: Config.APP_TYPE,
     APP_PRODUCT: Config.APP_PRODUCT,
-    DEVICE_ID: 'test-ios',
+    DEVICE_ID: '',
     DEVICE_TYPE: Config.DEVICE_TYPE
 };
 
