@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, View, Platform} from "react-native";
+import {StyleSheet, View} from "react-native";
 import MapView from  './MapView';
 import * as instance from './MapbarMapInstance';
 import Toast from '../components/Toast';
@@ -10,7 +10,7 @@ const estyle = eStyles = Env.style;
 export default class MapbarMap extends Component {
     constructor() {
         super();
-        this.maxMapLevel = Platform.OS === 'ios' ? 16 : 14;
+        this.maxMapLevel = Env.isIOS ? 16 : 14;
         this.options = {
             zoom: 1,
             center: {

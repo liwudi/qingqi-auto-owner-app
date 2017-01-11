@@ -99,8 +99,8 @@ const get = (line, mapLevel, paint, typeIdx) => {
     let idx = 0;
     let lines = [], _tmp1 = null;
     type = typeIdx ? 'oil' : 'speed';
-    console.info(type, 'type')
-    console.info('map level', mapLevel);
+    //console.info(type, 'type')
+    //console.info('map level', mapLevel);
     if(! (mapLevel >= minLevel && mapLevel <= maxLevel) || paint) {
         mapLevel = Math.floor(mapLevel);
         let baseType = 'SPEED_1',
@@ -139,7 +139,7 @@ const get = (line, mapLevel, paint, typeIdx) => {
                 pts.push(Object.assign({}, _line));
             }
         });*/
-        console.info(pts.length, 'pts.length')
+    //    console.info(pts.length, 'pts.length')
         pts.map((_line, index) => {
             _tmp1 = _tmp1 || {
                     locations: [],

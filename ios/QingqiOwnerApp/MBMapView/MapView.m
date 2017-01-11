@@ -663,9 +663,9 @@
 //   NSLog(@"地图初始化完成事件");
   //self.onZoom(@{@"zoomLevel":@(mapView.zoomLevel),@"scale":@(mapView.zoomLevel/self.lastZoomLevel)});
   if(self.lastZoomLevel > self.zoomLevel) {
-    self.onZoomIn(@{@"zoomLevel":@(self.lastZoomLevel)});
-  } else {
     self.onZoomOut(@{@"zoomLevel":@(self.lastZoomLevel)});
+  } else {
+    self.onZoomIn(@{@"zoomLevel":@(self.lastZoomLevel)});
   }
   self.lastZoomLevel = mapView.zoomLevel;
   
