@@ -32,7 +32,7 @@ public class Location {
     /**
      * 初始化定位
      */
-    private static void initLocation() {
+    public static void initLocation() {
         try {
             if (mLocationClient == null) {
                 MyLocationListen myLocationListen = new MyLocationListen();
@@ -165,6 +165,7 @@ public class Location {
     }
 
     public static void startLocation(Context conxt, Promise prom) {
+        LogUtils.logd(TAG, "----------startLocation------");
         promise = prom;
         context = conxt;
         initLocation();

@@ -23,7 +23,7 @@ import {
 import Toast from '../components/Toast';
 import {MessageActions} from '../actions/index';
 import Guide2 from './guide2';
-import {addEventSystemBack} from '../utils/SystemEvents';
+import {addEventSystemBack} from '../utils/CommModule';
 import Router from '../services/RouterService';
 import Env from '../utils/Env'
 const estyle = Env.style;
