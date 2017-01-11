@@ -19,6 +19,9 @@ DatePicker.open = function (data) {
     return new Promise(function (resolve, reject) {
         DatePicker.show({
             titleText: '选择日期',
+            yearText: '年',
+            monthText: '月',
+            dayText: '日',
             selectedDate: date,
             minimumDate: minimumDate,
             maximumDate: maximumDate,

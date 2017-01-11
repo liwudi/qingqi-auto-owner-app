@@ -1,5 +1,7 @@
 import {PixelRatio, Dimensions, StatusBar, Platform} from 'react-native';
 
+import Config from '../config';
+
 const {width, height} = Dimensions.get('window');
 
 const fontScale = PixelRatio.getFontScale(),
@@ -26,7 +28,7 @@ const fontSize = {
 };
 
 const color = {
-    main: '#4f77db',  //司机端主色
+    main: Config.mainColor,  //司机端主色
     auxiliary: '#ff9c00',  //辅色
     bg: '#f5f5f5',  //背景
     line: '#e5e5e5',  //（分隔）线

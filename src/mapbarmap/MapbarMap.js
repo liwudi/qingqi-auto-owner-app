@@ -10,9 +10,9 @@ const estyle = eStyles = Env.style;
 export default class MapbarMap extends Component {
     constructor() {
         super();
-        this.maxMapLevel = 14;
+        this.maxMapLevel = Platform.OS === 'ios' ? 16 : 14;
         this.options = {
-            zoom: Platform.OS === 'ios' ? 1 : 0,
+            zoom: 1,
             center: {
                 longitude: 115.95380,//2868291,11595380
                 latitude: 28.68291
@@ -54,6 +54,7 @@ export default class MapbarMap extends Component {
         instance.zoomIn();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
+                //console.info('btn-onZoomIn', zoom)
                 this.onZoomIn(zoom);
             });
         })
@@ -63,6 +64,7 @@ export default class MapbarMap extends Component {
         instance.zoomOut();
         this.zoomTimeout(() => {
             instance.getZoomLevel().then((zoom) => {
+                //console.info('btn-onZoomOut', zoom)
                 this.onZoomOut(zoom);
             });
         })

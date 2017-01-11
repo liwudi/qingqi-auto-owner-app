@@ -55,7 +55,8 @@ function decodeLevels(encoded) {
     }
     return result;
 }
-let minLng = minLat = maxLng = maxLat = 0,  df = 0;
+let minLng, minLat, maxLng, maxLat, df;
+minLng = minLat = maxLng = maxLat = 0, df = 0;
 const setBounds = (pt) => {
     if(!minLng) minLng = maxLng = pt.longitude;
     if(!minLat) minLat = maxLat = pt.latitude;

@@ -1,18 +1,17 @@
 'use strict';
 import React, { Component } from 'react';
-import { NativeModules, View, AppState } from 'react-native';
+import { View, AppState } from 'react-native';
 import { Provider } from 'react-redux'
 
 import configureStore from './configure-store';
 
 import Main from './pages/Main';
 import Env from './utils/Env';
+import { pushModule } from './utils/CommModule';
+
 
 const estyle = Env.style;
 import ServerConfig from './service-config/ServerConfig';
-
-//获取设备id
-var pushModule = NativeModules.MarbarPushModule;
 
 pushModule.getDeviceId().then((r) => {
 	global.deviceId = r.deviceId;

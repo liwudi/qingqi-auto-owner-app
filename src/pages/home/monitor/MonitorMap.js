@@ -265,34 +265,24 @@ export default class MonitorMap extends Component {
     addMarkerOpts(data, idx) {
         console.info(data, 'data')
         let iconText = data.carNo || data.carCode,
-            ity = Platform.OS === 'ios' ? -.12 : -.35,
+            ity = Env.marker.car.iconTextY,
             imageName = "9100" + data.travelStatus,
-            textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main,
-            iconTextSize = Platform.OS === 'ios' ? 18 : 14,
             direction = 360 - data.direction;
         if (data.count && data.count > 1) {
             iconText = data.count.toString();
             direction = 0;
-            ity = .5,
             imageName = '910026';
-            iconTextSize = 14;
+            ity = .5;
         }
         let pt = this.MPoint([data.longitude, data.latitude]),
             mkOpts = {
+                ...Env.marker.car,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                title: '',
-                imageName: Platform.OS === 'ios' ? '910000' : 'and_0',
-                iconTextX:.5,
-                iconTextY:ity,
                 iconText: iconText,
-                iconTextColor: textColor,
-                iconTextSize: iconTextSize,
                 id: idx,
-                offsetX: .5,
-                offsetY: .5,
-                callOut: false,
-                click: true
+                click: true,
+                iconTextY: ity
             };
         this.markers.push(mkOpts);
         mkOpts = {
@@ -300,7 +290,7 @@ export default class MonitorMap extends Component {
             latitude: pt.latitude,
             id: idx,
             click: true,
-            imageName: Platform.OS === 'ios' ? imageName : "res/icons/" + imageName + ".png",
+            imageName: `${Env.marker.icon.resPre}${imageName}${Env.marker.icon.resSuf}`,
             direction: direction
         };
         this.markers_d.push(mkOpts);
@@ -475,12 +465,12 @@ export default class MonitorMap extends Component {
             </View> : <View style={[{height:1}]}/>;//<ListItem left="选择监控车辆"/>
     }
 
-	renderAi () {
-		let height = this.state.animating ? 80 : 0;
-		return <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: height, marginTop:Env.screen.height / 3 * Env.font.base}}>
-			<ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
-		</View>
-	}
+    renderAi () {
+        let height = this.state.animating ? Env.screen.height / 3 : 0;
+        return <View style={{position:'absolute', zIndex:10, width: Env.screen.width, height: height, marginTop:Env.screen.height / 3 * Env.font.base}}>
+            <ActivityIndicator animating={this.state.animating} color={[Env.color.main]} size="large"/>
+        </View>
+    }
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>

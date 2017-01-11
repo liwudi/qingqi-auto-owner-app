@@ -285,7 +285,7 @@ RCT_EXPORT_METHOD(getZoomLevel:(nonnull NSNumber *)reactTag
 RCT_EXPORT_METHOD(setZoomIn:(nonnull NSNumber *)reactTag){
   MapView *myView = [self getViewWithTag:reactTag];
   float zoomLevel = [myView getZoomLevelValue];
-  if(zoomLevel < 14){
+  if(zoomLevel < 16){
     [myView setZoomLevel:zoomLevel + 1 animated:YES];
   }
 }
