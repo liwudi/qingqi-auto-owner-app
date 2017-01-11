@@ -120,7 +120,7 @@ export default class OilManageSetMark extends Component {
                         ]
                 } visible={false}>
                     <PageList
-                        style={[{height:Env.screen.height/2}]}
+                        style={[{height:(this.state.showSelect ? Env.screen.height/2 : 0)}]}
                         renderRow={(row) => {
                             return (
                                 <ListItem left={row.carCode} right={<BorderButton onPress={() => this.setCar(row)}>选择</BorderButton>} />
@@ -172,6 +172,6 @@ const styles = StyleSheet.create({
         width: Env.screen.width,
         height:0,
         backgroundColor: Env.color.modalBg,
-        top: 84 * basefont
+        top: 84 * basefont + Env.style.iosStatusBarHeight.paddingTop
     }
 });

@@ -120,10 +120,8 @@ export default class MapLine extends Component {
                 this.setState({progress: 0});
                 this.lineBounds = Decode.getBounds();
                 this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
-
                 this.addMarker();
                 this.addCar();
-
                 this.setTimes();
                 this.addLine(true);
             }
@@ -149,7 +147,6 @@ export default class MapLine extends Component {
                 this.clearMap();
                 this.setState({time: this.rnTime, progress: 0});
             //    console.info(props.data.noResult, 'noResult')
-
 
                 this.initLine(Object.assign({},props.data));
             }
@@ -226,8 +223,7 @@ export default class MapLine extends Component {
     addCar() {
         let pt = Object.assign({}, line[0]);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
-            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
-            textColor = Platform.OS === 'ios' ? Env.color.main.replace('#','') : Env.color.main;
+            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km';
         title = title + unit;
         let mkOpts = {
             ...Env.marker.car,
@@ -237,7 +233,6 @@ export default class MapLine extends Component {
             id: this.carIdx
         };
         this.Marker.add([mkOpts]);
-       // console.info(mkOpts)
         mkOpts = {
             ...Env.marker.car_rotate,
             longitude: pt.longitude,
@@ -245,23 +240,17 @@ export default class MapLine extends Component {
             id: this.carIdx,
             direction: pt.direction
         };
-      //  console.info(mkOpts)
         this.MarkerRotate.add([mkOpts]);
         this.setCurrentTimes(0);
     }
 
     moveCar(index) {
-        //if(index <= 0) index = 0;
-    //    console.info('-------------------------------------------------------', index)
         this.pointIndex = index;
         if(line[index]) {
             let pt = Object.assign({}, line[index]);
-        //    console.info(pt)
             let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
-                unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
-                npt = index === line.length - 1 ? line[index] : line[index + 1];
+                unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km';
             title = title + unit;
-            //   console.info(title)
             let mkOpts = {
                 ...Env.marker.car,
                 longitude: pt.longitude,
@@ -269,9 +258,6 @@ export default class MapLine extends Component {
                 iconText: title,
                 id: this.carIdx
             };
-        //    console.info('------------------', 'move car')
-        //    console.info(mkOpts)
-
             this.Marker.update([mkOpts]);
             mkOpts = {
                 ...Env.marker.car_rotate,
@@ -280,8 +266,6 @@ export default class MapLine extends Component {
                 id: this.carIdx,
                 direction: pt.direction
             };
-        //    console.info(mkOpts)
-
             this.MarkerRotate.update([mkOpts]);
             this.setCurrentTimes(index);
         }
