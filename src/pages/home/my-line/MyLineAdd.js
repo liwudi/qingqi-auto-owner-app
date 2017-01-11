@@ -251,6 +251,7 @@ export default class MyLineAdd extends Component {
             deleteRoute(this.props.routeId)
                 .then((rs) => {
                     Toast.show('删除成功', Toast.SHORT);
+                    this.props.refresh();
                     this.props.router.pop();
                 })
                 .catch(e => {
