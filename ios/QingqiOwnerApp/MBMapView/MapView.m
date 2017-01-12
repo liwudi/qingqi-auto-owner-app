@@ -253,6 +253,7 @@
     MBAnnotation *ano = anoArr[0];
     if(ano) {
       ano.position = point;
+      ano.title = dict[@"title"];//文本内容
       CGPoint cgPoint = {[dict[@"iconTextX"] floatValue], [dict[@"iconTextY"] floatValue]};
       [ano setIconText:dict[@"iconText"] UIColor:[UIColor colorWithHexString:dict[@"iconTextColor"]] anchor:cgPoint];
       [ano setIconTextSize:[dict[@"iconTextSize"] intValue]];
