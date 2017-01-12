@@ -1,5 +1,5 @@
 /**
- * Created by linyao on 2016/12/26.
+ * Created by mapbar on 2017/1/12.
  */
 import React, { Component } from 'react';
 import {
@@ -22,7 +22,7 @@ import Toast from '../../../components/Toast';
 
 import Env from '../../../utils/Env';
 import CouponRecord from './CouponRecord';
-const module = NativeModules.MapbarMapModule;
+//const module = NativeModules.MapbarMapModule;
 const estyle = Env.style;
 const basefont=Env.font.base;
 
@@ -30,50 +30,19 @@ export default class CouponDetail extends Component {
     constructor(props) {
         super(props);
         this.state={
-            data:null
-        }
+            data:null,
+            lonlat:null
+        };
     }
     componentDidMount(){
-        module.initLocation();
         couponDetail(this.props.couponId)
             .then((data)=>{
                 this.setState({data:data})
-            })
-        //获取手机位置
-        module.startLocation()
-            .then((res)=>{
-                //longitude 经度 latitude 纬度
-                console.log('位置',res);
-                recommend({
-                    lon: res.longitude,
-                    lat: res.latitude,
-                    activityId:this.props.couponId
-                })
-                    .then((data)=>{
-                        this.setState({serverStation:data})
-                    })
-                    .catch((err)=>{
-                        Toast.show(err.message,Toast.SHORT);
-                    })
-            })
-            .catch(()=>{
-                console.log('获取位置失败');
-                recommend({activityId:this.props.couponId})
-                    .then((data)=>{
-                        this.setState({serverStation:data})
-                    })
-            })
-            .finally(()=>{
-                module.stopLocation();
-            })
-        // navigator.geolocation.getCurrentPosition(
-        //     (position) => {
-        //         let initialPosition = JSON.stringify(position);
-        //         console.log('定位',initialPosition);
-        //     },
-        //     (error) => console.log('定位失败',error.message),
-        //     {enableHighAccuracy: true, timeout: 10000, maximumAge: 1000}
-        // );
+            });
+        recommend({activityId:this.props.couponId})
+            .then((data)=>{
+                this.setState({serverStation:data})
+            });
     }
 
     render() {
@@ -146,7 +115,7 @@ export default class CouponDetail extends Component {
                                         </View> : null
                                 }
                                 <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId})}}>
+                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId,lonlat:this.state.lonlat})}}>
                                         <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
                                     </TouchableOpacity>
                                 </View>

@@ -25,7 +25,8 @@ import HomeRouter from '../HomeRouter';
 import Env from '../../utils/Env';
 import Agreement from './Agreement';
 import { fastLoginSendCode } from '../../services/UserService';
-import SendMobileCode from '../../components/Inputs/SendMobileCode'
+import SendMobileCode from '../../components/Inputs/SendMobileCode';
+import { logOutKefu } from '../../utils/CommModule';
 
 const estyle = Env.style,
     emsg = Env.msg.form,
@@ -43,6 +44,7 @@ class QuickLogin extends Component {
 
     next = (userInfo) => {
         this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
+        logOutKefu(userInfo.userId);
     }
 
     vertify() {
