@@ -38,11 +38,17 @@ export default class CouponDetail extends Component {
         couponDetail(this.props.couponId)
             .then((data)=>{
                 this.setState({data:data})
-            });
+            })
+            .catch((err)=>{
+                Toast.show(err.message,Toast.SHORT);
+            })
         recommend({activityId:this.props.couponId})
             .then((data)=>{
                 this.setState({serverStation:data})
-            });
+            })
+            .catch((err)=>{
+                Toast.show(err.message,Toast.SHORT);
+            })
     }
 
     render() {

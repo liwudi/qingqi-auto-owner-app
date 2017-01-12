@@ -64,6 +64,9 @@ export default class CouponDetail extends Component {
                     .then((data)=>{
                         this.setState({serverStation:data})
                     })
+                    .catch((err)=>{
+                        Toast.show(err.message,Toast.SHORT);
+                    })
             })
             .finally(()=>{
                 module.stopLocation();
