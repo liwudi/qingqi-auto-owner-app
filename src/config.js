@@ -2,7 +2,7 @@
  * Created by ligj on 2017/1/11.
  */
 
-
+import {Platform} from 'react-native';
 
 const Config = {
     mainColor: '#4f77db',  //司机端主色
@@ -10,7 +10,7 @@ const Config = {
     uploadCk: '52b376899aaf4714a4e40e902a1f5aa5', // 应用商店更新key
     APP_TYPE: '0', //0是车主端，1是司机端
     APP_PRODUCT: 'qingqi',
-    DEVICE_TYPE: '2',//1:android,  2:ios   /////qingqi_owner_mobile
+    DEVICE_TYPE: Platform.OS === 'android' ? '1' : '2',//1:android,  2:ios   /////qingqi_owner_mobile
 };
 
 const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=${Config.packageName}&ck=${Config.uploadCk}`;

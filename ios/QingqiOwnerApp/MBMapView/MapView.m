@@ -220,7 +220,7 @@
     calloutStyle.anchor.y = 0;
     annotation.calloutStyle = calloutStyle;
     annotation.title = info[@"title"];//文本内容
-    if([info[@"callOut"] intValue] == 1) {
+    if([info[@"callOut"] boolValue] == true) {
       [annotation showCallout:YES]; //设置气泡可显示
     }
     
