@@ -294,7 +294,8 @@ const marker = {
     },
     car: {
         title: '',
-        imageName: isIOS ? '910000' : 'and_0',
+        iconText: '',
+        imageName: isIOS ? '910000' : 'and_910000',
         iconTextColor: isIOS ? color.main.replace('#','') : color.main,
         iconTextSize: 14,
         offsetX: .5,

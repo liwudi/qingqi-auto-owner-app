@@ -232,8 +232,9 @@ export default class MapLine extends Component {
             ...Env.marker.car,
             longitude: pt.longitude,
             latitude: pt.latitude,
-            iconText: title,
-            id: this.carIdx
+            title: title,
+            id: this.carIdx,
+            callOut: true
         };
         this.Marker.add([mkOpts]);
         mkOpts = {
@@ -254,12 +255,15 @@ export default class MapLine extends Component {
             let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
                 unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km';
             title = title + unit;
+
+            console.info('move car', title)
             let mkOpts = {
                 ...Env.marker.car,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                iconText: title,
-                id: this.carIdx
+                title: title,
+                id: this.carIdx,
+                callOut: true
             };
             this.Marker.update([mkOpts]);
             mkOpts = {
