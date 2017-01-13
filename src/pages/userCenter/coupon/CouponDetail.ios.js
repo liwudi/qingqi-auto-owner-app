@@ -41,7 +41,7 @@ export default class CouponDetail extends Component {
             })
             .catch((err)=>{
                 Toast.show(err.message,Toast.SHORT);
-            })
+            });
         recommend({activityId:this.props.couponId})
             .then((data)=>{
                 this.setState({serverStation:data})
@@ -56,7 +56,7 @@ export default class CouponDetail extends Component {
         return (
             <View style={[estyle.fx1,{backgroundColor:Env.color.bg}]}>
                 <TopBanner {...this.props} title="优惠券" rightView={
-                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:this.props.couponId,vin:data.vin})}
+                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:this.props.couponId,vin:data ? data.vin : ''})}
                      }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button>
                 }/>
                 <ScrollView style={[estyle.paddingHorizontal,estyle.fx1]}>

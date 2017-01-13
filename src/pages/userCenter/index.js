@@ -78,7 +78,7 @@ class UserCenterHome extends Component {
                 versionCode : v.versionCode
             })
         });
-        couponNum().then((data)=>{ this.setState({coupon:data.num}) });
+        couponNum().then((data)=>{ this.setState({coupon:data.num}) }).catch((err)=>{ Toast.show(err.message, Toast.SHORT); });
         this._checkUpdate(false);
     }
 

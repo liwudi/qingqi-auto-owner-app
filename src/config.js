@@ -19,6 +19,7 @@ const ServerBase = {
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
     SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
+    SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
