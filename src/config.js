@@ -2,7 +2,7 @@
  * Created by ligj on 2017/1/11.
  */
 
-
+import {Platform} from 'react-native';
 
 const Config = {
     mainColor: '#4f77db',  //司机端主色
@@ -10,13 +10,14 @@ const Config = {
     uploadCk: '52b376899aaf4714a4e40e902a1f5aa5', // 应用商店更新key
     APP_TYPE: '0', //0是车主端，1是司机端
     APP_PRODUCT: 'qingqi',
-    DEVICE_TYPE: '2',//1:android,  2:ios   /////qingqi_owner_mobile
+    DEVICE_TYPE: Platform.OS === 'android' ? '1' : '2',//1:android,  2:ios   /////qingqi_owner_mobile
 };
 
 const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=${Config.packageName}&ck=${Config.uploadCk}`;
 const ServerBase = {
     QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
+    SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
@@ -33,7 +34,7 @@ const Servers = {
         QINGQI: 'http://10.30.50.151:8950/qingqi/',
         WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
-        SERVICE_STATION: 'http://10.30.50.151:8950/qingqi/'
+        SERVICE_STATION: 'http://10.30.50.151:8950/qingqi/',
     },
     ServerDebug153:{
         ...ServerBase,

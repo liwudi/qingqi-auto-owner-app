@@ -111,19 +111,22 @@ export default class MapLine extends Component {
     }
 
     initLine(data) {
+        this.lineExist = false;
         if(data.noResult) return;
-
+        line = data = Decode.setData(data);
+        if (data.length) {
+            this.lineBounds = Decode.getBounds();
+            this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
+        }
         setTimeout(() => {
-            line = data = Decode.setData(data);
             if (data.length) {
                 this.dataLength = data.length;
                 this.setState({progress: 0});
-                this.lineBounds = Decode.getBounds();
-                this.Map.setBounds(this.lineBounds.min, this.lineBounds.max);
                 this.addMarker();
                 this.addCar();
                 this.setTimes();
                 this.addLine(true);
+                this.lineExist = true;
             }
         }, 500);
     }
@@ -180,7 +183,7 @@ export default class MapLine extends Component {
 
     onZoomChange(zoom) {
         this.zoom = zoom;
-        this.addLine();
+        this.lineExist && this.addLine();
     }
 
     addLine(paint) {
@@ -204,20 +207,29 @@ export default class MapLine extends Component {
             markers = [];
 
         list.forEach((item, idx) => {
-            let imageName = idx ? "10020" : "10010",
+            let imageName = idx ? "910020" : "910010",
                 pt = item;
-            imageName = `${Env.marker.icon.pre}${imageName}`;
+            //imageName = `${Env.marker.icon.pre}${imageName}`;
+            imageName = `${Env.marker.icon.resPre}${imageName}${Env.marker.icon.resSuf}`;
+           /* mkOpts = {
+                ...Env.marker.car_rotate,
+                longitude: pt.longitude,
+                latitude: pt.latitude,
+                imageName: imageName,
+                id: idx + 1
+            }*/
             mkOpts = {
-                ...Env.marker.bubble,
+                ...Env.marker.car_rotate,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
                 imageName: imageName,
                 id: idx
-            }
+            };
+            console.info(mkOpts)
             markers.push(mkOpts);
             pts.push(pt);
         });
-        this.Marker.add(markers);
+        this.MarkerRotate.add(markers);
     }
 
     addCar() {
@@ -229,8 +241,10 @@ export default class MapLine extends Component {
             ...Env.marker.car,
             longitude: pt.longitude,
             latitude: pt.latitude,
-            iconText: title,
-            id: this.carIdx
+            title: title,
+            id: this.carIdx,
+            callOut: true,
+            iconText: '2'
         };
         this.Marker.add([mkOpts]);
         mkOpts = {
@@ -251,12 +265,15 @@ export default class MapLine extends Component {
             let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
                 unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km';
             title = title + unit;
+
+            console.info('move car', title)
             let mkOpts = {
                 ...Env.marker.car,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
-                iconText: title,
-                id: this.carIdx
+                title: title,
+                id: this.carIdx,
+                callOut: true
             };
             this.Marker.update([mkOpts]);
             mkOpts = {
@@ -346,7 +363,12 @@ export default class MapLine extends Component {
     //    console.info(this.state)
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                {
+                <View style={[estyle.cardBackgroundColor, {
+                    position:'absolute',
+                    zIndex:100,
+                    left:0, width: Env.screen.width,
+                    height:this.dataLength ? Env.font.base * 146 : 0,
+                }]}>
                     <PlayView
                         dataLength={this.dataLength}
                         totalTime={this.state.totalTime}
@@ -357,10 +379,8 @@ export default class MapLine extends Component {
                         }} pause={() => {
                         this.pauseMoveCar()
                     }}/>
-                }
-
-                {this.dataLength ? this.renderTimes() : null}
-
+                    {this.dataLength ? this.renderTimes() : null}
+                </View>
                 <MapbarMap legend={this.renderLegend()}
                            zoom={this.initZoom}
                            center={this.center}

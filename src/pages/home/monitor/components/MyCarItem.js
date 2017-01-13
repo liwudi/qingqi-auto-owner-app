@@ -74,7 +74,7 @@ export default class MyCarItem extends Component {
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
         if(this.ridx === null) this.ridx = cidx;
-        console.info('update -----------------------------------')
+        //console.info('update -----------------------------------')
         //this.timer && clearTimeout(this.timer);
         if(cidx === this.ridx) {
             if(this.stopRequest) {
