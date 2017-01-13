@@ -10,6 +10,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
+import com.mapbar.map.CalloutStyle;
 import com.mapbar.map.CustomAnnotation;
 import com.mapbar.map.MapRenderer;
 import com.mapbar.map.Vector2DF;
@@ -85,6 +86,16 @@ public class PointAnnotation extends BaseOverlay {
                     }
                     mapView.getMapRenderer().addAnnotation(mCustomAnnotation);
                     if (readableMap.hasKey("callOut")) {
+                        float callOutX = 0.5f;
+                        float callOutY = 0;
+                        if (readableMap.hasKey("callOutX") && readableMap.hasKey("callOutY")) {
+                            callOutX = (float) readableMap.getDouble("callOutX");
+                            callOutY = (float) readableMap.getDouble("callOutY");
+                        }
+                        CalloutStyle calloutStyle = mCustomAnnotation.getCalloutStyle();
+                        Vector2DF vector2DF =new Vector2DF(callOutX,callOutY);
+                        calloutStyle.anchor.set(vector2DF);
+                        mCustomAnnotation.setCalloutStyle(calloutStyle);
                         mCustomAnnotation.showCallout(readableMap.getBoolean("callOut"));
                     } else {
                         mCustomAnnotation.showCallout(false);

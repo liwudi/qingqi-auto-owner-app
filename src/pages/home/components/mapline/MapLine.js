@@ -207,20 +207,29 @@ export default class MapLine extends Component {
             markers = [];
 
         list.forEach((item, idx) => {
-            let imageName = idx ? "10020" : "10010",
+            let imageName = idx ? "910020" : "910010",
                 pt = item;
-            imageName = `${Env.marker.icon.pre}${imageName}`;
+            //imageName = `${Env.marker.icon.pre}${imageName}`;
+            imageName = `${Env.marker.icon.resPre}${imageName}${Env.marker.icon.resSuf}`;
+           /* mkOpts = {
+                ...Env.marker.car_rotate,
+                longitude: pt.longitude,
+                latitude: pt.latitude,
+                imageName: imageName,
+                id: idx + 1
+            }*/
             mkOpts = {
-                ...Env.marker.bubble,
+                ...Env.marker.car_rotate,
                 longitude: pt.longitude,
                 latitude: pt.latitude,
                 imageName: imageName,
                 id: idx
-            }
+            };
+            console.info(mkOpts)
             markers.push(mkOpts);
             pts.push(pt);
         });
-        this.Marker.add(markers);
+        this.MarkerRotate.add(markers);
     }
 
     addCar() {
@@ -234,7 +243,8 @@ export default class MapLine extends Component {
             latitude: pt.latitude,
             title: title,
             id: this.carIdx,
-            callOut: true
+            callOut: true,
+            iconText: '2'
         };
         this.Marker.add([mkOpts]);
         mkOpts = {
