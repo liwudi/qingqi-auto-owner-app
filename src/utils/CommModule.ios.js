@@ -11,3 +11,10 @@ export const pushModule = {
         return Promise.resolve({deviceId:'test-ios'});
     }
 };
+
+export function logOutKefu(accountId) {
+
+}
+export function startKefuActivity(accountId,userId,type,token) {
+
+}
