@@ -22,7 +22,7 @@ import { setCurrentActivePage } from '../actions/MessageActions';
 import Login from './user/index';
 
 import MainNavBar from '../components/MainNavBar';
-import { addInterceptor } from '../service-config/RequestService';
+import { addInterceptor, interceptAlerting, unInterceptAlerting} from '../service-config/RequestService';
 
 import MyCar from './home/my-car/MyCar';
 
@@ -41,6 +41,7 @@ class HomeRouter extends Component {
 		addInterceptor((res) => {
             if(res && (res.resultCode && res.resultCode === 509) || (res.code && res.code === 1019)){
                 res.message = '账号未登录';
+                interceptAlerting();
                 this.props.alert(
                     '提示',
                     '您的账号已在其它设备登录，如非本人操作，请修改密码！',
@@ -48,6 +49,7 @@ class HomeRouter extends Component {
                         {
                             text:'确定',
                             onPress:() => {
+                                unInterceptAlerting();
                                 this.props.router.resetTo(Login);
                             }
                         }
