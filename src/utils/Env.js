@@ -307,8 +307,9 @@ const marker = {
     },
     car_rotate: {
         imageName: isIOS ? '91002' : 'res/icons/91002.png',
-        iconTextColor: isIOS ? color.main.replace('#','') : color.main,
-        iconTextSize: 14,
+        direction: 0,
+        //iconTextColor: isIOS ? color.main.replace('#','') : color.main,
+        //iconTextSize: 14,
         click: false,
     }
 }
