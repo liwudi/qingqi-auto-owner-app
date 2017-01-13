@@ -23,6 +23,7 @@ import OilManage from './oil-maange/OilManage';
 import TripManage from './oil-maange/TripManage';
 import * as Icons from '../../components/Icons';
 import Toast from '../../components/Toast';
+import { startKefuActivity } from '../../utils/CommModule';
 
 import MessageGoods from '../message/MessageGoods';
 import Bbs from './bbs/index';
@@ -95,7 +96,7 @@ export default class HomePage extends Component {
 
     startCustomerService(){
 		if(this.customerServiceInfo){
-            CommonModule.startKefuActivity(
+            startKefuActivity(
                 this.customerServiceInfo.accountId,
                 this.customerServiceInfo.userId,
                 "1",
@@ -110,7 +111,7 @@ export default class HomePage extends Component {
                 if(this.customerServiceInfoErrorMsg){
                     Toast.show(this.customerServiceInfoErrorMsg, Toast.SHORT);
                 }else{
-                    CommonModule.startKefuActivity(
+                    startKefuActivity(
                         this.customerServiceInfo.accountId,
                         this.customerServiceInfo.userId,
                         "1",
