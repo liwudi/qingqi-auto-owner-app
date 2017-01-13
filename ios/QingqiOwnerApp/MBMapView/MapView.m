@@ -220,7 +220,7 @@
     calloutStyle.anchor.y = 0;
     annotation.calloutStyle = calloutStyle;
     annotation.title = info[@"title"];//文本内容
-    if([info[@"callOut"] intValue] == 1) {
+    if([info[@"callOut"] boolValue] == true) {
       [annotation showCallout:YES]; //设置气泡可显示
     }
     
@@ -253,6 +253,7 @@
     MBAnnotation *ano = anoArr[0];
     if(ano) {
       ano.position = point;
+      ano.title = dict[@"title"];//文本内容
       CGPoint cgPoint = {[dict[@"iconTextX"] floatValue], [dict[@"iconTextY"] floatValue]};
       [ano setIconText:dict[@"iconText"] UIColor:[UIColor colorWithHexString:dict[@"iconTextColor"]] anchor:cgPoint];
       [ano setIconTextSize:[dict[@"iconTextSize"] intValue]];
