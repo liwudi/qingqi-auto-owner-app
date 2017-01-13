@@ -11,6 +11,7 @@ let userInfo;
 let token = null;
 let userId = null;
 let interceptors = [];
+let isInterceptAlerting=false; //todo  目前拦截器只有一种是Alert形式，为了解决账号被T时弹出框重复的问题，临时通过这个变量控制，后续扩展会放开
 
 function urlEncode(param, key, encode) {
     if (param == null) return '';
@@ -63,11 +64,11 @@ function _fetch(fetch_promise, timeout) {
 function resultProcessor(result) {
     if (result.status === 200 || result.code === 200 || result.resultCode === 200) {
         console.info('success-result');
-    //    console.info(result);
+        console.info(result);
         return Promise.resolve(result.data || {noResult: true} );
     } else {
         console.info('error-result');
-    //    console.info(result);
+        console.info(result);
         result.message = result.message || '服务器错误';
         return Promise.reject(result);
     }
@@ -185,9 +186,11 @@ function request(opts, processor, isUpload = false) {
                 fetch(url, options)
                     .then(response => response.json())
                     .then(function (res) {
-                        interceptors.forEach((interceptor) => {
-                            res = interceptor(res);
-                        });
+                        if(!isInterceptAlerting){
+                            interceptors.forEach((interceptor) => {
+                                res = interceptor(res);
+                            });
+                        }
                         return processor(res);
                     })
                     .catch(function (err) {
@@ -250,5 +253,12 @@ function addInterceptor(interceptor) {
     interceptors = [interceptor];
 }
 
-export {setServiceUrl, setToken, getToken, addInterceptor};
+function unInterceptAlerting() {
+    isInterceptAlerting = false;
+}
+function interceptAlerting(){
+    isInterceptAlerting = true;
+}
+
+export {setServiceUrl, setToken, getToken, addInterceptor,unInterceptAlerting,interceptAlerting};
 export default RequetService;

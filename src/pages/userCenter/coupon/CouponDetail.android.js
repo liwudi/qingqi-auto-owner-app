@@ -30,8 +30,9 @@ export default class CouponDetail extends Component {
     constructor(props) {
         super(props);
         this.state={
-            data:null
-        }
+            data:null,
+              lonlat:null
+        };
     }
     componentDidMount(){
         module.initLocation();
@@ -39,11 +40,15 @@ export default class CouponDetail extends Component {
             .then((data)=>{
                 this.setState({data:data})
             })
+            .catch((err)=>{
+                Toast.show(err.message,Toast.SHORT);
+            });
         //获取手机位置
         module.startLocation()
             .then((res)=>{
                 //longitude 经度 latitude 纬度
                 console.log('位置',res);
+                this.setState({lonlat: res});
                 recommend({
                     lon: res.longitude,
                     lat: res.latitude,
@@ -61,6 +66,9 @@ export default class CouponDetail extends Component {
                 recommend({activityId:this.props.couponId})
                     .then((data)=>{
                         this.setState({serverStation:data})
+                    })
+                    .catch((err)=>{
+                        Toast.show(err.message,Toast.SHORT);
                     })
             })
             .finally(()=>{
@@ -81,7 +89,7 @@ export default class CouponDetail extends Component {
         return (
             <View style={[estyle.fx1,{backgroundColor:Env.color.bg}]}>
                 <TopBanner {...this.props} title="优惠券" rightView={
-                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:this.props.couponId,vin:data.vin})}
+                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:this.props.couponId,vin:data ? data.vin : ''})}
                      }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button>
                 }/>
                 <ScrollView style={[estyle.paddingHorizontal,estyle.fx1]}>
@@ -146,7 +154,7 @@ export default class CouponDetail extends Component {
                                         </View> : null
                                 }
                                 <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId})}}>
+                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId,lonlat:this.state.lonlat})}}>
                                         <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
                                     </TouchableOpacity>
                                 </View>

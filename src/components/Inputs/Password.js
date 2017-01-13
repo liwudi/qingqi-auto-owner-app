@@ -37,6 +37,7 @@ export default class Password extends Component {
                 onChangeText={this.props.onChangeText}
                 defaultValue={this.props.defaultValue}
                 maxLength={20}
+                isPassWord={true}
                 validates={this.props.validates || validates}
             />
         );

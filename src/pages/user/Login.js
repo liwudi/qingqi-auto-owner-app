@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import {UserActions, TYPES} from '../../actions/index';
-
 import HomeRouter from '../HomeRouter';
 import FindPassword from './FindPassword';
 
@@ -24,6 +23,7 @@ import SubmitButton from '../../components/SubmitButton';
 import LabelInput from '../../components/LabelInput';
 import ModifyTrueName from '../userCenter/account-config/ModifyTrueName';
 import { getCaptcha, CAPTCHA_TYPE_LOGIN } from '../../services/UserService';
+import { logOutKefu } from '../../utils/CommModule';
 
 import Env from '../../utils/Env';
 const estyle = Env.style;
@@ -48,6 +48,7 @@ class Login extends Component {
 
     next = (userInfo) => {
         this.props.router.resetTo(userInfo.name ? HomeRouter : ModifyTrueName);
+        logOutKefu(userInfo.userId);
     }
 
 
