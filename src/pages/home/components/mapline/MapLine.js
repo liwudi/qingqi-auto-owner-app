@@ -247,7 +247,6 @@ export default class MapLine extends Component {
             id: this.carIdx,
             callOut: true,
             offsetY: .5,
-            iconTextY: -.3,
             imageName: imageName
         };
         this.Marker.add([mkOpts]);
@@ -281,7 +280,6 @@ export default class MapLine extends Component {
                 id: this.carIdx,
                 callOut: true,
                 offsetY: .5,
-                iconTextY: -.3,
                 imageName: imageName
             };
             this.Marker.update([mkOpts]);
