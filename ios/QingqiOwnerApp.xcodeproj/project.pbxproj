@@ -43,6 +43,12 @@
 		C2D0C3707DE8476DBBF7EFC0 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DE556A5D084E5E87EBDB1B /* libRCTVideo.a */; };
 		C33F81BC1E26229A00F9732D /* RNBridgeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = C33F81BB1E26229A00F9732D /* RNBridgeModule.m */; };
 		C33F81FA1E2624C100F9732D /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C33F81E41E26249800F9732D /* libRCTPushNotification.a */; };
+		C33F82C61E2CC78400F9732D /* JHSysAlertUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C33F82C31E2CC78400F9732D /* JHSysAlertUtil.m */; };
+		C33F82C71E2CC78400F9732D /* JHSysContactsUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = C33F82C51E2CC78400F9732D /* JHSysContactsUtil.m */; };
+		C33F82CA1E2CC79800F9732D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33F82C81E2CC79800F9732D /* AddressBook.framework */; };
+		C33F82CB1E2CC79800F9732D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33F82C91E2CC79800F9732D /* AddressBookUI.framework */; };
+		C33F82CE1E2CC79E00F9732D /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33F82CC1E2CC79E00F9732D /* Contacts.framework */; };
+		C33F82CF1E2CC79E00F9732D /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33F82CD1E2CC79E00F9732D /* ContactsUI.framework */; };
 		C34E13B21E1CFE04009C949D /* data in Resources */ = {isa = PBXBuildFile; fileRef = C34E13B01E1CFE04009C949D /* data */; };
 		C34E13B31E1CFE04009C949D /* res in Resources */ = {isa = PBXBuildFile; fileRef = C34E13B11E1CFE04009C949D /* res */; };
 		C34E13B51E1CFE09009C949D /* echarts in Resources */ = {isa = PBXBuildFile; fileRef = C34E13B41E1CFE09009C949D /* echarts */; };
@@ -355,6 +361,14 @@
 		C33F81BB1E26229A00F9732D /* RNBridgeModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNBridgeModule.m; sourceTree = "<group>"; };
 		C33F81D31E26249700F9732D /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		C33F81FB1E2624EA00F9732D /* QingqiOwnerApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = QingqiOwnerApp.entitlements; path = QingqiOwnerApp/QingqiOwnerApp.entitlements; sourceTree = "<group>"; };
+		C33F82C21E2CC78400F9732D /* JHSysAlertUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSysAlertUtil.h; sourceTree = "<group>"; };
+		C33F82C31E2CC78400F9732D /* JHSysAlertUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSysAlertUtil.m; sourceTree = "<group>"; };
+		C33F82C41E2CC78400F9732D /* JHSysContactsUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHSysContactsUtil.h; sourceTree = "<group>"; };
+		C33F82C51E2CC78400F9732D /* JHSysContactsUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHSysContactsUtil.m; sourceTree = "<group>"; };
+		C33F82C81E2CC79800F9732D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		C33F82C91E2CC79800F9732D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		C33F82CC1E2CC79E00F9732D /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
+		C33F82CD1E2CC79E00F9732D /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		C34E13B01E1CFE04009C949D /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		C34E13B11E1CFE04009C949D /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		C34E13B41E1CFE09009C949D /* echarts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = echarts; sourceTree = "<group>"; };
@@ -406,6 +420,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C33F82CE1E2CC79E00F9732D /* Contacts.framework in Frameworks */,
+				C33F82CF1E2CC79E00F9732D /* ContactsUI.framework in Frameworks */,
+				C33F82CA1E2CC79800F9732D /* AddressBook.framework in Frameworks */,
+				C33F82CB1E2CC79800F9732D /* AddressBookUI.framework in Frameworks */,
 				C33F81FA1E2624C100F9732D /* libRCTPushNotification.a in Frameworks */,
 				842F609C1E1D078200D2A6B5 /* libSplashScreen.a in Frameworks */,
 				842F609B1E1D077B00D2A6B5 /* libRCTToast.a in Frameworks */,
@@ -533,6 +551,7 @@
 		13B07FAE1A68108700A75B9A /* QingqiOwnerApp */ = {
 			isa = PBXGroup;
 			children = (
+				C33F82C11E2CC78400F9732D /* JHContactsUtil */,
 				C33F81FB1E2624EA00F9732D /* QingqiOwnerApp.entitlements */,
 				C33F81BA1E26229A00F9732D /* RNBridgeModule.h */,
 				C33F81BB1E26229A00F9732D /* RNBridgeModule.m */,
@@ -753,6 +772,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C33F82C11E2CC78400F9732D /* JHContactsUtil */ = {
+			isa = PBXGroup;
+			children = (
+				C33F82C21E2CC78400F9732D /* JHSysAlertUtil.h */,
+				C33F82C31E2CC78400F9732D /* JHSysAlertUtil.m */,
+				C33F82C41E2CC78400F9732D /* JHSysContactsUtil.h */,
+				C33F82C51E2CC78400F9732D /* JHSysContactsUtil.m */,
+			);
+			path = JHContactsUtil;
+			sourceTree = "<group>";
+		};
 		C34E13B91E1CFE52009C949D /* MBMapView */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,6 +803,10 @@
 		C34E13CE1E1CFE88009C949D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C33F82CC1E2CC79E00F9732D /* Contacts.framework */,
+				C33F82CD1E2CC79E00F9732D /* ContactsUI.framework */,
+				C33F82C81E2CC79800F9732D /* AddressBook.framework */,
+				C33F82C91E2CC79800F9732D /* AddressBookUI.framework */,
 				C34E13EF1E1CFEFB009C949D /* libc++.1.tbd */,
 				C34E13ED1E1CFEF1009C949D /* libsqlite3.tbd */,
 				C34E13EB1E1CFEE8009C949D /* libz.1.1.3.tbd */,
@@ -1264,7 +1298,9 @@
 			files = (
 				C34E13CA1E1CFE52009C949D /* MapView.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				C33F82C61E2CC78400F9732D /* JHSysAlertUtil.m in Sources */,
 				C34E13CD1E1CFE52009C949D /* UIColor+HexString.m in Sources */,
+				C33F82C71E2CC78400F9732D /* JHSysContactsUtil.m in Sources */,
 				C34E13CC1E1CFE52009C949D /* RCTMapViewManager.m in Sources */,
 				C33F81BC1E26229A00F9732D /* RNBridgeModule.m in Sources */,
 				C34E13C71E1CFE52009C949D /* ErrorMsg.m in Sources */,
