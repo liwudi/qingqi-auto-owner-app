@@ -30,6 +30,7 @@ export class Marker {
      * */
     /*添加标注*/
     static add = (opts) => {
+        if(mapRef === null) return;
         module.addAnnotations(
             mapRef, opts
         )
@@ -39,6 +40,7 @@ export class Marker {
     *   iconTextColor:'red', iconText:'text', iconTextSize:12,title:'tt'
      * */
     static update = (opts) => {
+        if(mapRef === null) return;
         module.refreshAnnotationLocation(
             mapRef, opts
         );
@@ -48,33 +50,18 @@ export class Marker {
     * }]
      * */
     static updateIcon = (opts) => {
+        if(mapRef === null) return;
         module.setIcon(
             mapRef, opts
         );
     }
-    /**opts=[{
-    *   id:1,
-    *   iconTextColor:'red', iconText:'text', iconTextSize:12
-     * */
-    static updataIconText = (opts) => {
-        module.setIconText(
-            mapRef, opts
-        );
-    }
-    /**opts=[{
-    *   id:1,
-    *   title:'tt'
-     * */
-    static updateTitle = (opts) => {
-        module.setAnnotationTitle(
-            mapRef, opts
-        );
-    }
+
     /*
      opts=[1,2,3]
      id数组
      * */
     static remove = (opts) => {
+        if(mapRef === null) return;
         module.removeAnnotation(
             mapRef, opts
         );
@@ -90,6 +77,7 @@ export class MarkerRotate {
     * }]
      * */
     static add = (opts) => {
+        if(mapRef === null) return;
         module.setIconOverlayIcons(
             mapRef, opts
         );
@@ -100,6 +88,7 @@ export class MarkerRotate {
     * }]
      * */
     static update = (opts) => {
+        if(mapRef === null) return;
         module.refreshIconOverlayLocation(
             mapRef, opts
         );
@@ -109,6 +98,7 @@ export class MarkerRotate {
     * }]
      * */
     static updateIcon = (opts) => {
+        if(mapRef === null) return;
         module.setIconOverlayIcon(
             mapRef, opts
         );
@@ -118,6 +108,7 @@ export class MarkerRotate {
     * }]
      * */
     static updateDirection = (opts) => {
+        if(mapRef === null) return;
         module.setIconOverlayDirection(
             mapRef, opts
         );
@@ -127,6 +118,7 @@ export class MarkerRotate {
      id数组
      * */
     static remove = (opts) => {
+        if(mapRef === null) return;
         module.removeIconOverlay(
             mapRef, opts
         );
@@ -144,15 +136,18 @@ export class Line {
      * }]
      * */
     static add = (opts) => {
+        if(mapRef === null) return;
         module.addLine(mapRef, opts);
     }
     /**
      * opts=[1,2,3,4] id数组
      * */
     static remove = (opts) => {
+        if(mapRef === null) return;
         module.deleteLine(mapRef, opts)
     }
     static clear = () => {
+        if(mapRef === null) return;
         Line.remove([-1]);
     }
     /**
@@ -161,6 +156,7 @@ export class Line {
      * }]
      * */
     static update = (opts) => {
+        if(mapRef === null) return;
         module.updateLine(mapRef, opts);
     }
 }
@@ -169,17 +165,19 @@ export class Line {
 
 /**************************地图方法**************************/
 export function initMap(ref) {
-    mapRef = findNodeHandle(ref);
+    //console.info(module, '**************************', ref)
+    setMapRef(findNodeHandle(ref));
 }
 export function getMapRef() {
     return mapRef;
 }
 export function setMapRef(ref) {
-    console.info('setMapRef--------------------', ref,mapRef)
+    //console.info('setMapRef--------------------', ref,mapRef)
     mapRef = ref;
 }
 
 export function finalize () {
+    if(mapRef === null) return;
     module.onDestroyMap(mapRef);
     mapRef = null;
 }
@@ -191,18 +189,23 @@ export function finalize () {
  * }
  * */
 export function setCenter(opts) {
+    if(mapRef === null) return;
     module.setWorldCenter(mapRef, opts);
 }
 export function setZoomLevel(zoom) {
+    if(mapRef === null) return;
     module.setZoomLevel(mapRef, zoom);
 }
 export function getZoomLevel() {
+    if(mapRef === null) return;
     return module.getZoomLevel(mapRef);
 }
 export function zoomIn() {
+    if(mapRef === null) return;
     module.setZoomIn(mapRef, 1);
 }
 export function zoomOut() {
+    if(mapRef === null) return;
     module.setZoomOut(mapRef, 1);
 }
 
@@ -211,6 +214,7 @@ const MIN_LNG = 72.5,
     MAX_LNG = 132.5,
     MAX_LAT = 50.5;
 export function getBounds() {
+    if(mapRef === null) return;
     return module.getWorldRect(mapRef).then(bounds => {
         let minlng = +bounds.minLongitude / e,
             minlat = +bounds.minLatitude / e,
@@ -235,20 +239,9 @@ export function getBounds() {
  *      maxLatitude: 1
  * }
  * */
-/*export function setBounds(pt1, pt2) {
-    let p1lat = pt1.latitude,
-        p1lng = pt1.longitude,
-        p2lat = pt2.latitude,
-        p2lng = pt2.longitude;
-    module.fitWorldArea(mapRef, {
-        minLongitude: Math.min(p1lng, p2lng),
-        minLatitude: Math.min(p1lat, p2lat),
-        maxLongitude: Math.max(p1lng, p2lng),
-        maxLatitude: Math.max(p1lat, p2lat)
-    });
-}*/
 let diff = 0;
 export function setBounds(pt1, pt2) {
+    if(mapRef === null) return;
     let p1lat = pt1.latitude,
         p1lng = pt1.longitude,
         p2lat = pt2.latitude,
@@ -267,21 +260,23 @@ export function setBounds(pt1, pt2) {
     }, 300);
 }
 export function pause() {
-    mapRef && mapRef >= 0 && module.onPauseMap(mapRef);
+    if(mapRef === null) return;
+    module.onPauseMap(mapRef);
 }
 export function resume() {
+    if(mapRef === null) return;
     module.onResumeMap(mapRef);
 }
 export function clearOverlays() {
+    if(mapRef === null) return;
     module.removeAllOverlayAndAnnotation(mapRef);
 }
-export function disposeMap (ref=-1) {
-    if(ref >= 0) {
-        setMapRef(ref);
-        pause();
-        clearOverlays();
-        finalize();
-        console.info('dispose', mapRef);
-    }
+export function disposeMap (ref=null) {
+    if(mapRef === null) return;
+    setMapRef(ref);
+    pause();
+    clearOverlays();
+    finalize();
+    console.info('dispose', mapRef);
     mapRef = null;
 }

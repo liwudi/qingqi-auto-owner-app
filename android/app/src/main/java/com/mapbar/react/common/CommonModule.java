@@ -3,6 +3,8 @@ package com.mapbar.react.common;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.text.TextUtils;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -14,13 +16,18 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.mapbar.BuildConfig;
+import com.mapbar.nim.LogoutHelper;
 import com.mapbar.nim.MessageServer;
+import com.mapbar.nim.Preferences;
 import com.mapbar.react.CommonUtils;
 import com.mapbar.react.LogUtils;
 import com.mapbar.react.common.operation.ContactsOperation;
 import com.mapbar.react.common.operation.HttpPostUpload;
 import com.mapbar.react.common.operation.MediaPlayerOperation;
 import com.mapbar.react.common.operation.MediaRecorderOperation;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -184,19 +191,36 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     /* 打开客服
     * */
     @ReactMethod
-    public void startKefuActivity(String userId,String kefuId,String type,String nimToken) {
-        MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
-        messageServer.prepare(userId,kefuId,type,nimToken);
+    public void startKefuActivity(final String userId,final String kefuId,final String type,final String nimToken) {
         ImageLoader.getInstance().clearMemoryCache();
         ImageLoader.getInstance().clearDiskCache();
-    }
-    /* 注销客服登录
-        * */
-    @ReactMethod
-    public void logoutKefu() {
-        MessageServer.logout();
+        MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
+        messageServer.prepare(userId,kefuId,type,nimToken);
     }
 
+
+    /* 打开客服
+    * */
+    @ReactMethod
+    public void logOutKefu(final String userId) {
+
+        String account = Preferences.getUserAccount();
+        String token = Preferences.getUserToken();
+        if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token) && !account.equals(userId)) {
+            Preferences.saveUserToken("");
+            LogoutHelper.logout();
+            NIMClient.getService(AuthService.class).logout();
+        }
+    }
+
+    /* 获取server_url
+           * */
+    @ReactMethod
+    public void getServerUrl(Promise promise) {
+        WritableMap writableMap = Arguments.createMap();
+        writableMap.putString("serverUrl", BuildConfig.server_url);
+        promise.resolve(writableMap);
+    }
 
     /**
      * 获取版本信息

@@ -41,14 +41,14 @@
 		B0EFC5A626EC404186FD720C /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B70D4EF300C49E6B6B5BEEE /* libSplashScreen.a */; };
 		BDE6E2A79E324BCD8C2C28E1 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE0D582B2BF48C8B753B64C /* libRNFetchBlob.a */; };
 		C2D0C3707DE8476DBBF7EFC0 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DE556A5D084E5E87EBDB1B /* libRCTVideo.a */; };
+		C33F81BC1E26229A00F9732D /* RNBridgeModule.m in Sources */ = {isa = PBXBuildFile; fileRef = C33F81BB1E26229A00F9732D /* RNBridgeModule.m */; };
+		C33F81FA1E2624C100F9732D /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C33F81E41E26249800F9732D /* libRCTPushNotification.a */; };
 		C34E13B21E1CFE04009C949D /* data in Resources */ = {isa = PBXBuildFile; fileRef = C34E13B01E1CFE04009C949D /* data */; };
 		C34E13B31E1CFE04009C949D /* res in Resources */ = {isa = PBXBuildFile; fileRef = C34E13B11E1CFE04009C949D /* res */; };
 		C34E13B51E1CFE09009C949D /* echarts in Resources */ = {isa = PBXBuildFile; fileRef = C34E13B41E1CFE09009C949D /* echarts */; };
 		C34E13C71E1CFE52009C949D /* ErrorMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E13BB1E1CFE52009C949D /* ErrorMsg.m */; };
 		C34E13C81E1CFE52009C949D /* iNaviCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C34E13BC1E1CFE52009C949D /* iNaviCore.framework */; };
-		C34E13C91E1CFE52009C949D /* MapBarLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E13BE1E1CFE52009C949D /* MapBarLocation.m */; };
 		C34E13CA1E1CFE52009C949D /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E13C01E1CFE52009C949D /* MapView.m */; };
-		C34E13CB1E1CFE52009C949D /* RCTMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E13C21E1CFE52009C949D /* RCTMapView.m */; };
 		C34E13CC1E1CFE52009C949D /* RCTMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E13C41E1CFE52009C949D /* RCTMapViewManager.m */; };
 		C34E13CD1E1CFE52009C949D /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C34E13C61E1CFE52009C949D /* UIColor+HexString.m */; };
 		C34E13D01E1CFE88009C949D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C34E13CF1E1CFE88009C949D /* AVFoundation.framework */; };
@@ -242,6 +242,20 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		C33F81E31E26249800F9732D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C33F81D31E26249700F9732D /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTPushNotification;
+		};
+		C33F81E51E26249800F9732D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C33F81D31E26249700F9732D /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2DD0EFE61DA8533A00B0C975;
+			remoteInfo = "RCTPushNotification-tvOS";
+		};
 		C34E13821E1CFDC7009C949D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
@@ -337,18 +351,18 @@
 		BAB5E6A965094ABBB1FF6617 /* libRNKitASPickerView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNKitASPickerView.a; sourceTree = "<group>"; };
 		BC07E98BC7A4498ABB858530 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		C0038296E7654F018F7F2C4E /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		C33F81BA1E26229A00F9732D /* RNBridgeModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNBridgeModule.h; sourceTree = "<group>"; };
+		C33F81BB1E26229A00F9732D /* RNBridgeModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNBridgeModule.m; sourceTree = "<group>"; };
+		C33F81D31E26249700F9732D /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
+		C33F81FB1E2624EA00F9732D /* QingqiOwnerApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = QingqiOwnerApp.entitlements; path = QingqiOwnerApp/QingqiOwnerApp.entitlements; sourceTree = "<group>"; };
 		C34E13B01E1CFE04009C949D /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		C34E13B11E1CFE04009C949D /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		C34E13B41E1CFE09009C949D /* echarts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = echarts; sourceTree = "<group>"; };
 		C34E13BA1E1CFE52009C949D /* ErrorMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorMsg.h; sourceTree = "<group>"; };
 		C34E13BB1E1CFE52009C949D /* ErrorMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorMsg.m; sourceTree = "<group>"; };
 		C34E13BC1E1CFE52009C949D /* iNaviCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iNaviCore.framework; sourceTree = "<group>"; };
-		C34E13BD1E1CFE52009C949D /* MapBarLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapBarLocation.h; sourceTree = "<group>"; };
-		C34E13BE1E1CFE52009C949D /* MapBarLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapBarLocation.m; sourceTree = "<group>"; };
 		C34E13BF1E1CFE52009C949D /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		C34E13C01E1CFE52009C949D /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
-		C34E13C11E1CFE52009C949D /* RCTMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMapView.h; sourceTree = "<group>"; };
-		C34E13C21E1CFE52009C949D /* RCTMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMapView.m; sourceTree = "<group>"; };
 		C34E13C31E1CFE52009C949D /* RCTMapViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTMapViewManager.h; sourceTree = "<group>"; };
 		C34E13C41E1CFE52009C949D /* RCTMapViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTMapViewManager.m; sourceTree = "<group>"; };
 		C34E13C51E1CFE52009C949D /* UIColor+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexString.h"; sourceTree = "<group>"; };
@@ -392,6 +406,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C33F81FA1E2624C100F9732D /* libRCTPushNotification.a in Frameworks */,
 				842F609C1E1D078200D2A6B5 /* libSplashScreen.a in Frameworks */,
 				842F609B1E1D077B00D2A6B5 /* libRCTToast.a in Frameworks */,
 				842F609A1E1D077400D2A6B5 /* libRNKitASPickerView.a in Frameworks */,
@@ -518,6 +533,9 @@
 		13B07FAE1A68108700A75B9A /* QingqiOwnerApp */ = {
 			isa = PBXGroup;
 			children = (
+				C33F81FB1E2624EA00F9732D /* QingqiOwnerApp.entitlements */,
+				C33F81BA1E26229A00F9732D /* RNBridgeModule.h */,
+				C33F81BB1E26229A00F9732D /* RNBridgeModule.m */,
 				C34E13B91E1CFE52009C949D /* MBMapView */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -576,6 +594,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C33F81D31E26249700F9732D /* RCTPushNotification.xcodeproj */,
 				842F60941E1D073F00D2A6B5 /* RNKitASPickerView.xcodeproj */,
 				842F608E1E1D072600D2A6B5 /* SplashScreen.xcodeproj */,
 				842F60881E1D070700D2A6B5 /* RCTToast.xcodeproj */,
@@ -725,18 +744,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C33F81D41E26249700F9732D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C33F81E41E26249800F9732D /* libRCTPushNotification.a */,
+				C33F81E61E26249800F9732D /* libRCTPushNotification-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C34E13B91E1CFE52009C949D /* MBMapView */ = {
 			isa = PBXGroup;
 			children = (
 				C34E13BA1E1CFE52009C949D /* ErrorMsg.h */,
 				C34E13BB1E1CFE52009C949D /* ErrorMsg.m */,
 				C34E13BC1E1CFE52009C949D /* iNaviCore.framework */,
-				C34E13BD1E1CFE52009C949D /* MapBarLocation.h */,
-				C34E13BE1E1CFE52009C949D /* MapBarLocation.m */,
 				C34E13BF1E1CFE52009C949D /* MapView.h */,
 				C34E13C01E1CFE52009C949D /* MapView.m */,
-				C34E13C11E1CFE52009C949D /* RCTMapView.h */,
-				C34E13C21E1CFE52009C949D /* RCTMapView.m */,
 				C34E13C31E1CFE52009C949D /* RCTMapViewManager.h */,
 				C34E13C41E1CFE52009C949D /* RCTMapViewManager.m */,
 				C34E13C51E1CFE52009C949D /* UIColor+HexString.h */,
@@ -820,10 +844,20 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = AK26ZWGWUT;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = VTKB7X6455;
+						DevelopmentTeam = AK26ZWGWUT;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -866,6 +900,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = C33F81D41E26249700F9732D /* Products */;
+					ProjectRef = C33F81D31E26249700F9732D /* RCTPushNotification.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -1098,6 +1136,20 @@
 			remoteRef = 842F60E71E1D07E100D2A6B5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C33F81E41E26249800F9732D /* libRCTPushNotification.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTPushNotification.a;
+			remoteRef = C33F81E31E26249800F9732D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C33F81E61E26249800F9732D /* libRCTPushNotification-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTPushNotification-tvOS.a";
+			remoteRef = C33F81E51E26249800F9732D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C34E13831E1CFDC7009C949D /* libRCTImage-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1210,13 +1262,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C34E13C91E1CFE52009C949D /* MapBarLocation.m in Sources */,
 				C34E13CA1E1CFE52009C949D /* MapView.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				C34E13CD1E1CFE52009C949D /* UIColor+HexString.m in Sources */,
 				C34E13CC1E1CFE52009C949D /* RCTMapViewManager.m in Sources */,
+				C33F81BC1E26229A00F9732D /* RNBridgeModule.m in Sources */,
 				C34E13C71E1CFE52009C949D /* ErrorMsg.m in Sources */,
-				C34E13CB1E1CFE52009C949D /* RCTMapView.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1248,6 +1299,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1276,6 +1328,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				INFOPLIST_FILE = QingqiOwnerAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1300,13 +1353,28 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = QingqiOwnerApp/QingqiOwnerApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = VTKB7X6455;
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/QingqiOwnerApp/MBMapView",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-video",
+					"$(SRCROOT)/../node_modules/rnkit-actionsheet-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 				);
 				INFOPLIST_FILE = QingqiOwnerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1317,6 +1385,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqi.owner;
 				PRODUCT_NAME = QingqiOwnerApp;
+				PROVISIONING_PROFILE = "34d4c117-7fc1-4009-8868-8f8b5002dcdf";
+				PROVISIONING_PROFILE_SPECIFIER = QingqiOwner;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1326,12 +1396,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = QingqiOwnerApp/QingqiOwnerApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = VTKB7X6455;
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/QingqiOwnerApp/MBMapView",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
+					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-video",
+					"$(SRCROOT)/../node_modules/rnkit-actionsheet-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 				);
 				INFOPLIST_FILE = QingqiOwnerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1342,6 +1427,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqi.owner;
 				PRODUCT_NAME = QingqiOwnerApp;
+				PROVISIONING_PROFILE = "34d4c117-7fc1-4009-8868-8f8b5002dcdf";
+				PROVISIONING_PROFILE_SPECIFIER = QingqiOwner;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -266,6 +266,7 @@ export default class MonitorMap extends Component {
         console.info(data, 'data')
         let iconText = data.carNo || data.carCode,
             ity = Env.marker.car.iconTextY,
+            oy = Env.marker.car.offsetY,
             imageName = "9100" + data.travelStatus,
             direction = 360 - data.direction;
         if (data.count && data.count > 1) {
@@ -273,6 +274,7 @@ export default class MonitorMap extends Component {
             direction = 0;
             imageName = '910026';
             ity = .5;
+            oy = .5;
         }
         let pt = this.MPoint([data.longitude, data.latitude]),
             mkOpts = {
@@ -282,8 +284,14 @@ export default class MonitorMap extends Component {
                 iconText: iconText,
                 id: idx,
                 click: true,
-                iconTextY: ity
+                iconTextY: ity,
+                offsetY: oy
             };
+        if (data.count && data.count > 1) {
+            let emimage = '910000';
+            mkOpts.imageName = `${Env.marker.icon.pre}${emimage}`
+        }
+
         this.markers.push(mkOpts);
         mkOpts = {
             longitude: pt.longitude,
