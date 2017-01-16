@@ -5,6 +5,6 @@ package com.mapbar;
  */
 public class ServerUrlConfig {
 //    public static final String SERVER_URL="http://61.161.238.158:8950";
-    public static final String SERVER_URL="http://jfx.mapbar.com/api";
+    public static final String SERVER_URL=BuildConfig.server_url;
     public static final  String SERVER_REFRESH_TOKEN=SERVER_URL+"/qingqi/crm/refreshToken";
 }
