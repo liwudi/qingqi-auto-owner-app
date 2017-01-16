@@ -74,14 +74,14 @@ class Reg extends Component {
 	}
 
 	next = (regInfo) => {
-        this.props.dispatch(UserActions.sendRegCode(
-            this.state.phone,
-            this.state.captcha,
-            false,
-			() => {
-            	Toast.show('验证码发送成功', Toast.SHORT);
-			}
-        ));
+        // this.props.dispatch(UserActions.sendRegCode(
+        //     this.state.phone,
+        //     this.state.captcha,
+        //     false,
+			// () => {
+        //     	//Toast.show('验证码发送成功', Toast.SHORT);
+			// }
+        // ));
         this.props.router.replace(RegCheckCode, {regInfo});
     }
     err= ()=>{
