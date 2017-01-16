@@ -295,16 +295,17 @@ const marker = {
     car: {
         title: '',
         iconText: '',
-        imageName: isIOS ? '910000' : 'and_910000',
-        iconTextColor: isIOS ? color.main.replace('#','') : color.main,
+        imageName: isIOS ? '9100008' : 'and_9100008',
+        iconTextColor: isIOS ? color.important.replace('#','') : color.important,
         iconTextSize: 14,
         offsetX: .5,
-        offsetY: .5,
+        offsetY: 1.4,
         iconTextX: .5,
-        iconTextY: -.3,
+        iconTextY: .45,
         callOut: false,
         click: false
     },
+
     car_rotate: {
         imageName: isIOS ? '91002' : 'res/icons/91002.png',
         direction: 0,

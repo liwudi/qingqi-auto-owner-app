@@ -235,7 +235,9 @@ export default class MapLine extends Component {
     addCar() {
         let pt = Object.assign({}, line[0]);
         let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
-            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km';
+            unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
+            imageName = '910000';
+        imageName = `${Env.marker.icon.pre}${imageName}`;
         title = title + unit;
         let mkOpts = {
             ...Env.marker.car,
@@ -244,7 +246,8 @@ export default class MapLine extends Component {
             title: title,
             id: this.carIdx,
             callOut: true,
-            iconText: '2'
+            offsetY: .5,
+            imageName: imageName
         };
         this.Marker.add([mkOpts]);
         mkOpts = {
@@ -263,7 +266,9 @@ export default class MapLine extends Component {
         if(line[index]) {
             let pt = Object.assign({}, line[index]);
             let title = this.playType === PLAY_TYPE_SPEED ? pt.speed : pt.oil,
-                unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km';
+                unit = this.playType === PLAY_TYPE_SPEED ? 'km/h' : 'L/100km',
+                imageName = '910000';
+            imageName = `${Env.marker.icon.pre}${imageName}`;
             title = title + unit;
 
             console.info('move car', title)
@@ -273,7 +278,9 @@ export default class MapLine extends Component {
                 latitude: pt.latitude,
                 title: title,
                 id: this.carIdx,
-                callOut: true
+                callOut: true,
+                offsetY: .5,
+                imageName: imageName
             };
             this.Marker.update([mkOpts]);
             mkOpts = {

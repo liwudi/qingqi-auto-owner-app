@@ -85,7 +85,7 @@ export default class MessageCarLocation extends Component {
 				...Env.marker.car,
 				longitude: pt.longitude,
 				latitude: pt.latitude,
-				iconText: iconText,
+				title: iconText,
 				id: idx
 			};
 		this.Marker.add([mkOpts]);
