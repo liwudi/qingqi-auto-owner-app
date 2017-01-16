@@ -49,17 +49,21 @@ public class MessageServer {
         this.kefuId = kefuId;
         this.type = type;
         this.nimToken = nimToken;
-        boolean syncCompleted = LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
-            @Override
-            public void onEvent(Void v) {
-            }
-        });
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, true);
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeRevokeMessage(revokeMessageObserver, true);
         service.observeRecentContact(messageObserver, true);
         login();
     }
+
+    private void syncData() {
+        boolean syncCompleted = LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
+            @Override
+            public void onEvent(Void v) {
+            }
+        });
+    }
+
     /**
      * 注销
      */
@@ -105,9 +109,9 @@ public class MessageServer {
             if (code.wontAutoLogin()) {
                 kickOut(code);
             } else {
-                if (code == StatusCode.NET_BROKEN) {
-                    Toast.makeText(context, "当前网络不可用", Toast.LENGTH_SHORT).show();
-                }
+//                if (code == StatusCode.NET_BROKEN) {
+//                    Toast.makeText(context, "当前网络不可用", Toast.LENGTH_SHORT).show();
+//                }
 //                else if (code == StatusCode.UNLOGIN) {
 //                    Toast.makeText(context, "未登录", Toast.LENGTH_SHORT).show();
 //                } else if (code == StatusCode.CONNECTING) {
@@ -151,6 +155,7 @@ public class MessageServer {
     private void login() {
         if (canAutoLogin()) {
             NimUIKit.startChatting(context, kefuId, SessionTypeEnum.P2P, null, null);
+            syncData();
         } else {
             // 登录
             AbortableFuture<LoginInfo> loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(userId, nimToken));
@@ -161,16 +166,20 @@ public class MessageServer {
                     DemoCache.setAccount(userId);
                     saveLoginInfo(userId, nimToken);
                     NimUIKit.startChatting(context, kefuId, SessionTypeEnum.P2P, null, null);
+                    syncData();
                 }
 
                 @Override
                 public void onFailed(int code) {
 //                onLoginDone();
-                    if (code == 302 || code == 404) {
-//                        Toast.makeText(context, "账号或密码错误", Toast.LENGTH_SHORT).show();
-                    } else {
-//                        Toast.makeText(context, "登录失败: " + code, Toast.LENGTH_SHORT).show();
+                    if(code ==408){
+                        Toast.makeText(context, "连接超时，请重试！", Toast.LENGTH_SHORT).show();
                     }
+//                    else if (code == 302 || code == 404) {
+//                        Toast.makeText(context, "账号或密码错误", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(context, "登录失败: " + code, Toast.LENGTH_SHORT).show();
+//                    }
                 }
 
                 @Override
@@ -204,7 +213,7 @@ public class MessageServer {
 
             public void onFailure(Call call, final IOException e) {
                 Looper.prepare();
-                Toast.makeText(context, "请检查网络是否可以可用", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "请检查网络是否可用", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
         });
