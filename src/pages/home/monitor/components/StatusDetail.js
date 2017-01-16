@@ -67,7 +67,7 @@ export default class StatusDetail extends Component {
                             <View style={[estyle.fx1,estyle.fxRow]}>
                                 <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
                                 <Text> </Text>
-                                <Text style={[estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
+                                <Text style={[estyle.marginFont,estyle.paddingRight, estyle.fx1,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
                             </View>
                         </View>
                     </View>
