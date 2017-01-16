@@ -117,10 +117,11 @@ export default class TripManage extends Component {
             }]
         };
 
+        let _curDate =  this.state.weeks[this.state.currentIndex].format('YYYY-MM-DD');
 		this.state.weeks.map((date, index) => {
 			let _d = this.state.datas.filter((item) => item.statisDate == date.format('YYYYMMDD'));
-			let _d_ = date.format('MM-DD'),
-				_td = moment(new Date()).format('MM-DD');
+			let _d_ = date.format('YYYY-MM-DD'),
+				_cd = _curDate;
 			option.xAxis.data.push(_d_);
             option.series[0].data.push({
                 value : _d.length > 0 ? _d[0].mileage : 0,
@@ -130,8 +131,9 @@ export default class TripManage extends Component {
                     normal:{show:true,position:'top'}
                 },
                 itemStyle:{
-					normal: {color: Env.color.main},
-                    emphasis:{color: '#88C057'}
+					normal: {color: _d_ === _cd ? '#88C057' : Env.color.main}
+					/*normal: {color: Env.color.main},
+                    emphasis:{color: '#88C057'}*/
                 }
             });
 		});
