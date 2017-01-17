@@ -76,6 +76,7 @@
       
       if (tip) {
         [JHSysAlertUtil presentAlertViewWithTitle:@"提示" message:@"请在隐私设置中打开通讯录权限" confirmTitle:@"确认" handler:^{
+          
         }];
         return;
       }
@@ -87,7 +88,7 @@
     }else{  // iOS 9.0 以后，使用新的系统通讯录框架
       
       //判断授权状态
-      if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusNotDetermined) {
+      if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusNotDetermined || [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusAuthorized) {
         
         CNContactStore *contactStore = [[CNContactStore alloc] init];
         [contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
