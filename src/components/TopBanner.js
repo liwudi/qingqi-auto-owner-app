@@ -41,7 +41,7 @@ export default class TopBanner extends React.Component{
 				return this.props.leftView;
 			}else if(this.props.leftShow){
 				return (
-					<TouchableOpacity style={[styles.height, estyle.fxColumnCenter]} onPress={() => {this.props.onPress ? this.props.onPress(): this.props.doBack()}}>
+					<TouchableOpacity style={estyle.topBtn} onPress={() => {this.props.onPress ? this.props.onPress(): this.props.doBack()}}>
 						<Text style={estyle.navTitle}><Icons.IconArrowLeft color="#FFF" /></Text>
 					</TouchableOpacity>
 				)
