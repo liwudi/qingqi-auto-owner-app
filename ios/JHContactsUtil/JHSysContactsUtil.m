@@ -18,6 +18,7 @@
 #import <ContactsUI/ContactsUI.h>
 
 #import <MessageUI/MessageUI.h>
+#import "JHSysAlertUtil.h"
 
 @implementation JHContactModel
 
@@ -51,25 +52,61 @@
     self.contactBlock = handler;
     
     if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+      
+      //这个变量用于记录授权是否成功，即用户是否允许我们访问通讯录
+      int __block tip = 0;
+      //声明一个通讯簿的引用
+      ABAddressBookRef addBook = nil;
+      
+      //创建通讯簿的引用
+      addBook = ABAddressBookCreateWithOptions(NULL, NULL);
+      //创建一个出事信号量为0的信号
+      dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+      //申请访问权限
+      ABAddressBookRequestAccessWithCompletion(addBook, ^(bool greanted, CFErrorRef error)        {
+        //greanted为YES是表示用户允许，否则为不允许
+        if (!greanted) {
+          tip = 1;
+        }
+        //发送一次信号
+        dispatch_semaphore_signal(sema);
+      });
+      //等待信号触发
+      dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+      
+      if (tip) {
+        [JHSysAlertUtil presentAlertViewWithTitle:@"提示" message:@"请在隐私设置中打开通讯录权限" confirmTitle:@"确认" handler:^{
+          
+        }];
+        return;
+      }
   
         ABPeoplePickerNavigationController *peoplePicker = [[ABPeoplePickerNavigationController alloc] init];
         peoplePicker.peoplePickerDelegate = self;
         [kRootViewController presentViewController:peoplePicker animated:YES completion:nil];
         
     }else{  // iOS 9.0 以后，使用新的系统通讯录框架
+      
+      //判断授权状态
+      if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusNotDetermined || [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusAuthorized) {
         
         CNContactStore *contactStore = [[CNContactStore alloc] init];
-        //    [CNContactStore authorizationStatusForEntityType:(CNEntityTypeContacts)];
-        
         [contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-            
-            if (granted) {
-                CNContactPickerViewController *picker = [[CNContactPickerViewController alloc] init];
-                picker.delegate = self;
-                [kRootViewController presentViewController:picker animated:YES completion:^{}];
-            }
-            
+          
+          if (granted) {
+            CNContactPickerViewController *picker = [[CNContactPickerViewController alloc] init];
+            picker.delegate = self;
+            [kRootViewController presentViewController:picker animated:YES completion:^{}];
+          }
+          
         }];
+      }else {
+        
+        [JHSysAlertUtil presentAlertViewWithTitle:@"提示" message:@"请在隐私设置中打开通讯录权限" confirmTitle:@"确认" handler:^{
+          
+        }];
+      }
+      
   
     }
 }
