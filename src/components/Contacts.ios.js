@@ -6,40 +6,18 @@ import {
     NativeModules
 } from 'react-native';
 
+async function _getContactInfo(select, error){
+    try{
+        var events = await NativeModules.RNBridgeModule.getContactInfo('name');
+        select(events.name, events.phoneNumber);
 
-/**
- * 返回通讯录数据
- * 格式
- *
- *      {
- *          A ： [
- *              {
- *                  name:'xxxs',
- *                  phoneNumbers:['13111112222','123213213213']
- *                  primaryKey:'A'
- *              },
- *              {
- *                  name:'xxxs2',
- *                  phoneNumbers:['13111112222']
- *                  primaryKey:'A'
- *              }
- *          ],
- *          B ： [
- *              {
- *                  name:'xxxs',
- *                  phoneNumbers:['13111112222','123213213213']
- *                  primaryKey:'B'
- *              },
- *              {
- *                  name:'xxxs2',
- *                  phoneNumbers:['13111112222']
- *                  primaryKey:'B'
- *              }
- *          ]
- *      }
- *
- * @returns {Promise.<T>}
- */
-export function getContacts() {
+    }catch(e){
+        //error()
+        console.log(e);
+        //this.setState({events: e.message});
+    }
+}
 
+export function getContacts(select, error) {
+    _getContactInfo(select, error)
 }

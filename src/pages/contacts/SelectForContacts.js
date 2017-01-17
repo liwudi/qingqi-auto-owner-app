@@ -35,19 +35,7 @@ export default class SelectForContacts extends Component {
     }
 
     componentDidMount() {
-        // setTimeout(() => {
-        //     getContacts().then(rs => {
-        //         this.setState({
-        //             ds: this.state.ds.cloneWithRowsAndSections(rs),
-        //             refreshing: false
-        //         })
-        //     }).catch(e => {
-        //         console.log(e);
-        //         this.setState({
-        //             refreshing: false
-        //         })
-        //     });
-        // }, 400);
+
     }
 
     render() {
@@ -113,41 +101,3 @@ export default class SelectForContacts extends Component {
         );
     }
 }
-
-/*
-* <ListView
- refreshControl={
- <RefreshControl
- refreshing={this.state.refreshing}
- onRefresh={this._onRefresh}
- colors={Env.refreshCircle.colors}
- progressBackgroundColor={Env.refreshCircle.bg}
- />
- }
- dataSource={this.state.ds}
- renderSectionHeader={(sectionData, sectionId) => {
- return <ListTitle title={sectionId}/>
- }}
- renderRow={(row) => {
- return <View>
- {row.phoneNumbers.map((phone, key) => <View key={key}
- style={[estyle.borderBottom, estyle.cardBackgroundColor, this.props.style]}>
- <View style={[estyle.margin, estyle.fxRow]}>
- <Text style={[estyle.text, {textAlign: 'left'}]}>{row.name}</Text>
- <Text style={[estyle.fx1, estyle.text, {
- textAlign: 'right',
- color: Env.color.note
- }]}>{phone}</Text>
- <BorderButton
- style={{marginLeft: 10 * Env.font.base}}
- onPress={() => {
- this.props.select(row.name, phone);
- this.props.router.pop({select: {name: row.name, phone}});
- }}
- >选择</BorderButton>
- </View>
- </View>)}
- </View>
- }}
- />
-* */
