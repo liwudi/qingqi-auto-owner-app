@@ -225,7 +225,6 @@ const style = {
     topBtn: {
         width: fontSize.base * 84,
         height: fontSize.base * 84,
-        backgroundColor:'green',
         alignItems: 'center',
         justifyContent: 'center'
     }
