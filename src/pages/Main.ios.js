@@ -43,7 +43,7 @@ class Main extends Component {
 
             console.log('version_no', rs['version_no'] , this.state.versionCode)
 
-            if(rs['version_no'] > this.state.versionCode){
+            /*if(rs['version_no'] > this.state.versionCode){
                 Alert.alert(
                     `发现新版本(${rs.version_name})`,
                     '是否更新？',
@@ -54,7 +54,7 @@ class Main extends Component {
                         {text:'以后再说'}
                     ]
                 )
-            }
+            }*/
         });
     }
 

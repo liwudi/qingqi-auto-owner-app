@@ -21,7 +21,7 @@ RCT_EXPORT_MODULE(RNBridgeModule)
 
 
 //版本信息获取
-RCT_EXPORT_METHOD(getVersionInfo:(NSString *)string resolver:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(getVersionInfo:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject){
   
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
