@@ -16,6 +16,7 @@ import {addManager} from "../../../services/MotorcadeManagerService";
 import SelectForContacts from '../../contacts/SelectForContacts';
 import { IconAddressBook, IconFire } from '../../../components/Icons';
 import Toast from '../../../components/Toast';
+import { getContacts } from '../../../components/Contacts';
 
 
 const estyle = Env.style;
@@ -50,11 +51,21 @@ export default class ManagerAdd extends Component {
 	}
 
 	toManagerAddForContacts(){
-		this.props.router.push(SelectForContacts, {select: (name, phone) => {
-			this.setState({
-				name, phone
-			})
-		}});
+        Env.isAndroid ?
+            this.props.router.push(SelectForContacts,
+                {
+                    select: (name, phone) => {
+                        this.setState({
+                            name, phone
+                        })
+                    }
+                })
+            :
+            getContacts((name, phone) => {
+                this.setState({
+                    name, phone
+                })
+            });
 	}
 
 	_add(){
