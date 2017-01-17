@@ -107,6 +107,8 @@
         // 不能定位用户位置
         // 1. 提醒用户检查网络状况
         // 2. 提醒用户打开定位开关
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请在隐私设置中打开定位功能" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
       }
       
       self.poiQuery = [MBPoiQuery sharedInstance];
@@ -489,11 +491,30 @@
 #pragma mark 定位
 - (void)setShowUserLocation:(BOOL)showUserLocation resolve:(Success)resolve reject:(Failure)reject
 {
-  self.success = resolve;
-  self.failure = reject;
-  if(showUserLocation == YES) {
-    [self.reverseGeocoder reverseByPoint:&_point];
+   if([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
+    
+    //定位功能可用
+    // 开始定位用户位置
+    
+    [self.gpsLocation startUpdatingLocation];
+    // 开始定位用户位置
+    self.success = resolve;
+    self.failure = reject;
+    if(showUserLocation == YES) {
+      [self.reverseGeocoder reverseByPoint:&_point];
+    }
+    
+    
+  }else if ([CLLocationManager authorizationStatus] ==kCLAuthorizationStatusDenied) {
+    
+    // 不能定位用户位置
+    // 1. 提醒用户检查网络状况
+    // 2. 提醒用户打开定位开关
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请在隐私设置中打开定位功能" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alert show];
+    
   }
+
 }
 
 #pragma mark 停止定位
@@ -526,54 +547,13 @@
  */
 -(void)reverseGeocodeEventSucc:(MBReverseGeocodeObject*)rgObject{
   
-  //    [SVProgressHUD showSuccessWithStatus:@"定位成功 !" maskType:SVProgressHUDMaskTypeBlack];
-  
-//  self.posName.text = [NSString stringWithFormat:@"%@%@%@%@",rgObject.poiCity,rgObject.poiArea,rgObject.poiAddress,rgObject.poiName];
   self.worldCenter = rgObject.pos;
-//  CGPoint pivotPoint = {0.5, 0.5};
-//  if (self.locationAnnotation !=nil) {
-//    [self.mapView removeAnnotation:self.locationAnnotation];
-//    self.locationAnnotation = nil;
-//  }
-//  self.locationAnnotation = [[MBAnnotation alloc] initWithZLevel:0 pos:rgObject.pos iconId:1200 pivot: pivotPoint];
-//  [self.mapView addAnnotation:self.locationAnnotation];
-//  MBCalloutStyle calloutStyle = self.locationAnnotation.calloutStyle;
-//  calloutStyle.anchor.x = 0.5f;
-//  calloutStyle.anchor.y = 0;
-//  calloutStyle.leftIcon = 102;
-//  calloutStyle.rightIcon = 1004;
-//  self.locationAnnotation.calloutStyle = calloutStyle;
-//  self.locationAnnotation.title = rgObject.poiName;
-//  [self.locationAnnotation showCallout:YES];
   [self stopLocation];
   
   NSDictionary *location = @{@"latitude":@(rgObject.pos.y).stringValue,
                              @"longitude":@(rgObject.pos.x).stringValue,
                              @"address":rgObject.poiName};
-  
   self.success(location);
-
-  NSDictionary *map = @{
-  @"latitude":@(rgObject.pos.y).stringValue,
-  @"longitude":@(rgObject.pos.x).stringValue ,
-  @"title": rgObject.poiName,
-  @"subtile": @"",
-  @"imageName": @"1200",
-  @"iconText":@"",
-  @"iconTextColor":@"FFFFFF",
-  @"iconTextSize":@"18",
-  @"id":@"0",
-  @"direction":@"90",
-  @"offsetX":@"0.5",
-  @"offsetX":@"0.5",
-  @"click":@"ture",
-  @"callOut":@"ture"
-  };
-  
-  NSArray *a = @[map];
-  
-  [self setAnnotationDtas:a];
-
 }
 /**
  *  逆地理失败
