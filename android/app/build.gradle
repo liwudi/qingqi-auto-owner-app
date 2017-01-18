@@ -129,7 +129,7 @@ android {
         }
         // 外网调试用的
         debug {
-            buildConfigField "String", "server_url", "\"http://jfx.mapbar.com/api\""
+            buildConfigField "String", "server_url", "\"http://61.161.238.158:8950\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

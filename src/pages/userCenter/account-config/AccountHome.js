@@ -30,7 +30,7 @@ import { uploadUserPic } from '../../../services/UserService';
 import Toast from '../../../components/Toast';
 
 import ImagePickBotton from './components/ImagePickButton';
-import { Alert2 } from '../../../components/Modals/Alert';
+import { logOutKefu } from '../../../utils/CommModule';
 
 class AccountHome extends Component {
 
@@ -54,6 +54,7 @@ class AccountHome extends Component {
                 {
                     text:'确定',
                     onPress:() => {
+                        logOutKefu(this.props.userStore.userInfo.userId);
                         this.props.dispatch(UserActions.logout(
                             () => {
                                 this.props.router.resetTo(Login);

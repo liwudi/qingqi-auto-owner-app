@@ -93,33 +93,27 @@ export default class HomePage extends Component {
         }
         return true;
     }
-
+	isLoadingCustomerService = false;
     startCustomerService(){
-		if(this.customerServiceInfo){
-            startKefuActivity(
-                this.customerServiceInfo.accountId,
-                this.customerServiceInfo.userId,
-                "1",
-                this.customerServiceInfo.token
-            );
-		}else {
+
+        Toast.show('正在启动客服，请稍后', Toast.SHORT);
+        if(!this.isLoadingCustomerService){
+            this.isLoadingCustomerService = true;
             choiceCustomer().then(rs => {
-                this.customerServiceInfo = rs;
+
+                startKefuActivity(
+                    rs.userId + '',
+                    rs.serverId + '',
+                    "1",
+                    rs.token + '',
+                    rs.dialogId + ''
+                );
             }).catch(e => {
-                this.customerServiceInfoErrorMsg = e.message;
+                Toast.show(e.message, Toast.SHORT);
             }).finally(() => {
-                if(this.customerServiceInfoErrorMsg){
-                    Toast.show(this.customerServiceInfoErrorMsg, Toast.SHORT);
-                }else{
-                    startKefuActivity(
-                        this.customerServiceInfo.accountId,
-                        this.customerServiceInfo.userId,
-                        "1",
-                        this.customerServiceInfo.token
-                    );
-                }
-            }) ;
-		}
+                this.isLoadingCustomerService = false;
+            });
+        }
     }
 
     componentWillUnmount(){
@@ -180,7 +174,9 @@ export default class HomePage extends Component {
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-					<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
+					{Env.isAndroid ?
+						<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
+							: <ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>}
 					<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>
 				</View>
 			</View>

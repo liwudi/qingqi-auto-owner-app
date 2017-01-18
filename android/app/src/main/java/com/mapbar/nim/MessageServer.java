@@ -5,7 +5,9 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.mapbar.BuildConfig;
 import com.mapbar.ServerUrlConfig;
+import com.mapbar.react.LogUtils;
 import com.netease.nim.uikit.LoginSyncDataStatusObserver;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.helper.MessageHelper;
@@ -38,7 +40,9 @@ import okhttp3.Response;
  */
 public class MessageServer {
     private Context context;
+    private boolean isRefreshToken;
     private String userId, kefuId, type, nimToken;
+    private String TAG = this.getClass().getSimpleName();
 
     public MessageServer(Context context) {
         this.context = context;
@@ -72,6 +76,7 @@ public class MessageServer {
         LogoutHelper.logout();
         NIMClient.getService(AuthService.class).logout();
     }
+
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(List<RecentContact> recentContacts) {
@@ -130,7 +135,6 @@ public class MessageServer {
 
         if (code == StatusCode.PWD_ERROR) {
 //            LogUtil.e("Auth", "user password error");
-            refreshToken();
         } else {
 //            LogUtil.i("Auth", "Kicked!");
         }
@@ -171,10 +175,17 @@ public class MessageServer {
 
                 @Override
                 public void onFailed(int code) {
-//                onLoginDone();
-                    if(code ==408){
-                        Toast.makeText(context, "连接超时，请重试！", Toast.LENGTH_SHORT).show();
+                    if (BuildConfig.DEBUG) {
+                        LogUtils.loge(TAG, "onFailed code :" + code);
                     }
+
+                    if (!isRefreshToken && code == 302) {
+                        refreshToken();
+                        isRefreshToken = true;
+                    } else {
+                        Toast.makeText(context, "联系客服失败,请稍后重试", Toast.LENGTH_SHORT).show();
+                    }
+//                onLoginDone();
 //                    else if (code == 302 || code == 404) {
 //                        Toast.makeText(context, "账号或密码错误", Toast.LENGTH_SHORT).show();
 //                    } else {
@@ -195,13 +206,13 @@ public class MessageServer {
         OkHttpClient client = new OkHttpClient();
         String server_refreshToken = ServerUrlConfig.SERVER_REFRESH_TOKEN;
         FormBody body = new FormBody.Builder()
-                .add("userId", userId)
-                .add("type", type)
-                .build();
+            .add("userId", userId)
+            .add("type", type)
+            .build();
         Request request = new Request.Builder()
-                .url(server_refreshToken)
-                .post(body)
-                .build();
+            .url(server_refreshToken)
+            .post(body)
+            .build();
         client.newCall(request).enqueue(new Callback() {
             public void onResponse(Call call, Response response) throws IOException {
                 String nimTokenbody = response.body().string();
@@ -213,7 +224,7 @@ public class MessageServer {
 
             public void onFailure(Call call, final IOException e) {
                 Looper.prepare();
-                Toast.makeText(context, "请检查网络是否可用", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "连接失败", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
         });
