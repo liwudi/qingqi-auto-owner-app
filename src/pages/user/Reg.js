@@ -178,7 +178,6 @@ class Reg extends Component {
 						]}
 					/>
 
-
 					<PasswordInput
 						ref="password"
 						defaultValue={this.state.password}
