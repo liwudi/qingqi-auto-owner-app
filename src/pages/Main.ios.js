@@ -109,6 +109,7 @@ class Main extends Component {
             this.setState({NetIsConnected: isConnected});
         });
         NetInfo.addEventListener('change', isConnected => {
+            isConnected = isConnected.toUpperCase();
             global.NetIsConnected = (isConnected !== 'NONE');
             this.setState({NetIsConnected: isConnected !== 'NONE'});
         });
