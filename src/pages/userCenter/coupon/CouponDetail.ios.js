@@ -37,12 +37,15 @@ export default class CouponDetail extends Component {
     componentDidMount(){
         couponDetail(this.props.couponId)
             .then((data)=>{
-                this.setState({data:data})
+                this.setState({data:data},()=>{this.getLocation()})
             })
             .catch((err)=>{
                 Toast.show(err.message,Toast.SHORT);
-            });
-        recommend({activityId:this.props.couponId})
+            })
+
+    }
+    getLocation(){
+        recommend({activityId:this.state.id})
             .then((data)=>{
                 this.setState({serverStation:data})
             })
@@ -56,10 +59,11 @@ export default class CouponDetail extends Component {
         return (
             <View style={[estyle.fx1,{backgroundColor:Env.color.bg}]}>
                 <TopBanner {...this.props} title="优惠券" rightView={
-                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:this.props.couponId,vin:data ? data.vin : ''})}
-                     }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button>
+                    data ?
+                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:data.id,vin:data ? data.vin : ''})}
+                     }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button>: <View/>
                 }/>
-                <ScrollView style={[estyle.paddingHorizontal,estyle.fx1]}>
+                <ScrollView style={[estyle.padding,estyle.fx1]}>
                     {
                         this.state.data ?
                             <View>
@@ -121,7 +125,7 @@ export default class CouponDetail extends Component {
                                         </View> : null
                                 }
                                 <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId,lonlat:this.state.lonlat})}}>
+                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
                                         <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
                                     </TouchableOpacity>
                                 </View>

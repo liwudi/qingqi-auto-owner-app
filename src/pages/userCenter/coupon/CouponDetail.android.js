@@ -38,11 +38,13 @@ export default class CouponDetail extends Component {
         module.initLocation();
         couponDetail(this.props.couponId)
             .then((data)=>{
-                this.setState({data:data})
+                this.setState({data:data},()=>{this.getLocation()})
             })
             .catch((err)=>{
                 Toast.show(err.message,Toast.SHORT);
             });
+    }
+    getLocation(){
         //获取手机位置
         module.startLocation()
             .then((res)=>{
@@ -52,7 +54,7 @@ export default class CouponDetail extends Component {
                 recommend({
                     lon: res.longitude,
                     lat: res.latitude,
-                    activityId:this.props.couponId
+                    activityId:this.state.data.id
                 })
                     .then((data)=>{
                         this.setState({serverStation:data})
@@ -63,7 +65,7 @@ export default class CouponDetail extends Component {
             })
             .catch(()=>{
                 console.log('获取位置失败');
-                recommend({activityId:this.props.couponId})
+                recommend({activityId:this.state.data.id})
                     .then((data)=>{
                         this.setState({serverStation:data})
                     })
@@ -74,14 +76,6 @@ export default class CouponDetail extends Component {
             .finally(()=>{
                 module.stopLocation();
             })
-        // navigator.geolocation.getCurrentPosition(
-        //     (position) => {
-        //         let initialPosition = JSON.stringify(position);
-        //         console.log('定位',initialPosition);
-        //     },
-        //     (error) => console.log('定位失败',error.message),
-        //     {enableHighAccuracy: true, timeout: 10000, maximumAge: 1000}
-        // );
     }
 
     render() {
@@ -89,10 +83,11 @@ export default class CouponDetail extends Component {
         return (
             <View style={[estyle.fx1,{backgroundColor:Env.color.bg}]}>
                 <TopBanner {...this.props} title="优惠券" rightView={
-                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:this.props.couponId,vin:data ? data.vin : ''})}
-                     }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button>
+                    data ?
+                    <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:data.id,vin:data ? data.vin : ''})}
+                     }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button> : <View />
                 }/>
-                <ScrollView style={[estyle.paddingHorizontal,estyle.fx1]}>
+                <ScrollView style={[estyle.padding,estyle.fx1]}>
                     {
                         this.state.data ?
                             <View>
@@ -154,7 +149,7 @@ export default class CouponDetail extends Component {
                                         </View> : null
                                 }
                                 <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:this.props.couponId,lonlat:this.state.lonlat})}}>
+                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
                                         <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
                                     </TouchableOpacity>
                                 </View>

@@ -3,7 +3,7 @@
  */
 
 import Server from '../service-config/ServerConfig';
-import RequestService from '../service-config/RequestService';
+import RequestService,{ getToken } from '../service-config/RequestService';
 const serviceUrl = `${Server.QINGQI}tocapp/`;
 
 const defaultPage = Server.defaultPage;
@@ -13,34 +13,10 @@ function makeUrl(path) {
 
 export function choiceCustomer(){
     return RequestService.get(
-        `${Server.QINGQI}crm/queryUserInfo`,
-        {
-            type:1
-        }
+        `${Server.QINGQI}crm/createDialog`
     ).then(rs => {
-        return choiceCustomerService().then(rs2 => {
-            return Object.assign({}, rs, rs2);
-        })
-    }).catch(e => {
-        return refreshToken().then(rs => {
-            return RequestService.get(
-                `${Server.QINGQI}crm/queryUserInfo`,
-                {
-                    type:1
-                }
-            ).then(rs => {
-                return choiceCustomerService().then(rs2 => {
-                    return Object.assign({}, rs, rs2);
-                })
-            })
-        })
-    });
-}
-
-export function choiceCustomerService(){
-    return RequestService.get(
-        `${Server.QINGQI}crm/choiceCustomerService`
-    );
+        return Object.assign({}, rs, {userId: getToken().userId});
+    })
 }
 
 export function refreshToken(){
@@ -49,6 +25,12 @@ export function refreshToken(){
         {
             type:1
         }
+    );
+}
+
+export function choiceCustomerService(){
+    return RequestService.get(
+        `${Server.QINGQI}crm/choiceCustomerService`
     );
 }
 
