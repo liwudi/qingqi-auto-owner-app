@@ -3,6 +3,7 @@ package com.netease.nim.uikit.session.fragment;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.netease.nimlib.sdk.msg.model.MessageReceipt;
 import com.netease.nimlib.sdk.msg.model.NIMAntiSpamOption;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +62,12 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     // modules
     protected InputPanel inputPanel;
     protected MessageListPanel messageListPanel;
+    //    add by leimeijia 2017.1.18
+    private static String sessionDialogId;
+
+    public static void setDialogId(String dialogId) {
+        sessionDialogId = dialogId;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -373,7 +381,11 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         if (!isAllowSendMessage(message)) {
             return false;
         }
-
+        if (!TextUtils.isEmpty(sessionDialogId)) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("dialogId", sessionDialogId);
+            message.setRemoteExtension(data);
+        }
         // send message to server and save to db
         NIMClient.getService(MsgService.class).sendMessage(message, false);
 
@@ -432,4 +444,6 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     public void receiveReceipt() {
         messageListPanel.receiveReceipt();
     }
+
+
 }
