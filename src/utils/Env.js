@@ -221,6 +221,12 @@ const style = {
     },
     iosStatusBarHeight: {
         paddingTop: fontSize.base * (Platform.OS == 'ios' ? 36 : 0)
+    },
+    topBtn: {
+        width: fontSize.base * 84,
+        height: fontSize.base * 84,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 };
 

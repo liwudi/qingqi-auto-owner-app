@@ -177,7 +177,7 @@ RCT_EXPORT_METHOD(removeAllOverlayAndAnnotation:(nonnull NSNumber *)reactTag){
 
 
 #pragma mark 定位
-RCT_EXPORT_METHOD(setShowUserLocation:(nonnull NSNumber *)reactTag
+RCT_EXPORT_METHOD(getUserLocation:(nonnull NSNumber *)reactTag
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject){
   MapView *myView = [self getViewWithTag:reactTag];

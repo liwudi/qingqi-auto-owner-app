@@ -1,10 +1,8 @@
 /**
  * Created by linyao on 2016/10/17.
  */
-import {
-    NativeModules
-} from 'react-native';
 
+import commonModule from './components/CommonModule';
 
 import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
@@ -22,5 +20,5 @@ export function checkUpdate(){
  * @returns {*}
  */
 export function getAppVersion() {
-    return Promise.resolve({});
+    return commonModule.getVersionInfo();
 }

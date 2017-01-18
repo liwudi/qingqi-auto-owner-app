@@ -61,7 +61,7 @@ export default class PageSectionList extends Component {
     }
 
     getData(pageNumber){
-
+        Toast.show('正在查询', Toast.SHORT);
         this.pageNumber = pageNumber || this.pageNumber;
         this.props.fetchData(this.pageNumber, this.pageSize)
             .then(rs => {
@@ -70,19 +70,26 @@ export default class PageSectionList extends Component {
                 // this._data = rs.list && rs.list.length > 0 ? Object.assign({}, this._data, this.props.getSectionData(rs.list)) : this._data;
 
                 if(this._data){
+                    if(!rs.list || rs.list.length === 0) {
+                        Toast.show('没有查询到结果', Toast.SHORT);
+                    }
                     this.setState({
                         ds: this.state.ds.cloneWithRowsAndSections(this._data),
                         pageTotal : rs.page_total || 0
                     });
                 }
+                setTimeout(() => {
+                    this.setState({refreshing: false});
+                }, 150);
             })
             .catch(e => {
                 Toast.show(e.message || '未获取到数据', Toast.SHORT);
+                this.setState({refreshing: false});
             })
             .finally(() => {
                 this.setState({
                     isLoading : false,
-                    refreshing: false
+                    //refreshing: false
                 });
             });
     }
@@ -108,6 +115,7 @@ export default class PageSectionList extends Component {
     timer = null;
     componentWillReceiveProps(nextProps){
         if(nextProps.reInitField){
+            this.setState({ds: this.state.ds.cloneWithRowsAndSections({})});
             if(
                 this.reInitField.some((item, index) => {
                     return item != nextProps.reInitField[index];

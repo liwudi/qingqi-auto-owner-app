@@ -8,7 +8,11 @@
 #import "RNBridgeModule.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
+#import "JHSysContactsUtil.h"
 
+@interface RNBridgeModule()
+@property (nonatomic, strong) JHSysContactsUtil *contactsUtil;
+@end
 @implementation RNBridgeModule
 
 @synthesize bridge = _bridge;
@@ -17,7 +21,7 @@ RCT_EXPORT_MODULE(RNBridgeModule)
 
 
 //版本信息获取
-RCT_EXPORT_METHOD(getVersionInfo:(NSString *)string resolver:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(getVersionInfo:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject){
   
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
@@ -36,7 +40,30 @@ RCT_EXPORT_METHOD(getVersionInfo:(NSString *)string resolver:(RCTPromiseResolveB
     }
 }
 
-
+//通讯录信息获取
+RCT_EXPORT_METHOD(getContactInfo:(NSString *)string resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject){
+  
+  if(self.contactsUtil == nil) {
+    self.contactsUtil = [JHSysContactsUtil new];
+  }
+  
+  
+  // 获取联系人信息
+  [self.contactsUtil callContactsHandler:^(JHContactModel *contact) {
+    NSLog(@"@@~~name : %@, phoneNumber: %@", contact.name, contact.phoneNumber);
+    
+    if(contact.name && contact.phoneNumber){
+      resolve(@{@"name":contact.name,@"phoneNumber":contact.phoneNumber});
+    }else{
+      NSError *error=[NSError errorWithDomain:@"versionName、versionCode、cpackageName获取失败" code:100 userInfo:nil];
+      reject(@"100",@"versionName、versionCode、cpackageName获取失败",error);
+    }
+    
+  }];
+  
+  
+}
 
 RCT_EXPORT_METHOD(RNInvokeOCCallPhone:(NSDictionary *)dictionary){
   

@@ -26,6 +26,7 @@ import com.mapbar.react.common.operation.ContactsOperation;
 import com.mapbar.react.common.operation.HttpPostUpload;
 import com.mapbar.react.common.operation.MediaPlayerOperation;
 import com.mapbar.react.common.operation.MediaRecorderOperation;
+import com.netease.nim.uikit.session.fragment.MessageFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -191,11 +192,12 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     /* 打开客服
     * */
     @ReactMethod
-    public void startKefuActivity(final String userId,final String kefuId,final String type,final String nimToken) {
+    public void startKefuActivity(final String userId,final String kefuId,final String type,final String nimToken,String dialogId) {
         ImageLoader.getInstance().clearMemoryCache();
         ImageLoader.getInstance().clearDiskCache();
         MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
         messageServer.prepare(userId,kefuId,type,nimToken);
+        MessageFragment.setDialogId(dialogId);
     }
 
 
