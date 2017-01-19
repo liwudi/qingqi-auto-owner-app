@@ -50,7 +50,7 @@ class UserCenterHome extends Component {
     }
 
     _checkUpdate(isShowTip = true){
-        checkUpdate().then(rs => {
+        Env.isAndroid && checkUpdate().then(rs => {
             if(rs['version_no'] > this.state.versionCode){
                 this.setState({
                     isUpdate:true
