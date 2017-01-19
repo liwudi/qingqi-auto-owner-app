@@ -16,7 +16,7 @@ import  PageList from '../../../components/PageList';
 import Env from '../../../utils/Env';
 import MyLineSetStartEnd from './MyLineSetStartEnd';
 import imgsrc from '../../../assets/images/noPic.png';
-import {providerList} from '../../../services/ServiceStationService';
+import {providerList,inverse} from '../../../services/ServiceStationService';
 import { IconCall } from  '../../../components/Icons';
 import ProvincePicker from  '../../../components/ProvincePicker';
 const estyle = Env.style;
