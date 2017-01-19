@@ -131,38 +131,43 @@ export default class CouponDetail extends Component {
                                         </View>
                                     </View>
                                 </View>
-                                <View style={[estyle.marginTop,estyle.padding]}>
-                                    <Text style={[estyle.note]}>服务商信息</Text>
-                                </View>
                                 {
-                                    this.state.serverStation ?
-                                        <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                            <ViewForRightArrow
-                                                rightIcon={IconCall}
-                                                iconSize={Env.vector.call.size}
-                                                iconColor={Env.color.main}
-                                                style={{borderBottomWidth:0}}
-                                                onPress={() => {
+                                    this.props.isUnUsed ?
+                                    <View>
+                                        <View style={[estyle.marginTop,estyle.padding]}>
+                                            <Text style={[estyle.note]}>服务商信息</Text>
+                                        </View>
+                                        {
+                                            this.state.serverStation ?
+                                                <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                                    <ViewForRightArrow
+                                                        rightIcon={IconCall}
+                                                        iconSize={Env.vector.call.size}
+                                                        iconColor={Env.color.main}
+                                                        style={{borderBottomWidth:0}}
+                                                        onPress={() => {
                                 this.props.callTo(this.state.serverStation.phone)
                             }}
-                                            >
-                                                <View style={[estyle.fx1]}>
-                                                    <View style={[estyle.fxRow]}>
-                                                        <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
-                                                        <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
-                                                    </View>
-                                                    <View>
-                                                        <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
-                                                    </View>
-                                                </View>
-                                            </ViewForRightArrow>
-                                        </View> : null
+                                                    >
+                                                        <View style={[estyle.fx1]}>
+                                                            <View style={[estyle.fxRow]}>
+                                                                <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
+                                                                <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
+                                                            </View>
+                                                            <View>
+                                                                <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </ViewForRightArrow>
+                                                </View> : null
+                                        }
+                                        <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                            <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
+                                                <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View> : <View/>
                                 }
-                                <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
-                                        <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
-                                    </TouchableOpacity>
-                                </View>
                             </View> : <View />
                     }
                 </ScrollView>
