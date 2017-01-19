@@ -59,5 +59,5 @@ const Servers = {
 
 export default {
     ...Config,
-    server: Servers.ServerDebug
+    server: Servers.ServerDebug153
 };

@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Navigator,
     ScrollView,
-    NativeModules
+    NativeModules,
+    RefreshControl
 } from 'react-native';
 
 import QRCode from 'react-native-qrcode';
@@ -31,7 +32,8 @@ export default class CouponDetail extends Component {
         super(props);
         this.state={
             data:null,
-              lonlat:null
+            lonlat:null,
+            isRefreshing:true
         };
     }
     componentDidMount(){
@@ -42,7 +44,8 @@ export default class CouponDetail extends Component {
             })
             .catch((err)=>{
                 Toast.show(err.message,Toast.SHORT);
-            });
+            })
+            .finally(()=>{this.setState({isRefreshing:false})})
     }
     getLocation(){
         //获取手机位置
@@ -87,10 +90,17 @@ export default class CouponDetail extends Component {
                     <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:data.id,vin:data ? data.vin : ''})}
                      }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button> : <View />
                 }/>
-                <ScrollView style={[estyle.padding,estyle.fx1]}>
+                <ScrollView style={[estyle.fx1]} refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            colors={[Env.color.main]}
+                            progressBackgroundColor="#fff"
+                        />
+                    }
+                >
                     {
                         this.state.data ?
-                            <View>
+                            <View style={[estyle.fx1,estyle.padding]}>
                                 <View style={[estyle.cardBackgroundColor,estyle.fxRowCenter]}>
                                     <Text style={[estyle.articleTitle,estyle.marginVertical,{color:Env.color.main}]}>{data.couponName}</Text>
                                     <Text style={[estyle.text,estyle.marginBottom,{color:Env.color.main}]}>{data.couponContent}</Text>
