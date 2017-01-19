@@ -8,7 +8,7 @@ const Config = {
     mainColor: '#4f77db',  //司机端主色
     packageName: 'com.mapbar.qingqi.onwer', //应用包名
     uploadCk: '52b376899aaf4714a4e40e902a1f5aa5', // 应用商店更新key
-    APP_TYPE: '0', //0是车主端，1是司机端
+    APP_TYPE: 'qingqi_owner_mobile', //    qingqi_owner_mobile(青汽车主版本)  qingqi_driver_mobile（青汽司机版本）
     APP_PRODUCT: 'qingqi',
     DEVICE_TYPE: Platform.OS === 'android' ? '1' : '2',//1:android,  2:ios   /////qingqi_owner_mobile
 };
@@ -19,7 +19,6 @@ const ServerBase = {
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
     SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
-    SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
