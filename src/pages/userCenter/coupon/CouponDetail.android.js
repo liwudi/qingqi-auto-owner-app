@@ -40,7 +40,7 @@ export default class CouponDetail extends Component {
         module.initLocation();
         couponDetail(this.props.couponId)
             .then((data)=>{
-                this.setState({data:data},()=>{this.getLocation()})
+                this.setState({data:data},()=>{ if(this.props.isUnUsed){this.getLocation()} })
             })
             .catch((err)=>{
                 Toast.show(err.message,Toast.SHORT);
