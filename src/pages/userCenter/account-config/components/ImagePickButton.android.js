@@ -2,7 +2,7 @@
  * Created by cryst on 2016/10/11.
  */
 import React, {Component} from 'react';
-import {Platform, TouchableHighlight, View, Text, StyleSheet, Modal} from 'react-native';
+import {Platform, TouchableHighlight, View, Text, StyleSheet, Modal, AppState} from 'react-native';
 
 import Env from '../../../../utils/Env';
 import ModalBox from '../../../../components/widgets/Modal';
@@ -70,13 +70,36 @@ export default class ImagePickButton extends Component {
             });
         }
     }
-
+    componentDidMount() {
+        AppState.addEventListener('change', this._handleAppStateChange.bind(this));
+    }
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
+    }
+    _handleAppStateChange(currentAppState) {
+        if(currentAppState === 'background') {
+            this.showMsg();
+        }
+    }
+    showMsg = (msg) => {
+        this.timer && clearTimeout(this.timer);
+        if(msg) {
+            this.timer = setTimeout(() => {
+                this.close();
+                Toast.show(msg, Toast.LONG);
+            }, 1000);
+        }
+    }
     launchCamera = () => {
+        this.showMsg('您可能禁用了拍照功能，请到系统“设置”中开启');
         ImagePicker.launchCamera(options, this._getImage);
+
     }
 
     launchImageLibrary = () => {
+        this.showMsg('您可能禁用了相册功能，请到系统“设置”中开启');
         ImagePicker.launchImageLibrary(options, this._getImage);
+
     }
 
     render() {
