@@ -29,6 +29,12 @@ export default class CouponServiceStation extends Component {
             cityCode: ''
         }
     }
+    componentDidMount(){
+        if(this.props.lonlat){
+            inverse(this.props.lonlat.longitude ,this.props.lonlat.latitude)
+                .then( (data)=>{ this.setState({cityName:data.name,cityCode:data.id }) } )
+        }
+    }
 
     changeCity(data) {
         this.setState({
@@ -41,7 +47,7 @@ export default class CouponServiceStation extends Component {
         return (
             <View style={[estyle.fx1]}>
                 <TopBanner {...this.props} title="服务商列表" rightView={
-                    <Button color="#FFF" onPress={() => { this.props.router.push(ProvincePicker,{changeCity:this.changeCity.bind(this)})}}>
+                    <Button color="#FFF" onPress={() => { this.props.router.push(ProvincePicker,{changeCity:this.changeCity.bind(this),type:'coupon',id:this.props.id })}}>
                         <Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>{this.state.cityName || '请选择城市' }</Text>
                     </Button>
                 }/>
