@@ -21,7 +21,7 @@ export default class NotUsed extends Component {
         super(props);
     }
     goDetail(id){
-        this.props.router.push(CouponDetail,{couponId:id});
+        this.props.router.push(CouponDetail,{couponId:id,isUnUsed:true});
     }
 
     render() {
