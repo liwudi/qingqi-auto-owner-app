@@ -54,7 +54,7 @@ export default class CouponServiceStation extends Component {
                 {
                     this.state.cityCode ?
                         <PageList
-                            style={[estyle.fx1,estyle.padding,{backgroundColor:Env.color.bg}]}
+                            style={[estyle.fx1,{backgroundColor:Env.color.bg}]}
                             reInitField={[this.state.cityCode]}
                             renderRow={(row) => {
                                 return (
