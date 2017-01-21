@@ -114,7 +114,7 @@ export default class MyCar extends Component {
                     </View>
                     <View style={[estyle.fxCenter, {paddingLeft:smallpadding}]}>
                         <Text style={[estyle.articleTitle,{color:'#FFF'}]}>{this.state.myCarsInfo.mileAgeTotal || 0}</Text>
-                        <Text style={[estyle.text,{color:'#FFF'}]}>今日总里程(公里33)</Text>
+                        <Text style={[estyle.text,{color:'#FFF'}]}>今日总里程(公里)</Text>
                     </View>
                 </View>
                 <PageList

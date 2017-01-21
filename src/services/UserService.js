@@ -73,7 +73,8 @@ export function login(phone, password, captcha = '') {
         "password": password,
         "product": Server.APP_PRODUCT,
         deviceId: Server.DEVICE_ID,
-        deviceType: Server.DEVICE_TYPE
+        deviceType: Server.DEVICE_TYPE,
+        appType: Server.APP_TYPE
     });
 }
 
@@ -111,7 +112,8 @@ export function fastLogin(phone, smsCode) {
         autoLogin: '1',
         smsCode: smsCode,
         deviceType: Server.DEVICE_TYPE,
-        deviceId: Server.DEVICE_ID
+        deviceId: Server.DEVICE_ID,
+        appType: Server.APP_TYPE
     });
 }
 

@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Navigator,
     ScrollView,
-    NativeModules
+    NativeModules,
+    RefreshControl
 } from 'react-native';
 
 import QRCode from 'react-native-qrcode';
@@ -31,18 +32,20 @@ export default class CouponDetail extends Component {
         super(props);
         this.state={
             data:null,
-              lonlat:null
+            lonlat:null,
+            isRefreshing:true
         };
     }
     componentDidMount(){
         module.initLocation();
         couponDetail(this.props.couponId)
             .then((data)=>{
-                this.setState({data:data},()=>{this.getLocation()})
+                this.setState({data:data},()=>{ if(this.props.isUnUsed){this.getLocation()} })
             })
             .catch((err)=>{
                 Toast.show(err.message,Toast.SHORT);
-            });
+            })
+            .finally(()=>{this.setState({isRefreshing:false})})
     }
     getLocation(){
         //获取手机位置
@@ -87,10 +90,17 @@ export default class CouponDetail extends Component {
                     <Button color="#FFF" onPress={() => { this.props.router.push(CouponRecord,{coupon:data.id,vin:data ? data.vin : ''})}
                      }><Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>消费记录</Text></Button> : <View />
                 }/>
-                <ScrollView style={[estyle.padding,estyle.fx1]}>
+                <ScrollView style={[estyle.fx1]} refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            colors={[Env.color.main]}
+                            progressBackgroundColor="#fff"
+                        />
+                    }
+                >
                     {
                         this.state.data ?
-                            <View>
+                            <View style={[estyle.fx1,estyle.padding]}>
                                 <View style={[estyle.cardBackgroundColor,estyle.fxRowCenter]}>
                                     <Text style={[estyle.articleTitle,estyle.marginVertical,{color:Env.color.main}]}>{data.couponName}</Text>
                                     <Text style={[estyle.text,estyle.marginBottom,{color:Env.color.main}]}>{data.couponContent}</Text>
@@ -121,38 +131,43 @@ export default class CouponDetail extends Component {
                                         </View>
                                     </View>
                                 </View>
-                                <View style={[estyle.marginTop,estyle.padding]}>
-                                    <Text style={[estyle.note]}>服务商信息</Text>
-                                </View>
                                 {
-                                    this.state.serverStation ?
-                                        <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                            <ViewForRightArrow
-                                                rightIcon={IconCall}
-                                                iconSize={Env.vector.call.size}
-                                                iconColor={Env.color.main}
-                                                style={{borderBottomWidth:0}}
-                                                onPress={() => {
+                                    this.props.isUnUsed ?
+                                    <View>
+                                        <View style={[estyle.marginTop,estyle.padding]}>
+                                            <Text style={[estyle.note]}>服务商信息</Text>
+                                        </View>
+                                        {
+                                            this.state.serverStation ?
+                                                <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                                    <ViewForRightArrow
+                                                        rightIcon={IconCall}
+                                                        iconSize={Env.vector.call.size}
+                                                        iconColor={Env.color.main}
+                                                        style={{borderBottomWidth:0}}
+                                                        onPress={() => {
                                 this.props.callTo(this.state.serverStation.phone)
                             }}
-                                            >
-                                                <View style={[estyle.fx1]}>
-                                                    <View style={[estyle.fxRow]}>
-                                                        <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
-                                                        <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
-                                                    </View>
-                                                    <View>
-                                                        <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
-                                                    </View>
-                                                </View>
-                                            </ViewForRightArrow>
-                                        </View> : null
+                                                    >
+                                                        <View style={[estyle.fx1]}>
+                                                            <View style={[estyle.fxRow]}>
+                                                                <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
+                                                                <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
+                                                            </View>
+                                                            <View>
+                                                                <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </ViewForRightArrow>
+                                                </View> : null
+                                        }
+                                        <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                            <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
+                                                <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View> : <View/>
                                 }
-                                <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                    <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
-                                        <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
-                                    </TouchableOpacity>
-                                </View>
                             </View> : <View />
                     }
                 </ScrollView>

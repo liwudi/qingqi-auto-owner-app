@@ -14,7 +14,8 @@ import {
     ScrollView
 } from 'react-native';
 
-import { areaCondition } from '../services/ServiceStationService';
+import { areaCondition } from '../services/AppService';
+import { providerCity } from '../services/ServiceStationService';
 import TopBanner from './TopBanner';
 import PageList from './PageList';
 
@@ -51,9 +52,13 @@ export default class ProvincePicker extends Component {
                                 )
                             }}
                     fetchData={(pageNumber, pageSize) => {
-                                return areaCondition(this.props.proCode).then((data)=>{
-                                    return {list:data}
-                                })
+                                 if(this.props.type === 'coupon'){
+                                    return providerCity(1,50,this.props.id,this.props.proCode)
+                                }else {
+                                    return areaCondition(this.props.proCode).then((data)=>{
+                                        return {list:data}
+                                    })
+                                }
                             }}
                 />
             </View>

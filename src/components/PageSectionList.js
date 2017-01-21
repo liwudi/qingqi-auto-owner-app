@@ -61,7 +61,7 @@ export default class PageSectionList extends Component {
     }
 
     getData(pageNumber){
-        Toast.show('正在查询', Toast.SHORT);
+        // Toast.show('正在查询', Toast.SHORT);
         this.pageNumber = pageNumber || this.pageNumber;
         this.props.fetchData(this.pageNumber, this.pageSize)
             .then(rs => {

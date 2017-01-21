@@ -21,7 +21,7 @@ export default class NotUsed extends Component {
         super(props);
     }
     goDetail(id){
-        this.props.router.push(CouponDetail,{couponId:id});
+        this.props.router.push(CouponDetail,{couponId:id,isUnUsed:true});
     }
 
     render() {
@@ -52,7 +52,7 @@ export default class NotUsed extends Component {
                                      </View>
                                </View>
                                {
-                                   row.effectiveEnd ? <View style={[styles.effectiveEnd,estyle.fxCenter]}>
+                                   row.effectiveEnd || row.effectiveEnd === 0 ? <View style={[styles.effectiveEnd,estyle.fxCenter]}>
                                     <Text style={[{fontSize:Env.font.mini,color:Env.color.navTitle}]}>剩余{row.effectiveEnd}天</Text>
                                </View> : null
                                }

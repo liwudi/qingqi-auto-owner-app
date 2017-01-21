@@ -229,16 +229,25 @@ export function recommend(opts) {
         opts
     );
 }
-//省市列表查询（服务站）
-export function areaCondition(id){
-    if(!id && _PROVINCE_) return Promise.resolve(_PROVINCE_);
+//逆地理 根据经纬度查询城市与cityCode
+export function inverse(lon,lat) {
     return RequestService.get(
-        `${Server.QINGQI}tocapp/areaCondition`,
-        {id:id || ''}
-    ).then((data)=>{
-        if(!id) {
-            _PROVINCE_=data;
+        makeUrl('inverse'),
+        {
+            lon:lon,
+            lat:lat
         }
-        return data;
-    });
+    );
+}
+//获取服务商城市
+export function providerCity(page_number,page_size,activityId,code) {
+    return RequestService.get(
+        makeUrl('providerCity'),
+        {
+            page_number:page_number || 1 ,
+            page_size:page_size || 20,
+            activityId: activityId,
+            code:code
+        }
+    );
 }

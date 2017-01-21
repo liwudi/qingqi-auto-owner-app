@@ -77,6 +77,14 @@ apply from: "../../node_modules/react-native/react.gradle"
  */
 def enableSeparateBuildPerCPUArchitecture = false
 
+
+def YUNXIN_AMAP_KEY     = "34742e4968884821fb3f14160545c512"
+def YUNXIN_APP_KEY      = "34742e4968884821fb3f14160545c512"
+def STAT_MAPBAR_APP_KEY = "c11ff0503aa84d0ea7d0bdaba84358c2"
+def STAT_UMENG_APP_KEY  = "585b8cc999f0c70a01000ffa"
+def PUSH_MAPBAR_APP_KEY = "3aae4181c7694165813ffa251f56bf62"
+def PUSH_MAPBAR_APP_KEY_TEST = "test-1f009f31c1a44cd196e46a257d0c4343"
+
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
@@ -89,17 +97,17 @@ android {
         applicationId "com.mapbar.qingqi.onwer"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10002
-        versionName "1.0.2"
+        versionCode 10010
+        versionName "1.1.0"
         ndk {
             abiFilters "armeabi-v7a"
         }
         manifestPlaceholders = [
-                YUNXIN_AMAP_KEY     :"34742e4968884821fb3f14160545c512",
-                YUNXIN_APP_KEY      :"34742e4968884821fb3f14160545c512",
-                STAT_MAPBAR_APP_KEY :"c11ff0503aa84d0ea7d0bdaba84358c2",
-                STAT_UMENG_APP_KEY  :"585b8cc999f0c70a01000ffa",
-                PUSH_MAPBAR_APP_KEY :"3aae4181c7694165813ffa251f56bf62",
+                YUNXIN_AMAP_KEY     : YUNXIN_AMAP_KEY,
+                YUNXIN_APP_KEY      : YUNXIN_APP_KEY,
+                STAT_MAPBAR_APP_KEY : STAT_MAPBAR_APP_KEY,
+                STAT_UMENG_APP_KEY  : STAT_UMENG_APP_KEY,
+                PUSH_MAPBAR_APP_KEY : PUSH_MAPBAR_APP_KEY_TEST,
         ]
 
     }
@@ -122,22 +130,49 @@ android {
     buildTypes {
         //现网
         release {
+            manifestPlaceholders = [
+                    YUNXIN_AMAP_KEY     : YUNXIN_AMAP_KEY,
+                    YUNXIN_APP_KEY      : YUNXIN_APP_KEY,
+                    STAT_MAPBAR_APP_KEY : STAT_MAPBAR_APP_KEY,
+                    STAT_UMENG_APP_KEY  : STAT_UMENG_APP_KEY,
+                    PUSH_MAPBAR_APP_KEY : PUSH_MAPBAR_APP_KEY,
+            ]
             buildConfigField "String", "server_url", "\"http://jfx.mapbar.com/api\""
+            buildConfigField "String", "server_type", "\"release\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release //打release包 请取消注释
         }
-        // 外网调试用的
+
         debug {
             buildConfigField "String", "server_url", "\"http://61.161.238.158:8950\""
+            buildConfigField "String", "server_type", "\"debug\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-        // 内网调试用的
-        dev {
-            buildConfigField "String", "server_url", "\"http://jfx.mapbar.com/api\""
+
+        release151 {
+            buildConfigField "String", "server_url", "\"http://10.30.50.151:8950\""
+            buildConfigField "String", "server_type", "\"debug151\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+        }
+
+        release152 {
+            buildConfigField "String", "server_url", "\"http://61.161.238.158:8950\""
+            buildConfigField "String", "server_type", "\"debug\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+        }
+
+        release153 {
+            buildConfigField "String", "server_url", "\"http://10.30.50.153:8950\""
+            buildConfigField "String", "server_type", "\"debug153\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
