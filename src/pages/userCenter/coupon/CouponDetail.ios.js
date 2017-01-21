@@ -48,7 +48,7 @@ export default class CouponDetail extends Component {
 
     }
     getLocation(){
-        recommend({activityId:this.state.id})
+        recommend({activityId:this.state.data.id})
             .then((data)=>{
                 this.setState({serverStation:data})
             })
