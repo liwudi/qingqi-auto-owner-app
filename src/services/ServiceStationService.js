@@ -251,3 +251,16 @@ export function providerCity(page_number,page_size,activityId,code) {
         }
     );
 }
+//省市列表查询
+export function areaCondition(id){
+    if(!id && _PROVINCE_) return Promise.resolve(_PROVINCE_);
+    return RequestService.get(
+        `${Server.QINGQI}tocapp/areaCondition`,
+        {id:id || ''}
+    ).then((data)=>{
+        if(!id) {
+            _PROVINCE_=data;
+        }
+        return data;
+    });
+}

@@ -14,8 +14,7 @@ import {
     ScrollView
 } from 'react-native';
 
-import { areaCondition } from '../services/AppService';
-import { providerCity } from '../services/ServiceStationService';
+import { providerCity, areaCondition } from '../services/ServiceStationService';
 import TopBanner from './TopBanner';
 import PageList from './PageList';
 import CityPicker from './CityPicker';
