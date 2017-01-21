@@ -39,7 +39,7 @@ export default class CouponServiceStation extends Component {
 
     render() {
         return (
-            <View style={[estyle.fx1]}>
+            <View style={[estyle.fx1, estyle.backgroundColor]}>
                 <TopBanner {...this.props} title="服务商列表" rightView={
                     <Button color="#FFF" onPress={() => { this.props.router.push(ProvincePicker,{changeCity:this.changeCity.bind(this)})}}>
                         <Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>{this.state.cityName || '请选择城市' }</Text>
@@ -48,11 +48,11 @@ export default class CouponServiceStation extends Component {
                 {
                     this.state.cityCode ?
                         <PageList
-                            style={[estyle.fx1,estyle.padding,{backgroundColor:Env.color.bg}]}
+                            style={[estyle.fx1,{backgroundColor:Env.color.bg}]}
                             reInitField={[this.state.cityCode]}
                             renderRow={(row) => {
                                 return (
-                                    <View style={[estyle.padding,estyle.borderBottom,estyle.cardBackgroundColor]}>
+                                    <View style={[estyle.padding,estyle.borderBottom,estyle.cardBackgroundColor, {overflow: 'hidden'}]}>
                                         <View style={[estyle.fxRow,estyle.fxCenter]}>
                                             <View style={[styles.image]}>
                                                 {
