@@ -45,7 +45,7 @@ export default class CouponServiceStation extends Component {
 
     render() {
         return (
-            <View style={[estyle.fx1]}>
+            <View style={[estyle.fx1, estyle.backgroundColor]}>
                 <TopBanner {...this.props} title="服务商列表" rightView={
                     <Button color="#FFF" onPress={() => { this.props.router.push(ProvincePicker,{changeCity:this.changeCity.bind(this),type:'coupon',id:this.props.id })}}>
                         <Text style={{color: Env.color.navTitle,fontSize: Env.font.text}}>{this.state.cityName || '请选择城市' }</Text>
@@ -58,7 +58,7 @@ export default class CouponServiceStation extends Component {
                             reInitField={[this.state.cityCode]}
                             renderRow={(row) => {
                                 return (
-                                    <View style={[estyle.padding,estyle.borderBottom,estyle.cardBackgroundColor]}>
+                                    <View style={[estyle.padding,estyle.borderBottom,estyle.cardBackgroundColor, {overflow: 'hidden'}]}>
                                         <View style={[estyle.fxRow,estyle.fxCenter]}>
                                             <View style={[styles.image]}>
                                                 {
@@ -68,7 +68,7 @@ export default class CouponServiceStation extends Component {
                                                 <Image source={imgsrc}
                                                        style={[styles.image, estyle.border]} />
                                             </View>
-                                            <View style={[estyle.fx1,estyle.paddingHorizontal]}>
+                                            <View style={[estyle.fx1,estyle.paddingHorizontal,{paddingRight: basefont * 40 }]}>
                                                 <Text style={[estyle.text]}>{row.stationName}</Text>
                                                 <TouchableOpacity style={[estyle.fxRow]} onPress={()=>{this.props.callTo(row.phone)}}>
                                                     <IconCall color={Env.color.note}/>
