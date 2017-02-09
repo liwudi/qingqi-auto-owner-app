@@ -66,7 +66,7 @@ export default class OilManageCarList extends Component {
             return <View>
                 <BorderButton color="#FFF" onPress = {() => this.toPage(OilManageShowMark,{...this.props})}>查看标杆</BorderButton>
             </View>
-        }else {
+        }else if(this.state.flag == 2){
             return <View>
                 <BorderButton color="#FFF" onPress = {() => {
                 	if(this.data && this.data.list.length) {
