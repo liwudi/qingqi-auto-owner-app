@@ -6,6 +6,7 @@ import * as TYPES from './types';
 import * as UserService from '../services/UserService';
 import { setToken } from '../service-config/RequestService';
 import Toast from '../components/Toast';
+import { couponNum } from '../services/ServiceStationService';
 
 const defUserPic = require('../assets/images/driver.png');
 
@@ -177,23 +178,33 @@ export function doFindPasswordCheckCaptcha(phone, captcha, next,err) {
 	console.info(arguments)
 	return (dispatch) => {
 		dispatch({'type': TYPES.FINDPASS_STEP1_DOING});
-		sendCodeDispatch(
-			dispatch,
-			UserService.findPasswordSendCode.bind(this, phone, captcha),
-			(rs, error) => {
-			if(rs){
-				console.info('rs')
-				console.info(rs)
-				dispatch({'type': TYPES.FINDPASS_STEP2, phoneInfo:{phone, captcha}});
-				console.info('next')
-				console.info(next)
-				next && next();
-			}else if(error){
-				dispatch({'type': TYPES.FINDPASS_STEP1_ERROR, error});
-				err && err();
-			}
-		}
-		);
+		// sendCodeDispatch(
+		// 	dispatch,
+		// 	UserService.findPasswordSendCode.bind(this, phone, captcha),
+		// 	(rs, error) => {
+		// 	if(rs){
+		// 		console.info('rs')
+		// 		console.info(rs)
+		// 		dispatch({'type': TYPES.FINDPASS_STEP2, phoneInfo:{phone, captcha}});
+		// 		console.info('next')
+		// 		console.info(next)
+		// 		next && next();
+		// 	}else if(error){
+		// 		dispatch({'type': TYPES.FINDPASS_STEP1_ERROR, error});
+		// 		err && err();
+		// 	}
+		// }
+		// );
+        UserService.findPasswordSendCode(phone, captcha)
+            .then((rs)=>{
+                dispatch({'type': TYPES.FINDPASS_STEP2, phoneInfo:{phone, captcha}});
+                next && next();
+            })
+            .catch((error)=>{
+                Toast.show(error.message, Toast.SHORT);
+                dispatch({'type': TYPES.FINDPASS_STEP1_ERROR, error});
+                err && err();
+            })
 	}
 }
 
@@ -458,5 +469,19 @@ export function getUserPic() {
 			.catch(e => {
                 dispatch({'type': TYPES.USER_PIC, img: defUserPic});
 			})
+    }
+}
+/**
+ * 获取用户当前车辆的优惠券数量
+ * @returns {function(*)}
+ */
+export function getCouponNum() {
+    return (dispatch) => {
+        couponNum()
+            .then(res => {
+                dispatch({'type': TYPES.COUPON_IN, num: res.num});
+            })
+            .catch((e)=>{
+            });
     }
 }
