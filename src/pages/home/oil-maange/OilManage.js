@@ -118,7 +118,7 @@ export default class OilManage extends Component {
 				_cd = _curDate;
 			option.xAxis.data.push(_d_);
 			option.series[0].data.push({
-				value : _d.length > 0 ? _d[0].mileage : 0,
+				value : _d.length > 0 ? _d[0].oilwear : 0,
 				itemValue: (_d[0] || {}),
 				index:index,
 				label:{
@@ -131,25 +131,6 @@ export default class OilManage extends Component {
 				}
 			});
 		});
-		/*this.state.weeks.map((date, index) => {
-			let _d = this.state.datas.filter((item) => item.statisDate == date.format('YYYYMMDD'));
-			let _d_ = date.format('MM-DD'),
-				_td = moment(new Date()).format('MM-DD');
-            option.xAxis.data.push(_d_);
-            option.series[0].data.push({
-                value : _d.length > 0 ? _d[0].oilwear : 0,
-				itemValue: (_d[0] || {}),
-				index:index,
-				label:{
-                    normal:{show:true,position:'top'}
-				},
-                itemStyle:{
-					normal: {color: Env.color.main},
-					emphasis:{color: '#88C057'}
-                }
-            });
-
-		});*/
 
 		const chart = () => {
 			if(!this.chart || JSON.stringify(option) !== JSON.stringify(this.option || {})){
