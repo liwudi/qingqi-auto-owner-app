@@ -67,11 +67,11 @@ export function delDriver(driverId) {
 
 export function login(phone, password, captcha = '') {
     return RequestService.post(`${Server.QINGQI}tocapp/login`, {
-        "loginName": phone,
-        "autoLogin": '1',
-        "captcha": captcha,
-        "password": password,
-        "product": Server.APP_PRODUCT,
+        loginName: phone,
+        autoLogin: '1',
+        captcha: captcha,
+        password: password,
+        product: Server.APP_PRODUCT,
         deviceId: Server.DEVICE_ID,
         deviceType: Server.DEVICE_TYPE,
         appType: Server.APP_TYPE
@@ -180,7 +180,8 @@ export function reg(phone, trueName, password, smsCode) {
         password: password,
         smsCode: smsCode,
         product: Server.APP_PRODUCT,
-        type: Server.APP_TYPE
+        type: Server.TYPE,
+        appType: Server.APP_TYPE
     });
 }
 
@@ -361,7 +362,8 @@ export function bindMobile(phone, smsCode, oldMobile, oldSmsCode) {
  */
 export function logout() {
     return RequestService.get(`${Server.QINGQI}tocapp/logout`, {
-        product: Server.APP_PRODUCT
+        product: Server.APP_PRODUCT,
+        appType: Server.APP_TYPE
     });
     //return RequestService.post(`${Server.WD_SERVICE}user/logout`, {product: Server.APP_PRODUCT});
 }
