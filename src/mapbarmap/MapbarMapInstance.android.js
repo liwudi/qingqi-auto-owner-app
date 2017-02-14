@@ -30,7 +30,7 @@ export class Marker {
      * */
     /*添加标注*/
     static add = (opts) => {
-        if(mapRef === null) return;
+        if(mapRef === null || !opts.longitude || !opts.latitude) return;
         module.addAnnotations(
             mapRef, opts
         )
@@ -77,7 +77,7 @@ export class MarkerRotate {
     * }]
      * */
     static add = (opts) => {
-        if(mapRef === null) return;
+        if(mapRef === null || !opts.longitude || !opts.latitude) return;
         module.setIconOverlayIcons(
             mapRef, opts
         );
