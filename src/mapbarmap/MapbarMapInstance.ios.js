@@ -21,7 +21,15 @@ export function MPoint(point) {
     };
     return pt;
 }
-
+function getLonLat(opts) {
+    let arr = [];
+    opts.forEach((v) => {
+        if(v.longitude && v.latitude) {
+            arr.push(v);
+        }
+    });
+    return arr;
+}
 export class Marker {
     /**opts=[{
     *   latitude: 1, longitude: 2, id:1, offsetX:12, offsetY:12, click:true, imageName:'',
@@ -30,9 +38,10 @@ export class Marker {
      * */
     /*添加标注*/
     static add = (opts) => {
-        if(mapRef === null || !opts.longitude || !opts.latitude) return;
-        module.addAnnotations(
-            mapRef, opts
+        if(mapRef === null) return;
+        let arr = getLonLat(opts);
+        arr.length && module.addAnnotations(
+            mapRef, arr
         )
     }
     /**opts=[{
@@ -81,9 +90,10 @@ export class MarkerRotate {
     * }]
      * */
     static add = (opts) => {
-        if(mapRef === null || !opts.longitude || !opts.latitude) return;
-        module.setIconOverlayIcons(
-            mapRef, opts
+        if(mapRef === null) return;
+        let arr = getLonLat(opts);
+        arr.length && module.setIconOverlayIcons(
+            mapRef, arr
         );
     }
     /**opts=[{
