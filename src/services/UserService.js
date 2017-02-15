@@ -74,7 +74,8 @@ export function login(phone, password, captcha = '') {
         product: Server.APP_PRODUCT,
         deviceId: Server.DEVICE_ID,
         deviceType: Server.DEVICE_TYPE,
-        appType: Server.APP_TYPE
+        appType: Server.APP_TYPE,
+        type: Server.TYPE
     });
 }
 
@@ -113,7 +114,8 @@ export function fastLogin(phone, smsCode) {
         smsCode: smsCode,
         deviceType: Server.DEVICE_TYPE,
         deviceId: Server.DEVICE_ID,
-        appType: Server.APP_TYPE
+        appType: Server.APP_TYPE,
+        type: Server.TYPE
     });
 }
 
@@ -363,7 +365,8 @@ export function bindMobile(phone, smsCode, oldMobile, oldSmsCode) {
 export function logout() {
     return RequestService.get(`${Server.QINGQI}tocapp/logout`, {
         product: Server.APP_PRODUCT,
-        appType: Server.APP_TYPE
+        appType: Server.APP_TYPE,
+        type: Server.TYPE
     });
     //return RequestService.post(`${Server.WD_SERVICE}user/logout`, {product: Server.APP_PRODUCT});
 }

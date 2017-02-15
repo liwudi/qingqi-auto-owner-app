@@ -11,7 +11,7 @@ const Config = {
     APP_TYPE: 'qingqi_owner_mobile', //    qingqi_owner_mobile(青汽车主版本)  qingqi_driver_mobile（青汽司机版本）
     APP_PRODUCT: 'qingqi',
     DEVICE_TYPE: Platform.OS === 'android' ? '1' : '2',//1:android,  2:ios   /////qingqi_owner_mobile
-    TYPE: '1' //0 车主端 1 司机端
+    TYPE: '0' //0 车主端 1 司机端
 };
 
 const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=${Config.packageName}&ck=${Config.uploadCk}`;
