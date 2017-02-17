@@ -20,7 +20,6 @@ import MyCarItem from './components/MyCarItem';
 import MonitorMap from './MonitorMap';
 import {IconMap} from '../../../components/Icons';
 import Button from '../../../components/widgets/Button';
-import Toast from '../../../components/Toast';
 const estyle = Env.style;
 const TIMEOUT = 500;
 export default class Monitor extends Component {
@@ -73,12 +72,7 @@ export default class Monitor extends Component {
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
                         return <MyCarItem data={row} router={this.props.router} onPress={() => {
-                            if(row.position) {
-                                this.goToMap(row.carId);
-                            } else {
-                                Toast.show('未获取到位置信息', Toast.SHORT);
-                            }
-
+                            this.goToMap(row.carId);
                         }}/>
                     }}
                     fetchData={(pageNumber, pageSize) => {

@@ -8,7 +8,7 @@ import {
     StyleSheet
 } from 'react-native';
 import {queryRealTimeCar} from '../../../../services/MonitorService';
-
+import Toast from '../../../../components/Toast';
 import Item from '../../my-car/components/MyCarItem';
 const TIMEOUT = 30; //间隔30秒刷新
 export default class MyCarItem extends Component {
@@ -20,12 +20,10 @@ export default class MyCarItem extends Component {
         this.isLoadding = false;
     }
     componentDidMount(){
-        //console.log(this.props.data);
         this.setData(this.props.data);
     }
 
     fetchData() {
-        console.info('this.stopRequest-------------------------------------', this.stopRequest)
         if(this.isLoadding) return;
         if (this.stopRequest) return;
         this.isLoadding = true;
@@ -61,7 +59,6 @@ export default class MyCarItem extends Component {
 
     requestStart() {
         this.stopRequest = false;
-    //    this.fetchData();
     }
 
     componentWillUnmount() {
@@ -74,8 +71,6 @@ export default class MyCarItem extends Component {
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
         if(this.ridx === null) this.ridx = cidx;
-        //console.info('update -----------------------------------')
-        //this.timer && clearTimeout(this.timer);
         if(cidx === this.ridx) {
             if(this.stopRequest) {
                 this.requestStart();
@@ -90,23 +85,22 @@ export default class MyCarItem extends Component {
     }
     componentWillReceiveProps(props) {
         props.data && this.setData(props.data);
-        //this.requestStart();
-       /* if(this.ridx === null) {
-
-        }*/
     }
 
-/*    componentDidMount() {
-        setTimeout(() => {
-            this.fetchData();
-        }, Math.random() * 2000);
-    }*/
+    onPress() {
+        console.info('press')
+        if(this.state.data.position) {
+            this.props.onPress();
+        } else {
+            Toast.show('未获取到位置信息', Toast.SHORT);
+        }
+    }
 
     render() {
         return (
             <View>
                  <Item data={this.state.data || {}} onPress={() => {
-                    this.props.onPress();
+                     this.onPress()
                 }}/>
             </View>
         )
