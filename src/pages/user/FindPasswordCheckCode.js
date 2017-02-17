@@ -17,8 +17,9 @@ import { UserActions, TYPES } from '../../actions/index';
 import TopBanner from '../../components/TopBanner';
 import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
 import SubmitButton from '../../components/SubmitButton';
-
+import SendMobileCode from '../../components/Inputs/SendMobileCode';
 import FindPasswordNewPassword from './FindPasswordNewPassword';
+import { findPasswordReSendCode } from '../../services/UserService';
 
 import Env from '../../utils/Env';
 
@@ -34,16 +35,14 @@ class FindPasswordCheckCode extends Component {
 	}
 
 	sendCode(){
-		this.props.dispatch(UserActions.findPasswordReSendCode(this.phone, (rs)=>{
-            !!rs && this.refs.code.focus();
-        }));
+		return findPasswordReSendCode(this.phone);
 	}
 
 	next(){
 		if(this.refs.code.validate()){
-			this.props.dispatch(UserActions.findPasswordCheckSmsCode(this.phone, this.state.code.value, () => {
-				this.props.router.replace(FindPasswordNewPassword)
-			}))
+			 this.props.dispatch(UserActions.findPasswordCheckSmsCode(this.phone, this.state.code, () => {
+				this.props.router.replace(FindPasswordNewPassword);
+			 }))
 		}
 	}
 
@@ -55,15 +54,22 @@ class FindPasswordCheckCode extends Component {
 
 					<Text style={[estyle.marginTop,{flex:1,textAlign:'center',color:Env.color.note,fontSize:Env.font.note}]}>已发送短信验证码到</Text>
 					<Text style={{flex:1,textAlign:'center',color:Env.color.important,fontSize:Env.font.navTitle}}>+86 {this.phone}</Text>
+                    <SendMobileCode
+                        ref="code"
+                        style={[estyle.borderBottom,estyle.marginTop]}
+                        onChangeText={code => this.setState({code})}
+                        sendCode = {this.sendCode.bind(this,true)}
+                        autoFocus={true}
+                    />
 
-					<PhoneChkCodeInput
+					{/*<PhoneChkCodeInput
 						ref="code"
 						style={[estyle.borderBottom, estyle.marginTop]}
 						onChangeText={code => this.setState({code})}
 						sendCode = {this.sendCode.bind(this)}
 						sendCodeStatus = {this.props.sendCodeStatus}
 						autoFocus={true}
-					/>
+					/>*/}
 					<View style={[estyle.fxRow, estyle.padding]}>
 						<Text style={[estyle.text]}>&nbsp;</Text>
 					</View>

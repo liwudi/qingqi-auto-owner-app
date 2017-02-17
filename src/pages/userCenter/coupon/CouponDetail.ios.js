@@ -126,9 +126,9 @@ export default class CouponDetail extends Component {
                             }}
                                                     >
                                                         <View style={[estyle.fx1]}>
-                                                            <View style={[estyle.fxRow]}>
-                                                                <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
+                                                            <View style={[estyle.fx1]}>
                                                                 <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
+                                                                <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
                                                             </View>
                                                             <View>
                                                                 <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>

@@ -68,7 +68,7 @@ export default class CouponServiceStation extends Component {
                                                 <Image source={imgsrc}
                                                        style={[styles.image, estyle.border]} />
                                             </View>
-                                            <View style={[estyle.fx1,estyle.paddingHorizontal]}>
+                                            <View style={[estyle.fx1,estyle.paddingHorizontal,{paddingRight: basefont * 40 }]}>
                                                 <Text style={[estyle.text]}>{row.stationName}</Text>
                                                 <TouchableOpacity style={[estyle.fxRow]} onPress={()=>{this.props.callTo(row.phone)}}>
                                                     <IconCall color={Env.color.note}/>
