@@ -18,7 +18,7 @@ const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist
 const ServerBase = {
     QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
-    SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
+    SERVICE_STATION:'http://jfx.qdfaw.com:8081/api/qingqi/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
@@ -59,5 +59,5 @@ const Servers = {
 
 export default {
     ...Config,
-    server: Servers.ServerDebug153
+    server: Servers.ServerRelease
 };
