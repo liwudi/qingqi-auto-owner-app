@@ -1,10 +1,12 @@
 package com.mapbar;
 
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -61,6 +63,7 @@ import fr.bamlab.rnimageresizer.ImageResizerPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   private static final String TAG = "MainApplication";
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   @Override
   public void onCreate() {
     super.onCreate();
