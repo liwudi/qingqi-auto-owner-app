@@ -174,7 +174,7 @@ export default class HomePage extends Component {
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-					{!1 ?
+					{!!1 ?
 						<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
 							: <ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>}
 					<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>
