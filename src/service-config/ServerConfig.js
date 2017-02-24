@@ -19,7 +19,8 @@ let ServerConfig = {
     APP_TYPE: Config.APP_TYPE,
     APP_PRODUCT: Config.APP_PRODUCT,
     DEVICE_ID: '',
-    DEVICE_TYPE: Config.DEVICE_TYPE
+    DEVICE_TYPE: Config.DEVICE_TYPE,
+    TYPE: Config.TYPE
 };
 
 

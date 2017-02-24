@@ -11,13 +11,14 @@ const Config = {
     APP_TYPE: 'qingqi_owner_mobile', //    qingqi_owner_mobile(青汽车主版本)  qingqi_driver_mobile（青汽司机版本）
     APP_PRODUCT: 'qingqi',
     DEVICE_TYPE: Platform.OS === 'android' ? '1' : '2',//1:android,  2:ios   /////qingqi_owner_mobile
+    TYPE: '0' //0 车主端 1 司机端
 };
 
 const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=${Config.packageName}&ck=${Config.uploadCk}`;
 const ServerBase = {
     QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
-    SERVICE_STATION:'http://219.146.249.190:8950/qingqi/',
+    SERVICE_STATION:'http://jfx.qdfaw.com:8081/api/qingqi/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
     GOODS_PAGE: 'https://www.lujing56.com/activities/goodsource/view/find_goods.html',
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
