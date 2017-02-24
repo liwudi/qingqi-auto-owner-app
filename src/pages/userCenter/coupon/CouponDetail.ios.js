@@ -37,6 +37,9 @@ export default class CouponDetail extends Component {
         };
     }
     componentDidMount(){
+        this.fetchData();
+    }
+    fetchData(){
         couponDetail(this.props.couponId)
             .then((data)=>{
                 this.setState({data:data},()=>{ if(this.props.isUnUsed){this.getLocation()} })
@@ -45,7 +48,6 @@ export default class CouponDetail extends Component {
                 Toast.show(err.message,Toast.SHORT);
             })
             .finally(()=>{this.setState({isRefreshing:false})})
-
     }
     getLocation(){
         recommend({activityId:this.state.data.id})
@@ -68,6 +70,7 @@ export default class CouponDetail extends Component {
                 }/>
                 <ScrollView style={[estyle.fx1]} refreshControl={
                         <RefreshControl
+                            onRefresh={this.fetchData.bind(this)}
                             refreshing={this.state.isRefreshing}
                             colors={[Env.color.main]}
                             progressBackgroundColor="#fff"
@@ -109,40 +112,40 @@ export default class CouponDetail extends Component {
                                 </View>
                                 {
                                     this.props.isUnUsed ?
-                                    <View>
-                                        <View style={[estyle.marginTop,estyle.padding]}>
-                                            <Text style={[estyle.note]}>服务商信息</Text>
-                                        </View>
-                                        {
-                                            this.state.serverStation ?
-                                                <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                                    <ViewForRightArrow
-                                                        rightIcon={IconCall}
-                                                        iconSize={Env.vector.call.size}
-                                                        iconColor={Env.color.main}
-                                                        style={{borderBottomWidth:0}}
-                                                        onPress={() => {
+                                        <View>
+                                            <View style={[estyle.marginTop,estyle.padding]}>
+                                                <Text style={[estyle.note]}>服务商信息</Text>
+                                            </View>
+                                            {
+                                                this.state.serverStation ?
+                                                    <View style={[estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                                        <ViewForRightArrow
+                                                            rightIcon={IconCall}
+                                                            iconSize={Env.vector.call.size}
+                                                            iconColor={Env.color.main}
+                                                            style={{borderBottomWidth:0}}
+                                                            onPress={() => {
                                 this.props.callTo(this.state.serverStation.phone)
                             }}
-                                                    >
-                                                        <View style={[estyle.fx1]}>
+                                                        >
                                                             <View style={[estyle.fx1]}>
-                                                                <Text style={[estyle.marginLeft,estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
-                                                                <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
+                                                                <View style={[estyle.fx1]}>
+                                                                    <Text style={[estyle.text,{color:Env.color.auxiliary}]}>为您推荐</Text>
+                                                                    <Text style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
+                                                                </View>
+                                                                <View>
+                                                                    <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
+                                                                </View>
                                                             </View>
-                                                            <View>
-                                                                <Text style={[estyle.note]}>{this.state.serverStation.address}</Text>
-                                                            </View>
-                                                        </View>
-                                                    </ViewForRightArrow>
-                                                </View> : null
-                                        }
-                                        <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
-                                            <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
-                                                <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View> : <View/>
+                                                        </ViewForRightArrow>
+                                                    </View> : null
+                                            }
+                                            <View style={[estyle.padding,estyle.cardBackgroundColor,estyle.marginBottom]}>
+                                                <TouchableOpacity style={[estyle.fxCenter]} onPress={()=>{this.props.router.push(CouponServiceStation,{id:data.id,lonlat:this.state.lonlat})}}>
+                                                    <Text style={[estyle.articleTitle,{color:Env.color.main}]}>查看更多服务商&gt;</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View> : <View/>
                                 }
                             </View> : <View />
                     }

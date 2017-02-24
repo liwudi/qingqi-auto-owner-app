@@ -139,7 +139,6 @@ class Login extends Component {
                         editable={this.props.userStore.status !== TYPES.LOGGED_DOING}
                         require={true}
                     />
-
                     <PasswordInput
                         ref="password"
                         defaultValue={this.state.password}
@@ -153,7 +152,8 @@ class Login extends Component {
                     {_renderCaptcha()}
 
                     <View style={[estyle.fxRow, estyle.padding]}>
-                        <Text style={[estyle.fx1, estyle.text, {textAlign: 'right', color: Env.color.note}]}
+                        <View style={[estyle.fx1]} />
+                        <Text style={[estyle.text, {textAlign: 'right', color: Env.color.note}]}
                               onPress={() => this.props.router.push(FindPassword)}>忘记密码</Text>
                     </View>
                     <SubmitButton
