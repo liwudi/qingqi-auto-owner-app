@@ -146,7 +146,7 @@ android {
 
         debug {
             buildConfigField "String", "server_url", "\"http://61.161.238.158:8950\""
-            buildConfigField "String", "server_type", "\"debug\""
+            buildConfigField "String", "server_type", "\"debug152\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -161,7 +161,7 @@ android {
 
         release152 {
             buildConfigField "String", "server_url", "\"http://61.161.238.158:8950\""
-            buildConfigField "String", "server_type", "\"debug\""
+            buildConfigField "String", "server_type", "\"debug152\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
