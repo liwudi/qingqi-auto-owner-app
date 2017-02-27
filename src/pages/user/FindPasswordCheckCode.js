@@ -41,10 +41,16 @@ class FindPasswordCheckCode extends Component {
 	next(){
 		if(this.refs.code.validate()){
 			 this.props.dispatch(UserActions.findPasswordCheckSmsCode(this.phone, this.state.code, () => {
-				this.props.router.replace(FindPasswordNewPassword);
+                 Toast.show('验证码已发送', Toast.SHORT);
+                 this.timeOut=setTimeout(()=>{
+                     this.props.router.replace(FindPasswordNewPassword);
+                 },500)
 			 }))
 		}
 	}
+    componentWillUnmount(){
+        this.timeOut && clearTimeout(this.timeOut);
+    }
 
 	render() {
 		return (
@@ -60,6 +66,7 @@ class FindPasswordCheckCode extends Component {
                         onChangeText={code => this.setState({code})}
                         sendCode = {this.sendCode.bind(this,true)}
                         autoFocus={true}
+						isWaiting={true}
                     />
 
 					{/*<PhoneChkCodeInput

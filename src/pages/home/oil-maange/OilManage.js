@@ -168,7 +168,7 @@ export default class OilManage extends Component {
 									this.props.router.push(
 										OilManageCarList,
 										{
-											lineInfo: row,
+											lineInfo: !(row.startPointName && row.endPointName)? null : row,
                                             routeId: row.routeId,
                                             carCode:row.carCode,
 											routeName: `${row.startPointName}——${row.endPointName}`,
