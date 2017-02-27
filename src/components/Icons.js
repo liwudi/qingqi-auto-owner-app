@@ -405,6 +405,22 @@ export  class IconSpeed extends React.Component {
 		)
 	}
 }
+//星星实心
+export  class Star_i extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="star" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
+//星星空心
+export  class Star_o extends React.Component{
+    render(){
+        return(
+			<IconFontAwesome name="star-o" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
 
 /**
  * 问号
@@ -413,6 +429,16 @@ export  class IconQuestion extends React.Component {
     render(){
         return(
 			<IconFontAwesome name="question-circle" size={size} color={color}  {...this.props} />
+        )
+    }
+}
+/**
+ * 向下实心小箭头
+ */
+export  class IconCaretDown extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="caret-down" size={size} color={Env.color.main} {...this.props} />
         )
     }
 }

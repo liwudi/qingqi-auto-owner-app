@@ -109,7 +109,9 @@ export default class LabelInput extends Component {
                         <Text style={[estyle.text,estyle.paddingVertical, {color: Env.color.important}]}>{this.props.label}</Text>
                     </View>
             }
-            
+            if(this.props.leftView){
+                leftView = this.props.leftView
+            }
             return leftView
         };
 

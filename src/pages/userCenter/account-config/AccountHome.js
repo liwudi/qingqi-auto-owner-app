@@ -90,7 +90,7 @@ class AccountHome extends Component {
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="账号设置"/>
 				<View>
-					<ViewForRightArrow onPress={this.updatePic}>
+					{/*<ViewForRightArrow onPress={this.updatePic}>
 						<View style={[estyle.fxRow, estyle.fxCenter]}>
 							<Text style={[estyle.fx1, estyle.text]}>头像</Text>
 							<Image
@@ -106,7 +106,7 @@ class AccountHome extends Component {
 							<Text style={[estyle.fx1, estyle.text]}>姓名</Text><Text style={styles.text}>{userInfo.name || '未设置姓名'}</Text>
 						</View>
 
-					</ViewForRightArrow>
+					</ViewForRightArrow>*/}
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyPassword)} style={[estyle.marginTop]}>
 						<Text style={[estyle.text]}>修改密码</Text>
 					</ViewForRightArrow>

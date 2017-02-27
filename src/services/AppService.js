@@ -363,3 +363,56 @@ export function addCar(opts){
     );
 }
 
+//获取用户认证审核状态
+export function getUserInfoStatus() {
+    return RequestService.get(
+        makeUrl('getUserInfoStatus')
+    )
+}
+//提交认证资料接口
+export function validateUserInfo() {
+    return RequestService.get(
+        makeUrl('validateUserInfo')
+    )
+}
+//保存用户信息接口
+export function saveUserInfo(opt) {
+    return RequestService.post(
+        makeUrl('saveUserInfo'),
+        opt
+    )
+}
+//省份简称-数据字典
+export function getProAbbreviation() {
+    if(_PROAbbreviation_){ return Promise.resolve(_PROAbbreviation_) }
+    return (
+        RequestService.get(
+            `${Server.QINGQI}operate/common/basedata`,
+            {
+                type:'A',
+                code: 'A050'
+            }
+        )
+            .then((data)=>{
+                _PROAbbreviation_=data;
+                return data
+            })
+    )
+}
+//车辆类型-数据字典
+export function getCarType() {
+    if(_CARTYPE_){ return Promise.resolve(_CARTYPE_) }
+    return (
+        RequestService.get(
+            `${Server.QINGQI}operate/common/basedata`,
+            {
+                type:'A',
+                code: 'A051'
+            }
+        )
+            .then((data)=>{
+                _CARTYPE_=data;
+                return data
+            })
+    )
+}
