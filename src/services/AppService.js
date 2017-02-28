@@ -419,24 +419,6 @@ export function getCarType() {
     )
 }
 
-//车辆类型-数据字典
-export function getCarType() {
-    if(_CARTYPE_){ return Promise.resolve(_CARTYPE_) }
-    return (
-        RequestService.get(
-            `${Server.QINGQI}operate/common/basedata`,
-            {
-                type:'A',
-                code: 'A051'
-            }
-        )
-            .then((data)=>{
-                _CARTYPE_=data;
-                return data
-            })
-    )
-}
-
 //货源信息始发地目的地选择列表
 export function goodsAreaList(code, level){
     if(level === 1 && _GOODS_PROVINCE_) {
