@@ -25,7 +25,7 @@ import * as Icons from '../../components/Icons';
 import Toast from '../../components/Toast';
 import { startKefuActivity } from '../../utils/CommModule';
 
-import MessageGoods from '../message/MessageGoods';
+import MessageGoods  from './goods-message/GoodsMessage';
 import Bbs from './bbs/index';
 
 import { IconSearch } from '../../components/Icons';
