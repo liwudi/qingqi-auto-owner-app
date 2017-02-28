@@ -71,7 +71,7 @@ export default class ImagePickButton extends Component {
                                 path: resizedImageUri,
                                 data: data,
                                 // type:'image/jpeg',
-                                // fileName: 'xxx.jpg '
+                                fileName: `IMG_${new Date().getTime()}.JPG`
                             });
                         });
                 }).catch((err) => {

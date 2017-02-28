@@ -30,24 +30,27 @@ class MyInfoCarLength extends Component {
 
     onSave() {
         if (LabelInput.Validate(this.refs)) {
-            if(this.props.data.carLength === this.state.carLength) {
-                this.props.router.pop();
-                return;
+            if(this.state.carLength < 99){
+                if(this.props.data.carLength === this.state.carLength) {
+                    this.props.router.pop();
+                    return;
+                }
+                this.setState({doing:true});
+                if(this.props.successFun){
+                    this.props.successFun({carLength:this.state.carLength})
+                        .then(()=>{
+                            this.props.router.pop();
+                        })
+                        .catch((err)=>{
+                            Toast.show(err.message,Toast.SHORT);
+                        })
+                        .finally(()=>{
+                            this.setState({doing:false});
+                        })
+                }
+            }else {
+                Toast.show('车长格式错误',Toast.SHORT);
             }
-            this.setState({doing:true});
-            if(this.props.successFun){
-                this.props.successFun({carLength:this.state.carLength})
-                    .then(()=>{
-                        this.props.router.pop();
-                    })
-                    .catch((err)=>{
-                        Toast.show(err.message,Toast.SHORT);
-                    })
-                    .finally(()=>{
-                        this.setState({doing:false});
-                    })
-            }
-
         }
     }
     render() {

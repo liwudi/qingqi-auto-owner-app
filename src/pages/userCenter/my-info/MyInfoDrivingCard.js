@@ -17,6 +17,7 @@ import driveingPhoto from '../../../assets/images/driveingPhoto.png';
 import  camera from '../../../assets/images/camera.png';
 import  ImagePickBotton from '../../../components/ImagePickButton'
 import { fileUpLoad } from '../../../services/AppService';
+import Toast from '../../../components/Toast';
 
 class MyInfoDrivingCard extends Component {
     constructor(props){
@@ -58,7 +59,7 @@ class MyInfoDrivingCard extends Component {
                     <Text style={[estyle.note,estyle.marginVertical]}>注：行驶证照片请主副页一起拍照</Text>
                     <View style={[styles.imgBox]}>
                         {
-                            this.props.data.vehicleLicenseValidStatus == 1 || !this.props.data.vehicleLicenseValidStatus ?
+                            this.props.data.vehicleLicenseValidStatus == 1 && !this.state.data.vehicleLicensePhoto ?
                                 <Image source={driveingPhoto} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
                                 <Image source={ {uri:this.state.data.vehicleLicensePhoto} } resizeMode={Image.resizeMode.cover} style={[{width: 500 * basefont,height: 300 * basefont }]} />
                         }
