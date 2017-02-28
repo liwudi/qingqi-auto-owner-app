@@ -75,29 +75,35 @@ export default class ImagePickButton extends Component {
     }
     componentWillUnmount() {
         AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
+        this.timer && clearTimeout(this.timer);
     }
     _handleAppStateChange(currentAppState) {
         if(currentAppState === 'background') {
-            this.showMsg();
+            this.stime = new Date().getTime();
+        } else if (this.stime && currentAppState === 'active') {
+            if(new Date().getTime() - this.stime <= 100) {
+                this.showMsg();
+            }
+            this.stime = undefined;
         }
     }
-    showMsg = (msg) => {
+
+    showMsg = () => {
         this.timer && clearTimeout(this.timer);
-        if(msg) {
-            this.timer = setTimeout(() => {
-                this.close();
-                Toast.show(msg, Toast.LONG);
-            }, 1000);
-        }
+        this.timer = setTimeout(() => {
+            this.close();
+            Toast.show(this.msg, Toast.LONG);
+        }, 1000);
     }
+
     launchCamera = () => {
-        this.showMsg('您可能禁用了拍照功能，请到系统“设置”中开启');
+        this.msg = '您可能禁用了拍照功能，请到系统“设置”中开启';
         ImagePicker.launchCamera(options, this._getImage);
 
     }
 
     launchImageLibrary = () => {
-        this.showMsg('您可能禁用了相册功能，请到系统“设置”中开启');
+        this.msg = '您可能禁用了相册功能，请到系统“设置”中开启';
         ImagePicker.launchImageLibrary(options, this._getImage);
 
     }

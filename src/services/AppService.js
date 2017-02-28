@@ -6,6 +6,8 @@ import Server from '../service-config/ServerConfig';
 import RequestService,{ getToken } from '../service-config/RequestService';
 const serviceUrl = `${Server.QINGQI}tocapp/`;
 
+let _GOODS_PROVINCE_ = null; //货源信息中的省份缓存
+
 const defaultPage = Server.defaultPage;
 function makeUrl(path) {
     return serviceUrl + path;
@@ -415,4 +417,32 @@ export function getCarType() {
                 return data
             })
     )
+}
+
+//货源信息始发地目的地选择列表
+export function goodsAreaList(code, level){
+    if(level === 1 && _GOODS_PROVINCE_) {
+        return Promise.resolve(_GOODS_PROVINCE_)
+    }
+    return RequestService.get(
+        makeUrl('goodsAreaList'),
+        {code: code, level: level}
+    ).then(data => {
+        data.list.unshift({});
+        if(level === 1) _GOODS_PROVINCE_ = data;
+        return data;
+    });
+}
+
+export function userAuth() {
+    return RequestService.get(
+        makeUrl('userAuth')
+    );
+}
+//货源信息列表
+export function goodsSourceList(page_number=defaultPage.page_number, page_size=defaultPage.page_size, opts){
+    return RequestService.get(
+        makeUrl('goodsSourceList'),
+        Object.assign({},opts, {page_size: page_size,page_number:page_number})
+    );
 }
