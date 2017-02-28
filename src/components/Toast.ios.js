@@ -16,7 +16,7 @@ let keyword = 'Network request failed'.toLowerCase();
 
 function processer(msg) {
     msg = msg.toLowerCase();
-    return mag === keyword;
+    return msg === keyword;
 }
 
 export default {
