@@ -28,7 +28,7 @@ export default class GoodsInfoItem extends Component {
                         {data.toRegion ? <Text style={[estyle.note, estyle.marginFontBottom]}>{data.toRegion}</Text> : <Text/>}
                     </View>
 
-                    <Text style={[estyle.note, {color:Env.color.text, textAlign:'right'}, estyle.fx1]}>{data.releaseTime}前</Text>
+                    <Text style={[estyle.note, {color:Env.color.text, textAlign:'right'}, estyle.fx1]}>{data.releaseTime}</Text>
                 </View>
 
 
