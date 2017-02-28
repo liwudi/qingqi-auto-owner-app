@@ -112,7 +112,7 @@ public class MsgAdapter extends TAdapter<IMMessage> {
                     setShowTime(message, true);
                     lastShowTimeItem = message;
                     update = true;
-                } else if (now - time < (long) (5 * 60 * 1000)) {
+                } else if (now - time < (long) (2 * 60 * 1000)) {
                     setShowTime(message, false);
                 } else {
                     setShowTime(message, true);
