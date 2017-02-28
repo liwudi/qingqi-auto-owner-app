@@ -7,6 +7,7 @@ import {
     ScrollView,
     RefreshControl
 } from 'react-native';
+import Toast from '../../../../components/Toast';
 import Button from './Button';
 import {goodsAreaList} from '../../../../services/AppService';
 import Env from '../../../../utils/Env';
@@ -43,6 +44,9 @@ export default class AreaList extends Component {
         goodsAreaList(query.code, query.level).then((data) => {
             let list = data.list, refreshing = false;
             this.setState({list, refreshing});
+        }).catch(e => {
+            Toast.show(e.message, Toast.SHORT);
+            this.setState({refreshing: false});
         });
     }
     renderList() {
