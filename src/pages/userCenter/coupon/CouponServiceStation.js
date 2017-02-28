@@ -42,6 +42,13 @@ export default class CouponServiceStation extends Component {
             cityCode: data.id
         })
     }
+    phoneList(phones){
+        return phones.map((item,index)=>{
+            return <TouchableOpacity key={index} style={[estyle.marginLeft]} onPress={()=>{this.props.callTo(item)}}>
+                <Text style={[estyle.note]}>{item}</Text>
+            </TouchableOpacity>
+        })
+    }
 
     render() {
         return (
@@ -70,10 +77,10 @@ export default class CouponServiceStation extends Component {
                                             </View>
                                             <View style={[estyle.fx1,estyle.paddingHorizontal,{paddingRight: basefont * 40 }]}>
                                                 <Text style={[estyle.text]}>{row.stationName}</Text>
-                                                <TouchableOpacity style={[estyle.fxRow]} onPress={()=>{this.props.callTo(row.phone)}}>
+                                                <View style={[estyle.fxRow]}>
                                                     <IconCall color={Env.color.note}/>
-                                                    <Text style={[estyle.note]}>{row.phone}</Text>
-                                                </TouchableOpacity>
+                                                    {this.phoneList(row.phones)}
+                                                </View>
                                                 <Text style={[estyle.note]}>{row.address}</Text>
                                             </View>
                                         </View>
