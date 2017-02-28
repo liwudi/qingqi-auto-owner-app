@@ -155,6 +155,9 @@ export default class GoodsMessage extends Component {
             }
         }, this.alert1);
     }
+    renderNoData() {
+        return <View><Text style={[estyle.marginFontBottom, estyle.text]}>该线路货源已经被抢光了,</Text><Text style={[{textAlign: 'center'}, estyle.text]}>换个线路试试吧！</Text></View>
+    }
     render() {
         return (
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
@@ -183,6 +186,7 @@ export default class GoodsMessage extends Component {
                 <View style={estyle.fx1}>
                     <PageList
                         ref="list"
+                        noDataView={this.renderNoData()}
                         style={estyle.fx1}
                         reInitField={[this.state.random]}
                         renderRow={(row) => {

@@ -160,7 +160,7 @@ export default class PageList extends Component {
                     renderRow={this.props.renderRow}
                     renderFooter={() => {
                         if((this.state.pageTotal || this._data.length) <= this.pageNumber){
-                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}><Text>{this._data.length === 0 ? this.props.noData : this.props.noMore}</Text></View>;
+                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}>{this._data.length === 0 ? (this.props.noDataView || <Text>{this.props.noData}</Text>) : <Text>{this.props.noMore}</Text>}</View>;
                         }
                         if(this.state.pageTotal > this.pageNumber){
                             return <View style={[Env.style.fxCenter, Env.style.padding]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? this.props.loadingMore : this.props.clickMore}</Text></View>
