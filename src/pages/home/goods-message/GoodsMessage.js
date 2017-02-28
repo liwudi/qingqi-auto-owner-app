@@ -34,10 +34,9 @@ export default class GoodsMessage extends Component {
             startName: '',
             endName: '',
             options: {
-                startPoint: '1',//行政区码，传 0 时为不限
-                startPoint: '110000',//行政区码，传 0 时为不限
+                startPoint: '0',//行政区码，传 0 时为不限
                 startLevel: 1,
-                endPoint: '1', //行政区码，传 0 时为不限
+                endPoint: '0', //行政区码，传 0 时为不限
                 endLevel: 1,
                 carModel: '',
                 carLength: ''/*,
@@ -146,11 +145,11 @@ export default class GoodsMessage extends Component {
             onlycode: data.onlyCode
         }});
     }
-    clickItem(data) {
+    clickItem(data1) {
         userAuth().then((data) => {
             let validStatus = data.validStatus;
             if(validStatus == 4) {
-                this.goToDetail(data);
+                this.goToDetail(data1);
             } else {
                 this[`alert${validStatus}`]();
             }
