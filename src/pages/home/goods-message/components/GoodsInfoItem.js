@@ -23,13 +23,18 @@ export default class GoodsInfoItem extends Component {
                 paddingVertical: 5 * Env.font.base
             }, estyle.marginRight]}>
                 {data.carStructRequire ? <Text style={styles.textWhite}>{data.carStructRequire}</Text> : <Text/>}
-                <Text style={styles.textWhite}>
-                    <Text> </Text>
-                    {data.carLengthMin || ''}
-                    {hasSplit && '-'}
-                    {data.carLengthMax || ''}
-                    米
-                </Text>
+                {
+                    hasValue ?
+                        <Text style={styles.textWhite}>
+                            <Text> </Text>
+                            {data.carLengthMin || ''}
+                            {hasSplit && '-'}
+                            {data.carLengthMax || ''}
+                            米
+                        </Text>
+                        : <Text/>
+                }
+
             </View>
         }
         return view;
@@ -48,13 +53,19 @@ export default class GoodsInfoItem extends Component {
                 paddingVertical: 5 * Env.font.base
             }, estyle.marginRight]}>
                 {data.goodsType ? <Text style={styles.textWhite}>{data.goodsType}</Text> : <Text/>}
-                <Text style={styles.textWhite}>
-                    <Text> </Text>
-                    {data.goodsWeight || ''}
-                    {hasSplit && '-'}
-                    {data.goodsWeightMax || ''}
-                    吨
-                </Text>
+                {
+                    hasValue ?
+                        <Text style={styles.textWhite}>
+                            <Text> </Text>
+                            {data.goodsWeight || ''}
+                            {hasSplit && '-'}
+                            {data.goodsWeightMax || ''}
+                            吨
+                        </Text>
+                        : <Text/>
+                }
+
+
             </View>
         }
         return view;
