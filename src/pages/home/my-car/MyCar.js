@@ -85,11 +85,11 @@ export default class MyCar extends Component {
         const topRightView= () => {
             return (
                 <View style={[estyle.fxRow]}>
-                    <TouchableOpacity style={{marginRight:Env.font.base * 30}}
+                    <TouchableOpacity style={estyle.topBtn}
                                       onPress={() => {this.goTo(MyCarSearch)}}>
                         <IconSearch color="#FFF" size={Env.font.base * 40}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginRight:Env.font.base * 10}} onPress={() => {this.goTo(AddCar)}}>
+                    <TouchableOpacity style={estyle.topBtn} onPress={() => {this.goTo(AddCar)}}>
                         <IconPlus color="#FFF" size={Env.font.base * 40}/>
                     </TouchableOpacity>
                 </View>

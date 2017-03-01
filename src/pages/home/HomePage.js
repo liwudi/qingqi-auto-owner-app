@@ -2,7 +2,6 @@
  * Created by ligj on 2016/10/9.
  */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {
 	Text,
 	View,
@@ -11,7 +10,7 @@ import {
 	StyleSheet,
     NativeModules
 } from 'react-native';
-
+import {connect} from 'react-redux'
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import ImgButton from '../../components/ImgButton';
 
@@ -50,12 +49,11 @@ class HomePage extends Component {
         this.isRouterChange=false;
 	}
 
-	goTo(page){
-        if(havePermiss && !this.props.userStore.userInfo.carNo){
-            this.props.router.push(MyCar);
-        }else{
-            this.props.router.push(page);
-        }
+	goTo(page, checkCar=false){
+		if(checkCar && !this.props.userStore.userInfo.carNo) {
+			page = MyCar;
+		}
+		this.props.router.push(page);
 	}
 
     customerServiceInfo = null;
@@ -168,14 +166,14 @@ class HomePage extends Component {
 					</View>
 				</ViewForRightArrow>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
-					<ImgButton onPress={() => this.goTo(MyCar,true)} src={require('../../assets/images/icon-1.png')} title="我的车辆"/>
-					<ImgButton onPress={() => this.goTo(MyDriver,true)} src={require('../../assets/images/icon-2.png')} title="我的司机"/>
-					<ImgButton onPress={() => this.goTo(MyLine,true)} src={require('../../assets/images/icon-3.png')} title="我的线路"/>
+					<ImgButton onPress={() => this.goTo(MyCar)} src={require('../../assets/images/icon-1.png')} title="我的车辆"/>
+					<ImgButton onPress={() => this.goTo(MyDriver)} src={require('../../assets/images/icon-2.png')} title="我的司机"/>
+					<ImgButton onPress={() => this.goTo(MyLine)} src={require('../../assets/images/icon-3.png')} title="我的线路"/>
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
-					<ImgButton onPress={() => this.goTo(Monitor,true)} src={require('../../assets/images/icon-4.png')} title="实时监控"/>
-					<ImgButton onPress={() => this.goTo(OilManage,true)} src={require('../../assets/images/icon-5.png')} title="油耗管理"/>
-					<ImgButton onPress={() => this.goTo(MessageGoods,true)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
+					<ImgButton onPress={() => this.goTo(Monitor)} src={require('../../assets/images/icon-4.png')} title="实时监控"/>
+					<ImgButton onPress={() => this.goTo(OilManage)} src={require('../../assets/images/icon-5.png')} title="油耗管理"/>
+					<ImgButton onPress={() => this.goTo(MessageGoods, true)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
@@ -189,5 +187,5 @@ class HomePage extends Component {
 	}
 }
 export default connect(function (stores) {
-    return {userStore: stores.userStore}
+	return {userStore: stores.userStore}
 })(HomePage);
