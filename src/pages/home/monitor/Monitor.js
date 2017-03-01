@@ -55,7 +55,7 @@ export default class Monitor extends Component {
                 <TopBanner {...this.props} title="实时监控"
                            rightView={
                                <Button onPress={()=> {this.goToMap()}}
-                                       style={[{height:90 * Env.font.base}, estyle.paddingLeft]}>
+                                       style={estyle.topBtn}>
                                    <IconMap color="#ffffff"/>
                                </Button>
                            }

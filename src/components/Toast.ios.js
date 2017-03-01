@@ -22,7 +22,7 @@ function processer(msg) {
 export default {
     show:(msg) => {
         let rs = processer(msg);
-        if(rs) return;
+        if(rs || !msg) return;
         keyboardIsShow ? Toast.showShortCenter(msg) : Toast.show(msg);
     }
 };
