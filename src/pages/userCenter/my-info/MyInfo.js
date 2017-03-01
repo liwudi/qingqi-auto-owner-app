@@ -146,7 +146,7 @@ class MyInfo extends Component {
         uploadUserPic(imageSource)
             .then(rs => {
                 Toast.show('头像修改成功', Toast.SHORT);
-                saveUserInfo({memberPhoto: `${Server.WD_SERVICE}user/queryPicById?userId=${getToken().userId}&_=${Math.random()}`})
+                saveUserInfo({memberPhoto: `${Server.WD_SERVICE}user/queryPicById?userId=${getToken().userId}&_=/${Math.random()}.jpg`})
                     .then(() => {
                         Toast.show('头像上传成功', Toast.SHORT);
                     })
