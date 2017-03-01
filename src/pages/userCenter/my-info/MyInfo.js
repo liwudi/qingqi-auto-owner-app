@@ -224,7 +224,7 @@ class MyInfo extends Component {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="我的资料" rightView={
-                    <Button onPress={() => { this.goTo(MyInfoQuestion) }} style={[estyle.marginRight]}>
+                    <Button onPress={() => { this.goTo(MyInfoQuestion) }} style={estyle.topBtn}>
                         <IconQuestion color={Env.color.navTitle} />
                     </Button>
                 }/>
@@ -312,7 +312,7 @@ class MyInfo extends Component {
                                                        validateUserInfo().then(()=>{ Toast.show('提交成功',Toast.SHORT) }).catch( (err)=>{ Toast.show( err.message,Toast.SHORT) } )
                                                    } }>提交认证</SubmitButton>
 
-                                    <Text style={[estyle.note,estyle.paddingTop]}>资料会提交给货源信息提供方共同认证</Text>
+                                    <Text style={[estyle.note,estyle.paddingVertical]}>资料会提交给货源信息提供方共同认证</Text>
                                 </View>
                             </View> : <View/>
                     }

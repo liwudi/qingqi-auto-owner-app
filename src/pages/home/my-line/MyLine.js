@@ -37,7 +37,7 @@ export default class MyLine extends Component {
     render() {
         const topRightView= () => {
             return (
-                <TouchableOpacity style={{marginRight:Env.font.base * 10}}
+                <TouchableOpacity style={estyle.topBtn}
                                   onPress={() => {
                                       this.props.router.push(MyLineAdd,{
                                           refresh : () => {
