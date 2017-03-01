@@ -34,10 +34,10 @@ class MyInfoId extends Component {
 
     onSave() {
         if (LabelInput.Validate(this.refs)) {
-            if(this.props.userStore.userInfo.identityCard === this.state.identityCard) {
-                this.props.router.pop();
-                return;
-            }
+            // if(this.props.userStore.userInfo.identityCard === this.state.identityCard) {
+            //     this.props.router.pop();
+            //     return;
+            // }
             this.setState({doing: true});
             modifyDriverInfo(this.state.identityCard).then(()=>{
                 Toast.show('身份证修改成功', Toast.SHORT);
