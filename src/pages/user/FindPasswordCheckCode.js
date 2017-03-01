@@ -20,6 +20,7 @@ import SubmitButton from '../../components/SubmitButton';
 import SendMobileCode from '../../components/Inputs/SendMobileCode';
 import FindPasswordNewPassword from './FindPasswordNewPassword';
 import { findPasswordReSendCode } from '../../services/UserService';
+import Toast from '../../components/Toast';
 
 import Env from '../../utils/Env';
 
