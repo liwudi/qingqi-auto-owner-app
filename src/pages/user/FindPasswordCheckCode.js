@@ -19,8 +19,8 @@ import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
 import SubmitButton from '../../components/SubmitButton';
 import SendMobileCode from '../../components/Inputs/SendMobileCode';
 import FindPasswordNewPassword from './FindPasswordNewPassword';
-import { findPasswordReSendCode } from '../../services/UserService';
 import Toast from '../../components/Toast';
+import { findPasswordReSendCode } from '../../services/UserService';
 
 import Env from '../../utils/Env';
 

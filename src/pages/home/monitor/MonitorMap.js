@@ -487,7 +487,7 @@ export default class MonitorMap extends Component {
                                <Button onPress={()=> {
                                    this.goToList()
                                }}
-                                       style={[{height: 90 * Env.font.base}, estyle.paddingLeft]}>
+                                       style={estyle.topBtn}>
                                    <IconList color="#ffffff"/>
                                </Button>
                            }
