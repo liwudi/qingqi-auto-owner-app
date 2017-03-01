@@ -147,7 +147,7 @@ export default class GoodsMessage extends Component {
     }
     clickItem(data1) {
         userAuth().then((data) => {
-            let validStatus = data.validStatus;
+            let validStatus = data.status;
             if(validStatus == 4) {
                 this.goToDetail(data1);
             } else {
