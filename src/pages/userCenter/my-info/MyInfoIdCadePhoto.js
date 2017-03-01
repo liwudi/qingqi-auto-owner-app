@@ -30,13 +30,13 @@ class MyInfoIdCadePhoto extends Component {
         };
     }
     openMenu = (type) => {
-        if (this.state.isUpLoading) {
-            Toast.show('文件上传中，请稍等', Toast.SHORT);
-        } else {
-            this.setState({type: type}, () => {
+        this.setState({type : type},()=>{
+            if(this.state.isUpLoading){
+                Toast.show('文件上传中，请稍等', Toast.SHORT);
+            }else {
                 this.refs.ImagePickBotton.show();
-            })
-        }
+            }
+        });
     };
     onImagePick= (imageSource) => {
         this.setState({isUpLoading:true},()=>{

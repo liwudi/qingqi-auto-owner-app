@@ -27,8 +27,8 @@ class MyInfoCarCode extends Component {
         this.state = {
             tabHeight: 0,
             carTypeList: [],
-            pro: typeof (this.props.data.carNumber) === 'string' ? this.props.data.carNumber[0] : '京',
-            code: typeof (this.props.data.carNumber) === 'string' ? this.props.data.carNumber.substring(1): ''
+            pro: this.props.data.carNumber ? this.props.data.carNumber[0] : '京',
+            code: ''
         };
     }
 

@@ -21,7 +21,6 @@ import SendMobileCode from '../../components/Inputs/SendMobileCode';
 import FindPasswordNewPassword from './FindPasswordNewPassword';
 import Toast from '../../components/Toast';
 import { findPasswordReSendCode } from '../../services/UserService';
-import Toast from '../../components/Toast';
 
 import Env from '../../utils/Env';
 

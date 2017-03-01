@@ -8,6 +8,7 @@ const serviceUrl = `${Server.QINGQI}tocapp/`;
 const upLoadServiceUrl=`${Server.UPLOAD_SERVICE}fsevice/uploadFile`;
 
 let _PROVINCE_=''; //缓存省份数据
+let _GOODS_PROVINCE_ = null; //货源信息中的省份缓存
 let _PROAbbreviation_=null; //缓存省份的缩略字
 let _CARTYPE_=null; //缓存车辆类型
 
