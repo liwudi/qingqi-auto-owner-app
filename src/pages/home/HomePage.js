@@ -10,7 +10,7 @@ import {
 	StyleSheet,
     NativeModules
 } from 'react-native';
-
+import {connect} from 'react-redux'
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import ImgButton from '../../components/ImgButton';
 
@@ -37,7 +37,7 @@ import { queryOperateStatisToday, choiceCustomer } from '../../services/AppServi
 var CommonModule = NativeModules.CommonModule;
 
 
-export default class HomePage extends Component {
+class HomePage extends Component {
 
 	constructor(props){
 		super(props);
@@ -49,7 +49,10 @@ export default class HomePage extends Component {
         this.isRouterChange=false;
 	}
 
-	goTo(page){
+	goTo(page, checkCar=false){
+		if(checkCar && !this.props.userStore.userInfo.carNo) {
+			page = MyCar;
+		}
 		this.props.router.push(page);
 	}
 
@@ -170,7 +173,7 @@ export default class HomePage extends Component {
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Monitor)} src={require('../../assets/images/icon-4.png')} title="实时监控"/>
 					<ImgButton onPress={() => this.goTo(OilManage)} src={require('../../assets/images/icon-5.png')} title="油耗管理"/>
-					<ImgButton onPress={() => this.goTo(MessageGoods)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
+					<ImgButton onPress={() => this.goTo(MessageGoods, true)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
@@ -183,3 +186,6 @@ export default class HomePage extends Component {
 		)
 	}
 }
+export default connect(function (stores) {
+	return {userStore: stores.userStore}
+})(HomePage);
