@@ -43,6 +43,8 @@ import MyInfoCarCode from './MyInfoCarCode';
 import MyInfoCarType from './MyInfoCarType';
 import MyInfoCarLength from './MyInfoCarLength';
 import {getUserInfoStatus, validateUserInfo, saveUserInfo} from '../../../services/AppService';
+import Server from '../../../service-config/ServerConfig';
+import {getToken} from '../../../service-config/RequestService';
 
 const topContent = [
     {
@@ -144,7 +146,7 @@ class MyInfo extends Component {
         uploadUserPic(imageSource)
             .then(rs => {
                 Toast.show('头像修改成功', Toast.SHORT);
-                saveUserInfo({memberPhoto: `${this.props.userPicStore.userPic.uri}`})
+                saveUserInfo({memberPhoto: `${Server.WD_SERVICE}user/queryPicById?userId=${getToken().userId}&_=${Math.random()}`})
                     .then(() => {
                         Toast.show('头像上传成功', Toast.SHORT);
                     })
@@ -152,7 +154,7 @@ class MyInfo extends Component {
                         console.log(err)
                     })
                 this.props.dispatch(UserActions.getUserPic());
-                this.setDataState({memberPhoto: `${this.props.userPicStore.userPic.uri}`});
+                this.fetchData();
             })
             .catch(e => {
                 console.log(e);
@@ -283,19 +285,19 @@ class MyInfo extends Component {
                                             state={data.vehicleLicenseValidStatus}
                                             onPress={ ()=>{ this.pressFun( ()=>{ this.goTo(MyInfoCarCode,{successFun:this.setDataState,data:data}) } ,data.vehicleLicenseValidReason) } }
                                             rightDom={
-                                    data.vehicleLicenseValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{data.carNumber || '未上传'}</Text>
+                                    data.vehicleLicenseValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{data.carNumber || '未输入'}</Text>
                                 }/>
                                 <MyInfoItem title="车长（米）" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
                                             onPress={ ()=>{ this.pressFun( ()=>{ this.goTo(MyInfoCarLength,{successFun:this.setDataState,data:data}) } ,data.vehicleLicenseValidReason) } }
                                             rightDom={
-                                    data.vehicleLicenseValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{data.carLength || '未上传'}</Text>
+                                    data.vehicleLicenseValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{data.carLength || '未输入'}</Text>
                                 }/>
                                 <MyInfoItem title="车型" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
                                             onPress={ ()=>{ this.pressFun( ()=>{ this.goTo(MyInfoCarType,{successFun:this.setDataState,data:data}) } ,data.vehicleLicenseValidReason) } }
                                             rightDom={
-                                    data.vehicleLicenseValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{data.carType || '未上传'}</Text>
+                                    data.vehicleLicenseValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{data.carType || '未输入'}</Text>
                                 }/>
                                 <MyInfoItem title="行驶证照片" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus} isPhoto={true}

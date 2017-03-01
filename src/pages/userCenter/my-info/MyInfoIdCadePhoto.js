@@ -19,6 +19,7 @@ import IdCardBack from '../../../assets/images/IdCard_back.png';
 import  camera from '../../../assets/images/camera.png';
 import  ImagePickBotton from '../../../components/ImagePickButton'
 import { fileUpLoad } from '../../../services/AppService';
+import Toast from '../../../components/Toast';
 
 class MyInfoIdCadePhoto extends Component {
     constructor(props){
@@ -41,10 +42,10 @@ class MyInfoIdCadePhoto extends Component {
         this.setState({isUpLoading:true},()=>{
             fileUpLoad(imageSource)
                 .then((data)=>{
-                    return this.state.type === 1 ? this.props.successFun({ idFrontPhoto:data.fullPath}) : this.props.successFun({ idBackPhoto:data.fullPath})
+                    return this.state.type == 1 ? this.props.successFun({ idFrontPhoto:data.fullPath}) : this.props.successFun({ idBackPhoto:data.fullPath})
                 })
                 .then(()=>{
-                    this.state.type === 1 ? this.setState({data:Object.assign({},this.state.data,{idFrontPhoto:imageSource.path})}) : this.setState({data:Object.assign({},this.state.data,{idBackPhoto:imageSource.path})})
+                    this.state.type == 1 ? this.setState({data:Object.assign({},this.state.data,{idFrontPhoto:imageSource.path})}) : this.setState({data:Object.assign({},this.state.data,{idBackPhoto:imageSource.path})})
                 })
                 .catch(()=>{
                     Toast.show('文件服务器错误', Toast.SHORT);
@@ -60,10 +61,10 @@ class MyInfoIdCadePhoto extends Component {
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="身份证照片"/>
                 <View style={[estyle.marginTop,estyle.fx1,estyle.fxRowCenter]}>
-                    <Text style={[estyle.note,estyle.marginVertical]}>注：驾驶证正面照片</Text>
+                    <Text style={[estyle.note,estyle.marginVertical]}>注：身份证正面照片</Text>
                     <View style={[styles.imgBox]}>
                         {
-                            this.props.data.idCardValidStatus == 1 || !this.props.data.idCardValidStatus ?
+                            this.props.data.idCardValidStatus == 1 && !this.state.data.idFrontPhoto ?
                                 <Image source={IdCard} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
                                 <Image source={ {uri:this.state.data.idFrontPhoto} } resizeMode={Image.resizeMode.cover} style={[{width: 500 * basefont,height: 300 * basefont }]} />
                         }
@@ -74,10 +75,10 @@ class MyInfoIdCadePhoto extends Component {
                                 </TouchableOpacity>: null
                         }
                     </View>
-                    <Text style={[estyle.note,estyle.marginVertical]}>注：驾驶证反面照片</Text>
+                    <Text style={[estyle.note,estyle.marginVertical]}>注：身份证反面照片</Text>
                     <View style={[styles.imgBox]}>
                         {
-                            this.props.data.idCardValidStatus == 1 || !this.props.data.idCardValidStatus ?
+                            this.props.data.idCardValidStatus == 1 && !this.state.data.idBackPhoto ?
                                 <Image source={IdCardBack} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
                                 <Image source={ {uri:this.state.data.idBackPhoto} } resizeMode={Image.resizeMode.cover} style={[{width: 500 * basefont,height: 300 * basefont }]} />
                         }
