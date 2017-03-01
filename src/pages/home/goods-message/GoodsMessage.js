@@ -187,6 +187,7 @@ export default class GoodsMessage extends Component {
                     <PageList
                         ref="list"
                         noDataView={this.renderNoData()}
+                        noMore="无更多货源信息"
                         style={estyle.fx1}
                         reInitField={[this.state.random]}
                         renderRow={(row) => {
