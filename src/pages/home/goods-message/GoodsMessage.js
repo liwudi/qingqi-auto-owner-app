@@ -153,7 +153,7 @@ export default class GoodsMessage extends Component {
             } else {
                 this[`alert${validStatus}`]();
             }
-        }, this.alert1);
+        }, this.alert1).catch(this.alert1);
     }
     renderNoData() {
         return <View><Text style={[estyle.marginFontBottom, estyle.text]}>该线路货源已经被抢光了,</Text><Text style={[{textAlign: 'center'}, estyle.text]}>换个线路试试吧！</Text></View>
