@@ -29,6 +29,31 @@ export default class MessageCars extends Component {
         this.props.nav.doBack && this.props.nav.doBack();
     }
 
+    renderPhoneView() {
+        let data = this.props.nav.data;
+        let text = <Text style={[estyle.text]}>暂无司机</Text>,
+            view = text,
+            hasDriver = data.mainDriverPhoneNum || data.subDriverPhoneNum,
+            hasSplit = data.mainDriverPhoneNum && data.subDriverPhoneNum;
+        if(hasDriver) {
+            text =  <Text style={[estyle.articleTitle, estyle.paddingBottom, {textAlign:'center'}]}>联系司机</Text>;
+            let mbtn = data.mainDriverPhoneNum ? <Button style={styles.btn}>
+                    <Text style={[estyle.text, {color:Env.color.main}]}>{data.mainDriver}</Text>
+                    <Text style={[estyle.text, {color:Env.color.main}]}>{data.mainDriverPhoneNum}</Text>
+                </Button> : null,
+                sbtn = data.subDriverPhoneNum ? <Button style={styles.btn}>
+                    <Text style={[estyle.text, {color:Env.color.main}]}>{data.subDriver}</Text>
+                    <Text style={[estyle.text, {color:Env.color.main}]}>{data.subDriverPhoneNum}</Text>
+                </Button> : null;
+            view = <View>
+                {text}
+                <View style={[estyle.fxRow, estyle.fxCenter]}>
+                    {mbtn}{hasSplit ? <Text style={estyle.marginRight}/>: null}{sbtn}
+                </View>
+            </View>;
+        }
+        return <View style={[estyle.cardBackgroundColor, estyle.paddingVertical, estyle.fxCenter]}>{view}</View>;
+    }
     render() {
         return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
@@ -42,44 +67,16 @@ export default class MessageCars extends Component {
                         return queryCarCondition(pageNumber,10, this.props.nav.carId);
                     }}
 				/>
-				<View style={[{height:150* Env.font.base}]} />
-                <View style={[estyle.cardBackgroundColor,{width: Env.screen.width,position:'absolute',bottom:0,left:0}]}>
-                    <View style={[estyle.fxRow,estyle.fxCenter,estyle.paddingTop]}>
-                        <Text style={[estyle.articleTitle]}>联系司机</Text>
-                    </View>
-                    {
-                        (this.props.nav.data.mainDriverPhoneNum || this.props.nav.data.subDriverPhoneNum) ?
-                            <View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,]}>
-                                {
-                                    this.props.nav.data.mainDriverPhoneNum
-                                        ?  <Button onPress={()=>{
-                                                this.props.callTo(this.props.nav.data.mainDriverPhoneNum)
-                                            }}
-                                                   style={[styles.border,{width: Env.screen.width*0.4,height:Env.font.base*52}]}>
-                                            <Text style={[{color:Env.color.main}]}>{this.props.nav.data.mainDriver +''+ this.props.nav.data.mainDriverPhoneNum}</Text></Button>
-                                        : null
-                                }
-                                {
-                                    this.props.nav.data.subDriverPhoneNum
-                                        ? <Button onPress={()=>{
-                                                this.props.callTo(this.props.nav.data.subDriverPhoneNum)
-                                          }}
-                                                  style={[estyle.marginLeft, styles.border,{width: Env.screen.width*0.4,height:Env.font.base*52}]}>
-                                            <Text style={[{color:Env.color.main}]}>{this.props.nav.data.subDriver +''+ this.props.nav.data.subDriverPhoneNum}</Text></Button>
-                                        : null
-                                }
-                            </View> : <View style={[estyle.fxCenter,estyle.paddingVertical]}><Text style={[estyle.text]}>暂无司机</Text></View>
-                    }
-                </View>
+                {this.renderPhoneView()}
 			</View>
         );
     }
 }
-const basefont=Env.font.base;
 const styles = StyleSheet.create({
-    border: {
-        borderWidth: basefont * 2,
-        borderRadius: basefont * 5,
-        borderColor:Env.color.main
+    btn: {
+        ...estyle.border,
+        ...estyle.fxCenter,
+        borderColor:Env.color.main, borderRadius:Env.font.base * 4,
+        width: Env.screen.width * .4
     }
 });

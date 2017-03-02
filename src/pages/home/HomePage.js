@@ -10,7 +10,6 @@ import {
 	StyleSheet,
     NativeModules
 } from 'react-native';
-import {connect} from 'react-redux'
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import ImgButton from '../../components/ImgButton';
 
@@ -37,7 +36,7 @@ import { queryOperateStatisToday, choiceCustomer } from '../../services/AppServi
 var CommonModule = NativeModules.CommonModule;
 
 
-class HomePage extends Component {
+export default class HomePage extends Component {
 
 	constructor(props){
 		super(props);
@@ -50,8 +49,11 @@ class HomePage extends Component {
 	}
 
 	goTo(page, checkCar=false){
-		if(checkCar && !this.props.userStore.userInfo.carNo) {
-			page = MyCar;
+		if(checkCar) {
+			let totalCarNum = this.state.operateStatisToday.totalCarNum;
+			if(isNaN(totalCarNum)) return;
+			totalCarNum = +totalCarNum;
+			if(totalCarNum === 0) page = MyCar;
 		}
 		this.props.router.push(page);
 	}
@@ -64,7 +66,7 @@ class HomePage extends Component {
         !this.timer && this.setTimer();
 	}
 	//请求数据
-	fetchData(){
+	fetchData = () => {
         return queryOperateStatisToday().then((rs) => {
             this.setState({
                 operateStatisToday: rs
@@ -186,6 +188,3 @@ class HomePage extends Component {
 		)
 	}
 }
-export default connect(function (stores) {
-	return {userStore: stores.userStore}
-})(HomePage);
