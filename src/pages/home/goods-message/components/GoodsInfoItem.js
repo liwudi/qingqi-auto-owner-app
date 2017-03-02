@@ -43,10 +43,10 @@ export default class GoodsInfoItem extends Component {
     renderWeight = () => {
         let data = this.props.data,
             hasValue = data.goodsWeight || data.goodsWeightMax,
-            hasSplit = data.goodsWeight && data.goodsType,
-            showView = hasValue || data.carStructRequire,
+            hasSplit = data.goodsWeight && data.goodsWeightMax,
+            showView = hasValue || data.goodsType,
             view = <View/>;
-        if (hasValue) {
+        if (showView) {
             view = <View style={[estyle.fxRow, estyle.fxCenter, {
                 backgroundColor: '#F6A512',
                 paddingHorizontal: 10 * Env.font.base,
