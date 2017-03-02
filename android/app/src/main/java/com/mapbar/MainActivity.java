@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.WindowManager;
 
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
@@ -21,10 +20,20 @@ import com.mapbar.react.LogUtils;
 public class MainActivity extends ReactActivity {
     private static final String TAG = "MainActivity";
 
+    private static MainActivity activity;
+
+    public static MainActivity getActivity() {
+        return activity;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.show(this);
         super.onCreate(savedInstanceState);
+
+        activity = this;
+
         LogUtils.init(MainActivity.this, "ReactABC");
         LogUtils.logd(TAG, LogUtils.getThreadName() + ">>>");
         init();
