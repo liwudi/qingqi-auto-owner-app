@@ -222,7 +222,7 @@ class MyInfo extends Component {
     render() {
         let userInfo = this.props.userStore.userInfo;
         let data = this.state.data;
-        let onlyRead = data.validStatus == 2;
+        let onlyRead = data ? data.validStatus == 2 : false;
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="我的资料" rightView={
@@ -266,13 +266,13 @@ class MyInfo extends Component {
                                             onlyRead={onlyRead}
                                             onPress={ ()=>{ this.pressFun( ()=>{ this.goTo(ModifyTrueName,{successFun:this.setDataState,data:data}) } ,data.nameValidReason) }  }
                                             rightDom={
-                                    data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{userInfo.name || '未设置姓名'}</Text>
+                                    data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{ data.realName || '未设置姓名'}</Text>
                                 }/>
                                 <MyInfoItem title="身份证号" isWarn={data.nameValidReason} state={data.nameValidStatus}
                                             onlyRead={onlyRead}
                                             onPress={ ()=>{ this.pressFun( ()=>{ this.goTo(MyInfoId,{successFun:this.setDataState,data:data}) } ,data.nameValidReason) }   }
                                             rightDom={
-                                    data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{userInfo.identityCard || '未输入'}</Text>
+                                    data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{ data.identityNo ? `${data.identityNo.substr(0,5)}**********${data.identityNo.substr(15)}` : '未输入'}</Text>
                                 }/>
                                 <MyInfoItem title="身份证照片" isWarn={data.idCardValidReason}
                                             state={data.idCardValidStatus} isPhoto={true}
@@ -288,6 +288,7 @@ class MyInfo extends Component {
                                             rightDom={
                                     <Text style={styles.text}>{this.setRightText(data.drivingLicenseValidStatus,data.drivingLicensePhoto)}</Text>
                                 }/>
+                                <View style={[estyle.paddingVertical]} />
                                 <MyInfoItem title="车牌号" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
                                             onlyRead={onlyRead}
@@ -316,15 +317,18 @@ class MyInfo extends Component {
                                             rightDom={
                                     <Text style={styles.text}>{this.setRightText(data.vehicleLicenseValidStatus,data.vehicleLicensePhoto)}</Text>
                                 }/>
-                                <View style={[estyle.fxRowCenter,estyle.marginTop]}>
-                                    <SubmitButton size="large"
-                                                  doing={this.state.doing}
-                                                  onPress={() => {
+                                {
+                                    data.validStatus == 1 || data.validStatus == 3 ?
+                                        <View style={[estyle.fxRowCenter,estyle.marginTop]}>
+                                            <SubmitButton size="large"
+                                                          doing={this.state.doing}
+                                                          onPress={() => {
                                                        validateUserInfo().then(()=>{ Toast.show('提交成功',Toast.SHORT);this.fetchData(); }).catch( (err)=>{ Toast.show( err.message,Toast.SHORT) } )
                                                    } }>提交认证</SubmitButton>
 
-                                    <Text style={[estyle.note,estyle.paddingVertical]}>资料会提交给货源信息提供方共同认证</Text>
-                                </View>
+                                            <Text style={[estyle.note,estyle.paddingVertical]}>资料会提交给货源信息提供方共同认证</Text>
+                                        </View> : <View style={[estyle.paddingVertical]} />
+                                }
                             </View> : <View/>
                     }
                 </ScrollView>

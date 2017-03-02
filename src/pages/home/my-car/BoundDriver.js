@@ -10,7 +10,6 @@ import {
     TouchableOpacity,
     ScrollView,
     RefreshControl,
-    ToastAndroid
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -22,6 +21,7 @@ import LabelInput from '../../../components/LabelInput';
 import BorderButton from '../../../components/BorderButton';
 import {IconSearch} from '../../../components/Icons';
 import Alert from  '../../../components/Modals/Alert';
+import Toast from '../../../components/Toast';
 
 const estyle = Env.style;
 export default class MyDriver extends Component {
@@ -51,12 +51,12 @@ export default class MyDriver extends Component {
             driverType:this.props.nav.driverType
         })
             .then(()=>{
-                ToastAndroid.show('绑定成功！', ToastAndroid.SHORT);
+                Toast.show('绑定成功！', Toast.SHORT);
                 this.props.update.forEach((item)=>{item()});
                 this.props.router.pop();
             })
             .catch((e)=>{
-                ToastAndroid.show(e.message, ToastAndroid.SHORT);
+                Toast.show(e.message, Toast.SHORT);
             })
     }
     driverState(row){

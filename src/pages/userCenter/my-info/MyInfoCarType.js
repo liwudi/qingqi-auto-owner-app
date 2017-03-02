@@ -72,7 +72,7 @@ class MyInfoCarType extends Component {
         return (
             this.state.carTypeList.map((item, index) => {
                 return <TouchableOpacity key={index} style={[estyle.paddingVertical,estyle.fxCenter,{height:100 * basefont,width:220*basefont}]}
-                        onPress={()=>{this.setState({ carType:item.name }) }}
+                        onPress={()=>{ this.setState({ carType:item.name });this.close(); }}
                 >
                     <Text style={[estyle.text,{color: item.name===this.state.carType ? Env.color.main: Env.color.text }]}>{item.name}</Text>
                 </TouchableOpacity>

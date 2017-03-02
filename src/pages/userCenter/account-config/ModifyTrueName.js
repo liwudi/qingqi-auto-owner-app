@@ -67,7 +67,7 @@ class ModifyTrueName extends Component {
                 Toast.show('姓名保存成功', Toast.SHORT);
                 setTimeout(() => {
                     this.toPage();
-                },1000);
+                },200);
             }).catch((e)=>{
                 Toast.show(e.message, Toast.SHORT);
             }).finally(()=>{
