@@ -250,7 +250,7 @@ export default class CarDetail extends Component {
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="车辆详情" rightView={ <TouchableOpacity onPress={()=> {
+                <TopBanner {...this.props} title="车辆详情" rightView={ <TouchableOpacity style={estyle.topBtn} onPress={()=> {
                     this.deleteCarC();
                 } }><IconTrash color="#fff"/></TouchableOpacity>  }/>
                 <ScrollView style={[estyle.fx1]}
