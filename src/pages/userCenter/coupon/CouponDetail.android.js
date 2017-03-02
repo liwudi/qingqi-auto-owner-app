@@ -38,6 +38,9 @@ export default class CouponDetail extends Component {
     }
     componentDidMount(){
         module.initLocation();
+        this.fetchData();
+    }
+    fetchData(){
         couponDetail(this.props.couponId)
             .then((data)=>{
                 this.setState({data:data},()=>{ if(this.props.isUnUsed){this.getLocation()} })
@@ -92,6 +95,7 @@ export default class CouponDetail extends Component {
                 }/>
                 <ScrollView style={[estyle.fx1]} refreshControl={
                         <RefreshControl
+                            onRefresh={this.fetchData.bind(this)}
                             refreshing={this.state.isRefreshing}
                             colors={[Env.color.main]}
                             progressBackgroundColor="#fff"
