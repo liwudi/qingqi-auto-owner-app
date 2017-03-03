@@ -53,10 +53,10 @@ class ModifyTrueName extends Component {
     }
 	onSave() {
 		if (LabelInput.Validate(this.refs)) {
-		    if(this.userInfo.name === this.state.name) {
-                this.props.router.pop();
-		        return;
-            }
+            // if(this.userInfo.name === this.state.name) {
+            //     this.props.router.pop();
+		     //    return;
+            // }
             if(getBLen(this.state.name) > 14){
                 Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
                 return;
@@ -67,7 +67,7 @@ class ModifyTrueName extends Component {
                 Toast.show('姓名保存成功', Toast.SHORT);
                 setTimeout(() => {
                     this.toPage();
-                },1000);
+                },200);
             }).catch((e)=>{
                 Toast.show(e.message, Toast.SHORT);
             }).finally(()=>{

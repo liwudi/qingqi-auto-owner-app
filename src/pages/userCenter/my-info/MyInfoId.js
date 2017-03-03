@@ -34,23 +34,23 @@ class MyInfoId extends Component {
 
     onSave() {
         if (LabelInput.Validate(this.refs)) {
-            if(this.props.userStore.userInfo.identityCard === this.state.identityCard) {
-                this.props.router.pop();
-                return;
+            // if(this.props.userStore.userInfo.identityCard === this.state.identityCard) {
+            //     this.props.router.pop();
+            //     return;
+            // }
+            if(this.props.successFun){
+                this.props.successFun({identityNo:this.state.identityCard})
+                    .then(()=>{
+                        Toast.show('身份证修改成功', Toast.SHORT);
+                        this.props.router.pop();
+                    })
+                    .catch((e)=>{
+                        Toast.show(e.message, Toast.SHORT);
+                    })
+                    .finally(()=>{
+                        this.setState({doing: false});
+                    })
             }
-            this.setState({doing: true});
-            modifyDriverInfo(this.state.identityCard).then(()=>{
-                Toast.show('身份证修改成功', Toast.SHORT);
-                this.props.dispatch(getUserDetail());
-                this.props.successFun && this.props.successFun({identityNo:this.state.identityCard});
-                setTimeout(() => {
-                    this.props.router.pop();
-                },1000);
-            }).catch((e)=>{
-                Toast.show(e.message, Toast.SHORT);
-            }).finally(()=>{
-                this.setState({doing: false});
-            });
         }
     }
     render() {

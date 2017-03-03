@@ -10,11 +10,15 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactApplication;
 import io.rnkit.actionsheetpicker.ASPickerViewPackage;
+
+import com.mapbar.react.update.UpdatePackage;
+import com.mapbar.utils.SdcardUtil;
 import com.remobile.toast.RCTToastPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.ReactNativeHost;
@@ -55,6 +59,7 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,10 +68,71 @@ import fr.bamlab.rnimageresizer.ImageResizerPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   private static final String TAG = "MainApplication";
+
+  public static String downloadRootPath;
+  public static String imageDownloadPath;
+  public static String apkDownloadPath;
+  public static String dataBaseloadPath;
+
+  private static MainApplication instance;
+
+  public static MainApplication getInstance() {
+    return instance;
+  }
+
+  /**
+   *
+   * <p>
+   * 功能描述
+   * </p>
+   * 初始化文件资源
+   *
+   * @author wangzhichao
+   * @date 2015年9月6日
+   */
+
+  private void initFile() {
+    String rootPath= SdcardUtil.getExtDataPath(instance);
+    if(TextUtils.isEmpty(rootPath)){
+      Toast.makeText(this,"无法识别的设备的存储路径",Toast.LENGTH_SHORT).show();
+      android.os.Process.killProcess(android.os.Process.myPid());
+      System.exit(0);
+      return;
+    }
+    File root = new File(rootPath);//依据手机获取内置或外置存储卡路径
+
+    File downloadRootDir = new File(root.getAbsolutePath() + File.separator + Configs.DOWNLOAD_ROOT_DIR + File.separator);
+    if (!downloadRootDir.exists()) {
+      downloadRootDir.mkdirs();
+    }
+    downloadRootPath = downloadRootDir.getAbsolutePath();
+
+    File cacheDownloadDirFile = new File(root.getAbsolutePath() + File.separator + Configs.DOWNLOAD_IMAGE_DIR + File.separator);
+    if (!cacheDownloadDirFile.exists()) {
+      cacheDownloadDirFile.mkdirs();
+    }
+    imageDownloadPath = cacheDownloadDirFile.getAbsolutePath();
+
+    File fileDownloadDirFile = new File(root.getAbsolutePath() + File.separator + Configs.DOWNLOAD_APK_DIR + File.separator);
+    if (!fileDownloadDirFile.exists()) {
+      fileDownloadDirFile.mkdirs();
+    }
+    apkDownloadPath = fileDownloadDirFile.getAbsolutePath();
+
+    File dataBaseDirFile = new File(root.getAbsolutePath() + File.separator + Configs.DOWNLOAD_DB_DIR + File.separator);
+    if (!dataBaseDirFile.exists()) {
+      dataBaseDirFile.mkdirs();
+    }
+    dataBaseloadPath=dataBaseDirFile.getAbsolutePath();
+  }
+
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   @Override
   public void onCreate() {
     super.onCreate();
+
+    instance = this;
+
     String pushApikey = DeviceInfoHelper.getInstance(this.getApplicationContext()).getApiKey();
     PushConfigs.DEFAULT_APIKEY = pushApikey;
     //		PushConfigs.ESB_ADDRESS = "wdservice.mapbar.com:6001";
@@ -83,7 +149,7 @@ public class MainApplication extends Application implements ReactApplication {
     }
 //    EntypoFonts
     Iconify.with(new EntypoFontDescriptor());
-
+    initFile();
   }
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -106,7 +172,8 @@ public class MainApplication extends Application implements ReactApplication {
               new ImagePickerPackage(),
               new MarbarPushPackage(),
               new MapbarMapPackage(),
-              new CommonPackage()
+              new CommonPackage(),
+              new UpdatePackage()
       );
     }
   };

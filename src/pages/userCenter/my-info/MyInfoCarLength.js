@@ -30,7 +30,7 @@ class MyInfoCarLength extends Component {
 
     onSave() {
         if (LabelInput.Validate(this.refs)) {
-            if(this.state.carLength < 99){
+            if(this.state.carLength <= 99){
                 if(this.props.data.carLength === this.state.carLength) {
                     this.props.router.pop();
                     return;
@@ -83,7 +83,6 @@ class MyInfoCarLength extends Component {
                                   doing={this.state.doing}
                                   onPress={() => this.onSave()}>保存</SubmitButton>
                 </View>
-
             </View>
         );
     }

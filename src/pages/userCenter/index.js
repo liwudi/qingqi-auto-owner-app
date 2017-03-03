@@ -23,7 +23,7 @@ import AccountHome from './account-config/AccountHome';
 import ManagerList from './manager/ManagerList';
 import AboutUs from './AboutUs';
 
-import {getAppVersion, checkUpdate} from '../../services/UpdateService';
+import { getAppVersion, checkUpdate, updateApp } from '../../services/UpdateService';
 
 import {UserActions} from '../../actions';
 import CouponList  from './coupon/CouponList';
@@ -56,18 +56,9 @@ class UserCenterHome extends Component {
                 this.setState({
                     isUpdate: true
                 })
-                isShowTip && this.props.alert(
-                    `发现新版本(${rs.version_name})`,
-                    '是否更新？',
-                    [
-                        {
-                            text: '确定', onPress: () => {
-                            Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
-                        }
-                        },
-                        {text: '取消'}
-                    ]
-                )
+                if(isShowTip){
+                    updateApp(rs, this.props.alert);
+                }
             } else {
                 isShowTip && Toast.show('暂无更新', Toast.SHORT);
             }

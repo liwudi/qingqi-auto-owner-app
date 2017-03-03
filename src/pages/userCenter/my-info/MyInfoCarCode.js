@@ -27,8 +27,8 @@ class MyInfoCarCode extends Component {
         this.state = {
             tabHeight: 0,
             carTypeList: [],
-            pro: this.props.data.carNumber ? this.props.data.carNumber[0] : '京',
-            code: ''
+            pro: typeof (this.props.data.carNumber) === 'string' ? this.props.data.carNumber[0] : '京',
+            code: typeof (this.props.data.carNumber) === 'string' ? this.props.data.carNumber.substring(1): ''
         };
     }
 
@@ -76,7 +76,7 @@ class MyInfoCarCode extends Component {
         return (
             this.state.carTypeList.map((item, index) => {
                 return <TouchableOpacity key={index} style={[estyle.paddingVertical,estyle.fxCenter,{height:100 * basefont,width:50*basefont}]}
-                                         onPress={()=>{this.setState({ pro:item.name }) }}
+                                         onPress={()=>{ this.setState({ pro:item.name }); this.close(); }}
                 >
                     <Text style={[estyle.text,{color: item.name===this.state.pro ? Env.color.main: Env.color.text }]}>{item.name}</Text>
                 </TouchableOpacity>
@@ -114,7 +114,7 @@ class MyInfoCarCode extends Component {
                             }
                             validates={[
                             {require:true, msg: '请输入车牌号'},
-                            {pattern:/^[A-Za-z]\d{5}$/, msg:'车牌号格式错误'}
+                            {pattern:/^[A-Za-z][A-Za-z0-9]{5}$/, msg:'车牌号格式错误'}
                         ]}
                         />
                     </View>

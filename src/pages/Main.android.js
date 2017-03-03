@@ -28,7 +28,7 @@ import Env from '../utils/Env'
 const estyle = Env.style;
 import {Alert2} from '../components/Modals/Alert';
 
-import { checkUpdate, getAppVersion } from '../services/UpdateService';
+import { checkUpdate, getAppVersion, updateApp } from '../services/UpdateService';
 
 
 class Main extends Component {
@@ -38,21 +38,10 @@ class Main extends Component {
 
     _checkUpdate(){
         checkUpdate().then(rs => {
-
-            console.log('version_no', rs['version_no'] , this.state.versionCode)
-
-            if(rs['version_no'] > this.state.versionCode){
-                this.refs.alert.alert(
-                    `发现新版本(${rs.version_name})`,
-                    '是否更新？',
-                    [
-                        {text:'去下载',onPress:() => {
-                            Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
-                        }},
-                        {text:'以后再说'}
-                    ]
-                )
-            }
+            console.log('version_no', rs['version_no'] , this.state.versionCode);
+            updateApp(rs, (a,b,c) => {
+                this.refs.alert.alert(a,b,c)
+            });
         });
     }
 
@@ -111,11 +100,12 @@ class Main extends Component {
             this.setState({NetIsConnected: isConnected !== 'NONE'});
         });
 
-        global.storage.load({
-            key: 'preLoginUserName'
-        })
-            .then(rs => this.setState({preLoginUserName: rs.name}))
-            .catch(e => console.log(e));
+        // global.storage.load({
+        //     key: 'preLoginUserName'
+        // })
+        //     .then(rs => this.setState({preLoginUserName: rs.name}))
+        //     .catch(e => console.log(e));
+
 
 
     }

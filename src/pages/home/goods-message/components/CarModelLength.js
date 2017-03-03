@@ -10,7 +10,7 @@ import Button from './Button';
 import {carModel, carLength} from '../../../../services/AppService';
 import Env from '../../../../utils/Env';
 const estyle = Env.style;
-const models = [0,'高栏车','挂车','平板车','箱车','冷藏车','特种车','高低板'],
+const models = [0,'高栏车','挂车','平板车','厢车','冷藏车','特种车','高低板'],
     lengths = [0,'4.2','4.5','5.2','6.2','6.8','7.2','7.6','8.2','9.6','11.7','12.0','12.5','13.0','13.5','14.0','16.0','17.0','17.5'
         ,'18.0','22.0'];
 export default class Area extends Component {
