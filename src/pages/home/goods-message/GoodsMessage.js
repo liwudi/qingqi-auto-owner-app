@@ -123,18 +123,18 @@ export default class GoodsMessage extends Component {
     }
     //需要要认证
     alert1 = () => {
-        this.alert('查看货源详情需要进行资料认证？', '去认证');
+        this.alert('查看货源详情需要进行资料认证', '去认证');
     }
     //认证审核中
     alert2 = () => {
-        this.alert('您的认证信息正在审核中请耐心等待？', '查看详情');
+        this.alert('您的认证信息正在审核中请耐心等待', '查看详情');
     }
     alert3 = () => {
         this.alert1();
     }
     //认证过期
     alert5 = () => {
-        this.alert('您的认证信息已过期请更新信息？', '去更新');
+        this.alert('您的认证信息已过期请更新信息', '去更新');
     }
     goToMyInfo = () => {
         this.props.router.push(MyInfo);
