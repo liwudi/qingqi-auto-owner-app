@@ -103,7 +103,7 @@ export default class Agreement extends Component {
                     <Text>&nbsp;&nbsp;&nbsp;&nbsp;4.若您对青汽及本服务有任何意见，欢迎联系青汽客服。</Text>
                     <View>
                         <Text style={{textAlign: 'right'}}>一汽解放青岛汽车有限公司</Text>
-                        <Text style={{textAlign: 'right'}}>2016年12月16日版本</Text>
+                        <Text style={{textAlign: 'right'}}>2016年12月29日版本</Text>
                     </View>
                     <View style={[estyle.padding]}></View>
                 </ScrollView>
