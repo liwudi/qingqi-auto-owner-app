@@ -174,7 +174,7 @@ export default class SetStartEnd extends Component {
 
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
                 <TopBanner {...this.props} title={this.props.title}/>
-                {this.renderLocation()}
+                {/*{this.renderLocation()}*/}
                 {this.renderNavigationBar()}
                 <Navigator
                     initialRoute={routes[this.initIdx]}
