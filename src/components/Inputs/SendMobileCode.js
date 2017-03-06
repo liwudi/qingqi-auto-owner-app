@@ -30,6 +30,26 @@ export default class TabBar extends React.Component{
             status:null
         };
     }
+    componentDidMount(){
+        if(this.props.isWaiting){
+            this.setState ({
+                status:'interval',
+                second:60,
+            });
+            this.interval = setInterval(() => {
+                if(this.state.second === 0) {
+                    this.setState({
+                        status: null
+                    });
+                    clearInterval(this.interval);
+                } else {
+                    this.setState({
+                        second: this.state.second-1,
+                    });
+                }
+            },1000);
+        }
+    }
 
 
     sendCode = () => {

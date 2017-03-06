@@ -20,6 +20,7 @@ import MyCarItem from './components/MyCarItem';
 import MonitorMap from './MonitorMap';
 import {IconMap} from '../../../components/Icons';
 import Button from '../../../components/widgets/Button';
+import Toast from '../../../components/Toast';
 const estyle = Env.style;
 const TIMEOUT = 500;
 export default class Monitor extends Component {
@@ -55,7 +56,7 @@ export default class Monitor extends Component {
                 <TopBanner {...this.props} title="实时监控"
                            rightView={
                                <Button onPress={()=> {this.goToMap()}}
-                                       style={[{height:90 * Env.font.base}, estyle.paddingLeft]}>
+                                       style={estyle.topBtn}>
                                    <IconMap color="#ffffff"/>
                                </Button>
                            }
@@ -71,8 +72,14 @@ export default class Monitor extends Component {
                     style={estyle.fx1}
                     reInitField={[this.state.key]}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} router={this.props.router} onPress={() => {
-                            this.goToMap(row.carId);
+                        return <MyCarItem data={row} router={this.props.router} onPress={(position) => {
+                            console.info('press')
+                            if(position) {
+                                this.goToMap(row.carId);
+                            } else {
+                                Toast.show('未获取到位置信息', Toast.SHORT);
+                            }
+
                         }}/>
                     }}
                     fetchData={(pageNumber, pageSize) => {

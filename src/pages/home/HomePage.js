@@ -10,7 +10,6 @@ import {
 	StyleSheet,
     NativeModules
 } from 'react-native';
-
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import ImgButton from '../../components/ImgButton';
 
@@ -25,7 +24,7 @@ import * as Icons from '../../components/Icons';
 import Toast from '../../components/Toast';
 import { startKefuActivity } from '../../utils/CommModule';
 
-import MessageGoods from '../message/MessageGoods';
+import MessageGoods  from './goods-message/GoodsMessage';
 import Bbs from './bbs/index';
 
 import { IconSearch } from '../../components/Icons';
@@ -49,7 +48,13 @@ export default class HomePage extends Component {
         this.isRouterChange=false;
 	}
 
-	goTo(page){
+	goTo(page, checkCar=false){
+		if(checkCar) {
+			let totalCarNum = this.state.operateStatisToday.totalCarNum;
+			if(isNaN(totalCarNum)) return;
+			totalCarNum = +totalCarNum;
+			if(totalCarNum === 0) page = MyCar;
+		}
 		this.props.router.push(page);
 	}
 
@@ -61,7 +66,7 @@ export default class HomePage extends Component {
         !this.timer && this.setTimer();
 	}
 	//请求数据
-	fetchData(){
+	fetchData = () => {
         return queryOperateStatisToday().then((rs) => {
             this.setState({
                 operateStatisToday: rs
@@ -170,11 +175,11 @@ export default class HomePage extends Component {
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Monitor)} src={require('../../assets/images/icon-4.png')} title="实时监控"/>
 					<ImgButton onPress={() => this.goTo(OilManage)} src={require('../../assets/images/icon-5.png')} title="油耗管理"/>
-					<ImgButton onPress={() => this.goTo(MessageGoods)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
+					<ImgButton onPress={() => this.goTo(MessageGoods, true)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-					{!1 ?
+					{!!1 ?
 						<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
 							: <ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>}
 					<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>

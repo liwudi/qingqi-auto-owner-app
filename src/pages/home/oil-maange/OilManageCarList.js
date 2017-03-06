@@ -107,8 +107,12 @@ export default class OilManageCarList extends Component {
 											<Text style={[estyle.note, {color: Env.color.text}]}>{list.subDriver || '无'}</Text>
 										</View>
 										<View style={[estyle.fxRow,estyle.paddingTop]}>
-											<Text style={[estyle.note]}>平均油耗：<Text style={{color: Env.color.main}}>{list.avgOilwear || 0}</Text>L/100km </Text>
-											<Text style={[estyle.note,estyle.paddingLeft]}>平均速度：<Text style={{color: Env.color.main}}>{list.avgSpeed || 0}</Text>km/h</Text>
+										    <View style={[estyle.fxRow]}>
+										        <Text style={[estyle.note]}>平均油耗：</Text><Text style={{color: Env.color.main}}>{list.avgOilwear || 0}L/100km</Text>
+                                            </View>
+                                            <View style={[estyle.fxRow,estyle.marginLeft]}>
+										        <Text style={[estyle.note]}>平均速度：</Text><Text style={{color: Env.color.main}}>{list.avgSpeed || 0}km/h</Text>
+                                            </View>
 										</View>
 									</View>
 								</View>

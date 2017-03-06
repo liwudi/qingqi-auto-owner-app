@@ -5,6 +5,12 @@
 import Server from '../service-config/ServerConfig';
 import RequestService,{ getToken } from '../service-config/RequestService';
 const serviceUrl = `${Server.QINGQI}tocapp/`;
+const upLoadServiceUrl=`${Server.UPLOAD_SERVICE}fsevice/uploadFile`;
+
+let _PROVINCE_=''; //缓存省份数据
+let _GOODS_PROVINCE_ = null; //货源信息中的省份缓存
+let _PROAbbreviation_=null; //缓存省份的缩略字
+let _CARTYPE_=null; //缓存车辆类型
 
 const defaultPage = Server.defaultPage;
 function makeUrl(path) {
@@ -362,4 +368,94 @@ export function addCar(opts){
         Object.assign({}, opts)
     );
 }
+//上传文件接口
+export function fileUpLoad(file){
+    let user=getToken().userId;
+    return RequestService.post(
+        upLoadServiceUrl,
+        {file:file,account:user},
+        null, true
+    );
+}
 
+//获取用户认证审核状态
+export function getUserInfoStatus() {
+    return RequestService.get(
+        makeUrl('getUserInfoStatus')
+    )
+}
+//提交认证资料接口
+export function validateUserInfo() {
+    return RequestService.get(
+        makeUrl('validateUserInfo')
+    )
+}
+//保存用户信息接口
+export function saveUserInfo(opt) {
+    return RequestService.post(
+        makeUrl('saveUserInfo'),
+        opt
+    )
+}
+//省份简称-数据字典
+export function getProAbbreviation() {
+    if(_PROAbbreviation_){ return Promise.resolve(_PROAbbreviation_) }
+    return (
+        RequestService.get(
+            `${Server.QINGQI}operate/common/basedata`,
+            {
+                type:'A',
+                code: 'A050'
+            }
+        )
+            .then((data)=>{
+                _PROAbbreviation_=data;
+                return data
+            })
+    )
+}
+//车辆类型-数据字典
+export function getCarType() {
+    if(_CARTYPE_){ return Promise.resolve(_CARTYPE_) }
+    return (
+        RequestService.get(
+            `${Server.QINGQI}operate/common/basedata`,
+            {
+                type:'A',
+                code: 'A051'
+            }
+        )
+            .then((data)=>{
+                _CARTYPE_=data;
+                return data
+            })
+    )
+}
+
+//货源信息始发地目的地选择列表
+export function goodsAreaList(code, level){
+    if(level === 1 && _GOODS_PROVINCE_) {
+        return Promise.resolve(_GOODS_PROVINCE_)
+    }
+    return RequestService.get(
+        makeUrl('goodsAreaList'),
+        {code: code, level: level}
+    ).then(data => {
+        data.list.unshift({});
+        if(level === 1) _GOODS_PROVINCE_ = data;
+        return data;
+    });
+}
+
+export function userAuth() {
+    return RequestService.get(
+        makeUrl('userAuth')
+    );
+}
+//货源信息列表
+export function goodsSourceList(page_number=defaultPage.page_number, page_size=defaultPage.page_size, opts){
+    return RequestService.get(
+        makeUrl('goodsSourceList'),
+        Object.assign({},opts, {page_size: page_size,page_number:page_number})
+    );
+}

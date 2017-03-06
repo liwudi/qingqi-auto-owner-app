@@ -8,7 +8,6 @@ import {
     StyleSheet
 } from 'react-native';
 import {queryRealTimeCar} from '../../../../services/MonitorService';
-import Toast from '../../../../components/Toast';
 import Item from '../../my-car/components/MyCarItem';
 const TIMEOUT = 30; //间隔30秒刷新
 export default class MyCarItem extends Component {
@@ -87,21 +86,14 @@ export default class MyCarItem extends Component {
         props.data && this.setData(props.data);
     }
 
-    onPress() {
-        console.info('press')
-        if(this.state.data.position) {
-            this.props.onPress();
-        } else {
-            Toast.show('未获取到位置信息', Toast.SHORT);
-        }
+    onPress = () => {
+        this.props.onPress(this.state.data.position);
     }
 
     render() {
         return (
             <View>
-                 <Item data={this.state.data || {}} onPress={() => {
-                     this.onPress()
-                }}/>
+                 <Item data={this.state.data || {}} onPress={this.onPress}/>
             </View>
         )
     }

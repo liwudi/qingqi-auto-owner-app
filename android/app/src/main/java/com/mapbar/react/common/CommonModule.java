@@ -31,6 +31,9 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2016/10/18.
  */
@@ -50,6 +53,17 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
         return "CommonModule";
     }
 
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("server_type", BuildConfig.server_type);
+        constants.put("DEBUG", BuildConfig.DEBUG);
+        constants.put("APPLICATION_ID", BuildConfig.APPLICATION_ID);
+        constants.put("VERSION_CODE", BuildConfig.VERSION_CODE);
+        constants.put("VERSION_NAME", BuildConfig.VERSION_NAME);
+        constants.put("server_url", BuildConfig.server_url);
+        return constants;
+    }
 
     //获取联系人
     @ReactMethod

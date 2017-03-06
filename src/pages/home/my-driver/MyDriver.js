@@ -77,7 +77,7 @@ export default class MyDriver extends Component {
 					title="我的司机"
 					rightView={
 						<TouchableOpacity
-							style={{marginRight:Env.font.base * 10}}
+							style={estyle.topBtn}
 							onPress={() => {
 								this.props.router.push(MyDriverAdd, {
 									refresh: () => {

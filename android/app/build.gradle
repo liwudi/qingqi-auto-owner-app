@@ -80,7 +80,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 
 def YUNXIN_AMAP_KEY     = "34742e4968884821fb3f14160545c512"
 def YUNXIN_APP_KEY      = "34742e4968884821fb3f14160545c512"
-def STAT_MAPBAR_APP_KEY = "c11ff0503aa84d0ea7d0bdaba84358c2"
+def STAT_MAPBAR_APP_KEY = "999e285bebfb427a923b05c338569d26"
 def STAT_UMENG_APP_KEY  = "585b8cc999f0c70a01000ffa"
 def PUSH_MAPBAR_APP_KEY = "3aae4181c7694165813ffa251f56bf62"
 def PUSH_MAPBAR_APP_KEY_TEST = "test-1f009f31c1a44cd196e46a257d0c4343"
@@ -97,8 +97,8 @@ android {
         applicationId "com.mapbar.qingqi.onwer"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10012
-        versionName "1.1.2"
+        versionCode 10011
+        versionName "1.1.1"
         ndk {
             abiFilters "armeabi-v7a"
         }
@@ -146,7 +146,7 @@ android {
 
         debug {
             buildConfigField "String", "server_url", "\"http://61.161.238.158:8950\""
-            buildConfigField "String", "server_type", "\"debug\""
+            buildConfigField "String", "server_type", "\"debug152\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -161,7 +161,7 @@ android {
 
         release152 {
             buildConfigField "String", "server_url", "\"http://61.161.238.158:8950\""
-            buildConfigField "String", "server_type", "\"debug\""
+            buildConfigField "String", "server_type", "\"debug152\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
