@@ -17,7 +17,8 @@ import {
     Image,
     AppState,
     Keyboard,
-    Alert
+    Alert,
+    PushNotificationIOS
 } from 'react-native';
 
 import Toast from '../components/Toast';
@@ -26,40 +27,73 @@ import Guide2 from './guide2';
 import {addEventSystemBack} from '../utils/CommModule';
 import Router from '../services/RouterService';
 import Env from '../utils/Env'
+import { registerApp } from '../services/IosPushService';
+import ServerConfig from '../service-config/ServerConfig';
+
+
 const estyle = Env.style;
-
-import VideoShow from './VideoShow';
-
-import { checkUpdate, getAppVersion } from '../services/UpdateService';
-
 
 class Main extends Component {
 
     navigator = null;
     router = null;
 
-    _checkUpdate(){
-        checkUpdate().then(rs => {
-
-            console.log('version_no', rs['version_no'] , this.state.versionCode)
-
-            /*if(rs['version_no'] > this.state.versionCode){
-                Alert.alert(
-                    `发现新版本(${rs.version_name})`,
-                    '是否更新？',
-                    [
-                        {text:'去下载',onPress:() => {
-                            Linking.openURL(rs.apk_path).catch(err => console.error('An error occurred', err));
-                        }},
-                        {text:'以后再说'}
-                    ]
-                )
-            }*/
-        });
-    }
-
     toMessagePage() {
         //this.router.resetTo(HomeRouter, {initPage:0});
+    }
+
+    initPush(){
+        //请求权限
+        PushNotificationIOS.requestPermissions();
+        console.log('PushNotificationIOS');
+
+        //注册服务
+        PushNotificationIOS.addEventListener('register', (id) => {
+            registerApp(id);
+            global.storage.save({
+                key: 'deviceId',
+                rawData: {
+                    deviceId:id
+                },
+                expires: null
+            });
+            ServerConfig.DEVICE_ID = id;
+        });
+
+        //收到推送消息
+        PushNotificationIOS.addEventListener('notification', (e) => {
+
+            /*
+
+             params.putString("Content", payload.getString("Content"));
+             params.putString("Title", payload.getString("Title"));
+             params.putString("CustomContent", payload.getString("CustomContent"));
+             params.putInt("noticeId", payload.getInt("noticeId"));
+
+
+             { _data:
+                { remote: true,
+                    notificationId: 'F72FEC57-C09A-47BF-9BAC-FAA0ABD79CEC',
+                    '附加字段1': '附加字段1内容',
+                    title: '标题',
+                    msgId: 'a61f4f6865b44080b04363eee2eb9627',
+                    '附加字段2': '附加字段2内容'
+                 },
+                 _remoteNotificationCompleteCalllbackCalled: false,
+                 _isRemote: true,
+                 _notificationId: 'F72FEC57-C09A-47BF-9BAC-FAA0ABD79CEC',
+                 _alert: '内容',
+                 _sound: 'default.caf',
+                 _badgeCount: 1
+             }
+             */
+
+            console.log('PushNotificationIOS', e)
+        });
+
+        //用户通过点击推送通知来冷启动应用（即：之前应用不在运行状态），此函数会返回一个初始的通知
+        // PushNotificationIOS.popInitialNotification()
+
     }
 
     newPushMessage(message, isNotificationClick = false) {
@@ -69,16 +103,8 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isConnected: true,
-            versionName : '',
-            versionCode : '',
+            isConnected: true
         };
-        getAppVersion().then(v => {
-            this.setState({
-                versionName : v.versionName,
-                versionCode : v.versionCode
-            })
-        });
 
         DeviceEventEmitter.addListener("notificationClick", (event) => {
             try {
@@ -114,12 +140,12 @@ class Main extends Component {
             this.setState({NetIsConnected: isConnected !== 'NONE'});
         });
 
-        global.storage.load({
-            key: 'preLoginUserName'
-        })
-            .then(rs => this.setState({preLoginUserName: rs.name}))
-            .catch(e => console.log(e));
-
+        // global.storage.load({
+        //     key: 'preLoginUserName'
+        // })
+        //     .then(rs => this.setState({preLoginUserName: rs.name}))
+        //     .catch(e => console.log(e));
+        this.initPush();
 
     }
 
@@ -167,7 +193,6 @@ class Main extends Component {
                 return this.doBack(exitApp);
             }
         );
-        setTimeout(this._checkUpdate.bind(this),2000);
     }
 
     componentWillUnmount() {
