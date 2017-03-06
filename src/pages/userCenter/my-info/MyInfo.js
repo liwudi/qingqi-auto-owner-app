@@ -213,9 +213,6 @@ class MyInfo extends Component {
                 //this.setState({data: Object.assign({},this.state.data,opts) });
                 this.fetchData();
             })
-            .catch((err) => {
-                Toast.show('上传资料失败', Toast.SHORT)
-            })
     };
 
 
@@ -272,7 +269,7 @@ class MyInfo extends Component {
                                             onlyRead={onlyRead}
                                             onPress={ ()=>{ this.pressFun( ()=>{ this.goTo(MyInfoId,{successFun:this.setDataState,data:data}) } ,data.nameValidReason) }   }
                                             rightDom={
-                                    data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{ data.identityNo ? `${data.identityNo.substr(0,5)}**********${data.identityNo.substr(15)}` : '未输入'}</Text>
+                                    data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{ data.identityNo || '未输入'}</Text>
                                 }/>
                                 <MyInfoItem title="身份证照片" isWarn={data.idCardValidReason}
                                             state={data.idCardValidStatus} isPhoto={true}

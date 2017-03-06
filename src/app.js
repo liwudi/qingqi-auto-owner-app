@@ -13,7 +13,7 @@ import { pushModule } from './utils/CommModule';
 const estyle = Env.style;
 import ServerConfig from './service-config/ServerConfig';
 
-pushModule.getDeviceId().then((r) => {
+Env.isAndroid && pushModule.getDeviceId().then((r) => {
 	global.deviceId = r.deviceId;
 	ServerConfig.DEVICE_ID = r.deviceId;
 	console.log('设备id:', r.deviceId)

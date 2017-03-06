@@ -29,7 +29,7 @@ class MyInfoId extends Component {
     }
 
     componentWillMount() {
-        this.setState({identityCard: this.props.userStore.userInfo.identityCard});
+        this.setState({identityCard:this.props.data.identityNo});
     }
 
     onSave() {
@@ -64,7 +64,7 @@ class MyInfoId extends Component {
                         onChangeText={identityCard => {
                             this.setState({identityCard:identityCard.toUpperCase()});
                         }}
-                        defaultValue={this.props.userStore.userInfo.identityCard}
+                        defaultValue={this.props.data.identityNo}
                         secureTextEntry={true}
                         placeholder='请输入18位身份证号码'
                         label="身份证"

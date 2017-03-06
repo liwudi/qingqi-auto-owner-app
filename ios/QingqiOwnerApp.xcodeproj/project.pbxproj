@@ -32,6 +32,7 @@
 		842F609A1E1D077400D2A6B5 /* libRNKitASPickerView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842F60991E1D074000D2A6B5 /* libRNKitASPickerView.a */; };
 		842F609B1E1D077B00D2A6B5 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842F608D1E1D070800D2A6B5 /* libRCTToast.a */; };
 		842F609C1E1D078200D2A6B5 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842F60931E1D072700D2A6B5 /* libSplashScreen.a */; };
+		843627BD1E6D5DC200ABFFEA /* CommonModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 843627BC1E6D5DC200ABFFEA /* CommonModule.m */; };
 		866ED40C66FA45E08995EA7D /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC07E98BC7A4498ABB858530 /* libRNImagePicker.a */; };
 		881F68D39EB64D39AF2BD6AB /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5DD113A092746539D23A938 /* Foundation.ttf */; };
 		8D9FB060A6BB40D28C6CD6B4 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65652B8B45D243B8BED0ABA4 /* libRCTToast.a */; };
@@ -350,6 +351,8 @@
 		842F60881E1D070700D2A6B5 /* RCTToast.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/@remobile/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
 		842F608E1E1D072600D2A6B5 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		842F60941E1D073F00D2A6B5 /* RNKitASPickerView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKitASPickerView.xcodeproj; path = "../node_modules/rnkit-actionsheet-picker/ios/RNKitASPickerView.xcodeproj"; sourceTree = "<group>"; };
+		843627BB1E6D5DC200ABFFEA /* CommonModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonModule.h; path = ../CommonModule.h; sourceTree = "<group>"; };
+		843627BC1E6D5DC200ABFFEA /* CommonModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonModule.m; path = ../CommonModule.m; sourceTree = "<group>"; };
 		9D97F9C08B1C452590AFF045 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		9F7BED8A141344E182407D06 /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTImageResizer.xcodeproj; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; };
 		A43D66A21FB2470DBDDED48F /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -551,6 +554,8 @@
 		13B07FAE1A68108700A75B9A /* QingqiOwnerApp */ = {
 			isa = PBXGroup;
 			children = (
+				843627BB1E6D5DC200ABFFEA /* CommonModule.h */,
+				843627BC1E6D5DC200ABFFEA /* CommonModule.m */,
 				C33F82C11E2CC78400F9732D /* JHContactsUtil */,
 				C33F81FB1E2624EA00F9732D /* QingqiOwnerApp.entitlements */,
 				C33F81BA1E26229A00F9732D /* RNBridgeModule.h */,
@@ -1300,6 +1305,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				C33F82C61E2CC78400F9732D /* JHSysAlertUtil.m in Sources */,
 				C34E13CD1E1CFE52009C949D /* UIColor+HexString.m in Sources */,
+				843627BD1E6D5DC200ABFFEA /* CommonModule.m in Sources */,
 				C33F82C71E2CC78400F9732D /* JHSysContactsUtil.m in Sources */,
 				C34E13CC1E1CFE52009C949D /* RCTMapViewManager.m in Sources */,
 				C33F81BC1E26229A00F9732D /* RNBridgeModule.m in Sources */,
