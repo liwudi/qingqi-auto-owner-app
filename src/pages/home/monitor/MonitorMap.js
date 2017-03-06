@@ -53,10 +53,12 @@ const legend = [
 const BATCH_TIMEOUT = 30 * 1000,
     SINGLE_TIMEOUT = BATCH_TIMEOUT,
     STATUS_TIMEOUT = 30 * 1000;
+
 export default class MonitorMap extends Component {
-    constructor() {
-        super();
-        this.zoom = 1;
+    constructor(props) {
+        super(props);
+        this.initZoom = (props.nav && props.nav.carId) ? 8 : 1;
+        this.zoom = this.initZoom;
         this.center = {
             longitude: 104.621367,
             latitude: 35.317133
@@ -74,7 +76,7 @@ export default class MonitorMap extends Component {
             batch: false,
             single: false,
             status: false,
-            monitor: null,
+            monitor: false,
             animating: true
         }
     }
@@ -119,7 +121,10 @@ export default class MonitorMap extends Component {
 
     toFetchAll = () => {
         if(!this.batchTimer) this.batchTimer = setInterval( () => {
-            this.state.batch && this.fetchBatch();
+            if(this.state.batch) {
+                this.requestBatch = false;
+                this.fetchBatch();
+            }
         }, BATCH_TIMEOUT);
         if(!this.singleTimer) this.singleTimer = setInterval(() => {
             this.state.single && this.fetchSingle();
@@ -130,23 +135,28 @@ export default class MonitorMap extends Component {
     }
 
     fetchBatch = () => {
-        console.info('queryZoom-----', this.zoom)
+/*        console.info('queryZoom-----', zoom)*/
+        if(this.requestBatch) return;
+        this.requestBatch = true;
+        let zoom = this.zoom;
         this.Map.getBounds().then(mapbounds => {
-
+            zoom = Math.floor(zoom);
+            console.info('queryZoom-----', zoom)
             //todo 0级别时地图sdk返回经纬度有问题，添加兼容
-            let b =  this.zoom ? mapbounds : {
+            let b =  zoom > 2 ? mapbounds : {
                 minLongitude: 72.5, //左下， 右上
                 minLatitude: 10.86,
                 maxLongitude: 135.05,
                 maxLatitude: 53.55,
-                zoom: this.zoom
+                zoom: zoom
             };
+
             queryCarPolymerize({
                 leftLongitude: b.minLongitude, //左下， 右上
                 leftLatitude: b.minLatitude,
                 rightLongitude: b.maxLongitude,
                 rightLatitude: b.maxLatitude,
-                zoom: this.zoom
+                zoom: zoom
             }).then((data = {list:[]}) => {
                 this.list = data.list;
                 this.list.length ? this.setMarker() : Toast.show('没有监控车辆', Toast.SHORT);
@@ -154,6 +164,8 @@ export default class MonitorMap extends Component {
                 console.info('catch batch ----- ', e);
             }).finally(() => {
                 this.setState({animating: false});
+                this.init = true;
+                this.requestBatch = false;
             })
         });
     }
@@ -162,6 +174,9 @@ export default class MonitorMap extends Component {
         queryRealTimeCar({carId: this.singleCarId}).then((data = {}) => {
             if(init) {
                 this.setMonitorInfo(data, init);
+                console.info('fetchSingle')
+                console.info(data)
+                setTimeout(this.startBatch, 500);
             } else {
                 this.setMonitorInfo(Object.assign(this.commonInfo || {}, data));
             }
@@ -192,16 +207,15 @@ export default class MonitorMap extends Component {
         console.info('data-------')
         console.info(data)
         this.setMarker();
+        this.carToCenter(data);
         if(init) {
             this.commonInfo = data;
-            setTimeout(this.startBatch, 500);
         } else {
             this.monitorInfo = data;
         }
-        this.carToCenter(data);
+
         this.setState({refreshInfo: Math.random()});
     }
-
     setCommonInfo = (carId) => {
         let data = this.list['carId_' + carId];
         console.info('setCommonInfo', carId, data);
@@ -284,6 +298,10 @@ export default class MonitorMap extends Component {
         this.markers_d.push(mkOpts);
     }
 
+    setZoom = (zoom, setMap=false) => {
+        this.zoom = parseInt(zoom);
+        setMap && this.Map.setZoomLevel(zoom);
+    }
 
     onInit = (instance) => {
         console.info('monitor map init')
@@ -292,17 +310,15 @@ export default class MonitorMap extends Component {
         this.MPoint = instance.MPoint;
         this.Marker = instance.Marker;
         this.MarkerRotate = instance.MarkerRotate;
-        console.info('this.props.nav')
-        console.info(this.props.nav)
-        let single = this.props.nav && this.props.nav.carId;
+        console.info('monitor map init request')
+        let props = this.props;
+        let single = props.nav && props.nav.carId;
         if(single) {
             this.singleCarId = this.props.nav.carId;
-            this.Map.setZoomLevel(8);
             this.fetchSingle(true);
         } else {
             this.startBatch();
         }
-
     }
 
     revert = () => {
@@ -345,12 +361,34 @@ export default class MonitorMap extends Component {
             }
         });
     }
-    onMapChange = (zoom) => {
-        console.info('onMapChange', zoom)
-        this.zoom = isNaN(zoom) ? this.zoom : zoom;
+    fetchAll = () => {
+        console.info('toFetch')
         this.state.batch && this.fetchBatch();
         this.state.single && this.fetchSingle();
         this.state.status && this.fetchStatus();
+    }
+    onZoomIn = (zoom) => {
+        if(this.init) {
+            console.info('onZoomIn', zoom)
+            this.setZoom(zoom);
+            this.fetchAll();
+        }
+
+    }
+    onZoomOut = (zoom) => {
+        if(this.init) {
+            console.info('onZoomOut', zoom)
+            this.setZoom(zoom);
+            this.fetchAll();
+        }
+    }
+    onSpan = () => {
+        console.info('onSpan')
+
+        if(this.init) {
+            this.fetchAll();
+        }
+
     }
 
     carToCenter(data) {
@@ -365,7 +403,7 @@ export default class MonitorMap extends Component {
             let monitor = this.monitor = !this.monitor;
             if (monitor) {
                 let data = {...this.commonInfo};
-                this.Map.setZoomLevel(8);
+                this.setZoom(8, true);
                 this.monitorInfo = data;
                 this.startSingle();
                 this.startStatus();
@@ -450,11 +488,12 @@ export default class MonitorMap extends Component {
                 />
                 {this.renderAi()}
                 <MapbarMap style={[estyle.fx1]}
+                           zoom={this.initZoom}
                            center={this.center}
                            onInit={this.onInit}
-                           onZoomIn={this.onMapChange}
-                           onZoomOut={this.onMapChange}
-                           onSpan={this.onMapChange}
+                           onZoomIn={this.onZoomIn}
+                           onZoomOut={this.onZoomOut}
+                           onSpan={this.onSpan}
                            clickMarker={this.clickMarker}
                            router={this.props.router}
                            legend={this.renderLegend()}/>

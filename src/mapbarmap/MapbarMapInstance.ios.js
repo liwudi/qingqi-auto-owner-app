@@ -232,9 +232,9 @@ export function zoomOut() {
 }
 
 const MIN_LNG = 72.5,
-    MIN_LAT = 32.5,
-    MAX_LNG = 132.5,
-    MAX_LAT = 50.5;
+    MIN_LAT = 10.5,
+    MAX_LNG = 135.05,
+    MAX_LAT = 53.55;
 export function getBounds() {
     if(mapRef === null) return;
     return module.getWorldRect(mapRef).then(bounds => {
