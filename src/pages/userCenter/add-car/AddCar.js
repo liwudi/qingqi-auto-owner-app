@@ -90,6 +90,7 @@ class AddCar extends Component {
                     labelSize={3}
                     onChangeText={identityCard => this.setState({identityCard})}
                     placeholder="身份证号或组织机构代码"
+                    keyboardType="ascii-capable"
                     validates={[
                         {require: true, msg:"请输入购车发票上的身份证号或组织机构代码"},
                         {pattern: /^[A-Za-z0-9]{8,19}$/, msg: '身份证号或组织机构代码格式错误'}
