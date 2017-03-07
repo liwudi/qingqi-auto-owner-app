@@ -272,7 +272,7 @@ export function getUserInfo() {
             product: Server.APP_PRODUCT
         }
     ).then(rs => {
-        console.log(Object.assign({}, getToken(), rs))
+        //console.log(Object.assign({}, getToken(), rs))
         return Object.assign({}, getToken(), rs);
     });
 }

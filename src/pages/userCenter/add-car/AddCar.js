@@ -25,6 +25,7 @@ import Toast from '../../../components/Toast';
 class AddCar extends Component {
     constructor(props) {
         super(props);
+        this.needCallback=false; //判断组件销毁时需不需要调父组件的方法
         this.state = {
             doing: false,
             invoiceNo:'',
@@ -40,6 +41,7 @@ class AddCar extends Component {
         this.setState({
             doing: false
         });
+        this.needCallback=true;
         this.props.router.push(AddCarList,{carInfo: info});
     }
     //未查询到车辆信息去填写Vin码页
@@ -61,7 +63,9 @@ class AddCar extends Component {
         }
     }
     componentWillUnmount() {
-        this.props.nav && this.props.nav.backRender && this.props.nav.backRender();
+        if(this.needCallback){
+            this.props.nav && this.props.nav.backRender && this.props.nav.backRender();
+        }
     }
     render() {
         return (

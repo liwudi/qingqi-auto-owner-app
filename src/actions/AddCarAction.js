@@ -154,13 +154,11 @@ export function getCarList(state,toList,toVin) {
 				console.log(res.list);
 				dispatch({'type': TYPES.TDS_DATA_SUCCESS, data: res});
 				if(typeof (res.list) != 'undefined' && res.list.length){
-					console.log(222222)
 					toList && toList(state);
 					// toVin && toVin(state);
 				}else {
 					toVin();
-	/*				console.log(11111111)
-					Toast.show('未查询到相关数据', Toast.SHORT);*/
+	 				/*Toast.show('未查询到相关数据', Toast.SHORT);*/
 				}
 			})
 			.catch((e)=>{
