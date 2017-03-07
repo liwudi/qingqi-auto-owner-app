@@ -100,12 +100,12 @@ class AddCar extends Component {
                         {pattern: /^[A-Za-z0-9\-_]{8,19}$/, msg: '身份证号或组织机构代码格式错误'}
                     ]}
                 />
-                <View>
-                    <Text style={[estyle.note,{textAlign:'right'}]}>
-                        身份证号或组织机构代码(无需输入“-”)
+                <View style={[estyle.marginTop]}>
+                    <Text style={[estyle.note,{textAlign:'center'}]}>
+                        组织机构代码无需输入“-”
                     </Text>
                 </View>
-                <View style={[estyle.fxRow, estyle.padding]}>
+                <View style={[estyle.fxRow, estyle.paddingTop]}>
                     <Text style={[estyle.text]}>&nbsp;</Text>
                 </View>
                 <View style={[estyle.fxRowCenter]}>
