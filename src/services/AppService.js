@@ -356,9 +356,12 @@ export function modifyCar(carId, carCode,oldCarNo){
 }
 //车辆查询（从TDS系统获取车辆数据）
 export function getCarList(opts,page_number=defaultPage.page_number,page_size=defaultPage.page_size) {
+    //todo 产品要求组织机构代码可以输入-_ 但是提交的时候去除掉- 比较奇葩。。。
+    let carOpts = Object.assign({},opts,{page_number: page_number,page_size : page_size});
+    if(carOpts.identityCard) carOpts.identityCard = carOpts.identityCard.replace(/[\-_]/g,'');
     return RequestService.get(
         `${Server.QINGQI}tocapp/getCarList`,
-        Object.assign({},opts,{page_number: page_number,page_size : page_size})
+        carOpts
     );
 }
 //添加/编辑车辆-评价ID
