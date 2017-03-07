@@ -99,7 +99,6 @@ class UserCenterHome extends Component {
         }).catch((err) => {
             Toast.show(err.message, Toast.SHORT);
         });
-        this._checkUpdate(false);
     }
 
     clearCache() {
@@ -151,20 +150,22 @@ class UserCenterHome extends Component {
                 <ViewForRightArrow onPress={() => this.goTo(MyInfo)}>
                     <Text style={estyle.text}>我的资料</Text>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={() => this.goTo(CouponList)}>
+                <ViewForRightArrow style={[estyle.marginBottom]} onPress={() => this.goTo(CouponList)}>
                     <View style={[estyle.fxRow]}>
                         <Text style={[estyle.text,estyle.fx1]}>优惠券</Text>
                         <Text style={[estyle.text,{color:Env.color.main}]}>{this.state.coupon}</Text>
                     </View>
                 </ViewForRightArrow>
+                {
+                    Env.isAndroid ? <ViewForRightArrow onPress={this._checkUpdate.bind(this)}>
+                            <View style={{flexDirection:'row'}}>
+                                <Text style={estyle.text}>版本更新</Text>
+                                {this.state.isUpdate ? <Text style={[estyle.text,{color:'red'}]}> new</Text> : null}
+                                <Text style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>{this.state.versionName}</Text>
+                            </View>
+                        </ViewForRightArrow>: null
+                }
 
-                <ViewForRightArrow style={[estyle.marginTop]} onPress={this._checkUpdate.bind(this)}>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={estyle.text}>版本更新</Text>
-                        {this.state.isUpdate ? <Text style={[estyle.text,{color:'red'}]}> new</Text> : null}
-                        <Text style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>{this.state.versionName}</Text>
-                    </View>
-                </ViewForRightArrow>
                 <ViewForRightArrow onPress={this.clearCache.bind(this)}>
                     <Text style={estyle.text}>清除缓存</Text>
                 </ViewForRightArrow>
