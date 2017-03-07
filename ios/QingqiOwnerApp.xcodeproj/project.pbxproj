@@ -888,7 +888,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = AK26ZWGWUT;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1399,7 +1399,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1428,8 +1428,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqi.owner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "8c713c4a-1756-4280-9ebe-33412c965b7a";
+				PROVISIONING_PROFILE_SPECIFIER = QingqiOwner;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1442,7 +1442,7 @@
 				CODE_SIGN_ENTITLEMENTS = QingqiOwnerApp/QingqiOwnerApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1471,8 +1471,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqi.owner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "2d775090-09e7-422d-ac4c-61b2fcd65c7d";
+				PROVISIONING_PROFILE_SPECIFIER = QingqiOwner;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
