@@ -203,16 +203,17 @@ export default class MonitorMap extends Component {
         data.latitude = data.latitude || data.lat;
         data.carNo = data.carNo || data.carCode;
         data.count = 1;
-        this.list = [data];
-        console.info('data-------')
-        console.info(data)
-        this.setMarker();
         this.carToCenter(data);
         if(init) {
+            data.direction = 0;
             this.commonInfo = data;
         } else {
             this.monitorInfo = data;
         }
+        this.list = [data];
+        console.info('data-------')
+        console.info(data)
+        this.setMarker();
 
         this.setState({refreshInfo: Math.random()});
     }
