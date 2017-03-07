@@ -11,6 +11,9 @@ import RNFetchBlob from 'react-native-fetch-blob';
 
 import Server from '../service-config/ServerConfig';
 import RequestService, {getToken} from '../service-config/RequestService';
+
+import Env from '../utils/Env';
+
 const loginUrl = `${Server.WD_SERVICE}user/login`;
 
 
@@ -72,7 +75,7 @@ export function login(phone, password, captcha = '') {
         captcha: captcha,
         password: password,
         product: Server.APP_PRODUCT,
-        deviceId: Server.DEVICE_ID,
+        deviceId: Env.isAndroid ? Server.DEVICE_ID : 'ios-device',//todo ios推送key
         deviceType: Server.DEVICE_TYPE,
         appType: Server.APP_TYPE,
         type: Server.TYPE

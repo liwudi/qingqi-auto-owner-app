@@ -44,7 +44,7 @@ RCT_EXPORT_MODULE(CommonModule)
                          @"APPLICATION_ID":app_CurBundleId,
                          @"APPLICATION_NAME":app_CurName,
                          @"DEBUG":@"true",
-                         @"server_type":@"debug152",
+                         @"server_type":@"release",
                          @"deviceName":deviceName
                          };
   
