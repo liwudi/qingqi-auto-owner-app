@@ -37,6 +37,8 @@ class UserCenterHome extends Component {
 
     constructor(props) {
         super(props);
+        this.ridx = null;
+        this.stopRequest = false;
         this.state = {
             userData: {},
             versionName: '',
@@ -51,7 +53,7 @@ class UserCenterHome extends Component {
     }
 
     _checkUpdate(isShowTip = true) {
-        Env.isAndroid && checkUpdate().then(rs => {
+        checkUpdate().then(rs => {
             if (rs['version_no'] > this.state.versionCode) {
                 this.setState({
                     isUpdate: true
@@ -72,6 +74,26 @@ class UserCenterHome extends Component {
                 versionCode: v.versionCode
             })
         });
+        this.getCouponNum();
+        Env.isAndroid && this._checkUpdate(false);
+    }
+    shouldComponentUpdate(props) {
+        let cidx = props.router.currentIndex();
+        if(this.ridx === null) this.ridx = cidx;
+        if(cidx === this.ridx) {
+            //因为请求是异步的，添加延时，防止2次请求才会停止
+            this.timer=setTimeout(()=>{
+                if(!this.stopRequest){
+                    this.getCouponNum();
+                }
+            },500)
+        }else{
+            this.stopRequest = false;
+        }
+        return true;
+    }
+    //获取优惠券数量
+    getCouponNum(){
         couponNum().then((data) => {
             this.setState({coupon: data.num})
         }).catch((err) => {

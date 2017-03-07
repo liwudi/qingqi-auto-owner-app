@@ -158,7 +158,6 @@ class MyInfo extends Component {
                 this.fetchData();
             })
             .catch(e => {
-                console.log(e);
                 Toast.show(e.message, Toast.SHORT);
             });
     };
