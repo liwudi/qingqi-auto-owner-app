@@ -4,13 +4,7 @@
 
 import {Platform, NativeModules} from 'react-native';
 
-const commonModule =
-    Platform.OS === 'android' ?
-        NativeModules.CommonModule :
-        {
-            APPLICATION_ID: 'com.mapbar.qingqi.owner',
-            server_type: 'release'
-        };
+const commonModule = NativeModules.CommonModule;
 
 const Config = {
     mainColor: '#4f77db',  //司机端主色
@@ -20,7 +14,11 @@ const Config = {
     APP_PRODUCT: 'qingqi',
     DEVICE_TYPE: Platform.OS === 'android' ? '1' : '2',//1:android,  2:ios   /////qingqi_owner_mobile
     TYPE: '0', //0 车主端 1 司机端
-    server_type: commonModule.server_type
+    server_type: commonModule.server_type,
+    pushKey: 'test-93785c2c3dae47a4a5ecbb257450202f',
+    pushSecretKey: 'a9c1edef3ea94287aa0999262249e5ac',
+    deviceName: commonModule.deviceName || '',
+    versionCode: commonModule.VERSION_CODE
 };
 
 const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=${Config.packageName}&ck=${Config.uploadCk}`;
@@ -36,7 +34,8 @@ const ServerBase = {
     NEWS_SERVICE: 'http://219.146.249.190:10106/',
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
-    UPDATE_SERVICE
+    UPDATE_SERVICE,
+    PUSH_SERVICE: 'http://wdservice.mapbar.com/pushapi/'
 };
 
 
@@ -69,7 +68,6 @@ const Servers = {
         ...ServerBase,
     }
 }
-
 
 export default {
     ...Config,
