@@ -43,6 +43,7 @@ export default class CouponServiceStation extends Component {
         })
     }
     phoneList(phones){
+        if(!phones) return null;
         return phones.map((item,index)=>{
             return <TouchableOpacity key={index} style={[estyle.marginLeft]} onPress={()=>{this.props.callTo(item)}}>
                 <Text style={[estyle.note]}>{item}</Text>
