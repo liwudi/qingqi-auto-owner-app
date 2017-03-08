@@ -62,10 +62,11 @@ class AddCar extends Component {
     nextStep () {
         if (LabelInput.Validate(this.refs)) {
             Keyboard.dismiss();
+            if(this.state.doing) return false;
             this.setState({
                 doing: true
             });
-            this.props.dispatch(AddCarAction.getCarList(this.state, this.toList.bind(this),this.toVin.bind(this)));
+            this.props.dispatch(AddCarAction.getCarList(this.state, this.toList.bind(this),this.toVin.bind(this),()=>{this.setState({doing: false}) }));
         }
     }
     componentWillUnmount() {
