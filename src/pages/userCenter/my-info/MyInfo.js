@@ -22,7 +22,7 @@ const estyle = Env.style;
 
 import MyInfoId from './MyInfoId';
 import MyInfoDriver from './MyInfoDriveType';
-import ImagePickBotton from '../account-config/components/ImagePickButton';
+import ImagePickBotton from '../../../components/ImagePickButton';
 import ModifyTrueName from '../account-config/ModifyTrueName';
 import {UserActions} from '../../../actions';
 import {uploadUserPic} from '../../../services/UserService';

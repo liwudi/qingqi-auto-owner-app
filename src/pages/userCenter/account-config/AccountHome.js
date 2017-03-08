@@ -29,7 +29,7 @@ import { uploadUserPic } from '../../../services/UserService';
 
 import Toast from '../../../components/Toast';
 
-import ImagePickBotton from './components/ImagePickButton';
+import ImagePickBotton from '../../../components/ImagePickButton';
 import { logOutKefu } from '../../../utils/CommModule';
 
 class AccountHome extends Component {
