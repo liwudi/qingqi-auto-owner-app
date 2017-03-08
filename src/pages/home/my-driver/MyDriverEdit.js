@@ -132,8 +132,11 @@ export default class MyDriverEdit extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="编辑司机"
-				   rightView={<IconTrash onPress={() => this.delete()}
-										 color="#FFF" size={Env.font.base * 36} />}
+				   rightView={
+					   <TouchableOpacity style={estyle.topBtn} onPress={() => this.delete()}>
+						   <IconTrash color="#FFF" size={Env.font.base * 40}/>
+					   </TouchableOpacity>
+				   }
 				/>
 				<View  style={[estyle.fxRowCenter]}>
                     <LabelInput

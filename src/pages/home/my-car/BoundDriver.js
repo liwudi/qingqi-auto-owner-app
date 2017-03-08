@@ -93,7 +93,17 @@ export default class MyDriver extends Component {
             ]
         )
     }
-
+    setKeyword = (keyWord) => {
+        if(this.ktimer) {
+            clearTimeout(this.ktimer);
+        }
+        this.ktimer = setTimeout(() => {
+            let _k = this.state.keyWord.trim();
+            if(_k != keyWord) {
+                this.setState({keyWord}, this.fetchData);
+            }
+        }, 500);
+    }
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
@@ -108,7 +118,7 @@ export default class MyDriver extends Component {
                     labelSize="0"
                     ref="key"
                     rightView={<IconSearch color={Env.color.note}/>}
-                    onChangeText={(keyWord) => {this.setState({keyWord})}}/>
+                    onChangeText={this.setKeyword}/>
                     <PageSectionList
                         ref="list"
                         style={estyle.fx1}
