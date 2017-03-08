@@ -23,7 +23,9 @@ class CarListMessage extends Component{
 
     componentWillReceiveProps(nextProps){
         console.log('CarListMessage componentWillReceiveProps');
-        setTimeout(() => this.refs.list.reInitFetch(), 50);
+        setTimeout(() => {
+            this.refs.list && this.refs.list.reInitFetch && this.refs.list.reInitFetch();
+        }, 50);
     }
 
     getComponentName(){
