@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import {
     Text,
     View,
-    TextInput,TouchableOpacity,Keyboard
+    TextInput,TouchableOpacity,Keyboard, Modal, Image
 } from 'react-native';
 
 import { AddCarAction, TYPES} from '../../../actions/index';
@@ -22,14 +22,20 @@ const estyle = Env.style, pattern = Env.pattern;
 import Toast from '../../../components/Toast';
 
 
+import ImageViewer from 'react-native-image-zoom-viewer';
+import ImageZoom from 'react-native-image-pan-zoom';
+
+
+const invoiceImage = require('../../../assets/images/invoice.jpg');
+
 class AddCar extends Component {
     constructor(props) {
         super(props);
-        this.needCallback=false; //判断组件销毁时需不需要调父组件的方法
         this.state = {
             doing: false,
             invoiceNo:'',
-            identityCard:''
+            identityCard:'',
+            isShowInvoiceImage: false
         };
     }
 
@@ -106,12 +112,43 @@ class AddCar extends Component {
                         组织机构代码无需输入“-”
                     </Text>
                 </View>
+
                 <View style={[estyle.fxRow, estyle.paddingTop]}>
                     <Text style={[estyle.text]}>&nbsp;</Text>
                 </View>
                 <View style={[estyle.fxRowCenter]}>
                     <SubmitButton doing={this.state.doing} size="large" onPress={this.nextStep.bind(this)}>下一步</SubmitButton>
                 </View>
+
+                <View style={[estyle.fxCenter,estyle.marginTop]}>
+                    <Text style={[estyle.note]}>发票样例图</Text>
+                    <TouchableOpacity activeOpacity={1} onPress={() => {this.setState({'isShowInvoiceImage':true})}}>
+
+                        <Image source={invoiceImage}
+                               style={{
+                               width:Env.screen.width * 0.4,
+                               height:Env.screen.width * .4 * .75,
+                               borderWidth:Env.font.base * 14,
+                               borderColor:'#FFF'
+                               }}
+                               resizeMode={Image.resizeMode.contain}
+
+                        />
+                    </TouchableOpacity>
+
+                </View>
+
+                <Modal visible={this.state.isShowInvoiceImage} transparent={true} onRequestClose={() => {}}>
+                    <View style={[estyle.fx1, {backgroundColor: Env.color.modalBg}]}>
+                        <ImageZoom onClick = {() => this.setState({'isShowInvoiceImage':false})} cropWidth={Env.screen.width}
+                                   cropHeight={Env.screen.height}
+                                   imageWidth={Env.screen.width}
+                                   imageHeight={Env.screen.width * 0.75}>
+                            <Image style={{width:Env.screen.width, height:Env.screen.width * 0.75}}
+                                   source={invoiceImage} resizeMode={Image.resizeMode.contain}/>
+                        </ImageZoom>
+                    </View>
+                </Modal>
             </View>
         );
     }
