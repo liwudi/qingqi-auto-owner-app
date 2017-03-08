@@ -75,7 +75,8 @@ export default class PageSectionList extends Component {
                     }
                     this.setState({
                         ds: this.state.ds.cloneWithRowsAndSections(this._data),
-                        pageTotal : rs.page_total || 0
+                        pageTotal : rs.page_total || 0,
+                        refreshing: false
                     });
                 }
                 setTimeout(() => {
@@ -180,6 +181,9 @@ export default class PageSectionList extends Component {
 
 
         const _listView = () => {
+/*            console.info(this.refresh)
+            console.info(this.state.refreshing)
+            console.info(this.state.ds)*/
             if(!this._listView || this.refresh !== this.state.refreshing){
                 this._listView = <ListView
                     ref="listView"

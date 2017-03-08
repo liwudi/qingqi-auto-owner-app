@@ -276,7 +276,12 @@ export default class MyLineAdd extends Component {
                 <TopBanner
                     {...this.props}
                     title={this.props.title || "添加线路"}
-                    rightView={this.props.routeId ? <IconTrash color="#FFF" onPress={this._deleteRoute.bind(this)} size={Env.font.base * 40}/> : null}
+                    rightView={this.props.routeId ?
+
+                    <TouchableOpacity style={estyle.topBtn} onPress={this._deleteRoute.bind(this)}>
+                        <IconTrash color="#FFF" size={Env.font.base * 40}/>
+                    </TouchableOpacity>
+                        : null}
                 />
                 <ScrollView
                     refreshControl={
