@@ -92,7 +92,7 @@ export default class ImagePickButton extends Component {
         this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(() => {
             this.close();
-            Toast.show(this.msg, Toast.LONG);
+            //Toast.show(this.msg, Toast.LONG);
         }, 1000);
     }
 
