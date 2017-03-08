@@ -145,7 +145,7 @@ export function sendModifyMobileCode() {
 	}
 }
 
-export function getCarList(state,toList,toVin) {
+export function getCarList(state,toList,toVin,errFun) {
 	return (dispatch) => {
 		dispatch({'type': TYPES.TDS_DATA_DOING});
 		AppService.getCarList(state)
@@ -163,6 +163,7 @@ export function getCarList(state,toList,toVin) {
 			})
 			.catch((e)=>{
 			Toast.show(e.message, Toast.SHORT);
+			errFun();
 			dispatch({'type': TYPES.TDS_DATA_ERROR, error: e});
 		});
 	}
