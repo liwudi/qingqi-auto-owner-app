@@ -116,7 +116,7 @@ export function fastLogin(phone, smsCode) {
         autoLogin: '1',
         smsCode: smsCode,
         deviceType: Server.DEVICE_TYPE,
-        deviceId: Server.DEVICE_ID,
+        deviceId: Env.isAndroid ? Server.DEVICE_ID : 'ios-device',//todo ios推送key
         appType: Server.APP_TYPE,
         type: Server.TYPE
     });
