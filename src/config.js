@@ -18,7 +18,8 @@ const Config = {
     pushKey: 'test-93785c2c3dae47a4a5ecbb257450202f',
     pushSecretKey: 'a9c1edef3ea94287aa0999262249e5ac',
     deviceName: commonModule.deviceName || '',
-    versionCode: commonModule.VERSION_CODE
+    versionCode: commonModule.VERSION_CODE,
+    INVERSE_AK: '79bd7f3bd5d240e888b2c84b4c3bc617'
 };
 
 const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist/21?package_name=${Config.packageName}&ck=${Config.uploadCk}`;
@@ -35,7 +36,8 @@ const ServerBase = {
     IMG_SERVICE: 'http://jfx.mapbar.com/usercenter/user/queryPicById',//用于头像相关
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
     UPDATE_SERVICE,
-    PUSH_SERVICE: 'http://wdservice.mapbar.com/pushapi/'
+    PUSH_SERVICE: 'http://wdservice.mapbar.com/pushapi/',
+    INVERSE_SERVICE: 'http://wedrive.mapbar.com/opentsp/gis/api/inverse'
 };
 
 
@@ -47,6 +49,7 @@ const Servers = {
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.151:8950/qingqi/',
+        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json'
     },
     debug152:{  //内网开发联调环境
         ...ServerBase,
@@ -55,6 +58,7 @@ const Servers = {
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.152:8950/qingqi/',
+        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json'
     },
     debug153:{  //内网qa测试环境
         ...ServerBase,
@@ -63,6 +67,7 @@ const Servers = {
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.153:8950/qingqi/',
+        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json'
     },
     release:{  //线上环境
         ...ServerBase,
@@ -73,5 +78,5 @@ export default {
     ...Config,
     //android端默认使用gradle配置，ios端默认release，注意开发时需要特殊修改的情况，请不要上传这段代码
     server: Servers[Config.server_type]
-    // server: Servers['debug152']
+    //,server: Servers['debug153']
 };

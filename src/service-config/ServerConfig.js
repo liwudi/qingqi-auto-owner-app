@@ -20,7 +20,8 @@ let ServerConfig = {
     APP_PRODUCT: Config.APP_PRODUCT,
     DEVICE_ID: '',
     DEVICE_TYPE: Config.DEVICE_TYPE,
-    TYPE: Config.TYPE
+    TYPE: Config.TYPE,
+    INVERSE_AK: Config.INVERSE_AK
 };
 
 
