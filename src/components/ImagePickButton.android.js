@@ -43,6 +43,7 @@ export default class ImagePickButton extends Component {
     }
 
     close = () => {
+        this.requestPhoto = false;
         this.setState({
             visible: false
         })
@@ -80,11 +81,12 @@ export default class ImagePickButton extends Component {
     _handleAppStateChange(currentAppState) {
         if(currentAppState === 'background') {
             this.stime = new Date().getTime();
-        } else if (this.stime && currentAppState === 'active') {
+        } else if (this.requestPhoto && this.stime && currentAppState === 'active') {
             if(new Date().getTime() - this.stime <= 100) {
                 this.showMsg();
             }
             this.stime = undefined;
+            this.requestPhoto = false;
         }
     }
 
@@ -92,17 +94,19 @@ export default class ImagePickButton extends Component {
         this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(() => {
             this.close();
-            //Toast.show(this.msg, Toast.LONG);
+            Toast.show(this.msg, Toast.LONG);
         }, 1000);
     }
 
     launchCamera = () => {
+        this.requestPhoto = true;
         this.msg = '您可能禁用了拍照功能，请到系统“设置”中开启';
         ImagePicker.launchCamera(options, this._getImage);
 
     }
 
     launchImageLibrary = () => {
+        this.requestPhoto = true;
         this.msg = '您可能禁用了相册功能，请到系统“设置”中开启';
         ImagePicker.launchImageLibrary(options, this._getImage);
 
