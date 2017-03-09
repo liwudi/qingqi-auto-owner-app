@@ -4,23 +4,33 @@
 import Coord from './Coord';
 
 let opts = {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000};
-
-
-export function geolocation () {
+let coords = null;
+function _geolocation () {
+    console.info('_geolocation', coords)
     let promise = new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                let coords = position.coords;
-                let ll = Coord.wgs84togcj02(Math.abs(coords.longitude),Math.abs(coords.latitude));
-                //ll = '114.55321,38.06642'.split(',');
-                resolve({
-                    longitude: ll[0],
-                    latitude: ll[1]
-                });
-            },
-            (error) => {reject(error)},
-            opts
-        );
+        if(coords) resolve(coords);
+        else {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    let _coords = position.coords;
+                    let ll = Coord.wgs84togcj02(Math.abs(_coords.longitude),Math.abs(_coords.latitude));
+                    coords = {
+                        longitude: ll[0],
+                        latitude: ll[1]
+                    };
+                    console.info('success-geolocation', coords)
+                    resolve(coords);
+                },
+                (error) => {reject(error)},
+                opts
+            );
+        }
     });
     return promise;
+}
+if(!coords) _geolocation();
+
+export function geolocation () {
+    console.info('geolocation', coords)
+    return _geolocation();
 }

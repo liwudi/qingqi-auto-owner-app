@@ -8,7 +8,7 @@ import configureStore from './configure-store';
 import Main from './pages/Main';
 import Env from './utils/Env';
 import { pushModule } from './utils/CommModule';
-
+import {geolocation} from './components/location/Geolocation';
 
 const estyle = Env.style;
 import ServerConfig from './service-config/ServerConfig';

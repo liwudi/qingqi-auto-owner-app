@@ -13,7 +13,7 @@ import {
 import AreaList from './components/AreaList';
 import BaseBtn from '../../../components/widgets/Button';
 import Button from './components/Button';
-import Location from './components/location/Location';
+import Location from './components/Location';
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
@@ -106,14 +106,6 @@ export default class SetStartEnd extends Component {
         }
     }
 
-    renderLocation() {
-        let view = <View/>;
-        if (this.props.tag === 'start') {
-            view = <View style={estyle.marginBottom}><Location {...this.props}/></View>;
-        }
-        return view;
-    }
-
     renderProvince(dv) {
         let view = <Button title={this.province.name || dv} selectBd={!!this.province.name}/>;
         return view;
@@ -174,7 +166,7 @@ export default class SetStartEnd extends Component {
 
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
                 <TopBanner {...this.props} title={this.props.title}/>
-                {/*{this.renderLocation()}*/}
+                <Location {...this.props}/>
                 {this.renderNavigationBar()}
                 <Navigator
                     initialRoute={routes[this.initIdx]}
