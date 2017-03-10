@@ -70,7 +70,7 @@ public class MediaRecorderOperation {
                 // 设置meidaRecorder的音频源是麦克风
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 // 设置文件音频的输出格式为amr
-                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
                 // 设置音频的编码格式为amr
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 //			mRecorder.setMaxDuration(MAX_LENGTH);

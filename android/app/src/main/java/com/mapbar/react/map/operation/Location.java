@@ -1,16 +1,20 @@
 package com.mapbar.react.map.operation;
 
-import android.content.Context;
 import android.location.Address;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
-import com.mapbar.react.LogUtils;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.mapbar.android.location.AsyncGeocoder;
 import com.mapbar.android.location.LocationClient;
 import com.mapbar.android.location.LocationClientOption;
+import com.mapbar.react.LogUtils;
+import com.mapbar.react.map.MapbarMapModule;
 
 import java.util.List;
 import java.util.Locale;
@@ -21,13 +25,12 @@ import java.util.Locale;
 
 public class Location {
     private static String TAG = "Location";
-    private static Context context;
-    private static Promise promise;
     private static LocationClient mLocationClient;
     private static final long gpsExpire = 1500;// gps失效时间 毫秒
     private static final int resultType = 0;
     private static int count = 0;// 定位次数
     private static int priority = LocationClientOption.LocationMode.GPS_FIRST;
+    private static final String receiveLocationData = "receiveLocationData";
 
     /**
      * 初始化定位
@@ -36,7 +39,7 @@ public class Location {
         try {
             if (mLocationClient == null) {
                 MyLocationListen myLocationListen = new MyLocationListen();
-                mLocationClient = new LocationClient(context);
+                mLocationClient = new LocationClient(MapbarMapModule.getReactContext().getApplicationContext());
                 LocationClientOption option = new LocationClientOption();
                 option.setPriority(priority);
                 option.setScanSpanGPS(15000);// 设置GPS定位最小间隔时间
@@ -45,8 +48,9 @@ public class Location {
                 option.setResultType(resultType);// 默认返回逆地理信息
                 mLocationClient.setOption(option);
                 mLocationClient.addListener(myLocationListen);
-                LogUtils.logd(TAG, LogUtils.getThreadName() + "-------开始定位---");
             }
+            mLocationClient.start();
+            LogUtils.logd(TAG, LogUtils.getThreadName() + "-------开始定位---");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,12 +69,14 @@ public class Location {
                     Bundle bundle = location.getExtras();
                     String address = bundle.getString("address");
                     String city = bundle.getString("city");
-                    resolvePromise(latitude, longitude, address, city);
+                    if (!TextUtils.isEmpty(address)) {
+                        resolve(latitude, longitude, address, city);
+                    } else {
+                        getInverse(latitude, longitude);
+                    }
                 } else {
                     getInverse(latitude, longitude);
                 }
-            } else {
-                promise.reject("0", "定位失败");
             }
         }
 
@@ -91,15 +97,14 @@ public class Location {
         }
     }
 
-    private static void resolvePromise(double latitude, double longitude, String address, String city) {
+    private static void resolve(double latitude, double longitude, String address, String city) {
         WritableMap params = Arguments.createMap();
         params.putDouble("latitude", latitude);
         params.putDouble("longitude", longitude);
         params.putString("address", address);
         params.putString("city", city);
         LogUtils.logd(TAG, LogUtils.getThreadName() + "extras" + "params:" + params);
-        promise.resolve(params);
-        stopLocation();
+        sendEvent(receiveLocationData, params);
     }
 
     /**
@@ -113,9 +118,9 @@ public class Location {
      * @version : v1.00
      * @Description :
      */
-    private static void getInverse(double dLat, double dLon) {
+    private static void getInverse(final double dLat, final double dLon) {
         try {
-            AsyncGeocoder gc = new AsyncGeocoder(context, Locale.getDefault());
+            AsyncGeocoder gc = new AsyncGeocoder(MapbarMapModule.getReactContext().getApplicationContext(), Locale.getDefault());
             gc.setResultListener(new AsyncGeocoder.ResultListener() {
                 @Override
                 public void onResult(Object obj, List<Address> lstAddress) {
@@ -123,8 +128,6 @@ public class Location {
                     int flag = Integer.parseInt(String.valueOf(obj));
                     // 判断地址是否为多行
                     if (lstAddress.size() > 0 && count == flag) {
-                        double latitude = 0;
-                        double longitude = 0;
                         StringBuilder sbGeo = new StringBuilder();
                         String city = "";
                         for (int i = 0; i < lstAddress.size(); i++) {
@@ -141,18 +144,10 @@ public class Location {
 //                                sbGeo.append("CountryCode:" + adsLocation.getCountryCode()).append("\n");
 //                                sbGeo.append("Latitude:" + adsLocation.getLatitude()).append("\n");
 //                                sbGeo.append("Longitude:" + adsLocation.getLongitude()).append("\n");
-                            latitude = adsLocation.getLatitude();
-                            longitude = adsLocation.getLongitude();
                             city = adsLocation.getAdminArea();
                         }
-                        WritableMap params = Arguments.createMap();
-                        params.putDouble("latitude", latitude);
-                        params.putDouble("longitude", longitude);
-                        params.putString("address", sbGeo.toString());
-                        params.putString("city", city);
-                        LogUtils.logd(TAG, LogUtils.getThreadName() + "params:" + params);
-                        stopLocation();
-                        promise.resolve(params);
+                        resolve(dLat, dLon, sbGeo.toString(), city);
+                        LogUtils.logd(TAG, LogUtils.getThreadName() + "params:" + "lat:" + dLat + ",dlon:" + dLon + ",address:" + sbGeo.toString() + ",city:" + city);
                     }
                 }
             });
@@ -160,38 +155,34 @@ public class Location {
             gc.getFromLocation(dLat, dLon, 1);
         } catch (Exception ex) {
             ex.printStackTrace();
-            promise.reject("0", "定位失败");
         }
     }
 
-    public static void startLocation(Context conxt, Promise prom) {
-        LogUtils.logd(TAG, "----------startLocation------");
-        promise = prom;
-        context = conxt;
+    public static void startLocation() {
         initLocation();
-        if (mLocationClient != null) {
-            mLocationClient.start();
-        }
     }
 
     public static void stopLocation() {
         if (mLocationClient != null) {
             mLocationClient.stop();
+            LogUtils.logd(TAG, "---------暂停定位-------");
         }
     }
 
 
     public static void onStartLocation() {
-        LogUtils.logd("MapSDK", "---------回到前台-------");
+
         if (mLocationClient != null) {
             mLocationClient.onForeground();
+            LogUtils.logd(TAG, "---------onStartLocation-------");
         }
     }
 
     public static void onStopLocation() {
-        LogUtils.logd("MapSDK", "---------切到后台-------");
+
         if (mLocationClient != null) {
             mLocationClient.onBackground();
+            LogUtils.logd(TAG, "---------onStopLocation-------");
         }
     }
 
@@ -200,6 +191,19 @@ public class Location {
         if (mLocationClient != null) {
             mLocationClient.stop();
             mLocationClient.removeAllListener();
+            LogUtils.logd(TAG, "---------onDestroyLocation-------");
+            mLocationClient = null;
+        }
+    }
+
+    private static void sendEvent(String eventName, @Nullable WritableMap params) {
+        ReactContext reactContext = MapbarMapModule.getReactContext();
+        if (reactContext.hasActiveCatalystInstance()) {
+            reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
+        } else {
+            LogUtils.logd(TAG, "Waiting for CatalystInstance...");
         }
     }
 }

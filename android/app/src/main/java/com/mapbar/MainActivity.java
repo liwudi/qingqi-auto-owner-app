@@ -16,6 +16,7 @@ import com.mapbar.mapdal.NaviCore;
 import com.mapbar.mapdal.SdkAuth;
 import com.mapbar.mapdal.WorldManager;
 import com.mapbar.react.LogUtils;
+import com.mapbar.react.map.operation.Location;
 
 public class MainActivity extends ReactActivity {
     private static final String TAG = "MainActivity";
@@ -38,7 +39,12 @@ public class MainActivity extends ReactActivity {
         LogUtils.logd(TAG, LogUtils.getThreadName() + ">>>");
         init();
     }
-
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        Location.onStartLocation();
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -50,6 +56,7 @@ public class MainActivity extends ReactActivity {
         WorldManager.getInstance().cleanup();
         NativeEnv.cleanup();
         super.onDestroy();
+        Location.onDestroyLocation();
         LogUtils.logd(TAG, LogUtils.getThreadName());
     }
     /**
@@ -78,6 +85,12 @@ public class MainActivity extends ReactActivity {
     protected void onPause() {
         super.onPause();
         MapbarMobStat.onPageEnd(this,"MainActivity");
+    }
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        Location.onStopLocation();
     }
 
     /**
