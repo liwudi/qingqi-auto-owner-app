@@ -23,7 +23,8 @@ import Toast from '../../../components/Toast';
 
 import Env from '../../../utils/Env';
 import CouponRecord from './CouponRecord';
-const module = NativeModules.MapbarMapModule;
+import {geolocation} from '../../../components/location/Geolocation';
+//const module = NativeModules.MapbarMapModule;
 const estyle = Env.style;
 const basefont=Env.font.base;
 
@@ -37,7 +38,6 @@ export default class CouponDetail extends Component {
         };
     }
     componentDidMount(){
-        module.initLocation();
         this.fetchData();
     }
     fetchData(){
@@ -52,7 +52,33 @@ export default class CouponDetail extends Component {
     }
     getLocation(){
         //获取手机位置
-        module.startLocation()
+        geolocation().then((res)=>{
+            //longitude 经度 latitude 纬度
+            console.log('位置',res);
+            this.setState({lonlat: res});
+            recommend({
+                lon: res.longitude,
+                lat: res.latitude,
+                activityId:this.state.data.id
+            })
+            .then((data)=>{
+                this.setState({serverStation:data})
+            })
+            .catch((err)=>{
+                Toast.show(err.message,Toast.SHORT);
+            })
+        })
+        .catch(()=>{
+            console.log('获取位置失败');
+            recommend({activityId:this.state.data.id})
+                .then((data)=>{
+                    this.setState({serverStation:data})
+                })
+                .catch((err)=>{
+                    Toast.show(err.message,Toast.SHORT);
+                })
+        });
+        /*module.startLocation()
             .then((res)=>{
                 //longitude 经度 latitude 纬度
                 console.log('位置',res);
@@ -81,7 +107,7 @@ export default class CouponDetail extends Component {
             })
             .finally(()=>{
                 module.stopLocation();
-            })
+            })*/
     }
 
     render() {
