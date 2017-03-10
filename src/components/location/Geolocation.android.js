@@ -1,36 +1,37 @@
 import React, { Component } from 'react';
 import {
+    DeviceEventEmitter,
     NativeModules
 } from 'react-native';
 import Coord from './Coord';
 const module = NativeModules.MapbarMapModule;
 let coords = null;
-export function _geolocation () {
+function _geolocation () {
     let promise = new Promise((resolve, reject) => {
-        console.info('geolocation--android-geo')
+        console.info('geolocation--android-geo', coords)
         if(coords) resolve(coords);
         else {
-            module.startLocation().then((res) => {
-                console.log('位置-android-geo',res);
-                let ll = Coord.wgs84togcj02(Math.abs(res.longitude),Math.abs(res.latitude));
-                coords = {
-                    longitude: ll[0],
-                    latitude: ll[1]
-                };
-                console.info('success-geolocation', coords)
-                resolve(coords);
-            }).catch((error)=> {
-                reject(error);
-                console.info('startError-android-geo')
-            }).finally(() => {
-                console.info('stopLocation-android-geo')
-                module.stopLocation();
-            });
+            console.info('noLocation-android-geo')
+            reject();
         }
     });
     return promise;
 }
-if(!global.coords) _geolocation();
+
+if(!coords) {
+    DeviceEventEmitter.addListener('receiveLocationData', (event={}) => {
+        if(event.longitude && event.latitude) {
+            let ll = Coord.wgs84togcj02(Math.abs(event.longitude),Math.abs(event.latitude));
+            coords = {
+                longitude: ll[0],
+                latitude: ll[1]
+            };
+        }
+        console.info('receiveLocationData', coords)
+        module.stopLocation();
+    });
+    module.startLocation();
+}
 
 export function geolocation () {
     console.info('geolocation', coords)
