@@ -27,13 +27,19 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
 
     private String TAG = this.getClass().getSimpleName();
     private Context context;
+    private static ReactContext reactContext;
     private static final String REACT_CLASS = "MapbarMapModule";
     private Vector2DF mZoomLevelRange = null;
 
     public MapbarMapModule(ReactApplicationContext reactContext) {
         super(reactContext);
         context = reactContext;
+        this.reactContext = reactContext;
         LogUtils.logd(TAG, "MapbarMapModule-------");
+    }
+
+    public static ReactContext getReactContext() {
+        return reactContext;
     }
 
     @Override
@@ -373,21 +379,15 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
 
     //定位开始
     @ReactMethod
-    public void startLocation(final Promise promise) {
+    public void startLocation() {
         ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Location.startLocation(getReactApplicationContext(), promise);
+                Location.startLocation();
             }
         });
-
     }
 
-    //定位开始
-    @ReactMethod
-    public void initLocation(Promise promise) {
-        Location.initLocation();
-    }
     //定位结束
     @ReactMethod
     public void stopLocation() {
@@ -408,7 +408,6 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
     public void onDestroyLocation() {
         Location.onDestroyLocation();
     }
-
     protected MapbarMapView getMapView(int tag) {
         MapbarMapView mapView = (MapbarMapView) ((ReactContext) context).getCurrentActivity().findViewById(tag);
         return mapView;
