@@ -49,14 +49,14 @@ class MyInfoCarLength extends Component {
                         })
                 }
             }else {
-                Toast.show('车长格式错误',Toast.SHORT);
+                Toast.show('车厢长格式错误',Toast.SHORT);
             }
         }
     }
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="车长"/>
+                <TopBanner {...this.props} title="车厢长"/>
                 <View  style={[estyle.fxRowCenter]}>
                     <LabelInput
                         ref="cardLenght"
@@ -66,14 +66,14 @@ class MyInfoCarLength extends Component {
                         }}
                         defaultValue={this.props.data.carLength}
                         secureTextEntry={true}
-                        placeholder='请输入车长'
-                        label="车长"
+                        placeholder='请输入车厢长'
+                        label="车厢长"
                         autoCapitalize="characters"
                         labelSize="3"
                         maxLength={6}
                         validates={[
-                            {require:true, msg: '请输入车长'},
-                            {pattern:/^([1-9]\d|[1-9])(\.\d)?$/, msg:'车长格式错误'}
+                            {require:true, msg: '请输入车厢长'},
+                            {pattern:/^([1-9]\d|[1-9])(\.\d)?$/, msg:'车厢长格式错误'}
                         ]}
                     />
                     <View style={[estyle.fxRow, estyle.padding]}>
