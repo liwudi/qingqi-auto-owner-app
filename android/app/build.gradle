@@ -78,8 +78,17 @@ apply from: "../../node_modules/react-native/react.gradle"
 def enableSeparateBuildPerCPUArchitecture = false
 
 
+/**
+ * 线上客服key
+ */
 def YUNXIN_AMAP_KEY     = "34742e4968884821fb3f14160545c512"
 def YUNXIN_APP_KEY      = "34742e4968884821fb3f14160545c512"
+/**
+ * 测试客服key
+ */
+def YUNXIN_AMAP_TEST_KEY  = "9dc7358337ad59f13ec3f1a9887e84a6"
+def YUNXIN_APP_TEST_KEY   = "9dc7358337ad59f13ec3f1a9887e84a6"
+
 def STAT_MAPBAR_APP_KEY = "999e285bebfb427a923b05c338569d26"
 def STAT_UMENG_APP_KEY  = "585b8cc999f0c70a01000ffa"
 def PUSH_MAPBAR_APP_KEY = "3aae4181c7694165813ffa251f56bf62"
@@ -97,14 +106,14 @@ android {
         applicationId "com.mapbar.qingqi.onwer"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10015
-        versionName "1.1.5"
+        versionCode 10016
+        versionName "1.1.6"
         ndk {
             abiFilters "armeabi-v7a"
         }
         manifestPlaceholders = [
-                YUNXIN_AMAP_KEY     : YUNXIN_AMAP_KEY,
-                YUNXIN_APP_KEY      : YUNXIN_APP_KEY,
+                YUNXIN_AMAP_KEY     : YUNXIN_AMAP_TEST_KEY,
+                YUNXIN_APP_KEY      : YUNXIN_APP_TEST_KEY,
                 STAT_MAPBAR_APP_KEY : STAT_MAPBAR_APP_KEY,
                 STAT_UMENG_APP_KEY  : STAT_UMENG_APP_KEY,
                 PUSH_MAPBAR_APP_KEY : PUSH_MAPBAR_APP_KEY_TEST,
