@@ -3,6 +3,7 @@
  * edit by zhaidongyou on 2016/10/13
  */
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {
     Text,
     View,
@@ -24,7 +25,7 @@ import { queryOperateStatisToday } from '../../../services/AppService';
 import AddCar from '../../userCenter/add-car/AddCar';
 import MyCarSearch from './MyCarSearch';
 
-export default class MyCar extends Component {
+class MyCar extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -82,6 +83,7 @@ export default class MyCar extends Component {
     }
 
     render() {
+        let userInfo = this.props.userStore.userInfo;
         const topRightView= () => {
             return (
                 <View style={[estyle.fxRow]}>
@@ -89,9 +91,12 @@ export default class MyCar extends Component {
                                       onPress={() => {this.goTo(MyCarSearch)}}>
                         <IconSearch color="#FFF" size={Env.font.base * 40}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={estyle.topBtn} onPress={() => {this.goTo(AddCar)}}>
-                        <IconPlus color="#FFF" size={Env.font.base * 40}/>
-                    </TouchableOpacity>
+                    {
+                        userInfo.role === 3 ? null :
+                            <TouchableOpacity style={estyle.topBtn} onPress={() => {this.goTo(AddCar)}}>
+                                <IconPlus color="#FFF" size={Env.font.base * 40}/>
+                            </TouchableOpacity>
+                    }
                 </View>
             )
         };
@@ -140,3 +145,6 @@ export default class MyCar extends Component {
         )
     }
 }
+export default connect(function (stores) {
+    return {userStore: stores.userStore}
+})(MyCar);

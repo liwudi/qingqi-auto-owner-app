@@ -23,7 +23,7 @@ import AccountHome from './account-config/AccountHome';
 import ManagerList from './manager/ManagerList';
 import AboutUs from './AboutUs';
 
-import { getAppVersion, checkUpdate, updateApp } from '../../services/UpdateService';
+import {getAppVersion, checkUpdate, updateApp} from '../../services/UpdateService';
 
 import {UserActions} from '../../actions';
 import CouponList  from './coupon/CouponList';
@@ -58,7 +58,7 @@ class UserCenterHome extends Component {
                 this.setState({
                     isUpdate: true
                 })
-                if(isShowTip){
+                if (isShowTip) {
                     updateApp(rs, this.props.alert);
                 }
             } else {
@@ -77,35 +77,38 @@ class UserCenterHome extends Component {
         this.getCouponNum();
         Env.isAndroid && this._checkUpdate(false);
     }
+
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
-        if(this.ridx === null) this.ridx = cidx;
-        if(cidx === this.ridx) {
+        if (this.ridx === null) this.ridx = cidx;
+        if (cidx === this.ridx) {
             //因为请求是异步的，添加延时，防止2次请求才会停止
-            this.timer=setTimeout(()=>{
-                if(!this.stopRequest){
+            this.timer = setTimeout(() => {
+                if (!this.stopRequest) {
                     this.getCouponNum();
                 }
-            },500)
-        }else{
+            }, 500)
+        } else {
             this.stopRequest = false;
         }
         return true;
     }
+
     //获取优惠券数量
-    getCouponNum(){
+    getCouponNum() {
         couponNum().then((data) => {
             this.setState({coupon: data.num})
         }).catch((err) => {
             Toast.show(err.message, Toast.SHORT);
-        }).finally(()=>{
+        }).finally(() => {
             this.stopRequest = true;
         })
     }
-    componentWillUnmount(){
+
+    componentWillUnmount() {
         this.ridx = null;
         this.stopRequest = false;
-        if(this.timer) this.timer=null;
+        if (this.timer) this.timer = null;
     }
 
     clearCache() {
@@ -151,9 +154,10 @@ class UserCenterHome extends Component {
                     </View>
                 </ViewForRightArrow>
 
-                {/*{userInfo.role === 4 ? <ViewForRightArrow style={[estyle.marginTop]} onPress = {() => this.goTo(ManagerList)}>*/}
-                {/*<Text style={estyle.text}>车队管理员</Text>*/}
-                {/*</ViewForRightArrow> : null}*/}
+                {userInfo.role === 4 ?
+                    <ViewForRightArrow style={[estyle.marginTop]} onPress={() => this.goTo(ManagerList)}>
+                        <Text style={estyle.text}>车队管理员</Text>
+                    </ViewForRightArrow> : null}
                 <ViewForRightArrow onPress={() => this.goTo(MyInfo)}>
                     <Text style={estyle.text}>我的资料</Text>
                 </ViewForRightArrow>
@@ -168,9 +172,10 @@ class UserCenterHome extends Component {
                             <View style={{flexDirection:'row'}}>
                                 <Text style={estyle.text}>版本更新</Text>
                                 {this.state.isUpdate ? <Text style={[estyle.text,{color:'red'}]}> new</Text> : null}
-                                <Text style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>{this.state.versionName}</Text>
+                                <Text
+                                    style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>{this.state.versionName}</Text>
                             </View>
-                        </ViewForRightArrow>: null
+                        </ViewForRightArrow> : null
                 }
 
                 <ViewForRightArrow onPress={this.clearCache.bind(this)}>

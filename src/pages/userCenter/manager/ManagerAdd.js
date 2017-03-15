@@ -6,7 +6,7 @@
  * 车队管理员添加
  */
 import React, {Component} from "react";
-import {Text, View, TextInput, Image, Alert, TouchableOpacity} from "react-native";
+import {Text, View, TextInput, Image, Alert, TouchableOpacity,Keyboard} from "react-native";
 import Env from "../../../utils/Env";
 import TopBanner from "../../../components/TopBanner";
 import LabelInput from "../../../components/LabelInput";
@@ -51,6 +51,7 @@ export default class ManagerAdd extends Component {
 	}
 
 	toManagerAddForContacts(){
+        Keyboard.dismiss();
         Env.isAndroid ?
             this.props.router.push(SelectForContacts,
                 {

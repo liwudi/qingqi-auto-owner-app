@@ -292,7 +292,7 @@ class MyInfo extends Component {
                                             rightDom={
                                     data.vehicleLicenseValidStatus == 2 ? <Text style={styles.text}>审核中</Text> : <Text style={styles.text}>{data.carNumber || '未输入'}</Text>
                                 }/>
-                                <MyInfoItem title="车长（米）" isWarn={data.vehicleLicenseValidReason}
+                                <MyInfoItem title="车厢长（米）" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
                                             onlyRead={onlyRead}
                                             onPress={ ()=>{ this.pressFun( ()=>{ this.goTo(MyInfoCarLength,{successFun:this.setDataState,data:data}) } ,data.vehicleLicenseValidReason) } }
