@@ -81,6 +81,7 @@ class UserCenterHome extends Component {
     shouldComponentUpdate(props) {
         let cidx = props.router.currentIndex();
         if (this.ridx === null) this.ridx = cidx;
+        if (!this.props.userStore.userInfo.token) return false
         if (cidx === this.ridx) {
             //因为请求是异步的，添加延时，防止2次请求才会停止
             this.timer = setTimeout(() => {
