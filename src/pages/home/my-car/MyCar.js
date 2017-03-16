@@ -24,6 +24,7 @@ import { queryRealTimeCarList } from '../../../services/MonitorService';
 import { queryOperateStatisToday } from '../../../services/AppService';
 import AddCar from '../../userCenter/add-car/AddCar';
 import MyCarSearch from './MyCarSearch';
+import { getUserDetail } from '../../../actions/UserActions';
 
 class MyCar extends Component {
     constructor(props) {
@@ -50,6 +51,11 @@ class MyCar extends Component {
             .catch(this.finaliy.bind(this))
             .finally(this.finaliy.bind(this));
     };
+
+    componentWillMount(){
+        //todo 因为后台的设计问题，现防止管理员加车，故在加车后重新获取角色类型，后期可能会改
+        this.props.dispatch(getUserDetail());
+    }
 
     componentDidMount(){
         if(this.props.toAddCar){

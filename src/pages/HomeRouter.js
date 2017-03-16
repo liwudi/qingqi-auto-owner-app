@@ -61,7 +61,7 @@ class HomeRouter extends Component {
 	}
 
     componentDidMount(){
-        if(this.props.showAddCarMessage){
+        if(this.props.showAddCarMessage && this.props.userStore.userInfo.role != 3){
             this.props.alert(
                 '提示',
                 '您已注册成功, 是否要添加车辆？',
@@ -113,6 +113,6 @@ class HomeRouter extends Component {
 	}
 }
 function select(stores) {
-	return { messageStore: stores.messageStore }
+	return { messageStore: stores.messageStore,userStore: stores.userStore}
 }
 export default connect(select)(HomeRouter);

@@ -169,8 +169,8 @@ export default class HomePage extends Component {
 				</ViewForRightArrow>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(MyCar)} src={require('../../assets/images/icon-1.png')} title="我的车辆"/>
-					<ImgButton onPress={() => this.goTo(MyDriver)} src={require('../../assets/images/icon-2.png')} title="我的司机"/>
-					<ImgButton onPress={() => this.goTo(MyLine)} src={require('../../assets/images/icon-3.png')} title="我的线路"/>
+					<ImgButton onPress={() => this.goTo(MyDriver, true)} src={require('../../assets/images/icon-2.png')} title="我的司机"/>
+					<ImgButton onPress={() => this.goTo(MyLine, true)} src={require('../../assets/images/icon-3.png')} title="我的线路"/>
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Monitor)} src={require('../../assets/images/icon-4.png')} title="实时监控"/>

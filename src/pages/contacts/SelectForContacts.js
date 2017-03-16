@@ -76,7 +76,7 @@ export default class SelectForContacts extends Component {
                                     if(Object.keys(rs).length === 0){
                                         this.props.alert(
                                             '提示',
-                                            '请在设置-应用权限管理中允许一汽汽车管家访问您的通信录。',
+                                            '请添加联系人或请在设置-应用权限管理中允许一汽汽车管家访问您的通信录。',
                                             [{
                                                 text:'确定',
                                                 onPress:() => {

@@ -2,6 +2,7 @@
  * Created by linyao on 2016/10/22.
  */
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {
     Text,
     View,
@@ -14,10 +15,11 @@ import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import { addCar } from '../../../services/AppService';
 import Toast from '../../../components/Toast';
+import {getUserDetail} from '../../../actions/UserActions';
 import MyCar from '../../home/my-car/MyCar';
 const estyle = Env.style;
 
-export default class AddCarPostCarCode extends Component {
+class AddCarPostCarCode extends Component {
     
     constructor(props) {
         super(props);
@@ -44,6 +46,10 @@ export default class AddCarPostCarCode extends Component {
                 })
                 .catch((e)=>{
                     Toast.show(e.message, Toast.SHORT);
+                })
+                .finally(()=>{
+                    //todo 因为后台的设计问题，现防止管理员加车，故在加车后重新获取角色类型，后期可能会改
+                    this.props.dispatch(getUserDetail());
                 })
         }
     }
@@ -78,3 +84,6 @@ export default class AddCarPostCarCode extends Component {
         );
     }
 }
+export default connect(function (stores) {
+    return {userStore: stores.userStore}
+})(AddCarPostCarCode);
