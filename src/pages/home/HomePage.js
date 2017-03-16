@@ -105,7 +105,10 @@ export default class HomePage extends Component {
         if(!this.isLoadingCustomerService){
             this.isLoadingCustomerService = true;
             choiceCustomer().then(rs => {
-
+            	if(!rs.token){
+            		Toast.show('分配客服失败，请稍后重试',Toast.SHORT);
+            		return;
+				}
                 startKefuActivity(
                     rs.userId + '',
                     rs.serverId + '',
