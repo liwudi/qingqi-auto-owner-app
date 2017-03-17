@@ -112,8 +112,8 @@ android {
             abiFilters "armeabi-v7a"
         }
         manifestPlaceholders = [
-                YUNXIN_AMAP_KEY     : YUNXIN_AMAP_KEY,
-                YUNXIN_APP_KEY      : YUNXIN_APP_KEY,
+                YUNXIN_AMAP_KEY     : YUNXIN_AMAP_TEST_KEY,
+                YUNXIN_APP_KEY      : YUNXIN_APP_TEST_KEY,
                 STAT_MAPBAR_APP_KEY : STAT_MAPBAR_APP_KEY,
                 STAT_UMENG_APP_KEY  : STAT_UMENG_APP_KEY,
                 PUSH_MAPBAR_APP_KEY : PUSH_MAPBAR_APP_KEY_TEST,
