@@ -19,7 +19,6 @@ export function messageStore(state = STATE, action){
 }
 
 export function activePageStore(state = STATE, action) {
-	console.log(action)
     switch (action.type){
         case TYPES.PUSH_MESSAGE_ACTIVE_PAGE:
             return Object.assign({}, state , action );
