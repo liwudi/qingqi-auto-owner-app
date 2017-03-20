@@ -31,20 +31,6 @@ export default class GoodsMessage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            startName: '',
-            endName: '',
-            options: {
-                startPoint: '0',//行政区码，传 0 时为不限
-                startLevel: 1,
-                endPoint: '0', //行政区码，传 0 时为不限
-                endLevel: 1,
-                carModel: '',
-                carLength: ''/*,
-                carModel: '高栏车,高低板',
-                carLength: 10*/
-            }
-        };
         let current = {code: '', level: 1},
             query = {code: '0', level: 1},
             info = {
@@ -53,13 +39,101 @@ export default class GoodsMessage extends Component {
 
         this.startInfo = [{...info}];
         this.endInfo = [{...info}];
+        if(global.locationInfo) {
+            this.setStartInfo();
+        } else {
+            this.state = {
+                startName: '',
+                endName: '',
+                options: {
+                    startPoint: '0',//行政区码，传 0 时为不限
+                    startLevel: 1,
+                    endPoint: '0', //行政区码，传 0 时为不限
+                    endLevel: 1,
+                    carModel: '',
+                    carLength: ''
+                },
+                locationAddress: ''
+            };
+        }
     }
+    setStartInfo = () => {
+        let info = [], locationAddress;
+        if(global.gmInfo) {
+            info = global.gmInfo;
+            locationAddress = global.locationAddress;
+        }
+        else {
+            let data = global.locationInfo;
+            let province = data.province,
+                city = data.city,
+                area = data.dist,
+                isMc = province.value === '直辖市';
+            locationAddress = global.locationAddress = `${isMc ? '' : province.value}${city.value}${area.value}`;
 
+            if (isMc) {
+                let name = city.value.replace('市', '');
+                info.push({
+                    first: false,
+                    name: name,
+                    current: {code: province.code, level: 1, name: name},
+                    query: {code: '0', level: 1}
+                });
+                info.push({
+                    first: false,
+                    name: area.value,
+                    current: {code: area.code, name: area.value, level: 3},
+                    query: {level: 3, name: name, code: city.code}
+                });
+
+            } else {
+                let name = province.value.replace('省', '');
+                info.push({
+                    first: false,
+                    name: name,
+                    current: {code: province.code, name: name, level: 1},
+                    query: {code: '0', level: 1},
+
+                });
+                info.push({
+                    first: false,
+                    name: city.value,
+                    current: {code: province.code, name: city.value, level: 2},
+                    query: {code: province.code, level: 2, name: name},
+                });
+                if(area && area.value) {
+                    info.push({
+                        first: false,
+                        name: area.value,
+                        current: {code: area.code, name: area.value, level: 3},
+                        query: {level: 3, name: city.value, code: city.code}
+                    });
+                }
+            }
+        }
+
+        this.startInfo = global.gmInfo = info;
+        let key = info.length - 1,
+            current = info[key].current;
+        this.state = {
+            startName: current.name,
+            endName: '',
+            options: {
+                startPoint: current.code,//行政区码，传 0 时为不限
+                startLevel: current.level,
+                endPoint: '0', //行政区码，传 0 时为不限
+                endLevel: 1,
+                carModel: '',
+                carLength: ''
+            },
+            locationAddress: locationAddress
+        };
+    }
     setStartEnd(isStart) {
         let title = isStart ? '选择始发地' : '选择目的地',
             tag = isStart ? 'start' : 'end';
         this.props.router.push(SetStartEnd, {
-            tag: tag,
+            locationAddress: isStart ? this.state.locationAddress : '',
             title: title,
             info: this[`${tag}Info`],
             set: (obj) => {
