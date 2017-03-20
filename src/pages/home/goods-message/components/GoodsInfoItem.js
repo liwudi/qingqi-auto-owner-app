@@ -17,11 +17,8 @@ export default class GoodsInfoItem extends Component {
             showView = hasValue || data.carStructRequire,
             view = <View/>;
         if (showView) {
-            view = <View style={[estyle.fxRow, estyle.fxCenter, {
-                backgroundColor: '#45AB72',
-                paddingHorizontal: 10 * Env.font.base,
-                paddingVertical: 5 * Env.font.base
-            }, estyle.marginRight]}>
+            view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
+                backgroundColor: '#45AB72'}, estyle.marginRight]}>
                 {data.carStructRequire ? <Text style={styles.textWhite}>{data.carStructRequire}</Text> : <Text/>}
                 {
                     hasValue ?
@@ -47,10 +44,10 @@ export default class GoodsInfoItem extends Component {
             showView = hasValue || data.goodsType,
             view = <View/>;
         if (showView) {
-            view = <View style={[estyle.fxRow, estyle.fxCenter, {
+            view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
                 backgroundColor: '#F6A512',
                 paddingHorizontal: 10 * Env.font.base,
-                paddingVertical: 5 * Env.font.base
+                height: Env.font.base * 16 + Env.font.note
             }, estyle.marginRight]}>
                 {data.goodsType ? <Text style={styles.textWhite}>{data.goodsType}</Text> : <Text/>}
                 {
@@ -99,7 +96,7 @@ export default class GoodsInfoItem extends Component {
                 </View>
 
 
-                <View style={[estyle.fxRow]}>
+                <View style={[estyle.fxRow, {flexWrap: 'wrap'}]}>
                     {this.renderWeight()}
                     {this.renderLength()}
                 </View>
@@ -118,6 +115,11 @@ const styles = StyleSheet.create({
     textBlue: {
         fontSize: Env.font.articleTitle,
         color: Env.color.main
+    },
+    textWhileBox: {
+        paddingHorizontal: 10 * Env.font.base,
+        height: Env.font.base * 16 + Env.font.note,
+        marginVertical: Env.font.base * 5
     },
     textWhite: {
         color: '#ffffff',
