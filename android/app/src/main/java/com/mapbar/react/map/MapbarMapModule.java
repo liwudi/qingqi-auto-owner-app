@@ -327,15 +327,17 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void onResumeMap(final int tag) {
         LogUtils.logd(TAG,"onResumeMap..."+"tag:"+tag);
-        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                MapbarMapView mapView = getMapView(tag);
-                if (mapView != null) {
-                    mapView.onResume();
+        if (reactContext != null && reactContext.getCurrentActivity() != null) {
+            reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MapbarMapView mapView = getMapView(tag);
+                    if (mapView != null) {
+                        mapView.onResume();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -346,15 +348,17 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void onPauseMap(final int tag) {
         LogUtils.logd(TAG,"onPauseMap... "+"tag:"+tag);
-        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                MapbarMapView mapView = getMapView(tag);
-                if (mapView != null) {
-                    mapView.onPause();
+        if (reactContext != null && reactContext.getCurrentActivity() != null) {
+            reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MapbarMapView mapView = getMapView(tag);
+                    if (mapView != null) {
+                        mapView.onPause();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -365,27 +369,31 @@ public class MapbarMapModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void onDestroyMap(final int tag) {
         LogUtils.logd(TAG,"onDestroyMap..."+"tag:"+tag);
-        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                MapbarMapView mapView = getMapView(tag);
-                if (mapView != null) {
-                    // js销毁时，销毁地图控件
-                    mapView.onDestroy();
+        if (reactContext != null && reactContext.getCurrentActivity() != null) {
+            reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MapbarMapView mapView = getMapView(tag);
+                    if (mapView != null) {
+                        // js销毁时，销毁地图控件
+                        mapView.onDestroy();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     //定位开始
     @ReactMethod
     public void startLocation() {
-        ((ReactContext) context).getCurrentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Location.startLocation();
-            }
-        });
+        if (reactContext != null && reactContext.getCurrentActivity() != null) {
+            reactContext.getCurrentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Location.startLocation();
+                }
+            });
+        }
     }
 
     //定位结束
