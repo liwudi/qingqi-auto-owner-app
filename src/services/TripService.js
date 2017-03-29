@@ -65,11 +65,12 @@ export function queryTripByDay(page_number,page_size,day){
     );
 }
 //查询行程详细信息接口
-export function queryTripInfo(tripId){
+export function queryTripInfo(tripId,tripDate){
     return RequestService.get(
         makeUrl('queryTripInfo'),
         {
-            tripId: tripId
+            tripId: tripId,
+            tripDate:tripDate
         }
     );
 }

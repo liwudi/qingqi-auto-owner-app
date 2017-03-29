@@ -23,8 +23,8 @@ export default class MyLineItem extends Component {
                         style={[estyle.fx1,styles.textBlue,{textAlign:'left'}]}>{ !(data.startPointName || data.endPointName) ? '无线路车辆' : `${data.startPointName}——${data.endPointName}`}</Text>
                     <View style={[estyle.fx1,estyle.fxRow ,estyle.fxCenter]}>
                         {
-                            !(data.startPointName || data.endPointName) ?
-                                <View>
+                            (data.startPointName || data.endPointName) ?
+                                <View style={[estyle.fxRow]}>
                                     <Text onPress={() => {this.props.bgPress && this.props.bgPress();}}>线路标杆：</Text>
                                     <Text style={[estyle.fx1,styles.standard]}>{data.carId && data.carCode ? data.carCode : '去设定' }</Text>
                                 </View> : <View/>

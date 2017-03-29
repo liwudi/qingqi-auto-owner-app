@@ -18,7 +18,7 @@ import * as Icons from '../../../components/Icons';
 import {IconUser} from '../../../components/Icons'
 import ConfirmButton from '../../../components/ConfirmButton';
 import PageList from '../../../components/PageList';
-import {statisOilwearForOneRoute,viewStandard} from '../../../services/AppService';
+import {statisOilwearForOneRoute,viewStandard,statisOilwearForNoRoute} from '../../../services/AppService';
 import OilManageSetMark from './OilManageSetMark';
 import OilManageShowMark from './OilManageShowMark';
 import BorderButton from '../../../components/BorderButton';
@@ -49,7 +49,11 @@ export default class OilManageCarList extends Component {
     }
 
     componentDidMount(){
-        !this.props.lineInfo.carId && this.setFlag(2);
+    	if(this.props.lineInfo){
+            !this.props.lineInfo.carId && this.setFlag(2);
+		}else {
+            this.setFlag(3);
+		}
     }
     /**
      * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
@@ -66,7 +70,7 @@ export default class OilManageCarList extends Component {
             return <View>
                 <BorderButton color="#FFF" onPress = {() => this.toPage(OilManageShowMark,{...this.props})}>查看标杆</BorderButton>
             </View>
-        }else {
+        }else if(this.state.flag == 2){
             return <View>
                 <BorderButton color="#FFF" onPress = {() => {
                 	if(this.data && this.data.list.length) {
@@ -76,7 +80,7 @@ export default class OilManageCarList extends Component {
 					}
 				}}>设定标杆</BorderButton>
             </View>
-        }
+        }else { return null }
     }
 
 	render() {
@@ -119,7 +123,8 @@ export default class OilManageCarList extends Component {
 							)
 						}}
 						fetchData={(pageNumber, pageSize) => {
-							return statisOilwearForOneRoute(pageNumber, pageSize,this.state.routeId,this.state.statisDate).then((data={list:[]}) => {
+							var fun = this.state.routeId ? statisOilwearForOneRoute : statisOilwearForNoRoute;
+							return fun(pageNumber, pageSize,this.state.routeId,this.state.statisDate).then((data={list:[]}) => {
 								this.data = data;
 								return data;
 							});

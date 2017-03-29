@@ -462,3 +462,16 @@ export function goodsSourceList(page_number=defaultPage.page_number, page_size=d
         Object.assign({},opts, {page_size: page_size,page_number:page_number})
     );
 }
+
+//查询无线路的车辆信息
+export function statisOilwearForNoRoute(page_number,page_size,routeId,statisDate) {
+    return RequestService.get(
+        makeUrl('statisOilwearForNoRoute'),
+        {
+            page_number:page_number || 1,
+            page_size:page_size || 20,
+            routeId:routeId,
+            statisDate:statisDate,
+        }
+    );
+}
