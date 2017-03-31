@@ -9,7 +9,8 @@ import {
 	TextInput,
 	View,
 	TouchableOpacity,
-	StyleSheet
+	StyleSheet,
+    Keyboard
 } from 'react-native';
 
 import { UserActions, TYPES } from '../../actions/index';
@@ -33,6 +34,7 @@ class RegCheckCode extends Component {
 
 
 	next = () => {
+        Keyboard.dismiss();
 		this.props.router.resetTo(Home,{
 			showAddCarMessage: true
 		})
