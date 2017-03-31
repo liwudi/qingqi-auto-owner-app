@@ -104,8 +104,20 @@ function removeListener() {
 
 export function updateApp(appInfo, alert) {
     Alert = alert;
+    console.log('本地版本号',NativeModules.CommonModule.VERSION_CODE);
+    console.log('线上版本号',appInfo['version_no']);
     if(appInfo['version_no'] <= NativeModules.CommonModule.VERSION_CODE)return;
+    global.storage.load({
+        key:'laterUpdateTime',
+        autoSync: true
+    }).then((rs)=>{
+        console.log(rs);
+    }).catch(()=>{
+        updateAppAlert();
+    })
+}
 
+function updateAppAlert() {
     let updateMsg = '应用有新版本了，是否更新？';
     let preNetworkState = '';
     NetInfo.fetch().done(networkState => {
@@ -121,12 +133,14 @@ export function updateApp(appInfo, alert) {
                     NativeModules.UpdateModule.update(appInfo.apk_path, appInfo.md5);
                     addListener();
                 }},
-                {text:'稍后再说'}
+                {text:'稍后再说',onPress:()=>{
+                    global.storage.save({
+                        key:'laterUpdateTime',
+                        rawData: new Date().getTime(),
+                        expires: 1000 * 3600 * 12
+                    })
+                }}
             ]
         )
     });
-
-
-
-
 }
