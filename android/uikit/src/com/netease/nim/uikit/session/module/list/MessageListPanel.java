@@ -20,9 +20,11 @@ import com.netease.nim.uikit.common.adapter.TViewHolder;
 import com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialog;
 import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialogHelper;
+import com.netease.nim.uikit.common.ui.dialog.OutSessionDialog;
 import com.netease.nim.uikit.common.ui.listview.AutoRefreshListView;
 import com.netease.nim.uikit.common.ui.listview.ListViewUtil;
 import com.netease.nim.uikit.common.ui.listview.MessageListView;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.media.BitmapDecoder;
 import com.netease.nim.uikit.common.util.sys.ClipboardUtil;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
@@ -42,11 +44,9 @@ import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
-//import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
@@ -63,6 +63,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+
+//import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
 
 /**
  * 消息收发模块
@@ -72,7 +75,7 @@ public class MessageListPanel implements TAdapterDelegate {
 
     private static final int REQUEST_CODE_FORWARD_PERSON = 0x01;
     private static final int REQUEST_CODE_FORWARD_TEAM = 0x02;
-
+    private String TAG = "MessageListPanel";
     // container
     private Container container;
     private View rootView;
@@ -104,6 +107,9 @@ public class MessageListPanel implements TAdapterDelegate {
     // 背景图片缓存
     private static Pair<String, Bitmap> background;
 
+//    add by leimeijia 2017.3.30 isFirstBottom
+    private OutSessionDialog outSessionDialog;
+    private boolean isFirstBottom;
     public MessageListPanel(Container container, View rootView) {
         this(container, rootView, null, false, false);
     }
@@ -132,6 +138,9 @@ public class MessageListPanel implements TAdapterDelegate {
 
     public void onDestroy() {
         registerObservers(false);
+        if(outSessionDialog!=null){
+            outSessionDialog.dismiss();
+        }
     }
 
     public boolean onBackPressed() {
@@ -255,6 +264,7 @@ public class MessageListPanel implements TAdapterDelegate {
     }
 
     public void onIncomingMessage(List<IMMessage> messages) {
+        LogUtil.d(TAG,"onIncomingMessage size :"+messages.size());
         boolean needScrollToBottom = ListViewUtil.isLastMessageVisible(messageListView);
         boolean needRefresh = false;
         List<IMMessage> addedListItems = new ArrayList<>(messages.size());
@@ -275,14 +285,54 @@ public class MessageListPanel implements TAdapterDelegate {
         // incoming messages tip
         IMMessage lastMsg = messages.get(messages.size() - 1);
         if (isMyMessage(lastMsg)) {
-            if (needScrollToBottom) {
-                ListViewUtil.scrollToBottom(messageListView);
-            } else if (incomingMsgPrompt != null && lastMsg.getSessionType() != SessionTypeEnum.ChatRoom) {
-                incomingMsgPrompt.show(lastMsg);
+            //add by leimeijia if come more messages that is history ,scrollToBottom will not be done well;
+            if (ListViewUtil.isListViewFinishRender(messageListView) && messages.size() < 8) {
+                if (needScrollToBottom) {
+                    ListViewUtil.scrollToBottom(messageListView);
+                    isFirstBottom =true;
+                    LogUtil.d(TAG,"needScrollToBottom");
+                } else if (incomingMsgPrompt != null && lastMsg.getSessionType() != SessionTypeEnum.ChatRoom) {
+                    if(isFirstBottom) {
+                        incomingMsgPrompt.show(lastMsg);
+                        LogUtil.d(TAG,"incomingMsgPrompt.show()");
+                    }
+                }
             }
         }
     }
 
+    public void onIncomingMessageOutSession(IMMessage lastMsg, String sessionDialogId) {
+        // incoming messages tip
+        if (isMyMessage(lastMsg)) {
+            Map<String, Object> data = lastMsg.getRemoteExtension();
+            if (data != null) {
+                String dialogState = (String) data.get("dialogState");
+                String dialogid = (String) data.get("dialogId");
+                LogUtil.d(TAG, "dialogId" + dialogid + ",lastMsg:" + lastMsg.getContent() + "dialogState:" + dialogState);
+                if ("1".equals(dialogState) && !TextUtils.isEmpty(dialogid) && dialogid.equals(sessionDialogId)) {
+                    showDialog(lastMsg);
+                }
+            }
+        }
+    }
+    private void showDialog(IMMessage messages) {
+        try {
+            outSessionDialog = new OutSessionDialog(container.activity);
+            outSessionDialog.setTitle(messages.getContent());
+            outSessionDialog.setTitleListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    outSessionDialog.dismiss();
+                    container.activity.finish();
+                }
+            });
+            outSessionDialog.setCanceledOnTouchOutside(false);
+            outSessionDialog.setCancelable(false);
+            outSessionDialog.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     // 发送消息后，更新本地消息列表
     public void onMsgSend(IMMessage message) {
         // add to listView and refresh
