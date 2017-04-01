@@ -7,6 +7,18 @@ import android.widget.ListView;
 
 public class ListViewUtil {
 
+    public static boolean isListViewFinishRender(ListView messageListView) {
+        if(messageListView == null || messageListView.getAdapter() == null) {
+            return false;
+        }
+
+        if (messageListView.getLastVisiblePosition() ==-1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 	public static boolean isLastMessageVisible(ListView messageListView) {
 		if(messageListView == null || messageListView.getAdapter() == null) {
 			return false;

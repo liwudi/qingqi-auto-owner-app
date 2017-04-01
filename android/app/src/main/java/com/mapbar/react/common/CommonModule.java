@@ -208,12 +208,10 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
     @ReactMethod
     public void startKefuActivity(final String userId,final String kefuId,final String type,final String nimToken,String dialogId) {
         ImageLoader.getInstance().clearMemoryCache();
-        ImageLoader.getInstance().clearDiskCache();
         MessageServer messageServer =new MessageServer(((ReactContext) context).getCurrentActivity());
         messageServer.prepare(userId,kefuId,type,nimToken);
         MessageFragment.setDialogId(dialogId);
     }
-
 
     /* 打开客服
     * */

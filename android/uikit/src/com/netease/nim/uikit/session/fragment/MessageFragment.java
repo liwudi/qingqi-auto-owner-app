@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.fragment.TFragment;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.actions.BaseAction;
 import com.netease.nim.uikit.session.actions.ImageAction;
-import com.netease.nim.uikit.session.actions.LocationAction;
 import com.netease.nim.uikit.session.actions.VideoAction;
+import com.netease.nim.uikit.session.activity.P2PMessageActivity;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
 import com.netease.nim.uikit.session.module.ModuleProxy;
@@ -359,8 +360,11 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             if (messages == null || messages.isEmpty()) {
                 return;
             }
-
+            LogUtil.d(TAG, "incomingMessageObserver:" + messages.size());
             messageListPanel.onIncomingMessage(messages);
+            if(getActivity()!=null&& P2PMessageActivity.class.equals(getActivity().getClass())) {
+                messageListPanel.onIncomingMessageOutSession(messages.get(messages.size() - 1),sessionDialogId);
+            }
             sendMsgReceipt(); // 发送已读回执
         }
     };
