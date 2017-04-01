@@ -102,19 +102,23 @@ function removeListener() {
     DeviceEventEmitter.removeListener('UPDATE_APP_STATE', updateStateChange);
 }
 
-export function updateApp(appInfo, alert) {
+export function updateApp(appInfo, alert,isManual) {
     Alert = alert;
     console.log('本地版本号',NativeModules.CommonModule.VERSION_CODE);
     console.log('线上版本号',appInfo['version_no']);
     if(appInfo['version_no'] <= NativeModules.CommonModule.VERSION_CODE)return;
-    global.storage.load({
-        key:'laterUpdateTime',
-        autoSync: true
-    }).then((rs)=>{
-        console.log(rs);
-    }).catch(()=>{
+    if(isManual){
         updateAppAlert();
-    })
+    }else {
+        global.storage.load({
+            key:'laterUpdateTime',
+            autoSync: true
+        }).then((rs)=>{
+            console.log(rs);
+        }).catch(()=>{
+            updateAppAlert();
+        })
+    }
 }
 
 function updateAppAlert() {

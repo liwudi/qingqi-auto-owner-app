@@ -59,7 +59,7 @@ class UserCenterHome extends Component {
                     isUpdate: true
                 })
                 if (isShowTip) {
-                    updateApp(rs, this.props.alert);
+                    updateApp(rs, this.props.alert,true);
                 }
             } else {
                 isShowTip && Toast.show('暂无更新', Toast.SHORT);
