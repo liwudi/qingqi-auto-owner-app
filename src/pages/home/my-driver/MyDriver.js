@@ -127,6 +127,7 @@ export default class MyDriver extends Component {
                     renderSectionHeader={(sectionData, sectionId) => {
 							return <ListTitle title={sectionId}/>
 						}}
+                    noData="您没有添加司机"
                     pageSize={1000}
                     renderRow={(row) => {
 							return (

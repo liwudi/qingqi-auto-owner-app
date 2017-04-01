@@ -45,6 +45,7 @@ export default class SelectForContacts extends Component {
                 <PageSectionList
                     ref="list"
                     style={estyle.fx1}
+                    noData="您的通讯录中没有联系人"
                     renderSectionHeader={(sectionData, sectionId) => {
                         return <ListTitle title={sectionId}/>
                     }}
@@ -71,28 +72,24 @@ export default class SelectForContacts extends Component {
                     }}
                     fetchData={() => {
                         return new Promise((resovle) => {
-                            setTimeout(() => {
+                            //setTimeout(() => {
                                 getContacts().then(rs => {
-                                    if(Object.keys(rs).length === 0){
-                                        this.props.alert(
-                                            '提示',
-                                            '请添加联系人或请在设置-应用权限管理中允许一汽汽车管家访问您的通信录。',
-                                            [{
-                                                text:'确定',
-                                                onPress:() => {
-                                                    this.props.router.pop();
-                                                }
-                                            }]
-                                        )
-                                    }
                                     resovle({
-                                        list: rs
+                                        list: rs || {}
                                     })
                                 }).catch(e => {
-                                    Toast.show(e.message, Toast.SHORT);
-                                    this.props.router.pop();
+                                    this.props.alert(
+                                        '提示',
+                                        '请在设置-应用权限管理中允许解放行车队版访问您的通信录。',
+                                        [{
+                                            text:'确定',
+                                            onPress:() => {
+                                                this.props.router.pop();
+                                            }
+                                        }]
+                                    );
                                 });
-                            }, 1000)
+                            //}, 1000)
                         })
                     }}
                 />

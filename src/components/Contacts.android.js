@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 const CommonModule = NativeModules.CommonModule;
-
+import Permissions from 'react-native-permissions';
 /**
  * 返回通讯录数据
  * 格式
@@ -42,21 +42,26 @@ const CommonModule = NativeModules.CommonModule;
  * @returns {Promise.<T>}
  */
 export function getContacts() {
-    if(global.contacts){
-        return Promise.resolve(global.contacts);
-    } else {
-        return CommonModule.getContacts().then((rs) => {
-            let contacts = {};
-            rs.forEach((item, index) => {
-                contacts[item.primaryKey] = contacts[item.primaryKey] || [];
-                item.phoneNumbers = item.phoneNumbers.map(phone => phone.replace(/ /g,''));
-                contacts[item.primaryKey].push(item);
-            });
-            global.contacts = contacts;
-            return contacts;
 
-        }).catch(e => {
+
+    return Permissions.getPermissionStatus('contacts').then(res => {
+        console.log('getPermissionStatus',res);
+        if(res == 'denied'){
             return Promise.reject({message:'获取通讯录失败'});
-        })
-    }
+        }else{
+            return CommonModule.getContacts().then((rs) => {
+                let contacts = {};
+                rs.forEach((item, index) => {
+                    contacts[item.primaryKey] = contacts[item.primaryKey] || [];
+                    item.phoneNumbers = item.phoneNumbers.map(phone => phone.replace(/ /g,''));
+                    contacts[item.primaryKey].push(item);
+                });
+                global.contacts = contacts;
+                return contacts;
+
+            }).catch(e => {
+                return Promise.reject({message:'获取通讯录失败'});
+            })
+        }
+    });
 }

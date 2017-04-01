@@ -26,15 +26,13 @@ export default class PageSectionList extends Component {
         clickMore:'加载更多',
         loadingMore: '加载中...',
         noMore: '已经没有更多数据了',
-        noData:'没有数据'
+        noData:'没有数据',
+        getSectionData: data => data
     };
 
     pageNumber = 1;
     pageSize = 20;
 
-    static defaultProps = {
-        getSectionData: data => data
-    }
 
     constructor(props){
         super(props);
@@ -71,7 +69,7 @@ export default class PageSectionList extends Component {
 
                 if(this._data){
                     if(!rs.list || rs.list.length === 0) {
-                        Toast.show('没有查询到结果', Toast.SHORT);
+                        //Toast.show('没有查询到结果', Toast.SHORT);
                     }
                     this.setState({
                         ds: this.state.ds.cloneWithRowsAndSections(this._data),
@@ -208,8 +206,8 @@ export default class PageSectionList extends Component {
                         }}>{this.props.renderSectionHeader(sectionData, sectionId)}</View>
                     }
                     renderFooter={() => {
-                        if((this.state.pageTotal || this._data.length) <= this.pageNumber){
-                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}><Text>{this._data.length === 0 ? this.props.noData : this.props.noMore}</Text></View>;
+                        if(Object.keys(this._data || {}).length === 0){
+                            return (this.state.isLoading || this.state.refreshing) ? null : <View style={[Env.style.fxCenter, Env.style.padding]}><Text>{this.props.noData}</Text></View>;
                         }else {
                             //return <View style={[Env.style.fxCenter, Env.style.padding]}><Text onPress={() => this.nextPage()}>{this.state.isLoading ? '加载中...' : '加载更多'}</Text></View>
                             return null;
