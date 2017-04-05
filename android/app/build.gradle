@@ -106,8 +106,8 @@ android {
         applicationId "com.mapbar.qingqi.onwer"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10016
-        versionName "1.1.6"
+        versionCode 10017
+        versionName "1.1.7"
         ndk {
             abiFilters "armeabi-v7a"
         }
