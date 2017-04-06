@@ -80,10 +80,12 @@ class MyCar extends Component {
     }
 
 
-    goTo(page, carId) {
+    goTo(page, carId, position) {
+        console.log(11111)
         this.setState({stop: true});
         this.props.router.push(page, {nav: {
             carId: carId ,
+            position: position,
             backRender: this.backRender.bind(this)
         }});
     }
@@ -132,7 +134,7 @@ class MyCar extends Component {
                     ref="list"
                     style={estyle.fx1}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId)} router={this.props.router} />
+                        return <MyCarItem data={row} onPress={() => this.goTo(CarDetail, row.carId, row.position)} router={this.props.router} />
                         {/*console.info(this.state.stop)
                         let ItemView = this.state.stop ? Item : MyCarItem;
                         return <ItemView data={row} onPress={() => this.goTo(CarDetail, row.carId)} />*/}

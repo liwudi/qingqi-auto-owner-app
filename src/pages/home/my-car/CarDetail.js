@@ -127,6 +127,13 @@ export default class CarDetail extends Component {
             ]
         )
     }
+    gotoMonitorMap(data){
+        if(this.props.nav.position){
+            this.props.router.push(MonitorMap, {nav: {carId: data.carId}});
+        }else {
+            Toast.show('未获取到车辆位置信息', Toast.SHORT);
+        }
+    }
 
     renderView() {
         if (this.state.data) {
@@ -155,7 +162,7 @@ export default class CarDetail extends Component {
                         }]}>{data.carCode}</Text>
                     </View>
                 </ViewForRightArrow>
-                <ViewForRightArrow onPress={()=>{this.props.router.push(MonitorMap, {nav: {carId: data.carId}});}}>
+                <ViewForRightArrow onPress={()=>{ this.gotoMonitorMap(data) } }>
                     <View style={[estyle.fxRow]}>
                         <Text style={[estyle.text, {textAlign: 'left'}]}>车辆速度</Text>
                         <Text style={[estyle.fx1, estyle.text, {

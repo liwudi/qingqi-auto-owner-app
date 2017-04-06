@@ -183,6 +183,14 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
+
+        release8071 {
+            buildConfigField "String", "server_url", "\"http://10.30.50.152:8071/apipre\""
+            buildConfigField "String", "server_type", "\"debug8071\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+        }
     }
     // applicationVariants are e.g. debug, release
     android.applicationVariants.all { variant ->
