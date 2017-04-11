@@ -77,6 +77,10 @@ class AddCarPostCarCode extends Component {
                 <View style={[estyle.fxRow, estyle.padding]}>
                     <Text style={[estyle.text]}>&nbsp;</Text>
                 </View>
+                <View style={[estyle.fxCenter]}>
+                    <Text style={[estyle.note]}>未正式挂牌车辆可输入临时车牌或虚拟车牌</Text>
+                    <Text style={[estyle.note]}>挂牌后可在车队版车辆管理中进行修改</Text>
+                </View>
                 <View style={[estyle.fxRowCenter]}>
                     <ConfirmButton onPress={this.nextStep.bind(this)} size="large" >确认</ConfirmButton>
                 </View>

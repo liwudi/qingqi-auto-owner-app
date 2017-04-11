@@ -38,12 +38,15 @@ export default class NotUsed extends Component {
 				                   <Text numberOfLines={1} style={[estyle.note,{color:Env.color.navTitle}]}>{row.couponContent}</Text>
                                </View>
                                <View style={[estyle.fxRow,estyle.paddingVertical]}>
-                                    <View style={[estyle.fx1,estyle.fxCenter]}>
-                                        <Text style={[estyle.articleTitle,{color:Env.color.auxiliary}]}>{row.usedNum+'/'+row.sum+row.unit}</Text>
+                                    <View style={[estyle.fx1,estyle.fxCenter,estyle.fxRow]}>
+                                        <Text style={[estyle.txt]}>余额: </Text><Text style={[estyle.articleTitle,{color:Env.color.auxiliary}]}>{(row.sum-row.usedNum)+row.unit}</Text>
                                     </View>
                                </View>
                                <View style={[estyle.marginHorizontal,estyle.paddingTop,estyle.borderTop]}>
-                                    <Text numberOfLines={1} style={[estyle.note]}>活动名称：{row.activityName}</Text>
+                                   <Text numberOfLines={1} style={[estyle.note]}>总额：{row.sum+row.unit}</Text>
+                               </View>
+                               <View style={[estyle.marginHorizontal]}>
+                                   <Text numberOfLines={1} style={[estyle.note]}>活动名称：{row.activityName}</Text>
                                </View>
                                <View style={[estyle.fxRow,estyle.paddingBottom,estyle.marginHorizontal]}>
                                     <Text style={[estyle.fx1,estyle.note]}>使用有效期：{row.startDate+'至'+row.endDate}</Text>

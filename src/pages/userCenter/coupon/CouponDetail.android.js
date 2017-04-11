@@ -6,13 +6,14 @@ import {
     Text,
     View,
     TouchableOpacity,
+    StyleSheet,
     Navigator,
     ScrollView,
     NativeModules,
-    RefreshControl
+    RefreshControl,
+    Image
 } from 'react-native';
 
-import QRCode from 'react-native-qrcode';
 import TopBanner from '../../../components/TopBanner';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import { IconCall } from '../../../components/Icons';
@@ -24,6 +25,11 @@ import Toast from '../../../components/Toast';
 import Env from '../../../utils/Env';
 import CouponRecord from './CouponRecord';
 import {geolocation} from '../../../components/location/Geolocation';
+import huabian1 from '../../../assets/images/huabian1.png';
+import huabian2 from '../../../assets/images/huabian2.png';
+import huabian3 from '../../../assets/images/huabian3.png';
+import qrcode from '../../../assets/images/qrcode.png';
+import qrCode from './CouponQRCode';
 //const module = NativeModules.MapbarMapModule;
 const estyle = Env.style;
 const basefont=Env.font.base;
@@ -51,7 +57,6 @@ export default class CouponDetail extends Component {
             .finally(()=>{this.setState({isRefreshing:false})})
     }
     getLocation(){
-        //获取手机位置
         geolocation().then((res)=>{
             //longitude 经度 latitude 纬度
             console.log('位置',res);
@@ -71,14 +76,15 @@ export default class CouponDetail extends Component {
         .catch(()=>{
             console.log('获取位置失败');
             recommend({activityId:this.state.data.id})
-                .then((data)=>{
-                    this.setState({serverStation:data})
-                })
-                .catch((err)=>{
-                    Toast.show(err.message,Toast.SHORT);
-                })
+            .then((data)=>{
+                this.setState({serverStation:data})
+            })
+            .catch((err)=>{
+                Toast.show(err.message,Toast.SHORT);
+            })
         });
-        /*module.startLocation()
+        /*//获取手机位置
+        module.startLocation()
             .then((res)=>{
                 //longitude 经度 latitude 纬度
                 console.log('位置',res);
@@ -130,37 +136,30 @@ export default class CouponDetail extends Component {
                 >
                     {
                         this.state.data ?
-                            <View style={[estyle.fx1,estyle.padding]}>
-                                <View style={[estyle.cardBackgroundColor,estyle.fxRowCenter]}>
-                                    <Text style={[estyle.articleTitle,estyle.marginVertical,{color:Env.color.main}]}>{data.couponName}</Text>
-                                    <Text style={[estyle.text,estyle.marginBottom,{color:Env.color.main}]}>{data.couponContent}</Text>
-                                    <Text style={[estyle.note]}>限使用车辆（车牌/VIN）：</Text>
-                                    <Text style={[estyle.text,estyle.marginBottom]}>{data.carNumber+'/'+data.vin}</Text>
-                                    <Text style={[estyle.note,estyle.marginBottom]}>使用有效期：{data.startDate+'至'+data.endDate}</Text>
-                                    <View style={[estyle.borderTop,estyle.padding]}>
-                                        <Text style={[estyle.note]}>请向商家或服务站出示消费码或二维码使用优惠劵</Text>
+                            <View style={[estyle.fx1]}>
+                                <View style={[estyle.padding]}>
+                                    <Image source={huabian1} style={styles.huabian1}/>
+                                    <View style={[estyle.cardBackgroundColor,estyle.paddingTop, estyle.fxCenter]}>
+                                        <Text style={[estyle.articleTitle, {color: Env.color.main}]}>{data.couponName}</Text>
                                     </View>
-                                    <View style={[estyle.fxCenter,estyle.marginBottom]}>
-                                        <QRCode
-                                            value={data.tradeCode}
-                                            size={300*basefont}
-                                            bgColor='#000'
-                                            fgColor='#fff'/>
-                                        <View style={[estyle.fxCenter,estyle.borderBottom,estyle.paddingVertical]}>
-                                            <Text style={[estyle.text]}>{data.tradeCode}</Text>
-                                        </View>
+                                    <Image source={huabian2} style={styles.huabian2}/>
+                                    <View style={[estyle.fxCenter,estyle.cardBackgroundColor]}>
+                                        <Text
+                                            style={[estyle.text, estyle.marginBottom, {color: Env.color.auxiliary}]}>{data.couponContent}</Text>
                                     </View>
-                                    <View style={[estyle.fxRow,estyle.paddingBottom]}>
-                                        <View style={[estyle.fx1,estyle.fxCenter,estyle.fxRow]}>
-                                            <Text style={[estyle.note]}>已使用：</Text>
-                                            <Text style={[estyle.text,{color:Env.color.main}]}>{data.usedNum}</Text>
-                                        </View>
-                                        <View style={[estyle.fx1,estyle.fxCenter,estyle.fxRow]}>
-                                            <Text style={[estyle.note]}>未使用：</Text>
-                                            <Text style={[estyle.text,{color:Env.color.main}]}>{data.unUsedNum}</Text>
-                                        </View>
+                                    <View style={[estyle.cardBackgroundColor, estyle.paddingLeft]}>
+                                        <Text style={[estyle.note]}>限使用车辆（车牌/VIN）：</Text>
+                                        <Text
+                                            style={[estyle.text]}>{data.carNumber + '/' + data.vin}</Text>
+                                        <Text
+                                            style={[estyle.note, estyle.marginBottom]}>使用有效期：{data.startDate + '至' + data.endDate}</Text>
                                     </View>
+                                    <Image source={huabian3} style={styles.huabian1}/>
                                 </View>
+                                <TouchableOpacity onPress={ ()=>{ this.props.router.push(qrCode,{data:data}) } } style={[{backgroundColor:Env.color.auxiliary},estyle.fxRow, estyle.fxCenter,estyle.padding]}>
+                                    <Image source={qrcode} style={{width:48*basefont,height:48*basefont}} />
+                                    <Text style={[estyle.articleTitle,{color:'#fff'},estyle.marginLeft]}>查看消费码和二维码</Text>
+                                </TouchableOpacity>
                                 {
                                     this.props.isUnUsed ?
                                     <View>
@@ -205,3 +204,13 @@ export default class CouponDetail extends Component {
         );
     }
 }
+const styles = StyleSheet.create({
+    huabian1: {
+        width: Env.screen.width - 60 * basefont,
+        height: 15 * basefont
+    },
+    huabian2: {
+        width: Env.screen.width - 60 * basefont,
+        height: 54 * basefont,
+    }
+})
