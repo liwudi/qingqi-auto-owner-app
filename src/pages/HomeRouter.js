@@ -23,6 +23,9 @@ import Login from './user/index';
 
 import MainNavBar from '../components/MainNavBar';
 import { addInterceptor, interceptAlerting, unInterceptAlerting} from '../service-config/RequestService';
+import Env from '../utils/Env';
+const estyle = Env.style;
+const basefont = Env.font.base;
 
 import MyCar from './home/my-car/MyCar';
 
@@ -38,6 +41,9 @@ let initialRoute = tabs[1];
 class HomeRouter extends Component {
 	constructor(props){
 		super(props);
+        this.state = {
+            routeIndex: tabs[1].index
+        };
 		addInterceptor((res) => {
             if(res && (res.resultCode && res.resultCode === 509) || (res.code && res.code === 1019)){
                 res.message = '账号未登录';
@@ -83,32 +89,58 @@ class HomeRouter extends Component {
 	setCurrentPage = (index) => {
         this.props.dispatch(setCurrentActivePage({main:index}));
 	}
+    currentRoute = () => {
+        switch (this.state.routeIndex){
+            case 0 : return <Message {...this.props}/>; break;
+            case 1 : return <HomePage {...this.props}/>; break;
+            case 2 : return <News {...this.props}/>; break;
+            case 3 : return <UserCenterHome {...this.props}/>; break;
+            default : return <HomePage {...this.props}/>
+        }
+    }
 
 	render() {
 		return (
-			<Navigator
-				initialRoute={initialRoute}
-				navigationBar={<MainNavBar
-					ref={(navBar) => {this.navBar = navBar;}}
-					changeTab={(index, navigator) => {
-						navigator.jumpTo(tabs[index]);
-                    }}
-					sign={this.props.messageStore.AllUnReadCount}
-				/>}
-				initialRouteStack={tabs}
-				configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
-				onDidFocus={(router) => {
-					this.navBar.changeTab(router.index, false);
-                    this.setCurrentPage(router.index)
-				}}
-				renderScene={(route, navigator) => {
-					let Component = route.component;
-					return <Component
-						{...this.props}
-						navigator = {navigator}
-					/>
-				}}
-			/>
+			<View style={[estyle.fx1]} >
+				{/*<Navigator
+				 initialRoute={initialRoute}
+				 navigationBar={<MainNavBar
+				 ref={(navBar) => {this.navBar = navBar;}}
+				 changeTab={(index, navigator) => {
+				 navigator.jumpTo(tabs[index]);
+				 }}
+				 sign={this.props.messageStore.AllUnReadCount}
+				 />}
+				 initialRouteStack={tabs}
+				 configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
+				 onDidFocus={(router) => {
+				 this.navBar.changeTab(router.index, false);
+				 this.setCurrentPage(router.index)
+				 }}
+				 renderScene={(route, navigator) => {
+				 let Component = route.component;
+				 return <Component
+				 {...this.props}
+				 navigator = {navigator}
+				 />
+				 }}
+				 />*/}
+				<View style={[estyle.fx1]}>
+                    {this.currentRoute()}
+				</View>
+				<MainNavBar ref={(navBar) => {
+                    this.navBar = navBar;
+                }}
+							changeTab={
+                                (index, navigator) => {
+                                    //navigator.jumpTo(tabs[index])
+                                    this.setState({routeIndex : index});
+                                    this.setCurrentPage(index)
+                                }
+                            }
+							sign={this.props.messageStore.AllUnReadCount}
+				/>
+			</View>
 		);
 	}
 }
