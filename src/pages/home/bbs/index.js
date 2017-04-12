@@ -13,7 +13,7 @@ import Env from '../../../utils/Env';
 
 import ServerConfig from '../../../service-config/ServerConfig'
 
-const styles = Env.style;
+const estyle = Env.style;
 
 
 
@@ -35,14 +35,14 @@ class Bbs extends Component {
     render(){
 
         return (
-            <View  style={{flex:1}}>
-                <TopBanner
-                    {...this.props}
-                    title={"卡友论坛"}
-                />
+            <View  style={[estyle.fx1,estyle.containerBackgroundColor]}>
+                {/*<TopBanner
+                 {...this.props}
+                 title={"卡友论坛"}
+                 />*/}
                 <WebView
                     ref="webView"
-                    showBanner={false}
+                    showBanner={true}
                     {...this.props}
                     uri = {this.state.uri}
                     onPageChange={(page) => {

@@ -12,7 +12,7 @@ import TopBanner from './TopBanner';
 
 import Env from '../utils/Env';
 
-const styles = Env.style;
+const estyle = Env.style;
 
 export default class News extends Component {
 
@@ -24,7 +24,8 @@ export default class News extends Component {
         super(props);
         this.state = {
             uri: this.props.uri,
-            page: {}
+            page: {},
+            title:'卡友论坛'
         }
     }
 
@@ -50,24 +51,24 @@ export default class News extends Component {
     render(){
         const _renderButton = () => {
             return (
-                <View style={[styles.fxRow]}>
-                    <TouchableOpacity onPress={() => this.props.doBack()}>
+                <View style={[estyle.fxRow]}>
+                    <TouchableOpacity onPress={() => this.doBack()}>
                         <Text ><Icons.IconArrowLeft color="#FFF" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.onClose()}>
+                    <TouchableOpacity style={[estyle.marginLeft]} onPress={() => this.onClose()}>
                         <Text ><Icons.IconClose color="#FFF" /></Text>
                     </TouchableOpacity>
                 </View>
             )
         };
         return (
-            <View  style={{flex:1}}>
+            <View  style={[estyle.fx1]}>
                 { this.props.showBanner ? <TopBanner
                     {...this.props}
                     leftShow={true}
                     leftView={_renderButton()}
                     doBack={this.doBack.bind(this)}
-                    title={this.state.page.title}
+                    title={this.state.title}
                 /> : null}
                 <WebView
                     onNavigationStateChange={(page) => {
