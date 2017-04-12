@@ -16,7 +16,7 @@ import moment from 'moment';
 
 import TopBanner from '../../../components/TopBanner';
 import * as Icons from '../../../components/Icons';
-import {statisRouteOilwearByDay, statisOilwearByDay} from '../../../services/AppService';
+import {statisRouteOilwearByDay, statisOilwearByDay,statisCarOilwearByDay} from '../../../services/AppService';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 import Toast from '../../../components/Toast';
@@ -25,6 +25,7 @@ import PageList from '../../../components/PageList';
 import MyLineItem from './components/MyLineItem';
 import OilManageCarList from './OilManageCarList';
 import OilManageSetMark from './OilManageSetMark';
+import ManageCarItem from './components/ManageCarItem';
 
 import Echarts from '../../../components/ECharts';
 
@@ -46,7 +47,8 @@ export default class OilManage extends Component {
 		this.state = {
 			currentIndex: 6,
 			weeks: getWeekDays(),
-            datas: []
+            datas: [],
+			type: 1 //1是按线路查询 2是按车辆查询
 		}
 		this.weekIndex = 0;
 	}
@@ -79,6 +81,9 @@ export default class OilManage extends Component {
 
 	componentDidMount(){
 		this._getStatisOilwearByDay();
+	}
+	selectType(t){
+		this.setState({type:t});
 	}
 
 	render() {
@@ -156,37 +161,59 @@ export default class OilManage extends Component {
 					</TouchableOpacity>
 				</View>
 				{chart()}
-				<View style={estyle.padding}><Text>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 线路油耗详情</Text></View>
+				<View style={[estyle.paddingVertical,estyle.fxRow,estyle.fxColumnCenter]}>
+					<Text style={[estyle.note,{marginLeft:10*basefont}]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} {this.state.type ===1 ? '线路':'车辆' }油耗详情</Text>
+					<View style={[estyle.fx1]} />
+					<View style={[estyle.fxRow,estyle.fxCenter,{marginRight:10*basefont}]}>
+						<TouchableOpacity onPress={()=>{this.selectType(1)}}>
+							<Text style={[estyle.paddingHorizontal,estyle.note,this.state.type === 1 ? styles.currrntBtn : styles.btn]}>按线路</Text>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={()=>{this.selectType(2)}}>
+							<Text style={[estyle.paddingHorizontal,estyle.note,this.state.type === 2 ? styles.currrntBtn : styles.btn]}>按车辆</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
 				<PageList
 					ref="list"
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
 					renderRow={(row) => {
-						return (
-							<MyLineItem
+						let rowView;
+                        if(this.state.type === 1 ){
+                        	rowView = <MyLineItem
 								data={row}
 								onPress={() => {
-									this.props.router.push(
-										OilManageCarList,
-										{
-											lineInfo: !(row.startPointName && row.endPointName)? null : row,
+                                    this.props.router.push(
+                                        OilManageCarList,
+                                        {
+                                            lineInfo: !(row.startPointName && row.endPointName)? null : row,
                                             routeId: row.routeId,
                                             carCode:row.carCode,
-											routeName: `${row.startPointName}——${row.endPointName}`,
+                                            routeName: `${row.startPointName}——${row.endPointName}`,
                                             date: this.state.weeks[this.state.currentIndex],
                                             updata: () => this.refs.list.reInitFetch()
-										})}
-								}/>
-						)
+                                        })}
+                                }/>
+                        }
+                        if(this.state.type === 2){
+                        	rowView = <ManageCarItem data={row} />
+						}
+						return rowView;
 					}}
 					fetchData={(pageNumber, pageSize) => {
-						return statisRouteOilwearByDay(pageNumber, pageSize, this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
+						if(this.state.type === 1 ){
+                            return statisRouteOilwearByDay(pageNumber, pageSize, this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
+						}
+						if(this.state.type === 2){
+							return statisCarOilwearByDay(pageNumber, pageSize, this.state.weeks[this.state.currentIndex].format('YYYYMMDD'))
+						}
 					}}
-					reInitField={[this.state.weeks[this.state.currentIndex].format('YYYYMMDD')]}
+					reInitField={[this.state.weeks[this.state.currentIndex].format('YYYYMMDD'),this.state.type]}
 				/>
 			</View>
 		);
 	}
 }
+const basefont= Env.font.base;
 const styles = StyleSheet.create({
 	articleBlue:{
 		fontSize:Env.font.articleTitle,
@@ -195,5 +222,12 @@ const styles = StyleSheet.create({
 	textBlue:{
 		fontSize:Env.font.note,
 		color:Env.color.main
+	},
+	currrntBtn:{
+		backgroundColor: Env.color.auxiliary,
+		color: '#fff'
+	},
+	btn:{
+		backgroundColor: '#fff',
 	}
 });

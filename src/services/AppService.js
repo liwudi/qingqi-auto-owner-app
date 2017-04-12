@@ -177,6 +177,18 @@ export function statisRouteOilwearByDay(page_number, page_size, statisDate){
         }
     );
 }
+//油耗管理按车辆统计接口
+export function statisCarOilwearByDay(page_number, page_size, statisDate){
+
+    return RequestService.get(
+        makeUrl('statisCarOilwearByDay'),
+        {
+            page_number:page_number || 1,
+            page_size:page_size || 20,
+            statisDate: statisDate,
+        }
+    );
+}
 
 //单线路车辆油耗列表统计接口01040603
 export function statisOilwearForOneRoute(page_number, page_size,routeId,statisDate){

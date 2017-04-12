@@ -8,7 +8,8 @@ import {
 	TouchableOpacity,
 	Image,
 	StyleSheet,
-    NativeModules
+    NativeModules,
+    StatusBar
 } from 'react-native';
 import ViewForRightArrow from '../../components/ViewForRightArrow';
 import ImgButton from '../../components/ImgButton';
@@ -139,7 +140,11 @@ export default class HomePage extends Component {
 		};
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-				<View style={[estyle.iosStatusBarHeight,{backgroundColor: Env.color.main}]}></View>
+				<StatusBar
+					backgroundColor={Env.color.main}
+					hidden={false}
+					barStyle={'light-content'}
+				/>
 				<View style={[estyle.fxRow, estyle.fxCenter, { height: 84 * Env.font.base, backgroundColor: Env.color.main}]}>
 					<TouchableOpacity onPress={() => this.props.router.push(MyCarSearch)} activeOpacity={.8} style={[estyle.fxRow,estyle.fxCenter,{borderRadius:4, width:Env.screen.width * .94, height: 64 * Env.font.base, backgroundColor: '#FFF'}]}>
 						<IconSearch size={Env.font.base * 36} color={Env.color.text}/><Text style={estyle.text}> 请输入司机姓名、VIN或车牌号</Text>

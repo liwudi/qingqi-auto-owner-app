@@ -108,7 +108,7 @@ export function updateApp(appInfo, alert,isManual) {
     console.log('线上版本号',appInfo['version_no']);
     if(appInfo['version_no'] <= NativeModules.CommonModule.VERSION_CODE)return;
     if(isManual){
-        updateAppAlert();
+        updateAppAlert(appInfo);
     }else {
         global.storage.load({
             key:'laterUpdateTime',
@@ -116,12 +116,12 @@ export function updateApp(appInfo, alert,isManual) {
         }).then((rs)=>{
             console.log(rs);
         }).catch(()=>{
-            updateAppAlert();
+            updateAppAlert(appInfo);
         })
     }
 }
 
-function updateAppAlert() {
+function updateAppAlert(appInfo) {
     let updateMsg = '应用有新版本了，是否更新？';
     let preNetworkState = '';
     NetInfo.fetch().done(networkState => {

@@ -25,7 +25,7 @@ export default class MainNavBar extends React.Component{
 		super();
 
 		this.state = {
-			currentIndex:0
+			currentIndex:1
 		}
 	}
 	changeTab = (index, isJump = true) => {

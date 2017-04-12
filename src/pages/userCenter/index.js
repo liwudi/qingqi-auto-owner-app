@@ -29,7 +29,7 @@ import {UserActions} from '../../actions';
 import CouponList  from './coupon/CouponList';
 import {couponNum} from '../../services/ServiceStationService';
 import MyInfo from './my-info/MyInfo';
-
+import TopBanner from '../../components/TopBanner';
 import Toast from '../../components/Toast';
 
 
@@ -134,10 +134,7 @@ class UserCenterHome extends Component {
         let userInfo = this.props.userStore.userInfo;
         return (
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <View style={[estyle.iosStatusBarHeight, {backgroundColor:Env.color.main}]}/>
-                <View style={[estyle.padding,estyle.fxRowCenter, {backgroundColor:Env.color.main}]}>
-                    <Text style={[estyle.navTitle]}>设置</Text>
-                </View>
+                <TopBanner {...this.props} title="设置" leftShow={false}/>
                 <ViewForRightArrow
                     activeOpacity={1}
                     style={[{backgroundColor:Env.color.main}]}
@@ -163,7 +160,7 @@ class UserCenterHome extends Component {
                         <Text style={estyle.text}>车队管理员</Text>
                     </ViewForRightArrow> : null}
                 <ViewForRightArrow onPress={() => this.goTo(MyInfo)}>
-                    <Text style={estyle.text}>我的资料</Text>
+                    <Text style={estyle.text}>资料认证</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow style={[estyle.marginBottom]} onPress={() => this.goTo(CouponList)}>
                     <View style={[estyle.fxRow]}>
