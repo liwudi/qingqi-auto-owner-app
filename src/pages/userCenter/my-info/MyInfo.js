@@ -16,13 +16,10 @@ import {
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
-import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
 
 import MyInfoId from './MyInfoId';
-import MyInfoDriver from './MyInfoDriveType';
-import ImagePickBotton from '../../../components/ImagePickButton';
 import ModifyTrueName from '../account-config/ModifyTrueName';
 import {UserActions} from '../../../actions';
 import {uploadUserPic} from '../../../services/UserService';
@@ -32,7 +29,6 @@ import notReview from '../../../assets/images/notReview.png';
 import reviewing from '../../../assets/images/reviewing.png';
 import reviewed from '../../../assets/images/reviewed.png';
 import reviewError from '../../../assets/images/reviewError.png';
-import warning from '../../../assets/images/warning.png';
 import {Star_i, IconQuestion} from '../../../components/Icons';
 import MyInfoIdCadePhoto from './MyInfoIdCadePhoto';
 import MyInfoDriverCard from './MyInfoDriverCard';
@@ -85,15 +81,19 @@ class MyInfo extends Component {
         this.fetchData();
     }
 
-    goTo(page, prop) {
-        this.props.router.push(page, prop);
-    }
+    goTo= (page) => {
+        this.props.router.push(page, {
+            successFun: this.setDataState,
+            data: this.state.data
+        });
+    };
 
     fetchData() {
-        this.setState({isRefreshing: true}, () => {
+         this.setState({isRefreshing: true}, () => {
             getUserInfoStatus()
                 .then((data) => {
-                    data && this.setState({data: data, top: topContent[data.validStatus - 1]})
+                    data && this.setState({data: data, top: topContent[data.validStatus - 1]});
+                    this.hasFailure(data);
                 })
                 .catch((err) => {
                     Toast.show(err.message, Toast.SHORT);
@@ -104,9 +104,18 @@ class MyInfo extends Component {
         })
     }
 
-    updatePic = () => {
-        this.refs.ImagePickBotton.show();
-    };
+    /**
+     * 产品要求有失败项即可提交，该方法用于判断是否有失败项
+     */
+    hasFailure(data){
+        let hasFail = Object.keys(data).some((item)=>{
+            if(item.indexOf('Reason') != -1){
+                return data[item] ? true : false
+            }
+        });
+        this.setState({hasFail:hasFail});
+    }
+
     //修改头像
     onImagePick = (imageSource) => {
         uploadUserPic(imageSource)
@@ -127,30 +136,39 @@ class MyInfo extends Component {
             });
     };
     //判断每一项右侧的文字类型
-    setRightText = (type, photo) => {
+    setRightText = (type, value, isPhoto = false) => {
+        let text='';
         switch (type) {
             case 1:
-                return photo ? '已上传' : '未上传';
+                if(isPhoto){
+                    text = value ? '已上传' : '未上传';
+                }else {
+                    text = value || '未输入';
+                }
                 break;
             case 2:
-                return '审核中';
+                text = '审核中';
                 break;
             case 3:
-                return '已上传';
+                text = '已上传';
                 break;
             case 4:
-                return '已上传';
+                text = '已上传';
+                break;
+            case 5:
+                text = '已在陆鲸认证过';
                 break;
             default :
                 return '未上传'
         }
+        return <Text style={[estyle.note]}>{text}</Text>
     };
 
-    pressFun = (fun, reason) => {
-        reason ? this.alert(reason, fun) : fun()
-    }
+    pressFun = (route, reason) => {
+        reason ? this.alert(reason, route) : this.goTo(route)
+    };
     //审核失败时弹出提示
-    alert(reason, fun) {
+    alert(reason, route) {
         this.props.alert(
             '提示',
             reason,
@@ -161,7 +179,7 @@ class MyInfo extends Component {
                 },
                 {
                     text: '立即修改', onPress: () => {
-                    fun()
+                    this.goTo(route)
                 }
                 }
             ]
@@ -171,19 +189,16 @@ class MyInfo extends Component {
     setDataState = (opts) => {
         return saveUserInfo(opts)
             .then(() => {
-                //this.setState({data: Object.assign({},this.state.data,opts) });
                 this.fetchData();
             })
     };
 
 
     render() {
-        let userInfo = this.props.userStore.userInfo;
         let data = this.state.data;
-        let onlyRead = data ? data.validStatus == 2 : false;
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="我的资料" rightView={
+                <TopBanner {...this.props} title="陆鲸认证" rightView={
                     <Button onPress={() => {
                         this.goTo(MyInfoQuestion)
                     }} style={estyle.topBtn}>
@@ -211,141 +226,52 @@ class MyInfo extends Component {
                                     </View>
                                 </View>
                                 <MyInfoItem title="真实姓名" isWarn={data.nameValidReason} state={data.nameValidStatus}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(ModifyTrueName, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.nameValidReason)
-                                            }  }
-                                            rightDom={
-                                                data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> :
-                                                    <Text style={styles.text}>{ data.realName || '未设置姓名'}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(ModifyTrueName,data.nameValidReason)}}
+                                            rightDom={this.setRightText(data.nameValidStatus,data.realName)}/>
+
                                 <MyInfoItem title="身份证号" isWarn={data.nameValidReason} state={data.nameValidStatus}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoId, {successFun: this.setDataState, data: data})
-                                                }, data.nameValidReason)
-                                            }   }
-                                            rightDom={
-                                                data.nameValidStatus == 2 ? <Text style={styles.text}>审核中</Text> :
-                                                    <Text style={styles.text}>{ data.identityNo || '未输入'}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoId,data.nameValidReason)}}
+                                            rightDom={this.setRightText(data.nameValidStatus,data.identityNo)}/>
+
                                 <MyInfoItem title="真实头像" isWarn={data.memberPhotoValidReason}
                                             state={data.memberPhotoValidStatus} isPhoto={true}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                //this.pressFun(this.updatePic, data.memberPhotoValidReason)
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoRealPhoto, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.memberPhotoValidReason)
-                                            }  }
-                                            rightDom={
-                                                <Text style={styles.text}>{this.setRightText(data.memberPhotoValidStatus, data.memberPhoto)}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoRealPhoto,data.memberPhotoValidReason)}}
+                                            rightDom={this.setRightText(data.memberPhotoValidStatus,data.memberPhoto,true)}/>
+
                                 <MyInfoItem title="身份证照片" isWarn={data.idCardValidReason}
                                             state={data.idCardValidStatus} isPhoto={true}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoIdCadePhoto, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.idCardValidReason)
-                                            } }
-                                            rightDom={
-                                                <Text
-                                                    style={styles.text}>{this.setRightText(data.idCardValidStatus, data.idFrontPhoto || data.idBackPhoto)}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoIdCadePhoto,data.idCardValidReason)}}
+                                            rightDom={this.setRightText(data.idCardValidStatus,data.idFrontPhoto || data.idBackPhoto,true)}/>
+
                                 <MyInfoItem title="驾驶证照片" isWarn={data.drivingLicenseValidReason}
                                             state={data.drivingLicenseValidStatus} isPhoto={true}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoDriverCard, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.drivingLicenseValidReason)
-                                            } }
-                                            rightDom={
-                                                <Text
-                                                    style={styles.text}>{this.setRightText(data.drivingLicenseValidStatus, data.drivingLicensePhoto)}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoDriverCard,data.drivingLicenseValidReason)}}
+                                            rightDom={this.setRightText(data.drivingLicenseValidStatus,data.drivingLicensePhoto,true)}/>
+
                                 <View style={[estyle.paddingVertical]}/>
+
                                 <MyInfoItem title="车牌号" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoCarCode, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.vehicleLicenseValidReason)
-                                            } }
-                                            rightDom={
-                                                data.vehicleLicenseValidStatus == 2 ?
-                                                    <Text style={styles.text}>审核中</Text> :
-                                                    <Text style={styles.text}>{data.carNumber || '未输入'}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoCarCode,data.vehicleLicenseValidReason)}}
+                                            rightDom={this.setRightText(data.vehicleLicenseValidStatus,data.carNumber)}/>
+
                                 <MyInfoItem title=" 车厢长（米）" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoCarLength, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.vehicleLicenseValidReason)
-                                            } }
-                                            rightDom={
-                                                data.vehicleLicenseValidStatus == 2 ?
-                                                    <Text style={styles.text}>审核中</Text> :
-                                                    <Text style={styles.text}>{data.carLength || '未输入'}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoCarLength,data.vehicleLicenseValidReason)}}
+                                            rightDom={this.setRightText(data.vehicleLicenseValidStatus,data.carLength)}/>
+
                                 <MyInfoItem title="车型" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoCarType, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.vehicleLicenseValidReason)
-                                            } }
-                                            rightDom={
-                                                data.vehicleLicenseValidStatus == 2 ?
-                                                    <Text style={styles.text}>审核中</Text> :
-                                                    <Text style={styles.text}>{data.carType || '未输入'}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoCarType,data.vehicleLicenseValidReason)}}
+                                            rightDom={this.setRightText(data.vehicleLicenseValidStatus,data.carType)}/>
+
                                 <MyInfoItem title="行驶证照片" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus} isPhoto={true}
-                                            onlyRead={onlyRead}
-                                            onPress={ () => {
-                                                this.pressFun(() => {
-                                                    this.goTo(MyInfoDrivingCard, {
-                                                        successFun: this.setDataState,
-                                                        data: data
-                                                    })
-                                                }, data.vehicleLicenseValidReason)
-                                            } }
-                                            rightDom={
-                                                <Text
-                                                    style={styles.text}>{this.setRightText(data.vehicleLicenseValidStatus, data.vehicleLicensePhoto)}</Text>
-                                            }/>
+                                            onPress={()=>{this.pressFun(MyInfoDrivingCard,data.vehicleLicenseValidReason)}}
+                                            rightDom={this.setRightText(data.vehicleLicenseValidStatus,data.vehicleLicensePhoto,true)}/>
+
                                 {
-                                    data.validStatus == 1 || data.validStatus == 3 ?
+                                    data.validStatus == 1 || data.validStatus == 3 || this.state.hasFail ?
                                         <View style={[estyle.fxRowCenter, estyle.marginTop]}>
                                             <SubmitButton size="large"
                                                           doing={this.state.doing}
@@ -364,7 +290,6 @@ class MyInfo extends Component {
                             </View> : <View/>
                     }
                 </ScrollView>
-                <ImagePickBotton ref="ImagePickBotton" onImagePick={this.onImagePick} maxWidth={200} maxHeight={200}/>
             </View>
         );
     }

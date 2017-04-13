@@ -16,7 +16,9 @@ import {
 import ViewForRightArrow from '../../../../components/ViewForRightArrow';
 import Env from '../../../../utils/Env';
 import {Star_i} from '../../../../components/Icons';
+import warning from '../../../../assets/images/warning.png';
 const estyle = Env.style;
+const basefont = Env.font.base;
 
 export default class MyInfoItem extends Component {
     constructor(props) {
@@ -28,14 +30,11 @@ export default class MyInfoItem extends Component {
         let isReviewed, rightIcon, disabled;
         isReviewed = state == 4;
         if (this.props.isPhoto) {
-            rightIcon = state == 2 ? null : undefined;
-            disabled = (state == 2);
+            rightIcon =(state == 2 || state == 5) ? null : undefined;
+            disabled = (state == 2 || state == 5);
         } else {
-            rightIcon = state == 2 || state == 4 ? null : undefined;
-            disabled = (state == 2 || state == 4);
-        }
-        if (this.props.onlyRead) {
-            disabled = true
+            rightIcon =(state == 2 || state == 4 || state == 5) ? null : undefined;
+            disabled = (state == 2 || state == 4 || state == 5);
         }
         return (
             <ViewForRightArrow disabled={disabled} onPress={this.props.onPress} rightIcon={rightIcon}>

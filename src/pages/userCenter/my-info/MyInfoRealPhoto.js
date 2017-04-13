@@ -13,7 +13,7 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
-import driveingPhoto from '../../../assets/images/driveingPhoto.png';
+import driver from '../../../assets/images/driver.png';
 import  camera from '../../../assets/images/camera.png';
 import  ImagePickBotton from '../../../components/ImagePickButton'
 import { fileUpLoad } from '../../../services/AppService';
@@ -59,7 +59,7 @@ class MyInfoDrivingCard extends Component {
                     <View style={[styles.imgBox]}>
                         {
                             this.props.data.memberPhotoValidStatus == 1 && !this.state.data.memberPhoto ?
-                                <Image source={driveingPhoto} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
+                                <Image source={driver} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
                                 <Image source={ {uri:this.state.data.memberPhoto} } resizeMode={Image.resizeMode.cover} style={[{width: 500 * basefont,height: 300 * basefont }]} />
                         }
                         {
