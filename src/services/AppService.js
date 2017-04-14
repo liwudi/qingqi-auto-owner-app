@@ -383,6 +383,58 @@ export function addCar(opts){
         Object.assign({}, opts)
     );
 }
+//司机端获取最新位置（服务站）
+export function getPosition() {
+    return RequestService.get(
+        makeUrl('getPosition')
+    );
+}
+//服务站列表查询（服务站）
+export function queryStation( page_number, opts, page_size){
+    return RequestService.get(
+       makeUrl('queryStation'),
+       Object.assign({},{page_number:page_number}, opts, {page_size: page_size || defaultPage.page_size})
+    );
+}
+//省市列表查询（服务站）
+export function areaCondition(id){
+    if(!id && _PROVINCE_) return Promise.resolve(_PROVINCE_);
+    return RequestService.get(
+        makeUrl('areaCondition'),
+        {id:id || ''}
+    ).then((data)=>{
+        if(!id) {
+            data.unshift({id:'200',name:'附近'});
+            _PROVINCE_=data;
+        }
+        return data;
+    });
+}
+//服务站详情
+export function stationDetail( stationId ){
+    return RequestService.get(
+        makeUrl('stationDetail'),
+        {stationId:stationId}
+    );
+}
+//查询全部预约项目
+export function queryAllAppointmentItemList(){
+    return RequestService.get(
+        makeUrl('queryAllAppointmentItemList')
+    );
+}
+//查询城市
+export function queryCity(searchKey){
+    return RequestService.get(
+        makeUrl('queryCity'),
+        {searchKey: searchKey}
+    ).then(rs => {
+        return {
+            list : rs
+        }
+    });
+}
+
 //上传文件接口
 export function fileUpLoad(file){
     let user=getToken().userId;

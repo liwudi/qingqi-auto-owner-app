@@ -100,11 +100,11 @@ export  class IconWaring extends React.Component {
 * 向下箭头
 * */
 export  class IconArrowDown extends React.Component {
-	render(){
-		return(
-			<IconMater name="keyboard-arrow-down" size={size} color={color} {...this.props} />
-		)
-	}
+    render(){
+        return(
+            <IconFontAwesome name="caret-down" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
 }
 
 /**
