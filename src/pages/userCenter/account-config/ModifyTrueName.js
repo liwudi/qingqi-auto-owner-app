@@ -53,28 +53,31 @@ class ModifyTrueName extends Component {
     }
 	onSave() {
 		if (LabelInput.Validate(this.refs)) {
-            // if(this.userInfo.name === this.state.name) {
-            //     this.props.router.pop();
-		     //    return;
-            // }
             if(getBLen(this.state.name) > 14){
                 Toast.show('姓名不能超过7个汉字或14个字符', Toast.SHORT);
                 return;
 			}
             this.setState({doing: true});
-			modifyUserInfo(this.state.name).then(()=>{
-				this.props.dispatch(UserActions.getUserDetail());
-                Toast.show('姓名保存成功', Toast.SHORT);
-                setTimeout(() => {
-                    this.toPage();
-                },200);
-            }).catch((e)=>{
-                Toast.show(e.message, Toast.SHORT);
-            }).finally(()=>{
-                this.setState({doing: false});
-            });
+            if(this.props.successFun){
+                this.promiss(this.props.successFun({realname:this.state.name}));
+            }else {
+                this.promiss(modifyUserInfo(this.state.name));
+            }
 		}
 	}
+	promiss(pro){
+        pro.then(()=>{
+            !this.props.successFun && this.props.dispatch(UserActions.getUserDetail());
+            Toast.show('姓名保存成功', Toast.SHORT);
+            setTimeout(() => {
+                this.toPage();
+            },200);
+        }).catch((e)=>{
+            Toast.show(e.message, Toast.SHORT);
+        }).finally(()=>{
+            this.setState({doing: false});
+        });
+    }
 	toPage() {
 		if(this.props.router.navigator.getCurrentRoutes().length === 1) {
 			this.props.router.resetTo(HomeRouter);

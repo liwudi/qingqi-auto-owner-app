@@ -405,6 +405,62 @@ export  class IconSpeed extends React.Component {
 		)
 	}
 }
+//圆框减号
+export  class IconMinus extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="minus-circle" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
+//圆框加号
+export  class IconPlusCircle extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="plus-circle" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
+//录音
+export  class IconMicrophone extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="microphone" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
+//空心x
+export  class IconTimesCirle extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="times-circle" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
+//播放按钮
+export  class IconAudioPlay extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="play-circle-o" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
+//停止按钮
+export  class IconPlayStop extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="stop-circle-o" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
+//手机
+export  class IconMobile extends React.Component {
+    render(){
+        return(
+			<IconFontAwesome name="mobile" size={size} color={Env.color.main} {...this.props} />
+        )
+    }
+}
 //星星实心
 export  class Star_i extends React.Component {
     render(){

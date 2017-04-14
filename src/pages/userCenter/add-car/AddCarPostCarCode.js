@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
-import ConfirmButton from '../../../components/ConfirmButton';
+import SubmitButton from '../../../components/SubmitButton';
 import LabelInput from '../../../components/LabelInput';
 import Env from '../../../utils/Env';
 import { addCar } from '../../../services/AppService';
@@ -27,7 +27,8 @@ class AddCarPostCarCode extends Component {
             carId: this.props.carInfo.id,
             carNumber: '',
             type: '0',
-            flag: '0'
+            flag: '0',
+            doing:false
         };
         this.info=this.props.carInfo;
     }
@@ -37,6 +38,8 @@ class AddCarPostCarCode extends Component {
     
 
     nextStep () {
+        if(this.state.doing) return;
+        this.setState({doing:true});
         if (LabelInput.Validate(this.refs)) {
             addCar(this.state)
                 .then(()=>{
@@ -50,6 +53,7 @@ class AddCarPostCarCode extends Component {
                 .finally(()=>{
                     //todo 因为后台的设计问题，现防止管理员加车，故在加车后重新获取角色类型，后期可能会改
                     this.props.dispatch(getUserDetail());
+                    this.setState({doing:false});
                 })
         }
     }
@@ -82,7 +86,7 @@ class AddCarPostCarCode extends Component {
                     <Text style={[estyle.note]}>挂牌后可在车队版车辆管理中进行修改</Text>
                 </View>
                 <View style={[estyle.fxRowCenter]}>
-                    <ConfirmButton onPress={this.nextStep.bind(this)} size="large" >确认</ConfirmButton>
+                    <SubmitButton doing={this.state.doing} onPress={this.nextStep.bind(this)} size="large" >确认</SubmitButton>
                 </View>
             </View>
         );

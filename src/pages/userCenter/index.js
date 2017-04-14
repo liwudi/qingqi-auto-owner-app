@@ -31,6 +31,8 @@ import {couponNum} from '../../services/ServiceStationService';
 import MyInfo from './my-info/MyInfo';
 import TopBanner from '../../components/TopBanner';
 import Toast from '../../components/Toast';
+import AppointmentList from '../home/service-station/ServiceStationAppointmentList';
+import MyInfoIndex from './my-info/MyInfoIndex';
 
 
 class UserCenterHome extends Component {
@@ -161,6 +163,12 @@ class UserCenterHome extends Component {
                     </ViewForRightArrow> : null}
                 <ViewForRightArrow onPress={() => this.goTo(MyInfo)}>
                     <Text style={estyle.text}>资料认证</Text>
+                </ViewForRightArrow>
+                {/*<ViewForRightArrow onPress={() => this.goTo(MyInfoIndex)}>
+                    <Text style={estyle.text}>资料认证</Text>
+                </ViewForRightArrow>*/}
+                <ViewForRightArrow onPress = {() => this.goTo(AppointmentList)}>
+                    <Text style={estyle.text}>我的预约</Text>
                 </ViewForRightArrow>
                 <ViewForRightArrow style={[estyle.marginBottom]} onPress={() => this.goTo(CouponList)}>
                     <View style={[estyle.fxRow]}>
