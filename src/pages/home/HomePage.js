@@ -187,7 +187,7 @@ export default class HomePage extends Component {
 					<ImgButton onPress={() => this.goTo(MessageGoods, true)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
-					<ImgButton onPress={() => this.goTo(ServiceStation, true)}  src={require('../../assets/images/icon-10.png')} title="服务预约"/>
+					{/*<ImgButton onPress={() => this.goTo(ServiceStation, true)}  src={require('../../assets/images/icon-10.png')} title="服务预约"/>*/}
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
 					{!!1 ?
 						<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>

@@ -45,7 +45,7 @@ export default class MainNavBar extends React.Component{
 					<IconButton color={this.state.currentIndex === 2 ? Env.color.main : Env.color.text}  iconName="ios-list-box-outline" title="推荐"/>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.flexCenter} onPress={() => this.changeTab(3)}>
-					<IconButton color={this.state.currentIndex === 3 ? Env.color.main : Env.color.text} iconName="ios-settings-outline" title="设置"/>
+					<IconButton color={this.state.currentIndex === 3 ? Env.color.main : Env.color.text} iconName="ios-settings-outline" title="我的"/>
 				</TouchableOpacity>
 			</View>
 		);

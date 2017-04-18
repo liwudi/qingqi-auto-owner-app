@@ -136,7 +136,7 @@ class UserCenterHome extends Component {
         let userInfo = this.props.userStore.userInfo;
         return (
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props} title="设置" leftShow={false}/>
+                <TopBanner {...this.props} title="我的" leftShow={false}/>
                 <ViewForRightArrow
                     activeOpacity={1}
                     style={[{backgroundColor:Env.color.main}]}
@@ -167,9 +167,9 @@ class UserCenterHome extends Component {
                 {/*<ViewForRightArrow onPress={() => this.goTo(MyInfoIndex)}>
                     <Text style={estyle.text}>资料认证</Text>
                 </ViewForRightArrow>*/}
-                <ViewForRightArrow onPress = {() => this.goTo(AppointmentList)}>
+               {/* <ViewForRightArrow onPress = {() => this.goTo(AppointmentList)}>
                     <Text style={estyle.text}>我的预约</Text>
-                </ViewForRightArrow>
+                </ViewForRightArrow>*/}
                 <ViewForRightArrow style={[estyle.marginBottom]} onPress={() => this.goTo(CouponList)}>
                     <View style={[estyle.fxRow]}>
                         <Text style={[estyle.text,estyle.fx1]}>优惠券</Text>
