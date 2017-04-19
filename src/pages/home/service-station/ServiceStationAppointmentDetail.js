@@ -84,7 +84,7 @@ export default class ServiceStationAppointmentDetail extends Component {
                         {
                             text: '确认', onPress: () => {
                             orderOver(this.props.order.woCode)
-                                .then(()=>{ this.fetchData()})
+                                .then(()=>{ this.goToServiceStationEvaluate(); this.fetchData()})
                                 .catch((err)=>{ Toast.show(err.message,Toast.SHORT);})
                         }
                         },
@@ -96,7 +96,10 @@ export default class ServiceStationAppointmentDetail extends Component {
             }
         } )
     };
-
+    goToServiceStationEvaluate(){
+        let data = this.state.data;
+        this.props.router.push(ServiceStationEvaluate,{stationId:data.stationId,stationName:data.stationName,woCode:this.props.order.woCode,prantFetch:this.fetchData.bind(this)})
+    }
     buttonType() {
         if (!this.state.data.woStatus) return null;
         let status = this.state.data.woStatus,
@@ -145,7 +148,7 @@ export default class ServiceStationAppointmentDetail extends Component {
                 return <View style={[estyle.fxRowCenter]}>
                     <ConfirmButton size="large"
                                    onPress={() => {
-                                       this.props.router.push(ServiceStationEvaluate,{stationId:this.state.data.stationId,stationName:this.state.data.stationName,woCode:this.props.order.woCode,prantFetch:this.fetchData.bind(this)})
+                                       this.goToServiceStationEvaluate();
                                    }}>评价</ConfirmButton>
                 </View>
             } else if (rateStatus == 2) {

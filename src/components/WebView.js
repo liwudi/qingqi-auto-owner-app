@@ -55,7 +55,7 @@ export default class News extends Component {
                     <TouchableOpacity onPress={() => this.doBack()}>
                         <Text ><Icons.IconArrowLeft color="#FFF" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[estyle.marginLeft]} onPress={() => this.onClose()}>
+                    <TouchableOpacity style={{marginLeft: 40 * Env.font.base}} onPress={() => this.onClose()}>
                         <Text ><Icons.IconClose color="#FFF" /></Text>
                     </TouchableOpacity>
                 </View>

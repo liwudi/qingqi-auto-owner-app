@@ -153,7 +153,11 @@ class MyInfo extends Component {
                 text = '已上传';
                 break;
             case 4:
-                text = '已上传';
+                if(isPhoto){
+                    text = '已上传';
+                }else {
+                    text = value;
+                }
                 break;
             case 5:
                 text = '已在陆鲸认证过';

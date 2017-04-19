@@ -20,8 +20,8 @@ export default class NotUsed extends Component {
     constructor(props) {
         super(props);
     }
-    goDetail(id){
-        this.props.router.push(CouponDetail,{couponId:id,isUnUsed:true});
+    goDetail(id,sum){
+        this.props.router.push(CouponDetail,{couponId:id,sum:sum});
     }
 
     render() {
@@ -32,7 +32,7 @@ export default class NotUsed extends Component {
                 renderRow={(row) => {
 					return (
 					    <View style={[estyle.padding]}>
-					       <TouchableOpacity activeOpacity={0.8} style={[estyle.cardBackgroundColor,{overflow:'hidden',position:'relative'}]} onPress={()=>{this.goDetail(row.id)}}>
+					       <TouchableOpacity activeOpacity={0.8} style={[estyle.cardBackgroundColor,{overflow:'hidden',position:'relative'}]} onPress={()=>{this.goDetail(row.id,row.sum)}}>
 				               <View style={[estyle.padding,{backgroundColor:Env.color.auxiliary}]}>
 				                   <Text numberOfLines={1} style={[estyle.articleTitle,{color:Env.color.navTitle}]}>{row.couponName}</Text>
 				                   <Text numberOfLines={1} style={[estyle.note,{color:Env.color.navTitle}]}>{row.couponContent}</Text>

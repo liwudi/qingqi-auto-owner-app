@@ -113,7 +113,7 @@ export  class IconArrowDown extends React.Component {
 export  class IconClose extends React.Component {
 	render(){
 		return(
-			<IconFontAwesome name="close" size={size} color={color} {...this.props} />
+			<IconEntypo name="cross" size={size} color={color} {...this.props} />
 		)
 	}
 }

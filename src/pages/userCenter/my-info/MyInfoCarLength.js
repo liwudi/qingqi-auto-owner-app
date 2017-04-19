@@ -66,13 +66,13 @@ class MyInfoCarLength extends Component {
                         }}
                         defaultValue={this.props.data.carLength}
                         secureTextEntry={true}
-                        placeholder='请输入车厢长'
-                        label="车厢长"
+                        placeholder='请输入有效车厢长度'
+                        label="车厢长（米）"
                         autoCapitalize="characters"
                         labelSize="3"
                         maxLength={6}
                         validates={[
-                            {require:true, msg: '请输入车厢长'},
+                            {require:true, msg: '请输入有效车厢长度'},
                             {pattern:/^([1-9]\d|[1-9])(\.\d)?$/, msg:'车厢长格式错误'}
                         ]}
                     />

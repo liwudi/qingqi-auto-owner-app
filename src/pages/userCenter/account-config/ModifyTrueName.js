@@ -35,7 +35,7 @@ const getBLen = function(str) {
 class ModifyTrueName extends Component {
 	constructor(props){
 		super(props);
-		this.userInfo = props.userStore.userInfo;
+		this.userInfo = this.props.data ? {name: this.props.data.realName} : props.userStore.userInfo;
         this.state = {
             doing: false
         };
@@ -92,7 +92,7 @@ class ModifyTrueName extends Component {
 					if(this.props.userStore.userInfo.name){
 						this.props.doBack();
 					}else{
-                        Toast.show('请输入姓名', Toast.SHORT);
+                        Toast.show('请输入真实姓名', Toast.SHORT);
 					}
 
 				}}/>
@@ -105,10 +105,10 @@ class ModifyTrueName extends Component {
 						}}
 						defaultValue={this.userInfo.name}
 						secureTextEntry={true}
-						placeholder='请输入姓名'
+						placeholder='请输入真实姓名'
 						label="姓名"
 						validates={[
-							{require:true, msg: '请输入姓名'}
+							{require:true, msg: '请输入真实姓名'}
 						]}
 						maxLength={14}
 					/>
