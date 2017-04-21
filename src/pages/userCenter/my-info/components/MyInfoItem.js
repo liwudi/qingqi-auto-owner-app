@@ -28,7 +28,7 @@ export default class MyInfoItem extends Component {
     render() {
         let state = this.props.state;
         let isReviewed, rightIcon, disabled;
-        isReviewed = state == 4;
+        isReviewed = state == 4 || state == 5;
         if (this.props.isPhoto) {
             rightIcon =(state == 2 || state == 5) ? null : undefined;
             disabled = (state == 2 || state == 5);

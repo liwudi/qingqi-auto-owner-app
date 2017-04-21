@@ -24,7 +24,6 @@ import PageList from '../../../components/PageList';
 
 import MyLineItem from './components/MyLineItem';
 import OilManageCarList from './OilManageCarList';
-import OilManageSetMark from './OilManageSetMark';
 import ManageCarItem from './components/ManageCarItem';
 
 import Echarts from '../../../components/ECharts';

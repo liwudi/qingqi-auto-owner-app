@@ -160,7 +160,7 @@ export default class ServiceStationAppointmentDetail extends Component {
                         renderRow={(row,sectionId,rowId) => {
                             return  <Item
                                 name={row.userName}
-                                photo={ {uri:imgUrlConfig+row.driverId} }
+                                photo={ {uri:imgUrlConfig+row.driverId+`&_rid=${Math.random()}`} }
                                 score={row.rate}
                                 date={row.date}
                                 content={row.content}

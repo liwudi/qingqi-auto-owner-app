@@ -30,7 +30,8 @@ export default class MyCarItem extends Component {
         }
     }
     render() {
-        let item = Object.assign(this.cacheData, this.props.data);
+        //let item = Object.assign(this.cacheData, this.props.data);
+        let item = this.props.data;
         return (
             <ViewForRightArrow  onPress={this.props.onPress} style={[estyle.fxRow,estyle.cardBackgroundColor]}>
                 <View style={[estyle.fxRow]}>

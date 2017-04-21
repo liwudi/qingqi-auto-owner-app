@@ -194,7 +194,7 @@ export default class ServiceStationDetail extends Component {
                             return  <Item
                                 {...this.props}
                                 name={row.userName}
-                                photo={ {uri:imgUrlConfig+row.driverId} }
+                                photo={ {uri:imgUrlConfig+row.driverId+`&_rid=${Math.random()}`} }
                                 score={row.rate}
                                 date={row.date}
                                 content={row.content}

@@ -51,12 +51,13 @@ export default class News extends Component {
     render(){
         const _renderButton = () => {
             return (
-                <View style={[estyle.fxRow]}>
+                <View style={[estyle.fxRow,estyle.fxRowCenter,{paddingLeft: 20 * basefont}]}>
                     <TouchableOpacity onPress={() => this.doBack()}>
                         <Text ><Icons.IconArrowLeft color="#FFF" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginLeft: 40 * Env.font.base}} onPress={() => this.onClose()}>
-                        <Text ><Icons.IconClose color="#FFF" /></Text>
+                    <TouchableOpacity style={{marginLeft: 60 * Env.font.base}} onPress={() => this.onClose()}>
+                        <Text ><Icons.IconClose color="#FFF" size={basefont*75} /></Text>
+                        {/*<Text style={[{fontSize:basefont*40,color:'#fff'}]}>X</Text>*/}
                     </TouchableOpacity>
                 </View>
             )

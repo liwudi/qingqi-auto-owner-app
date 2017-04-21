@@ -43,6 +43,9 @@ class Message extends Component {
     }
 
     activePageStore = null;
+	componentDidMount(){
+        this.props.dispatch(getMessages());
+    }
     componentWillReceiveProps(nextProps){
         if(nextProps.messageStore.PersonalMessageUnread.count != this.props.messageStore.PersonalMessageUnread.count){
         	let tabsState = this.state.tabs;

@@ -10,8 +10,7 @@ import {
 
 import Env from '../../../../utils/Env';
 const estyle = Env.style;
-import ViewForRightArrow from '../../../../components/ViewForRightArrow';
-import { IconUser, IconLocationMarker } from '../../../../components/Icons';
+import { IconUser} from '../../../../components/Icons';
 
 export default class MyCarItem extends Component {
 

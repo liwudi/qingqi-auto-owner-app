@@ -14,9 +14,6 @@ import {
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
 const estyle = Env.style;
-import * as Icons from '../../../components/Icons';
-import {IconUser} from '../../../components/Icons'
-import ConfirmButton from '../../../components/ConfirmButton';
 import PageList from '../../../components/PageList';
 import {statisOilwearForOneRoute,viewStandard,statisOilwearForNoRoute} from '../../../services/AppService';
 import OilManageSetMark from './OilManageSetMark';

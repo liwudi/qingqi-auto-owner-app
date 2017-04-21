@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import Env from '../../../../utils/Env';
-import {IconUser} from '../../../../components/Icons'
+import {IconUser,IconFlag} from '../../../../components/Icons'
 const estyle = Env.style;
 
 export default class ManageCarItem extends Component {
@@ -20,7 +20,7 @@ export default class ManageCarItem extends Component {
                     <View style={[estyle.fxRow,estyle.fxRowCenter]}>
                         <Text style={[estyle.articleTitle]}>{list.carCode}</Text>
                         <Text> </Text>
-                        {list.isStandard == 1 && <Icons.IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>}
+                        {list.isStandard == 1 && <IconFlag style={{color: 'red'}} size={Env.font.base * 30}/>}
                     </View>
                     <View style={[estyle.fxRow, estyle.fxRowCenter,estyle.paddingTop]}>
                         <IconUser color='#FEBEBE'/><Text> </Text>
