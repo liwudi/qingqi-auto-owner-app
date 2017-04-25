@@ -13,6 +13,8 @@ import TopBanner from './TopBanner';
 import Env from '../utils/Env';
 
 const estyle = Env.style;
+const basefont = Env.font.base;
+
 
 export default class News extends Component {
 

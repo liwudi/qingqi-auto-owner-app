@@ -5,6 +5,7 @@
  * Created by cryst on 2016/10/10.
  */
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {TouchableOpacity, View, Text, StyleSheet, Image, Alert} from 'react-native';
 import StarGroup from '../../../../components/StarGroup'
 import Env from '../../../../utils/Env';
@@ -13,7 +14,7 @@ import {delRated} from '../../../../services/ServiceStationService';
 import Toast from '../../../../components/Toast';
 const basefont = Env.font.base;
 const estyle = Env.style;
-export default class ServiceStationAppointmentItem extends Component {
+class ServiceStationAppointmentItem extends Component {
     _onPress() {
     }
 
@@ -30,6 +31,7 @@ export default class ServiceStationAppointmentItem extends Component {
     }
 
     render() {
+        let userInfo = this.props.userStore.userInfo;
         return (
             <View style={[estyle.cardBackgroundColor, estyle.borderBottom, estyle.padding]}>
                 <View style={[estyle.fxRow,estyle.fxCenter]}>
@@ -47,7 +49,7 @@ export default class ServiceStationAppointmentItem extends Component {
                         <View style={[estyle.fxRowCenter, estyle.fxRow]}>
                             <Text
                                 onPress={()=>{ this.props.orderCode && this.props.router.push(ServiceStationAppointmentDetail,{order:{woCode:this.props.orderCode}}) }}
-                                style={[estyle.text,{color: this.props.orderCode ? Env.color.main:Env.color.text}]}>{this.props.name}</Text>
+                                style={[estyle.text,{color: this.props.orderCode ? Env.color.main:Env.color.text}]}>{this.props.orderCode ? userInfo.name : this.props.name}</Text>
                             <Text
                                 style={[estyle.fx1, estyle.marginLeft, estyle.note,{textAlign:'right'}]}>{this.props.carType}</Text>
                         </View>
@@ -56,15 +58,15 @@ export default class ServiceStationAppointmentItem extends Component {
                             {
                                 this.props.orderCode ?
                                     <Text onPress={()=>{
-                                         Alert.alert(
+                                        Alert.alert(
                                             '删除评论',
                                             '您确定要删除该条评价吗？',
                                             [
-                                              {text: '确认', onPress: () => this.delMyRated(this.props.ratedId)},
-                                              {text: '取消', onPress: () => console.log('Pressed!')},
+                                                {text: '确认', onPress: () => this.delMyRated(this.props.ratedId)},
+                                                {text: '取消', onPress: () => console.log('Pressed!')},
                                             ]
                                         )
-                                     }} style={[estyle.marginLeft, estyle.note,{color:Env.color.main}]}>删除</Text>
+                                    }} style={[estyle.marginLeft, estyle.note,{color:Env.color.main}]}>删除</Text>
                                     : null
                             }
                             <Text style={[estyle.fx1,estyle.marginLeft, estyle.note,{textAlign:'right'}]}>{this.props.date}</Text>
@@ -76,6 +78,9 @@ export default class ServiceStationAppointmentItem extends Component {
         );
     }
 }
+export default connect(function (stores) {
+    return {userStore: stores.userStore}
+})(ServiceStationAppointmentItem);
 
 
 const styles = StyleSheet.create({
@@ -85,4 +90,3 @@ const styles = StyleSheet.create({
         borderRadius: basefont * 35
     }
 });
-

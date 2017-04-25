@@ -113,7 +113,7 @@ export default class CouponDetail extends Component {
                                         <View style={[estyle.fxCenter, estyle.fxRow]}>
                                             <Text style={[estyle.articleTitle]}>余额：</Text>
                                             <Text
-                                                style={[estyle.articleTitle, {color: Env.color.auxiliary}]}>{data.unUsedNum}</Text>
+                                                style={[estyle.articleTitle, {color: Env.color.auxiliary}]}>{data.unUsedNum + data.unit}</Text>
                                         </View>
                                     </View>
                                     <View style={[estyle.cardBackgroundColor, estyle.paddingLeft]}>
