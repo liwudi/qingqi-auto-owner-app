@@ -141,11 +141,7 @@ export default class HomePage extends Component {
 		};
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-				<StatusBar
-					backgroundColor={Env.color.main}
-					hidden={false}
-					barStyle={'light-content'}
-				/>
+				<View style={[estyle.iosStatusBarHeight,{backgroundColor: Env.color.main}]}></View>
 				<View style={[estyle.fxRow, estyle.fxCenter, { height: 84 * Env.font.base, backgroundColor: Env.color.main}]}>
 					<TouchableOpacity onPress={() => this.props.router.push(MyCarSearch)} activeOpacity={.8} style={[estyle.fxRow,estyle.fxCenter,{borderRadius:4, width:Env.screen.width * .94, height: 64 * Env.font.base, backgroundColor: '#FFF'}]}>
 						<IconSearch size={Env.font.base * 36} color={Env.color.text}/><Text style={estyle.text}> 请输入司机姓名、VIN或车牌号</Text>
@@ -183,16 +179,14 @@ export default class HomePage extends Component {
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
 					<ImgButton onPress={() => this.goTo(Monitor)} src={require('../../assets/images/icon-4.png')} title="实时监控"/>
-					<ImgButton onPress={() => this.goTo(OilManage)} src={require('../../assets/images/icon-5.png')} title="油耗管理"/>
-					<ImgButton onPress={() => this.goTo(MessageGoods, true)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
+					<ImgButton onPress={() => this.goTo(OilManage)} src={require('../../assets/images/icon-5.png')} title="统计分析"/>
+					<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
 				</View>
 				<View style={[estyle.fx1,estyle.fxRow, estyle.borderLeft]}>
-					{/*<ImgButton onPress={() => this.goTo(ServiceStation, true)}  src={require('../../assets/images/icon-10.png')} title="服务预约"/>*/}
+					<ImgButton onPress={() => this.goTo(ServiceStation, true)}  src={require('../../assets/images/icon-10.png')} title="服务预约"/>
+					<ImgButton onPress={() => this.goTo(MessageGoods, true)} src={require('../../assets/images/icon-7.png')} title="货源信息"/>
 					<ImgButton onPress={() => this.goTo(Bbs)} src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-					{!!1 ?
-						<ImgButton onPress={() => this.startCustomerService()} src={require('../../assets/images/icon-6.png')} title="联系客服"/>
-							: <ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>}
-					<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>
+					{/*<ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>*/}
 				</View>
 			</View>
 		)
