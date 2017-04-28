@@ -44,52 +44,52 @@ class Main extends Component {
 
     initPush(){
         //请求权限
-        PushNotificationIOS.requestPermissions();
-        console.log('PushNotificationIOS');
-
-        //注册服务
-        PushNotificationIOS.addEventListener('register', (id) => {
-            registerApp(id);
-            global.storage.save({
-                key: 'deviceId',
-                rawData: {
-                    deviceId:id
-                },
-                expires: null
-            });
-            ServerConfig.DEVICE_ID = id;
-        });
-
-        //收到推送消息
-        PushNotificationIOS.addEventListener('notification', (e) => {
-
-            /*
-
-             params.putString("Content", payload.getString("Content"));
-             params.putString("Title", payload.getString("Title"));
-             params.putString("CustomContent", payload.getString("CustomContent"));
-             params.putInt("noticeId", payload.getInt("noticeId"));
-
-
-             { _data:
-                { remote: true,
-                    notificationId: 'F72FEC57-C09A-47BF-9BAC-FAA0ABD79CEC',
-                    '附加字段1': '附加字段1内容',
-                    title: '标题',
-                    msgId: 'a61f4f6865b44080b04363eee2eb9627',
-                    '附加字段2': '附加字段2内容'
-                 },
-                 _remoteNotificationCompleteCalllbackCalled: false,
-                 _isRemote: true,
-                 _notificationId: 'F72FEC57-C09A-47BF-9BAC-FAA0ABD79CEC',
-                 _alert: '内容',
-                 _sound: 'default.caf',
-                 _badgeCount: 1
-             }
-             */
-
-            console.log('PushNotificationIOS', e)
-        });
+        // PushNotificationIOS.requestPermissions();
+        // console.log('PushNotificationIOS');
+        //
+        // //注册服务
+        // PushNotificationIOS.addEventListener('register', (id) => {
+        //     registerApp(id);
+        //     global.storage.save({
+        //         key: 'deviceId',
+        //         rawData: {
+        //             deviceId:id
+        //         },
+        //         expires: null
+        //     });
+        //     ServerConfig.DEVICE_ID = id;
+        // });
+        //
+        // //收到推送消息
+        // PushNotificationIOS.addEventListener('notification', (e) => {
+        //
+        //     /*
+        //
+        //      params.putString("Content", payload.getString("Content"));
+        //      params.putString("Title", payload.getString("Title"));
+        //      params.putString("CustomContent", payload.getString("CustomContent"));
+        //      params.putInt("noticeId", payload.getInt("noticeId"));
+        //
+        //
+        //      { _data:
+        //         { remote: true,
+        //             notificationId: 'F72FEC57-C09A-47BF-9BAC-FAA0ABD79CEC',
+        //             '附加字段1': '附加字段1内容',
+        //             title: '标题',
+        //             msgId: 'a61f4f6865b44080b04363eee2eb9627',
+        //             '附加字段2': '附加字段2内容'
+        //          },
+        //          _remoteNotificationCompleteCalllbackCalled: false,
+        //          _isRemote: true,
+        //          _notificationId: 'F72FEC57-C09A-47BF-9BAC-FAA0ABD79CEC',
+        //          _alert: '内容',
+        //          _sound: 'default.caf',
+        //          _badgeCount: 1
+        //      }
+        //      */
+        //
+        //     console.log('PushNotificationIOS', e)
+        // });
 
         //用户通过点击推送通知来冷启动应用（即：之前应用不在运行状态），此函数会返回一个初始的通知
         // PushNotificationIOS.popInitialNotification()
@@ -106,22 +106,22 @@ class Main extends Component {
             isConnected: true
         };
 
-        DeviceEventEmitter.addListener("notificationClick", (event) => {
-            try {
-                event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent || '{}') : {};
-            } catch (e) {
-                event.CustomContent = {};
-            }
-            this.newPushMessage(event, true);
-        });
-        DeviceEventEmitter.addListener("notificationReceive", (event) => {
-            try {
-                event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent || '{}') : {};
-            } catch (e) {
-                event.CustomContent = {};
-            }
-            this.newPushMessage(event);
-        });
+        // DeviceEventEmitter.addListener("notificationClick", (event) => {
+        //     try {
+        //         event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent || '{}') : {};
+        //     } catch (e) {
+        //         event.CustomContent = {};
+        //     }
+        //     this.newPushMessage(event, true);
+        // });
+        // DeviceEventEmitter.addListener("notificationReceive", (event) => {
+        //     try {
+        //         event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent || '{}') : {};
+        //     } catch (e) {
+        //         event.CustomContent = {};
+        //     }
+        //     this.newPushMessage(event);
+        // });
         // DeviceEventEmitter.addListener("messageReceiver", (event) => {
         //     event.CustomContent = event.CustomContent ? JSON.parse(event.CustomContent) : {};
         //     console.log('接收到消息：', event);
