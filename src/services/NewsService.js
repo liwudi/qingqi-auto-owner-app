@@ -22,15 +22,16 @@ export function getCategorys() {
     );
 }
 
-export function getCategoryPosts(id) {
+export function getCategoryPosts(id,pageNumber) {
     return RequestService.get(
         makeUrl(),
         {
             json: 'get_category_posts',
-            id: id
+            id: id,
+            paged : pageNumber
         },
         (res) => {
-            return Promise.resolve({list: res.posts})
+            return Promise.resolve({list: res.posts,page_total:res.pages})
         }
     );
 }

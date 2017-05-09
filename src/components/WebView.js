@@ -27,7 +27,7 @@ export default class News extends Component {
         this.state = {
             uri: this.props.uri,
             page: {},
-            title:'卡友论坛'
+            title: this.props.title || '卡友论坛'
         }
     }
 

@@ -8,30 +8,72 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    Navigator,Image
+    Navigator, Image
 } from 'react-native';
 
 import Swiper from 'react-native-swiper';
 import Env from '../utils/Env';
+import {getBannerInfo} from '../services/AppService';
+import serviceStationDefault from '../assets/images/serviceStationDefault.png';
+import defaultBanner from '../assets/images/defaultBanner.png';
+import BannerWebView from '../pages/home/BannerWebView';
 const estyle = Env.style;
 
+export default class Banner extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            bannerList: []
+        }
+    }
 
-export default class Error extends React.Component{
-    render (){
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    fetchData() {
+        getBannerInfo()
+            .then((data) => {
+                this.setState({bannerList: data})
+            })
+            .catch((err) => {
+                console.log(err.message)
+            })
+    }
+    gotoWebView(page){
+        this.props.router.push(BannerWebView,{uri: page.bannerLink,title: page.bannerName || '推广',...this.props})
+    }
+
+    renderView() {
+        if (!this.state.bannerList || this.state.bannerList.length < 1) {
+            return <View {...this.props} style={{height: 300 * basefont}}>
+                <Image source={defaultBanner} style={[styles.image]}/>
+            </View>
+        }
+        return <View {...this.props} >
+            <Swiper height={300 * basefont}>
+                {this.state.bannerList.map((item, index) => {
+                    return <TouchableOpacity key={index} style={[styles.image]} onPress={()=>{this.gotoWebView(item)}}>
+                        {
+                            item.imgPath ? <Image source={{uri: item.imgPath} }
+                                                  style={[styles.image, {
+                                                      position: 'absolute',
+                                                      top: 0,
+                                                      left: 0,
+                                                      zIndex: 100
+                                                  }]}/> : null
+                        }
+                        <Image source={serviceStationDefault}
+                               style={[styles.image]}/>
+                    </TouchableOpacity>
+                })}
+            </Swiper>
+        </View>
+    }
+
+    render() {
         return (
-             <View {...this.props} >
-                 <Swiper style={{backgroundColor:'red'}} height={300*basefont}>
-                     <View style={styles.slide}>
-                         <Text style={styles.text}>第1页</Text>
-                     </View>
-                     <View style={styles.slide}>
-                         <Text style={styles.text}>第2页</Text>
-                     </View>
-                     <View style={styles.slide}>
-                         <Text style={styles.text}>第3页</Text>
-                     </View>
-                 </Swiper>
-             </View>
+            this.renderView()
         );
     }
 }
@@ -40,18 +82,17 @@ const basefont = Env.font.base;
 
 const styles = StyleSheet.create({
     wrapper: {
-        height:300 * basefont,
-        backgroundColor:'black',
-        zIndex:100
+        height: 300 * basefont,
+        backgroundColor: 'black',
+        zIndex: 100
     },
     slide: {
         justifyContent: 'center',
         alignItems: 'center',
         height: 300 * basefont
     },
-    text: {
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: 'bold',
+    image: {
+        height: 300 * basefont,
+        width: Env.screen.width
     }
 })

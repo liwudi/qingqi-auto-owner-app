@@ -58,7 +58,7 @@ class MyInfoDrivingCard extends Component {
                 <View style={[estyle.marginTop,estyle.fx1,estyle.fxRowCenter]}>
                     <View style={[styles.imgBox]}>
                         {
-                            this.props.data.memberPhotoValidStatus == 1 && !this.state.data.memberPhoto ?
+                            (!this.props.data.memberPhotoValidStatus || this.props.data.memberPhotoValidStatus == 1) && !this.state.data.memberPhoto ?
                                 <Image source={driver} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
                                 <Image source={ {uri:this.state.data.memberPhoto} } resizeMode={Image.resizeMode.cover} style={[{width: 500 * basefont,height: 300 * basefont }]} />
                         }

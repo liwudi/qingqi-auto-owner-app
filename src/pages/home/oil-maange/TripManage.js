@@ -43,19 +43,11 @@ export default class TripManage extends Component {
 		this.state = {
 			currentIndex:6,
 			weeks: getWeekDays(),
+            value:'',
             datas: []
 		}
 		this.weekIndex = 0;
 	}
-
-    /**
-     * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
-     * */
-    backRender(){
-        this.setState({
-            isRender: new Date().getTime()
-        })
-    }
 
 	_preWeek(){
         this.weekIndex--;
@@ -77,7 +69,19 @@ export default class TripManage extends Component {
 			this.state.weeks[0].format('YYYYMMDD'),
 			this.state.weeks[this.state.weeks.length - 1].format('YYYYMMDD')
 		).then(rs => {
-			this.setState({datas : rs.list || []});
+            this.setState({datas : rs.list || []},()=>{
+                let val;
+                if(!this.state.datas|| this.state.datas.length<1){
+                    val = 0;
+                }else {
+                    if(this.state.datas[this.state.datas.length-1].statisDate == this.state.weeks[6].format('YYYYMMDD')){
+                        val = this.state.datas[this.state.datas.length-1].mileage;
+                    }else {
+                        val = 0;
+                    }
+                }
+                this.setState({value : val })
+            });
 		}).catch(e => {
 			Toast.show(e.message,Toast.SHORT);
 		})
@@ -141,7 +145,7 @@ export default class TripManage extends Component {
         const chart = () => {
             if(!this.chart || JSON.stringify(option) !== JSON.stringify(this.option || {})){
                 this.chart = <Echarts option={option} height={Env.font.base*340} onClick={e => {
-                    this.setState({currentIndex: e.index})
+                    this.setState({currentIndex: e.index,value: e.value})
                 }}/>;
                 this.option = option;
             }
@@ -150,7 +154,7 @@ export default class TripManage extends Component {
 
 		return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
-				<TopBanner {...this.props} title="运营里程统计"/>
+				{/*<TopBanner {...this.props} title="运营里程统计"/>*/}
 				<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:'#FFF'}]}>
 					<TouchableOpacity onPress={this._preWeek.bind(this)}  style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
 						<Icons.IconArrowLeft style={styles.textBlue}/>
@@ -161,6 +165,7 @@ export default class TripManage extends Component {
 						<Icons.IconArrowRight style={this.weekIndex >= 0 ? estyle.note : styles.textBlue}/>
 					</TouchableOpacity>
 				</View>
+				<View style={[estyle.fxCenter,estyle.paddingVertical]}><Text style={[estyle.note]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')}{`里程${this.state.value}km`}</Text></View>
                 {chart()}
 				<View style={estyle.padding}><Text>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 车辆行驶里程详情</Text></View>
 				<PageList

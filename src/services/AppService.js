@@ -11,6 +11,9 @@ let _PROVINCE_=''; //缓存省份数据
 let _GOODS_PROVINCE_ = null; //货源信息中的省份缓存
 let _PROAbbreviation_=null; //缓存省份的缩略字
 let _CARTYPE_=null; //缓存车辆类型
+let _CAR_GANG_CARTYPE_=null;
+let _CAR_BRAND_CAR_LENGTH_=null;
+let _CAR_BRAND_CAR_BRAND_=null;
 
 const defaultPage = Server.defaultPage;
 function makeUrl(path) {
@@ -511,9 +514,12 @@ export function goodsAreaList(code, level){
     });
 }
 
-export function userAuth() {
+export function userAuth(dataSourcesCode) {
     return RequestService.get(
-        makeUrl('userAuth')
+        makeUrl('userAuth'),
+        {
+            dataSourcesCode:dataSourcesCode
+        }
     );
 }
 //货源信息列表
@@ -535,4 +541,166 @@ export function statisOilwearForNoRoute(page_number,page_size,routeId,statisDate
             statisDate:statisDate,
         }
     );
+}
+
+//区间行驶时长日统计接口
+export function statisRunningTime(beginDate,endDate){
+    return RequestService.get(
+        makeUrl('statisRunningTime'),
+        {
+            beginDate:beginDate,
+            endDate:endDate
+        }
+    );
+}
+
+//行驶时长按天统计接口
+export function statisRunningTimeByDay(page_number, page_size, statisDate){
+
+    return RequestService.get(
+        makeUrl('statisRunningTimeByDay'),
+        {
+            page_number:page_number || 1,
+            page_size:page_size || 20,
+            statisDate: statisDate,
+        }
+    );
+}
+
+//车队版/司机版APP首页轮播Banner接口
+export function getBannerInfo() {
+    return RequestService.get(
+        makeUrl('getBannerInfo'),
+        {
+            appType:1
+        }
+    );
+}
+//获取关注线路
+export function queryFollowLine() {
+    return RequestService.get(
+        makeUrl('queryFollowLine')
+    );
+}
+//根据关注线路获取货源—姚昶宇
+export function queryGoodsByLine(id,pageNumber,pageSize) {
+    return RequestService.get(
+        makeUrl('queryGoodsByLine'),
+        {
+            lineId:id,
+            page_number:pageNumber || 1,
+            page_size : pageSize || 20
+        }
+    );
+}
+//添加关注线路—姚昶宇
+export function addFollowLine(opts){
+    return RequestService.get(
+        makeUrl('addFollowLine'),
+        opts
+    );
+}
+
+//删除关注线路—姚昶宇
+export function delFollowLine(id){
+    return RequestService.get(
+        makeUrl('delFollowLine'),
+        {
+            lineId:id
+        }
+    );
+}
+//消息推送开关验证—姚昶宇
+export function messageSwitch(){
+    return RequestService.get(
+        makeUrl('messageSwitch')
+    );
+}
+//消息推送开启关闭—姚昶宇
+export function messageOpenOrShut(item){
+    return RequestService.get(
+        makeUrl('messageOpenOrShut'),
+        {
+            openOrShut:item
+        }
+    );
+}
+//获取货源详情（货车帮）
+export function getCarGoDetail(id){
+    return RequestService.get(
+        `${Server.HUOCHEBANG_DETAIL}resource/cargo/detail`,
+        {
+            cargoId:id
+        }
+    );
+}
+//货车帮-车辆类型-数据字典
+export function getCarGangCarType() {
+    if(_CAR_GANG_CARTYPE_){ return Promise.resolve(_CAR_GANG_CARTYPE_) }
+    return (
+        RequestService.get(
+            `${Server.QINGQI}operate/common/basedata`,
+            {
+                type:'A',
+                code: 'A026'
+            }
+        )
+            .then((data)=>{
+                _CAR_GANG_CARTYPE_=data;
+                return data
+            })
+    )
+}
+//货车帮-车长-数据字典
+export function getCarGangCarLength() {
+    if(_CAR_BRAND_CAR_LENGTH_){ return Promise.resolve(_CAR_BRAND_CAR_LENGTH_) }
+    return (
+        RequestService.get(
+            `${Server.QINGQI}operate/common/basedata`,
+            {
+                type:'A',
+                code: 'A027'
+            }
+        )
+            .then((data)=>{
+                _CAR_BRAND_CAR_LENGTH_=data;
+                return data
+            })
+    )
+}
+//货车帮-车牌类型-数据字典
+export function getCarGangCarBrandType() {
+    if(_CAR_BRAND_CAR_BRAND_){ return Promise.resolve(_CAR_BRAND_CAR_BRAND_) }
+    return (
+        RequestService.get(
+            `${Server.QINGQI}operate/common/basedata`,
+            {
+                type:'A',
+                code: 'A028'
+            }
+        )
+            .then((data)=>{
+                _CAR_BRAND_CAR_BRAND_=data;
+                return data
+            })
+    )
+}
+//货车帮认证资料查询接口
+export function hcbGetAuthInfo() {
+    return RequestService.get(
+        makeUrl('hcbGetAuthInfo')
+    )
+}
+//货车帮认证资料保存接口
+export function hcbSaveAuthInfo(opt) {
+    return RequestService.post(
+        makeUrl('hcbSaveAuthInfo'),
+        opt
+    )
+}
+//提交认证资料接口（货车帮）
+export function validateUserInfoTruck() {
+    return RequestService.get(
+        makeUrl('validateUserInfoTruck')
+    )
 }

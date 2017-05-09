@@ -13,7 +13,7 @@ export default class ImgButton extends Component {
             <TouchableOpacity
                 activeOpacity={0.6}
                 onPress={this._onPress.bind(this)}
-                style={[estyle.fxCenter, estyle.cardBackgroundColor, estyle.fx1, estyle.borderRight, estyle.borderTop]}>
+                style={[estyle.fxCenter, estyle.cardBackgroundColor, estyle.fx1, estyle.borderRight, estyle.borderTop,{...this.props.style}]}>
                 <View style={{alignItems: 'center'}}>
                     <Image source={this.props.src}
                            style={styles.image}/>

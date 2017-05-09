@@ -1,5 +1,5 @@
 /**
- * Created by mapbar on 2017/2/24.
+ * Created by linyao on 2017/5/3.
  */
 import React, {Component} from 'react';
 
@@ -17,29 +17,23 @@ import Env from '../../../utils/Env';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import SubmitButton from '../../../components/SubmitButton';
 import {IconClose} from '../../../components/Icons';
-import {getCarType,getCarGangCarType} from '../../../services/AppService';
+import {getCarGangCarLength} from '../../../services/AppService';
 import Toast from '../../../components/Toast';
 
-class MyInfoCarType extends Component {
+class MyInfoCarGangLength extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            carType: this.props.data ? this.props.data.carType : null,
+            carLength: this.props.data ? this.props.data.carLength : null,
             tabHeight: 0,
-            carTypeList: []
+            carLengthList: []
         };
     }
 
     componentDidMount() {
-        let typePromise ;
-        if(this.props.type === 'carGang'){
-            typePromise = getCarGangCarType();
-        }else {
-            typePromise = getCarType();
-        }
-        typePromise
+        getCarGangCarLength()
             .then((data) => {
-                this.setState({carTypeList: data.list});
+                this.setState({carLengthList: data.list});
             })
             .catch((e) => {
                 Toast.show(e.messsage, Toast.SHORT);
@@ -47,13 +41,13 @@ class MyInfoCarType extends Component {
     }
 
     onSave() {
-        if (this.props.data.carType === this.state.carType) {
+        if (this.props.data.carLength === this.state.carLength) {
             this.props.router.pop();
             return;
         }
         this.setState({doing: true});
         if (this.props.successFun) {
-            this.props.successFun({carType: this.state.carType})
+            this.props.successFun({carLength: this.state.carLength})
                 .then(() => {
                     this.props.router.pop();
                 })
@@ -76,11 +70,11 @@ class MyInfoCarType extends Component {
 
     typeListRender() {
         return (
-            this.state.carTypeList.map((item, index) => {
+            this.state.carLengthList.map((item, index) => {
                 return <TouchableOpacity key={index} style={[estyle.paddingVertical,estyle.fxCenter,{height:100 * basefont,width:220*basefont}]}
-                        onPress={()=>{this.setState({ carType:item.name }); this.close(); }}
+                                         onPress={()=>{this.setState({ carLength:item.name }); this.close(); }}
                 >
-                    <Text style={[estyle.text,{color: item.name===this.state.carType ? Env.color.main: Env.color.text }]}>{item.name}</Text>
+                    <Text style={[estyle.text,{color: item.name===this.state.carLength ? Env.color.main: Env.color.text }]}>{item.name}</Text>
                 </TouchableOpacity>
             })
         )
@@ -89,13 +83,13 @@ class MyInfoCarType extends Component {
     render() {
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="车型"/>
+                <TopBanner {...this.props} title="车厢长"/>
                 <ScrollView style={[estyle.fx1]}>
                     <ViewForRightArrow style={[estyle.marginTop]} onPress={this.open.bind(this)}>
                         <View style={[estyle.fxRow,estyle.fxRowCenter]}>
-                            <Text style={[estyle.text]}>车型</Text>
+                            <Text style={[estyle.text]}>车厢长</Text>
                             <Text style={[estyle.fx1]}></Text>
-                            <Text style={[estyle.text]}>{this.state.carType}</Text>
+                            <Text style={[estyle.text]}>{this.state.carLength}</Text>
                         </View>
                     </ViewForRightArrow>
                     <View style={[estyle.marginTop,estyle.fxCenter]}>
@@ -128,4 +122,4 @@ const basefont = Env.font.base;
 const estyle = Env.style;
 const styles = StyleSheet.create({});
 
-export default MyInfoCarType
+export default MyInfoCarGangLength

@@ -8,30 +8,23 @@ import {
     TextInput,
     View,
     ScrollView,
-    TouchableOpacity,
     StyleSheet
 } from 'react-native';
 import Env from '../../../utils/Env';
 import TopBanner from '../../../components/TopBanner';
-import ConfirmButton from '../../../components/ConfirmButton'
-import TypeOptionLabel from './components/TypeOptionLabel'
 import LabelInput from '../../../components/LabelInput';
-import TextArea from '../../../components/widgets/TextArea';
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import ListItem from '../../../components/ListItem';
 import BorderButton from '../../../components/BorderButton'
 import {queryAllAppointmentItemList} from '../../../services/AppService';
 import ImageList from '../../../components/ImageList';
-import Audio from '../../../components/Audio';
 import {newWo} from '../../../services/ServiceStationService';
 import Toast from '../../../components/Toast';
-/*import DatePicker from '../../../components/picker/DatePicker';
-import TimePicker from '../../../components/picker/TimePicker';*/
 import DateTimePicker from '../../../components/picker/DateTimePicker.ios';
 import ServiceStationAppointmentDetail from './ServiceStationAppointmentDetail';
 import moment from 'moment';
 import SubmitButton from '../../../components/SubmitButton';
-import HelperMeMap from './HelpMeMap';
+import ServiceStationCarList from './ServiceStationCarList';
 const estyle = Env.style;
 const getBLen = function(str) {
     if (str == null) return 0;
@@ -192,6 +185,7 @@ class ServiceStationAppointment extends Component {
         if(this.state.doing) return false;
         this.setState({doing:true});
         let opts={
+            //carId:this.state.selectCar.carId,
             orderTime: this.state.dateTime+':00',
             serviceCarrepairStype: this.state.repairList.join(','),
             serviceCarmaintainStype: this.state.maintainList.join(','),
@@ -209,12 +203,16 @@ class ServiceStationAppointment extends Component {
             .catch((err) => {
                 Toast.show(err.message, Toast.SHORT);
             }).finally(()=>{
-                this.setState({doing:false})
-            })
+            this.setState({doing:false})
+        })
     }
 
     onChange(obj) {
         this.setState(obj);
+    }
+
+    setCurrentCar(item){
+        this.setState({selectCar:item});
     }
 
     render() {
@@ -223,6 +221,7 @@ class ServiceStationAppointment extends Component {
                 estyle.containerBackgroundColor]}>
                 <TopBanner {...this.props} title="服务预约"/>
                 <ScrollView style={[estyle.fx1]}>
+                    <ListItem left='基本信息' right="(必填)"/>
                     <View style={[styles.loginView, estyle.marginBottom]}>
                         <LabelInput
                             style={[styles.loginInput, estyle.borderBottom]}
@@ -252,6 +251,19 @@ class ServiceStationAppointment extends Component {
                                 {pattern: /^1\d{10}$/, msg: '手机号格式错误'}
                             ]}
                         />
+                        {/* <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
+                         this.props.router.push(ServiceStationCarList,{selectCar:this.setCurrentCar.bind(this)});
+                         }}>
+                         <View style={[estyle.fxRow, estyle.fxRowCenter]}>
+                         <View style={[estyle.fx1, estyle.fxRow, estyle.paddingRight]}>
+                         <Text style={[estyle.text, {textAlign: 'left',color: Env.color.important}]}>预约车辆</Text>
+                         </View>
+                         <View style={[estyle.fxCenter]}>
+                         <Text
+                         style={[estyle.text, {textAlign: 'right'}]}>{ this.state.selectCar ? this.state.selectCar.carCode : '请选择要预约的车辆'}</Text>
+                         </View>
+                         </View>
+                         </ViewForRightArrow>*/}
                         <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
                             this.datePicker()
                         }}>
@@ -302,9 +314,9 @@ class ServiceStationAppointment extends Component {
                     <View style={[estyle.fxRowCenter,estyle.marginVertical]}>
                         <SubmitButton size="large"
                                       doing={this.state.doing}
-                                       onPress={() => {
-                                           this.nextStep()
-                                       }}>预约</SubmitButton>
+                                      onPress={() => {
+                                          this.nextStep()
+                                      }}>预约</SubmitButton>
                     </View>
                 </ScrollView>
                 <View style={[{height: this.state.bottomHeight * basefont}]} />

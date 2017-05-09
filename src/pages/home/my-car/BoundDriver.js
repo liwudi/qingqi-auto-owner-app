@@ -45,6 +45,8 @@ export default class MyDriver extends Component {
     }
 
     bindLine(driverId){
+        if(this.state.doing) return;
+        this.setState({doing:true});
         bindDriver({
             driverId:driverId,
             carId:this.props.nav.carId,
@@ -58,6 +60,7 @@ export default class MyDriver extends Component {
             .catch((e)=>{
                 Toast.show(e.message, Toast.SHORT);
             })
+            .finally(()=>{this.setState({doing:false})})
     }
     driverState(row){
         if( row.registerStatus == 1 ){

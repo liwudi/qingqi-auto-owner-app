@@ -42,7 +42,7 @@ export default class Category extends Component {
                     )
                 }}
                 fetchData={(pageNumber, pageSize) => {
-                    return getCategoryPosts(this.props.id)
+                    return getCategoryPosts(this.props.id,pageNumber)
                 }}
             />
         );

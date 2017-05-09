@@ -100,6 +100,7 @@ export default class ServiceStationAppointmentDetail extends Component {
         let data = this.state.data;
         this.props.router.push(ServiceStationEvaluate,{stationId:data.stationId,stationName:data.stationName,woCode:this.props.order.woCode,prantFetch:this.fetchData.bind(this)})
     }
+
     buttonType() {
         if (!this.state.data.woStatus) return null;
         let status = this.state.data.woStatus,
@@ -124,10 +125,10 @@ export default class ServiceStationAppointmentDetail extends Component {
                                    style={[estyle.marginBottom]}
                                    onPress={() => {
                                        /**
-                                       *
-                                       *因不是soket通信，在长时间未操作时状态变化未可知，故再请求一遍接口改变状态,其实特别不合理。。。。
-                                       *
-                                       **/
+                                        *
+                                        *因不是soket通信，在长时间未操作时状态变化未可知，故再请求一遍接口改变状态,其实特别不合理。。。。
+                                        *
+                                        **/
                                        this.fetchData(()=>{
                                            Toast.show('请通过400电话取消预约', Toast.SHORT);
                                        })
@@ -232,6 +233,14 @@ export default class ServiceStationAppointmentDetail extends Component {
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>工单号</Text>
                             <Text style={[estyle.text]}>{data.woCode}</Text>
                         </View>
+                        {/*<View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
+                         <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车牌号</Text>
+                         <Text style={[estyle.text]}>{data.woCode}</Text>
+                         </View>
+                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
+                         <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车辆VIN</Text>
+                         <Text style={[estyle.text]}>{data.woCode}</Text>
+                         </View>*/}
                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>预约人</Text>
                             <Text style={[estyle.text]}>{data.name}</Text>

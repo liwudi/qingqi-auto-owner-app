@@ -21,10 +21,14 @@ class GoodsDetail extends Component {
         let props = this.props,
             userStore = props.userStore.userInfo;
         setTimeout(() => {
-            this.setState({
-                uri: `${ServerConfig.GOODS_PAGE}?_rid=${Math.random()}&token=${encodeURIComponent(userStore.token)}&userid=${encodeURIComponent(userStore.userId)}&goodssourceid=${props.nav.goodssourceid}&onlycode=${props.nav.onlycode}`
-                //,uri: 'http://10.10.100.165:8000/goods.html'
-            });
+            if(this.props.url){
+                this.setState({uri:this.props.url});
+            }else {
+                this.setState({
+                    uri: `${ServerConfig.GOODS_PAGE}?_rid=${Math.random()}&token=${encodeURIComponent(userStore.token)}&userid=${encodeURIComponent(userStore.userId)}&goodssourceid=${props.nav.goodssourceid}&onlycode=${props.nav.onlycode}`
+                });
+            }
+
         }, 200);
     }
     openBrower(url) {

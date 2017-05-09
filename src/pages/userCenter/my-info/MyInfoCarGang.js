@@ -1,0 +1,286 @@
+/**
+ * Created by linyao on 2017/4/28.
+ */
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    StyleSheet,
+    Image,
+    ScrollView,
+    RefreshControl
+} from 'react-native';
+
+import TopBanner from '../../../components/TopBanner';
+import Env from '../../../utils/Env';
+const estyle = Env.style;
+
+import MyInfoId from './MyInfoId';
+import ModifyTrueName from '../account-config/ModifyTrueName';
+import {UserActions} from '../../../actions';
+import {uploadUserPic} from '../../../services/UserService';
+import Toast from '../../../components/Toast';
+import SubmitButton from '../../../components/SubmitButton';
+import notReview from '../../../assets/images/notReview.png';
+import reviewing from '../../../assets/images/reviewing.png';
+import reviewed from '../../../assets/images/reviewed.png';
+import reviewError from '../../../assets/images/reviewError.png';
+import {IconQuestion} from '../../../components/Icons';
+import MyInfoDriverCard from './MyInfoDriverCard';
+import MyInfoDrivingCard from './MyInfoDrivingCard';
+import Button from '../../../components/widgets/Button';
+import MyInfoQuestion from './MyInfoQuestion';
+import MyInfoCarCode from './MyInfoCarCode';
+import MyInfoCarType from './MyInfoCarType';
+import MyInfoCarLength from './MyInfoCarLength';
+import {hcbGetAuthInfo, hcbSaveAuthInfo, validateUserInfoTruck} from '../../../services/AppService';
+import MyInfoRealPhoto from './MyInfoRealPhoto';
+import MyInfoItem from './components/MyInfoItem';
+import MyInfoCarBrandType from './MyInfoCarBrandType';
+import MyInfoCarGangLength from './MyInfoCarGangLength';
+import MyInfoCarLoad from './MyInfoCarLoad';
+import warning from '../../../assets/images/warning.png';
+
+const topContent = [
+    {
+        img: notReview,
+        text: '资料未认证',
+        color: 'rgb(153,153,153)'
+    },
+    {
+        img: reviewing,
+        text: '审核中，请稍后',
+        color: 'rgb(255,144,0)'
+    },
+    {
+        img: reviewError,
+        text: '认证失败',
+        color: 'rgb(255,0,0)'
+    },
+    {
+        img: reviewed,
+        text: '资料已通过认证',
+        color: 'rgb(88,221,0)'
+    }
+];
+
+
+class MyInfoCarGang extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: null,
+            isRefreshing: true
+        }
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    goTo= (page,type) => {
+        this.props.router.push(page, {
+            successFun: this.setDataState,
+            data: this.state.data,
+            type: type
+        });
+    };
+
+    fetchData() {
+        this.setState({isRefreshing: true}, () => {
+            hcbGetAuthInfo()
+                .then((data) => {
+                    data && this.setState({data: data, top: data.flow_status ? topContent[data.flow_status] : topContent[0]});
+                })
+                .catch((err) => {
+                    Toast.show(err.message, Toast.SHORT);
+                })
+                .finally(() => {
+                    this.setState({isRefreshing: false});
+                })
+        })
+    }
+
+
+    //判断每一项右侧的文字类型
+    setRightText = (value, isPhoto = false) => {
+        let text='';
+        if(value){
+            if(isPhoto){
+                text = '已上传';
+            }else {
+                text = value;
+            }
+        }else {
+            text = '未上传';
+        }
+        if(this.state.data.flow_status == 2) text = '审核中';
+        return <Text style={[estyle.note]}>{text}</Text>
+    };
+
+    //审核失败时弹出提示
+    alert(reason) {
+        this.props.alert(
+            '提示',
+            reason,
+            [
+                {
+                    text: '好的'
+                }
+            ]
+        )
+    }
+
+    setDataState = (opts) => {
+        return hcbSaveAuthInfo(opts)
+            .then(() => {
+                this.fetchData();
+            })
+    };
+
+
+    render() {
+        let data = this.state.data;
+        return (
+            <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
+                <TopBanner {...this.props} title="货车帮认证" rightView={
+                    <Button onPress={() => {
+                        this.goTo(MyInfoQuestion)
+                    }} style={estyle.topBtn}>
+                        <IconQuestion color={Env.color.navTitle}/>
+                    </Button>
+                }/>
+                <ScrollView style={[estyle.fx1]} refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.isRefreshing}
+                        colors={[Env.color.main]}
+                        progressBackgroundColor="#fff"
+                        onRefresh={ this.fetchData.bind(this) }
+                    />
+                }
+                >
+                    {
+                        this.state.data ?
+                            <View style={[estyle.fx1]}>
+                                <View style={[styles.top,estyle.fxCenter]}>
+                                    <View style={[estyle.fxRowCenter,estyle.fxRow]}>
+                                        <Image source={this.state.top.img}
+                                               style={{width: 80 * basefont, height: 80 * basefont}}/>
+                                        <Text
+                                            style={[estyle.marginLeft, estyle.text, {color: this.state.top.color}]}>{this.state.top.text}</Text>
+                                        {
+                                            data.thirdReviewReason ?
+                                                <TouchableOpacity onPress={()=>{ this.alert(data.thirdReviewReason) }}>
+                                                    <Image source={warning}
+                                                           style={[{width: 40 * basefont, height: 40 * basefont}, estyle.marginLeft]}/>
+                                                </TouchableOpacity>
+                                                 : null
+                                        }
+                                    </View>
+                                </View>
+                                <MyInfoItem title="真实姓名"  state={parseInt(data.flow_status)+1 }
+                                            onPress={()=>{this.goTo(ModifyTrueName)}}
+                                            rightDom={this.setRightText(data.realname)}/>
+
+                                <MyInfoItem title="身份证号"  state={parseInt(data.flow_status)+1 }
+                                            onPress={()=>{this.goTo(MyInfoId)}}
+                                            rightDom={this.setRightText(data.identityNo)}/>
+
+                                <MyInfoItem title="真实头像"
+                                            state={parseInt(data.flow_status)+1 } isPhoto={true}
+                                            onPress={()=>{this.goTo(MyInfoRealPhoto)}}
+                                            rightDom={this.setRightText(data.memberPhoto,true)}/>
+
+                                {/*<MyInfoItem title="身份证照片"
+                                            state={data.idCardValidStatus} isPhoto={true}
+                                            onPress={()=>{this.pressFun(MyInfoIdCadePhoto,data.idCardValidReason)}}
+                                            rightDom={this.setRightText(data.idCardValidStatus,data.idFrontPhoto || data.idBackPhoto,true)}/>*/}
+
+                                <MyInfoItem title="驾驶证照片"
+                                            state={parseInt(data.flow_status)+1 } isPhoto={true}
+                                            onPress={()=>{this.goTo(MyInfoDriverCard)}}
+                                            rightDom={this.setRightText(data.drivingLicensePhoto,true)}/>
+
+                                <View style={[estyle.paddingVertical]}/>
+
+                                <MyInfoItem title="车牌类型"
+                                            state={parseInt(data.flow_status)+1 }
+                                            onPress={()=>{this.goTo(MyInfoCarBrandType)}}
+                                            rightDom={this.setRightText(data.plateNumberType)}/>
+
+                                <MyInfoItem title="车牌号"
+                                            state={parseInt(data.flow_status)+1 }
+                                            onPress={()=>{this.goTo(MyInfoCarCode)}}
+                                            rightDom={this.setRightText(data.carNumber)}/>
+
+                                <MyInfoItem title=" 车厢长（米）"
+                                            state={parseInt(data.flow_status)+1 }
+                                            onPress={()=>{this.goTo(MyInfoCarGangLength)}}
+                                            rightDom={this.setRightText(data.carLength)}/>
+
+                                <MyInfoItem title="车型"
+                                            state={parseInt(data.flow_status)+1 }
+                                            onPress={()=>{this.goTo(MyInfoCarType,'carGang')}}
+                                            rightDom={this.setRightText(data.carType)}/>
+
+                                <MyInfoItem title=" 载重（吨）"
+                                            state={parseInt(data.flow_status)+1 }
+                                            onPress={()=>{this.goTo(MyInfoCarLoad)}}
+                                            rightDom={this.setRightText(data.vehicleLoad)}/>
+
+                                <MyInfoItem title="行驶证照片"
+                                            state={parseInt(data.flow_status)+1 } isPhoto={true}
+                                            onPress={()=>{this.goTo(MyInfoDrivingCard)}}
+                                            rightDom={this.setRightText(data.vehicleLicensePhoto,true)}/>
+
+                                {
+                                    data.flow_status == 0 || data.flow_status == 2 || !data.flow_status ?
+                                        <View style={[estyle.fxRowCenter, estyle.marginTop]}>
+                                            <SubmitButton size="large"
+                                                          doing={this.state.doing}
+                                                          onPress={() => {
+                                                              validateUserInfoTruck().then(() => {
+                                                                  Toast.show('提交成功', Toast.SHORT);
+                                                                  this.fetchData();
+                                                              }).catch((err) => {
+                                                                  Toast.show(err.message, Toast.SHORT)
+                                                              })
+                                                          } }>提交认证</SubmitButton>
+
+                                            <Text style={[estyle.note, estyle.paddingVertical]}>资料会提交给货源信息提供方共同认证</Text>
+                                        </View> : <View style={[estyle.paddingVertical]}/>
+                                }
+                            </View> : <View/>
+                    }
+                </ScrollView>
+            </View>
+        );
+    }
+}
+export default connect(function (stores) {
+    return {userStore: stores.userStore, userPicStore: stores.userPicStore}
+})(MyInfoCarGang);
+
+
+const basefont = Env.font.base;
+const styles = StyleSheet.create({
+    body: {
+        flex: 1,
+        backgroundColor: Env.color.bg
+    },
+    top: {
+        width: Env.screen.width,
+        height: 150 * basefont,
+        backgroundColor: 'rgb(245,245,245)'
+    },
+    colorFFF: {
+        color: '#FFF'
+    },
+    text: {
+        fontSize: Env.font.text,
+        color: Env.color.text
+    }
+});

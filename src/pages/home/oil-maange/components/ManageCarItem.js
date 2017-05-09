@@ -10,6 +10,7 @@ import {
 import Env from '../../../../utils/Env';
 import {IconUser,IconFlag} from '../../../../components/Icons'
 const estyle = Env.style;
+const basefont = Env.font.base;
 
 export default class ManageCarItem extends Component {
     render() {
@@ -29,11 +30,14 @@ export default class ManageCarItem extends Component {
                         <Text style={[estyle.note, {color: Env.color.text}]}>{list.subDriver || '无'}</Text>
                     </View>
                     <View style={[estyle.fxRow,estyle.paddingTop]}>
-                        <View style={[estyle.fxRow]}>
-                            <Text style={[estyle.note]}>平均油耗：</Text><Text style={{color: Env.color.main}}>{list.avgOilwear || 0}L/100km</Text>
+                        <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                            <Text style={[estyle.note,{fontSize:22 * basefont}]}>平均油耗：</Text><Text style={[{fontSize:Env.font.mini,color: Env.color.main}]}>{list.avgOilwear || 0}L/100km</Text>
                         </View>
-                        <View style={[estyle.fxRow,estyle.marginLeft]}>
-                            <Text style={[estyle.note]}>平均速度：</Text><Text style={{color: Env.color.main}}>{list.avgSpeed || 0}km/h</Text>
+                        <View style={[estyle.fxRow,estyle.fxRowCenter,{marginLeft:5 * basefont}]}>
+                            <Text style={[estyle.note,{fontSize:22 * basefont}]}>当日油耗：</Text><Text style={[{fontSize:Env.font.mini,color: Env.color.main}]}>{list.avgSpeed || 0}L</Text>
+                        </View>
+                        <View style={[estyle.fxRow,estyle.fxRowCenter,{marginLeft:5 * basefont}]}>
+                            <Text style={[estyle.note,{fontSize:22 * basefont}]}>平均速度：</Text><Text style={[{fontSize:Env.font.mini,color: Env.color.main}]}>{list.avgSpeed || 0}km/h</Text>
                         </View>
                     </View>
                 </View>

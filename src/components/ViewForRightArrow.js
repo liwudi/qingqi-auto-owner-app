@@ -18,6 +18,7 @@ const estyle = Env.style;
 export default class ViewForRightArrow extends React.Component{
 	render (){
 		const _renderRightIcon = () => {
+			if(this.props.rightView) return this.props.rightView;
 			if(this.props.rightIcon){
 				let Icon = this.props.rightIcon;
 				return <Icon size={this.props.iconSize||Env.font.note} color={this.props.iconColor||Env.color.note}/>

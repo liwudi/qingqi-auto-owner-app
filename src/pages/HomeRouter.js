@@ -96,7 +96,11 @@ class HomeRouter extends Component {
 					sign={this.props.messageStore.AllUnReadCount}
 				/>}
 				initialRouteStack={tabs}
-				configureScene={() => Navigator.SceneConfigs.HorizontalSwipeJump}
+				configureScene={(route,routeStack) =>{
+                    let HorizontalSwipeJump = Object.assign({},Navigator.SceneConfigs.HorizontalSwipeJump);
+                    HorizontalSwipeJump.gestures=null;
+                    return HorizontalSwipeJump
+                }}
 				onDidFocus={(router) => {
 					this.navBar.changeTab(router.index, false);
                     this.setCurrentPage(router.index)

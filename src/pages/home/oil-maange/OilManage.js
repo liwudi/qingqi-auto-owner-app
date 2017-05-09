@@ -47,6 +47,7 @@ export default class OilManage extends Component {
 			currentIndex: 6,
 			weeks: getWeekDays(),
             datas: [],
+			value:'',
 			type: 1 //1是按线路查询 2是按车辆查询
 		}
 		this.weekIndex = 0;
@@ -72,7 +73,19 @@ export default class OilManage extends Component {
 			this.state.weeks[0].format('YYYYMMDD'),
 			this.state.weeks[this.state.weeks.length - 1].format('YYYYMMDD')
 		).then(rs => {
-			this.setState({datas : rs.list || []});
+			this.setState({datas : rs.list || []},()=>{
+				let val;
+				if(!this.state.datas|| this.state.datas.length<1){
+					val = 0;
+				}else {
+					if(this.state.datas[this.state.datas.length-1].statisDate == this.state.weeks[6].format('YYYYMMDD')){
+						val = this.state.datas[this.state.datas.length-1].oilwear;
+					}else {
+						val = 0;
+					}
+				}
+				this.setState({value : val })
+			});
 		}).catch(e => {
             Toast.show(e.message,Toast.SHORT);
 		})
@@ -139,7 +152,7 @@ export default class OilManage extends Component {
 		const chart = () => {
 			if(!this.chart || JSON.stringify(option) !== JSON.stringify(this.option || {})){
 				this.chart = <Echarts option={option} height={Env.font.base*340} onClick={e => {
-                    this.setState({currentIndex: e.index})
+                    this.setState({currentIndex: e.index,value: e.value})
                 }}/>;
 				this.option = option;
 			}
@@ -148,7 +161,7 @@ export default class OilManage extends Component {
 
 		return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
-				<TopBanner {...this.props} title="油耗管理"/>
+				{/*<TopBanner {...this.props} title="油耗管理"/>*/}
 				<View style={[estyle.fxRow,estyle.fxCenter,estyle.padding,{backgroundColor:'#FFF'}]}>
 					<TouchableOpacity onPress={this._preWeek.bind(this)}  style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
 						<Icons.IconArrowLeft style={styles.textBlue}/>
@@ -159,6 +172,7 @@ export default class OilManage extends Component {
 						<Icons.IconArrowRight style={this.weekIndex >= 0 ? estyle.note : styles.textBlue}/>
 					</TouchableOpacity>
 				</View>
+				<View style={[estyle.fxCenter,estyle.paddingVertical]}><Text style={[estyle.note]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')}{`油耗${this.state.value}L`}</Text></View>
 				{chart()}
 				<View style={[estyle.paddingVertical,estyle.fxRow,estyle.fxColumnCenter]}>
 					<Text style={[estyle.note,{marginLeft:10*basefont}]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} {this.state.type ===1 ? '线路':'车辆' }油耗详情</Text>

@@ -23,7 +23,7 @@ import Env from '../../../utils/Env';
 const estyle = Env.style;
 
 import HomeRouter from '../../HomeRouter';
-import MyInfo from '../../userCenter/my-info/MyInfo';
+import MyInfoIndex from '../../userCenter/my-info/MyInfoIndex';
 import UserCenterHome from '../../userCenter';
 import Toast from '../../../components/Toast';
 export default class GoodsMessage extends Component {
@@ -39,7 +39,7 @@ export default class GoodsMessage extends Component {
 
         this.startInfo = [{...info}];
         this.endInfo = [{...info}];
-        if(global.locationInfo) {
+        if (global.locationInfo) {
             this.setStartInfo();
         } else {
             this.state = {
@@ -57,9 +57,10 @@ export default class GoodsMessage extends Component {
             };
         }
     }
+
     setStartInfo = () => {
         let info = [], locationAddress;
-        if(global.gmInfo) {
+        if (global.gmInfo) {
             info = global.gmInfo;
             locationAddress = global.locationAddress;
         }
@@ -101,7 +102,7 @@ export default class GoodsMessage extends Component {
                     current: {code: province.code, name: city.value, level: 2},
                     query: {code: province.code, level: 2, name: name},
                 });
-                if(area && area.value) {
+                if (area && area.value) {
                     info.push({
                         first: false,
                         name: area.value,
@@ -129,6 +130,7 @@ export default class GoodsMessage extends Component {
             locationAddress: locationAddress
         };
     }
+
     setStartEnd(isStart) {
         let title = isStart ? '选择始发地' : '选择目的地',
             tag = isStart ? 'start' : 'end';
@@ -178,80 +180,84 @@ export default class GoodsMessage extends Component {
             emptyEl = <Text style={estyle.text}>车型车长</Text>,
             mEl = null,
             lEl = null;
-        if(model || length) {
+        if (model || length) {
             emptyEl = null;
-            model && (mEl = <Text style={[estyle.text,{color: Env.color.main}]}>{`${model}`}</Text>)
-            length && (lEl=<Text style={[estyle.text,{color: Env.color.main}]}>{`${length}米`}</Text>)
+            model && (mEl = <Text style={[estyle.text, {color: Env.color.main}]}>{`${model}`}</Text>)
+            length && (lEl = <Text style={[estyle.text, {color: Env.color.main}]}>{`${length}米`}</Text>)
         }
 
 
         return <View style={[estyle.fxCenter]}>{emptyEl && emptyEl}{mEl && mEl}{lEl && lEl}</View>;
     }
 
-    alert = (mainMsg, confirmMsg) => {
+    alert = (type) => {
+        let mainMsg = '查看货源详情需要进行资料认证',confirmMsg = '去认证';
+        if(type == 4) return;
+        switch (type) {
+            case 2 : mainMsg = '您的认证信息正在审核中请耐心等待'; confirmMsg = '查看详情'; break;
+            case 5 : mainMsg = '您的认证信息已过期请更新信息'; confirmMsg = '去更新'; break;
+            default : mainMsg = '查看货源详情需要进行资料认证';confirmMsg = '去认证';
+        }
         this.props.alert(
             '提示', mainMsg, [
                 {text: confirmMsg, onPress: this.goToMyInfo},
                 {text: '取消'}
             ]
         )
-    }
-    //需要要认证
-    alert1 = () => {
-        this.alert('查看货源详情需要进行资料认证', '去认证');
-    }
-    //认证审核中
-    alert2 = () => {
-        this.alert('您的认证信息正在审核中请耐心等待', '查看详情');
-    }
-    alert3 = () => {
-        this.alert1();
-    }
-    //认证过期
-    alert5 = () => {
-        this.alert('您的认证信息已过期请更新信息', '去更新');
-    }
+    };
+
     goToMyInfo = () => {
-        this.props.router.push(MyInfo);
+        this.props.router.push(MyInfoIndex);
     }
+
     goToDetail(data) {
-        this.props.router.push(GoodsDetail, {nav: {
-            goodssourceid: data.goodsSourceId,
-            onlycode: data.onlyCode
-        }});
+        this.props.router.push(GoodsDetail, {
+            nav: {
+                goodssourceid: data.goodsSourceId,
+                onlycode: data.onlyCode
+            }
+        });
     }
+
     clickItem(data1) {
-        userAuth().then((data) => {
+        userAuth(data1.dataSourcesCode).then((data) => {
             let validStatus = data.status;
-            if(validStatus == 4) {
+            if (validStatus == 4) {
                 this.goToDetail(data1);
             } else {
-                this[`alert${validStatus}`]();
+                this.alert(validStatus);
             }
-        }).catch((e={}) => {
+        }).catch((e = {}) => {
             Toast.show(e.message, Toast.SHORT);
         });
     }
+
     renderNoData() {
-        return <View><Text style={[estyle.marginFontBottom, estyle.text]}>该线路货源已经被抢光了,</Text><Text style={[{textAlign: 'center'}, estyle.text]}>换个线路试试吧！</Text></View>
+        return <View><Text style={[estyle.marginFontBottom, estyle.text]}>该线路货源已经被抢光了,</Text><Text
+            style={[{textAlign: 'center'}, estyle.text]}>换个线路试试吧！</Text></View>
     }
+
     render() {
         return (
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props} title="货源信息"/>
-                <View style={[estyle.fxRow, estyle.cardBackgroundColor, estyle.marginBottom, estyle.border, {height: Env.font.base * 84}]}>
+                {/*<TopBanner {...this.props} title="货源信息"/>*/}
+                <View
+                    style={[estyle.fxRow, estyle.cardBackgroundColor, estyle.marginBottom, estyle.border, {height: Env.font.base * 84}]}>
                     <Button style={[estyle.fxCenter, estyle.fx1, estyle.fxRow, {paddingHorizontal: Env.font.base * 10}]}
                             onPress={() => {
                                 this.setStartEnd(true)
                             }}>
-                        <Text style={[estyle.text, {textAlign: 'center'}, this.state.startName && {color: Env.color.main}]}>{this.state.startName || '始发地'}</Text>
+                        <Text
+                            style={[estyle.text, {textAlign: 'center'}, this.state.startName && {color: Env.color.main}]}>{this.state.startName || '始发地'}</Text>
                         <IconArrowDown size={12}/>
                     </Button>
-                    <Button style={[estyle.borderRight, estyle.borderLeft, estyle.fxCenter, estyle.fx1, estyle.fxRow, {paddingHorizontal: Env.font.base * 10}]}
-                            onPress={() => {
-                                this.setStartEnd()
-                            }}>
-                        <Text style={[estyle.text, {textAlign: 'center'}, this.state.endName && {color: Env.color.main}]}>{this.state.endName || '目的地'}</Text>
+                    <Button
+                        style={[estyle.borderRight, estyle.borderLeft, estyle.fxCenter, estyle.fx1, estyle.fxRow, {paddingHorizontal: Env.font.base * 10}]}
+                        onPress={() => {
+                            this.setStartEnd()
+                        }}>
+                        <Text
+                            style={[estyle.text, {textAlign: 'center'}, this.state.endName && {color: Env.color.main}]}>{this.state.endName || '目的地'}</Text>
                         <IconArrowDown size={12}/>
                     </Button>
                     <Button style={[estyle.fxCenter, estyle.fx1, estyle.fxRow]}

@@ -35,6 +35,17 @@ class PersonalMessage extends Component{
         }
     }
 
+    gotoSomeWhere(item) {
+        console.log(item)
+        if (!item || !item.CustomContent || !item.CustomContent.Type) return;
+        let goto =(page,props)=>{this.props.router.push(page,props)} ,content = item.CustomContent;
+        switch (item.CustomContent.Type){
+            case 'stationAppointment' :
+                goto(ServiceStationAppointmentDetail,{order:{woCode:content.wocode}});
+                break;
+        }
+    }
+
     render() {
         return (
             <View style={[estyle.fx1,estyle.containerBackgroundColor]}>
@@ -43,7 +54,7 @@ class PersonalMessage extends Component{
                     style={estyle.fx1}
                     renderRow={(row) => {
                         row.message =  row.message || {};
-                        return <View style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
+                        return <TouchableOpacity onPress={()=>{this.gotoSomeWhere(row.message)}}  style={[estyle.padding,estyle.fxRow,estyle.borderBottom,estyle.cardBackgroundColor]}>
                             <View>
                                 <Image
                                     style={{borderRadius:100,width:60,height:60}}
@@ -61,7 +72,7 @@ class PersonalMessage extends Component{
                                     <Text style={[estyle.note]}>{row.message.Content}</Text>
                                 </View>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     }}
                     fetchData={() => {
                         return Promise.resolve({
