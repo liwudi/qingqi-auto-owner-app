@@ -911,10 +911,10 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1428,8 +1428,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = QingqiOwnerApp/QingqiOwnerApp.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = AK26ZWGWUT;
@@ -1460,10 +1459,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqi.owner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "8c713c4a-1756-4280-9ebe-33412c965b7a";
-				PROVISIONING_PROFILE_SPECIFIER = QingqiOwner;
+				PROVISIONING_PROFILE = "6be61837-2f9b-4a4f-9794-46ea053c1560";
+				PROVISIONING_PROFILE_SPECIFIER = MapbarQingqiOwnerDistribution;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1473,8 +1472,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = QingqiOwnerApp/QingqiOwnerApp.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				ENABLE_BITCODE = NO;
@@ -1504,10 +1502,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqi.owner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "2d775090-09e7-422d-ac4c-61b2fcd65c7d";
-				PROVISIONING_PROFILE_SPECIFIER = QingqiOwner;
+				PROVISIONING_PROFILE = "6be61837-2f9b-4a4f-9794-46ea053c1560";
+				PROVISIONING_PROFILE_SPECIFIER = MapbarQingqiOwnerDistribution;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
