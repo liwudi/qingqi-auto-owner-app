@@ -51,7 +51,7 @@ export default class Banner extends React.Component {
             </View>
         }
         return <View {...this.props} >
-            <Swiper height={300 * basefont}>
+            <Swiper height={300 * basefont} autoplay={true}>
                 {this.state.bannerList.map((item, index) => {
                     return <TouchableOpacity key={index} style={[styles.image]} onPress={()=>{this.gotoWebView(item)}}>
                         {

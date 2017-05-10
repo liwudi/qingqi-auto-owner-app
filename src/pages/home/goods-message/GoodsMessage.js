@@ -211,12 +211,32 @@ export default class GoodsMessage extends Component {
     }
 
     goToDetail(data) {
-        this.props.router.push(GoodsDetail, {
-            nav: {
-                goodssourceid: data.goodsSourceId,
-                onlycode: data.onlyCode
-            }
-        });
+        if (data.dataSourcesCode == 1) {
+            this.props.router.push(GoodsDetail, {
+                nav: {
+                    goodssourceid: data.goodsSourceId,
+                    onlycode: data.onlyCode
+                }
+            });
+        } else if (data.dataSourcesCode == 2) {
+            let id = data.goodsSourceId;
+            if (this.state.doing) return;
+            this.setState({doing: true}, () => {
+                getCarGoDetail(id)
+                    .then((res) => {
+                        this.props.router.push(GoodsDetail, {
+                            url: res.url
+                        });
+                    })
+                    .catch((e) => {
+                        Toast.show(e.message, Toast.SHORT);
+                    })
+                    .finally(() => {
+                        this.setState({doing: false})
+                    })
+            })
+
+        }
     }
 
     clickItem(data1) {

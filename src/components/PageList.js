@@ -139,12 +139,14 @@ export default class PageList extends Component {
         });
         this._data = [];
         this.getData(1);
+        this.refs.listview.scrollTo({y:0})
     }
 
     render() {
         return (
             <View  style={[this.props.style]}>
                 <ListView
+                    ref="listview"
                     style={{flex:1}}
                     refreshControl={
                         <RefreshControl

@@ -628,7 +628,7 @@ export function messageOpenOrShut(item){
 //获取货源详情（货车帮）
 export function getCarGoDetail(id){
     return RequestService.get(
-        `${Server.HUOCHEBANG_DETAIL}resource/cargo/detail`,
+        makeUrl('hcbGetCargoDetail'),
         {
             cargoId:id
         }

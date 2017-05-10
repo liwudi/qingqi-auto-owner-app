@@ -383,7 +383,7 @@ export default class ServiceStation extends Component {
                     <View style={[{position:'absolute',top:0,left:0,width:Env.screen.width, zIndex: 5,height: (this.state.contentType === 'list' ?  Env.screen.height - (174 + (Env.isIOS ? 36 : 0)) * basefont : 0)}]} >
                         <PageList
                             style={[estyle.cardBackgroundColor, estyle.fx1]}
-                            reInitField={[this.state.isRender]}
+                            reInitField={[this.state.isRender,this.state.options]}
                             renderRow={(row,sectionId,rowId) => {
                                 return <ServiceStationItem
                                     number={+rowId + 1}

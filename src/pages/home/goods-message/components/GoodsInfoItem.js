@@ -57,7 +57,6 @@ export default class GoodsInfoItem extends Component {
                             {data.goodsWeight || ''}
                             {hasSplit && '-'}
                             {data.goodsWeightMax || ''}
-                            吨
                         </Text>
                         : <Text/>
                 }
