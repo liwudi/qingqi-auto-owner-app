@@ -208,6 +208,7 @@ def releaseTime() {
 }
 
 dependencies {
+    compile project(':react-native-webview-bridge')
     compile project(':react-native-permissions')
     compile project(':rnkit-actionsheet-picker')
     compile project(':@remobile/react-native-toast')
