@@ -16,6 +16,9 @@ export default class FollowItem extends Component {
 
     renderLength = () => {
         let data = this.props.data,view;
+        if(!data.carModel && !data.carLength){
+            view = <View/> ;
+        }else {
             view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
                 backgroundColor: '#45AB72'}, estyle.marginRight]}>
                 {data.carModel ? <Text style={styles.textWhite}>{data.carModel}</Text> : <Text/>}
@@ -29,9 +32,9 @@ export default class FollowItem extends Component {
                         : <Text/>
                 }
             </View>;
+        }
         return view;
-
-    }
+    };
 
     render() {
         let data = this.props.data;

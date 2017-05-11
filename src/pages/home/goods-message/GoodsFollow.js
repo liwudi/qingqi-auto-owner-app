@@ -35,7 +35,7 @@ export  default class GoodsFollow extends Component {
         }
     }
 
-    fetchData() {
+    fetchData = () => {
         this.setState({isRefreshing: true});
         messageSwitch()
             .then((s) => {

@@ -24,8 +24,8 @@ export default class CountQuestion extends Component{
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="名词解释" />
-                <View style={[estyle.padding]}>
-                    <Text style={[estyle.marginBottom,estyle.text]}>什么是行驶时长、停车（怠速）时长？</Text>
+                <View style={[estyle.padding,estyle.fx1,estyle.fxCenter]}>
+                    <Text style={[estyle.marginBottom,estyle.articleTitle]}>什么是行驶时长、停车（怠速）时长？</Text>
                     <Text style={[estyle.text,estyle.marginBottom]}>行驶时长：发动机启动的时长；</Text>
                     <Text style={[estyle.text,estyle.marginBottom]}>停车（怠速）时长：发动机有转速，且车速等于零时的时长。</Text>
                 </View>

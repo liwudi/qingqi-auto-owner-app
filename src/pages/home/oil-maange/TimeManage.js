@@ -190,7 +190,7 @@ export default class TimeManage extends Component {
                 <View style={[estyle.fxCenter,estyle.paddingVertical]}><Text style={[estyle.note]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')}{this.state.type === 1 ? '行驶时长' : '怠速时长' }{this.state.value+'h'}</Text></View>
                 {chart()}
                 <View style={[estyle.padding,estyle.fxRow]}>
-                    <Text style={[estyle.text,estyle.fx1]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 车辆行驶里程详情</Text>
+                    <Text style={[estyle.note,estyle.fx1]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 车辆运行时长详情</Text>
                     <TouchableOpacity style={[estyle.fxRow,estyle.fxCenter]} onPress={()=>{
                         this.props.router.push(CountQuestion);
                     }}>
