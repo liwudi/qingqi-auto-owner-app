@@ -59,7 +59,7 @@ class ModifyTrueName extends Component {
 			}
             this.setState({doing: true});
             if(this.props.successFun){
-                this.promiss(this.props.successFun({realname:this.state.name}));
+                this.promiss(this.props.successFun({realname:this.state.name,realName:this.state.name}));
             }else {
                 this.promiss(modifyUserInfo(this.state.name));
             }

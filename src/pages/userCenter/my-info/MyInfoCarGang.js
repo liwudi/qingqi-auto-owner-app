@@ -106,7 +106,7 @@ class MyInfoCarGang extends Component {
 
 
     //判断每一项右侧的文字类型
-    setRightText = (value, isPhoto = false) => {
+    setRightText = (value, isPhoto = false, isSelect = false) => {
         let text='';
         if(value){
             if(isPhoto){
@@ -115,7 +115,11 @@ class MyInfoCarGang extends Component {
                 text = value;
             }
         }else {
-            text = '未上传';
+            if(isPhoto){
+                text = '未上传'
+            }else {
+                if(isSelect){ text = '未选择' }else {text = '未输入'}
+            }
         }
         if(this.state.data.flow_status == 2) text = '审核中';
         return <Text style={[estyle.note]}>{text}</Text>
@@ -146,13 +150,7 @@ class MyInfoCarGang extends Component {
         let data = this.state.data;
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="货车帮认证" rightView={
-                    <Button onPress={() => {
-                        this.goTo(MyInfoQuestion)
-                    }} style={estyle.topBtn}>
-                        <IconQuestion color={Env.color.navTitle}/>
-                    </Button>
-                }/>
+                <TopBanner {...this.props} title="货车帮认证" />
                 <ScrollView style={[estyle.fx1]} refreshControl={
                     <RefreshControl
                         refreshing={this.state.isRefreshing}
@@ -183,11 +181,11 @@ class MyInfoCarGang extends Component {
                                 </View>
                                 <MyInfoItem title="真实姓名"  state={parseInt(data.flow_status)+1 }
                                             onPress={()=>{this.goTo(ModifyTrueName)}}
-                                            rightDom={this.setRightText(data.realname)}/>
+                                            rightDom={this.setRightText(data.realName)}/>
 
                                 <MyInfoItem title="身份证号"  state={parseInt(data.flow_status)+1 }
                                             onPress={()=>{this.goTo(MyInfoId)}}
-                                            rightDom={this.setRightText(data.identityNo)}/>
+                                            rightDom={this.setRightText(data.identityNo ? data.identityNo.substr(0,5)+'**********'+data.identityNo.substr(15): data.identityNo)}/>
 
                                 <MyInfoItem title="真实头像"
                                             state={parseInt(data.flow_status)+1 } isPhoto={true}
@@ -209,7 +207,7 @@ class MyInfoCarGang extends Component {
                                 <MyInfoItem title="车牌类型"
                                             state={parseInt(data.flow_status)+1 }
                                             onPress={()=>{this.goTo(MyInfoCarBrandType)}}
-                                            rightDom={this.setRightText(data.plateNumberType)}/>
+                                            rightDom={this.setRightText(data.plateNumberType,false,true)}/>
 
                                 <MyInfoItem title="车牌号"
                                             state={parseInt(data.flow_status)+1 }
@@ -219,12 +217,12 @@ class MyInfoCarGang extends Component {
                                 <MyInfoItem title=" 车厢长（米）"
                                             state={parseInt(data.flow_status)+1 }
                                             onPress={()=>{this.goTo(MyInfoCarGangLength)}}
-                                            rightDom={this.setRightText(data.carLength)}/>
+                                            rightDom={this.setRightText(data.carLength,false,true)}/>
 
                                 <MyInfoItem title="车型"
                                             state={parseInt(data.flow_status)+1 }
                                             onPress={()=>{this.goTo(MyInfoCarType,'carGang')}}
-                                            rightDom={this.setRightText(data.carType)}/>
+                                            rightDom={this.setRightText(data.carType,false,true)}/>
 
                                 <MyInfoItem title=" 载重（吨）"
                                             state={parseInt(data.flow_status)+1 }

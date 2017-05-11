@@ -94,7 +94,7 @@ export  default class GoodsFollow extends Component {
                 [
                     {
                         text: '确定', onPress: () => {
-                        messageOpenOrShut()
+                        messageOpenOrShut(0)
                             .then(() => {
                                 this.setState({message: 0});
                             })
@@ -106,7 +106,13 @@ export  default class GoodsFollow extends Component {
                     {text: '取消'}
                 ]);
         } else {
-            this.setState({message: 1});
+            messageOpenOrShut(1)
+                .then(() => {
+                    this.setState({message: 1});
+                })
+                .catch((err) => {
+                    Toast.show(err.message, Toast.SHORT)
+                })
         }
     }
 

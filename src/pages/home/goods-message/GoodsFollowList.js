@@ -122,9 +122,9 @@ export default class GoodsFollowList extends Component {
                         }}
                         fetchData={(pageNumber, pageSize) => {
                             return queryGoodsByLine(
+                                this.props.data.id,
                                 pageNumber,
                                 pageSize,
-                                this.props.data.id
                             );
                         }}
                     />

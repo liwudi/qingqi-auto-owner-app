@@ -45,7 +45,7 @@ const Servers = {
     debug151:{ //与线上同步内网环境
         ...ServerBase,
         QINGQI: 'http://10.30.50.151:8950/qingqi/',
-        WD_SERVICE: 'http://119.255.37.167:8808/',
+        //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.151:8950/qingqi/',
@@ -54,7 +54,7 @@ const Servers = {
     debug152:{  //内网开发联调环境
         ...ServerBase,
         QINGQI: 'http://10.30.50.152:8950/qingqi/',
-        WD_SERVICE: 'http://119.255.37.167:8808/',
+        //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.152:8950/qingqi/',
@@ -63,7 +63,7 @@ const Servers = {
     debug153:{  //内网qa测试环境
         ...ServerBase,
         QINGQI: 'http://10.30.50.153:8950/qingqi/',
-        WD_SERVICE: 'http://119.255.37.167:8808/',
+        //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.153:8950/qingqi/',
@@ -72,7 +72,7 @@ const Servers = {
     debug8071:{  //预上线环境（ 什么鬼！）
         ...ServerBase,
         QINGQI: 'http://10.30.50.152:8071/apipre/qingqi/',
-        WD_SERVICE: 'http://119.255.37.167:8808/',
+        //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.152:8071/apipre/qingqi/',
@@ -88,5 +88,5 @@ export default {
     ...Config,
     //android端默认使用gradle配置，ios端默认release，注意开发时需要特殊修改的情况，请不要上传这段代码
     server: Servers[Config.server_type]
-    //,server: Servers['debug152']
+    //,server: Servers['debug153']
 };

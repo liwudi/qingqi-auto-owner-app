@@ -149,10 +149,14 @@ class MyInfo extends Component {
             case 2:
                 text = '审核中';
                 break;
-            case 3:
-                text = '已上传';
+            case 3 :
+                if(isPhoto){
+                    text = '已上传';
+                }else {
+                    text = value;
+                }
                 break;
-            case 4:
+            case 4 :
                 if(isPhoto){
                     text = '已上传';
                 }else {
@@ -163,7 +167,7 @@ class MyInfo extends Component {
                 text = '已在陆鲸认证过';
                 break;
             default :
-                return '未上传'
+                text = '未上传'
         }
         return <Text style={[estyle.note]}>{text}</Text>
     };
@@ -202,13 +206,7 @@ class MyInfo extends Component {
         let data = this.state.data;
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
-                <TopBanner {...this.props} title="陆鲸认证" rightView={
-                    <Button onPress={() => {
-                        this.goTo(MyInfoQuestion)
-                    }} style={estyle.topBtn}>
-                        <IconQuestion color={Env.color.navTitle}/>
-                    </Button>
-                }/>
+                <TopBanner {...this.props} title="陆鲸认证" />
                 <ScrollView style={[estyle.fx1]} refreshControl={
                     <RefreshControl
                         refreshing={this.state.isRefreshing}

@@ -94,13 +94,13 @@ export  default class AddFollowLine extends Component {
     renderCarModelLength() {
         let model = this.state.options.carModel,
             length = this.state.options.carLength,
-            emptyEl = <Text style={[estyle.text,{color: Env.color.main}]}>点击选择车型车长</Text>,
+            emptyEl = <Text style={[estyle.note]}>点击选择车型车长</Text>,
             mEl = null,
             lEl = null;
         if(model || length) {
             emptyEl = null;
-            model && (mEl = <Text style={[estyle.text,{color: Env.color.main}]}>{`${model}`}</Text>)
-            length && (lEl=<Text style={[estyle.text,{color: Env.color.main}]}>{`${length}米`}</Text>)
+            model && (mEl = <Text style={[estyle.note]}>{`${model}`}</Text>)
+            length && (lEl=<Text style={[estyle.note]}>{`${length}米`}</Text>)
         }
 
 
@@ -129,13 +129,13 @@ export  default class AddFollowLine extends Component {
                     <ViewForRightArrow onPress={() => {this.setStartEnd(true)}}>
                         <View style={[estyle.fxRow]}>
                             <Text style={[estyle.text]}>始发地：</Text>
-                            <Text style={[estyle.text,{color:Env.color.main}]}>{this.state.startName ||'点击选择始发地'}</Text>
+                            <Text style={[estyle.note]}>{this.state.startName ||'点击选择始发地'}</Text>
                         </View>
                     </ViewForRightArrow>
                     <ViewForRightArrow onPress={() => {this.setStartEnd()}}>
                         <View style={[estyle.fxRow]}>
                             <Text style={[estyle.text]}>目的地：</Text>
-                            <Text style={[estyle.text,{color:Env.color.main}]}>{this.state.endName ||'点击选择目的地'}</Text>
+                            <Text style={[estyle.note]}>{this.state.endName ||'点击选择目的地'}</Text>
                         </View>
                     </ViewForRightArrow>
                     <ViewForRightArrow onPress={this.goToCarModelLength}>
