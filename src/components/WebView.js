@@ -5,8 +5,10 @@
  * Created by ligj on 2016/10/20.
  */
 import React, { Component } from 'react';
-import { View, WebView , TouchableOpacity, Text } from 'react-native';
+import { View , TouchableOpacity, Text } from 'react-native';
 import * as Icons from './Icons';
+
+import WebViewBridge from 'react-native-webview-bridge';
 
 import TopBanner from './TopBanner';
 
@@ -33,9 +35,8 @@ export default class News extends Component {
 
     doBack(){
         if(this.state.page.canGoBack){
-            this.setState({
-                uri: `javascript:window.history.back();var a = '${Math.random()}'`
-            })
+            //向webview发送后退操作
+            this.refs.webviewbridge.sendToBridge("history.back();");
         }else{
             this.props.doBack();
         }
@@ -50,25 +51,40 @@ export default class News extends Component {
         this.props.onPageChange && this.props.onPageChange(page);
     }
 
+    onBridgeMessage(message){
+        // const { webviewbridge } = this.refs;
+        //
+        // switch (message) {
+        //     case "hello from webview":
+        //         webviewbridge.sendToBridge("hello from react-native");
+        //         break;
+        //     case "got the message inside webview":
+        //         console.log("we have got a message from webview! yeah");
+        //         break;
+        // }
+    }
+
     render(){
+
+        const injectScript = `
+                (function () {
+                    if (WebViewBridge) {
+                      WebViewBridge.onMessage = function (message) {
+                        eval(message);
+                      };
+                    }
+                  }());
+`;
+
         const _renderButton = () => {
-            return (
-                Env.isAndroid ?
-                <View style={[estyle.fxRow,estyle.fxRowCenter,{paddingLeft: 20 * basefont}]}>
-                    <TouchableOpacity onPress={() => this.doBack()}>
+            return <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                    <TouchableOpacity style={[estyle.fxCenter,{height:basefont * 80,width:basefont * 70, }]} onPress={() => this.doBack()}>
                         <Text ><Icons.IconArrowLeft color="#FFF" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginLeft: 60 * Env.font.base}} onPress={() => this.onClose()}>
-                        <Text ><Icons.IconClose color="#FFF" size={basefont*75} /></Text>
-                        {/*<Text style={[{fontSize:basefont*40,color:'#fff'}]}>X</Text>*/}
+                    <TouchableOpacity style={[estyle.fxCenter,{height:basefont * 80,width:basefont * 70,}]} onPress={() => this.onClose()}>
+                        <Text><Icons.IconClose color="#FFF" size={basefont*75} /></Text>
                     </TouchableOpacity>
-                </View> :  <View style={[estyle.fxRow,estyle.fxRowCenter,{paddingLeft: 20 * basefont}]}>
-                    <TouchableOpacity onPress={() => this.onClose()}>
-                        <Text ><Icons.IconClose color="#FFF" size={basefont*75} /></Text>
-                        {/*<Text style={[{fontSize:basefont*40,color:'#fff'}]}>X</Text>*/}
-                    </TouchableOpacity>
-                </View>
-            )
+                </View>;
         };
         return (
             <View  style={[estyle.fx1]}>
@@ -79,12 +95,15 @@ export default class News extends Component {
                     doBack={this.doBack.bind(this)}
                     title={this.state.title}
                 /> : null}
-                <WebView
+                <WebViewBridge
+                    ref="webviewbridge"
                     onNavigationStateChange={(page) => {
                         this.onPageChange(page)
                     }}
                     style={{flex:1}}
+                    onBridgeMessage={this.onBridgeMessage.bind(this)}
                     source={{uri: this.state.uri}}
+                    injectedJavaScript={injectScript}
                     startInLoadingState={true}
                     domStorageEnabled={true}
                 />

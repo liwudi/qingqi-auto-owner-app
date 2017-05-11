@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactApplication;
+import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import io.rnkit.actionsheetpicker.ASPickerViewPackage;
 
@@ -162,6 +163,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new WebViewBridgePackage(),
             new ReactNativePermissionsPackage(),
             new ASPickerViewPackage(),
             new RCTToastPackage(),
