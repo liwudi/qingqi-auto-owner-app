@@ -52,6 +52,7 @@ class MyInfoDrivingCard extends Component {
     };
 
     render() {
+        let state = this.props.type === 'carGang' ? this.props.data.flowStatus : this.props.data.vehicleLicenseValidStatus  ;
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="行驶证照片"/>
@@ -59,12 +60,12 @@ class MyInfoDrivingCard extends Component {
                     <Text style={[estyle.note,estyle.marginVertical]}>注：行驶证照片请主副页一起拍照</Text>
                     <View style={[styles.imgBox]}>
                         {
-                            (this.props.data.vehicleLicenseValidStatus == 1 || !this.props.data.vehicleLicenseValidStatus ) && !this.state.data.vehicleLicensePhoto ?
+                            (state == 1 || !state ) && !this.state.data.vehicleLicensePhoto ?
                                 <Image source={driveingPhoto} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
                                 <Image source={ {uri:this.state.data.vehicleLicensePhoto} } resizeMode={Image.resizeMode.cover} style={[{width: 500 * basefont,height: 300 * basefont }]} />
                         }
                         {
-                            this.props.data.vehicleLicenseValidStatus !== 4 ?
+                            state !== 4 ?
                                 <TouchableOpacity style={[styles.camera,estyle.fx1,estyle.fxCenter]} onPress={ this.openMenu }>
                                     <Image source={camera} style={[{width: 120 * basefont,height: 120 * basefont }]} />
                                 </TouchableOpacity>: null

@@ -81,11 +81,11 @@ class MyInfoCarGang extends Component {
         this.fetchData();
     }
 
-    goTo= (page,type) => {
+    goTo= (page) => {
         this.props.router.push(page, {
             successFun: this.setDataState,
             data: this.state.data,
-            type: type
+            type: 'carGang'
         });
     };
 
@@ -121,7 +121,7 @@ class MyInfoCarGang extends Component {
                 if(isSelect){ text = '未选择' }else {text = '未输入'}
             }
         }
-        if(this.state.data.flowStatus == 2) text = '审核中';
+        if(this.state.data.flowStatus == 1) text = '审核中';
         return <Text style={[estyle.note]}>{text}</Text>
     };
 
@@ -170,8 +170,8 @@ class MyInfoCarGang extends Component {
                                         <Text
                                             style={[estyle.marginLeft, estyle.text, {color: this.state.top.color}]}>{this.state.top.text}</Text>
                                         {
-                                            data.thirdReviewReason ?
-                                                <TouchableOpacity onPress={()=>{ this.alert(data.thirdReviewReason) }}>
+                                            data.thirdReason ?
+                                                <TouchableOpacity onPress={()=>{ this.alert(data.thirdReason) }}>
                                                     <Image source={warning}
                                                            style={[{width: 40 * basefont, height: 40 * basefont}, estyle.marginLeft]}/>
                                                 </TouchableOpacity>
@@ -221,7 +221,7 @@ class MyInfoCarGang extends Component {
 
                                 <MyInfoItem title="车型"
                                             state={parseInt(data.flowStatus)+1 }
-                                            onPress={()=>{this.goTo(MyInfoCarType,'carGang')}}
+                                            onPress={()=>{this.goTo(MyInfoCarType)}}
                                             rightDom={this.setRightText(data.carType,false,true)}/>
 
                                 <MyInfoItem title=" 载重（吨）"
