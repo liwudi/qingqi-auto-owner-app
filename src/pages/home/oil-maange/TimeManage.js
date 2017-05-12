@@ -81,8 +81,8 @@ export default class TimeManage extends Component {
             val = 0;
         }else {
             if(this.state.datas[this.state.datas.length-1].statisDate == this.state.weeks[6].format('YYYYMMDD')){
-                val = this.state.type === 1 ? this.state.datas[this.state.datas.length-1].runinngMinutes : this.state.datas[this.state.datas.length-1].idleMinutes ;
-                val = (val/24).toFixed(2);
+                val = this.state.type === 1 ? this.state.datas[this.state.datas.length-1].runningMinutes : this.state.datas[this.state.datas.length-1].idleMinutes ;
+                val = (val/60).toFixed(2);
             }else {
                 val = 0;
             }
@@ -133,8 +133,8 @@ export default class TimeManage extends Component {
             let _d_ = date.format('YYYY-MM-DD'),
                 _cd = _curDate,val;
             if(_d.length > 0){
-                val = this.state.type === 1 ? _d[0].runinngMinutes : _d[0].idleMinutes;
-                val = (val/24).toFixed(2);
+                val = this.state.type === 1 ? _d[0].runningMinutes : _d[0].idleMinutes;
+                val = val ? (val/60).toFixed(2): 0;
             }else {
                 val = 0;
             }
@@ -167,7 +167,7 @@ export default class TimeManage extends Component {
         return (
             <View style={[estyle.containerBackgroundColor,estyle.fx1]}>
                 {/*<TopBanner {...this.props} title="运营里程统计"/>*/}
-                <View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxColumnCenter]}>
+                <View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxColumnCenter,estyle.fxCenter]}>
                     <View style={[estyle.fxRow,estyle.fxCenter,estyle.marginLeft]}>
                         <TouchableOpacity onPress={()=>{this.selectType(1)}}>
                             <Text style={[estyle.paddingHorizontal,estyle.note,this.state.type === 1 ? styles.currrntBtn : styles.btn]}>行驶时长</Text>

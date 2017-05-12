@@ -92,12 +92,16 @@ export default class GoodsFollowList extends Component {
         return <View><Text style={[estyle.marginFontBottom, estyle.text]}>该线路货源已经被抢光了,</Text><Text
             style={[{textAlign: 'center'}, estyle.text]}>有新货源我们马上通知您！</Text></View>
     }
+    doback(){
+        this.props.backFun && this.props.backFun();
+        this.props.doBack();
+    }
 
     render() {
         let propData = this.props.data;
         return (
-            <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props} title="货源信息"/>
+            <View style={[estyle.fx1, estyle.containerBackgroundColor]} >
+                <TopBanner {...this.props} title="货源信息" onPress={this.doback.bind(this)}/>
                 <View style={[estyle.cardBackgroundColor, estyle.padding, estyle.fxCenter]}>
                     <Text style={[estyle.text]}>{
                         `${propData.startAddressName} --- ${propData.endAddressName || '无'} ${propData.carModel || ''}  ${propData.carLength ? (propData.carLength + '米') : '' }`

@@ -221,7 +221,7 @@ export default class HomePage extends Component {
                                    src={require('../../assets/images/icon-7.png')} title="货源信息"/>
                         <ImgButton style={estyle.padding} onPress={() => this.goTo(Bbs)}
                                    src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-                        <ImgButton onPress={() => {}} src={require('../../assets/images/mask.png')}/>
+                        <ImgButton style={estyle.padding}  onPress={() => {}} src={require('../../assets/images/mask.png')}/>
                     </View>
                 </ScrollView>
             </View>
