@@ -67,7 +67,7 @@ class MyInfoCarType extends Component {
     }
 
     open() {
-        this.setState({tabHeight: 400 * basefont})
+        this.setState({tabHeight: 600 * basefont})
     }
 
     close() {

@@ -24,34 +24,33 @@ export default class ImgButton extends Component {
     }
 
     render() {
+        let data = this.props.data;
         return (
             <ViewForRightArrow onPress={this.props.onPress} {...this.props}>
                 <View style={[estyle.fxRow,estyle.fxCenter]}>
                     <View style={[styles.image]}>
-                        {
-                            this.props.src ?  <Image source={{uri:this.props.src} }
-                                                     style={[styles.image, estyle.border,{position:'absolute',top:0,left:0,zIndex:100}]} /> : null
-                        }
+                        <Image source={{uri:data.photo || './'} }
+                               style={[styles.image, estyle.border,{position:'absolute',top:0,left:0,zIndex:100}]} />
                         <Image source={imgsrc}
                                style={[styles.image, estyle.border]} />
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text numberOfLines={1} style={[estyle.text,{color:Env.color.important}]}>{this.props.number}.{this.props.title}</Text>
+                        <Text numberOfLines={1} style={[estyle.text,{color:Env.color.important}]}>{this.props.number}.{data.name}</Text>
                         <View style={styles.starContainer}>
                             <View style={{backgroundColor:Env.color.auxiliary,borderRadius:basefont*5,paddingHorizontal:basefont* 4}}>
-                                <Text style={[estyle.note,{color:'#fff'}]}>{ this.props.level}</Text>
+                                <Text style={[estyle.note,{color:'#fff'}]}>{ data.level}</Text>
                             </View>
                             {
-                                this.props.central ? <View style={{backgroundColor:Env.color.auxiliary,borderRadius:basefont*5,paddingHorizontal:basefont* 4,marginLeft:basefont * 30}}>
-                                    <Text style={[estyle.note,{color:'#fff'}]}>{ this.props.central}</Text>
-                                </View> : null
+                                data.central ? <View style={{backgroundColor:Env.color.auxiliary,borderRadius:basefont*5,paddingHorizontal:basefont* 4,marginLeft:basefont * 30}}>
+                                    <Text style={[estyle.note,{color:'#fff'}]}>{ data.central}</Text>
+                                </View> : <View/>
                             }
-                            <Text style={[estyle.note,{marginLeft:basefont * 30}]}>{this.props.km || '-- '}km</Text>
+                            <Text style={[estyle.note,{marginLeft:basefont * 30}]}>{data.distance || '-- '}km</Text>
                         </View>
                         <View style={styles.adrContainer}>
                             <Icon name="location-pin" size={16} color='#bbb' style={styles.location}/>
                             <View style={{flex: 1}}>
-                                <Text numberOfLines={1} style={[{fontSize:Env.font.note,color: Env.color.note}]}>{this.props.adr}</Text>
+                                <Text numberOfLines={1} style={[{fontSize:Env.font.note,color: Env.color.note}]}>{data.address}</Text>
                             </View>
                         </View>
                     </View>
@@ -91,4 +90,5 @@ const styles = StyleSheet.create({
         marginRight: basefont * 4
     }
 });
+
 

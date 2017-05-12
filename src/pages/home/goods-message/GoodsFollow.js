@@ -193,8 +193,8 @@ export  default class GoodsFollow extends Component {
                                             style={[estyle.marginLeft, estyle.articleTitle, {color: '#fff'}]}>删除关注线路</Text>
                                     </TouchableOpacity> : null
                             }
-                            <View style={[estyle.padding]}/>
                         </View>
+                        <View style={[estyle.padding]}/>
                     </ScrollView>
                 </View>
             </View>
