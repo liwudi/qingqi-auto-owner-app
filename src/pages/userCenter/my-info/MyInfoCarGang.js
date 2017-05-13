@@ -170,7 +170,7 @@ class MyInfoCarGang extends Component {
                                         <Text
                                             style={[estyle.marginLeft, estyle.text, {color: this.state.top.color}]}>{this.state.top.text}</Text>
                                         {
-                                            data.thirdReason ?
+                                            data.flowStatus == 2 && data.thirdReason ?
                                                 <TouchableOpacity onPress={()=>{ this.alert(data.thirdReason) }}>
                                                     <Image source={warning}
                                                            style={[{width: 40 * basefont, height: 40 * basefont}, estyle.marginLeft]}/>

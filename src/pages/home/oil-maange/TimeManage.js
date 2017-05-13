@@ -168,14 +168,14 @@ export default class TimeManage extends Component {
             <View style={[estyle.containerBackgroundColor,estyle.fx1]}>
                 {/*<TopBanner {...this.props} title="运营里程统计"/>*/}
                 <View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxColumnCenter,estyle.fxCenter]}>
-                    <View style={[estyle.fxRow,estyle.fxCenter,estyle.marginLeft]}>
+                   {/* <View style={[estyle.fxRow,estyle.fxCenter,estyle.marginLeft]}>
                         <TouchableOpacity onPress={()=>{this.selectType(1)}}>
                             <Text style={[estyle.paddingHorizontal,estyle.note,this.state.type === 1 ? styles.currrntBtn : styles.btn]}>行驶时长</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>{this.selectType(2)}}>
                             <Text style={[estyle.paddingHorizontal,estyle.note,this.state.type === 2 ? styles.currrntBtn : styles.btn]}>怠速时长</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View>*/}
                     <View style={[estyle.fx1,estyle.fxRow,estyle.fxCenter,estyle.padding]}>
                         <TouchableOpacity onPress={this._preWeek.bind(this)}  style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
                             <Icons.IconArrowLeft style={styles.textBlue}/>

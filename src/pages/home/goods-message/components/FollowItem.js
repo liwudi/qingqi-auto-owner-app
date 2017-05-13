@@ -21,9 +21,9 @@ export default class FollowItem extends Component {
         }else {
             view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
                 backgroundColor: '#45AB72'}, estyle.marginRight]}>
-                {data.carModel ? <Text style={styles.textWhite}>{data.carModel}</Text> : <Text/>}
+                {data.carModel && data.carModel !== '0' ? <Text style={styles.textWhite}>{data.carModel}</Text> : <Text/>}
                 {
-                    data.carLength ?
+                    data.carLength && data.carLength !== '0' ?
                         <Text style={styles.textWhite}>
                             <Text> </Text>
                             {data.carLength}

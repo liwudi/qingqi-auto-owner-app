@@ -52,7 +52,7 @@ class MyInfoDriverCard extends Component {
     };
 
     render() {
-        let state = this.props.type === 'carGang' ? this.props.data.flowStatus : this.props.data.drivingLicenseValidStatus;
+        let state = this.props.type === 'carGang' ? parseInt(this.props.data.flowStatus)+1 : this.props.data.drivingLicenseValidStatus;
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="驾驶证照片"/>
