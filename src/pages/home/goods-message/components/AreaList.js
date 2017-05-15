@@ -14,15 +14,15 @@ import Env from '../../../../utils/Env';
 
 const estyle = Env.style;
 export default class AreaList extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             refreshing: true,
             list: [],
             current: {},
             query: {}
         }
-        this.titles = ['', '全国', '全省', '全市'];
+        this.titles = props.form ?['', '', '全省', '全市']:['', '全国', '全省', '全市'];
     }
 
     componentWillReceiveProps(props, state) {
@@ -61,6 +61,7 @@ export default class AreaList extends Component {
             let title = this.titles[this.state.query.level],
                 first = !k;
             if(v.name) v.name = v.name.replace('自治', '');
+            if(!title && first) return null;
 
             return <Button title={k ? v.name : title} key={k} selectBg={this.state.current.code===v.code} onPress={() => {
                 let current = {...this.state.current};

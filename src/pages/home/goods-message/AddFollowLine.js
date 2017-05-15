@@ -68,6 +68,7 @@ export  default class AddFollowLine extends Component {
             locationAddress: isStart ? this.state.locationAddress : '',
             title: title,
             info: this[`${tag}Info`],
+            form : 'add',
             set: (obj) => {
                 console.info('list --------- list')
                 console.info(obj.length)

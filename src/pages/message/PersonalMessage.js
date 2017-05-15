@@ -109,7 +109,7 @@ class PersonalMessage extends Component{
         let goto =(page,props)=>{this.props.router.push(page,props)} ,content = item.CustomContent;
         switch (item.CustomContent.Type){
             case 'stationAppointment' :
-                goto(ServiceStationAppointmentDetail,{order:{woCode:content.wocode}});
+                goto(ServiceStationAppointmentDetail,{order:{woCode:content.params.wocode}});
                 break;
             case 'goodsDetail' :
                 this.clickItem({
