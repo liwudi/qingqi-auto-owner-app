@@ -35,12 +35,26 @@ class Main extends Component {
 
     navigator = null;
     router = null;
+    url = 'http://jfx.mapbar.com/download/app.html';
 
-    _checkUpdate(){
+    _checkUpdate = ()=>{
+        let view = (
+            <TouchableOpacity style={[estyle.fxRow]} onPress={() => {
+                Linking.canOpenURL(this.url).then(supported => {
+                    if (supported) {
+                        Linking.openURL(this.url);
+                    } else {
+                        Toast.show('打开浏览器失败', Toast.SHORT);
+                    }
+                });
+            }}>
+                <Text style={[estyle.text, {color: Env.color.main}]}>如遇到版本升级失败，请点此处下载</Text>
+            </TouchableOpacity>
+        );
         checkUpdate().then(rs => {
-            console.log('version_no', rs['version_no'] , this.state.versionCode);
-            updateApp(rs, (a,b,c) => {
-                this.refs.alert.alert(a,b,c)
+            console.log('version_no', rs['version_no'], this.state.versionCode);
+            updateApp(rs, (a, b, c) => {
+                this.refs.alert.alert(a, b, c, view)
             });
         });
     }

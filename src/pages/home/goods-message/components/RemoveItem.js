@@ -17,7 +17,7 @@ export default class RemoveItem extends Component {
 
     renderLength = () => {
         let data = this.props.data,view;
-        if(!data.carModel && !data.carLength){
+        if((!data.carModel && !data.carLength) || (data.carModel === '0' && data.carLength === '0') ){
             view = <View/> ;
         }else {
             view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
