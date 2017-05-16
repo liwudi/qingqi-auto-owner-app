@@ -34,7 +34,7 @@ export default class ManageCarItem extends Component {
                             <Text style={[estyle.note,{fontSize:22 * basefont}]}>平均油耗：</Text><Text style={[{fontSize:Env.font.mini,color: Env.color.main}]}>{list.avgOilwear || 0}L/100km</Text>
                         </View>
                         <View style={[estyle.fxRow,estyle.fxRowCenter,{marginLeft:5 * basefont}]}>
-                            <Text style={[estyle.note,{fontSize:22 * basefont}]}>当日油耗：</Text><Text style={[{fontSize:Env.font.mini,color: Env.color.main}]}>{list.mileage || 0}L</Text>
+                            <Text style={[estyle.note,{fontSize:22 * basefont}]}>当日油耗：</Text><Text style={[{fontSize:Env.font.mini,color: Env.color.main}]}>{(list.avgOilwear * list.mileage / 100) || 0}L</Text>
                         </View>
                         <View style={[estyle.fxRow,estyle.fxRowCenter,{marginLeft:5 * basefont}]}>
                             <Text style={[estyle.note,{fontSize:22 * basefont}]}>平均速度：</Text><Text style={[{fontSize:Env.font.mini,color: Env.color.main}]}>{list.avgSpeed || 0}km/h</Text>

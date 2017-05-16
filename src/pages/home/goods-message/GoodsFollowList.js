@@ -46,7 +46,7 @@ export default class GoodsFollowList extends Component {
         this.props.router.push(MyInfoIndex);
     }
 
-    goToDetail(data) {
+    goToDetail = (data) => {
         if (data.dataSourcesCode == 1) {
             this.props.router.push(GoodsDetail, {
                 nav: {
@@ -54,28 +54,27 @@ export default class GoodsFollowList extends Component {
                     onlycode: data.onlyCode
                 }
             });
+            this.setState({doing: false});
         } else if (data.dataSourcesCode == 2) {
             let id = data.goodsSourceId;
-            if (this.state.doing) return;
-            this.setState({doing: true}, () => {
-                getCarGoDetail(id)
-                    .then((res) => {
-                        this.props.router.push(GoodsDetail, {
-                            url: res.url
-                        });
-                    })
-                    .catch((e) => {
-                        Toast.show(e.message, Toast.SHORT);
-                    })
-                    .finally(() => {
-                        this.setState({doing: false})
-                    })
-            })
-
+            getCarGoDetail(id)
+                .then((res) => {
+                    this.props.router.push(GoodsDetail, {
+                        url: res.url
+                    });
+                })
+                .catch((e) => {
+                    Toast.show(e.message, Toast.SHORT);
+                })
+                .finally(() => {
+                    this.setState({doing: false})
+                })
         }
     }
 
-    clickItem(data1) {
+    clickItem = (data1) => {
+        if(this.state.doing) return;
+        this.setState({doing: true});
         userAuth(data1.dataSourcesCode).then((data) => {
             let validStatus = data.status;
             if (validStatus == 4) {
