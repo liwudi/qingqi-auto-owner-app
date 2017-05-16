@@ -16,7 +16,8 @@ import {
     NativeModules,
     Image,
     AppState,
-    Keyboard
+    Keyboard,
+    TouchableOpacity
 } from 'react-native';
 
 import Toast from '../components/Toast';

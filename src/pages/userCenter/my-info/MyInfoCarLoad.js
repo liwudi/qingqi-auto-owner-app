@@ -49,7 +49,7 @@ class MyInfovehicleLoad extends Component {
                         })
                 }
             }else {
-                Toast.show('可输入最大载重1000吨，允许3位小数',Toast.SHORT);
+                Toast.show('可输入最大载重999吨，允许2位小数',Toast.SHORT);
             }
         }
     }
@@ -73,7 +73,7 @@ class MyInfovehicleLoad extends Component {
                         maxLength={8}
                         validates={[
                             {require:true, msg: '请输入有效车厢载重'},
-                            {pattern:/^\d{1,4}(\.\d{0,3})?$/, msg:'可输入最大载重1000吨，允许3位小数'}
+                            {pattern:/^\d{1,3}(\.\d{0,2})?$/, msg:'可输入最大载重999吨，允许2位小数'}
                         ]}
                     />
                     <View style={[estyle.fxRow, estyle.padding]}>

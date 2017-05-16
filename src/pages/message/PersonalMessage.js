@@ -26,6 +26,9 @@ import {getCarGoDetail,userAuth} from '../../services/AppService';
 class PersonalMessage extends Component{
     constructor(props){
         super(props);
+        this.state={
+            doing:false
+        }
     }
 
     getComponentName(){
@@ -105,6 +108,7 @@ class PersonalMessage extends Component{
     /**--------------------------------------*/
 
     gotoSomeWhere(item) {
+        console.log(item)
         if (!item || !item.CustomContent || !item.CustomContent.Type) return;
         let goto =(page,props)=>{this.props.router.push(page,props)} ,content = item.CustomContent;
         switch (item.CustomContent.Type){

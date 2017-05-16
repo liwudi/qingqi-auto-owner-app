@@ -10,7 +10,7 @@ import {
     ScrollView
 } from 'react-native';
 
-import {goodsSourceList, userAuth} from '../../../services/AppService';
+import {goodsSourceList,userAuth,getCarGoDetail} from '../../../services/AppService';
 import SetStartEnd from './SetStartEnd';
 import SetCarModelLength from './SetCarModelLength';
 import GoodsDetail from './GoodsDetail';
