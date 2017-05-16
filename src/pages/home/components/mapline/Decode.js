@@ -1,7 +1,7 @@
 /**
  * Created by cryst on 2016/11/29.
  */
-import {MPoint} from '../../../../mapbarmap/MapbarMapInstance';
+let MPoint = null;
 
 function _decodeNumberEx(line) {
     var _EP_KEY = 6;
@@ -136,7 +136,10 @@ function setData(data) {
     return result;
 
 }
+
+function setBaseClass(opts) {
+    MPoint = opts.MPoint;
+}
 export default {
-    setData: setData,
-    getBounds: getBounds
+    setData, getBounds, setBaseClass
 }

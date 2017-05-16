@@ -31,3 +31,6 @@ project(':react-native-permissions').projectDir = new File(rootProject.projectDi
 
 include ':app', ':react-native-webview-bridge'
 project(':react-native-webview-bridge').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-bridge/android')
+
+include ':rn-mapbar-navicore'
+project(':rn-mapbar-navicore').projectDir = new File(rootProject.projectDir,    '../node_modules/rn-mapbar-navicore/android')

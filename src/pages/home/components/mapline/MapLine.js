@@ -138,6 +138,7 @@ export default class MapLine extends Component {
         this.Marker = instance.Marker;
         this.MarkerRotate = instance.MarkerRotate;
         this.Line = instance.Line;
+        Decode.setBaseClass(instance);
         this.setState({initMap: true});
     }
     shouldComponentUpdate(props, state) {

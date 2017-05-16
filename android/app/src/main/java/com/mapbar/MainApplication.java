@@ -37,7 +37,8 @@ import com.mapbar.pushservice.mapbarpush.PushConfigs;
 import com.mapbar.pushservice.mapbarpush.provider.DeviceInfoHelper;
 import com.mapbar.react.CommonUtils;
 import com.mapbar.react.common.CommonPackage;
-import com.mapbar.react.map.MapbarMapPackage;
+import com.mapbar.rn.navicore.RnNavicorePackage;
+
 import com.mapbar.react.push.MarbarPushPackage;
 import com.mapbar.react.setting.SystemSettingPackage;
 import com.netease.nim.uikit.EntypoFonts.EntypoFontDescriptor;
@@ -175,7 +176,7 @@ public class MainApplication extends Application implements ReactApplication {
               new VectorIconsPackage(),
               new ImagePickerPackage(),
               new MarbarPushPackage(),
-              new MapbarMapPackage(),
+              new RnNavicorePackage(),
               new CommonPackage(),
               new UpdatePackage()
       );
