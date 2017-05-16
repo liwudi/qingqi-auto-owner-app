@@ -72,16 +72,24 @@ class MyCar extends Component {
      * 这个方法是为了在内部更改完车牌号回退是列表能够刷新
      * */
     backRender(){
-        this.setState({stop: false});
+        //this.setState({stop: false});
         setTimeout(() => {
-                this.fetchData();
-            this && this.refs && this.refs.list.reInitFetch()
-            }, 50);
+            this.fetchData();
+            this.refreshList();
+        }, 50);
     }
 
+    refreshList = () => {
+        if(this.refs) {
+            this.setState({stop: true}, () => {
+                this.refs.list.reInitFetch();
+                this.setState({stop: false}, () => {this.refs.list.reInitFetch();});
+            });
+        }
+    };
 
     goTo(page, carId, position) {
-        this.setState({stop: true});
+    //    this.setState({stop: true});
         this.props.router.push(page, {nav: {
             carId: carId ,
             position: position,
@@ -133,13 +141,17 @@ class MyCar extends Component {
                     ref="list"
                     style={estyle.fx1}
                     renderRow={(row) => {
-                        return <MyCarItem data={row} onPress={(position) => this.goTo(CarDetail, row.carId, position)} router={this.props.router} />
+                        //row = row.noData ? {} : row;
+                        return row.noData ? <View/> : <MyCarItem data={row} onPress={(position) => this.goTo(CarDetail, row.carId, position)} router={this.props.router} />
                         {/*console.info(this.state.stop)
                         let ItemView = this.state.stop ? Item : MyCarItem;
                         return <ItemView data={row} onPress={() => this.goTo(CarDetail, row.carId)} />*/}
                     }}
                     fetchData={(pageNumber, pageSize) => {
-                        return queryRealTimeCarList(pageNumber, pageSize, this.state.key);
+                        let processor = this.state.stop ?
+                            Promise.resolve({total: 0, page_total: 0, list: [{noData: true}]}) :
+                            queryRealTimeCarList(pageNumber, pageSize, this.state.key);
+                        return processor;
 
                         {/*return queryRealTimeCarList(pageNumber, pageSize, this.state.key).then((data) => {
                          data.list.length = 1;
