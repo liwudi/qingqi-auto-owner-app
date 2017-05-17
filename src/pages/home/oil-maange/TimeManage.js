@@ -80,6 +80,7 @@ export default class TimeManage extends Component {
         if(!this.state.datas|| this.state.datas.length<1){
             val = 0;
         }else {
+            console.log(this.state.datas[this.state.datas.length-1].statisDate,this.state.weeks[6].format('YYYYMMDD'))
             if(this.state.datas[this.state.datas.length-1].statisDate == this.state.weeks[6].format('YYYYMMDD')){
                 val = this.state.type === 1 ? this.state.datas[this.state.datas.length-1].runningMinutes : this.state.datas[this.state.datas.length-1].idleMinutes ;
                 val = (val/60).toFixed(2);
