@@ -114,7 +114,7 @@ export  default class AddFollowLine extends Component {
             /**
              *因为货车帮的搜索条件与陆鲸不同，车辆类型加上车字就搜不到货源，所以查询时把车子过滤
              */
-            let type = this.state.options.carModel.indexOf('车') >=0 ? this.state.options.carModel.substring(0,this.state.options.carModel.length-1) : this.state.options.carModel;
+            let type = typeof(this.state.options.carModel) === 'string' && this.state.options.carModel.indexOf('车') >=0 ? this.state.options.carModel.substring(0,this.state.options.carModel.length-1) : this.state.options.carModel;
             addFollowLine(Object.assign({},this.state.options,{carModel: type }))
                 .then(()=>{
                     Toast.show('添加成功',Toast.SHORT);

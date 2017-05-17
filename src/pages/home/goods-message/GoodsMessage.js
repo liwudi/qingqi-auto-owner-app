@@ -193,7 +193,7 @@ export default class GoodsMessage extends Component {
     alert = (type) => {
         let mainMsg = '查看货源详情需要进行资料认证',confirmMsg = '去认证';
         if(type == 4) return;
-        switch (type) {
+        switch (parseInt(type)) {
             case 2 : mainMsg = '您的认证信息正在审核中请耐心等待'; confirmMsg = '查看详情'; break;
             case 5 : mainMsg = '您的认证信息已过期请更新信息'; confirmMsg = '去更新'; break;
             default : mainMsg = '查看货源详情需要进行资料认证';confirmMsg = '去认证';
@@ -204,6 +204,7 @@ export default class GoodsMessage extends Component {
                 {text: '取消'}
             ]
         )
+        this.setState({doing: false})
     };
 
     goToMyInfo = () => {
@@ -305,7 +306,7 @@ export default class GoodsMessage extends Component {
                             /**
                              *因为货车帮的搜索条件与陆鲸不同，车辆类型加上车字就搜不到货源，所以查询时把车子过滤
                              */
-                            let type = this.state.options.carModel.indexOf('车') >=0 ? this.state.options.carModel.substring(0,this.state.options.carModel.length-1) : this.state.options.carModel;
+                            let type = typeof(this.state.options.carModel) === 'string' &&  this.state.options.carModel.indexOf('车') >=0 ? this.state.options.carModel.substring(0,this.state.options.carModel.length-1) : this.state.options.carModel;
                             return goodsSourceList(
                                 pageNumber,
                                 pageSize,

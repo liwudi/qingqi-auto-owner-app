@@ -47,7 +47,7 @@ class PersonalMessage extends Component{
     alert = (type) => {
         let mainMsg = '查看货源详情需要进行资料认证',confirmMsg = '去认证';
         if(type == 4) return;
-        switch (type) {
+        switch (parseInt(type)) {
             case 2 : mainMsg = '您的认证信息正在审核中请耐心等待'; confirmMsg = '查看详情'; break;
             case 5 : mainMsg = '您的认证信息已过期请更新信息'; confirmMsg = '去更新'; break;
             default : mainMsg = '查看货源详情需要进行资料认证';confirmMsg = '去认证';
@@ -58,6 +58,7 @@ class PersonalMessage extends Component{
                 {text: '取消'}
             ]
         )
+        this.setState({doing: false})
     };
 
     goToMyInfo = () => {
