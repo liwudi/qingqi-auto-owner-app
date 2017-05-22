@@ -179,7 +179,7 @@ function request(opts, processor, isUpload = false) {
                 .then((res) => {
                     return processor(res);
                 }).catch((err) => {
-                    return err
+                    return Promise.reject(err);
                 });
         } else {
             return _fetch(

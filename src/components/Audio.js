@@ -118,7 +118,7 @@ export default class Audio extends React.Component {
             <View>
                 <ViewForRightDom
                     rightDom={
-                        this.props.type === 'edit' ?
+                        this.props.type === 'edit' && this.state.audioArr.length < 6?
                             <View style={[estyle.fxRow, estyle.fx1, estyle.fxCenter]}>
                                 <TouchableOpacity style={estyle.topBtn}
                                                   onPress={ () => {
