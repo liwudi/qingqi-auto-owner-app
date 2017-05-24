@@ -17,22 +17,25 @@ export default class RemoveItem extends Component {
 
     renderLength = () => {
         let data = this.props.data,view;
-        view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
-            backgroundColor: '#45AB72'}, estyle.marginRight]}>
-            {data.carModel ? <Text style={styles.textWhite}>{data.carModel}</Text> : <Text/>}
-            {
-                data.carLength ?
-                    <Text style={styles.textWhite}>
-                        <Text> </Text>
-                        {data.carLength}
-                        米
-                    </Text>
-                    : <Text/>
-            }
-        </View>;
+        if((!data.carModel && !data.carLength) || (data.carModel === '0' && data.carLength === '0') ){
+            view = <View/> ;
+        }else {
+            view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
+                backgroundColor: '#45AB72'}, estyle.marginRight]}>
+                {data.carModel && data.carModel !== '0' ? <Text style={styles.textWhite}>{data.carModel}</Text> : <Text/>}
+                {
+                    data.carLength && data.carLength !== '0' ?
+                        <Text style={styles.textWhite}>
+                            <Text> </Text>
+                            {data.carLength}
+                            米
+                        </Text>
+                        : <Text/>
+                }
+            </View>;
+        }
         return view;
-
-    }
+    };
 
     render() {
         let data = this.props.data;

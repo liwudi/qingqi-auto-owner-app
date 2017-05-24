@@ -52,18 +52,19 @@ class MyInfoDrivingCard extends Component {
     };
 
     render() {
+        let state = this.props.type === 'carGang' ? parseInt(this.props.data.flowStatus)+1 : this.props.data.memberPhotoValidStatus;
         return (
             <View style={[estyle.containerBackgroundColor, estyle.fx1]}>
                 <TopBanner {...this.props} title="真实头像"/>
                 <View style={[estyle.marginTop,estyle.fx1,estyle.fxRowCenter]}>
                     <View style={[styles.imgBox]}>
                         {
-                            (!this.props.data.memberPhotoValidStatus || this.props.data.memberPhotoValidStatus == 1) && !this.state.data.memberPhoto ?
+                            (!state || state == 1) && !this.state.data.memberPhoto ?
                                 <Image source={driver} style={[{width: 500 * basefont,height: 300 * basefont }]} /> :
                                 <Image source={ {uri:this.state.data.memberPhoto} } resizeMode={Image.resizeMode.cover} style={[{width: 500 * basefont,height: 300 * basefont }]} />
                         }
                         {
-                            this.props.data.memberPhotoValidStatus !== 4 ?
+                            state !== 4 ?
                                 <TouchableOpacity style={[styles.camera,estyle.fx1,estyle.fxCenter]} onPress={ this.openMenu }>
                                     <Image source={camera} style={[{width: 120 * basefont,height: 120 * basefont }]} />
                                 </TouchableOpacity>: null

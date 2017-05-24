@@ -29,7 +29,7 @@ let options = {
 export default class ImagePickButton extends Component {
 
     static defaultProps = {
-        maxHeight: 500,
+        maxHeight: 800,
         maxWidth: 500
     };
 

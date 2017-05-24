@@ -16,11 +16,14 @@ export default class FollowItem extends Component {
 
     renderLength = () => {
         let data = this.props.data,view;
+        if((!data.carModel && !data.carLength) || (data.carModel === '0' && data.carLength === '0') ){
+            view = <View/> ;
+        }else {
             view = <View style={[estyle.fxRow, estyle.fxCenter, styles.textWhileBox, {
                 backgroundColor: '#45AB72'}, estyle.marginRight]}>
-                {data.carModel ? <Text style={styles.textWhite}>{data.carModel}</Text> : <Text/>}
+                {data.carModel && data.carModel !== '0' ? <Text style={styles.textWhite}>{data.carModel}</Text> : <Text/>}
                 {
-                    data.carLength ?
+                    data.carLength && data.carLength !== '0' ?
                         <Text style={styles.textWhite}>
                             <Text> </Text>
                             {data.carLength}
@@ -29,9 +32,9 @@ export default class FollowItem extends Component {
                         : <Text/>
                 }
             </View>;
+        }
         return view;
-
-    }
+    };
 
     render() {
         let data = this.props.data;
@@ -48,21 +51,24 @@ export default class FollowItem extends Component {
                     <View style={estyle.fxCenter}>
                         <Text style={[styles.textBlue, ]}>{`${data.endAddressName}`}</Text>
                     </View>
-                    <View style={[styles.goodsNum,estyle.fxCenter,estyle.marginLeft]}>
-                        <Text style={[estyle.note,{color:'#fff'}]}>{data.goodsNum}</Text>
-                    </View>
+                    {
+                        data.goodsNum > 0 ?
+                            <View style={[styles.goodsNum,estyle.fxCenter,estyle.marginLeft]}>
+                                <Text style={[{color:'#fff',fontSize:Env.font.mini}]}>{parseInt(data.goodsNum) > 99 ? '99+' : data.goodsNum}</Text>
+                            </View> : <View/>
+                    }
                 </View>
 
                 <View style={[estyle.fxRow,estyle.marginTop,  {flexWrap: 'wrap'}]}>
                     {this.renderLength()}
                 </View>
 
-               {/* <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingTop]}>
-                    <Text numberOfLines={1} style={[estyle.note, estyle.fx1]}><IconLocationMarker
-                        size={Env.font.base * 30}/><Text> </Text>{data.fromAddress}</Text>
-                    <Text> </Text>
-                    <Text style={[estyle.note, {color: Env.color.text}]}>信息来源：{data.dataSources}</Text>
-                </View>*/}
+                {/* <View style={[estyle.fxRow, estyle.fxCenter, estyle.paddingTop]}>
+                 <Text numberOfLines={1} style={[estyle.note, estyle.fx1]}><IconLocationMarker
+                 size={Env.font.base * 30}/><Text> </Text>{data.fromAddress}</Text>
+                 <Text> </Text>
+                 <Text style={[estyle.note, {color: Env.color.text}]}>信息来源：{data.dataSources}</Text>
+                 </View>*/}
             </ViewForRightArrow>
         )
     }
@@ -82,9 +88,9 @@ const styles = StyleSheet.create({
         fontSize: Env.font.note
     },
     goodsNum:{
-        width : 40 * basefont,
-        height: 40 * basefont,
-        borderRadius : 40 * basefont,
+        width : 50 * basefont,
+        height: 50 * basefont,
+        borderRadius : 50 * basefont,
         backgroundColor:'red'
     }
 });

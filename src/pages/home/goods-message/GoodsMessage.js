@@ -10,7 +10,7 @@ import {
     ScrollView
 } from 'react-native';
 
-import {goodsSourceList, userAuth} from '../../../services/AppService';
+import {goodsSourceList,userAuth,getCarGoDetail} from '../../../services/AppService';
 import SetStartEnd from './SetStartEnd';
 import SetCarModelLength from './SetCarModelLength';
 import GoodsDetail from './GoodsDetail';
@@ -193,7 +193,7 @@ export default class GoodsMessage extends Component {
     alert = (type) => {
         let mainMsg = '查看货源详情需要进行资料认证',confirmMsg = '去认证';
         if(type == 4) return;
-        switch (type) {
+        switch (parseInt(type)) {
             case 2 : mainMsg = '您的认证信息正在审核中请耐心等待'; confirmMsg = '查看详情'; break;
             case 5 : mainMsg = '您的认证信息已过期请更新信息'; confirmMsg = '去更新'; break;
             default : mainMsg = '查看货源详情需要进行资料认证';confirmMsg = '去认证';
@@ -204,13 +204,14 @@ export default class GoodsMessage extends Component {
                 {text: '取消'}
             ]
         )
+        this.setState({doing: false})
     };
 
     goToMyInfo = () => {
         this.props.router.push(MyInfoIndex);
     }
 
-    goToDetail(data) {
+    goToDetail = (data) => {
         if (data.dataSourcesCode == 1) {
             this.props.router.push(GoodsDetail, {
                 nav: {
@@ -218,28 +219,27 @@ export default class GoodsMessage extends Component {
                     onlycode: data.onlyCode
                 }
             });
+            this.setState({doing: false});
         } else if (data.dataSourcesCode == 2) {
             let id = data.goodsSourceId;
-            if (this.state.doing) return;
-            this.setState({doing: true}, () => {
-                getCarGoDetail(id)
-                    .then((res) => {
-                        this.props.router.push(GoodsDetail, {
-                            url: res.url
-                        });
-                    })
-                    .catch((e) => {
-                        Toast.show(e.message, Toast.SHORT);
-                    })
-                    .finally(() => {
-                        this.setState({doing: false})
-                    })
-            })
-
+            getCarGoDetail(id)
+                .then((res) => {
+                    this.props.router.push(GoodsDetail, {
+                        url: res.url
+                    });
+                })
+                .catch((e) => {
+                    Toast.show(e.message, Toast.SHORT);
+                })
+                .finally(() => {
+                    this.setState({doing: false})
+                })
         }
     }
 
-    clickItem(data1) {
+    clickItem = (data1) => {
+        if(this.state.doing) return;
+        this.setState({doing: true});
         userAuth(data1.dataSourcesCode).then((data) => {
             let validStatus = data.status;
             if (validStatus == 4) {
@@ -303,10 +303,14 @@ export default class GoodsMessage extends Component {
                             />
                         }}
                         fetchData={(pageNumber, pageSize) => {
+                            /**
+                             *因为货车帮的搜索条件与陆鲸不同，车辆类型加上车字就搜不到货源，所以查询时把车子过滤
+                             */
+                            let type = typeof(this.state.options.carModel) === 'string' &&  this.state.options.carModel.indexOf('车') >=0 ? this.state.options.carModel.substring(0,this.state.options.carModel.length-1) : this.state.options.carModel;
                             return goodsSourceList(
                                 pageNumber,
                                 pageSize,
-                                this.state.options
+                                Object.assign({},this.state.options,{carModel: type })
                             );
                         }}
                     />

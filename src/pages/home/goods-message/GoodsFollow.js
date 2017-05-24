@@ -35,15 +35,18 @@ export  default class GoodsFollow extends Component {
         }
     }
 
-    fetchData() {
+    fetchData = () => {
         this.setState({isRefreshing: true});
         messageSwitch()
             .then((s) => {
-                this.setState({message: s})
+                this.setState({message: s.msgSwitch})
             })
             .catch((err) => {
                 Toast.show(err.message, Toast.SHORT)
-            })
+            });
+        this.getLine();
+    };
+    getLine(){
         queryFollowLine()
             .then((data) => {
                 this.setState({data: data});
@@ -54,8 +57,7 @@ export  default class GoodsFollow extends Component {
             .finally(() => {
                 this.setState({isRefreshing: false})
             });
-
-    };
+    }
 
     onRefresh() {
         this.fetchData();
@@ -66,7 +68,7 @@ export  default class GoodsFollow extends Component {
     }
 
     selectLine(item) {
-        this.props.router.push(GoodsFollowList, {data: item})
+        this.props.router.push(GoodsFollowList, {...this.props,data: item,backFun:this.getLine.bind(this)})
     }
 
     renderList() {
@@ -123,12 +125,12 @@ export  default class GoodsFollow extends Component {
                 <View style={[estyle.fxRow, estyle.padding]}>
                     <View style={[estyle.fx1]}/>
                     <View style={[estyle.fxRow, estyle.fxCenter]}>
-                        <Text style={[estyle.note]}>消息提醒</Text>
+                        <Text style={[estyle.text]}>消息提醒</Text>
                         <TouchableOpacity style={estyle.marginLeft} onPress={() => {
                             this.setMessage()
                         }}>
                             <Image source={this.state.message === 1 ? messageOpen : messageClose}
-                                   style={{width: 60 * basefont, height: 24 * basefont}}/>
+                                   style={{width: 70 * basefont, height: 30 * basefont}}/>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -192,6 +194,7 @@ export  default class GoodsFollow extends Component {
                                     </TouchableOpacity> : null
                             }
                         </View>
+                        <View style={[estyle.padding]}/>
                     </ScrollView>
                 </View>
             </View>

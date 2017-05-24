@@ -43,12 +43,13 @@ export class Alert2 extends Component {
         }
     }
 
-    alert(title, content, buttons = []){
+    alert(title, content, buttons = [],view){
         this.setState({
             visible: true,
             title,
             content,
-            buttons: buttons.length === 0 ? [{text:'确定'}] : buttons
+            buttons: buttons.length === 0 ? [{text:'确定'}] : buttons,
+            view
         })
     }
 
@@ -75,6 +76,11 @@ export class Alert2 extends Component {
                     >
                         {this.state.title}
                         </Text>
+                    {
+                        this.state.view ?  <View style={[estyle.marginTop, estyle.marginHorizontal]}>
+                            {this.state.view}
+                        </View> : null
+                    }
                     <Text style={[estyle.text, estyle.marginHorizontal, estyle.marginTop]}>
                         {this.state.content}
                     </Text>
