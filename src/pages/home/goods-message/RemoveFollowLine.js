@@ -53,7 +53,8 @@ export  default class RemoveFollowLine extends Component {
                 .then(()=>{
                     Toast.show('删除成功',Toast.SHORT);
                     this.props.callBack();
-                    this.props.router.pop();
+                    this.fetchData();
+                    //this.props.router.pop();
                 })
                 .catch((err)=>{Toast.show(err.message,Toast.SHORT)})
                 .finally(()=>{this.setState({doing:false})})

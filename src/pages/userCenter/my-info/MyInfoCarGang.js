@@ -81,11 +81,11 @@ class MyInfoCarGang extends Component {
         this.fetchData();
     }
 
-    goTo= (page,type) => {
+    goTo= (page) => {
         this.props.router.push(page, {
             successFun: this.setDataState,
             data: this.state.data,
-            type: type
+            type: 'carGang'
         });
     };
 
@@ -93,7 +93,7 @@ class MyInfoCarGang extends Component {
         this.setState({isRefreshing: true}, () => {
             hcbGetAuthInfo()
                 .then((data) => {
-                    data && this.setState({data: data, top: data.flow_status ? topContent[data.flow_status] : topContent[0]});
+                    data && this.setState({data: data, top: data.flowStatus ? topContent[data.flowStatus] : topContent[0]});
                 })
                 .catch((err) => {
                     Toast.show(err.message, Toast.SHORT);
@@ -121,7 +121,7 @@ class MyInfoCarGang extends Component {
                 if(isSelect){ text = '未选择' }else {text = '未输入'}
             }
         }
-        if(this.state.data.flow_status == 2) text = '审核中';
+        if(this.state.data.flowStatus == 1) text = '审核中';
         return <Text style={[estyle.note]}>{text}</Text>
     };
 
@@ -170,8 +170,8 @@ class MyInfoCarGang extends Component {
                                         <Text
                                             style={[estyle.marginLeft, estyle.text, {color: this.state.top.color}]}>{this.state.top.text}</Text>
                                         {
-                                            data.thirdReviewReason ?
-                                                <TouchableOpacity onPress={()=>{ this.alert(data.thirdReviewReason) }}>
+                                            data.flowStatus == 2 && data.thirdReason ?
+                                                <TouchableOpacity onPress={()=>{ this.alert(data.thirdReason) }}>
                                                     <Image source={warning}
                                                            style={[{width: 40 * basefont, height: 40 * basefont}, estyle.marginLeft]}/>
                                                 </TouchableOpacity>
@@ -179,16 +179,16 @@ class MyInfoCarGang extends Component {
                                         }
                                     </View>
                                 </View>
-                                <MyInfoItem title="真实姓名"  state={parseInt(data.flow_status)+1 }
+                                <MyInfoItem title="真实姓名"  state={parseInt(data.flowStatus)+1 }
                                             onPress={()=>{this.goTo(ModifyTrueName)}}
                                             rightDom={this.setRightText(data.realName)}/>
 
-                                <MyInfoItem title="身份证号"  state={parseInt(data.flow_status)+1 }
+                                <MyInfoItem title="身份证号"  state={parseInt(data.flowStatus)+1 }
                                             onPress={()=>{this.goTo(MyInfoId)}}
                                             rightDom={this.setRightText(data.identityNo ? data.identityNo.substr(0,5)+'**********'+data.identityNo.substr(15): data.identityNo)}/>
 
                                 <MyInfoItem title="真实头像"
-                                            state={parseInt(data.flow_status)+1 } isPhoto={true}
+                                            state={parseInt(data.flowStatus)+1 } isPhoto={true}
                                             onPress={()=>{this.goTo(MyInfoRealPhoto)}}
                                             rightDom={this.setRightText(data.memberPhoto,true)}/>
 
@@ -198,44 +198,44 @@ class MyInfoCarGang extends Component {
                                             rightDom={this.setRightText(data.idCardValidStatus,data.idFrontPhoto || data.idBackPhoto,true)}/>*/}
 
                                 <MyInfoItem title="驾驶证照片"
-                                            state={parseInt(data.flow_status)+1 } isPhoto={true}
+                                            state={parseInt(data.flowStatus)+1 } isPhoto={true}
                                             onPress={()=>{this.goTo(MyInfoDriverCard)}}
                                             rightDom={this.setRightText(data.drivingLicensePhoto,true)}/>
 
                                 <View style={[estyle.paddingVertical]}/>
 
                                 <MyInfoItem title="车牌类型"
-                                            state={parseInt(data.flow_status)+1 }
+                                            state={parseInt(data.flowStatus)+1 }
                                             onPress={()=>{this.goTo(MyInfoCarBrandType)}}
                                             rightDom={this.setRightText(data.plateNumberType,false,true)}/>
 
                                 <MyInfoItem title="车牌号"
-                                            state={parseInt(data.flow_status)+1 }
+                                            state={parseInt(data.flowStatus)+1 }
                                             onPress={()=>{this.goTo(MyInfoCarCode)}}
                                             rightDom={this.setRightText(data.carNumber)}/>
 
                                 <MyInfoItem title=" 车厢长（米）"
-                                            state={parseInt(data.flow_status)+1 }
+                                            state={parseInt(data.flowStatus)+1 }
                                             onPress={()=>{this.goTo(MyInfoCarGangLength)}}
                                             rightDom={this.setRightText(data.carLength,false,true)}/>
 
                                 <MyInfoItem title="车型"
-                                            state={parseInt(data.flow_status)+1 }
-                                            onPress={()=>{this.goTo(MyInfoCarType,'carGang')}}
+                                            state={parseInt(data.flowStatus)+1 }
+                                            onPress={()=>{this.goTo(MyInfoCarType)}}
                                             rightDom={this.setRightText(data.carType,false,true)}/>
 
                                 <MyInfoItem title=" 载重（吨）"
-                                            state={parseInt(data.flow_status)+1 }
+                                            state={parseInt(data.flowStatus)+1 }
                                             onPress={()=>{this.goTo(MyInfoCarLoad)}}
                                             rightDom={this.setRightText(data.vehicleLoad)}/>
 
                                 <MyInfoItem title="行驶证照片"
-                                            state={parseInt(data.flow_status)+1 } isPhoto={true}
+                                            state={parseInt(data.flowStatus)+1 } isPhoto={true}
                                             onPress={()=>{this.goTo(MyInfoDrivingCard)}}
                                             rightDom={this.setRightText(data.vehicleLicensePhoto,true)}/>
 
                                 {
-                                    data.flow_status == 0 || data.flow_status == 2 || !data.flow_status ?
+                                    data.flowStatus == 0 || data.flowStatus == 2 || !data.flowStatus ?
                                         <View style={[estyle.fxRowCenter, estyle.marginTop]}>
                                             <SubmitButton size="large"
                                                           doing={this.state.doing}

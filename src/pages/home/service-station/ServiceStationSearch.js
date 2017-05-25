@@ -165,12 +165,7 @@ export default class ServiceStationList extends Component {
                                 renderRow={(row,sectionId,rowId) => {
                             return <ServiceStationItem
                                 number={+rowId + 1}
-                                src={row.photo}
-                                title={row.name}
-                                level={row.level}
-                                central={row.central}
-                                km={row.distance}
-                                adr={row.address}
+                                data = {row}
                                 onPress={() =>{this.props.router.push(ServiceStationDetail,{stationId: row.id}) } }
                             />
                         }}

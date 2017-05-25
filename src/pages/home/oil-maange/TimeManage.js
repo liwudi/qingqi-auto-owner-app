@@ -80,9 +80,10 @@ export default class TimeManage extends Component {
         if(!this.state.datas|| this.state.datas.length<1){
             val = 0;
         }else {
+            console.log(this.state.datas[this.state.datas.length-1].statisDate,this.state.weeks[6].format('YYYYMMDD'))
             if(this.state.datas[this.state.datas.length-1].statisDate == this.state.weeks[6].format('YYYYMMDD')){
-                val = this.state.type === 1 ? this.state.datas[this.state.datas.length-1].runinngMinutes : this.state.datas[this.state.datas.length-1].idleMinutes ;
-                val = (val/24).toFixed(2);
+                val = this.state.type === 1 ? this.state.datas[this.state.datas.length-1].runningMinutes : this.state.datas[this.state.datas.length-1].idleMinutes ;
+                val = (val/60).toFixed(2);
             }else {
                 val = 0;
             }
@@ -133,8 +134,8 @@ export default class TimeManage extends Component {
             let _d_ = date.format('YYYY-MM-DD'),
                 _cd = _curDate,val;
             if(_d.length > 0){
-                val = this.state.type === 1 ? _d[0].runinngMinutes : _d[0].idleMinutes;
-                val = (val/24).toFixed(2);
+                val = this.state.type === 1 ? _d[0].runningMinutes : _d[0].idleMinutes;
+                val = val ? (val/60).toFixed(2): 0;
             }else {
                 val = 0;
             }
@@ -167,15 +168,15 @@ export default class TimeManage extends Component {
         return (
             <View style={[estyle.containerBackgroundColor,estyle.fx1]}>
                 {/*<TopBanner {...this.props} title="运营里程统计"/>*/}
-                <View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxColumnCenter]}>
-                    <View style={[estyle.fxRow,estyle.fxCenter,estyle.marginLeft]}>
+                <View style={[estyle.fxRow,estyle.cardBackgroundColor,estyle.fxColumnCenter,estyle.fxCenter]}>
+                   {/* <View style={[estyle.fxRow,estyle.fxCenter,estyle.marginLeft]}>
                         <TouchableOpacity onPress={()=>{this.selectType(1)}}>
                             <Text style={[estyle.paddingHorizontal,estyle.note,this.state.type === 1 ? styles.currrntBtn : styles.btn]}>行驶时长</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>{this.selectType(2)}}>
                             <Text style={[estyle.paddingHorizontal,estyle.note,this.state.type === 2 ? styles.currrntBtn : styles.btn]}>怠速时长</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View>*/}
                     <View style={[estyle.fx1,estyle.fxRow,estyle.fxCenter,estyle.padding]}>
                         <TouchableOpacity onPress={this._preWeek.bind(this)}  style={[estyle.fx1,estyle.fxRow,estyle.fxCenter]}>
                             <Icons.IconArrowLeft style={styles.textBlue}/>
@@ -190,7 +191,7 @@ export default class TimeManage extends Component {
                 <View style={[estyle.fxCenter,estyle.paddingVertical]}><Text style={[estyle.note]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')}{this.state.type === 1 ? '行驶时长' : '怠速时长' }{this.state.value+'h'}</Text></View>
                 {chart()}
                 <View style={[estyle.padding,estyle.fxRow]}>
-                    <Text style={[estyle.text,estyle.fx1]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 车辆行驶里程详情</Text>
+                    <Text style={[estyle.note,estyle.fx1]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 车辆运行时长详情</Text>
                     <TouchableOpacity style={[estyle.fxRow,estyle.fxCenter]} onPress={()=>{
                         this.props.router.push(CountQuestion);
                     }}>

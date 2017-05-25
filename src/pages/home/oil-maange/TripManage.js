@@ -167,7 +167,7 @@ export default class TripManage extends Component {
 				</View>
 				<View style={[estyle.fxCenter,estyle.paddingVertical]}><Text style={[estyle.note]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')}{`里程${this.state.value}km`}</Text></View>
                 {chart()}
-				<View style={estyle.padding}><Text>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 车辆行驶里程详情</Text></View>
+				<View style={estyle.padding}><Text style={[estyle.note]}>{this.state.weeks[this.state.currentIndex].format('YYYY年MM月DD日')} 车辆行驶里程详情</Text></View>
 				<PageList
 					style={[estyle.cardBackgroundColor, estyle.fx1]}
 					renderRow={(row) => {

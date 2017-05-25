@@ -30,7 +30,7 @@ export default class GoodsFollowList extends Component {
     alert = (type) => {
         let mainMsg = '查看货源详情需要进行资料认证',confirmMsg = '去认证';
         if(type == 4) return;
-        switch (type) {
+        switch (parseInt(type)) {
             case 2 : mainMsg = '您的认证信息正在审核中请耐心等待'; confirmMsg = '查看详情'; break;
             case 5 : mainMsg = '您的认证信息已过期请更新信息'; confirmMsg = '去更新'; break;
             default : mainMsg = '查看货源详情需要进行资料认证';confirmMsg = '去认证';
@@ -41,12 +41,13 @@ export default class GoodsFollowList extends Component {
                 {text: '取消'}
             ]
         )
+        this.setState({doing: false})
     };
     goToMyInfo = () => {
         this.props.router.push(MyInfoIndex);
     }
 
-    goToDetail(data) {
+    goToDetail = (data) => {
         if (data.dataSourcesCode == 1) {
             this.props.router.push(GoodsDetail, {
                 nav: {
@@ -54,28 +55,27 @@ export default class GoodsFollowList extends Component {
                     onlycode: data.onlyCode
                 }
             });
+            this.setState({doing: false});
         } else if (data.dataSourcesCode == 2) {
             let id = data.goodsSourceId;
-            if (this.state.doing) return;
-            this.setState({doing: true}, () => {
-                getCarGoDetail(id)
-                    .then((res) => {
-                        this.props.router.push(GoodsDetail, {
-                            url: res.url
-                        });
-                    })
-                    .catch((e) => {
-                        Toast.show(e.message, Toast.SHORT);
-                    })
-                    .finally(() => {
-                        this.setState({doing: false})
-                    })
-            })
-
+            getCarGoDetail(id)
+                .then((res) => {
+                    this.props.router.push(GoodsDetail, {
+                        url: res.url
+                    });
+                })
+                .catch((e) => {
+                    Toast.show(e.message, Toast.SHORT);
+                })
+                .finally(() => {
+                    this.setState({doing: false})
+                })
         }
     }
 
-    clickItem(data1) {
+    clickItem = (data1) => {
+        if(this.state.doing) return;
+        this.setState({doing: true});
         userAuth(data1.dataSourcesCode).then((data) => {
             let validStatus = data.status;
             if (validStatus == 4) {
@@ -92,12 +92,16 @@ export default class GoodsFollowList extends Component {
         return <View><Text style={[estyle.marginFontBottom, estyle.text]}>该线路货源已经被抢光了,</Text><Text
             style={[{textAlign: 'center'}, estyle.text]}>有新货源我们马上通知您！</Text></View>
     }
+    doback(){
+        this.props.backFun && this.props.backFun();
+        this.props.doBack();
+    }
 
     render() {
         let propData = this.props.data;
         return (
-            <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props} title="货源信息"/>
+            <View style={[estyle.fx1, estyle.containerBackgroundColor]} >
+                <TopBanner {...this.props} title="货源信息" onPress={this.doback.bind(this)}/>
                 <View style={[estyle.cardBackgroundColor, estyle.padding, estyle.fxCenter]}>
                     <Text style={[estyle.text]}>{
                         `${propData.startAddressName} --- ${propData.endAddressName || '无'} ${propData.carModel || ''}  ${propData.carLength ? (propData.carLength + '米') : '' }`

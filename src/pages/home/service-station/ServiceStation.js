@@ -387,12 +387,7 @@ export default class ServiceStation extends Component {
                             renderRow={(row,sectionId,rowId) => {
                                 return <ServiceStationItem
                                     number={+rowId + 1}
-                                    src={row.photo}
-                                    title={row.name}
-                                    level={row.level}
-                                    central={row.central}
-                                    km={row.distance}
-                                    adr={row.address}
+                                    data = {row}
                                     onPress={() =>{
                                         this.goToDetail(row);
                                     }}
@@ -422,12 +417,7 @@ export default class ServiceStation extends Component {
                     <ServiceStationItem
                         style={[{position:'absolute',bottom:0,left:this.state.detail ? 0 : -1000}]}
                         number={row.number}
-                        src={row.photo}
-                        title={row.name}
-                        level={row.level}
-                        central={row.central}
-                        km={row.distance}
-                        adr={row.address}
+                        data = {row}
                         onPress={() =>{this.goToDetail(row)}}
                     />
                 </View>
@@ -460,3 +450,7 @@ const styles = StyleSheet.create({
         marginRight: basefont * 4
     }
 });
+
+aaa = (a = {})=>{
+
+}

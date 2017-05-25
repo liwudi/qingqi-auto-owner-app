@@ -178,6 +178,7 @@ export default class SetStartEnd extends Component {
                             obj = this.info[route.idx] || {};
                         return <View style={[estyle.fx1]}>
                             <Component
+                                {...this.props}
                                 random={random}
                                 current={obj.current || {}}
                                 query={obj.query || {}}

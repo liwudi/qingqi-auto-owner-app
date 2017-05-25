@@ -58,6 +58,7 @@ class GoodsDetail extends Component {
                             startInLoadingState={true}
                             javaScriptEnabled={true}
                             injectedJavaScript={funStr}
+                            domStorageEnabled={true}
                             onMessage={(evt)=>{this.openBrower(evt.nativeEvent.data)}}
                             source={{uri: this.state.uri}}
                         /> : <ActivityIndicator style={estyle.fx1}/>
