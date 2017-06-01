@@ -45,7 +45,7 @@ export default class MyDriver extends Component {
     }
 
     editDriver(data) {
-        this.props.router.push(MyDriverEdit, {
+        this.props.router.replace(MyDriverEdit, {
             nav: data,
             refresh: () => {
                 this.refs.list.reInitFetch();
@@ -91,7 +91,7 @@ export default class MyDriver extends Component {
 						<TouchableOpacity
 							style={estyle.topBtn}
 							onPress={() => {
-								this.props.router.push(MyDriverAdd, {
+								this.props.router.replace(MyDriverAdd, {
 									refresh: () => {
 										this.refs.list.reInitFetch();
 									}

@@ -199,8 +199,8 @@ export default class MonitorMap extends Component {
     }
 
     setMonitorInfo(data, init) {
-        data.longitude = data.longitude || data.lon;
-        data.latitude = data.latitude || data.lat;
+        data.longitude = data.lon;
+        data.latitude = data.lat;
         data.carNo = data.carNo || data.carCode;
         data.count = 1;
         this.carToCenter(data);
@@ -210,9 +210,10 @@ export default class MonitorMap extends Component {
         } else {
             this.monitorInfo = data;
         }
+        console.log(data.longitude,data.latitude)
         this.list = [data];
-        console.info('data-------')
-        console.info(data)
+        // console.info('data-------')
+        // console.info(data)
         this.setMarker();
 
         this.setState({refreshInfo: Math.random()});
@@ -247,10 +248,10 @@ export default class MonitorMap extends Component {
                 list['carId_' + item.carId] = item;
                 this.addMarkerOpts(item, idx);
             });
-            console.info('清理旧标注')
+            // console.info('清理旧标注')
             this.Map.clearOverlays();
-            console.info('添加新标注')
-            console.info(this.markers)
+            // console.info('添加新标注')
+            // console.info(this.markers)
 
             this.Marker.add(this.markers);
             this.MarkerRotate.add(this.markers_d);

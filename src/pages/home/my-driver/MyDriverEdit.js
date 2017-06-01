@@ -15,6 +15,7 @@ import { IconTrash } from '../../../components/Icons';
 import PhoneInput from '../../../components/Inputs/Phone';
 import Toast from '../../../components/Toast';
 import {modifyDriver, deleteDriver} from "../../../services/MyDriverService";
+import MyDriver from './MyDriver';
 
 const getBLen = function(str) {
     if (str == null) return 0;
@@ -45,8 +46,8 @@ export default class MyDriverEdit extends Component {
 	 * 跳转到列表页面
 	 */
 	toListPage () {
-		this.props.refresh();
-		this.props.router.pop();
+		//this.props.refresh();
+		this.props.router.replace(MyDriver);
 	}
 
 
@@ -132,6 +133,7 @@ export default class MyDriverEdit extends Component {
 		return (
 			<View style={[estyle.fx1, estyle.containerBackgroundColor]}>
 				<TopBanner {...this.props} title="编辑司机"
+                   onPress={()=>{this.toListPage()}}
 				   rightView={
 					   <TouchableOpacity style={estyle.topBtn} onPress={() => this.delete()}>
 						   <IconTrash color="#FFF" size={Env.font.base * 40}/>

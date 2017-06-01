@@ -23,6 +23,7 @@ import {addDriver} from '../../../services/MyDriverService';
 import SelectForContacts from '../../contacts/SelectForContacts';
 import PhoneInput from '../../../components/Inputs/Phone';
 import { getContacts } from '../../../components/Contacts';
+import MyDriver from './MyDriver';
 
 import Toast from '../../../components/Toast';
 
@@ -61,8 +62,8 @@ export default class MyDriverAdd extends Component {
                 .then(() => {
                     Toast.show('添加成功', Toast.SHORT);
                     this.timer = setTimeout(() => {
-                        this.props.refresh();
-                        this.props.router.pop();
+                        //this.props.refresh();
+                        this.props.router.replace(MyDriver);
                     }, 500)
                 })
                 .catch((e) => {
