@@ -50,7 +50,7 @@ const bounds = () => {
             latitude: maxLat + df}
     }
 }
-export default class ServiceStation extends Component {
+class ServiceStation extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -387,8 +387,9 @@ export default class ServiceStation extends Component {
                             renderRow={(row,sectionId,rowId) => {
                                 return <ServiceStationItem
                                     number={+rowId + 1}
-                                    data = {row}
+                                    data={row}
                                     onPress={() =>{
+                                        global.umengEvent('fault_entrance','故障诊断_诊断按钮');
                                         this.goToDetail(row);
                                     }}
                                 />;
@@ -451,6 +452,4 @@ const styles = StyleSheet.create({
     }
 });
 
-aaa = (a = {})=>{
-
-}
+export default global.StatEnhance(ServiceStation)

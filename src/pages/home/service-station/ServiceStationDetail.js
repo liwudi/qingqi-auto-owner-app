@@ -39,7 +39,7 @@ export default class ServiceStationDetail extends Component {
         this.state = {
             data: {},
             isRefreshing:true,
-            flag: 2 // 1同车型 2全部车型评价
+            flag: 1 // 1同车型 2全部车型评价
         };
     }
     componentWillUnmount() {
@@ -101,7 +101,7 @@ export default class ServiceStationDetail extends Component {
         return (
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
                 <TopBanner {...this.props} title="服务站详情" rightView={<View>
-                    <BorderButton color="#FFF" onPress={() => { this.props.router.push(ServiceStationAppointmentList)
+                    <BorderButton color="#FFF" onPress={() => { global.umengEvent('service_history','服务预约_我的预约历史');  this.props.router.push(ServiceStationAppointmentList)
                     } }>我的预约</BorderButton>
                 </View>  }/>
                 <ScrollView
@@ -122,7 +122,7 @@ export default class ServiceStationDetail extends Component {
                         style={[estyle.cardBackgroundColor, estyle.fxRow, estyle.fxRowCenter, estyle.padding, estyle.borderBottom, estyle.marginBottom]}>
                         <Text style={[estyle.fx1, estyle.text]}>{this.state.data.name}</Text>
                         <ConfirmButton size="small"
-                                       onPress={() => {this.props.router.push(ServiceStationAppointment,{stationId:this.props.stationId})} }>我要预约</ConfirmButton>
+                                       onPress={() => {global.umengEvent('service_reservation','服务预约_我要预约'); this.props.router.push(ServiceStationAppointment,{stationId:this.props.stationId})} }>我要预约</ConfirmButton>
                     </View>
                     <View style={[estyle.cardBackgroundColor, estyle.borderBottom, estyle.marginBottom]}>
                         <ViewForRightArrow
@@ -178,9 +178,9 @@ export default class ServiceStationDetail extends Component {
                     <View style={[estyle.cardBackgroundColor]}>
                         <ListItem left='评价：'/>
                         <View style={[estyle.fxRow,estyle.fxCenter]}>
-                           {/* <TouchableOpacity style={[estyle.fx1,{borderBottomWidth:10 * Env.font.base,borderBottomColor: this.state.flag == 1 ? Env.color.main : 'transparent' }]} onPress={ ()=>{this.setState({flag:1})} } >
+                            <TouchableOpacity style={[estyle.fx1,{borderBottomWidth:10 * Env.font.base,borderBottomColor: this.state.flag == 1 ? Env.color.main : 'transparent' }]} onPress={ ()=>{this.setState({flag:1})} } >
                                 <Text style={[estyle.paddingVertical, {color: this.state.flag == 1 ? Env.color.main : Env.color.text, textAlign:'center'}, estyle.fx1]}>同车型评价</Text>
-                            </TouchableOpacity>*/}
+                            </TouchableOpacity>
                             <TouchableOpacity style={[estyle.fx1,{borderBottomWidth:10 * Env.font.base,borderBottomColor: this.state.flag == 2 ? Env.color.main : 'transparent' }]} onPress={ ()=>{this.setState({flag:2})} }>
                                 <Text style={[estyle.paddingVertical, {color: this.state.flag == 2 ? Env.color.main : Env.color.text, textAlign:'center'}, estyle.fx1]}>全部车型评价</Text>
                             </TouchableOpacity>

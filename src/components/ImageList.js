@@ -87,10 +87,10 @@ export default class ImageList extends React.Component{
         return (
             arr.map((item,index)=>{
                 return (
-                        <View key={index} style={[estyle.padding]}>
+                    <View key={index} style={[estyle.border,estyle.fxCenter,{width:Env.font.base * 150,marginRight: 12 * Env.font.base,marginTop: 12 * Env.font.base,height:Env.font.base * 150}]}>
                             {
                                 item ? <TouchableOpacity  onPress={()=>{this.showBigImg(index)}}>
-                                    <Image resizeMode="contain" source={{uri:item}} style={[{width:Env.font.base * 54,height:Env.font.base * 96,marginHorizontal:10*Env.font.base}]} />
+                                    <Image source={{uri:item}} style={[{width:Env.font.base * 110,height:Env.font.base * 110}]} />
                                 </TouchableOpacity> : <View/>
                             }
                             {
@@ -119,12 +119,22 @@ export default class ImageList extends React.Component{
         this.refs.imageModal.show(index);
     }
 
+    clickAddImg(){
+        if(!this.state.isUpLoading && this.state.smallImgArr.length < 6){
+            this.refs.ImagePickButton.show();
+        }else if(this.state.smallImgArr.length>=6){
+            Toast.show('最多可添加6张图片', Toast.SHORT);
+        }else {
+            Toast.show('上传文件中，请稍后再试', Toast.SHORT);
+        }
+    }
+
     render (){
         let swiperData= this.props.type == 'edit' ? this.state.smallImgArr : this.props.data;
         return (
             <View>
-                <ViewForRightDom
-                    rightDom={
+                <View
+                    /*rightDom={
                         this.props.type === 'edit' ?
                         <View style={[estyle.fxRow,estyle.fx1,estyle.fxCenter]}>
                             <TouchableOpacity style={estyle.topBtn}
@@ -138,13 +148,13 @@ export default class ImageList extends React.Component{
                                                   }
                                               }}><IconPlusCircle/></TouchableOpacity>
                         </View> : <View/>
-                    }
+                    }*/
                 >
                     <View style={[estyle.fxRow,estyle.fxRowCenter,{flexWrap:'wrap' }]}>
-                        <Text style={[estyle.text]}>{this.props.title}</Text>
+                        {/*<Text style={[estyle.text]}>{this.props.title}</Text>*/}
                         {this.smallImgList.bind(this)()}
                     </View>
-                </ViewForRightDom>
+                </View>
                 <ImagePickButton ref="ImagePickButton"
                                 onImagePick={(imageSource)=>{this.pushImg(imageSource) }}
                                  onCancel={()=>{ this.setState({alertCActive:false}) }} />

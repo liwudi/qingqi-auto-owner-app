@@ -58,15 +58,15 @@ class ServiceStationAppointmentItem extends Component {
                             {
                                 this.props.orderCode ?
                                     <Text onPress={()=>{
-                                        Alert.alert(
+                                         Alert.alert(
                                             '删除评论',
                                             '您确定要删除该条评价吗？',
                                             [
-                                                {text: '确认', onPress: () => this.delMyRated(this.props.ratedId)},
-                                                {text: '取消', onPress: () => console.log('Pressed!')},
+                                              {text: '确认', onPress: () => this.delMyRated(this.props.ratedId)},
+                                              {text: '取消', onPress: () => console.log('Pressed!')},
                                             ]
                                         )
-                                    }} style={[estyle.marginLeft, estyle.note,{color:Env.color.main}]}>删除</Text>
+                                     }} style={[estyle.marginLeft, estyle.note,{color:Env.color.main}]}>删除</Text>
                                     : null
                             }
                             <Text style={[estyle.fx1,estyle.marginLeft, estyle.note,{textAlign:'right'}]}>{this.props.date}</Text>
@@ -90,3 +90,4 @@ const styles = StyleSheet.create({
         borderRadius: basefont * 35
     }
 });
+

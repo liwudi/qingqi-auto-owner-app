@@ -15,8 +15,8 @@ import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
 import {driverCarList, setCurrentCar} from '../../../services/AppService';
 const estyle = Env.style;
-import Item from './components/MyCarItem'
-import NoCar from '../my-car/components/NoCar'
+import Item from '../../userCenter/my-car/components/MyCarItem'
+import NoCar from '../../userCenter/my-car/components/NoCar'
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import {IconCheckMark} from '../../../components/Icons';
 import { getUserDetail , getCouponNum } from '../../../actions/UserActions';

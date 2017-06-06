@@ -51,8 +51,8 @@ export default class ServiceStationAppointmentDetail extends Component {
             .then((data) => {
                 let imgArr = [], audioArr = [];
                 if (data.files) {
-                    imgArr = data.files.split(';')[0].split(',');
-                    audioArr = data.files.split(';')[1].split(',');
+                    imgArr = data.files.split(';')[0] ? data.files.split(';')[0].split(',') : [];
+                    audioArr = data.files.split(';')[1] ? data.files.split(';')[1].split(',') : [];
                 }
                 callback && callback(data.woStatus);
                 this.setState({data: data, imgArr: imgArr, audioArr: audioArr});
@@ -125,10 +125,10 @@ export default class ServiceStationAppointmentDetail extends Component {
                                    style={[estyle.marginBottom]}
                                    onPress={() => {
                                        /**
-                                        *
-                                        *因不是soket通信，在长时间未操作时状态变化未可知，故再请求一遍接口改变状态,其实特别不合理。。。。
-                                        *
-                                        **/
+                                       *
+                                       *因不是soket通信，在长时间未操作时状态变化未可知，故再请求一遍接口改变状态,其实特别不合理。。。。
+                                       *
+                                       **/
                                        this.fetchData(()=>{
                                            Toast.show('请通过400电话取消预约', Toast.SHORT);
                                        })
@@ -234,13 +234,13 @@ export default class ServiceStationAppointmentDetail extends Component {
                             <Text style={[estyle.text]}>{data.woCode}</Text>
                         </View>
                         {/*<View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
-                         <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车牌号</Text>
-                         <Text style={[estyle.text]}>{data.woCode}</Text>
-                         </View>
-                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
-                         <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车辆VIN</Text>
-                         <Text style={[estyle.text]}>{data.woCode}</Text>
-                         </View>*/}
+                            <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车牌号</Text>
+                            <Text style={[estyle.text]}>{data.woCode}</Text>
+                        </View>
+                        <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
+                            <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车辆VIN</Text>
+                            <Text style={[estyle.text]}>{data.woCode}</Text>
+                        </View>*/}
                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>预约人</Text>
                             <Text style={[estyle.text]}>{data.name}</Text>
@@ -271,15 +271,13 @@ export default class ServiceStationAppointmentDetail extends Component {
                         </View>
                     </View>
                     <Text style={[estyle.padding, estyle.text]}>预约信息</Text>
-                    <View style={[estyle.cardBackgroundColor, estyle.paddingHorizontal,estyle.borderBottom]}>
+                    <View style={[estyle.cardBackgroundColor, estyle.padding,estyle.borderBottom]}>
                         <Text style={[estyle.paddingVertical, estyle.text]}>{data.feedback || '无'}</Text>
-                    </View>
-                    <View style={[estyle.fxColumnCenter]}>
                         <ImageList title="预约图片" type='show' data={this.state.imgArr}/>
+                        {Env.isAndroid ? <View style={[estyle.fxColumnCenter]}>
+                            <Audio {...this.props} title="预约录音" type='show' data={this.state.audioArr}/>
+                        </View> : null}
                     </View>
-                    {Env.isAndroid ? <View style={[estyle.fxColumnCenter]}>
-                        <Audio {...this.props} title="预约录音" type='show' data={this.state.audioArr}/>
-                    </View> : null}
                     <View style={[estyle.marginVertical]}>
                         {
                             this.buttonType()

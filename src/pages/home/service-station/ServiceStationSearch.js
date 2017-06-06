@@ -165,7 +165,7 @@ export default class ServiceStationList extends Component {
                                 renderRow={(row,sectionId,rowId) => {
                             return <ServiceStationItem
                                 number={+rowId + 1}
-                                data = {row}
+                                data={row}
                                 onPress={() =>{this.props.router.push(ServiceStationDetail,{stationId: row.id}) } }
                             />
                         }}

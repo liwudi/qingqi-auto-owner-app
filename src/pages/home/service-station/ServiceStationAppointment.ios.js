@@ -120,7 +120,7 @@ class ServiceStationAppointment extends Component {
         if (this.state.maintainType && this.state.maintainType[type]) {
             return this.state.maintainType[type].map((item, index) => {
                 return <BorderButton style={[estyle.marginRight,estyle.marginBottom]}
-                                     color={this.state[type + index] ? Env.color.auxiliary : Env.color.main}
+                                     color={this.state[type + index] ? Env.color.auxiliary : Env.color.note}
                                      key={index}
                                      onPress={() => {
                                          this.checkMaintainType(type, index, item)
@@ -203,8 +203,8 @@ class ServiceStationAppointment extends Component {
             .catch((err) => {
                 Toast.show(err.message, Toast.SHORT);
             }).finally(()=>{
-            this.setState({doing:false})
-        })
+                this.setState({doing:false})
+            })
     }
 
     onChange(obj) {
@@ -212,7 +212,7 @@ class ServiceStationAppointment extends Component {
     }
 
     setCurrentCar(item){
-        this.setState({selectCar:item});
+       this.setState({selectCar:item});
     }
 
     render() {
@@ -251,29 +251,29 @@ class ServiceStationAppointment extends Component {
                                 {pattern: /^1\d{10}$/, msg: '手机号格式错误'}
                             ]}
                         />
-                        {/* <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
-                         this.props.router.push(ServiceStationCarList,{selectCar:this.setCurrentCar.bind(this)});
-                         }}>
-                         <View style={[estyle.fxRow, estyle.fxRowCenter]}>
-                         <View style={[estyle.fx1, estyle.fxRow, estyle.paddingRight]}>
-                         <Text style={[estyle.text, {textAlign: 'left',color: Env.color.important}]}>预约车辆</Text>
-                         </View>
-                         <View style={[estyle.fxCenter]}>
-                         <Text
-                         style={[estyle.text, {textAlign: 'right'}]}>{ this.state.selectCar ? this.state.selectCar.carCode : '请选择要预约的车辆'}</Text>
-                         </View>
-                         </View>
-                         </ViewForRightArrow>*/}
+                       {/* <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
+                            this.props.router.push(ServiceStationCarList,{selectCar:this.setCurrentCar.bind(this)});
+                        }}>
+                            <View style={[estyle.fxRow, estyle.fxRowCenter]}>
+                                <View style={[estyle.fx1, estyle.fxRow, estyle.paddingRight]}>
+                                    <Text style={[estyle.text, {textAlign: 'left',color: Env.color.important}]}>预约车辆</Text>
+                                </View>
+                                <View style={[estyle.fxCenter]}>
+                                    <Text
+                                        style={[estyle.text, {textAlign: 'right'}]}>{ this.state.selectCar ? this.state.selectCar.carCode : '请选择要预约的车辆'}</Text>
+                                </View>
+                            </View>
+                        </ViewForRightArrow>*/}
                         <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
                             this.datePicker()
                         }}>
                             <View style={[estyle.fxRow, estyle.fxRowCenter]}>
-                                <View style={[estyle.fx1, estyle.fxRow, estyle.paddingRight]}>
+                                <View style={[estyle.fxRow, estyle.paddingRight]}>
                                     <Text style={[estyle.text, {textAlign: 'left',color: Env.color.important}]}>预约时间</Text>
                                 </View>
                                 <View style={[estyle.fxCenter]}>
                                     <Text
-                                        style={[estyle.text, {textAlign: 'right'}]}>{ this.state.dateTime || '选择预约时间'}</Text>
+                                        style={[estyle.text]}>{ this.state.dateTime || '选择预约时间'}</Text>
                                 </View>
                             </View>
                         </ViewForRightArrow>
@@ -291,11 +291,14 @@ class ServiceStationAppointment extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={[estyle.border, estyle.cardBackgroundColor, estyle.padding]}>
-                        <Text style={[estyle.text, {color: Env.color.note}]}>故障描述（选填）</Text>
-                        <View style={[estyle.fx1,estyle.marginTop]}>
+                    <View style={[estyle.border, estyle.cardBackgroundColor, estyle.padding,{borderBottomWidth: 0}]}>
+                        <View style={[estyle.fxRow]}>
+                            <Text style={[estyle.text,estyle.fx1,{color: Env.color.note}]}>故障描述</Text>
+                            <Text style={[estyle.text, {color: Env.color.note,textAlign:'right'}]}>（选填）</Text>
+                        </View>
+                        <View style={[estyle.fx1]}>
                             <TextInput
-                                style={[estyle.text, {height: 100 * Env.font.base}]}
+                                style={[estyle.text, {height: 150 * Env.font.base}]}
                                 onChangeText={advice => this.onChange({advice: advice})}
                                 placeholder="请输入故障或保养描述（100个汉字或200个字符)"
                                 maxLength={200}
@@ -305,18 +308,22 @@ class ServiceStationAppointment extends Component {
                                 onBlur={()=>{this.setState({bottomHeight:0})}}
                             />
                         </View>
-                    </View>
-                    <View>
-                        <ImageList title="预约图片" type='edit' onChange={(list)=>{ this.setState({ imgUrlList:list}) }} />
+                        <ImageList ref="imageList" title="预约图片" type='edit' onChange={(list)=>{ this.setState({ imgUrlList:list}) }} />
                         {/*<Audio {...this.props} title="预约录音" type='edit' onChange={(list)=>{ this.setState({ audioUrlList:list}) }}/>*/}
+                        <View style={[estyle.fxRow,estyle.marginTop]}>
+                            <BorderButton style={[estyle.marginRight]}
+                                          color={Env.color.main}
+                                          onPress={() => {
+                                              this.refs.imageList.clickAddImg();
+                                          }}>{'添加图片'}</BorderButton>
+                        </View>
                     </View>
-
                     <View style={[estyle.fxRowCenter,estyle.marginVertical]}>
                         <SubmitButton size="large"
                                       doing={this.state.doing}
-                                      onPress={() => {
-                                          this.nextStep()
-                                      }}>预约</SubmitButton>
+                                       onPress={() => {
+                                           this.nextStep()
+                                       }}>预约</SubmitButton>
                     </View>
                 </ScrollView>
                 <View style={[{height: this.state.bottomHeight * basefont}]} />

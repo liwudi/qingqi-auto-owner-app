@@ -81,14 +81,14 @@ export default class Audio extends React.Component {
         return (
             arr.map((item, index) => {
                 return (
-                    <View key={index} style={[estyle.padding]}>
+                    <View key={index} style={[estyle.border,estyle.fxCenter,{width:Env.font.base * 150,marginRight: 12 * Env.font.base,marginTop: 12 * Env.font.base,height:Env.font.base * 150}]}>
                         {
                             item ? <TouchableOpacity onPress={() => {
                             this.setState({playUrl: item}, () => {
                                 this.refs.audioPlay.show();
                             });
                         }}>
-                                <IconMicrophone />
+                                <IconMicrophone size={70*Env.font.base} />
                             </TouchableOpacity> : <View/>
                         }
                         {
@@ -112,32 +112,36 @@ export default class Audio extends React.Component {
             })
         )
     }
+    clickAddAudio(){
+        if (!this.state.isUpLoading && this.state.audioArr.length < 6) {
+            this.refs.record.show();
+        } else if(this.state.audioArr.length >= 6){
+            Toast.show('最多可添加6段录音', Toast.SHORT);
+        }else {
+            Toast.show('上传文件中，请稍后再试', Toast.SHORT);
+        }
+    }
+
 
     render() {
         return (
             <View>
-                <ViewForRightDom
-                    rightDom={
-                        this.props.type === 'edit' && this.state.audioArr.length < 6?
-                            <View style={[estyle.fxRow, estyle.fx1, estyle.fxCenter]}>
-                                <TouchableOpacity style={estyle.topBtn}
-                                                  onPress={ () => {
-                                                      if (!this.state.isUpLoading && this.state.audioArr.length < 6) {
-                                                          this.refs.record.show();
-                                                      } else if(this.state.audioArr.length >= 6){
-                                                          Toast.show('最多可添加6段录音', Toast.SHORT);
-                                                      }else {
-                                                          Toast.show('上传文件中，请稍后再试', Toast.SHORT);
-                                                      }
-                                                  }}><IconPlusCircle/></TouchableOpacity>
-                            </View> : <View/>
-                    }
+                <View
+                    // rightDom={
+                    //     this.props.type === 'edit' && this.state.audioArr.length < 6 ?
+                    //         <View style={[estyle.fxRow, estyle.fx1, estyle.fxCenter]}>
+                    //             <TouchableOpacity style={estyle.topBtn}
+                    //                               onPress={ () => {
+                    //                                   this.clickAddAudio();
+                    //                               }}><IconPlusCircle/></TouchableOpacity>
+                    //         </View> : <View/>
+                    // }
                 >
-                    <View style={[estyle.fxRow, estyle.fxRowCenter]}>
-                        <Text style={[estyle.text]}>{this.props.title}</Text>
+                    <View style={[estyle.fxRow, estyle.fxRowCenter,{flexWrap:'wrap' }]}>
+                        {/*<Text style={[estyle.text]}>{this.props.title}</Text>*/}
                         {this.audioImgList()}
                     </View>
-                </ViewForRightDom>
+                </View>
                 <View>
                     <Record {...this.props} ref="record" save={this.pushAudio.bind(this)}/>
                 </View>
