@@ -63,22 +63,21 @@ export default class MyDriver extends Component {
             .finally(()=>{this.setState({doing:false})})
     }
     driverState(row){
-        if( row.registerStatus == 1 ){
+        // if( row.registerStatus == 1 ){
                 return <BorderButton  style={[estyle.marginLeft]} onPress={() => this.bindLine(row.driverId)}>绑定</BorderButton>
-        }else {
-            return <Text style={[estyle.note,estyle.marginLeft]}>未注册</Text>
-        }
+        // }else {
+        //     return <Text style={[estyle.note,estyle.marginLeft]}>未注册</Text>
+        // }
     }
 
     rightView(){
+        let removeView = <TouchableOpacity onPress={()=> {
+            this.removeBound();
+        } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity> ;
         if(this.props.nav.driverType === 1 && this.props.nav.mainDriverId != null){
-            return <TouchableOpacity onPress={()=> {
-                this.removeBound();
-            } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
+            return removeView;
         }else if(this.props.nav.driverType === 2 && this.props.nav.subDriverId != null){
-            return <TouchableOpacity onPress={()=> {
-                this.removeBound();
-            } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity>
+            return removeView;
         }else {
             return <View/>
         }
