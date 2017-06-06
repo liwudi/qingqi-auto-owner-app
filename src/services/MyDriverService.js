@@ -73,12 +73,13 @@ export function modifyDriver(entity, oldPhone){
 }
 
 //解绑司机
-export function unbindDriver(driverId,carId,type){
+export function unbindDriver(driverId,carId,type,phone){
     return RequestService.get(
         makeUrl('unbindDriver'),{
             driverId: driverId,
             carId: carId,
-            driverType:type
+            driverType:type,
+            driverPhone:phone
         }
     );
 }

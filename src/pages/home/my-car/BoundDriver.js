@@ -35,7 +35,8 @@ export default class MyDriver extends Component {
     //解绑司机
     deleteDriver(){
         let driverId = this.props.nav.driverType == 1 ? this.props.nav.mainDriverId : this.props.nav.subDriverId;
-        unbindDriver(driverId,this.props.nav.carId,this.props.nav.driverType)
+        let phone = this.props.nav.driverType == 1 ? this.props.nav.mainDriverPhoneNum : this.props.nav.subDriverPhoneNum;
+        unbindDriver(driverId,this.props.nav.carId,this.props.nav.driverType,phone)
             .then(()=>{
                 this.props.update.forEach((item)=>{ item()});
                 this.props.router.pop();
@@ -44,13 +45,14 @@ export default class MyDriver extends Component {
             .finally(()=>{})
     }
 
-    bindLine(driverId){
+    bindLine(row){
         if(this.state.doing) return;
         this.setState({doing:true});
         bindDriver({
-            driverId:driverId,
+            driverId:row.driverId,
             carId:this.props.nav.carId,
-            driverType:this.props.nav.driverType
+            driverType:this.props.nav.driverType,
+            driverPhone:row.phone
         })
             .then(()=>{
                 Toast.show('绑定成功！', Toast.SHORT);
@@ -64,7 +66,7 @@ export default class MyDriver extends Component {
     }
     driverState(row){
         // if( row.registerStatus == 1 ){
-                return <BorderButton  style={[estyle.marginLeft]} onPress={() => this.bindLine(row.driverId)}>绑定</BorderButton>
+                return <BorderButton  style={[estyle.marginLeft]} onPress={() => this.bindLine(row)}>绑定</BorderButton>
         // }else {
         //     return <Text style={[estyle.note,estyle.marginLeft]}>未注册</Text>
         // }
@@ -74,9 +76,9 @@ export default class MyDriver extends Component {
         let removeView = <TouchableOpacity onPress={()=> {
             this.removeBound();
         } }><Text style={{fontSize:Env.font.text,color:'#FFF'}}>解绑司机</Text></TouchableOpacity> ;
-        if(this.props.nav.driverType === 1 && this.props.nav.mainDriverId != null){
+        if(this.props.nav.driverType === 1 && this.props.nav.mainDriverId != null && this.props.nav.mainDriverPhoneNum != null){
             return removeView;
-        }else if(this.props.nav.driverType === 2 && this.props.nav.subDriverId != null){
+        }else if(this.props.nav.driverType === 2 && this.props.nav.subDriverId != null && this.props.nav.subDriverPhoneNum != null){
             return removeView;
         }else {
             return <View/>

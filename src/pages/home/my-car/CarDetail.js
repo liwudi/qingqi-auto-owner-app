@@ -108,6 +108,8 @@ export default class CarDetail extends Component {
                     carId: this.props.nav.carId,
                     mainDriverId: this.state.data.mainDriverId || null,
                     subDriverId: this.state.data.subDriverId || null ,
+                    mainDriverPhoneNum:this.state.data.mainDriverPhoneNum || null,
+                    subDriverPhoneNum:this.state.data.subDriverPhoneNum || null,
                     driverType: type
                 },
                 update:  [this.fetchData.bind(this), this.props.nav.backRender.bind(this)]
