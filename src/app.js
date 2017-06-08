@@ -4,6 +4,9 @@ import { View, AppState } from 'react-native';
 import { Provider } from 'react-redux'
 
 import configureStore from './configure-store';
+import StatEnhance,{ umengEvent } from './utils/Stat';
+global.StatEnhance = StatEnhance;
+global.umengEvent = umengEvent;
 
 import Main from './pages/Main';
 import Env from './utils/Env';
