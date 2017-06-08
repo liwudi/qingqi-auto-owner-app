@@ -7,8 +7,8 @@
 //
 
 #import "CommonModule.h"
-#import "RCTBridge.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTBridge.h>
+#import <React/RCTEventDispatcher.h>
 
 @implementation CommonModule
 

@@ -5,13 +5,8 @@ import React, {Component} from 'react';
 
 import {
     View,
-    StyleSheet,
     Text,
     TouchableOpacity,
-    Navigator,
-    Image,
-    Alert,
-    ScrollView
 } from 'react-native';
 
 import { providerCity,areaCondition } from '../services/ServiceStationService';

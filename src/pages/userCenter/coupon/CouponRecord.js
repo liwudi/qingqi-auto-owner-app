@@ -5,8 +5,6 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    TouchableOpacity,
-    Navigator
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';

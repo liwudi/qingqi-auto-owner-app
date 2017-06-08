@@ -15,14 +15,12 @@ import android.widget.Toast;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactApplication;
-import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import io.rnkit.actionsheetpicker.ASPickerViewPackage;
 
 import com.mapbar.react.update.UpdatePackage;
+import com.mapbar.rn.navicore.RnNavicorePackage;
 import com.mapbar.utils.SdcardUtil;
-import com.remobile.toast.RCTToastPackage;
-import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -37,7 +35,6 @@ import com.mapbar.pushservice.mapbarpush.PushConfigs;
 import com.mapbar.pushservice.mapbarpush.provider.DeviceInfoHelper;
 import com.mapbar.react.CommonUtils;
 import com.mapbar.react.common.CommonPackage;
-import com.mapbar.rn.navicore.RnNavicorePackage;
 
 import com.mapbar.react.push.MarbarPushPackage;
 import com.mapbar.react.setting.SystemSettingPackage;
@@ -156,7 +153,7 @@ public class MainApplication extends Application implements ReactApplication {
   }
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
-    protected boolean getUseDeveloperSupport() {
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
@@ -164,11 +161,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new WebViewBridgePackage(),
             new ReactNativePermissionsPackage(),
             new ASPickerViewPackage(),
-            new RCTToastPackage(),
-            new ReactVideoPackage(),
             new ImageResizerPackage(),
             new RNFetchBlobPackage(),
               new SystemSettingPackage(),

@@ -9,15 +9,14 @@
 
 #import "AppDelegate.h"
 
-#import "RCTBundleURLProvider.h"
-#import "RCTRootView.h"
-#import "RCTPushNotificationManager.h"
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
+#import <React/RCTPushNotificationManager.h>
 #import <iNaviCore/MBNaviSession.h>
 #import <iNaviCore/MBExpandView.h>
 #import <iNaviCore/MBNaviSession.h>
 #import <iNaviCore/MBNaviSessionDelegate.h>
 #import <iNaviCore/MBNaviSessionParams.h>
-//#import "SplashScreen.h"
 
 @interface AppDelegate()<MBNaviSessionDelegate>
 @end
@@ -32,15 +31,15 @@
   NSLog(@"engineVersion:%@",[[MBEngine sharedEngine] version]);
   
   NSURL *jsCodeLocation;
-  
+
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-  
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"QingqiOwnerApp"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-  
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;

@@ -6,9 +6,8 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    Text,
     TouchableOpacity,
-    Navigator, Image
+    Image
 } from 'react-native';
 
 import Swiper from 'react-native-swiper';

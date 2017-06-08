@@ -6,9 +6,6 @@ import React from 'react';
 import {
 	View,
 	StyleSheet,
-	Text,
-	Image,
-	Dimensions,
 	TouchableOpacity
 } from 'react-native';
 

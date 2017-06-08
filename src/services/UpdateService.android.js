@@ -140,7 +140,7 @@ function updateAppAlert(appInfo) {
                 {text:'稍后再说',onPress:()=>{
                     global.storage.save({
                         key:'laterUpdateTime',
-                        rawData: new Date().getTime(),
+                        data: new Date().getTime(),
                         expires: 1000 * 3600 * 12
                     })
                 }}

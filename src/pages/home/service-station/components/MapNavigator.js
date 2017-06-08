@@ -2,7 +2,11 @@
  * Created by ligj on 2016/10/13.
  */
 import React, { Component } from 'react';
-import { View, Text, Navigator } from 'react-native';
+
+import {
+    Navigator
+} from 'react-native-deprecated-custom-components';
+
 
 export default class MapNavigator extends Component {
     static defaultProps = {

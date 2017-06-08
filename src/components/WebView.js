@@ -5,10 +5,8 @@
  * Created by ligj on 2016/10/20.
  */
 import React, { Component } from 'react';
-import { View , TouchableOpacity, Text } from 'react-native';
+import { View , TouchableOpacity, Text, WebView } from 'react-native';
 import * as Icons from './Icons';
-
-import WebViewBridge from 'react-native-webview-bridge';
 
 import TopBanner from './TopBanner';
 
@@ -36,7 +34,7 @@ export default class News extends Component {
     doBack(){
         if(this.state.page.canGoBack){
             //向webview发送后退操作
-            this.refs.webviewbridge.sendToBridge("history.back();");
+            this.refs.webview.injectJavaScript("history.back();");
         }else{
             this.props.doBack();
         }
@@ -68,11 +66,7 @@ export default class News extends Component {
 
         const injectScript = `
                 (function () {
-                    if (WebViewBridge) {
-                      WebViewBridge.onMessage = function (message) {
-                        eval(message);
-                      };
-                    }
+                    
                   }());
 `;
 
@@ -95,8 +89,8 @@ export default class News extends Component {
                     doBack={this.doBack.bind(this)}
                     title={this.state.title}
                 /> : null}
-                <WebViewBridge
-                    ref="webviewbridge"
+                <WebView
+                    ref="webview"
                     onNavigationStateChange={(page) => {
                         this.onPageChange(page)
                     }}

@@ -7,9 +7,7 @@ import {
     View,
     TouchableOpacity,
     StyleSheet,
-    Navigator,
     ScrollView,
-    NativeModules,
     RefreshControl,
     Image
 } from 'react-native';
@@ -52,7 +50,7 @@ export default class CouponDetail extends Component {
         couponDetail(this.props.couponId)
             .then((data) => {
                 this.setState({data: data}, () => {
-                        this.getLocation()
+                    this.getLocation()
                 })
             })
             .catch((err) => {
@@ -158,7 +156,7 @@ export default class CouponDetail extends Component {
                                         <Text
                                             style={[estyle.articleTitle, estyle.marginBottom, {color: Env.color.auxiliary}]}>{data.couponContent}</Text>
                                     </View>
-                                    <View style={[estyle.fxCenter, estyle.cardBackgroundColor, estyle.fxRow]}>
+                                    <View style={[estyle.fxCenter,estyle.cardBackgroundColor, estyle.fxRow]}>
                                         <Text style={[estyle.articleTitle]}>余额：</Text>
                                         <Text
                                             style={[estyle.articleTitle,{color: Env.color.auxiliary}]}>{data.unUsedNum + data.unit}</Text>
@@ -199,8 +197,7 @@ export default class CouponDetail extends Component {
                                                 >
                                                     <View style={[estyle.fx1]}>
                                                         <View style={[estyle.fx1]}>
-                                                            <Text
-                                                                style={[estyle.text, {color: Env.color.auxiliary}]}>为您推荐</Text>
+                                                            <Text style={[estyle.text, {color: Env.color.auxiliary}]}>为您推荐</Text>
                                                             <Text
                                                                 style={[estyle.text]}>{this.state.serverStation.stationName}</Text>
                                                         </View>
@@ -212,8 +209,7 @@ export default class CouponDetail extends Component {
                                                 </ViewForRightArrow>
                                             </View> : null
                                     }
-                                    <View
-                                        style={[estyle.padding, estyle.cardBackgroundColor, estyle.marginBottom]}>
+                                    <View style={[estyle.padding, estyle.cardBackgroundColor, estyle.marginBottom]}>
                                         <TouchableOpacity style={[estyle.fxCenter]} onPress={() => {
                                             this.props.router.push(CouponServiceStation, {
                                                 id: data.id,

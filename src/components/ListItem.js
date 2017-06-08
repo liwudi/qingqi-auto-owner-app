@@ -5,10 +5,7 @@ import React from 'react';
 
 import {
 	View,
-	StyleSheet,
 	Text,
-	TouchableOpacity,
-	Navigator
 } from 'react-native';
 
 import Env from '../utils/Env';

@@ -71,7 +71,7 @@ const _addCarMessageCount = (message, messageId, messageInfo) => {
         return global.storage.save({
             key: STORAGE_KEY_CARS,
             id: messageInfo.carId,
-            rawData: {
+            data: {
                 count : count,
                 messageId: messageId,
                 messageDetail: messageInfo,
@@ -117,7 +117,7 @@ export function addCarMessage  (message, messageId)  {
                 global.storage.save({
                     key: STORAGE_KEY_CAR + rs.carId,
                     id: messageId,
-                    rawData: {
+                    data: {
                         messageId: messageId,
                         message : message,
                         messageDetail: rs,
@@ -141,7 +141,7 @@ const _addPersonalMessage = (message, messageId) => {
     return global.storage.save({
         key: STORAGE_KEY_MESSAGE_LIST,
         id: messageId,
-        rawData: {
+        data: {
             message : message,
             time: new Date()
         },
@@ -153,7 +153,7 @@ const _addPersonalMessageCount = () => {
     let _addCount = (count) => {
         return global.storage.save({
             key: STORAGE_KEY_MESSAGE_UNREAD_COUNT,
-            rawData: {
+            data: {
                 count : currentPage === '0-1' ? 0 : count
             },
             expires: null
@@ -242,7 +242,7 @@ export function  resetPersonalMessageCount  ()  {
 
     global.storage.save({
         key: STORAGE_KEY_MESSAGE_UNREAD_COUNT,
-        rawData: {
+        data: {
             count : 0
         },
         expires: null

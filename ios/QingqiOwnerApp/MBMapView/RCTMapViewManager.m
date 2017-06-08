@@ -2,17 +2,17 @@
 //  RCTMyViewManager.m
 //  ReactNative_MyViewController
 //
-//  Created by aoshilong on 16/9/20.
+//  Created by caoshilong on 16/9/20.
 //  Copyright © 2016年 Facebook. All rights reserved.
 //
 
 #import "RCTMapViewManager.h"
 #import "MapView.h"
-#import "RCTBridge.h"
-#import "RCTUIManager.h"
-#import "RCTEventDispatcher.h"
-#import "RCTEventEmitter.h"
-#import "RCTConvert.h"
+#import <React/RCTBridge.h>
+#import <React/RCTUIManager.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTEventEmitter.h>
+#import <React/RCTConvert.h>
 //#import <iNaviCore/MBAnnotation.h>
 
 #import <iNaviCore/MBPolylineOverlay.h>

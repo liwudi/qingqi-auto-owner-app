@@ -115,12 +115,12 @@ export function doLogin(UserParams, next) {
 				setToken(userToken);
 				global.storage.save({
 					key: 'token',
-					rawData: userToken,
+					data: userToken,
 					expires: null
 				});
                 global.storage.save({
                     key: 'preLoginUserName',
-                    rawData: {
+                    data: {
                     	name:UserParams.phone
 					},
                     expires: null
@@ -290,12 +290,12 @@ export function doReg(phone, trueName, password, smsCode, next) {
                 setToken(userToken);
                 global.storage.save({
                     key: 'token',
-                    rawData: userToken,
+                    data: userToken,
                     expires: null
                 });
                 global.storage.save({
                     key: 'preLoginUserName',
-                    rawData: {
+                    data: {
                         name: phone
                     },
                     expires: null
@@ -332,12 +332,12 @@ export function doQuickLogin(phone, code, next) {
 				setToken(userToken);
 				global.storage.save({
 					key: 'token',
-					rawData: userToken,
+					data: userToken,
 					expires: null
 				});
                 global.storage.save({
                     key: 'preLoginUserName',
-                    rawData: {
+                    data: {
                         name:phone
                     },
                     expires: null

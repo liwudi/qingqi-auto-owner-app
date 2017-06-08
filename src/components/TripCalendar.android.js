@@ -7,9 +7,12 @@ import {
 	View,
 	StyleSheet,
 	Text,
-	TouchableOpacity,
-	Navigator
+	TouchableOpacity
 } from 'react-native';
+
+import {
+    Navigator
+} from 'react-native-deprecated-custom-components';
 
 import { IconArrowRight, IconArrowLeft } from './Icons';
 import Env from '../utils/Env';

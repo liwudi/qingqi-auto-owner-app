@@ -7,8 +7,6 @@ import {
     View,
     Image,
     StyleSheet,
-    TouchableOpacity,
-    Navigator
 } from 'react-native';
 import TopBanner from '../../../components/TopBanner';
 import QRCode from 'react-native-qrcode';

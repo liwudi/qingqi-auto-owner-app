@@ -2,14 +2,12 @@
  * Created by cryst on 2016/10/18.
  */
 import React, {Component} from 'react';
-import {View, Text, Navigator, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 
 import ConfirmButton from '../../components/ConfirmButton';
 import CancelButton from '../../components/CancelButton';
-import ImgButton from '../../components/ImgButton';
 
 import LabelInput from '../../components/LabelInput';
-import PhoneChkCodeInput from '../../components/Inputs/PhoneChkCode';
 
 
 import TopBanner from '../../components/TopBanner';

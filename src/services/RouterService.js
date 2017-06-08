@@ -2,9 +2,6 @@
  * Created by ligj on 2016/10/12.
  */
 import React, { Component } from 'react';
-import {
-    Navigator
-} from 'react-native';
 
 // class PageComponent extends Component{
 //     constructor(props){

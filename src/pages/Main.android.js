@@ -5,20 +5,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {
-    Navigator,
     View,
     Text,
-    StatusBar,
     Linking,
     DeviceEventEmitter,
     NetInfo,
-    Switch,
-    NativeModules,
-    Image,
-    AppState,
     Keyboard,
     TouchableOpacity
 } from 'react-native';
+
+import {
+    Navigator
+} from 'react-native-deprecated-custom-components';
 
 import Toast from '../components/Toast';
 import {MessageActions} from '../actions/index';

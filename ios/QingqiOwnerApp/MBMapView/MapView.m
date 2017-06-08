@@ -492,7 +492,7 @@
 #pragma mark 定位
 - (void)setShowUserLocation:(BOOL)showUserLocation resolve:(Success)resolve reject:(Failure)reject
 {
-   if([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
+  if([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
     
     //定位功能可用
     // 开始定位用户位置
@@ -555,6 +555,7 @@
                              @"longitude":@(rgObject.pos.x).stringValue,
                              @"address":rgObject.poiName};
   self.success(location);
+
 }
 /**
  *  逆地理失败

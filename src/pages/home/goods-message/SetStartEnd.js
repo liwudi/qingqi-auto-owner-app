@@ -4,12 +4,14 @@
 import React, {Component} from 'react';
 import {
     Text,
-    View,
-    TouchableOpacity,
-    StyleSheet,
-    ScrollView,
-    Navigator
+    View
 } from 'react-native';
+
+import {
+    Navigator
+} from 'react-native-deprecated-custom-components';
+
+
 import AreaList from './components/AreaList';
 import BaseBtn from '../../../components/widgets/Button';
 import Button from './components/Button';

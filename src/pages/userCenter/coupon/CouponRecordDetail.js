@@ -5,8 +5,6 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    TouchableOpacity,
-    Navigator,
     ScrollView,
     RefreshControl
 } from 'react-native';

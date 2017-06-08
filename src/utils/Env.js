@@ -2,7 +2,7 @@ import {PixelRatio, Dimensions, StatusBar, Platform} from 'react-native';
 
 import Config from '../config';
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 const fontScale = PixelRatio.getFontScale(),
     pixelRatio = PixelRatio.get(),

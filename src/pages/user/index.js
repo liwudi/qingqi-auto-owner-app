@@ -2,7 +2,7 @@
  * Created by ligj on 2016/9/30.
  */
 import React, { Component } from 'react';
-import { View, Text, Navigator,Keyboard } from 'react-native';
+import { View, Text ,Keyboard } from 'react-native';
 
 import TopBanner from '../../components/TopBanner';
 import TabNavigator from '../../components/TabNavigator';

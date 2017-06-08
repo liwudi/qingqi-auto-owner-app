@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <iNaviCore/MBMapView.h>
-#import "RCTComponent.h"
+#import <React/RCTComponent.h>
 
 
 typedef void(^Success)(NSDictionary *location);

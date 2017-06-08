@@ -5,21 +5,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {
-    Navigator,
     View,
-    Text,
-    StatusBar,
     Linking,
-    DeviceEventEmitter,
     NetInfo,
-    Switch,
-    NativeModules,
-    Image,
-    AppState,
     Keyboard,
     Alert,
     PushNotificationIOS
 } from 'react-native';
+
+import {
+    Navigator
+} from 'react-native-deprecated-custom-components';
 
 import Toast from '../components/Toast';
 import {MessageActions} from '../actions/index';
@@ -52,7 +48,7 @@ class Main extends Component {
         //     registerApp(id);
         //     global.storage.save({
         //         key: 'deviceId',
-        //         rawData: {
+        //         data: {
         //             deviceId:id
         //         },
         //         expires: null
@@ -145,7 +141,7 @@ class Main extends Component {
         // })
         //     .then(rs => this.setState({preLoginUserName: rs.name}))
         //     .catch(e => console.log(e));
-        this.initPush();
+        // this.initPush();
 
     }
 

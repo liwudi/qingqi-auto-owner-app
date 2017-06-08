@@ -7,9 +7,7 @@ import {
     View,
     TouchableOpacity,
     StyleSheet,
-    Navigator,
     ScrollView,
-    NativeModules,
     RefreshControl,
     Image
 } from 'react-native';
@@ -53,7 +51,9 @@ export default class CouponDetail extends Component {
         couponDetail(this.props.couponId)
             .then((data) => {
                 this.setState({data: data}, () => {
+                    if (this.props.isUnUsed) {
                         this.getLocation()
+                    }
                 })
             })
             .catch((err) => {
@@ -109,7 +109,7 @@ export default class CouponDetail extends Component {
                                         <Text
                                             style={[estyle.text, estyle.marginBottom, {color: Env.color.auxiliary}]}>{data.couponContent}</Text>
                                     </View>
-                                    <View style={[estyle.fxCenter, estyle.cardBackgroundColor, estyle.marginBottom]}>
+                                    <View style={[estyle.fxCenter, estyle.cardBackgroundColor, estyle.paddingBottom]}>
                                         <View style={[estyle.fxCenter, estyle.fxRow]}>
                                             <Text style={[estyle.articleTitle]}>余额：</Text>
                                             <Text

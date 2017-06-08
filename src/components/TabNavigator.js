@@ -2,9 +2,13 @@
  * Created by ligj on 2016/10/13.
  */
 import React, { Component } from 'react';
-import { View, Text, Navigator } from 'react-native';
+import { View } from 'react-native';
 import TabBar from './TabBar';
 import Env from '../utils/Env';
+
+import {
+    Navigator
+} from 'react-native-deprecated-custom-components';
 
 export default class TabNavigator extends Component {
     tabBar = null;

@@ -4,13 +4,8 @@
 
 import React, { Component } from 'react';
 import {
-	AppRegistry,
-	StyleSheet,
-	Text,
-	View,
-	Navigator
-} from 'react-native';
-
+    Navigator
+} from 'react-native-deprecated-custom-components';
 import { connect } from 'react-redux'
 
 import HomePage from './home/HomePage';
