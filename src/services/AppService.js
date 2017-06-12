@@ -14,7 +14,6 @@ let _CARTYPE_=null; //缓存车辆类型
 let _CAR_GANG_CARTYPE_=null;
 let _CAR_BRAND_CAR_LENGTH_=null;
 let _CAR_BRAND_CAR_BRAND_=null;
-let TIP_TIMES = 0;
 
 const defaultPage = Server.defaultPage;
 function makeUrl(path) {
@@ -706,10 +705,8 @@ export function validateUserInfoTruck() {
     )
 }
 //陆鲸货源里提醒次数
-export function tipClickTime(type) {
-    if(type){
-        TIP_TIMES++;
-    }else {
-        return TIP_TIMES;
-    }
+export function updateReminders() {
+    return RequestService.get(
+        makeUrl('updateReminders')
+    )
 }

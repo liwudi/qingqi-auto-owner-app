@@ -38,7 +38,7 @@ import MyInfoQuestion from './MyInfoQuestion';
 import MyInfoCarCode from './MyInfoCarCode';
 import MyInfoCarType from './MyInfoCarType';
 import MyInfoCarLength from './MyInfoCarLength';
-import {getUserInfoStatus, validateUserInfo, saveUserInfo,tipClickTime} from '../../../services/AppService';
+import {getUserInfoStatus, validateUserInfo, saveUserInfo,updateReminders} from '../../../services/AppService';
 import Server from '../../../service-config/ServerConfig';
 import {getToken} from '../../../service-config/RequestService';
 import MyInfoRealPhoto from './MyInfoRealPhoto';
@@ -114,14 +114,14 @@ class MyInfo extends Component {
             }
         });
         this.setState({hasFail:hasFail});
-        if(data.nameValidStatus == 4 && tipClickTime()<2){
-            tipClickTime(1);
+        if(data.nameValidStatus == 4 && data.reminders < 2){
+            updateReminders();
             this.props.alert(
                 '提示',
                 '您的“真实姓名”和“身份证号”已认证通过，可以查看货源信息了，认证更多信息可以享受到更多的服务哦！(请更新到最新版APP)',
-                    [
-                        { text:'我知道了' }
-                    ]
+                [
+                    { text:'我知道了' }
+                ]
             )
         }
     }

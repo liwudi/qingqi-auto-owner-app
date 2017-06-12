@@ -73,13 +73,9 @@ export function modifyDriver(entity, oldPhone){
 }
 
 //解绑司机
-export function unbindDriver(driverId,carId,type,phone){
+export function unbindDriver(opts){
     return RequestService.get(
-        makeUrl('unbindDriver'),{
-            driverId: driverId,
-            carId: carId,
-            driverType:type,
-            driverPhone:phone
-        }
+        makeUrl('unbindDriver'),
+        opts
     );
 }

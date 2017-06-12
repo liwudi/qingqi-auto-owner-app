@@ -50,8 +50,9 @@ class HomeRouter extends Component {
                         }
                     ]
                 );
+            }else{
+                return res;
             }
-            return res;
         });
 	}
 
