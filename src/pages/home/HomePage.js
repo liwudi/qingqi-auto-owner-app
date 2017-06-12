@@ -211,17 +211,24 @@ export default class HomePage extends Component {
                                    src={require('../../assets/images/icon-4.png')} title="实时监控"/>
                         <ImgButton style={estyle.padding} onPress={() => this.goTo(CountIndex)}
                                    src={require('../../assets/images/count.png')} title="统计分析"/>
-                        <ImgButton style={estyle.padding} onPress={() => this.startCustomerService()}
-                                   src={require('../../assets/images/icon-6.png')} title="联系客服"/>
+                        {
+                            Env.isAndroid ? <ImgButton style={estyle.padding} onPress={() => this.startCustomerService()}
+                                                      src={require('../../assets/images/icon-6.png')} title="联系客服"/>
+                                : <ImgButton style={estyle.padding} onPress={() => this.goTo(Bbs)}
+                                             src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
+                        }
                     </View>
                     <View style={[estyle.fx1, estyle.fxRow, estyle.borderLeft]}>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(ServiceStation, true)}
-                                   src={require('../../assets/images/icon-10.png')} title="服务预约"/>
+                        {/*<ImgButton style={estyle.padding} onPress={() => this.goTo(ServiceStation, true)}
+                                   src={require('../../assets/images/icon-10.png')} title="服务预约"/>*/}
                         <ImgButton style={estyle.padding} onPress={() => this.goTo(GoodsIndex, true)}
                                    src={require('../../assets/images/icon-7.png')} title="货源信息"/>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(Bbs)}
-                                   src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-                        {/*<ImgButton style={estyle.padding}  onPress={() => {}} src={require('../../assets/images/mask.png')}/>*/}
+                        {
+                            Env.isAndroid ? <ImgButton style={estyle.padding} onPress={() => this.goTo(Bbs)}
+                                                       src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
+                                :<ImgButton style={estyle.padding}  onPress={() => {}} src={require('../../assets/images/mask.png')}/>
+                        }
+                        <ImgButton style={estyle.padding}  onPress={() => {}} src={require('../../assets/images/mask.png')}/>
                     </View>
                 </ScrollView>
             </View>

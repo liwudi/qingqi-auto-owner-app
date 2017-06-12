@@ -70,6 +70,12 @@ function resultProcessor(result) {
         console.info('error-result');
         console.info(result);
         result.message = result.message || '服务器错误';
+        /**
+         * 防止账号被踢了之后弹窗提示下还会有原请求的吐司提示
+         */
+        if(result.resultCode === 509){
+            return Promise.resolve({})
+        }
         return Promise.reject(result);
     }
 }

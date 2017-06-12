@@ -888,6 +888,10 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = AK26ZWGWUT;
+						ProvisioningStyle = Manual;
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -1506,6 +1510,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/QingqiOwnerApp/MBMapView",
@@ -1532,6 +1538,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
+				PROVISIONING_PROFILE = "097afd32-60a5-433e-984c-9a9064727545";
+				PROVISIONING_PROFILE_SPECIFIER = "qingqi-owner-test";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1542,6 +1550,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/QingqiOwnerApp/MBMapView",
@@ -1568,6 +1578,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
+				PROVISIONING_PROFILE = "097afd32-60a5-433e-984c-9a9064727545";
+				PROVISIONING_PROFILE_SPECIFIER = "qingqi-owner-test";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
