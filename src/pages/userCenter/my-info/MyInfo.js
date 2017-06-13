@@ -210,6 +210,20 @@ class MyInfo extends Component {
                 this.fetchData();
             })
     };
+    //提交审核
+    submit(){
+        if(this.state.doing) return;
+        this.setState({doing:true},()=>{
+            validateUserInfo().then(() => {
+                Toast.show('提交成功', Toast.SHORT);
+                this.fetchData();
+            }).catch((err) => {
+                Toast.show(err.message, Toast.SHORT)
+            }).finally(()=>{
+                this.setState({doing:false});
+            })
+        })
+    };
 
 
     render() {
@@ -288,14 +302,8 @@ class MyInfo extends Component {
                                             <SubmitButton size="large"
                                                           doing={this.state.doing}
                                                           onPress={() => {
-                                                              validateUserInfo().then(() => {
-                                                                  Toast.show('提交成功', Toast.SHORT);
-                                                                  this.fetchData();
-                                                              }).catch((err) => {
-                                                                  Toast.show(err.message, Toast.SHORT)
-                                                              })
+                                                              this.submit()
                                                           } }>提交认证</SubmitButton>
-
                                             <Text style={[estyle.note, estyle.paddingVertical]}>资料会提交给货源信息提供方共同认证</Text>
                                         </View> : <View style={[estyle.paddingVertical]}/>
                                 }
