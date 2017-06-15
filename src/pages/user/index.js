@@ -2,7 +2,7 @@
  * Created by ligj on 2016/9/30.
  */
 import React, { Component } from 'react';
-import { View, Text ,Keyboard } from 'react-native';
+import { View, Text ,Keyboard,TouchableOpacity} from 'react-native';
 
 import TopBanner from '../../components/TopBanner';
 import TabNavigator from '../../components/TabNavigator';
@@ -45,7 +45,11 @@ export default class User extends Component {
 					{...this.props}
 					leftShow={false}
 					title="登录"
-					rightView={(<Text style={{fontSize:Env.font.text,color:'#FFF'}} onPress={() => this.props.router.push(Reg)}>注册</Text>)}
+					rightView={
+						<TouchableOpacity style={[estyle.padding]} onPress={() => this.props.router.push(Reg)}>
+							<Text style={[{fontSize:Env.font.text,color:'#FFF'}]}>注册</Text>
+						</TouchableOpacity>
+					}
 				/>
 				<TabNavigator initialIndex={this.props.initialIndex} {...this.props} tabs={tabs} onChangeTab={()=>{ Keyboard.dismiss()}} />
 			</View>
