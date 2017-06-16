@@ -7,6 +7,8 @@ let Toast = {
 };
 
 Toast.show = function (msg, length) {
-    msg && ToastAndroid.show.apply(ToastAndroid, arguments);
+    if(msg && !global._LoginOut){
+        ToastAndroid.show.apply(ToastAndroid, arguments);
+    }
 }
 export default Toast;

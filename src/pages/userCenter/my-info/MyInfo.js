@@ -74,7 +74,8 @@ class MyInfo extends Component {
         this.state = {
             data: null,
             isRefreshing: true
-        }
+        };
+        this.isAlerted=false;
     }
 
     componentDidMount() {
@@ -114,7 +115,8 @@ class MyInfo extends Component {
             }
         });
         this.setState({hasFail:hasFail});
-        if(data.nameValidStatus == 4 && data.reminders < 2){
+        if(4 == data.nameValidStatus && data.reminders < 2 && !this.isAlerted){
+            this.isAlerted = true;
             updateReminders();
             this.props.alert(
                 '提示',

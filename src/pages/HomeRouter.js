@@ -44,6 +44,7 @@ class HomeRouter extends Component {
                         {
                             text:'确定',
                             onPress:() => {
+                                global._LoginOut=false;
                                 unInterceptAlerting();
                                 this.props.router.resetTo(Login);
                             }
