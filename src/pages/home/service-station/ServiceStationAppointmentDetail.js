@@ -233,14 +233,14 @@ export default class ServiceStationAppointmentDetail extends Component {
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>工单号</Text>
                             <Text style={[estyle.text]}>{data.woCode}</Text>
                         </View>
-                        {/*<View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
+                        <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车牌号</Text>
-                            <Text style={[estyle.text]}>{data.woCode}</Text>
+                            <Text style={[estyle.text]}>{data.carNumber}</Text>
                         </View>
                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车辆VIN</Text>
-                            <Text style={[estyle.text]}>{data.woCode}</Text>
-                        </View>*/}
+                            <Text style={[estyle.text]}>{data.vin}</Text>
+                        </View>
                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>预约人</Text>
                             <Text style={[estyle.text]}>{data.name}</Text>

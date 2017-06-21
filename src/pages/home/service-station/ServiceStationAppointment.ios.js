@@ -185,7 +185,7 @@ class ServiceStationAppointment extends Component {
         if(this.state.doing) return false;
         this.setState({doing:true});
         let opts={
-            //carId:this.state.selectCar.carId,
+            vin:this.state.selectCar.carVin,
             orderTime: this.state.dateTime+':00',
             serviceCarrepairStype: this.state.repairList.join(','),
             serviceCarmaintainStype: this.state.maintainList.join(','),
@@ -251,19 +251,19 @@ class ServiceStationAppointment extends Component {
                                 {pattern: /^1\d{10}$/, msg: '手机号格式错误'}
                             ]}
                         />
-                       {/* <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
+                       <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
                             this.props.router.push(ServiceStationCarList,{selectCar:this.setCurrentCar.bind(this)});
                         }}>
                             <View style={[estyle.fxRow, estyle.fxRowCenter]}>
-                                <View style={[estyle.fx1, estyle.fxRow, estyle.paddingRight]}>
+                                <View style={[estyle.fxRow, estyle.paddingRight]}>
                                     <Text style={[estyle.text, {textAlign: 'left',color: Env.color.important}]}>预约车辆</Text>
                                 </View>
                                 <View style={[estyle.fxCenter]}>
                                     <Text
-                                        style={[estyle.text, {textAlign: 'right'}]}>{ this.state.selectCar ? this.state.selectCar.carCode : '请选择要预约的车辆'}</Text>
+                                        style={[estyle.text]}>{ this.state.selectCar ? this.state.selectCar.carCode : '请选择要预约的车辆'}</Text>
                                 </View>
                             </View>
-                        </ViewForRightArrow>*/}
+                        </ViewForRightArrow>
                         <ViewForRightArrow style={[estyle.fxCenter]} onPress={() => {
                             this.datePicker()
                         }}>
