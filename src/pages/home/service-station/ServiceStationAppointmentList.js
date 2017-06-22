@@ -35,6 +35,7 @@ export default class ServiceStationAppointmentList extends Component {
 						return (
 							<ViewForRightArrow onPress={() => this.props.router.push(ServiceStationAppointmentDetail, {order: row})}>
 								<Text style={[estyle.articleTitle]}>{row.stationName}</Text>
+								<Text style={[estyle.text]}>{'车牌号： '+ row.carNumber}</Text>
 								<Text style={[estyle.text]}>{'工单号： '+ row.woCode}</Text>
 								<View style={[estyle.fxRow]}>
 									{/*{row.typeList.map((type, index) => <Text key={index}>{type.name}</Text>)}*/}
