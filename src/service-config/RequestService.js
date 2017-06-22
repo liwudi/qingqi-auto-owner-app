@@ -154,7 +154,7 @@ function request(opts, processor, isUpload = false) {
     } else if (options.method === 'GET') {
 
         if (!opts.data) opts.data = {};
-        opts.data['__rid'] = Math.random();
+        opts.data['__rid'] = new Date().getTime();
 
         queryString = urlEncode(opts.data);
         url = url + (url.indexOf('?') > -1 ? '&' : '?') + queryString;

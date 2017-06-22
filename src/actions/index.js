@@ -6,5 +6,6 @@ import * as UserActions from './UserActions';
 import * as VehicleTestAction from './VehicleTestAction';
 import * as AddCarAction from './AddCarAction';
 import * as MessageActions from './MessageActions';
+import * as AccumulateAction from './AccumulateAction';
 
-export { TYPES, UserActions, VehicleTestAction, AddCarAction, MessageActions };
+export { TYPES, UserActions, VehicleTestAction, AddCarAction, MessageActions, AccumulateAction };

@@ -11,7 +11,8 @@ import {
     StyleSheet,
     Image,
     Alert,
-    Linking
+    Linking,
+    ScrollView
 } from 'react-native';
 
 import ViewForRightArrow from '../../components/ViewForRightArrow';
@@ -34,7 +35,12 @@ import Toast from '../../components/Toast';
 import AppointmentList from '../home/service-station/ServiceStationAppointmentList';
 import MyInfoIndex from './my-info/MyInfoIndex';
 
-
+import ViewForIntegral from './window-integral/ViewForIntegral';
+import IntegralMall from "./window-integral/IntegralMall";
+import TaskCenter from "./window-integral/TaskCenter";
+import TaskCenterPage from  './task-center/TaskCenterPage';
+import IntegralMallPage from './integral-mall/IntegralMallPage';
+import {requestScore} from '../../actions/AccumulateAction';
 class UserCenterHome extends Component {
 
     constructor(props) {
@@ -77,6 +83,7 @@ class UserCenterHome extends Component {
             })
         });
         this.getCouponNum();
+        this.props.dispatch(requestScore());
         Env.isAndroid && this._checkUpdate(false);
     }
 
@@ -137,44 +144,67 @@ class UserCenterHome extends Component {
         return (
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
                 <TopBanner {...this.props} title="我的" leftShow={false}/>
-                <ViewForRightArrow
-                    activeOpacity={1}
-                    style={[{backgroundColor:Env.color.main}]}
-                    onPress={() => this.goTo(AccountHome)}
-                    iconColor='#FFF'
-                >
-                    <View style={[estyle.fxRow]}>
-                        <Image
-                            style={{borderRadius:50 * Env.font.base,width:100 * Env.font.base,height:100 * Env.font.base,borderWidth:4 * Env.font.base,
-                                borderColor:Env.color.main}}
-                            source={this.props.userPicStore.userPic}
-                        />
-                        <View style={{justifyContent:'center',marginLeft:20 * Env.font.base}}>
-                            <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.name || '未设置姓名'}</Text>
-                            <Text
-                                style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.phone ? `${userInfo.phone.substr(0, 3)}******${userInfo.phone.substr(9)}` : ''}</Text>
+                <ScrollView>
+                    <ViewForRightArrow
+                        activeOpacity={1}
+                        style={[{backgroundColor:Env.color.main}]}
+                        onPress={() => this.goTo(AccountHome)}
+                        iconColor='#FFF'
+                    >
+                        <View style={[estyle.fxRow]}>
+                            <Image
+                                style={{borderRadius:50 * Env.font.base,width:100 * Env.font.base,height:100 * Env.font.base,borderWidth:4 * Env.font.base,
+                                    borderColor:Env.color.main}}
+                                source={this.props.userPicStore.userPic}
+                            />
+                            <View style={{justifyContent:'center',marginLeft:20 * Env.font.base}}>
+                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.name || '未设置姓名'}</Text>
+                                <Text
+                                    style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.phone ? `${userInfo.phone.substr(0, 3)}******${userInfo.phone.substr(9)}` : ''}</Text>
+                            </View>
                         </View>
-                    </View>
-                </ViewForRightArrow>
+                    </ViewForRightArrow>
+                    <ViewForIntegral >
+                        <IntegralMall>
+                            <TouchableOpacity onPress={() => { this.goTo(IntegralMallPage)}}>
+                                <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                                    <Image source={require('../../assets/images/integralmall.png')} style={[Env.icon.size.middle]}/>
+                                    <Text style={[estyle.articleTitle,estyle.marginLeft]}>积分商城</Text>
+                                </View>
 
-                {userInfo.role === 4 ?
-                    <ViewForRightArrow style={[estyle.marginTop]} onPress={() => this.goTo(ManagerList)}>
-                        <Text style={estyle.text}>车队管理员</Text>
-                    </ViewForRightArrow> : null}
-                <ViewForRightArrow onPress={() => this.goTo(MyInfoIndex)}>
-                    <Text style={estyle.text}>资料认证</Text>
-                </ViewForRightArrow>
-               <ViewForRightArrow onPress = {() => this.goTo(AppointmentList)}>
-                    <Text style={estyle.text}>我的预约</Text>
-                </ViewForRightArrow>
-                <ViewForRightArrow style={[estyle.marginBottom]} onPress={() => this.goTo(CouponList)}>
-                    <View style={[estyle.fxRow]}>
-                        <Text style={[estyle.text,estyle.fx1]}>优惠券</Text>
-                        <Text style={[estyle.text,{color:Env.color.main}]}>{this.state.coupon}</Text>
-                    </View>
-                </ViewForRightArrow>
-                {
-                    Env.isAndroid ? <ViewForRightArrow onPress={this._checkUpdate.bind(this)}>
+                            </TouchableOpacity>
+                        </IntegralMall>
+                        <TaskCenter>
+                            <TouchableOpacity onPress={() => { this.goTo(TaskCenterPage)}}>
+                                <View style={[estyle.fxRow,estyle.fxRowCenter]}>
+                                    <Image source={require('../../assets/images/taskcenter.png')} style={[Env.icon.size.middle]}/>
+                                    <Text style={[estyle.articleTitle,estyle.marginLeft]}>任务中心</Text>
+                                    {this.props.Integral && this.props.Integral.taskNum != 0 ? <View style={[styles.goodsNum,estyle.fxCenter,estyle.marginLeft]}>
+                                        <Text style={[{color:'#fff',fontSize:Env.font.mini}]}>{this.props.Integral.taskNum}</Text>
+                                    </View> : null}
+                                </View>
+                            </TouchableOpacity>
+                        </TaskCenter>
+                    </ViewForIntegral>
+
+                    {userInfo.role === 4 ?
+                        <ViewForRightArrow style={[estyle.marginTop]} onPress={() => this.goTo(ManagerList)}>
+                            <Text style={estyle.text}>车队管理员</Text>
+                        </ViewForRightArrow> : null}
+                    <ViewForRightArrow onPress={() => this.goTo(MyInfoIndex)}>
+                        <Text style={estyle.text}>资料认证</Text>
+                    </ViewForRightArrow>
+                    <ViewForRightArrow onPress = {() => this.goTo(AppointmentList)}>
+                        <Text style={estyle.text}>我的预约</Text>
+                    </ViewForRightArrow>
+                    <ViewForRightArrow style={[estyle.marginBottom]} onPress={() => this.goTo(CouponList)}>
+                        <View style={[estyle.fxRow]}>
+                            <Text style={[estyle.text,estyle.fx1]}>优惠券</Text>
+                            <Text style={[estyle.text,{color:Env.color.main}]}>{this.state.coupon}</Text>
+                        </View>
+                    </ViewForRightArrow>
+                    {
+                        Env.isAndroid ? <ViewForRightArrow onPress={this._checkUpdate.bind(this)}>
                             <View style={{flexDirection:'row'}}>
                                 <Text style={estyle.text}>版本更新</Text>
                                 {this.state.isUpdate ? <Text style={[estyle.text,{color:'red'}]}> new</Text> : null}
@@ -182,26 +212,32 @@ class UserCenterHome extends Component {
                                     style={[estyle.text,estyle.fx1, {textAlign:'right'}]}>{this.state.versionName}</Text>
                             </View>
                         </ViewForRightArrow> : null
-                }
+                    }
 
-                <ViewForRightArrow onPress={this.clearCache.bind(this)}>
-                    <Text style={estyle.text}>清除缓存</Text>
-                </ViewForRightArrow>
-                <ViewForRightArrow onPress={() => this.goTo(AboutUs)}>
-                    <Text style={estyle.text}>关于我们</Text>
-                </ViewForRightArrow>
-
+                    <ViewForRightArrow onPress={this.clearCache.bind(this)}>
+                        <Text style={estyle.text}>清除缓存</Text>
+                    </ViewForRightArrow>
+                    <ViewForRightArrow onPress={() => this.goTo(AboutUs)}>
+                        <Text style={estyle.text}>关于我们</Text>
+                    </ViewForRightArrow>
+                </ScrollView>
             </View>
         );
     }
 }
 
 export default connect(function (stores) {
-    return {userStore: stores.userStore, userPicStore: stores.userPicStore}
+    return {userStore: stores.userStore, userPicStore: stores.userPicStore,Integral:stores.IntegralStore.Integral}
 })(UserCenterHome);
 
 const styles = StyleSheet.create({
     colorFFF: {
         color: '#FFF'
+    },
+    goodsNum:{
+        width : 30 * basefont,
+        height: 30 * basefont,
+        borderRadius : 30 * basefont,
+        backgroundColor:'red'
     }
 });

@@ -149,10 +149,13 @@ export function urgeWo(woCode) {
     );
 }
 //删除评论
-export function delRated(rateId) {
+export function delRated(rateId,wocode) {
     return RequestService.get(
         makeUrl('delRated'),
-        {rateId: rateId}
+        {
+            rateId: rateId,
+            woCode:wocode
+        }
     );
 }
 /**

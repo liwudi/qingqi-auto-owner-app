@@ -37,7 +37,9 @@ const color = {
     note: '#999999',  //注释
     important: '#333333',  //重要信息,
     modalBg: 'rgba(0,0,0,0.6)',  //弹窗或者列表黑色半透明背景
-    testColor: '#15c206'  //体检开始颜色
+    testColor: '#15c206', //体检开始颜色
+    danger:'#ff0000', //积分增加颜色
+    integralButtonBg:'#FF7200', //积分界面按钮颜色
 };
 const button = {
     size: {
@@ -169,7 +171,10 @@ const style = {
         fontSize: fontSize.note,
         color: color.note
     },
-
+    redText:{
+        fontSize: fontSize.text,
+        color: color.danger
+    },
     marginLeft: {
         marginLeft: spacing.margin.horizontal
     },
@@ -227,6 +232,9 @@ const style = {
         height: fontSize.base * 84,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    largeHeight:{
+        height:baseFontSize * 200
     }
 };
 

@@ -39,7 +39,7 @@ export default class ServiceStationDetail extends Component {
         this.state = {
             data: {},
             isRefreshing:true,
-            flag: 1 // 1同车型 2全部车型评价
+            flag: 2 // 1同车型 2全部车型评价
         };
     }
     componentWillUnmount() {

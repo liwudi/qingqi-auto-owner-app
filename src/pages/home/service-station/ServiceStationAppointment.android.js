@@ -156,14 +156,18 @@ class ServiceStationAppointment extends Component {
             return;
         }
         if (LabelInput.Validate(this.refs)) {
-            if (this.state.dateTime) {
-                if (this.state.maintainList.length !== 0 || this.state.repairList.length !== 0) {
-                    this.newAppointment();
+            if(this.state.selectCar){
+                if (this.state.dateTime) {
+                    if (this.state.maintainList.length !== 0 || this.state.repairList.length !== 0) {
+                        this.newAppointment();
+                    } else {
+                        Toast.show('请选择预约项目', Toast.SHORT);
+                    }
                 } else {
-                    Toast.show('请选择预约项目', Toast.SHORT);
+                    Toast.show('请选择时间', Toast.SHORT);
                 }
-            } else {
-                Toast.show('请选择时间', Toast.SHORT);
+            }else {
+                Toast.show('请选择预约车辆', Toast.SHORT);
             }
         }
     }

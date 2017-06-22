@@ -39,23 +39,24 @@ class AddCarPostCarCode extends Component {
 
     nextStep () {
         if(this.state.doing) return;
-        this.setState({doing:true});
-        if (LabelInput.Validate(this.refs)) {
-            addCar(this.state)
-                .then(()=>{
-                    Toast.show('添加成功', Toast.SHORT);
-                    this.props.router.popN(3);
-                //    this.props.router.replace(MyCar);
-                })
-                .catch((e)=>{
-                    Toast.show(e.message, Toast.SHORT);
-                })
-                .finally(()=>{
-                    //todo 因为后台的设计问题，现防止管理员加车，故在加车后重新获取角色类型，后期可能会改
-                    this.props.dispatch(getUserDetail());
-                    this.setState({doing:false});
-                })
-        }
+        this.setState({doing:true},()=>{
+            if (LabelInput.Validate(this.refs)) {
+                addCar(this.state)
+                    .then(()=>{
+                        Toast.show('添加成功', Toast.SHORT);
+                        this.props.router.popN(3);
+                        //    this.props.router.replace(MyCar);
+                    })
+                    .catch((e)=>{
+                        Toast.show(e.message, Toast.SHORT);
+                    })
+                    .finally(()=>{
+                        //todo 因为后台的设计问题，现防止管理员加车，故在加车后重新获取角色类型，后期可能会改
+                        this.props.dispatch(getUserDetail());
+                        this.setState({doing:false});
+                    })
+            }
+        });
     }
     setFormData(carNumber) {
         carNumber = carNumber.trim();

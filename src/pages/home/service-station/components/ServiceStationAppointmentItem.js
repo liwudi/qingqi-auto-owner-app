@@ -19,8 +19,8 @@ class ServiceStationAppointmentItem extends Component {
     }
 
     //删除评论
-    delMyRated(id) {
-        delRated(id)
+    delMyRated(id,wocode) {
+        delRated(id,wocode)
             .then(() => {
                 this.props.RenderList && this.props.RenderList();
                 Toast.show('删除成功', Toast.SHORT)
@@ -62,7 +62,7 @@ class ServiceStationAppointmentItem extends Component {
                                             '删除评论',
                                             '您确定要删除该条评价吗？',
                                             [
-                                              {text: '确认', onPress: () => this.delMyRated(this.props.ratedId)},
+                                              {text: '确认', onPress: () => this.delMyRated(this.props.ratedId,this.props.orderCode)},
                                               {text: '取消', onPress: () => console.log('Pressed!')},
                                             ]
                                         )

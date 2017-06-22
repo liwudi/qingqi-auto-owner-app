@@ -90,6 +90,7 @@ class HomeRouter extends Component {
 						navigator.jumpTo(tabs[index]);
                     }}
 					sign={this.props.messageStore.AllUnReadCount}
+                    taskNum={this.props.Integral}
 				/>}
 				initialRouteStack={tabs}
 				configureScene={(route,routeStack) =>{
@@ -113,6 +114,6 @@ class HomeRouter extends Component {
 	}
 }
 function select(stores) {
-	return { messageStore: stores.messageStore,userStore: stores.userStore}
+	return { messageStore: stores.messageStore,userStore: stores.userStore,Integral:stores.IntegralStore.Integral}
 }
 export default connect(select)(HomeRouter);

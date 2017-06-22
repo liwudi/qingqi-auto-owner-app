@@ -10,7 +10,8 @@ import * as messageReduers from './MessageReducers';
 const rootReducer = combineReducers({
 	...userReducers,
 	...vehicleReduers,
-	...messageReduers
+	...messageReduers,
+    ...AccumulateReducers
 });
 
 export default rootReducer;

@@ -31,6 +31,8 @@ import Toast from '../../../components/Toast';
 
 import ImagePickBotton from '../../../components/ImagePickButton';
 import { logOutKefu } from '../../../utils/CommModule';
+import IntegralDetail from  '../integral-detail/IntegralDetail';
+import {requestScore} from '../../../actions/AccumulateAction';
 
 class AccountHome extends Component {
 
@@ -40,6 +42,9 @@ class AccountHome extends Component {
 			picSource:null
 		}
 	}
+    componentDidMount(){
+        this.props.dispatch(requestScore());
+    }
 
 	goTo(page){
 		this.props.router.push(page);
@@ -106,6 +111,11 @@ class AccountHome extends Component {
 							<Text style={[estyle.fx1, estyle.text]}>姓名</Text><Text style={styles.text}>{userInfo.name || '未设置姓名'}</Text>
 						</View>
 					</ViewForRightArrow>
+					<ViewForRightArrow onPress = {() => this.goTo(IntegralDetail)}>
+						<View style={[estyle.fxRow]}>
+							<Text style={[estyle.fx1, estyle.text]}>积分明细</Text><Text style={styles.text}>{this.props.Integral.scoreTotal}</Text>
+						</View>
+					</ViewForRightArrow>
 					<ViewForRightArrow onPress = {() => this.goTo(ModifyPassword)} style={[estyle.marginTop]}>
 						<Text style={[estyle.text]}>修改密码</Text>
 					</ViewForRightArrow>
@@ -132,7 +142,7 @@ class AccountHome extends Component {
 }
 
 export default connect(function (stores) {
-	return {userStore: stores.userStore, userPicStore: stores.userPicStore}
+	return {userStore: stores.userStore, userPicStore: stores.userPicStore,Integral:stores.IntegralStore.Integral}
 })(AccountHome);
 
 
