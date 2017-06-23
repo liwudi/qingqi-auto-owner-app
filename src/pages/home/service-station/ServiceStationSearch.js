@@ -26,7 +26,6 @@ import ServiceBtn from './components/ServiceBtn';
 import PageList from '../../../components/PageList';
 import  LabelInput from '../../../components/LabelInput'
 import {queryStation} from '../../../services/AppService';
-import imgsrc from '../../../assets/images/icon-4.png';
 const estyle = Env.style;
 export default class ServiceStationList extends Component {
     constructor(props) {

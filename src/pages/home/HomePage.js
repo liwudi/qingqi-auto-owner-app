@@ -86,7 +86,7 @@ export default class HomePage extends Component {
     setTimer() {
         this.timer = setInterval(() => {
             this.fetchData();
-        }, 63000)
+        }, 50000)
     }
 
     shouldComponentUpdate(props) {
@@ -165,6 +165,7 @@ export default class HomePage extends Component {
                         请输入司机姓名、VIN或车牌号</Text>
                     </TouchableOpacity>
                 </View>
+                <ScrollView style={[estyle.fx1]}>
                 <Banner {...this.props} />
                 {
                     this.props.NetIsConnected
@@ -176,7 +177,7 @@ export default class HomePage extends Component {
                         </View>
                 }
                 {/*<View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>*/}
-                <ScrollView style={[estyle.fx1]}>
+
                     <View style={[estyle.fxRow, estyle.padding, estyle.border, {backgroundColor: '#FFF'}]}>
                         <Text
                             style={[estyle.fx1, estyle.articleTitle]}>在线车辆数：{this.state.operateStatisToday.onlineCar || 0}辆</Text>
@@ -197,38 +198,32 @@ export default class HomePage extends Component {
                             {renderItem('每百公里油耗(L)', this.state.operateStatisToday.oilWearAvg || 0, false)}
                         </View>
                     </ViewForRightArrow>
-
-                    <View style={[estyle.fx1, estyle.fxRow, estyle.borderLeft]}>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(MyCar)}
-                                   src={require('../../assets/images/icon-1.png')} title="我的车辆"/>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(MyDriver, true)}
-                                   src={require('../../assets/images/icon-2.png')} title="我的司机"/>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(MyLine, true)}
-                                   src={require('../../assets/images/icon-3.png')} title="我的线路"/>
-                    </View>
-                    <View style={[estyle.fx1, estyle.fxRow, estyle.borderLeft]}>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(Monitor)}
-                                   src={require('../../assets/images/icon-4.png')} title="实时监控"/>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(CountIndex)}
-                                   src={require('../../assets/images/count.png')} title="统计分析"/>
+                    <View style={[estyle.fx1,estyle.marginTop,estyle.fxRow,{flexWrap:'wrap'}]}>
+                        <ImgButton onPress={() => this.goTo(MyCar)}
+                                   src={require('../../assets/images/icon12.png')} title="我的车辆"/>
+                        <ImgButton  onPress={() => this.goTo(MyDriver, true)}
+                                   src={require('../../assets/images/icon13.png')} title="我的司机"/>
+                        <ImgButton onPress={() => this.goTo(MyLine, true)}
+                                   src={require('../../assets/images/icon14.png')} title="我的线路"/>
+                        <ImgButton onPress={() => this.goTo(Monitor)}
+                                   src={require('../../assets/images/icon15.png')} title="实时监控"/>
+                        <ImgButton onPress={() => this.goTo(CountIndex)}
+                                   src={require('../../assets/images/icon11.png')} title="统计分析"/>
                         {
-                            Env.isAndroid ? <ImgButton style={estyle.padding} onPress={() => this.startCustomerService()}
-                                                      src={require('../../assets/images/icon-6.png')} title="联系客服"/>
-                                : <ImgButton style={estyle.padding} onPress={() => this.goTo(Bbs)}
-                                             src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
+                            Env.isAndroid ? <ImgButton onPress={() => this.startCustomerService()}
+                                                       src={require('../../assets/images/icon6.png')} title="联系客服"/>
+                                : null
                         }
-                    </View>
-                    <View style={[estyle.fx1, estyle.fxRow, estyle.borderLeft]}>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(ServiceStation, true)}
-                                   src={require('../../assets/images/icon-10.png')} title="服务预约"/>
-                        <ImgButton style={estyle.padding} onPress={() => this.goTo(GoodsIndex, true)}
-                                   src={require('../../assets/images/icon-7.png')} title="货源信息"/>
+                        <ImgButton onPress={() => this.goTo(ServiceStation, true)}
+                                   src={require('../../assets/images/icon4.png')} title="服务预约"/>
+                        <ImgButton onPress={() => this.goTo(GoodsIndex, true)}
+                                   src={require('../../assets/images/icon9.png')} title="货源信息"/>
                         {
-                            Env.isAndroid ? <ImgButton style={estyle.padding} onPress={() => this.goTo(Bbs)}
-                                                       src={require('../../assets/images/icon-8.png')} title="卡友论坛"/>
-                                :<ImgButton style={estyle.padding}  onPress={() => {}} src={require('../../assets/images/mask.png')}/>
+                            Env.isAndroid ? <ImgButton onPress={() => this.goTo(Bbs)}
+                                                       src={require('../../assets/images/icon8.png')} title="卡友论坛"/>
+                                :null
                         }
-                        {/*<ImgButton style={estyle.padding}  onPress={() => {}} src={require('../../assets/images/mask.png')}/>*/}
+                        <ImgButton  src={require('../../assets/images/icon10.png')} gray={true} title="开发中"/>
                     </View>
                 </ScrollView>
             </View>

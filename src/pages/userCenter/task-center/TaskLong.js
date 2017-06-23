@@ -49,14 +49,19 @@ class TaskLong extends Component{
     render(){
         return(
             <View  style={[estyle.marginTop]}>
-                <TaskTitle title="长期任务"/>
-
                 {
-                    this.state.longTermTaskList.length > 0 && this.state.longTermTaskList.map((item,index)=>{
-                        return (
-                            <TaskItem ruleName={item.ruleName} vip={this.props.vip} key={index} type="长期任务" taskId={item.taskId} title={item.taskType} note={item.taskBrief} text={item.signFlg} score={item.score} onClick={(param)=>{this.props.onClick(param)}}/>
-                        )
-                    })
+                    this.state.longTermTaskList.length ?
+                        <View>
+                            <TaskTitle title="长期任务"/>
+                            {
+                                this.state.longTermTaskList.map((item,index)=>{
+                                    return (
+                                        <TaskItem ruleName={item.ruleName} vip={this.props.vip} key={index} type="长期任务" taskId={item.taskId} title={item.taskType} note={item.taskBrief} text={item.signFlg} score={item.score} onClick={(param)=>{this.props.onClick(param)}}/>
+                                    )
+                                })
+                            }
+                        </View>
+                        : null
                 }
             </View>
         )

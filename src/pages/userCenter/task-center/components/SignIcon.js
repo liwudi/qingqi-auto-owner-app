@@ -35,7 +35,7 @@ class SignIcon extends Component{
                         }
                     </View>
                     {
-                        this.props.signFlg === 2 && this.props.vipFlag === 1 ? <Image style={[{position:"absolute",top: 8 *basefont,width:150 * basefont ,height: 100 * basefont}]} source={require("../../../../assets/images/member.png")}/> : null
+                        this.props.signFlg === 2 && this.props.vipFlg === 1 ? <Image style={[{position:"absolute",top: 8 *basefont,width:150 * basefont ,height: 100 * basefont}]} source={require("../../../../assets/images/member.png")}/> : null
                     }
                 </View>
 

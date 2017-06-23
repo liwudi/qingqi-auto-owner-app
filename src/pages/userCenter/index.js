@@ -230,6 +230,7 @@ export default connect(function (stores) {
     return {userStore: stores.userStore, userPicStore: stores.userPicStore,Integral:stores.IntegralStore.Integral}
 })(UserCenterHome);
 
+const basefont = Env.font.base;
 const styles = StyleSheet.create({
     colorFFF: {
         color: '#FFF'

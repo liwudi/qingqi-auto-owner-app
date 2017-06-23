@@ -39,13 +39,19 @@ class TaskEveryDay extends Component{
     render(){
         return(
             <View>
-                <TaskTitle title="每日任务"/>
                 {
-                    this.state.dayTaskList.length > 0 &&this.state.dayTaskList.map((item,index)=>{
-                        return (
-                            <TaskItem ruleName={item.ruleName} vip={this.props.vip} key={index} type="每日任务"  totalNum={item.totalNum} finishNum={item.finishNum}  taskId={item.taskId} title={item.taskType} note={item.taskBrief} signFlg={item.signFlg} score={item.score} onClick={(param)=>{this.props.onClick(param)}}/>
-                        )
-                    })
+                    this.state.dayTaskList.length > 0 ?
+                        <View>
+                            <TaskTitle title="每日任务"/>
+                            {
+                                this.state.dayTaskList.map((item,index)=>{
+                                    return (
+                                        <TaskItem ruleName={item.ruleName} vip={this.props.vip} key={index} type="每日任务"  totalNum={item.totalNum} finishNum={item.finishNum}  taskId={item.taskId} title={item.taskType} note={item.taskBrief} signFlg={item.signFlg} score={item.score} onClick={(param)=>{this.props.onClick(param)}}/>
+                                    )
+                                })
+                            }
+                        </View>
+                        : null
                 }
             </View>
         )

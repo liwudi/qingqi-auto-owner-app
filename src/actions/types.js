@@ -53,3 +53,7 @@ export const PUSH_MESSAGE_ACTIVE_PAGE = 'PUSH_MESSAGE_ACTIVE_PAGE'; //添加列�
 
 //头像
 export const USER_PIC = 'USER_PIC'; //头像
+
+//积分状态变化
+export const REQUEST_SCORE = 'REQUEST_SCORE';
+export const SIGN_SCORE = 'SIGN_SCORE';

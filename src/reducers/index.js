@@ -6,6 +6,7 @@ import {combineReducers} from 'redux';
 import * as userReducers from './UserReducers';
 import * as vehicleReduers from './VehicleReduers';
 import * as messageReduers from './MessageReducers';
+import * as AccumulateReducers from './AccumulateReducers';
 
 const rootReducer = combineReducers({
 	...userReducers,

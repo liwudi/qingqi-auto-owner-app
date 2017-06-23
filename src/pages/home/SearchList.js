@@ -62,7 +62,7 @@ export default class HomePage extends Component {
                                 <View style={[estyle.fxRow]}>
                                     <Image
                                         style={{borderRadius:10,width:20,height:20,borderWidth:4 * Env.font.base,borderColor:'#85C7E7',}}
-                                        source={require('../../assets/images/icon-4.png')}
+                                        source={require('../../assets/images/icon4.png')}
                                     />
                                     <Text style={[estyle.marginFont,{color: Env.color.main}]}>{item.position}</Text>
                                 </View>

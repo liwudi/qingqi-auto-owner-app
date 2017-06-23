@@ -39,14 +39,19 @@ class TaskNew extends Component{
     render(){
         return(
             <View style={[estyle.marginTop]}>
-                <TaskTitle title="新手任务"/>
-
                 {
-                    this.state.newbieTaskList.length > 0 && this.state.newbieTaskList.map((item,index)=>{
-                        return (
-                            <TaskItem ruleName={item.ruleName} vip={this.props.vip} key={index} type="新手任务" taskId={item.taskId} title={item.taskType} note={item.taskBrief} score={item.score} onClick={(param)=>{this.props.onClick(param)}}/>
-                        )
-                    })
+                    this.state.newbieTaskList.length > 0 ?
+                        <View>
+                            <TaskTitle title="新手任务"/>
+                            {
+                                this.state.newbieTaskList.map((item,index)=>{
+                                    return (
+                                        <TaskItem ruleName={item.ruleName} vip={this.props.vip} key={index} type="新手任务" taskId={item.taskId} title={item.taskType} note={item.taskBrief} score={item.score} onClick={(param)=>{this.props.onClick(param)}}/>
+                                    )
+                                })
+                            }
+                        </View>
+                        : null
                 }
             </View>
         )

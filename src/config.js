@@ -88,5 +88,5 @@ export default {
     ...Config,
     //android端默认使用gradle配置，ios端默认release，注意开发时需要特殊修改的情况，请不要上传这段代码
     server: Servers[Config.server_type]
-    //,server: Servers['debug153']
+    ,server: Servers['debug153']
 };
