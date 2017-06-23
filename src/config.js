@@ -7,19 +7,14 @@ import {Platform, NativeModules} from 'react-native';
 const commonModule = NativeModules.CommonModule;
 
 const Config = {
-    mainColor: '#169ada',  //司机端主色
+    mainColor: '#4f77db',  //车主端主色
     packageName: commonModule.APPLICATION_ID, //应用包名
     uploadCk: '52b376899aaf4714a4e40e902a1f5aa5', // 应用商店更新key
-    APP_TYPE: 'qingqi_driver_mobile', //    qingqi_owner_mobile(青汽车主版本)  qingqi_driver_mobile（青汽司机版本）
+    APP_TYPE: 'qingqi_owner_mobile', //    qingqi_owner_mobile(青汽车主版本)  qingqi_driver_mobile（青汽司机版本）
     APP_PRODUCT: 'qingqi',
     DEVICE_TYPE: Platform.OS === 'android' ? '1' : '2',//1:android,  2:ios   /////qingqi_owner_mobile
-    TYPE: '1', //0 车主端 1 司机端
-    //server_type: Platform.OS === 'android' ? commonModule.server_type : 'release'
+    TYPE: '0', //0 车主端 1 司机端
     server_type: commonModule.server_type,
-
-    // pushKey: '93785c2c3dae47a4a5ecbb257450202f',
-    pushKey: 'test-93785c2c3dae47a4a5ecbb257450202f',
-    pushSecretKey: 'a9c1edef3ea94287aa0999262249e5ac',
     deviceName: commonModule.deviceName || '',
     versionCode: commonModule.VERSION_CODE,
     INVERSE_AK: '79bd7f3bd5d240e888b2c84b4c3bc617'
