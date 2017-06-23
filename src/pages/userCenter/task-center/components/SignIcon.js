@@ -23,19 +23,21 @@ class SignIcon extends Component{
         }
     }
     render(){
+        let iconStyle = [{position:"absolute",top:Env.font.base*60,zIndex:100},estyle.fxCenter];
+        if(Env.isIOS) iconStyle.push({backgroundColor:'rgba(0,0,0,0)'});
         return (
             <View style={[styles.signItem]}>
                 <View style={[estyle.fxCenter,estyle.fx1,{position:"relative"}]}>
                     { this.renderImage() }
                     {/*<Image style={[{width:Env.screen.width * 0.15,height:Env.screen.width * 0.15}]} source={require("../../../../assets/images/signImageActive.png")}/>*/}
-                    <View style={[{position:"absolute",top:Env.font.base*60,zIndex:100},estyle.fxCenter]}>
+                    <View style={iconStyle}>
                         <Text style={[{color:Env.color.navTitle,fontSize:Env.font.mini}]}>{this.props.score}积分</Text>
                         {
                             this.props.signFlg === 2 && this.props.multiple ? <Text style={[{color:'red',fontSize:Env.font.mini}]}>{'x'+this.props.multiple}</Text> : null
                         }
                     </View>
                     {
-                        this.props.signFlg === 2 && this.props.vipFlg === 1 ? <Image style={[{position:"absolute",top: 8 *basefont,width:150 * basefont ,height: 100 * basefont}]} source={require("../../../../assets/images/member.png")}/> : null
+                        this.props.signFlg === 2 && this.props.vipFlag === 1 ? <Image style={[{position:"absolute",top: 8 *basefont,width:150 * basefont ,height: 100 * basefont}]} source={require("../../../../assets/images/member.png")}/> : null
                     }
                 </View>
 

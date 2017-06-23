@@ -154,7 +154,7 @@ class IntegralSignSucess extends Component{
                         <Image style={[styles.signSucessImage]} source={require("../../../assets/images/signSuccess.png")}/>
                     </View>
                     <View style={[estyle.fxCenter]}>
-                        <Text style={[estyle.note]}>连续签到{this.state.signDays}天，积分<Text style={[{color:Env.color.integralButtonBg}]}>+{this.state.nextScore}</Text></Text>
+                        <Text style={[estyle.note]}>连续签到{this.state.signDays}天，下次签到积分<Text style={[{color:Env.color.integralButtonBg}]}>+{this.state.nextScore}</Text></Text>
                         <Text style={estyle.articleTitle}>我的积分：{this.state.Integral}</Text>
                     </View>
                     <View style={[estyle.marginHorizontal, styles.signButtonContainer,estyle.fxCenter]}>
@@ -325,7 +325,7 @@ class TaskCenterPage extends Component {
                 <ScrollView style={[estyle.fx1]}
                             refreshControl={
                                 <RefreshControl
-                                    onRefresh={this.fetchData.bind(this)}
+                                    //onRefresh={this.fetchData.bind(this)}
                                     refreshing={this.state.isRefreshing}
                                     colors={[Env.color.main]}
                                     progressBackgroundColor="#fff"

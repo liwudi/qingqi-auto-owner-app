@@ -157,10 +157,13 @@ class UserCenterHome extends Component {
                                     borderColor:Env.color.main}}
                                 source={this.props.userPicStore.userPic}
                             />
-                            <View style={{justifyContent:'center',marginLeft:20 * Env.font.base}}>
-                                <Text style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.name || '未设置姓名'}</Text>
-                                <Text
-                                    style={[estyle.articleTitle,styles.colorFFF]}>{userInfo.phone ? `${userInfo.phone.substr(0, 3)}******${userInfo.phone.substr(9)}` : ''}</Text>
+                            <View style={{justifyContent: 'center', marginLeft: 20 * Env.font.base}}>
+                                <Text style={[estyle.articleTitle, styles.colorFFF]}>{userInfo.name || '未设置姓名'}</Text>
+                                <View style={[estyle.fxRow]}>
+                                    <Text
+                                        style={[estyle.articleTitle, styles.colorFFF]}>{userInfo.phone ? `${userInfo.phone.substr(0, 3)}******${userInfo.phone.substr(9)}` : ''}</Text>
+                                    <Text style={[estyle.articleTitle, styles.colorFFF,estyle.marginLeft]}>{'积分：'+this.props.Integral.scoreTotal}</Text>
+                                </View>
                             </View>
                         </View>
                     </ViewForRightArrow>

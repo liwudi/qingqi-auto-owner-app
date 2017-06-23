@@ -3,8 +3,7 @@
  */
 import Server from '../service-config/ServerConfig';
 import RequestService,{ getToken } from '../service-config/RequestService';
-let serviceUrl = `${Server.QINGQI}accumulate/`;
-serviceUrl = "http://10.30.50.153:8990/accumulate/"
+let serviceUrl = `${Server.ACCUMULATE}`;
 const upLoadServiceUrl=`${Server.UPLOAD_SERVICE}fsevice/uploadFile`;
 
 

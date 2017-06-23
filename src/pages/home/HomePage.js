@@ -223,7 +223,7 @@ export default class HomePage extends Component {
                                                        src={require('../../assets/images/icon8.png')} title="卡友论坛"/>
                                 :null
                         }
-                        <ImgButton  src={require('../../assets/images/icon10.png')} gray={true} title="开发中"/>
+                        {/*<ImgButton  src={require('../../assets/images/icon10.png')} gray={true} title="开发中"/>*/}
                     </View>
                 </ScrollView>
             </View>

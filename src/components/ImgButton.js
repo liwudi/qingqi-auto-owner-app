@@ -6,7 +6,7 @@ const estyle = Env.style;
 const basefont = Env.font.base;
 export default class ImgButton extends Component {
     _onPress() {
-        this.props.onPress();
+        this.props.onPress && this.props.onPress();
     }
 
     render() {
