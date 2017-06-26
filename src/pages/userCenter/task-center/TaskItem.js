@@ -111,7 +111,7 @@ class TaskItem extends Component{
                     <Text style={[estyle.note]}>{this.props.note}</Text>
                     <View style={[estyle.fxRow,estyle.fxRowCenter]}>
                         <Image style={[styles.IntegralIcon]} source={require("../../../assets/images/scoreActive.png")}/>
-                        <Text style={[estyle.note,{color:color}]}>：+{this.props.score}</Text>
+                        <Text style={[estyle.note,{color:color}]}>：{this.props.score}</Text>
                         {
                             this.props.vip && this.props.vip.vipFlg == 1 ? <Text style={[estyle.note,{color:color}]}>{'x'+this.props.vip.multiple }</Text> : null
                         }

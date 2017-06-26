@@ -28,6 +28,7 @@ import SignRule from "./SignRule";
 import CloseTag from "./components/CloseTag";
 
 const estyle = Env.style;
+const basefont = Env.font.base;
 import SignIcon from "./components/SignIcon";
 import IntegralMallPage from "../integral-mall/IntegralMallPage"
 import { queryUnfinishScoreTaskNum, querySignList, sign,queryScoreLogoList,queryIsVipDate} from "../../../services/AccumulateService";
@@ -135,7 +136,8 @@ class IntegralSignSucess extends Component{
             this.setState({
                 iconList:data.list,
                 signDays:data.signDays,
-                nextScore:data.nextScore
+                nextScore:data.nextScore,
+                nextMultiple:data.nextMultiple
             })
         }).catch(error=>{
             console.log(error);
@@ -146,15 +148,14 @@ class IntegralSignSucess extends Component{
         return (
             <View style={[estyle.fx1,styles.modalViewContainer]}>
                 <View style={[styles.modalView,estyle.cardBackgroundColor,{position:"relative"}]}>
-                    <View style={[{position:"absolute",width:Env.font.base*100,height:Env.font.base*100,right:0,top:0},estyle.fxCenter]}>
+                    <View style={[{position:"absolute",width:Env.font.base*100,height:Env.font.base*100,right:0,top:0,zIndex:100},estyle.fxCenter]}>
                         <CloseTag onClick={()=>this.props.onHide()}/>
-
                     </View>
                     <View style={[estyle.fx1,estyle.fxCenter]}>
                         <Image style={[styles.signSucessImage]} source={require("../../../assets/images/signSuccess.png")}/>
                     </View>
                     <View style={[estyle.fxCenter]}>
-                        <Text style={[estyle.note]}>连续签到{this.state.signDays}天，下次签到积分<Text style={[{color:Env.color.integralButtonBg}]}>+{this.state.nextScore}</Text></Text>
+                        <Text style={[estyle.note]}>连续签到{this.state.signDays}天，下次签到积分<Text style={[{color:Env.color.integralButtonBg}]}>{`${this.state.nextScore}${this.state.nextMultiple ? 'x'+this.state.nextMultiple: ''}`}</Text></Text>
                         <Text style={estyle.articleTitle}>我的积分：{this.state.Integral}</Text>
                     </View>
                     <View style={[estyle.marginHorizontal, styles.signButtonContainer,estyle.fxCenter]}>
@@ -206,7 +207,7 @@ class TaskCenterPage extends Component {
         queryScoreLogoList(1).then((data)=>{
             this.setState({
                 arrayList:data
-            },()=>{this.scrollText()})
+            })
         })
     }
     //-----------------------------------------------
@@ -267,6 +268,7 @@ class TaskCenterPage extends Component {
 
     componentWillUnmount(){
         this.timer && clearTimeout(this.timer);
+        this.textTimer && clearTimeout(this.textTimer);
     }
 
     shouldComponentUpdate(props) {
@@ -289,11 +291,12 @@ class TaskCenterPage extends Component {
     scrollText(){
         let list = this.state.arrayList;
         if(list.length>1){
-            this.timer = setTimeout(()=>{
+            this.textTimer = setTimeout(()=>{
                 this.setState({txtIndex:this.state.txtIndex+1},()=>{
                     if(this.state.txtIndex >= list.length){
-                        this.setState({txtIndex:0},()=>{this.scrollText()});
+                        this.setState({txtIndex:0},()=>{this.textTimer && clearTimeout(this.textTimer); this.scrollText()});
                     }else {
+                        this.textTimer && clearTimeout(this.textTimer);
                         this.scrollText();
                     }
                 })
@@ -323,22 +326,28 @@ class TaskCenterPage extends Component {
 
                 {/*任务图片、轮播和积分模块*/}
                 <ScrollView style={[estyle.fx1]}
-                            refreshControl={
-                                <RefreshControl
-                                    //onRefresh={this.fetchData.bind(this)}
-                                    refreshing={this.state.isRefreshing}
-                                    colors={[Env.color.main]}
-                                    progressBackgroundColor="#fff"
-                                />
-                            }
+                            // refreshControl={
+                            //     <RefreshControl
+                            //         //onRefresh={this.fetchData.bind(this)}
+                            //         refreshing={this.state.isRefreshing}
+                            //         colors={[Env.color.main]}
+                            //         progressBackgroundColor="#fff"
+                            //     />
+                            // }
                 >
                     <View>
                         <IntegralImage />
                         <View style={[estyle.marginVertical,estyle.fxCenter]}>
-                            <View style={[estyle.border,styles.titleWidth,styles.baseHeight,estyle.fxCenter,styles.titleBorder,estyle.cardBackgroundColor]}>
-                                <View style={[estyle.fxCenter]}>
-                                    <Text style={[styles.titleColor]}>{this.state.arrayList[this.state.txtIndex]}</Text>
-                                </View>
+                            <View style={[estyle.border,styles.titleBorder]}>
+                                <Swiper showsPagination={false} autoplay={true} autoplayTimeout={5} width={650*basefont} height={50*basefont}>
+                                    {
+                                        this.state.arrayList.map((item,index)=>{
+                                            return <View key={index} style={[estyle.fx1,estyle.fxCenter]}>
+                                                <Text>{item}</Text>
+                                            </View>
+                                        })
+                                    }
+                                </Swiper>
                             </View>
                         </View>
 
@@ -368,16 +377,12 @@ export default connect(function (stores) {
     }
 })(TaskCenterPage);
 const styles = StyleSheet.create({
-    baseHeight: {
-        height:Env.screen.height/20,
-    },
-    titleWidth:{
-        width:Env.screen.width*0.8
-    },
     titleColor:{
         color:Env.color.integralButtonBg,
     },
     titleBorder:{
+        width:650*basefont,
+        height:50*basefont,
         borderWidth:1,
         borderRadius:5,
         borderColor:Env.color.integralButtonBg,

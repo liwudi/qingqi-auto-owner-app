@@ -181,9 +181,9 @@ export default class ServiceStationDetail extends Component {
                            {/* <TouchableOpacity style={[estyle.fx1,{borderBottomWidth:10 * Env.font.base,borderBottomColor: this.state.flag == 1 ? Env.color.main : 'transparent' }]} onPress={ ()=>{this.setState({flag:1})} } >
                                 <Text style={[estyle.paddingVertical, {color: this.state.flag == 1 ? Env.color.main : Env.color.text, textAlign:'center'}, estyle.fx1]}>同车型评价</Text>
                             </TouchableOpacity>*/}
-                            <TouchableOpacity style={[estyle.fx1,{borderBottomWidth:10 * Env.font.base,borderBottomColor: this.state.flag == 2 ? Env.color.main : 'transparent' }]} onPress={ ()=>{this.setState({flag:2})} }>
+                            <View style={[estyle.fx1,{borderBottomWidth:10 * Env.font.base,borderBottomColor: this.state.flag == 2 ? Env.color.main : 'transparent' }]}>
                                 <Text style={[estyle.paddingVertical, {color: this.state.flag == 2 ? Env.color.main : Env.color.text, textAlign:'center'}, estyle.fx1]}>全部车型评价</Text>
-                            </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                     <PageList

@@ -18,7 +18,7 @@ export default class ImgButton extends Component {
                 <View style={{alignItems: 'center'}}>
                     <Image source={this.props.src}
                            style={styles.image}/>
-                    <View style={[estyle.paddingTop]}>
+                    <View>
                         <Text style={[estyle.articleTitle,{color:this.props.gray?'#ccc':'#666'}]}>{this.props.title}</Text>
                     </View>
                 </View>
