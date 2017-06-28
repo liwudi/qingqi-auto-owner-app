@@ -339,15 +339,18 @@ class TaskCenterPage extends Component {
                         <IntegralImage />
                         <View style={[estyle.marginVertical,estyle.fxCenter]}>
                             <View style={[estyle.border,styles.titleBorder]}>
-                                <Swiper showsPagination={false} autoplay={true} autoplayTimeout={5} width={650*basefont} height={50*basefont}>
-                                    {
-                                        this.state.arrayList.map((item,index)=>{
-                                            return <View key={index} style={[estyle.fx1,estyle.fxCenter]}>
-                                                <Text>{item}</Text>
-                                            </View>
-                                        })
-                                    }
-                                </Swiper>
+                                {
+                                    this.state.arrayList.length != 0 ?
+                                        <Swiper showsPagination={false} autoplay={true} autoplayTimeout={5} width={650*basefont} height={50*basefont}>
+                                            {
+                                                this.state.arrayList.map((item,index)=>{
+                                                    return <View key={index} style={[estyle.fx1,estyle.fxCenter]}>
+                                                        <Text>{item}</Text>
+                                                    </View>
+                                                })
+                                            }
+                                        </Swiper> : null
+                                }
                             </View>
                         </View>
 

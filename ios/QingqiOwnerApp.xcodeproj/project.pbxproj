@@ -805,6 +805,7 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = AK26ZWGWUT;
 						ProvisioningStyle = Manual;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
@@ -1277,7 +1278,8 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Guoqing Zhao (RSJ99753B5)";
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1328,7 +1330,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Guoqing Zhao (RSJ99753B5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/@remobile/react-native-toast/ios/RCTToast",
@@ -1405,7 +1407,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "0e5d943e-c9fa-4d85-a530-841fb677bff7";
+				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
 				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1447,7 +1449,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "0e5d943e-c9fa-4d85-a530-841fb677bff7";
+				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
 				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -189,6 +189,7 @@ class ServiceStationAppointment extends Component {
         if(this.state.doing) return false;
         this.setState({doing:true});
         let opts={
+            carNumber:this.state.selectCar.carCode,
             vin:this.state.selectCar.carVin,
             orderTime: this.state.dateTime+':00',
             serviceCarrepairStype: this.state.repairList.join(','),

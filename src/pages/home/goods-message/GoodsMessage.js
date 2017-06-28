@@ -66,6 +66,22 @@ export default class GoodsMessage extends Component {
         }
         else {
             let data = global.locationInfo;
+            if(!(data.province && data.city && data.dist)){
+                this.state = {
+                    startName: '',
+                    endName: '',
+                    options: {
+                        startPoint: '0',//行政区码，传 0 时为不限
+                        startLevel: 1,
+                        endPoint: '0', //行政区码，传 0 时为不限
+                        endLevel: 1,
+                        carModel: '',
+                        carLength: ''
+                    },
+                    locationAddress: ''
+                };
+                return;
+            }
             let province = data.province,
                 city = data.city,
                 area = data.dist,

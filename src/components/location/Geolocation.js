@@ -28,7 +28,8 @@ function processer (isConnected) {
             return coords;
         }).then((data) => {
             getInverseGeocoding(data.longitude, data.latitude).then((result={resultCode: 100}) => {
-                if(!result.resultCode) {
+                console.log('逆地理',result)
+                if(!result.resultCode && !result.status) {
                     console.info('geo-inverse')
                     coords = Object.assign(result, data);
                     global.locationInfo = coords;
