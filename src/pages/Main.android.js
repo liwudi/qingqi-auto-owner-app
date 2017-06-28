@@ -27,7 +27,7 @@ import Env from '../utils/Env'
 const estyle = Env.style;
 import {Alert2} from '../components/Modals/Alert';
 
-import { checkUpdate, getAppVersion, updateApp } from '../services/UpdateService';
+import {checkUpdate, getAppVersion, updateApp} from '../services/UpdateService';
 
 
 class Main extends Component {
@@ -70,15 +70,9 @@ class Main extends Component {
         super(props);
         this.state = {
             isConnected: true,
-            versionName : '',
-            versionCode : '',
+            versionName: getAppVersion().versionName,
+            versionCode: getAppVersion().versionCode,
         };
-        getAppVersion().then(v => {
-            this.setState({
-                versionName : v.versionName,
-                versionCode : v.versionCode
-            })
-        });
 
         DeviceEventEmitter.addListener("notificationClick", (event) => {
             try {

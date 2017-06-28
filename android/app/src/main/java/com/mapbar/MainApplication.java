@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -15,12 +16,14 @@ import android.widget.Toast;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactApplication;
-import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
+import com.facebook.soloader.SoLoader;
 import io.rnkit.actionsheetpicker.ASPickerViewPackage;
 
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
+import com.mapbar.react.stat.StatPackage;
 import com.mapbar.react.update.UpdatePackage;
-import com.mapbar.rn.navicore.RnNavicorePackage;
 import com.mapbar.utils.SdcardUtil;
+import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -35,6 +38,7 @@ import com.mapbar.pushservice.mapbarpush.PushConfigs;
 import com.mapbar.pushservice.mapbarpush.provider.DeviceInfoHelper;
 import com.mapbar.react.CommonUtils;
 import com.mapbar.react.common.CommonPackage;
+import com.mapbar.rn.navicore.RnNavicorePackage;
 
 import com.mapbar.react.push.MarbarPushPackage;
 import com.mapbar.react.setting.SystemSettingPackage;
@@ -58,6 +62,7 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.umeng.socialize.PlatformConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,7 +71,7 @@ import java.util.List;
 
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
   private static final String TAG = "MainApplication";
 
   public static String downloadRootPath;
@@ -130,7 +135,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-
+    SoLoader.init(this, /* native exopackage */ false);
     instance = this;
 
     String pushApikey = DeviceInfoHelper.getInstance(this.getApplicationContext()).getApiKey();
@@ -150,6 +155,9 @@ public class MainApplication extends Application implements ReactApplication {
 //    EntypoFonts
     Iconify.with(new EntypoFontDescriptor());
     initFile();
+
+    PlatformConfig.setWeixin(BuildConfig.SHARE_APP_ID, BuildConfig.SHARE_APP_SECRET);
+
   }
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -161,8 +169,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactNativePermissionsPackage(),
+            new StatPackage(),
             new ASPickerViewPackage(),
+            new ReactVideoPackage(),
             new ImageResizerPackage(),
             new RNFetchBlobPackage(),
               new SystemSettingPackage(),
@@ -172,7 +181,8 @@ public class MainApplication extends Application implements ReactApplication {
               new MarbarPushPackage(),
               new RnNavicorePackage(),
               new CommonPackage(),
-              new UpdatePackage()
+              new UpdatePackage(),
+              new ReactNativePermissionsPackage()
       );
     }
   };

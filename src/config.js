@@ -17,6 +17,7 @@ const Config = {
     server_type: commonModule.server_type,
     deviceName: commonModule.deviceName || '',
     versionCode: commonModule.VERSION_CODE,
+    versionName: commonModule.VERSION_NAME,
     INVERSE_AK: '79bd7f3bd5d240e888b2c84b4c3bc617'
 };
 
@@ -36,7 +37,8 @@ const ServerBase = {
     UPLOAD_SERVICE: 'http://jfx.mapbar.com/fsm/',
     UPDATE_SERVICE,
     PUSH_SERVICE: 'http://wdservice.mapbar.com/pushapi/',
-    INVERSE_SERVICE: 'http://wedrive.mapbar.com/opentsp/gis/api/inverse'
+    INVERSE_SERVICE: 'http://wedrive.mapbar.com/opentsp/gis/api/inverse',
+    DEBUG : false
 };
 
 
@@ -50,7 +52,8 @@ const Servers = {
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.151:8950/qingqi/',
         IMG_SERVICE: 'http://119.255.37.167:8808/user/queryPicById',//用于头像相关
-        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json'
+        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json',
+        DEBUG : true
     },
     debug152:{  //内网开发联调环境
         ...ServerBase,
@@ -61,29 +64,33 @@ const Servers = {
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.152:8950/qingqi/',
         IMG_SERVICE: 'http://119.255.37.167:8808/user/queryPicById',//用于头像相关
-        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json'
+        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json',
+        DEBUG : true
     },
     debug153:{  //内网qa测试环境
         ...ServerBase,
         QINGQI: 'http://10.30.50.153:8950/qingqi/',
         ACCUMULATE:'http://10.30.50.153:8990/accumulate/',
         //WD_SERVICE: 'http://119.255.37.167:8808/',
-        BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
+        BBS_PAGE: 'http://61.161.238.158:8090/mapbar/yqlt.php',
+        // BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.153:8950/qingqi/',
         IMG_SERVICE: 'http://119.255.37.167:8808/user/queryPicById',//用于头像相关
-        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json'
+        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json',
+        DEBUG : true
     },
     debug8071:{  //153外网映射
         ...ServerBase,
         QINGQI: 'http://61.161.238.158:8071/api153/qingqi/',
         ACCUMULATE:'http://61.161.238.158:8071/accumulate153/accumulate/',
         //WD_SERVICE: 'http://119.255.37.167:8808/',
-        BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
+        BBS_PAGE: 'http://61.161.238.158:8090/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
         SERVICE_STATION: 'http://10.30.50.153:8950/qingqi/',
         IMG_SERVICE: 'http://119.255.37.167:8808/user/queryPicById',//用于头像相关
-        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json'
+        INVERSE_SERVICE: 'http://geocode.mapbar.com/inverse/getInverseGeocoding.json',
+        DEBUG : true
     },
     release:{  //线上环境
         ...ServerBase,
@@ -93,6 +100,6 @@ const Servers = {
 export default {
     ...Config,
     //android端默认使用gradle配置，ios端默认release，注意开发时需要特殊修改的情况，请不要上传这段代码
-    server: Servers[Config.server_type],
-    //,server: Servers['debug8071']
+    server: Servers[Config.server_type]
+    // ,server: Servers['debug8071']
 };

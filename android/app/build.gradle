@@ -33,13 +33,6 @@ import com.android.build.OutputFile
  *   // bundleInPaidRelease: true,
  *   // bundleInBeta: true,
  *
- *   // whether to disable dev mode in custom build variants (by default only disabled in release)
- *   // for example: to disable dev mode in the staging build type (if configured)
- *   devDisabledInStaging: true,
- *   // The configuration property can be in the following formats
- *   //         'devDisabledIn${productFlavor}${buildType}'
- *   //         'devDisabledIn${buildType}'
- *
  *   // the root of your project, i.e. where "package.json" lives
  *   root: "../../",
  *
@@ -100,6 +93,8 @@ def STAT_MAPBAR_APP_KEY = "999e285bebfb427a923b05c338569d26"
 def STAT_UMENG_APP_KEY  = "585b8cc999f0c70a01000ffa"
 def PUSH_MAPBAR_APP_KEY = "3aae4181c7694165813ffa251f56bf62"
 def PUSH_MAPBAR_APP_KEY_TEST = "test-1f009f31c1a44cd196e46a257d0c4343"
+def SHARE_APP_ID = "wx78a63e19b312da00"
+def SHARE_APP_SECRET = "2501b7ef7d6a8d24ad2d11b6baf56a90"
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
@@ -126,7 +121,9 @@ android {
                 STAT_UMENG_APP_KEY  : STAT_UMENG_APP_KEY,
                 PUSH_MAPBAR_APP_KEY : PUSH_MAPBAR_APP_KEY_TEST,
         ]
-
+        multiDexEnabled true
+        buildConfigField "String", "SHARE_APP_ID", '"' + SHARE_APP_ID + '"'
+        buildConfigField "String", "SHARE_APP_SECRET", '"' + SHARE_APP_SECRET + '"'
     }
     signingConfigs {
         release { ////打release包 请取消注释   gradlew assembleRelease
@@ -230,6 +227,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':uikit')
+    compile 'com.android.support:multidex:1.0.0'
 }
 
 // Run this once to be able to run the application with BUCK

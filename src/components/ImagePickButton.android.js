@@ -2,8 +2,9 @@
  * Created by cryst on 2016/10/11.
  */
 import React, {Component} from 'react';
-import {Platform, TouchableHighlight, View, Text, StyleSheet, Modal, AppState} from 'react-native';
+import { View } from 'react-native';
 
+import Permissions from 'react-native-permissions';
 import Env from '../utils/Env';
 import ModalBox from './widgets/Modal';
 import ConfirmButton from './ConfirmButton'
@@ -43,7 +44,6 @@ export default class ImagePickButton extends Component {
     }
 
     close = () => {
-        this.requestPhoto = false;
         this.setState({
             visible: false
         })
@@ -71,46 +71,32 @@ export default class ImagePickButton extends Component {
             });
         }
     }
-    componentDidMount() {
-        AppState.addEventListener('change', this._handleAppStateChange.bind(this));
-    }
-    componentWillUnmount() {
-        AppState.removeEventListener('change', this._handleAppStateChange.bind(this));
-        this.timer && clearTimeout(this.timer);
-    }
-    _handleAppStateChange(currentAppState) {
-        if(currentAppState === 'background') {
-            this.stime = new Date().getTime();
-        } else if (this.requestPhoto && this.stime && currentAppState === 'active') {
-            if(new Date().getTime() - this.stime <= 100) {
-                this.showMsg();
-            }
-            this.stime = undefined;
-            this.requestPhoto = false;
-        }
-    }
-
-    showMsg = () => {
-        this.timer && clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-            this.close();
-            Toast.show(this.msg, Toast.LONG);
-        }, 1000);
-    }
 
     launchCamera = () => {
-        this.requestPhoto = true;
-        this.msg = '您可能禁用了拍照功能，请到系统“设置”中开启';
-        ImagePicker.launchCamera(options, this._getImage);
-
-    }
+        Permissions.requestPermission('camera')
+            .then(havePermission => {
+                if(havePermission == 'authorized'){
+                    ImagePicker.launchCamera(options, this._getImage);
+                } else {
+                    return Promise.reject({});
+                }
+            }).catch(e => {
+                Toast.show('您可能禁用了拍照权限，请到系统“设置”中开启', Toast.LONG);
+            });
+    };
 
     launchImageLibrary = () => {
-        this.requestPhoto = true;
-        this.msg = '您可能禁用了相册功能，请到系统“设置”中开启';
-        ImagePicker.launchImageLibrary(options, this._getImage);
-
-    }
+        Permissions.requestPermission('photo')
+            .then(havePermission => {
+                if(havePermission == 'authorized'){
+                    ImagePicker.launchImageLibrary(options, this._getImage);
+                }else{
+                    return Promise.reject({});
+                }
+            }).catch(e => {
+                Toast.show('您可能禁用了相册权限，请到系统“设置”中开启', Toast.LONG);
+            });
+    };
 
     render() {
         return (

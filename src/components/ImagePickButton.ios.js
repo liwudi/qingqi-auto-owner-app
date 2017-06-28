@@ -2,8 +2,9 @@
  * Created by cryst on 2016/10/11.
  */
 import React, {Component} from 'react';
-import {Platform, TouchableHighlight, View, Text, StyleSheet, Modal} from 'react-native';
+import { View } from 'react-native';
 
+import Permissions from 'react-native-permissions';
 import Env from '../utils/Env';
 import ModalBox from './widgets/Modal';
 import ConfirmButton from './ConfirmButton'
@@ -19,11 +20,7 @@ let options = {
     storageOptions: {
         skipBackup: true,
         path: 'images'
-    },
-    // cancelButtonTitle: '取消',
-    // title:'222',
-    // takePhotoButtonTitle:'344',
-    // chooseFromLibraryButtonTitle:'ddd'
+    }
 };
 
 export default class ImagePickButton extends Component {
@@ -70,7 +67,7 @@ export default class ImagePickButton extends Component {
                                 ...response,
                                 path: resizedImageUri,
                                 data: data,
-                                // type:'image/jpeg',
+                                //type:'image/jpeg',
                                 fileName: `IMG_${new Date().getTime()}.JPG`
                             });
                         });
@@ -81,12 +78,30 @@ export default class ImagePickButton extends Component {
     }
 
     launchCamera = () => {
-        ImagePicker.launchCamera(options, this._getImage);
-    }
+        Permissions.requestPermission('camera')
+            .then(havePermission => {
+                if(havePermission == 'authorized'){
+                    ImagePicker.launchCamera(options, this._getImage);
+                } else {
+                    return Promise.reject({});
+                }
+            }).catch(e => {
+                Toast.show('您可能禁用了拍照权限，请到系统“设置”中开启', Toast.LONG);
+            });
+    };
 
     launchImageLibrary = () => {
-        ImagePicker.launchImageLibrary(options, this._getImage);
-    }
+        Permissions.requestPermission('photo')
+            .then(havePermission => {
+                if(havePermission == 'authorized'){
+                    ImagePicker.launchImageLibrary(options, this._getImage);
+                }else{
+                    return Promise.reject({});
+                }
+            }).catch(e => {
+                Toast.show('您可能禁用了相册权限，请到系统“设置”中开启', Toast.LONG);
+            });
+    };
 
     render() {
         return (

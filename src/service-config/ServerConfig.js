@@ -4,9 +4,9 @@
 
 import Config from '../config';
 
-const DEBUG = true;
+const DEBUG = Config.server.DEBUG;
 if(!DEBUG) {
-    console.info = console.log = () => {}
+    console.error = console.info = console.log = () => {}
 }
 
 let ServerConfig = {

@@ -24,18 +24,13 @@ export default class AboutUs extends Component {
     constructor(props){
         super(props);
         this.state = {
-            versionName : '',
-            versionCode : ''
+            versionName : getAppVersion().versionName,
+            versionCode : getAppVersion().versionCode
         }
     }
 
     componentDidMount(){
-        getAppVersion().then(v => {
-            this.setState({
-                versionName : v.versionName,
-                versionCode : v.versionCode
-            })
-        });
+
     }
 
     render() {

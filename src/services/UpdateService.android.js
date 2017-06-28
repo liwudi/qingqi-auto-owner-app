@@ -4,11 +4,11 @@
 
 import { NetInfo, NativeModules, DeviceEventEmitter } from 'react-native';
 
-import commonModule from './components/CommonModule';
 import Toast from '../components/Toast';
 
 import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
+import Config from '../config';
 
 /**
  * 检查更新
@@ -23,7 +23,10 @@ export function checkUpdate(){
  * @returns {*}
  */
 export function getAppVersion() {
-    return commonModule.getVersionInfo();
+    return {
+        versionName : Config.versionName,
+        versionCode : Config.versionCode
+    };
 }
 
 let Alert = null;
@@ -32,7 +35,7 @@ let networkChange = (networkState) => {
     if(networkState != 'NONE' && networkState != 'WIFI'){
         NativeModules.UpdateModule.pauseTask();
         Alert(
-            `应用更新`,
+            `应用下载`,
             `网络环境已变更为3G/4G，是否继续下载？`,
             [
                 {text:'继续下载',onPress:() => {
@@ -46,9 +49,9 @@ let networkChange = (networkState) => {
         )
     }
 };
-
 let updateStateChange = (e) => {
     console.log('app update',e);
+    global.dowloadingFlag = e.STATE;
     switch (e.STATE){
         case 1://开始下载
             Toast.show('应用在后台下载中', Toast.SHORT);
@@ -87,8 +90,10 @@ let updateStateChange = (e) => {
             );
             break;
         case 6://下载中
+            //Toast.show('当前有任务在下载中，请稍后再试', Toast.SHORT);
             break;
     }
+
 }
 
 function addListener() {
@@ -104,9 +109,9 @@ function removeListener() {
 
 export function updateApp(appInfo, alert,isManual) {
     Alert = alert;
-    console.log('本地版本号',NativeModules.CommonModule.VERSION_CODE);
+    console.log('本地版本号',getAppVersion().versionCode);
     console.log('线上版本号',appInfo['version_no']);
-    if(appInfo['version_no'] <= NativeModules.CommonModule.VERSION_CODE)return;
+    if(appInfo['version_no'] <= getAppVersion().versionCode)return;
     if(isManual){
         updateAppAlert(appInfo);
     }else {

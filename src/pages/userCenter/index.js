@@ -49,8 +49,8 @@ class UserCenterHome extends Component {
         this.stopRequest = false;
         this.state = {
             userData: {},
-            versionName: '',
-            versionCode: '',
+            versionName : getAppVersion().versionName,
+            versionCode : getAppVersion().versionCode,
             isUpdate: false
         };
         this.props.dispatch(UserActions.getUserPic());
@@ -76,12 +76,13 @@ class UserCenterHome extends Component {
     }
 
     componentDidMount() {
-        getAppVersion().then(v => {
-            this.setState({
-                versionName: v.versionName,
-                versionCode: v.versionCode
-            })
-        });
+        // getAppVersion().then(v => {
+        //     this.setState({
+        //         versionName: v.versionName,
+        //         versionCode: v.versionCode
+        //     })
+        // });
+        //this.props.dispatch(UserActions.getCouponNum());
         this.getCouponNum();
         this.props.dispatch(requestScore());
         Env.isAndroid && this._checkUpdate(false);

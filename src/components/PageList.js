@@ -102,7 +102,7 @@ export default class PageList extends Component {
     componentDidMount(){
         this.startActive();
         this.timer=setTimeout(() => {
-            this.getData();
+            this.getData(1);
         }, 500);
     }
 

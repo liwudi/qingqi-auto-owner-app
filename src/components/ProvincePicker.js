@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-import { providerCity, areaCondition } from '../services/ServiceStationService';
+import { providerCity, areaCondition} from '../services/ServiceStationService';
 import TopBanner from './TopBanner';
 import PageList from './PageList';
 import CityPicker from './CityPicker';

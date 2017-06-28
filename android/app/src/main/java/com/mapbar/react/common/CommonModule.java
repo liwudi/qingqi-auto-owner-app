@@ -5,6 +5,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -30,6 +32,11 @@ import com.netease.nim.uikit.session.fragment.MessageFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -249,6 +256,82 @@ public class CommonModule extends ReactContextBaseJavaModule implements Lifecycl
         writableMap.putInt("versionCode", packageInfo.versionCode);
 
         promise.resolve(writableMap);
+    }
+
+    /**
+     * 友盟分享
+     * @param title
+     * @param message
+     * @param url
+     * @param imgUrl
+     */
+    @ReactMethod
+    public void share(String title, String message, String url, String imgUrl,final Promise promise) {
+
+        UMImage image = null;
+
+        if(!"".equals(imgUrl)){
+            new UMImage(getCurrentActivity(), imgUrl);
+        }
+
+        ShareAction shareAction = new ShareAction(getCurrentActivity());
+
+        UMWeb web = null;
+        if(!"".equals(url)){
+            web = new UMWeb(url);
+            web.setTitle(title);//标题
+            if(image != null){
+                web.setThumb(image);  //缩略图
+            }
+            web.setDescription(message);//描述
+        }
+
+        if(web != null){
+            shareAction.withMedia(web);
+        }else{
+            shareAction.withText(message);
+            if(image != null){
+                shareAction.withMedia(image);
+            }
+        }
+
+        shareAction.setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE);
+        shareAction.setCallback(new UMShareListener() {
+            @Override
+            public void onStart(SHARE_MEDIA platform) {
+                //分享开始的回调
+            }
+            @Override
+            public void onResult(SHARE_MEDIA platform) {
+                WritableMap writableMap = Arguments.createMap();
+                writableMap.putString("state", "1");
+                writableMap.putString("message", "分享成功");
+                promise.resolve(writableMap);
+                Toast.makeText(getCurrentActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA platform, Throwable t) {
+                WritableMap writableMap = Arguments.createMap();
+                writableMap.putString("state", "2");
+                writableMap.putString("message", "分享失败");
+                promise.resolve(writableMap);
+                Toast.makeText(getCurrentActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                if(t!=null){
+                    Log.d("throw","throw:"+t.getMessage());
+                }
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA platform) {
+                WritableMap writableMap = Arguments.createMap();
+                writableMap.putString("state", "3");
+                writableMap.putString("message", "分享取消");
+                promise.resolve(writableMap);
+                Toast.makeText(getCurrentActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            }
+        });
+        shareAction.open();
     }
 
     private static PackageInfo getPackageInfo(Context context) {
