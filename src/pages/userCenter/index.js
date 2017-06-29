@@ -163,7 +163,7 @@ class UserCenterHome extends Component {
                                 <View style={[estyle.fxRow]}>
                                     <Text
                                         style={[estyle.articleTitle, styles.colorFFF]}>{userInfo.phone ? `${userInfo.phone.substr(0, 3)}******${userInfo.phone.substr(9)}` : ''}</Text>
-                                    <Text style={[estyle.articleTitle, styles.colorFFF,estyle.marginLeft]}>{'积分：'+this.props.Integral.scoreTotal}</Text>
+                                    <Text style={[estyle.articleTitle, styles.colorFFF,estyle.marginLeft]}>{`积分：${this.props.Integral.scoreTotal || ''}`}</Text>
                                 </View>
                             </View>
                         </View>

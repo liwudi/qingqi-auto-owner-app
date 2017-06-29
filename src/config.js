@@ -26,7 +26,7 @@ const UPDATE_SERVICE = `http://wdservice.mapbar.com/appstorewsapi/checkexistlist
 
 const ServerBase = {
     QINGQI: 'http://jfx.mapbar.com/api/qingqi/',
-    ACCUMULATE:'http://jfx.mapbar.com/api/accumulate/',
+    ACCUMULATE:'http://jfx.mapbar.com/api/qingqi/accumulate/',
     WD_SERVICE: 'http://jfx.mapbar.com/usercenter/',
     SERVICE_STATION:'http://jfx.qdfaw.com:8081/api/qingqi/',
     BBS_PAGE: 'http://jfx.mapbar.com/forum/yqlt.php',
@@ -46,7 +46,7 @@ const Servers = {
     debug151:{ //与线上同步内网环境
         ...ServerBase,
         QINGQI: 'http://10.30.50.151:8950/qingqi/',
-        ACCUMULATE:'http://10.30.50.151:8950/accumulate/',
+        ACCUMULATE:'http://10.30.50.151:8950/qingqi/accumulate/',
         //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
@@ -58,7 +58,7 @@ const Servers = {
     debug152:{  //内网开发联调环境
         ...ServerBase,
         QINGQI: 'http://10.30.50.152:8950/qingqi/',
-        ACCUMULATE:'http://10.30.50.152:8950/accumulate/',
+        ACCUMULATE:'http://10.30.50.152:8950/qingqi/accumulate/',
         //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
@@ -70,7 +70,7 @@ const Servers = {
     debug153:{  //内网qa测试环境
         ...ServerBase,
         QINGQI: 'http://10.30.50.153:8950/qingqi/',
-        ACCUMULATE:'http://10.30.50.153:8990/accumulate/',
+        ACCUMULATE:'http://10.30.50.153:8990/qingqi/accumulate/',
         //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8090/mapbar/yqlt.php',
         // BBS_PAGE: 'http://61.161.238.158:8071/mapbar/yqlt.php',
@@ -83,7 +83,7 @@ const Servers = {
     debug8071:{  //153外网映射
         ...ServerBase,
         QINGQI: 'http://61.161.238.158:8071/api153/qingqi/',
-        ACCUMULATE:'http://61.161.238.158:8071/accumulate153/accumulate/',
+        ACCUMULATE:'http://61.161.238.158:8071/accumulate153/qingqi/accumulate/',
         //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8090/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',
@@ -101,5 +101,5 @@ export default {
     ...Config,
     //android端默认使用gradle配置，ios端默认release，注意开发时需要特殊修改的情况，请不要上传这段代码
     server: Servers[Config.server_type]
-    // ,server: Servers['debug8071']
+    //,server: Servers['debug8071']
 };
