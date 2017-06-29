@@ -9,7 +9,6 @@ import { View , TouchableOpacity, Text, WebView, Alert, Share } from 'react-nati
 import ImagePickButton from './ImagePickButton';
 import * as Icons from './Icons';
 import { fileUpLoad } from '../services/AppService';
-import { geolocation } from './location/Geolocation';
 
 import TopBanner from './TopBanner';
 
@@ -33,6 +32,7 @@ export default class News extends Component {
             page: {},
             title: this.props.title || '卡友论坛'
         }
+
     }
 
     doBack(){
@@ -57,7 +57,25 @@ export default class News extends Component {
         const e = JSON.parse(event.nativeEvent.data);
         switch (e.action) {
             case "location":
-                geolocation().then(rs => console.log('123',rs)).catch(e => console.log(e))
+                const geo = global.locationInfo || {};
+                let err = null;
+                let rs = {};
+
+                if(geo.longitude){
+                    rs = {
+                        lonlat: geo.longitude + ',' + geo.latitude,
+                        address: geo.address
+                    };
+                } else {
+                    err = {
+                        message: '定位失败，请稍后重试',
+                        status: 0
+                    }
+                }
+
+                this.refs.webview.injectJavaScript(`window.mapbar['${e.callBack}'](${JSON.stringify(err)},${JSON.stringify(rs)})`);
+
+                /*geolocation().then(rs => console.log('123',rs)).catch(e => console.log(e))
                 setTimeout(() => {
                     let err = null;
                     let rs = {
@@ -65,7 +83,7 @@ export default class News extends Component {
                         address: '北京市，东城区'
                     }
                     this.refs.webview.injectJavaScript(`window.mapbar['${e.callBack}'](${JSON.stringify(err)},${JSON.stringify(rs)})`);
-                },5000);
+                },5000);*/
                 break;
 
             case "image":
