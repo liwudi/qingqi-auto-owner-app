@@ -17,6 +17,7 @@
 #import <iNaviCore/MBNaviSession.h>
 #import <iNaviCore/MBNaviSessionDelegate.h>
 #import <iNaviCore/MBNaviSessionParams.h>
+#import <UMSocialCore/UMSocialCore.h>
 
 @interface AppDelegate()<MBNaviSessionDelegate>
 @end
@@ -48,8 +49,54 @@
   
   [self getPrivateDocsDir];
 //  [SplashScreen show];
+  
+  /* 设置友盟appkey */
+  [[UMSocialManager defaultManager] setUmSocialAppkey:@"58b547414ad1563d7a000d9c"];
+  
+  [self configUSharePlatforms];
+  
+  [self confitUShareSettings];
+  
   return YES;
 }
+
+- (void)configUSharePlatforms
+{
+  /* 设置微信的appKey和appSecret */
+  [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx78a63e19b312da00" appSecret:@"2501b7ef7d6a8d24ad2d11b6baf56a90" redirectURL:@"http://mobile.umeng.com/social"];
+  
+}
+
+// 支持所有iOS系统
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  //6.3的新的API调用，是为了兼容国外平台(例如:新版facebookSDK,VK等)的调用[如果用6.2的api调用会没有回调],对国内平台没有影响
+  BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
+  if (!result) {
+    // 其他如支付等SDK的回调
+  }
+  return result;
+}
+
+- (void)confitUShareSettings
+{
+  /*
+   * 打开图片水印
+   */
+  //[UMSocialGlobal shareInstance].isUsingWaterMark = YES;
+  
+  /*
+   * 关闭强制验证https，可允许http图片分享，但需要在info.plist设置安全域名
+   <key>NSAppTransportSecurity</key>
+   <dict>
+   <key>NSAllowsArbitraryLoads</key>
+   <true/>
+   </dict>
+   */
+  //[UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = NO;
+  
+}
+
 
 /**
  *  设置私有路径

@@ -25,7 +25,8 @@ export function checkUpdate(){
 export function getAppVersion() {
     return {
         versionName : Config.versionName,
-        versionCode : Config.versionCode
+        versionCode : Config.versionCode,
+        appType : Config.APP_TYPE
     };
 }
 
