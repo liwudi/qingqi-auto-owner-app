@@ -24,7 +24,7 @@ class Bbs extends Component {
 
         // console.log(`${ServerConfig.BBS_PAGE}?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}&userName=${encodeURIComponent(userStore.name)}`)
         this.state = {
-            uri: `${ServerConfig.BBS_PAGE}?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}&userName=${encodeURIComponent(userStore.name)}&appVersion=${getAppVersion().versionCode}`,
+            uri: `${ServerConfig.BBS_PAGE}?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}&userName=${encodeURIComponent(userStore.name)}&appVersion=${getAppVersion().versionCode}&appType=${getAppVersion().appType}`,
             // uri: `http://kayouforum.hqzl.cn/yqlt.php?phone=admin&token=sdfasdfasd&appVersion=10021`,
             // uri: `http://kayouforum.hqzl.cn/mobile.php`,
             page:{}

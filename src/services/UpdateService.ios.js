@@ -6,7 +6,7 @@ import commonModule from './components/CommonModule';
 
 import Server from '../service-config/ServerConfig';
 import RequestService from '../service-config/RequestService';
-
+import Config from '../config';
 /**
  * 检查更新
  * @returns {*}
@@ -20,5 +20,9 @@ export function checkUpdate(){
  * @returns {*}
  */
 export function getAppVersion() {
-    return commonModule.getVersionInfo();
+    return {
+        versionName : Config.versionName,
+        versionCode : Config.versionCode,
+        appType : Config.APP_TYPE
+    };
 }
