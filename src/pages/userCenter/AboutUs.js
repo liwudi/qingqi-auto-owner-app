@@ -30,7 +30,9 @@ export default class AboutUs extends Component {
     }
 
     componentDidMount(){
-
+        if(Env.isIOS){
+            this.setState({versionName:'1.2.1'})
+        }
     }
 
     render() {
