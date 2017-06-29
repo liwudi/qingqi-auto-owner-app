@@ -107,13 +107,6 @@ export default class News extends Component {
                 ).then(res => {
                     console.log(res)
                 });
-
-                // CommonModule.share(
-                // //     e.params.title || "",
-                // //     e.params.content || "",
-                // //     url,
-                // //     e.params.imgPath || ""
-                // )
                 break;
 
             case "back":
@@ -278,7 +271,7 @@ export default class News extends Component {
                     leftView={_renderButton()}
                     doBack={this.doBack.bind(this)}
                     title={this.state.title}
-                /> : null}
+                /> : <View style={[estyle.iosStatusBarHeight,{backgroundColor:Env.color.main}]}/>}
                 <WebView
                     ref="webview"
                     onNavigationStateChange={(page) => {

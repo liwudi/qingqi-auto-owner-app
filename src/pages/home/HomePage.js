@@ -218,11 +218,9 @@ export default class HomePage extends Component {
                                    src={require('../../assets/images/icon4.png')} title="服务预约"/>
                         <ImgButton onPress={() => this.goTo(GoodsIndex, true)}
                                    src={require('../../assets/images/icon9.png')} title="货源信息"/>
-                        {
-                            Env.isAndroid ? <ImgButton onPress={() => this.goTo(Bbs)}
+                        <ImgButton onPress={() => this.goTo(Bbs)}
                                                        src={require('../../assets/images/icon8.png')} title="卡友论坛"/>
-                                :null
-                        }
+
                         {/*<ImgButton  src={require('../../assets/images/icon10.png')} gray={true} title="开发中"/>*/}
                     </View>
                 </ScrollView>

@@ -49,6 +49,7 @@
 		84DC55521EE94C7A0085B2E5 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DC554B1EE94C7A0085B2E5 /* MapView.m */; };
 		84DC55531EE94C7A0085B2E5 /* RCTMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DC554D1EE94C7A0085B2E5 /* RCTMapViewManager.m */; };
 		84DC55541EE94C7A0085B2E5 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DC554F1EE94C7A0085B2E5 /* UIColor+HexString.m */; };
+		9169D56299EC6B921D2FAE60 /* libPods-QingqiOwnerApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5A8E449E29BB63BBEBDACF /* libPods-QingqiOwnerApp.a */; };
 		A21EF9CF658248D0BB24EB68 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1907FAA1D44FD39B5A1EAB /* libRCTToast.a */; };
 		A5C165384474431595CAC039 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8FD75C4065246E5B1A3E01F /* Entypo.ttf */; };
 		AC9F99CF8DFA41C18490AF7C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F871B6005A304E53809C3945 /* Ionicons.ttf */; };
@@ -342,9 +343,11 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1648B03477134357B39CDE13 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		47C3372A07AF4CD3B8089C2F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		4D5A8E449E29BB63BBEBDACF /* libPods-QingqiOwnerApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QingqiOwnerApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C1907FAA1D44FD39B5A1EAB /* libRCTToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTToast.a; sourceTree = "<group>"; };
 		5E0AA9A2E17340708D04C314 /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		62747901C829DE2193AA8BBF /* Pods-QingqiOwnerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QingqiOwnerApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QingqiOwnerApp/Pods-QingqiOwnerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6B32D8ACC2E54E2694B83DE9 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		764CD8263B3542218074F91A /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		77611F3595634CD3866057D0 /* libRCTActionSheet.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTActionSheet.a; sourceTree = "<group>"; };
@@ -384,6 +387,7 @@
 		CC7ED23160B144739843B83E /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		D6C525FD1DE7491D83091AFC /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		D8FD75C4065246E5B1A3E01F /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		D9D3A027677EDA07753F466B /* Pods-QingqiOwnerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QingqiOwnerApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-QingqiOwnerApp/Pods-QingqiOwnerApp.release.xcconfig"; sourceTree = "<group>"; };
 		DE8F27EF1DF94B62AB1AF3C9 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		E1585A56CBDA4B4FB47CA6B4 /* libRNKitASPickerView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNKitASPickerView.a; sourceTree = "<group>"; };
 		E1893366862C4507BB20EAC7 /* RCTToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/@remobile/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
@@ -430,6 +434,7 @@
 				E6C8B4676E524EBC956AA325 /* libRNKitASPickerView.a in Frameworks */,
 				0570972F8FF94FF2B386C3BD /* libRCTVideo.a in Frameworks */,
 				00C110C7B2774754A64E5F16 /* libRCTActionSheet.a in Frameworks */,
+				9169D56299EC6B921D2FAE60 /* libPods-QingqiOwnerApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,6 +653,8 @@
 				00E356EF1AD99517003FC87E /* QingqiOwnerAppTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				21B6CC477E0E41F4AA0B0447 /* Resources */,
+				A040C2BE8049F10F32A5D8EC /* Pods */,
+				E41016B6300B835FAD3C7C36 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -755,6 +762,23 @@
 			path = QingqiOwnerApp/MBMapView;
 			sourceTree = "<group>";
 		};
+		A040C2BE8049F10F32A5D8EC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				62747901C829DE2193AA8BBF /* Pods-QingqiOwnerApp.debug.xcconfig */,
+				D9D3A027677EDA07753F466B /* Pods-QingqiOwnerApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E41016B6300B835FAD3C7C36 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4D5A8E449E29BB63BBEBDACF /* libPods-QingqiOwnerApp.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -780,10 +804,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "QingqiOwnerApp" */;
 			buildPhases = (
+				FAD72684ED8BFA82FB925B86 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				1A689FBACB2576BA54FA3995 /* [CP] Embed Pods Frameworks */,
+				C791660EA5788422D64112FB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -810,7 +837,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 3LSEEJ9FH2;
+						DevelopmentTeam = AK26ZWGWUT;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -1222,6 +1249,51 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
+		1A689FBACB2576BA54FA3995 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QingqiOwnerApp/Pods-QingqiOwnerApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C791660EA5788422D64112FB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QingqiOwnerApp/Pods-QingqiOwnerApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAD72684ED8BFA82FB925B86 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1372,14 +1444,15 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62747901C829DE2193AA8BBF /* Pods-QingqiOwnerApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 3LSEEJ9FH2;
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1407,21 +1480,22 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
+				PROVISIONING_PROFILE = "e0ad70fe-cf10-4b14-be18-2229c56e2a39";
+				PROVISIONING_PROFILE_SPECIFIER = "qingqi-owner-test";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9D3A027677EDA07753F466B /* Pods-QingqiOwnerApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3LSEEJ9FH2;
+				DEVELOPMENT_TEAM = AK26ZWGWUT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1449,8 +1523,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
-				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
+				PROVISIONING_PROFILE = "e0ad70fe-cf10-4b14-be18-2229c56e2a39";
+				PROVISIONING_PROFILE_SPECIFIER = "qingqi-owner-test";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

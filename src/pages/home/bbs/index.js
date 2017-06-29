@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import { View ,TouchableOpacity, Text } from 'react-native';
 
-import TopBanner from '../../../components/TopBanner';
+import { getAppVersion } from '../../../services/UpdateService';
 
 import WebView from '../../../components/WebView';
 
@@ -22,8 +22,11 @@ class Bbs extends Component {
         super(props);
         let userStore = props.userStore.userInfo;
 
+        // console.log(`${ServerConfig.BBS_PAGE}?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}&userName=${encodeURIComponent(userStore.name)}`)
         this.state = {
-            uri: `${ServerConfig.BBS_PAGE}?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}`,
+            uri: `${ServerConfig.BBS_PAGE}?token=${encodeURIComponent(userStore.token)}&phone=${encodeURIComponent(userStore.phone)}&userName=${encodeURIComponent(userStore.name)}&appVersion=${getAppVersion().versionCode}`,
+            // uri: `http://kayouforum.hqzl.cn/yqlt.php?phone=admin&token=sdfasdfasd&appVersion=10021`,
+            // uri: `http://kayouforum.hqzl.cn/mobile.php`,
             page:{}
         }
     }
@@ -37,12 +40,12 @@ class Bbs extends Component {
         return (
             <View  style={[estyle.fx1,estyle.containerBackgroundColor]}>
                 {/*<TopBanner
-                 {...this.props}
-                 title={"卡友论坛"}
-                 />*/}
+                    {...this.props}
+                    title={"卡友论坛"}
+                />*/}
                 <WebView
                     ref="webView"
-                    showBanner={true}
+                    showBanner={false}
                     {...this.props}
                     uri = {this.state.uri}
                     onPageChange={(page) => {
