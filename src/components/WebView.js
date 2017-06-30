@@ -35,13 +35,32 @@ export default class News extends Component {
 
     }
 
+    componentDidMount() {
+        this.props.backHandle.addHandle(this.doBack.bind(this));
+    }
+
+    componentWillUnmount() {
+        this.props.backHandle.removeHandle();
+    }
+
     doBack(){
-        if(this.state.page.canGoBack){
-            //向webview发送后退操作
-            this.refs.webview.injectJavaScript("history.back();");
-        }else{
-            this.props.doBack();
-        }
+        let callBackMethodName = 'callBack' + Math.random();
+        this[callBackMethodName] = function (arg) {
+            if(arg === false || arg === null){
+                if(this.state.page.canGoBack){
+                    this.refs.webview.injectJavaScript("history.back();");
+                } else {
+                    this.props.doBack();
+                }
+            }
+            this[callBackMethodName] = null;
+            delete this[callBackMethodName];
+        };
+        setTimeout(() => {
+            this[callBackMethodName] && this[callBackMethodName](null);
+        },100);
+        //向webview发送后退操作
+        this.refs.webview.injectJavaScript(`window.mapbar.callWindowFun('app_goback',null,'${callBackMethodName}')`);
     }
 
     onClose(){
@@ -129,6 +148,12 @@ export default class News extends Component {
 
             case "back":
                 this.doBack();
+                break;
+
+
+            case "callWindowFun":
+                console.log(e)
+                this[e.callBack] && this[e.callBack].apply(this, e.params);
                 break;
         }
     }
@@ -266,7 +291,19 @@ export default class News extends Component {
                 callBackMethodName
             )
         };
-
+        
+        mapbar.callWindowFun = function (funName, args, callBackMethodName) {
+            var rs = null;
+            if(window[funName]) {
+                rs = window[funName].apply(null, args);
+            }
+            _postMessage(
+                'callWindowFun',
+                [rs],
+                callBackMethodName
+            );
+        };
+        
     })(window.mapbar || {}, window);
 `;
 
@@ -298,29 +335,29 @@ export default class News extends Component {
                     style={{flex:1}}
                     onMessage={this.onMessage.bind(this)}
                     source={{uri: this.state.uri}}
-//                    source={{html: `<!DOCTYPE html>
-//<html>
-//<head>
-//    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-//    <title>WebviewTest</title>
+//                     source={{html: `<!DOCTYPE html>
+// <html>
+// <head>
+//     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+//     <title>WebviewTest</title>
 //
 //
-//</head>
+// </head>
 //
-//<body>
+// <body>
 //
-//<button onclick="mapbar.closeWindow()">关闭</button>
-//<button onclick="mapbar.goBack()">后退</button>
-//<button onclick="mapbar.sharePage('标题','内容','','http://baidu.com')">分享</button>
-//<button onclick="mapbar.fetchLocation(function (err, rs) {alert(JSON.stringify(rs))})">定位</button>
-//<button onclick="mapbar.fetchImage(function (err, rs) {alert(JSON.stringify(rs))})">获取图片</button>
+// <button onclick="mapbar.closeWindow()">关闭</button>
+// <button onclick="mapbar.goBack()">后退</button>
+// <button onclick="mapbar.sharePage('标题','内容','','http://baidu.com')">分享</button>
+// <button onclick="mapbar.fetchLocation(function (err, rs) {alert(JSON.stringify(rs))})">定位</button>
+// <button onclick="mapbar.fetchImage(function (err, rs) {alert(JSON.stringify(rs))})">获取图片</button>
 //
-//</body>
+// </body>
 //
-//<script>
-//
-//</script>
-//</html> `}}
+// <script>
+//     window.app_goback = function(){return false;}
+// </script>
+// </html> `}}
                     injectedJavaScript={injectScript}
                     startInLoadingState={true}
                     domStorageEnabled={true}

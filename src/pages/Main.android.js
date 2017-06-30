@@ -112,9 +112,7 @@ class Main extends Component {
         // })
         //     .then(rs => this.setState({preLoginUserName: rs.name}))
         //     .catch(e => console.log(e));
-
-
-
+        this.backHandles = [];
     }
 
     callTo = (phone) => {
@@ -155,10 +153,26 @@ class Main extends Component {
         return true;
     };
 
+    backHandle(){
+        return {
+            addHandle: (handle) => {
+                this.backHandles.push(handle);
+            },
+            removeHandle: () => {
+                this.backHandles.pop();
+            }
+        }
+    }
+
     componentDidMount() {
         addEventSystemBack(
             (exitApp) => {
-                return this.doBack(exitApp);
+                if(this.backHandles.length > 0){
+                    this.backHandles[this.backHandles.length - 1]();
+                    return true;
+                } else {
+                    return this.doBack(exitApp);
+                }
             }
         );
         setTimeout(this._checkUpdate.bind(this),2000);
@@ -189,6 +203,7 @@ class Main extends Component {
                             doBack={() => {
                                 this.doBack();
                             }}
+                            backHandle={this.backHandle.bind(this)()}
                             NetIsConnected={this.state.NetIsConnected}
                             preLoginUserName={this.state.preLoginUserName}
                             alert={(a, b, c) => {
