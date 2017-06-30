@@ -24,7 +24,7 @@ function processer (isConnected) {
         fetchLocation().then((_coords) => {
             console.info('geo-get')
             let ll = Coord.wgs84togcj02(Math.abs(_coords.longitude),Math.abs(_coords.latitude));
-            coords = {longitude: ll[0], latitude: ll[1]};
+            coords = {longitude: ll[0], latitude: ll[1], address: _coords.address};
             return coords;
         }).then((data) => {
             getInverseGeocoding(data.longitude, data.latitude).then((result={resultCode: 100}) => {
