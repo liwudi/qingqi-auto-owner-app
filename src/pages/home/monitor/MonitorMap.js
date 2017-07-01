@@ -418,6 +418,7 @@ export default class MonitorMap extends Component {
     }
 
     clickMarker = (idx) => {
+        if(!(idx !== undefined && this.list && this.list[idx]))  return;
         let data = this.list[idx];
         if (data.count > 1) {
             this.Map.zoomIn();

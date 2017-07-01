@@ -32,15 +32,14 @@ export default class News extends Component {
             page: {},
             title: this.props.title || '卡友论坛'
         }
-
     }
 
     componentDidMount() {
-        this.props.backHandle.addHandle(this.doBack.bind(this));
+        this.props.backHandle && this.props.backHandle.addHandle(this.doBack.bind(this));
     }
 
     componentWillUnmount() {
-        this.props.backHandle.removeHandle();
+        this.props.backHandle && this.props.backHandle.removeHandle();
     }
 
     doBack(){

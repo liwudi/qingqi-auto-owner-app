@@ -8,7 +8,6 @@ import {
     View,
     StyleSheet,
     ScrollView,
-    RefreshControl,
     Image,
     TouchableOpacity,
     Modal
@@ -35,7 +34,7 @@ import { queryUnfinishScoreTaskNum, querySignList, sign,queryScoreLogoList,query
 import AddCar from "../add-car/AddCar";
 import  ServiceStation from "../../home/service-station/ServiceStation";
 import MyInfoIndex from '../my-info/MyInfoIndex';
-import { AccumulateAction, TYPES } from '../../../actions';
+import { AccumulateAction} from '../../../actions';
 import ServiceStationAppointmentList from '../../home/service-station/ServiceStationAppointmentList';
 import bbs from '../../home/bbs/index';
 
@@ -206,7 +205,7 @@ class TaskCenterPage extends Component {
     getQueryScoreLogoListData(){
         queryScoreLogoList(1).then((data)=>{
             this.setState({
-                arrayList:data
+                arrayList:data || []
             })
         })
     }
@@ -340,7 +339,7 @@ class TaskCenterPage extends Component {
                         <View style={[estyle.marginVertical,estyle.fxCenter]}>
                             <View style={[estyle.border,styles.titleBorder]}>
                                 {
-                                    this.state.arrayList.length != 0 ?
+                                    (this.state.arrayList instanceof Array && this.state.arrayList.length > 0) ?
                                         <Swiper showsPagination={false} autoplay={true} autoplayTimeout={5} width={650*basefont} height={50*basefont}>
                                             {
                                                 this.state.arrayList.map((item,index)=>{
@@ -365,7 +364,7 @@ class TaskCenterPage extends Component {
                     {/*任务列表模块*/}
                     <View style={[estyle.paddingTop]}>
                         <TaskEveryDay ref="TaskEveryDay" vip={this.state.vip} onClick={(param)=>this.goSomeWhere(param)}/>
-                        <TaskNew ref="TaskNew" vip={this.state.vip} style={[estyle.marginTop]} onClick={(param)=>this.goSomeWhere(param)}></TaskNew>
+                        <TaskNew ref="TaskNew" vip={this.state.vip} style={[estyle.marginTop]} onClick={(param)=>this.goSomeWhere(param)} />
                         <TaskLong ref="TaskLong" vip={this.state.vip} style={[estyle.marginTop]}  onClick={(param)=>this.goSomeWhere(param)} />
                     </View>
                 </ScrollView>

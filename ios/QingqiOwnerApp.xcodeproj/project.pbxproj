@@ -837,7 +837,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = AK26ZWGWUT;
+						DevelopmentTeam = 3LSEEJ9FH2;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -1449,10 +1449,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = AK26ZWGWUT;
+				DEVELOPMENT_TEAM = 3LSEEJ9FH2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1480,8 +1480,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "e0ad70fe-cf10-4b14-be18-2229c56e2a39";
-				PROVISIONING_PROFILE_SPECIFIER = "qingqi-owner-test";
+				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1493,9 +1493,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = AK26ZWGWUT;
+				DEVELOPMENT_TEAM = 3LSEEJ9FH2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1523,8 +1523,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "e0ad70fe-cf10-4b14-be18-2229c56e2a39";
-				PROVISIONING_PROFILE_SPECIFIER = "qingqi-owner-test";
+				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

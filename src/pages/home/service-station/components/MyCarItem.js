@@ -22,9 +22,9 @@ export default class MyCarItem extends Component {
             <View>
                 <View style={[estyle.fxRow, estyle.fxRowCenter]}>
                     <Text style={[estyle.articleTitle]}>{data.carCode || '未设置车牌号'}</Text>
-                    {data.status == 1  && <View style={[styles.currentCar, { paddingHorizontal: Env.font.base * 10}]}><Text
+                    {/*{data.status == 1  && <View style={[styles.currentCar, { paddingHorizontal: Env.font.base * 10}]}><Text
                         style={[{color: '#fff', fontSize:Env.font.mini}]}>当前车辆</Text></View>}
-
+*/}
                 </View>
                 <View style={[estyle.fxRow, {alignItems:'flex-end'}]}>
                     <IconUser color={Env.color.main}/>

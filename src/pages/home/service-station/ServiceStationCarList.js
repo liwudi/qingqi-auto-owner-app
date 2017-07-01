@@ -13,75 +13,39 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
-import {driverCarList, setCurrentCar} from '../../../services/AppService';
+import { queryRealTimeCarList } from '../../../services/MonitorService';
 const estyle = Env.style;
 import Item from './components/MyCarItem'
-import NoCar from './components/NoCar'
 import ViewForRightArrow from '../../../components/ViewForRightArrow';
 import {IconCheckMark} from '../../../components/Icons';
 import { getUserDetail , getCouponNum } from '../../../actions/UserActions';
+import PageList from '../../../components/PageList';
 
 class ServiceStationCarList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
-    }
-
-    finaliy() {
-        this.setState({
-            isRefreshing: false
-        });
+        this.state={
+            doing:false
+        }
     }
 
     fetchData() {
-        this.setState({isRefreshing: true});
         this.props.dispatch(getUserDetail());
-        driverCarList()
-            .then((data) => {
-                this.setState({'selecting': false, data: data});
-            })
-            .catch(this.finaliy.bind(this))
-            .finally(this.finaliy.bind(this));
     };
 
-    onRefresh() {
+    componentDidMount() {
         this.fetchData();
     }
 
-    componentWillMount() {
-        this.fetchData();
-    }
 
     selectCar(carItem) {
-        this.props.selectCar(carItem);
-        this.props.router.pop();
-    }
-
-    renderList() {
-        let data = this.state.data;
-        if(data === undefined || data.list === undefined) return ;
-        return data.list.map((item, idx) => {
-            item.status && (this.defaultCarId = item.carId);
-            return <ViewForRightArrow key={idx}
-                                      rightIcon={this.state.selecting && IconCheckMark}
-                                      iconSize={this.state.selecting && Env.vector.checked.size.large}
-                                      onPress={this.selectCar.bind(this, item)}
-                                      iconColor={(this.state.selecting && this.state.carId == item.carId) && Env.color.auxiliary}
-            ><Item
-                router={this.props.router}
-                data={item}/>
-            </ViewForRightArrow>;
+        if(this.state.doing) return;
+        this.setState({doing:true},()=>{
+            this.props.selectCar(carItem);
+            this.setState({doing:false});
+            this.props.router.pop();
         })
     }
-
-    renderView() {
-        if (this.state.data) {
-            return this.state.data.list.length ? this.renderList() : <NoCar  {...this.props}/>;
-        }
-        return <View/>;
-    }
-
 
     render() {
         return (
@@ -90,17 +54,21 @@ class ServiceStationCarList extends Component {
                     {...this.props}
                     title="选择预约车辆"
                 />
-                <ScrollView style={[estyle.fx1]}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.isRefreshing}
-                                    onRefresh={this.onRefresh.bind(this)}
-                                    colors={Env.refreshCircle.colors}
-                                    progressBackgroundColor={Env.refreshCircle.bg}
-                                />
-                            }>
-                    {this.renderView()}
-                </ScrollView>
+                <PageList
+                    ref='pagelist'
+                    style={estyle.fx1}
+                    renderRow={(row) => {
+                        return (
+                            <ViewForRightArrow
+                                onPress={()=>{this.selectCar(row)}}
+                            ><Item data={Object.assign(row,{mainDriver:row.mastDriver,subDriver:row.slaveDriver,carVin:row.vin})}/>
+                            </ViewForRightArrow>
+                        )
+                    }}
+                    fetchData={(pageNumber, pageSize)=>{
+                        return queryRealTimeCarList(pageNumber,pageSize)
+                    }}
+                />
             </View>
         )
     }

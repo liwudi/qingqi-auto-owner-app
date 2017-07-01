@@ -22,6 +22,7 @@ const estyle = Env.style;
 import GoodsDetail from '../home/goods-message/GoodsDetail';
 import MyInfoIndex from '../userCenter/my-info/MyInfoIndex';
 import {getCarGoDetail,userAuth} from '../../services/AppService';
+import ServiceStationAppointmentDetail from '../home/service-station/ServiceStationAppointmentDetail'
 
 class PersonalMessage extends Component{
     constructor(props){
