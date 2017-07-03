@@ -235,11 +235,11 @@ export default class ServiceStationAppointmentDetail extends Component {
                         </View>
                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车牌号</Text>
-                            <Text style={[estyle.text]}>{data.carNumber}</Text>
+                            <Text style={[estyle.text]}>{data.carNumber || ''}</Text>
                         </View>
                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>车辆VIN</Text>
-                            <Text style={[estyle.text]}>{data.vin}</Text>
+                            <Text style={[estyle.text]}>{data.vin || ''}</Text>
                         </View>
                         <View style={[estyle.paddingVertical, estyle.borderBottom, estyle.fxRow]}>
                             <Text style={[estyle.text, {color: Env.color.note, width: Env.font.text * 5}]}>预约人</Text>
