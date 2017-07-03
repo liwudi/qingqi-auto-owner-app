@@ -26,16 +26,11 @@ export default class News extends Component {
     }
 
     render(){
-
         return (
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
-                <TopBanner {...this.props}
-                           title={"解放推荐"}
-                           doBack={this.doBack.bind(this)}
-                />
                 <WebView
                     ref="webView"
-                    showBanner={false}
+                    showBanner={true}
                     {...this.props}
                     uri = {this.props.post.url}
                 />
