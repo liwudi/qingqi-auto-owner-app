@@ -69,8 +69,14 @@ class IntegralSign extends Component{
         this.props.router.push(page);
     }
     signEvent(){
-        sign(1).then((data)=>{
-            this.props.onClick();
+        if(this.state.doing) return;
+        this.setState({doing:true},()=>{
+            sign(1).then((data)=>{
+                this.props.onClick();
+            })
+                .finally(()=>{
+                    this.setState({doing:false})
+                })
         })
     }
     render(){

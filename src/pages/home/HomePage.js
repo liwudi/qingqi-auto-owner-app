@@ -176,7 +176,7 @@ export default class HomePage extends Component {
                             <Text style={[estyle.note, {marginLeft: Env.font.base * 40}]}>网络连接不可用</Text>
                         </View>
                 }
-                {/*<View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>*/}
+                    <View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>
 
                     <View style={[estyle.fxRow, estyle.padding, estyle.border, {backgroundColor: '#FFF'}]}>
                         <Text
