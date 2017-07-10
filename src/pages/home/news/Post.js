@@ -30,6 +30,7 @@ export default class News extends Component {
             <View style={[estyle.fx1, estyle.containerBackgroundColor]}>
                 <WebView
                     ref="webView"
+                    title={'解放推荐'}
                     showBanner={true}
                     {...this.props}
                     uri = {this.props.post.url}

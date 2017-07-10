@@ -20,15 +20,21 @@ export default class MyCarItem extends Component {
         this.cacheData = {};
     }
 
-    SpeedView = (realtimeSpeed) => {
-        if(typeof realtimeSpeed === 'undefined') {
+    SpeedView = (travelStatus,realtimeSpeed) => {
+       /* if(typeof realtimeSpeed === 'undefined') {
             return '';
         } else if (realtimeSpeed == 0) {
             return "静止";
         } else {
             return realtimeSpeed + "km/h";
-        }
-    }
+        }*/
+       switch (travelStatus){
+           case 0 :return '离线';  break;
+           case 1 : return '静止';  break;
+           case 2 : return realtimeSpeed === 'undefined' ? '' : realtimeSpeed + "km/h";  break;
+           default : return '';
+       }
+    };
     render() {
         let item = Object.assign(this.cacheData, this.props.data);
         //let item = this.props.data;
@@ -53,7 +59,7 @@ export default class MyCarItem extends Component {
                     <View style={[estyle.fx1,estyle.fxRow]}>
                         <IconLocationMarker color='#FED57E' size={Env.font.base * 30}/>
                         <Text style={[estyle.fx1,estyle.marginFont,estyle.paddingRight,{color: Env.color.text}]}>{item.position || '未获取到位置信息'}</Text>
-                        <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{this.SpeedView(item.realtimeSpeed)}</Text>
+                        <Text style={[estyle.marginFont,{color: Env.color.text,textAlign:'right'}]}>{this.SpeedView(item.travelStatus,item.realtimeSpeed)}</Text>
                     </View>
                     {/*<View style={[estyle.paddingRight]}>*/}
                     {/*<IconTrash/>*/}

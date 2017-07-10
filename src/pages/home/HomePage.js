@@ -37,6 +37,7 @@ import GoodsIndex  from './goods-message/GoodsIndex';
 
 import Env from '../../utils/Env';
 estyle = Env.style;
+const basefont = Env.font.base;
 
 import {queryOperateStatisToday, choiceCustomer} from '../../services/AppService';
 var CommonModule = NativeModules.CommonModule;
@@ -140,10 +141,10 @@ export default class HomePage extends Component {
     render() {
         const renderItem = (name, value, isShowBorder = true) => {
             return <View style={[estyle.fx1, estyle.fxRowCenter, isShowBorder && estyle.borderRight]}>
-                <View>
+                <View style={[estyle.fxRow,estyle.fxCenter]}>
                     <Text
-                        style={[estyle.articleTitle, {color: Env.color.main, textAlign: 'center'}]}>{value || 0}</Text>
-                    <Text style={[estyle.text]}>{name}</Text>
+                        style={[estyle.articleTitle, {color: Env.color.main, textAlign: 'center',fontWeight:'bold'}]}>{value || 0}</Text>
+                    <Text style={[{fontSize:Env.font.mini,color:Env.color.note,marginLeft:10 * basefont}]}>{name}</Text>
                 </View>
             </View>;
         };
@@ -176,13 +177,13 @@ export default class HomePage extends Component {
                             <Text style={[estyle.note, {marginLeft: Env.font.base * 40}]}>网络连接不可用</Text>
                         </View>
                 }
-                    <View style={[estyle.padding]}><Text style={[estyle.navTitle,{color:Env.color.important}]}>今日运营统计</Text></View>
+                    <View style={[estyle.padding]}><Text style={[estyle.note]}>今日运营统计</Text></View>
 
                     <View style={[estyle.fxRow, estyle.padding, estyle.border, {backgroundColor: '#FFF'}]}>
                         <Text
-                            style={[estyle.fx1, estyle.articleTitle]}>在线车辆数：{this.state.operateStatisToday.onlineCar || 0}辆</Text>
+                            style={[estyle.fx1, estyle.text]}>在线车辆数：{this.state.operateStatisToday.onlineCar || 0}辆</Text>
                         <Text
-                            style={[estyle.fx1, estyle.articleTitle]}>总车辆数：{this.state.operateStatisToday.totalCarNum || 0}辆</Text>
+                            style={[estyle.fx1, estyle.text]}>总车辆数：{this.state.operateStatisToday.totalCarNum || 0}辆</Text>
                     </View>
                     <ViewForRightArrow onPress={() => this.goTo(CountIndex)}
                                        style={[estyle.fxRow, estyle.cardBackgroundColor]}>
@@ -198,7 +199,7 @@ export default class HomePage extends Component {
                             {renderItem('每百公里油耗(L)', this.state.operateStatisToday.oilWearAvg || 0, false)}
                         </View>
                     </ViewForRightArrow>
-                    <View style={[estyle.fx1,estyle.marginTop,estyle.fxRow,{flexWrap:'wrap'}]}>
+                    <View style={[estyle.fx1,estyle.fxRow,{flexWrap:'wrap',marginTop:10*basefont}]}>
                         <ImgButton onPress={() => this.goTo(MyCar)}
                                    src={require('../../assets/images/icon12.png')} title="我的车辆"/>
                         <ImgButton  onPress={() => this.goTo(MyDriver, true)}

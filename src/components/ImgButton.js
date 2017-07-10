@@ -14,12 +14,12 @@ export default class ImgButton extends Component {
             <TouchableOpacity
                 activeOpacity={0.6}
                 onPress={this._onPress.bind(this)}
-                style={[styles.box,estyle.fxCenter, estyle.cardBackgroundColor,estyle.borderRight, estyle.borderTop,{...this.props.style}]}>
+                style={[styles.box,estyle.fxCenter, estyle.cardBackgroundColor,{...this.props.style}]}>
                 <View style={{alignItems: 'center'}}>
                     <Image source={this.props.src}
                            style={styles.image}/>
-                    <View>
-                        <Text style={[estyle.articleTitle,{color:this.props.gray?'#ccc':'#666'}]}>{this.props.title}</Text>
+                    <View style={[{marginTop:10*basefont}]}>
+                        <Text style={[estyle.note,{color:this.props.gray?'#ccc':'#666'}]}>{this.props.title}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
