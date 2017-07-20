@@ -6,7 +6,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    Button
 } from 'react-native';
 
 import TopBanner from '../../../components/TopBanner';
@@ -14,6 +15,7 @@ import Env from '../../../utils/Env';
 import OilManage from './OilManage';
 import TripManage from './TripManage';
 import TimeManage from './TimeManage';
+import DateHeader from './components/DateHeader';
 const estyle = Env.style;
 const basefont = Env.font.base;
 
@@ -56,6 +58,10 @@ export  default class CountIndex extends Component{
                 <TopBanner {...this.props} title="统计分析"/>
                 {this.renderView()}
                 {this.renderMain()}
+               {/* <DateHeader ref={(dateHeader)=>{this.dateHeader = dateHeader}} />
+                <Button title='日' onPress={()=>{ this.dateHeader.resetDate(1) }} />
+                <Button title='周' onPress={()=>{ this.dateHeader.resetDate(2,7) }} />
+                <Button title='月' onPress={()=>{ this.dateHeader.resetDate(3) }} />*/}
             </View>
         )
     }

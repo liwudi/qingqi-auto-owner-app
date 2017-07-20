@@ -186,7 +186,9 @@ export function reg(phone, trueName, password, smsCode) {
         smsCode: smsCode,
         product: Server.APP_PRODUCT,
         type: Server.TYPE,
-        appType: Server.APP_TYPE
+        appType: Server.APP_TYPE,
+        deviceId: Env.isAndroid ? Server.DEVICE_ID : 'ios-device',//todo ios推送key
+        deviceType: Server.DEVICE_TYPE,
     });
 }
 

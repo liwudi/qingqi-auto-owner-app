@@ -67,7 +67,7 @@ class IntegralDetail extends Component{
                                         <Text style={[estyle.articleTitle]}>{item.taskName}</Text>
                                         <Text style={[estyle.note]}>{item.taskTime}</Text>
                                     </View>
-                                    <View><Text style={[estyle.redText]}>+{item.score}</Text></View>
+                                    <View><Text style={[estyle.redText]}>{item.score > 0 ? '+'+item.score : item.score}</Text></View>
                                 </View>
                             )
                         })

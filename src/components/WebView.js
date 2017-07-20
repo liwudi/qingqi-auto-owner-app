@@ -9,7 +9,7 @@ import { View , TouchableOpacity, Text, WebView, Alert, Share } from 'react-nati
 import ImagePickButton from './ImagePickButton';
 import * as Icons from './Icons';
 import { fileUpLoad } from '../services/AppService';
-
+import ImageModal from '../components/ImageModal';
 import TopBanner from './TopBanner';
 
 import Env from '../utils/Env';
@@ -19,7 +19,7 @@ const basefont = Env.font.base;
 
 import CommonModule from './CommonModule';
 
-export default class News extends Component {
+export default class WebView2 extends Component {
 
     static defaultProps = {
         showBanner : true
@@ -30,7 +30,8 @@ export default class News extends Component {
         this.state = {
             uri: this.props.uri,
             page: {},
-            title: this.props.title || '卡友论坛'
+            title: this.props.title || '',
+            imgArr: [],
         }
     }
 
@@ -154,7 +155,42 @@ export default class News extends Component {
                 console.log(e)
                 this[e.callBack] && this[e.callBack].apply(this, e.params);
                 break;
+
+            case 'open' :
+                let p = /^http(s?):\/\//;
+                if(!p.test(e.params.path)) e.params.path = 'http://'+ e.params.path;
+                this.openNewWebView(e.params);
+                break;
+
+            case 'imgSwiper':
+                let slides = e.params.slides;
+                if(!slides instanceof Array) return;
+                slides.forEach((item,index,arr)=>{
+                    if(typeof item === 'string') arr[index] = {imgPath : item};
+                });
+                this.setSlidesAndOpenModel(slides,e.params.index || 0);
         }
+    }
+
+    setSlidesAndOpenModel(slides,index){
+        if(index <0  || index >= slides.length) index = 0;
+        this.setState({imgArr:slides},()=>{
+            setTimeout(()=>{
+                this.showImgSwiperModel(index);
+            },100);
+        });
+    }
+    //查看大图
+    showImgSwiperModel(index){
+        this.refs.imageModal.show(index);
+    }
+
+    openNewWebView(data){
+        let uri = `${data.path}?`;
+        // Object.keys(data.params).forEach((item)=>{
+        //     uri = `${uri}${item}=${encodeURIComponent(data.params[item])}&`;
+        // });
+        this.props.router.push(NewWebView,{...this.props, uri : data.path, title : data.title})
     }
 
     onImagePick(img){
@@ -303,6 +339,27 @@ export default class News extends Component {
             );
         };
         
+        mapbar.open = function (path, title, params) {
+            _postMessage(
+                'open',
+                {
+                    path : path,
+                    title : title,
+                    params : params
+                }
+            )
+        };
+        
+        mapbar.imgSwiper = function (slides,index) {
+            _postMessage(
+                'imgSwiper',
+                {
+                    slides: slides,
+                    index : index
+                }
+            )
+        };
+        
     })(window.mapbar || {}, window);
 `;
 
@@ -334,35 +391,53 @@ export default class News extends Component {
                     style={{flex:1}}
                     onMessage={this.onMessage.bind(this)}
                     source={{uri: this.state.uri}}
-//                     source={{html: `<!DOCTYPE html>
-// <html>
-// <head>
-//     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-//     <title>WebviewTest</title>
-//
-//
-// </head>
-//
-// <body>
-//
-// <button onclick="mapbar.closeWindow()">关闭</button>
-// <button onclick="mapbar.goBack()">后退</button>
-// <button onclick="mapbar.sharePage('标题','内容','','http://baidu.com')">分享</button>
-// <button onclick="mapbar.fetchLocation(function (err, rs) {alert(JSON.stringify(rs))})">定位</button>
-// <button onclick="mapbar.fetchImage(function (err, rs) {alert(JSON.stringify(rs))})">获取图片</button>
-//
-// </body>
-//
-// <script>
-//     window.app_goback = function(){return false;}
-// </script>
-// </html> `}}
+ //                     source={{html: `<!DOCTYPE html>
+ // <html>
+ // <head>
+ //     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ //     <title>WebviewTest</title>
+ // </head>
+ //
+ // <body>
+ //
+ // <button onclick="mapbar.closeWindow()">关闭</button>
+ // <button onclick="mapbar.goBack()">后退</button>
+ // <button onclick="mapbar.sharePage('标题','内容','','http://baidu.com')">分享</button>
+ // <button onclick="mapbar.fetchLocation(function (err, rs) {alert(JSON.stringify(rs))})">定位</button>
+ // <button onclick="mapbar.fetchImage(function (err, rs) {alert(JSON.stringify(rs))})">获取图片</button>
+ // <button onclick="mapbar.open('www.baidu.com')">新开页面</button>
+ // <button onclick="mapbar.imgSwiper(
+ //        [
+ //            'http://pic.58pic.com/58pic/13/67/29/09U58PICpHX_1024.jpg',
+ //            {imgPath : 'http://jfx.mapbar.com/fs/group1/M00/01/0F/CgABa1ltrkyAKLl6AANdnzGCEqE995.JPG',desc : '今天天气不错'},
+ //            'http://jfx.mapbar.com/fs/group1/M00/01/0F/CgABYVltrtCAF0IQAAQUas8EdDA697.JPG'
+ //        ],1
+ //    )">打开图片</button>
+ //
+ // </body>
+ //
+ // <script>
+ //     window.app_goback = function(){return false;}
+ // </script>
+ // </html> `}}
                     injectedJavaScript={injectScript}
                     startInLoadingState={true}
                     domStorageEnabled={true}
                 />
                 <ImagePickButton ref="imagePick" onImagePick={this.onImagePick.bind(this)}/>
+                <ImageModal ref="imageModal" imgArr={this.state.imgArr}/>
             </View>
+        )
+    }
+}
+
+class NewWebView extends Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return(
+            <WebView2 {...this.props} showBanner={true}/>
         )
     }
 }

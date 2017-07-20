@@ -48,16 +48,8 @@ class TaskItem extends Component{
     }
     renderButton(param){
         if(this.props.type == "每日任务"){
-            if(this.props.signFlg == 1){
-                if(this.props.finishNum == this.props.totalNum){
-                    return (
-                        <View style={[estyle.fx1,estyle.fxCenter]}>
-                            <Text style={[estyle.text,{color:'#aaa'}]}>{`(${this.props.finishNum}/${this.props.totalNum})`}</Text>
-                            <SignButton style={[styles.signButton,{backgroundColor:"#aaa"}]}>
-                                <Text style={[estyle.text,{color:Env.color.navTitle}]}>已完成</Text>
-                            </SignButton>
-                        </View>)
-                }else{
+            if(this.props.finishNum !== this.props.totalNum){
+                if(this.props.signFlg == 1){
                     return(
                         <View style={[estyle.fx1,estyle.fxCenter]}>
                             <Text style={[estyle.text,{color:Env.color.auxiliary}]}>{`(${this.props.finishNum}/${this.props.totalNum})`}</Text>
@@ -66,16 +58,24 @@ class TaskItem extends Component{
                             </SignButton>
                         </View>
                     )
+                }else{
+                    return (
+                        <View style={[estyle.fx1,estyle.fxCenter]}>
+                            <Text style={[estyle.text,{color:Env.color.auxiliary}]}>{`(${this.props.finishNum}/${this.props.totalNum})`}</Text>
+                            <SignButton style={[styles.signButton]} onClick={()=>{this.props.onClick(this.props.title)}}>
+                                <Text style={[estyle.text,{color:Env.color.navTitle}]}>去完成</Text>
+                            </SignButton>
+                        </View>
+                    )
                 }
             }else{
                 return (
-                <View style={[estyle.fx1,estyle.fxCenter]}>
-                    <Text style={[estyle.text,{color:Env.color.auxiliary}]}>{`(${this.props.finishNum}/${this.props.totalNum})`}</Text>
-                    <SignButton style={[styles.signButton]} onClick={()=>{this.props.onClick(this.props.title)}}>
-                        <Text style={[estyle.text,{color:Env.color.navTitle}]}>去完成</Text>
-                    </SignButton>
-                </View>
-                )
+                    <View style={[estyle.fx1,estyle.fxCenter]}>
+                        <Text style={[estyle.text,{color:'#aaa'}]}>{`(${this.props.finishNum}/${this.props.totalNum})`}</Text>
+                        <SignButton style={[styles.signButton,{backgroundColor:"#aaa"}]}>
+                            <Text style={[estyle.text,{color:Env.color.navTitle}]}>已完成</Text>
+                        </SignButton>
+                    </View>)
             }
         }else{
             if(this.props.title =="陆鲸认证"){

@@ -1480,7 +1480,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
+				PROVISIONING_PROFILE = "8b6b1223-f4ff-4f7a-9499-38c7d287c201";
 				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1523,7 +1523,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapbar.qingqiOwner;
 				PRODUCT_NAME = QingqiOwnerApp;
-				PROVISIONING_PROFILE = "6cc4ba19-89c1-4039-ab28-7fe90a27b736";
+				PROVISIONING_PROFILE = "8b6b1223-f4ff-4f7a-9499-38c7d287c201";
 				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

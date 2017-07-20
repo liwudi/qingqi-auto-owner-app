@@ -56,8 +56,9 @@ export default class ImagePickModal extends Component {
             if(!this.swiper){
                 let imgsV = this.props.imgArr.map((item,index)=>{
                     return <View key={index} style={[estyle.fxCenter,estyle.fx1]}>
-                        <TouchableOpacity onPress={()=>{this.close()}}>
-                            <Image resizeMode="contain" source={{uri: item}} style={{width:Env.screen.width,height:Env.screen.height*0.8}} />
+                        <TouchableOpacity activeOpacity={1}  onPress={()=>{this.close()}}>
+                            <Image resizeMode="contain" source={{uri: typeof item === 'string' ? item : item.imgPath}} style={{width:Env.screen.width,height:Env.screen.height*0.7}} />
+                            { item.desc ? <Text style={[estyle.text,{color:'#fff',textAlign:'center'}]} >{item.desc}</Text> : null}
                         </TouchableOpacity>
                     </View>
                 });
@@ -66,7 +67,7 @@ export default class ImagePickModal extends Component {
                             <View style={[estyle.fx1,{backgroundColor:Env.color.modalBg}]}>
                                 {imgsV}
                             </View>
-                            :<Swiper ref={(refSwiper => this.refSwiper = refSwiper)} style={[estyle.cardBackgroundColor]} index={0} >
+                            :<Swiper ref={(refSwiper => this.refSwiper = refSwiper)} style={[{backgroundColor:'rgba(0,0,0,0.3)'}]} index={0} >
                                 {imgsV}
                             </Swiper>
             }

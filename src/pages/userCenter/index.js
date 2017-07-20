@@ -175,7 +175,6 @@ class UserCenterHome extends Component {
                                     <Image source={require('../../assets/images/integralmall.png')} style={[Env.icon.size.middle]}/>
                                     <Text style={[estyle.articleTitle,estyle.marginLeft]}>积分商城</Text>
                                 </View>
-
                             </TouchableOpacity>
                         </IntegralMall>
                         <TaskCenter>
