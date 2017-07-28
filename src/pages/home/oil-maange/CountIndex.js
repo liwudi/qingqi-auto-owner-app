@@ -13,12 +13,10 @@ import {
 
 import TopBanner from '../../../components/TopBanner';
 import Env from '../../../utils/Env';
-import ImgButton from '../../../components/ImgButton';
-/*
-import OilManage from './OilManage';
 import TripManage from './TripManage';
+import OilManage from './OilManage';
 import TimeManage from './TimeManage';
-*/
+import FleetReport from './FleetReport';
 const estyle = Env.style;
 const basefont = Env.font.base;
 
@@ -32,11 +30,14 @@ export default class CountIndex extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currntPage : this.props.index || 0
+            //currntPage : this.props.index || 0
         }
     }
-    select(idx){
+    /*select(idx){
         this.setState({currntPage:idx});
+    }*/
+    goTo(page) {
+        this.props.router.push(page);
     }
     /*renderView(){
         return (
@@ -77,7 +78,8 @@ export default class CountIndex extends Component {
                 <View style={[estyle.fxRow,{flexWrap:'wrap'}]}>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={[estyle.statisticsBox,estyle.fxCenter]}>
+                        style={[estyle.statisticsBox,estyle.fxCenter]}
+                        onPress={() => this.goTo(TripManage)}>
                         <View style={{alignItems: 'center'}}>
                             <Image source={require('../../../assets/images/statistics-icon1.png')}
                                    style={[estyle.statisticsIcon]}/>
@@ -88,7 +90,8 @@ export default class CountIndex extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={[estyle.statisticsBox,estyle.fxCenter]}>
+                        style={[estyle.statisticsBox,estyle.fxCenter]}
+                        onPress={() => this.goTo(OilManage)}>
                         <View style={{alignItems: 'center'}}>
                             <Image source={require('../../../assets/images/statistics-icon2.png')}
                                    style={[estyle.statisticsIcon]}/>
@@ -99,7 +102,8 @@ export default class CountIndex extends Component {
                     </TouchableOpacity>
                     {/*<TouchableOpacity
                         activeOpacity={0.6}
-                        style={[estyle.statisticsBox,estyle.fxCenter]}>
+                        style={[estyle.statisticsBox,estyle.fxCenter]}
+                        onPress={() => this.goTo()}>
                         <View style={{alignItems: 'center'}}>
                             <Image source={require('../../../assets/images/statistics-icon3.png')}
                                    style={[estyle.statisticsIcon]}/>
@@ -110,7 +114,8 @@ export default class CountIndex extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={[estyle.statisticsBox,estyle.fxCenter]}>
+                        style={[estyle.statisticsBox,estyle.fxCenter]}
+                        onPress={() => this.goTo()}>
                         <View style={{alignItems: 'center'}}>
                             <Image source={require('../../../assets/images/statistics-icon4.png')}
                                    style={[estyle.statisticsIcon]}/>
@@ -121,7 +126,8 @@ export default class CountIndex extends Component {
                     </TouchableOpacity>*/}
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={[estyle.statisticsBox,estyle.fxCenter]}>
+                        style={[estyle.statisticsBox,estyle.fxCenter]}
+                        onPress={() => this.goTo(TimeManage)}>
                         <View style={{alignItems: 'center'}}>
                             <Image source={require('../../../assets/images/statistics-icon5.png')}
                                    style={[estyle.statisticsIcon]}/>
@@ -139,7 +145,8 @@ export default class CountIndex extends Component {
                 <View style={[estyle.fxRow]}>
                     <TouchableOpacity
                         activeOpacity={0.6}
-                        style={[estyle.statisticsBox,estyle.fxCenter]}>
+                        style={[estyle.statisticsBox,estyle.fxCenter]}
+                        onPress={() => this.goTo(FleetReport)}>
                         <View style={{alignItems: 'center'}}>
                             <Image source={require('../../../assets/images/statistics-icon6.png')}
                                    style={[estyle.statisticsIcon]}/>
@@ -150,7 +157,8 @@ export default class CountIndex extends Component {
                     </TouchableOpacity>
                     {/*<TouchableOpacity
                         activeOpacity={0.6}
-                        style={[estyle.statisticsBox,estyle.fxCenter]}>
+                        style={[estyle.statisticsBox,estyle.fxCenter]}
+                        onPress={() => this.goTo()}>
                         <View style={{alignItems: 'center'}}>
                             <Image source={require('../../../assets/images/statistics-icon7.png')}
                                    style={[estyle.statisticsIcon]}/>

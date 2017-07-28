@@ -49,7 +49,7 @@ export default class OilManage extends Component {
             datas: [],
 			value:'',
 			type: 1 //1是按线路查询 2是按车辆查询
-		}
+		};
 		this.weekIndex = 0;
 	}
 
@@ -157,7 +157,7 @@ export default class OilManage extends Component {
 				this.option = option;
 			}
 			return this.chart;
-		}
+		};
 
 		return (
 			<View style={[estyle.containerBackgroundColor,estyle.fx1]}>
