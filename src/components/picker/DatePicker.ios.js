@@ -15,7 +15,7 @@ DatePicker.dismissedAction = true;
 DatePicker.open = function (data) {
     date = moment(data.date).format('YYYY-MM-DD') + ' 23:59:59';
     let minimumDate = data.minDate ? moment(data.minDate).format('YYYY-MM-DD') + ' 23:59:59' : '1900-01-01 00:00:00',
-        maximumDate = data.minDate ? moment(data.maxDate).format('YYYY-MM-DD') + ' 23:59:59' : '2222-12-12 23:59:59';
+        maximumDate = data.maxDate ? moment(data.maxDate).format('YYYY-MM-DD') + ' 23:59:59' : '2222-12-12 23:59:59';
     return new Promise(function (resolve, reject) {
         DatePicker.show({
             titleText: '选择日期',

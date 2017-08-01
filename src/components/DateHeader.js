@@ -5,11 +5,13 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    Button
+    Button,
+    TouchableOpacity
 } from 'react-native';
 
 import moment from 'moment';
-import Env from '../../../../utils/Env';
+import Env from '../utils/Env';
+import { IconCaretLeft , IconCaretRight } from './Icons';
 const estyle = Env.style;
 
 export default class DateHeader extends Component {
@@ -17,6 +19,7 @@ export default class DateHeader extends Component {
         super(props);
         this.state = {
             showDate : moment().format('YYYY-MM-DD'),
+            canNext:false
         };
         this.startDate = moment();
         this.endDate = null;
@@ -30,6 +33,8 @@ export default class DateHeader extends Component {
         switch (type){
             case 1 :
                 this.startDate = moment();
+                this.endDate = moment();
+                this._moreThenNowDate();
                 this.setShowDate(this.startDate.format('YYYY-MM-DD'));
                 break;
             case 2 :
@@ -39,10 +44,12 @@ export default class DateHeader extends Component {
                 }else {
                     this.getMonDayAndSunday();
                 }
+                this._moreThenNowDate();
                 this.setShowDate(`${this.startDate.format('YYYY-MM-DD')} -- ${this.endDate.format('YYYY-MM-DD')}`);
                 break;
             case 3 :
-                this.startDate = moment();
+                this.getMouthStartAndEnd();
+                this._moreThenNowDate();
                 this.setShowDate(this.startDate.format('YYYY-MM'));
                 break;
         }
@@ -57,20 +64,39 @@ export default class DateHeader extends Component {
         this.endDate = endDate;
     }
 
+    getMouthStartAndEnd(){
+        this.startDate = moment().startOf('month');
+        this.endDate = moment().endOf('month');
+    }
+    _moreThenNowDate(){
+        if(this.endDate.clone().diff(moment(),'day') >= 0){
+            this.endDate = moment();
+            this.setState({canNext:false});
+        }else {
+            this.setState({canNext:true});
+        }
+    }
+
     prevDate(){
         switch (this.type){
             case 1 :
                 let _d = this.startDate.subtract(1, 'days');
-                this.setShowDate( _d.format('YYYY-MM-DD') );
                 this.startDate = _d;
+                this.endDate = _d.clone();
+                this._moreThenNowDate();
+                this.setShowDate( _d.format('YYYY-MM-DD') );
                 break;
             case 2 :
                 this.startDate = this.startDate.subtract(this.cycle,'days');
                 this.endDate = this.startDate.clone().add(this.cycle -1,'days');
+                this._moreThenNowDate();
                 this.setShowDate(`${this.startDate.format('YYYY-MM-DD')} -- ${this.endDate.format('YYYY-MM-DD')}`);
                 break;
             case 3 :
-                this.startDate = this.startDate.subtract(1,'months');
+                let _d2 = this.startDate.subtract(1,'months');
+                this.startDate = _d2;
+                this.endDate = _d2.clone().endOf('month');
+                this._moreThenNowDate();
                 this.setShowDate(this.startDate.format('YYYY-MM'));
                 break;
         }
@@ -79,17 +105,23 @@ export default class DateHeader extends Component {
     nextDate(){
         switch (this.type){
             case 1 :
-                let _d2 = this.startDate.add(1, 'days');
-                this.setShowDate( _d2.format('YYYY-MM-DD') );
-                this.startDate = _d2;
+                let _d = this.startDate.add(1, 'days');
+                this.startDate = _d;
+                this.endDate = _d.clone();
+                this._moreThenNowDate();
+                this.setShowDate( _d.format('YYYY-MM-DD') );
                 break;
             case 2 :
                 this.startDate = this.startDate.add(this.cycle,'days');
                 this.endDate = this.startDate.clone().add(this.cycle -1,'days');
+                this._moreThenNowDate();
                 this.setShowDate(`${this.startDate.format('YYYY-MM-DD')} -- ${this.endDate.format('YYYY-MM-DD')}`);
                 break;
             case 3 :
-                this.startDate = this.startDate.add(1,'months');
+                let _d2 = this.startDate.add(1,'months');
+                this.startDate = _d2;
+                this.endDate = _d2.clone().endOf('month');
+                this._moreThenNowDate();
                 this.setShowDate(this.startDate.format('YYYY-MM'));
                 break;
         }
@@ -97,14 +129,28 @@ export default class DateHeader extends Component {
 
     setShowDate(str){
         this.setState({showDate:str});
+        this.props.closeModal && this.props.closeModal();
+        this.props.onDateChange && this.props.onDateChange(this.startDate.format('YYYYMMDD'),this.endDate.format('YYYYMMDD'));
     }
 
     render() {
         return (
-            <View style={[estyle.containerBackgroundColor]}>
-                <View><Text>{this.state.showDate}</Text></View>
-                <Button title='<' onPress={ ()=>{ this.prevDate() } }/>
-                <Button title='>' onPress={ ()=>{ this.nextDate() } }/>
+            <View style={[estyle.cardBackgroundColor]}>
+                <View style={[estyle.fxRow,estyle.padding]}>
+                    <TouchableOpacity style={[estyle.fxCenter,estyle.paddingHorizontal]} onPress={() => this.prevDate()}>
+                        <View>
+                            <IconCaretLeft color={Env.color.text}/>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[estyle.fx1,estyle.fxCenter]} onPress={()=>{this.props.changeModal && this.props.changeModal() }} >
+                        <Text  style={[estyle.text]}>{this.state.showDate}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[estyle.fxCenter ,estyle.paddingHorizontal]} onPress={() =>{ this.state.canNext && this.nextDate() } }>
+                        <View>
+                            <IconCaretRight color={this.state.canNext ? Env.color.text : Env.color.note }/>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }

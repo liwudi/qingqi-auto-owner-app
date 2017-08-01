@@ -56,7 +56,7 @@ class AddCar extends Component {
             doing: false
         });
         //this.props.router.push(AddCarVinAdd,{carInfo: info});
-        Toast.show('你填写的信息没有查到关联车辆，请确认信息是否填写正确。', Toast.LONG);
+        Toast.show('你填写的信息没有查到相关车辆，请确认信息是否填写正确。', Toast.LONG);
     }
 
     nextStep () {

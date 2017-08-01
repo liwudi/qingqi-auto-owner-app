@@ -38,7 +38,7 @@ const ServerBase = {
     UPDATE_SERVICE,
     PUSH_SERVICE: 'http://wdservice.mapbar.com/pushapi/',
     INVERSE_SERVICE: 'http://wedrive.mapbar.com/opentsp/gis/api/inverse',
-    DEBUG : false
+    DEBUG : true
 };
 
 
@@ -83,7 +83,7 @@ const Servers = {
     debug8071:{  //153外网映射
         ...ServerBase,
         QINGQI: 'http://61.161.238.158:8071/api153/qingqi/',
-        ACCUMULATE:'http://61.161.238.158:8071/accumulate153/qingqi/accumulate/',
+        ACCUMULATE:'http://61.161.238.158:8071/api153/qingqi/accumulate/',
         //WD_SERVICE: 'http://119.255.37.167:8808/',
         BBS_PAGE: 'http://61.161.238.158:8090/mapbar/yqlt.php',
         GOODS_PAGE: 'https://statictest.tf56.com/lujing/activities/gooddetail/index.html',

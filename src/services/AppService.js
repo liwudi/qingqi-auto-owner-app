@@ -488,7 +488,7 @@ export function getCarType() {
         RequestService.get(
             `${Server.QINGQI}operate/common/basedata`,
             {
-                type:'A',
+                type:'B',
                 code: 'A051'
             }
         )
@@ -641,7 +641,7 @@ export function getCarGangCarType() {
         RequestService.get(
             `${Server.QINGQI}operate/common/basedata`,
             {
-                type:'A',
+                type:'B',
                 code: 'A026'
             }
         )

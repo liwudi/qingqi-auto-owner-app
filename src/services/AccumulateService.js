@@ -131,6 +131,7 @@ export function queryLongTermTaskList(distId){
         makeUrl('queryLongTermTaskList'),
         {
             distId:distId,
+            appType:2
         }
     );
 

@@ -33,7 +33,7 @@ export default class NotUsed extends Component {
 					return (
 					    <View style={[estyle.padding]}>
 					       <TouchableOpacity activeOpacity={0.8} style={[estyle.cardBackgroundColor,{overflow:'hidden',position:'relative'}]} onPress={()=>{this.goDetail(row.id,row.sum)}}>
-				               <View style={[estyle.padding,{backgroundColor:Env.color.auxiliary}]}>
+				               <View style={[estyle.padding,{backgroundColor: row.couponType ? '#43aaed': Env.color.auxiliary}]}>
 				                   <Text numberOfLines={1} style={[estyle.articleTitle,{color:Env.color.navTitle}]}>{row.couponName}</Text>
 				                   <Text numberOfLines={1} style={[estyle.note,{color:Env.color.navTitle}]}>{row.couponContent}</Text>
                                </View>

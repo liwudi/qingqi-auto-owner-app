@@ -24,7 +24,7 @@ class MyInfovehicleLoad extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.setState({vehicleLoad: this.props.data.vehicleLoad});
     }
 

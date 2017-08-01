@@ -238,6 +238,7 @@ class TaskCenterPage extends Component {
             case "服务评论" : this.goTo(ServiceStationAppointmentList); break;
             case "添加车辆" : this.goTo(AddCar); break;
             case "陆鲸认证" : this.goTo(MyInfoIndex); break;
+            case "货车帮认证" : this.goTo(MyInfoIndex); break;
             case "论坛发帖" : this.goTo(bbs); break;
             case "论坛回帖" : this.goTo(bbs); break;
         }

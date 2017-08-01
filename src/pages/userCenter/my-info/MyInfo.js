@@ -43,6 +43,7 @@ import Server from '../../../service-config/ServerConfig';
 import {getToken} from '../../../service-config/RequestService';
 import MyInfoRealPhoto from './MyInfoRealPhoto';
 import MyInfoItem from './components/MyInfoItem';
+import MyInfoCarGangLength from './MyInfoCarGangLength';
 
 const topContent = [
     {
@@ -115,7 +116,7 @@ class MyInfo extends Component {
             }
         });
         this.setState({hasFail:hasFail});
-        if(4 == data.nameValidStatus && data.reminders < 2 && !this.isAlerted){
+        if(data.nameValidStatus == 4 && data.reminders < 2 && !this.isAlerted){
             this.isAlerted = true;
             updateReminders();
             this.props.alert(
@@ -155,7 +156,7 @@ class MyInfo extends Component {
                 if(isPhoto){
                     text = value ? '已上传' : '未上传';
                 }else {
-                    text = value || '未输入';
+                    text = value || '未选择';
                 }
                 break;
             case 2:
@@ -285,7 +286,7 @@ class MyInfo extends Component {
 
                                 <MyInfoItem title=" 车厢长（米）" isWarn={data.vehicleLicenseValidReason}
                                             state={data.vehicleLicenseValidStatus}
-                                            onPress={()=>{this.pressFun(MyInfoCarLength,data.vehicleLicenseValidReason)}}
+                                            onPress={()=>{this.pressFun(MyInfoCarGangLength,data.vehicleLicenseValidReason)}}
                                             rightDom={this.setRightText(data.vehicleLicenseValidStatus,data.carLength)}/>
 
                                 <MyInfoItem title="车型" isWarn={data.vehicleLicenseValidReason}
