@@ -235,6 +235,14 @@ const style = {
     },
     largeHeight:{
         height:baseFontSize * 200
+    },
+    statisticsBox:{
+        width:240 * baseFontSize,
+        height:240 * baseFontSize
+    },
+    statisticsIcon: {
+        width: 80 * baseFontSize,
+        height: 80 * baseFontSize
     }
 };
 
@@ -284,7 +292,8 @@ const icon = {
             height: baseFontSize * 100
         }
     }
-}
+};
+
 const isAndroid = Platform.OS === 'android',
         isIOS = Platform.OS === 'ios';
 
@@ -327,7 +336,7 @@ const marker = {
         //iconTextSize: 14,
         click: false,
     }
-}
+};
 const pattern = {
     phone: /^(1[3-9])\d{9}$/,
     password: /^[a-zA-Z0-9~`!@#\$%\^&\*\(\)_\+\{\}\|:"<>\?\-=\[\]\;',\\.\/]{6,20}$/,

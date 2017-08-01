@@ -186,12 +186,12 @@ export default class HomePage extends Component {
                             style={[estyle.fx1, estyle.text]}>总车辆数：{this.state.operateStatisToday.totalCarNum || 0}辆</Text>
                     </View>
                     <ViewForRightArrow onPress={() => this.goTo(CountIndex)}
-                                       style={[estyle.fxRow, estyle.cardBackgroundColor]}>
-                        <View style={[estyle.fxRow]}>
-                            {renderItem('行驶总里程(km)', this.state.operateStatisToday.mileAgeTotal || 0)}
-                            {renderItem('平均里程/车(km)', this.state.operateStatisToday.mileAgeAvg || 0, false)}
-                        </View>
-                    </ViewForRightArrow>
+                                                           style={[estyle.fxRow, estyle.cardBackgroundColor]}>
+                    <View style={[estyle.fxRow]}>
+                        {renderItem('行驶总里程(km)', this.state.operateStatisToday.mileAgeTotal || 0)}
+                        {renderItem('平均里程/车(km)', this.state.operateStatisToday.mileAgeAvg || 0, false)}
+                    </View>
+                </ViewForRightArrow>
                     <ViewForRightArrow onPress={() => this.goTo(CountIndex, false, {index: 1})}
                                        style={[estyle.fxRow, estyle.cardBackgroundColor]}>
                         <View style={[estyle.fxRow]}>

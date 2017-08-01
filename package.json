@@ -29,7 +29,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "rnkit-actionsheet-picker": "^1.0.3",
-    "rn-mapbar-navicore": "git+ssh://git@wdgit.mapbar.com:10222/WebFrontends/rn-mapbar-navicore.git#map1.1.1"
+    "rn-mapbar-navicore": "git+https://wdgit.mapbar.com/WebFrontends/rn-mapbar-navicore.git#map1.1.1"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",
